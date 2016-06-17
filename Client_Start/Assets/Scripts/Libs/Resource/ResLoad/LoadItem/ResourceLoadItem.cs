@@ -83,12 +83,17 @@ namespace SDK.Lib
 
             if (isSuccess)
             {
+                Ctx.m_instance.m_logSys.log(string.Format("ResourceLoadItem::loadFromDefaultAssetBundle, Success, ResLoadType is {0}, ResPackType is {1}, Load Not Need Coroutine, m_origPath is {2}", "LoadResource", "Prefab", m_origPath), LogTypeId.eLogResLoader);
+
                 m_nonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }
             else
             {
+                Ctx.m_instance.m_logSys.log(string.Format("ResourceLoadItem::loadFromDefaultAssetBundle, Fail, ResLoadType is {0}, ResPackType is {1}, Load Not Need Coroutine, m_origPath is {2}", "LoadResource", "Prefab", m_origPath), LogTypeId.eLogResLoader);
+
                 m_nonRefCountResLoadResultNotify.resLoadState.setFailed();
             }
+
             m_nonRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
 
@@ -101,11 +106,15 @@ namespace SDK.Lib
 
                 if (req.asset != null && req.isDone)
                 {
+                    Ctx.m_instance.m_logSys.log(string.Format("ResourceLoadItem::loadFromDefaultAssetBundleByCoroutine, Success, ResLoadType is {0}, ResPackType is {1}, Load Not Need Coroutine, m_origPath is {2}", "LoadResource", "Prefab", m_origPath), LogTypeId.eLogResLoader);
+
                     m_prefabObj = req.asset;
                     m_nonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
                 }
                 else
                 {
+                    Ctx.m_instance.m_logSys.log(string.Format("ResourceLoadItem::loadFromDefaultAssetBundleByCoroutine, Fail, ResLoadType is {0}, ResPackType is {1}, Load Not Need Coroutine, m_origPath is {2}", "LoadResource", "Prefab", m_origPath), LogTypeId.eLogResLoader);
+
                     m_nonRefCountResLoadResultNotify.resLoadState.setFailed();
                 }
             }
@@ -115,10 +124,14 @@ namespace SDK.Lib
 
                 if (mAllPrefabObj != null)
                 {
+                    Ctx.m_instance.m_logSys.log(string.Format("ResourceLoadItem::loadFromDefaultAssetBundleByCoroutine, Success, ResLoadType is {0}, ResPackType is {1}, Load Not Need Coroutine, m_origPath is {2}", "LoadResource", "Prefab", m_origPath), LogTypeId.eLogResLoader);
+
                     m_nonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
                 }
                 else
                 {
+                    Ctx.m_instance.m_logSys.log(string.Format("ResourceLoadItem::loadFromDefaultAssetBundleByCoroutine, Fail, ResLoadType is {0}, ResPackType is {1}, Load Not Need Coroutine, m_origPath is {2}", "LoadResource", "Prefab", m_origPath), LogTypeId.eLogResLoader);
+
                     m_nonRefCountResLoadResultNotify.resLoadState.setFailed();
                 }
 

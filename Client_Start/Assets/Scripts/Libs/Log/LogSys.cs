@@ -31,6 +31,8 @@ namespace SDK.Lib
             mEnableLogTypeList = new MList<LogTypeId>();
             mEnableLogTypeList.Add(LogTypeId.eLogResLoader);
             mEnableLogTypeList.Add(LogTypeId.eLogLocalFile);
+            mEnableLogTypeList.Add(LogTypeId.eLogTestRL);
+
             mEnableLog = true;
             registerDevice();
             registerFileLogDevice();

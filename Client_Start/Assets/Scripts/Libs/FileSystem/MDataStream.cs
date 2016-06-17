@@ -219,7 +219,7 @@ namespace SDK.Lib
                     textAsset = Resources.Load<TextAsset>(fileNoExt);
                     if (textAsset != null)
                     {
-                        Ctx.m_instance.m_logSys.log(string.Format("MDataStream::syncOpenResourcesFile, Success, Path is {0}", fileNoExt), LogTypeId.eLogLocalFile);
+                        Ctx.m_instance.m_logSys.log(string.Format("MDataStream::syncOpenResourcesFile, Success, OrigPath is {0}, LoadPath is {1}", mFilePath, fileNoExt), LogTypeId.eLogLocalFile);
 
                         mFileOpState = eFileOpState.eOpenSuccess;
 
@@ -229,7 +229,7 @@ namespace SDK.Lib
                     }
                     else
                     {
-                        Ctx.m_instance.m_logSys.log(string.Format("MDataStream::syncOpenResourcesFile, Fail, Path is {0}", fileNoExt), LogTypeId.eLogLocalFile);
+                        Ctx.m_instance.m_logSys.log(string.Format("MDataStream::syncOpenResourcesFile, Fail, OrigPath is {0}, LoadPath is {1}", mFilePath, fileNoExt), LogTypeId.eLogLocalFile);
 
                         mFileOpState = eFileOpState.eOpenFail;
                     }
@@ -238,7 +238,7 @@ namespace SDK.Lib
                 {
                     mFileOpState = eFileOpState.eOpenFail;
 
-                    Ctx.m_instance.m_logSys.log(string.Format("MDataStream Load Failed, FileName is {0} Exception is {1}", mFilePath, exp.Message), LogTypeId.eLogLocalFile);
+                    Ctx.m_instance.m_logSys.log(string.Format("MDataStream Load Failed, OrigPath is {0}, Exception Message is {1}", mFilePath, exp.Message), LogTypeId.eLogLocalFile);
                 }
 
                 onAsyncOpened();

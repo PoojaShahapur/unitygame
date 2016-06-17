@@ -8,7 +8,9 @@
         override public void init(LoadItem item)
         {
             base.init(item);
+
             m_bytes = (item as DataLoadItem).mBytes;
+
             m_refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             m_refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
