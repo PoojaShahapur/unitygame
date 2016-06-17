@@ -8,18 +8,18 @@
         static public Ctx m_instance;
 
         public NetworkMgr m_netMgr;                // 网络通信
-        public Config m_cfg;                        // 整体配置文件
-        public LogSys m_logSys;                       // 日志系统
-        public ResLoadMgr m_resLoadMgr;                    // 资源管理器
+        public Config m_cfg;                       // 整体配置文件
+        public LogSys m_logSys;                    // 日志系统
+        public ResLoadMgr m_resLoadMgr;            // 资源管理器
         public InputMgr m_inputMgr;                // 输入管理器
 
-        public IGameSys m_gameSys;                  // 游戏系统
+        public IGameSys m_gameSys;                 // 游戏系统
         public SceneSys m_sceneSys;                // 场景系统
         public TickMgr m_tickMgr;                  // 心跳管理器
         public ProcessSys m_processSys;            // 游戏处理系统
 
         public TimerMgr m_timerMgr;                // 定时器系统
-        public FrameTimerMgr m_frameTimerMgr;                // 定时器系统
+        public FrameTimerMgr m_frameTimerMgr;      // 定时器系统
         public UIMgr m_uiMgr;                      // UI 管理器
         public ResizeMgr m_resizeMgr;              // 窗口大小修改管理器
         public IUIEvent m_cbUIEvent;               // UI 事件回调
@@ -40,14 +40,14 @@
 
         public ISceneLogic m_sceneLogic;
         public SysMsgRoute m_sysMsgRoute;           // 消息分发
-        public NetCmdNotify m_netCmdNotify;           // 网络处理器
-        public MsgRouteNotify m_msgRouteNotify;           // RouteMsg 客户端自己消息流程
+        public NetCmdNotify m_netCmdNotify;         // 网络处理器
+        public MsgRouteNotify m_msgRouteNotify;     // RouteMsg 客户端自己消息流程
         public IModuleSys m_moduleSys;              // 模块
-        public TableSys m_tableSys;                // 表格
-        public MFileSys m_fileSys;        // 文件系统
-        public FactoryBuild m_factoryBuild;        // 生成各种内容，上层只用接口
+        public TableSys m_tableSys;                 // 表格
+        public MFileSys m_fileSys;                  // 文件系统
+        public FactoryBuild m_factoryBuild;         // 生成各种内容，上层只用接口
 
-        public LangMgr m_langMgr;                  // 语言管理器
+        public LangMgr m_langMgr;                   // 语言管理器
         public DataPlayer m_dataPlayer;
         public XmlCfgMgr m_xmlCfgMgr;
         public MaterialMgr m_matMgr;

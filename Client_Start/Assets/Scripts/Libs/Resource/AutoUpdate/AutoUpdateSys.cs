@@ -37,15 +37,8 @@ namespace SDK.Lib
 
         public void miniVerLoadResult(IDispatchObject dispObj)
         {
-            //if (Ctx.m_instance.m_versionSys.m_needUpdateVerFile)
-            //{
-                // 本地文件版本必须要加载
-                Ctx.m_instance.m_versionSys.loadVerFile();
-            //}
-            //else
-            //{
-            //    onUpdateEnd();          // 更新结束
-            //}
+            // 本地文件版本必须要加载
+            Ctx.m_instance.m_versionSys.loadVerFile();
         }
 
         public void verLoadResult(IDispatchObject idspObj)
@@ -105,7 +98,7 @@ namespace SDK.Lib
         protected void onLoadEventHandle(IDispatchObject dispObj)
         {
             ResItem res = dispObj as ResItem;
-            if (res.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
+            if (res.hasSuccessLoaded())
             {
                 Ctx.m_instance.m_logSys.log(string.Format("更新下载文件成功 {0}", (dispObj as DataResItem).getLoadPath()));
 
@@ -117,7 +110,7 @@ namespace SDK.Lib
                     onUpdateEnd();
                 }
             }
-            else if (res.refCountResLoadResultNotify.resLoadState.hasFailed())
+            else if (res.hasFailed())
             {
                 Ctx.m_instance.m_logSys.log(string.Format("更新下载文件失败 {0}", (dispObj as DataResItem).getLoadPath()));
 

@@ -7,7 +7,7 @@ namespace SDK.Lib
      */
     public class VersionSys
     {
-        public ServerVer m_serverVer = new ServerVer();
+        public ServerVer m_serverVer;
         public LocalVer m_localVer;
 
         public AddOnceAndCallOnceEventDispatch mMiniLoadResultDisp;
@@ -63,7 +63,7 @@ namespace SDK.Lib
                 //UtilPath.renameFile(UtilLogic.combineVerPath(Path.Combine(MFileSys.getLocalWriteDir(), VerFileName.VER_MINI), m_miniVer), Path.Combine(MFileSys.getLocalWriteDir(), VerFileName.VER_MINI));
 
                 m_needUpdateVerFile = (m_localVer.mFileVerInfo.m_fileMd5 != m_serverVer.mFileVerInfo.m_fileMd5);      // 如果版本不一致，需要重新加载
-                                                                                                           //m_needUpdateVerFile = true;         // 测试强制更新
+                                                                                                             //m_needUpdateVerFile = true;         // 测试强制更新
                 mMiniLoadResultDisp.dispatchEvent(null);
             }
             else
