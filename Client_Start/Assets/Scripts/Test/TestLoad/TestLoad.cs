@@ -215,32 +215,32 @@ namespace UnitTest
 
         protected void testTextLoaderAndStream()
         {
-            //AuxTextLoader sync_loader_a = new AuxTextLoader();
-            //sync_loader_a.syncLoad("XmlConfig/Test_a.txt");
+            AuxTextLoader sync_loader_a = new AuxTextLoader();
+            sync_loader_a.syncLoad("XmlConfig/Test_a.txt");
 
-            //Ctx.m_instance.m_logSys.log(string.Format("XmlConfig/Test_a Sync Content {0} ", sync_loader_a.getText()), LogTypeId.eLogTestRL);
+            Ctx.m_instance.m_logSys.log(string.Format("XmlConfig/Test_a Sync Content {0} ", sync_loader_a.getText()), LogTypeId.eLogTestRL);
 
-            //sync_loader_a.dispose();
+            sync_loader_a.dispose();
 
 
             AuxTextLoader sync_loader_b = new AuxTextLoader();
             sync_loader_b.syncLoad("XmlConfig/Test_b.txt");
 
-            Ctx.m_instance.m_logSys.log(string.Format("XmlConfig/Test_b Sync Content {0} ", sync_loader_b.getText()), LogTypeId.eLogTestRL);
+            Ctx.m_instance.m_logSys.log(string.Format("XmlConfig/Test_b Sync Content {0}", sync_loader_b.getText()), LogTypeId.eLogTestRL);
 
             sync_loader_b.dispose();
 
 
-            //AuxTextLoader async_loader_a = new AuxTextLoader();
-            //async_loader_a.asyncLoad("XmlConfig/Test_a.txt", onAsyncLoad_a);
+            AuxTextLoader async_loader_a = new AuxTextLoader();
+            async_loader_a.asyncLoad("XmlConfig/Test_a.txt", onAsyncLoad_a);
 
 
-            //AuxTextLoader async_loader_b = new AuxTextLoader();
-            //async_loader_b.asyncLoad("XmlConfig/Test_b.txt", onAsyncLoad_b);
+            AuxTextLoader async_loader_b = new AuxTextLoader();
+            async_loader_b.asyncLoad("XmlConfig/Test_b.txt", onAsyncLoad_b);
 
-            //MDataStream dataStream_a = new MDataStream(MFileSys.msDataStreamResourcesPath + "/XmlConfig/Test_a.txt", onDataStreamResourceLoaded);
-            
-            //MDataStream dataStream_b = new MDataStream(MFileSys.msDataStreamStreamingAssetsPath + "/XmlConfig/Test_b.txt", onDataStreamStreamingAssetsLoaded);
+            MDataStream dataStream_a = new MDataStream(MFileSys.msDataStreamResourcesPath + "/XmlConfig/Test_a.txt", onDataStreamResourceLoaded);
+
+            MDataStream dataStream_b = new MDataStream(MFileSys.msDataStreamStreamingAssetsPath + "/XmlConfig/Test_b.txt", onDataStreamStreamingAssetsLoaded);
         }
 
         protected void onAsyncLoad_a(IDispatchObject dispObj)
