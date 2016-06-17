@@ -469,7 +469,7 @@ namespace SDK.Lib
                         }
                         catch (Exception err)
                         {
-                            Ctx.m_instance.m_logSys.log(err.Message, LogTypeId.eLogLocalFile);
+                            Ctx.m_instance.m_logSys.log(string.Format("MDataStream::readText, Exception Message is {0}", err.Message), LogTypeId.eLogLocalFile);
                         }
                     }
                 }
@@ -514,7 +514,7 @@ namespace SDK.Lib
                     }
                     catch (Exception err)
                     {
-                        Ctx.m_instance.m_logSys.log(err.Message, LogTypeId.eLogLocalFile);
+                        Ctx.m_instance.m_logSys.log(string.Format("MDataStream::readByte, Exception Message is {0}", err.Message), LogTypeId.eLogLocalFile);
                     }
                 }
             }
@@ -532,7 +532,7 @@ namespace SDK.Lib
             }
             else if (isWWWStream())
             {
-                Ctx.m_instance.m_logSys.log("Current Path Cannot Write Content", LogTypeId.eLogLocalFile);
+                Ctx.m_instance.m_logSys.log("MDataStream::writeText, Current Path Cannot Write Content", LogTypeId.eLogLocalFile);
             }
             else
             {
@@ -552,7 +552,7 @@ namespace SDK.Lib
                         }
                         catch (Exception err)
                         {
-                            Ctx.m_instance.m_logSys.log(err.Message, LogTypeId.eLogLocalFile);
+                            Ctx.m_instance.m_logSys.log(string.Format("MDataStream::writeText, Exception Message {0}", err.Message), LogTypeId.eLogLocalFile);
                         }
                     }
                 }
@@ -569,7 +569,7 @@ namespace SDK.Lib
             }
             else if (isWWWStream())
             {
-                Ctx.m_instance.m_logSys.log("Current Path Cannot Write Content", LogTypeId.eLogLocalFile);
+                Ctx.m_instance.m_logSys.log("MDataStream::writeByte, Current Path Cannot Write Content", LogTypeId.eLogLocalFile);
             }
             else
             {
@@ -590,7 +590,7 @@ namespace SDK.Lib
                             }
                             catch (Exception err)
                             {
-                                Ctx.m_instance.m_logSys.log(err.Message, LogTypeId.eLogLocalFile);
+                                Ctx.m_instance.m_logSys.log(string.Format("MDataStream::writeByte, Exception Message is {0}", err.Message), LogTypeId.eLogLocalFile);
                             }
                         }
                     }
