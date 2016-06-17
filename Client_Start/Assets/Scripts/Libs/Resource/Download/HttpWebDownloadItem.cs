@@ -229,7 +229,7 @@ namespace SDK.Lib
                 request.ContentType = "application/x-www-form-urlencoded";
                 request.KeepAlive = false;
                 request.Proxy = null;
-                request.Timeout = 5000;
+                request.Timeout = 5000; // 在服务器上查找文件的最大等待时间
 
                 ServicePointManager.DefaultConnectionLimit = 50;
 
@@ -251,9 +251,9 @@ namespace SDK.Lib
                 long readedLength = 0;
                 long startPos = 0;
 
-                if (UtilPath.existFile(saveFile))
+                if (UtilPath.existFile(origFile))
                 {
-                    fileStream = new MDataStream(saveFile, null, FileMode.Append, FileAccess.Write);
+                    fileStream = new MDataStream(origFile, null, FileMode.Append, FileAccess.Write);
                     startPos = fileStream.getLength();
 
                     if (contentLength - startPos <= 0)     // 文件已经完成
@@ -286,7 +286,7 @@ namespace SDK.Lib
                     }
                     catch (Exception exp)
                     {
-                        Ctx.m_instance.m_logSys.error(string.Format("{0} 文件创建失败 {1}", saveFile, exp.Message));
+                        Ctx.m_instance.m_logSys.error(string.Format("{0} 文件创建失败 {1}", origFile, exp.Message));
                     }
                 }
 
@@ -296,7 +296,7 @@ namespace SDK.Lib
                     contentLength -= startPos;
                 }
 
-                // 获取响应
+                // 获取响应，如果在服务器上不能查找到，返回会等待 request.Timeout 时间
                 response = (HttpWebResponse)request.GetResponse();
                 // 向服务器请求，获得服务器回应数据流 
                 retStream = response.GetResponseStream();

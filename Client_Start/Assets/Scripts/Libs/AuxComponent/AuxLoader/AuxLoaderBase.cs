@@ -72,12 +72,12 @@ namespace SDK.Lib
             return mPath;
         }
 
-        virtual public void syncLoad(string path, MAction<IDispatchObject> dispObj = null)
+        virtual public void syncLoad(string path, MAction<IDispatchObject> evtHandle = null)
         {
 
         }
 
-        virtual public void asyncLoad(string path, MAction<IDispatchObject> dispObj)
+        virtual public void asyncLoad(string path, MAction<IDispatchObject> evtHandle)
         {
 
         }

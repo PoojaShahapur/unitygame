@@ -32,7 +32,9 @@ namespace EditorTool
         [MenuItem("MyNew/ExportWindowAssetBundlesList")]
         public static void BuildWindowAssetBundlesList()
         {
-            MFileSys.init();
+            Ctx.instance();
+            Ctx.m_instance.editorToolInit();
+
             ExportAssetRelation exportAssetRelation = new ExportAssetRelation();
             exportAssetRelation.setBuildTarget(BuildTarget.StandaloneWindows);
             exportAssetRelation.setCurPath(UtilEditor.getAssetBundlesOutpath(BuildTarget.StandaloneWindows));

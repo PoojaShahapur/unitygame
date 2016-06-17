@@ -123,6 +123,13 @@
             return m_instance;
         }
 
+        public void editorToolInit()
+        {
+            MFileSys.init();
+            m_dataPlayer = new DataPlayer();
+            m_logSys = new LogSys();
+        }
+
         public void dispose()
         {
             m_instance = null;

@@ -17,7 +17,7 @@
             base.dispose();
         }
 
-        override public void syncLoad(string path, MAction<IDispatchObject> dispObj = null)
+        override public void syncLoad(string path, MAction<IDispatchObject> evtHandle = null)
         {
             if (needUnload(path))
             {
@@ -29,7 +29,7 @@
             if (this.isInvalid())
             {
                 mEvtHandle = new ResEventDispatch();
-                mEvtHandle.addEventHandle(null, dispObj);
+                mEvtHandle.addEventHandle(null, evtHandle);
 
                 LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
                 param.setPath(string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathScene], mPath));
@@ -42,7 +42,7 @@
         }
 
         // 异步加载对象
-        override public void asyncLoad(string path, MAction<IDispatchObject> dispObj)
+        override public void asyncLoad(string path, MAction<IDispatchObject> evtHandle)
         {
             if (needUnload(path))
             {
@@ -54,7 +54,7 @@
             if (this.isInvalid())
             {
                 mEvtHandle = new ResEventDispatch();
-                mEvtHandle.addEventHandle(null, dispObj);
+                mEvtHandle.addEventHandle(null, evtHandle);
 
                 LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
                 param.setPath(string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathScene], mPath));
