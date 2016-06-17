@@ -12,6 +12,7 @@ namespace EditorTool
         [MenuItem("MyNew/SetAssetBundleName")]
         static public void SetAssetBundleName()
         {
+            MFileSys.init();
             ToolCtx.instance();
             ToolCtx.m_instance.exportAssetBundleName();
             AssetDatabase.Refresh();
@@ -21,6 +22,7 @@ namespace EditorTool
         [MenuItem("MyNew/ExportWindowDebugPackage")]
         public static void BuildWindowDebug()
         {
+            MFileSys.init();
             ToolCtx.instance();
             ToolCtx.m_instance.exportAssetBundleName();
             BuildScript.BuildPlayer(BuildTarget.StandaloneWindows, false);
@@ -30,6 +32,7 @@ namespace EditorTool
         [MenuItem("MyNew/ExportWindowAssetBundlesList")]
         public static void BuildWindowAssetBundlesList()
         {
+            MFileSys.init();
             ExportAssetRelation exportAssetRelation = new ExportAssetRelation();
             exportAssetRelation.setBuildTarget(BuildTarget.StandaloneWindows);
             exportAssetRelation.setCurPath(UtilEditor.getAssetBundlesOutpath(BuildTarget.StandaloneWindows));
@@ -41,12 +44,14 @@ namespace EditorTool
         [MenuItem("MyNew/ExportAndroidDebugPackage")]
         public static void BuildAndroidDebug()
         {
+            MFileSys.init();
             BuildScript.BuildPlayer(BuildTarget.Android, false);
         }
 
         [MenuItem("MyNew/ExportMacDebugPackage")]
         public static void BuildMacDebug()
         {
+            MFileSys.init();
             BuildScript.BuildPlayer(BuildTarget.StandaloneOSXUniversal, false);
         }
 

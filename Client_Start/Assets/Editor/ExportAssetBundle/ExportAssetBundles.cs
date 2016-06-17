@@ -50,6 +50,7 @@ namespace EditorTool
             // 将拷贝的文件夹中的 manifest 扩展名的文件删除
             //UtilPath.deleteFiles(outputPath, null, extList, true);
 
+            /*
             BuildOptions option = BuildOptions.None;
             if (!isRelease)
             {
@@ -64,6 +65,7 @@ namespace EditorTool
             if (targetName == null)
                 return;
             BuildPipeline.BuildPlayer(levels, binPath + "/" + targetName, target, option);
+            */
         }
 
         static void CopyAssetBundlesTo(BuildTarget target, string sourcePath, string outputPath)

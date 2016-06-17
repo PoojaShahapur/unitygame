@@ -128,10 +128,14 @@ namespace SDK.Lib
         {
             if (m_assetBundle != null)
             {
+                Ctx.m_instance.m_logSys.log(string.Format("LevelLoadItem::assetAssetBundlesLevelLoaded, Level Load Success, Path is {0}", m_origPath), LogTypeId.eLogResLoader);
+
                 m_nonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }
             else
             {
+                Ctx.m_instance.m_logSys.log(string.Format("LevelLoadItem::assetAssetBundlesLevelLoaded, Level Load Fail, Path is {0}", m_origPath), LogTypeId.eLogResLoader);
+
                 m_nonRefCountResLoadResultNotify.resLoadState.setFailed();
             }
 

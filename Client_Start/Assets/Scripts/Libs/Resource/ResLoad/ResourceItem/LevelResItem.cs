@@ -55,13 +55,50 @@ namespace SDK.Lib
         {
             //string path = Application.dataPath + "/" + m_path;
             //string path = m_path;       // 注意这个是场景打包的时候场景的名字，不是目录，这个场景一定要 To add a level to the build settings use the menu File->Build Settings...
+
+            bool isSuccess = true;
+
 #if UNITY_4 || UNITY_5_0 || UNITY_5_1 || UNITY_5_2
-            Application.LoadLevel(m_levelName);
+            if (Application.CanStreamedLevelBeLoaded(m_levelName))
+            {
+                isSuccess = true;
+                Application.LoadLevel(m_levelName);
+            }
+            else
+            {
+                isSuccess = false;
+            }
 #else
-            UnityEngine.SceneManagement.SceneManager.LoadScene(m_levelName);
+            if (Application.CanStreamedLevelBeLoaded(m_levelName))
+            {
+                isSuccess = true;
+                UnityEngine.SceneManagement.SceneManager.LoadScene(m_levelName);
+            }
+            else
+            {
+                isSuccess = false;
+            }
 #endif
 
-            m_refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
+            // Level 加载完成后 Application.loadedLevelName 记录的仍然是加载 Level 之前的场景的名字，不能使用这个字段进行判断
+            // if (Application.loadedLevelName == m_levelName)
+            //{
+            //    Debug.Log("aaa");
+            //}
+
+            if (isSuccess)
+            {
+                Ctx.m_instance.m_logSys.log(string.Format("LevelResItem::initAsset, Success", m_origPath), LogTypeId.eLogResLoader);
+
+                m_refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
+            }
+            else
+            {
+                Ctx.m_instance.m_logSys.log(string.Format("LevelResItem::initAsset, Failed", m_origPath), LogTypeId.eLogResLoader);
+
+                m_refCountResLoadResultNotify.resLoadState.setFailed();
+            }
+
             m_refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
 
@@ -101,10 +138,14 @@ namespace SDK.Lib
             // asyncOpt.progress == 1.0f
             if (null != asyncOpt && asyncOpt.isDone)
             {
+                Ctx.m_instance.m_logSys.log(string.Format("LevelResItem::initAssetByCoroutine, LoadScene Success, Path is", m_origPath), LogTypeId.eLogResLoader);
+
                 m_refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }
             else
             {
+                Ctx.m_instance.m_logSys.log(string.Format("LevelResItem::initAssetByCoroutine, LoadScene Fail, Path is", m_origPath), LogTypeId.eLogResLoader);
+
                 m_refCountResLoadResultNotify.resLoadState.setFailed();
             }
 

@@ -17,6 +17,30 @@
             base.dispose();
         }
 
+        override public void syncLoad(string path, MAction<IDispatchObject> dispObj = null)
+        {
+            if (needUnload(path))
+            {
+                unload();
+            }
+
+            this.setPath(path);
+
+            if (this.isInvalid())
+            {
+                mEvtHandle = new ResEventDispatch();
+                mEvtHandle.addEventHandle(null, dispObj);
+
+                LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
+                param.setPath(string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathScene], mPath));
+                param.m_loadEventHandle = onLevelLoaded;
+                param.m_resNeedCoroutine = false;
+                param.m_loadNeedCoroutine = false;
+                Ctx.m_instance.m_resLoadMgr.loadAsset(param);
+                Ctx.m_instance.m_poolSys.deleteObj(param);
+            }
+        }
+
         // 异步加载对象
         override public void asyncLoad(string path, MAction<IDispatchObject> dispObj)
         {
