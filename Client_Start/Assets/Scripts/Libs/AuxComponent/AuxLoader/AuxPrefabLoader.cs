@@ -67,7 +67,7 @@ namespace SDK.Lib
             return mPath;
         }
 
-        override public void syncLoad(string path, MAction<IDispatchObject> dispObj = null)
+        override public void syncLoad(string path, MAction<IDispatchObject> evtHandle = null)
         {
             if (needUnload(path))
             {
@@ -79,14 +79,14 @@ namespace SDK.Lib
             if (this.isInvalid())
             {
                 mEvtHandle = new ResEventDispatch();
-                mEvtHandle.addEventHandle(null, dispObj);
+                mEvtHandle.addEventHandle(null, evtHandle);
                 mPrefabRes = Ctx.m_instance.m_prefabMgr.getAndSyncLoadRes(path);
                 onPrefabLoaded(mPrefabRes);
             }
         }
 
         // 异步加载对象
-        override public void asyncLoad(string path, MAction<IDispatchObject> dispObj)
+        override public void asyncLoad(string path, MAction<IDispatchObject> evtHandle)
         {
             if (needUnload(path))
             {
@@ -98,7 +98,7 @@ namespace SDK.Lib
             if(this.isInvalid())
             {
                 mEvtHandle = new ResEventDispatch();
-                mEvtHandle.addEventHandle(null, dispObj);
+                mEvtHandle.addEventHandle(null, evtHandle);
                 mPrefabRes = Ctx.m_instance.m_prefabMgr.getAndAsyncLoadRes(path, onPrefabLoaded);
             }
         }

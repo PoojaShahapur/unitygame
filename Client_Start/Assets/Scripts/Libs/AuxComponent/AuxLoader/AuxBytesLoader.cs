@@ -32,7 +32,7 @@ namespace SDK.Lib
         }
 
         // 同步加载
-        override public void syncLoad(string path, MAction<IDispatchObject> dispObj = null)
+        override public void syncLoad(string path, MAction<IDispatchObject> evtHandle = null)
         {
             if (needUnload(path))
             {
@@ -44,13 +44,13 @@ namespace SDK.Lib
             if (this.isInvalid())
             {
                 mEvtHandle = new ResEventDispatch();
-                mEvtHandle.addEventHandle(null, dispObj);
+                mEvtHandle.addEventHandle(null, evtHandle);
                 mBytesRes = Ctx.m_instance.m_bytesResMgr.getAndSyncLoadRes(path);
             }
         }
 
         // 异步加载对象
-        override public void asyncLoad(string path, MAction<IDispatchObject> dispObj)
+        override public void asyncLoad(string path, MAction<IDispatchObject> evtHandle)
         {
             if (needUnload(path))
             {
@@ -62,7 +62,7 @@ namespace SDK.Lib
             if (this.isInvalid())
             {
                 mEvtHandle = new ResEventDispatch();
-                mEvtHandle.addEventHandle(null, dispObj);
+                mEvtHandle.addEventHandle(null, evtHandle);
                 mBytesRes = Ctx.m_instance.m_bytesResMgr.getAndAsyncLoadRes(path, onBytesLoaded);
             }
         }
@@ -77,7 +77,7 @@ namespace SDK.Lib
             else if (mBytesRes.hasFailed())
             {
                 mIsSuccess = false;
-                Ctx.m_instance.m_texMgr.unload(mBytesRes.getResUniqueId(), onBytesLoaded);
+                Ctx.m_instance.m_bytesResMgr.unload(mBytesRes.getResUniqueId(), onBytesLoaded);
                 mBytesRes = null;
             }
 
@@ -91,7 +91,7 @@ namespace SDK.Lib
         {
             if(mBytesRes != null)
             {
-                Ctx.m_instance.m_texMgr.unload(mBytesRes.getResUniqueId(), onBytesLoaded);
+                Ctx.m_instance.m_bytesResMgr.unload(mBytesRes.getResUniqueId(), onBytesLoaded);
                 mBytesRes = null;
             }
 

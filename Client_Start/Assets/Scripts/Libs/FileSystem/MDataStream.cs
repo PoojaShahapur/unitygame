@@ -161,6 +161,7 @@ namespace SDK.Lib
                     catch(Exception exp)
                     {
                         mFileOpState = eFileOpState.eOpenFail;
+
                         Ctx.m_instance.m_logSys.log(string.Format("MDataStream::syncOpenFileStream, Open File Fail, FileName is {0}, Exception is {1}", mFilePath, exp.Message), LogTypeId.eLogLocalFile);
                     }
                 }

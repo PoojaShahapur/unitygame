@@ -18,14 +18,14 @@ namespace SDK.Lib
 
         virtual public void loadMiniVerFile(string ver = "")
         {
-            AuxDownload auxDownload = new AuxDownload();
+            AuxDownloader auxDownload = new AuxDownloader();
             auxDownload.download(VerFileName.VER_MINI, onMiniLoadEventHandle, 0, false, 0);
         }
 
         // 加载一个表完成
         protected void onMiniLoadEventHandle(IDispatchObject dispObj)
         {
-            AuxDownload downloadItem = dispObj as AuxDownload;
+            AuxDownloader downloadItem = dispObj as AuxDownloader;
             if (downloadItem.hasSuccessLoaded())
             {
                 byte[] textAsset = downloadItem.getBytes();
@@ -51,14 +51,14 @@ namespace SDK.Lib
         // 加载版本文件
         public void loadVerFile(string ver = "")
         {
-            AuxDownload auxDownload = new AuxDownload();
+            AuxDownloader auxDownload = new AuxDownloader();
             auxDownload.download(VerFileName.VER_P, onLoadEventHandle, 0, false, 0);
         }
 
         // 加载一个表完成
         protected void onLoadEventHandle(IDispatchObject dispObj)
         {
-            AuxDownload downloadItem = dispObj as AuxDownload;
+            AuxDownloader downloadItem = dispObj as AuxDownloader;
             if (downloadItem.hasSuccessLoaded())
             {
                 Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, downloadItem.getLogicPath());

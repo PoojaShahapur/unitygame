@@ -11,6 +11,7 @@ namespace SDK.Lib
         protected AssetBundleManifest m_AssetBundleManifest;
         protected string[] m_Variants = { };
         protected Dictionary<string, string[]> m_Dependencies;
+        protected AuxAssetBundleManifestLoader mAuxAssetBundleManifestLoader;
 
         public DepResMgr()
         {
@@ -42,15 +43,8 @@ namespace SDK.Lib
         {
             string platformFolderForAssetBundles = UtilApi.getManifestName();
             // AssetBundleManifest 必须同步加载，加载完成这个以后再加载其它资源
-            LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            param.setPath(platformFolderForAssetBundles);
-            param.m_loadEventHandle = onLoadEventHandle;
-
-            param.m_loadNeedCoroutine = false;
-            param.m_resNeedCoroutine = false;
-
-            Ctx.m_instance.m_resLoadMgr.loadAsset(param, false);
-            Ctx.m_instance.m_poolSys.deleteObj(param);
+            mAuxAssetBundleManifestLoader = new AuxAssetBundleManifestLoader();
+            mAuxAssetBundleManifestLoader.syncLoad(platformFolderForAssetBundles, onLoadEventHandle);
         }
 
         public string[] getDep(string assetBundleName)
@@ -124,20 +118,17 @@ namespace SDK.Lib
 
         public void onLoadEventHandle(IDispatchObject dispObj)
         {
-            ResItem res = dispObj as ResItem;
+            AuxAssetBundleManifestLoader mAuxAssetBundleManifestLoader = dispObj as AuxAssetBundleManifestLoader;
 
-            if (res.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
+            if (mAuxAssetBundleManifestLoader.hasSuccessLoaded())
             {
                 // 从 AssetBundle 中获取名字 AssetBundleManifest
-                m_AssetBundleManifest = res.getObject("AssetBundleManifest") as AssetBundleManifest;
+                m_AssetBundleManifest = mAuxAssetBundleManifestLoader.getAssetBundleManifest();
             }
-            else if (res.refCountResLoadResultNotify.resLoadState.hasFailed())
+            else if (mAuxAssetBundleManifestLoader.hasFailed())
             {
                 Ctx.m_instance.m_logSys.log("AssetBundleManifest AssetBundles Can not Load", LogTypeId.eLogCommon);
             }
-
-            // 卸载资源，AssetBundles 现在只有不使用的时候一次性全部卸载掉
-            //Ctx.m_instance.m_resLoadMgr.unload(res.getResUniqueId(), onLoadEventHandle);
         }
 
         // 只检查是否有依赖资源，如果有依赖的资源，就算是有依赖的资源
@@ -145,7 +136,7 @@ namespace SDK.Lib
         {
             if (m_AssetBundleManifest == null)
             {
-                Debug.LogError("Please initialize AssetBundleManifest");
+                Ctx.m_instance.m_logSys.log("AssetBundleManifest not Initialize ");
                 return false;
             }
 
@@ -177,7 +168,7 @@ namespace SDK.Lib
         {
             if (m_AssetBundleManifest == null)
             {
-                Debug.LogError("Please initialize AssetBundleManifest");
+                Ctx.m_instance.m_logSys.log("AssetBundleManifest not Initialize");
                 return true;
             }
 

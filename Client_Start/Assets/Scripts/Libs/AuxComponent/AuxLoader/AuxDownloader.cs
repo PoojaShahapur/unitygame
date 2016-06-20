@@ -3,7 +3,7 @@
     /**
      * @brief 下载
      */
-    public class AuxDownload : AuxLoaderBase
+    public class AuxDownloader : AuxLoaderBase
     {
         protected DownloadItem mDownloadItem;
 
@@ -36,7 +36,7 @@
 
                 param.setPath(origPath);
                 param.m_loadEventHandle = onDownloaded;
-                param.mIsWriteFile = isWriteFile;
+                param.mFileLen = fileLen;
                 param.mIsWriteFile = isWriteFile;
                 param.mDownloadType = (DownloadType)downloadType;
 

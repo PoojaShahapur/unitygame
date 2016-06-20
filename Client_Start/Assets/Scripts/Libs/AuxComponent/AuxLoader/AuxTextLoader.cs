@@ -30,7 +30,7 @@
         }
 
         // 同步加载
-        override public void syncLoad(string path, MAction<IDispatchObject> dispObj = null)
+        override public void syncLoad(string path, MAction<IDispatchObject> evtHandle = null)
         {
             if(needUnload(path))
             {
@@ -42,13 +42,13 @@
             if (this.isInvalid())
             {
                 mEvtHandle = new ResEventDispatch();
-                mEvtHandle.addEventHandle(null, dispObj);
+                mEvtHandle.addEventHandle(null, evtHandle);
                 mTextRes = Ctx.m_instance.m_textResMgr.getAndSyncLoadRes(path);
             }
         }
 
         // 异步加载对象
-        override public void asyncLoad(string path, MAction<IDispatchObject> dispObj)
+        override public void asyncLoad(string path, MAction<IDispatchObject> evtHandle)
         {
             this.setPath(path);
 
@@ -56,7 +56,7 @@
             {
                 unload();
                 mEvtHandle = new ResEventDispatch();
-                mEvtHandle.addEventHandle(null, dispObj);
+                mEvtHandle.addEventHandle(null, evtHandle);
                 mTextRes = Ctx.m_instance.m_textResMgr.getAndAsyncLoadRes(path, onTexLoaded);
             }
         }

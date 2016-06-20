@@ -21,10 +21,10 @@ namespace UnitTest
 
             //testLoadPreafab();
             //testLoadText();
-            //this.testDownload();
+            this.testDownload();
             //this.testLuaLoad();
 
-            this.testTextLoaderAndStream();
+            //this.testTextLoaderAndStream();
         }
 
         protected void testModelLoad()
@@ -196,8 +196,8 @@ namespace UnitTest
 
         protected void testDownload()
         {
-            AuxDownload auxDownload = new AuxDownload();
-            auxDownload.download("XmlConfig/ReadMe.txt", null);
+            AuxDownloader auxDownload = new AuxDownloader();
+            auxDownload.download("XmlConfig/ReadMe.txt", null, 84);
         }
 
         // 测试加载 Lua 
