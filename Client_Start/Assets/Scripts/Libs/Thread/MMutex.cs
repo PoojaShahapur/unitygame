@@ -13,6 +13,7 @@ namespace SDK.Lib
         {
             if (MacroDef.NET_MULTHREAD)
             {
+                // IOS 下不支持 "Named mutexes are not supported"
                 m_mutex = new Mutex(initiallyOwned, name);
             }
         }

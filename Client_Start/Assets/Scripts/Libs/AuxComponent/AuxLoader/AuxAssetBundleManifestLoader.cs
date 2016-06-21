@@ -4,12 +4,12 @@ namespace SDK.Lib
 {
     public class AuxAssetBundleManifestLoader : AuxLoaderBase
     {
-        protected PrefabResItem mPrefabResItem;
+        protected BundleResItem mBundleResItem;
         protected AssetBundleManifest m_AssetBundleManifest;
 
         public AuxAssetBundleManifestLoader()
         {
-            mPrefabResItem = null;
+            mBundleResItem = null;
         }
 
         override public void dispose()
@@ -51,16 +51,16 @@ namespace SDK.Lib
 
         public void onLoadEventHandle(IDispatchObject dispObj)
         {
-            mPrefabResItem = dispObj as PrefabResItem;
+            mBundleResItem = dispObj as BundleResItem;
 
-            if (mPrefabResItem.hasSuccessLoaded())
+            if (mBundleResItem.hasSuccessLoaded())
             {
                 mIsSuccess = true;
 
                 // 从 AssetBundle 中获取名字 AssetBundleManifest
-                m_AssetBundleManifest = mPrefabResItem.getObject("AssetBundleManifest") as AssetBundleManifest;
+                m_AssetBundleManifest = mBundleResItem.getObject("AssetBundleManifest") as AssetBundleManifest;
             }
-            else if (mPrefabResItem.hasFailed())
+            else if (mBundleResItem.hasFailed())
             {
                 mIsSuccess = false;
 
@@ -78,10 +78,10 @@ namespace SDK.Lib
 
         override public void unload()
         {
-            if (mPrefabResItem != null)
+            if (mBundleResItem != null)
             {
-                Ctx.m_instance.m_bytesResMgr.unload(mPrefabResItem.getResUniqueId(), onLoadEventHandle);
-                mPrefabResItem = null;
+                Ctx.m_instance.m_resLoadMgr.unload(mBundleResItem.getResUniqueId(), onLoadEventHandle);
+                mBundleResItem = null;
             }
 
             base.unload();
