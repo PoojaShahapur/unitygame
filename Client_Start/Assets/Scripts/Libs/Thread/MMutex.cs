@@ -7,14 +7,17 @@ namespace SDK.Lib
      */
     public class MMutex
     {
-        private Mutex m_mutex;   // 读互斥
+        private Mutex m_mutex; 	// 读互斥
+		private string mName;	// name
 
         public MMutex(bool initiallyOwned, string name)
         {
             if (MacroDef.NET_MULTHREAD)
             {
-                // IOS 下不支持 "Named mutexes are not supported"
-                m_mutex = new Mutex(initiallyOwned, name);
+                // IOS 下不支持，错误提示如下： "Named mutexes are not supported"
+                //m_mutex = new Mutex(initiallyOwned, name);
+				m_mutex = new Mutex(initiallyOwned);
+				mName = name;
             }
         }
 

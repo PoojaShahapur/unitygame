@@ -36,11 +36,24 @@ namespace EditorTool
             Ctx.m_instance.editorToolInit();
 
             ExportAssetRelation exportAssetRelation = new ExportAssetRelation();
-            exportAssetRelation.setBuildTarget(BuildTarget.StandaloneWindows);
-            exportAssetRelation.setCurPath(UtilEditor.getAssetBundlesOutpath(BuildTarget.StandaloneWindows));
+			exportAssetRelation.setBuildTarget(BuildTarget.StandaloneOSXUniversal);
+			exportAssetRelation.setCurPath(UtilEditor.getAssetBundlesOutpath(BuildTarget.StandaloneOSXUniversal));
             exportAssetRelation.setOutFileName(UtilEditor.getBuildOutPath() + "/AssetBundlesList.txt");
             exportAssetRelation.buildOutFile();
         }
+
+		[MenuItem("MyNew/ExportIOSAssetBundlesList")]
+		public static void BuildIOSAssetBundlesList()
+		{
+			Ctx.instance();
+			Ctx.m_instance.editorToolInit();
+
+			ExportAssetRelation exportAssetRelation = new ExportAssetRelation();
+			exportAssetRelation.setBuildTarget(BuildTarget.iOS);
+			exportAssetRelation.setCurPath(UtilEditor.getAssetBundlesOutpath(BuildTarget.iOS));
+			exportAssetRelation.setOutFileName(UtilEditor.getBuildOutPath() + "/AssetBundlesList.txt");
+			exportAssetRelation.buildOutFile();
+		}
 
         // 导出 AssetBundles
         [MenuItem("MyNew/ExportAndroidDebugPackage")]
@@ -56,6 +69,13 @@ namespace EditorTool
             MFileSys.init();
             BuildScript.BuildPlayer(BuildTarget.StandaloneOSXUniversal, false);
         }
+
+		[MenuItem("MyNew/ExportIOSDebugPackage")]
+		public static void BuildIOSDebug()
+		{
+			MFileSys.init();
+			BuildScript.BuildPlayer(BuildTarget.iOS, false);
+		}
 
         // 测试命令行
         [MenuItem("MyNew/TestCmdSys")]

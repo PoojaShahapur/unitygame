@@ -27,7 +27,8 @@ namespace SDK.Lib
 
     // IOS Native 导入区域
 #if UNITY_IOS
-    [DllImport("__Internal")]
-    private static extern void _getAPNType();
+	// 必须要 OC 的实现才行，否则在导出 AssetBundles 的时候就会报错，而这个时候并没有编译 ipa 包
+    //[DllImport("__Internal")]
+    //private static extern void aaa();
 #endif
 }

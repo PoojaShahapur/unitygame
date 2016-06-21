@@ -34,12 +34,12 @@ namespace SDK.Lib
 
         public static Vector3 FAKE_POS = new Vector3(-1000, 0, -1000);  // 默认隐藏到这个位置
         public const string ASSETBUNDLES = "AssetBundles";
-        public const string CR_LF = "\r\n";     // 回车换行
+        public const string CR_LF = "\n";       // 回车换行， Mac 下面即使写入 "\r\n"，读取出来后，也只有 "\n"，因此这里 Windows 下也只写入 "\n"，而不是 "\r\n"
         public const string SEPARATOR = "=";    // 分隔符
 
         public static GameObject[] FindGameObjectsWithTag(string tag)
         {
-            return GameObject.FindGameObjectsWithTag("Untagged");
+            return GameObject.FindGameObjectsWithTag(tag);
         }
 
         // 仅仅根据名字查找 GameObject ，注意如果 GameObject 设置 SetActive 为 false ，就会查找不到，如果有相同名字的 GameObject ，不保证查找到正确的。
