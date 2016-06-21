@@ -36,13 +36,26 @@ namespace EditorTool
             Ctx.m_instance.editorToolInit();
 
             ExportAssetRelation exportAssetRelation = new ExportAssetRelation();
-			exportAssetRelation.setBuildTarget(BuildTarget.StandaloneOSXUniversal);
-			exportAssetRelation.setCurPath(UtilEditor.getAssetBundlesOutpath(BuildTarget.StandaloneOSXUniversal));
+			exportAssetRelation.setBuildTarget(BuildTarget.StandaloneWindows64);
+			exportAssetRelation.setCurPath(UtilEditor.getAssetBundlesOutpath(BuildTarget.StandaloneWindows64));
             exportAssetRelation.setOutFileName(UtilEditor.getBuildOutPath() + "/AssetBundlesList.txt");
             exportAssetRelation.buildOutFile();
         }
 
-		[MenuItem("MyNew/ExportIOSAssetBundlesList")]
+        [MenuItem("MyNew/ExportMacAssetBundlesList")]
+        public static void BuildMacAssetBundlesList()
+        {
+            Ctx.instance();
+            Ctx.m_instance.editorToolInit();
+
+            ExportAssetRelation exportAssetRelation = new ExportAssetRelation();
+            exportAssetRelation.setBuildTarget(BuildTarget.StandaloneOSXUniversal);
+            exportAssetRelation.setCurPath(UtilEditor.getAssetBundlesOutpath(BuildTarget.StandaloneOSXUniversal));
+            exportAssetRelation.setOutFileName(UtilEditor.getBuildOutPath() + "/AssetBundlesList.txt");
+            exportAssetRelation.buildOutFile();
+        }
+
+        [MenuItem("MyNew/ExportIOSAssetBundlesList")]
 		public static void BuildIOSAssetBundlesList()
 		{
 			Ctx.instance();
