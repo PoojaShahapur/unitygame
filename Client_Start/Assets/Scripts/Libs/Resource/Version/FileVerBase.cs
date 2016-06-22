@@ -37,11 +37,13 @@ namespace SDK.Lib
             // 第一行是版本号
             lineIdx = 0;
 
+            UtilStr.removeLastCR(ref lineList[lineIdx]);
             equalList = lineList[lineIdx].Split(equalSplitStr, StringSplitOptions.RemoveEmptyEntries);
             mCurVer = equalList[1];
 
             // 第二行是版本的版本
             lineIdx = 1;
+            UtilStr.removeLastCR(ref lineList[lineIdx]);
 
             equalList = lineList[lineIdx].Split(equalSplitStr, StringSplitOptions.RemoveEmptyEntries);
 
@@ -63,6 +65,7 @@ namespace SDK.Lib
             FileVerInfo fileInfo;
             while (lineIdx < lineList.Length)
             {
+                UtilStr.removeLastCR(ref lineList[lineIdx]);
                 equalList = lineList[lineIdx].Split(equalSplitStr, StringSplitOptions.RemoveEmptyEntries);
                 fileInfo = new FileVerInfo();
 
