@@ -35,11 +35,11 @@ namespace SDK.Lib
         //protected TextureRes m_splat3TexRes;
         //protected TextureRes m_controlTexRes;
 
-        protected AuxTexLoader mSplat0TexRes;
-        protected AuxTexLoader mSplat1TexRes;
-        protected AuxTexLoader mSplat2TexRes;
-        protected AuxTexLoader mSplat3TexRes;
-        protected AuxTexLoader mControlTexRes;
+        protected AuxTextureLoader mSplat0TexRes;
+        protected AuxTextureLoader mSplat1TexRes;
+        protected AuxTextureLoader mSplat2TexRes;
+        protected AuxTextureLoader mSplat3TexRes;
+        protected AuxTextureLoader mControlTexRes;
 
         protected string m_matPreStr;               // 材质前缀字符
         protected string m_difffuseMatName;         // 材质的名字
@@ -208,19 +208,19 @@ namespace SDK.Lib
                 m_splatMat.SetVector("_UVMultiplier", mUVMultiplier);
             }
 
-            mSplat0TexRes = new AuxTexLoader();
+            mSplat0TexRes = new AuxTextureLoader();
             mSplat0TexRes.asyncLoad(m_splat0TexName, onSplat0TexResLoaded);
 
-            mSplat1TexRes = new AuxTexLoader();
+            mSplat1TexRes = new AuxTextureLoader();
             mSplat1TexRes.asyncLoad(m_splat1TexName, onSplat1TexResLoaded);
 
-            mSplat2TexRes = new AuxTexLoader();
+            mSplat2TexRes = new AuxTextureLoader();
             mSplat2TexRes.asyncLoad(m_splat2TexName, onSplat2TexResLoaded);
 
-            mSplat3TexRes = new AuxTexLoader();
+            mSplat3TexRes = new AuxTextureLoader();
             mSplat3TexRes.asyncLoad(m_splat3TexName, onSplat3TexResLoaded);
 
-            mControlTexRes = new AuxTexLoader();
+            mControlTexRes = new AuxTextureLoader();
             mControlTexRes.asyncLoad(m_controlTexName, onControlTexResLoaded);
         }
 
@@ -241,7 +241,7 @@ namespace SDK.Lib
 
         public void onSplat0TexResLoaded(IDispatchObject dispObj)
         {
-            mSplat0TexRes = dispObj as AuxTexLoader;
+            mSplat0TexRes = dispObj as AuxTextureLoader;
             if(m_splatMat.HasProperty("_MainTex"))
             {
                 m_splatMat.SetTexture("_MainTex", mSplat0TexRes.getTexture());
@@ -250,7 +250,7 @@ namespace SDK.Lib
 
         public void onSplat1TexResLoaded(IDispatchObject dispObj)
         {
-            mSplat1TexRes = dispObj as AuxTexLoader;
+            mSplat1TexRes = dispObj as AuxTextureLoader;
             if (m_splatMat.HasProperty("_Splat1"))
             {
                 m_splatMat.SetTexture("_Splat1", mSplat1TexRes.getTexture());
@@ -259,7 +259,7 @@ namespace SDK.Lib
 
         public void onSplat2TexResLoaded(IDispatchObject dispObj)
         {
-            mSplat2TexRes = dispObj as AuxTexLoader;
+            mSplat2TexRes = dispObj as AuxTextureLoader;
             if (m_splatMat.HasProperty("_Splat2"))
             {
                 m_splatMat.SetTexture("_Splat2", mSplat2TexRes.getTexture());
@@ -268,7 +268,7 @@ namespace SDK.Lib
 
         public void onSplat3TexResLoaded(IDispatchObject dispObj)
         {
-            mSplat3TexRes = dispObj as AuxTexLoader;
+            mSplat3TexRes = dispObj as AuxTextureLoader;
             if (m_splatMat.HasProperty("_Splat3"))
             {
                 m_splatMat.SetTexture("_Splat3", mSplat3TexRes.getTexture());
@@ -277,7 +277,7 @@ namespace SDK.Lib
 
         public void onControlTexResLoaded(IDispatchObject dispObj)
         {
-            mControlTexRes = dispObj as AuxTexLoader;
+            mControlTexRes = dispObj as AuxTextureLoader;
             if (m_splatMat.HasProperty("_Control"))
             {
                 m_splatMat.SetTexture("_Control", mControlTexRes.getTexture());

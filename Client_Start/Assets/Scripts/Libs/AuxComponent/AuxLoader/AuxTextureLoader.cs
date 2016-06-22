@@ -2,12 +2,12 @@
 
 namespace SDK.Lib
 {
-    public class AuxTexLoader : AuxLoaderBase
+    public class AuxTextureLoader : AuxLoaderBase
     {
         protected TextureRes mTextureRes;       // 纹理资源
         protected Texture mTexture;
 
-        public AuxTexLoader()
+        public AuxTextureLoader()
         {
             mTextureRes = null;
             mTexture = null;
