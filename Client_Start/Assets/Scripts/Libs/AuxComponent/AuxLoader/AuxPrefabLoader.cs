@@ -15,8 +15,8 @@ namespace SDK.Lib
         protected bool mIsInsNeedCoroutine; // 实例化是否需要协程
         protected bool mIsDestroySelf;      // 是否释放自己
 
-        public AuxPrefabLoader(bool isInsNeedCoroutine = true)
-            : base()
+        public AuxPrefabLoader(string path = "", bool isInsNeedCoroutine = true)
+            : base(path)
         {
             this.mTypeId = "AuxPrefabLoader";
             mIsInsNeedCoroutine = isInsNeedCoroutine;

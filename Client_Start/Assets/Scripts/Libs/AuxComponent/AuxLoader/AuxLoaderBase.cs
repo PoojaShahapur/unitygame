@@ -11,10 +11,12 @@ namespace SDK.Lib
         protected string mPrePath;      // 之前加载的资源目录
         protected string mPath;         // 加载的资源目录
         protected ResEventDispatch mEvtHandle;              // 事件分发器
-        protected bool mIsInvalid;       // 加载器是否无效
+        protected bool mIsInvalid;      // 加载器是否无效
+        protected string mInitPath;     // 初始化目录
 
-        public AuxLoaderBase()
+        public AuxLoaderBase(string path = "")
         {
+            mInitPath = path;
             this.reset();
         }
 

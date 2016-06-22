@@ -6,7 +6,8 @@ namespace SDK.Lib
     {
         protected SpriteAtlasRes mSpriteAtlasRes;
 
-        public AuxSpriteAtlasLoader()
+        public AuxSpriteAtlasLoader(string path = "")
+            : base(path)
         {
             mSpriteAtlasRes = null;
         }

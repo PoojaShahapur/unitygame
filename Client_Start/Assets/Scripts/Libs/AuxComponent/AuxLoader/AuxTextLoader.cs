@@ -4,7 +4,8 @@
     {
         protected TextRes mTextRes;
 
-        public AuxTextLoader()
+        public AuxTextLoader(string path = "")
+            : base(path)
         {
             mTextRes = null;
         }

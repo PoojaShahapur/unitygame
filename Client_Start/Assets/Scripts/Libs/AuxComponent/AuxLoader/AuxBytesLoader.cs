@@ -6,7 +6,8 @@ namespace SDK.Lib
     {
         protected BytesRes mBytesRes;
 
-        public AuxBytesLoader()
+        public AuxBytesLoader(string path = "")
+            : base(path)
         {
             mBytesRes = null;
         }

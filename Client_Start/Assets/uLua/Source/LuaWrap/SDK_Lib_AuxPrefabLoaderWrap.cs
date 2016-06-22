@@ -40,8 +40,9 @@ public class SDK_Lib_AuxPrefabLoaderWrap
 
 		if (count == 1)
 		{
-			bool arg0 = LuaScriptMgr.GetBoolean(L, 1);
-			SDK.Lib.AuxPrefabLoader obj = new SDK.Lib.AuxPrefabLoader(arg0);
+            string arg0 = LuaScriptMgr.GetString(L, 1);
+            bool arg1 = LuaScriptMgr.GetBoolean(L, 2);
+			SDK.Lib.AuxPrefabLoader obj = new SDK.Lib.AuxPrefabLoader(arg0, arg1);
 			LuaScriptMgr.PushObject(L, obj);
 			return 1;
 		}

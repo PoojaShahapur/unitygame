@@ -184,7 +184,7 @@ namespace UnitTest
 
         protected void testLoadPreafab()
         {
-            AuxPrefabLoader loader = new AuxPrefabLoader(false);
+            AuxPrefabLoader loader = new AuxPrefabLoader("", false);
             loader.syncLoad("Model/TestCube.prefab");
         }
 

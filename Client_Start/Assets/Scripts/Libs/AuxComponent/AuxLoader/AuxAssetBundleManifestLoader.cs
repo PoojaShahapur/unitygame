@@ -7,7 +7,8 @@ namespace SDK.Lib
         protected BundleResItem mBundleResItem;
         protected AssetBundleManifest m_AssetBundleManifest;
 
-        public AuxAssetBundleManifestLoader()
+        public AuxAssetBundleManifestLoader(string path = "")
+            : base(path)
         {
             mBundleResItem = null;
         }

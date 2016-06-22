@@ -7,7 +7,8 @@ namespace SDK.Lib
         protected TextureRes mTextureRes;       // 纹理资源
         protected Texture mTexture;
 
-        public AuxTextureLoader()
+        public AuxTextureLoader(string path = "")
+            : base(path)
         {
             mTextureRes = null;
             mTexture = null;

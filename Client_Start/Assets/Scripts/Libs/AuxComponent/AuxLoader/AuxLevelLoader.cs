@@ -7,7 +7,8 @@
     {
         protected LevelResItem mLevelResItem;
 
-        public AuxLevelLoader()
+        public AuxLevelLoader(string path = "")
+            : base(path)
         {
             
         }
