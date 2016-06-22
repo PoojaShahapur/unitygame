@@ -682,7 +682,7 @@ public class LuaScriptMgr
         fileList.Add(name);
 
 #if !LUA_ZIP
-        if (!MacroDef.LUA_EDITOR)
+        if (MacroDef.LUA_EDITOR)
         {
             string path = Util.LuaPath(name);
 
