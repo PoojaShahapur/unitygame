@@ -4,13 +4,13 @@ namespace SDK.Lib
 {
     public class AuxAssetBundleManifestLoader : AuxLoaderBase
     {
-        protected BundleResItem mBundleResItem;
+        protected ResItem mResItem;
         protected AssetBundleManifest m_AssetBundleManifest;
 
         public AuxAssetBundleManifestLoader(string path = "")
             : base(path)
         {
-            mBundleResItem = null;
+            mResItem = null;
         }
 
         override public void dispose()
@@ -52,16 +52,16 @@ namespace SDK.Lib
 
         public void onLoadEventHandle(IDispatchObject dispObj)
         {
-            mBundleResItem = dispObj as BundleResItem;
+            mResItem = dispObj as ResItem;
 
-            if (mBundleResItem.hasSuccessLoaded())
+            if (mResItem.hasSuccessLoaded())
             {
                 mIsSuccess = true;
 
                 // 从 AssetBundle 中获取名字 AssetBundleManifest
-                m_AssetBundleManifest = mBundleResItem.getObject("AssetBundleManifest") as AssetBundleManifest;
+                m_AssetBundleManifest = mResItem.getObject("AssetBundleManifest") as AssetBundleManifest;
             }
-            else if (mBundleResItem.hasFailed())
+            else if (mResItem.hasFailed())
             {
                 mIsSuccess = false;
 
@@ -79,10 +79,10 @@ namespace SDK.Lib
 
         override public void unload()
         {
-            if (mBundleResItem != null)
+            if (mResItem != null)
             {
-                Ctx.m_instance.m_resLoadMgr.unload(mBundleResItem.getResUniqueId(), onLoadEventHandle);
-                mBundleResItem = null;
+                Ctx.m_instance.m_resLoadMgr.unload(mResItem.getResUniqueId(), onLoadEventHandle);
+                mResItem = null;
             }
 
             base.unload();

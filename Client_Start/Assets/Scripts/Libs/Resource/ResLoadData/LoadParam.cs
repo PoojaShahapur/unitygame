@@ -170,7 +170,7 @@ namespace SDK.Lib
                 // 如果没有就从 Resources 文件夹下加载
                 m_resLoadType = ResLoadType.eLoadResource;
                 m_resPackType = ResPackType.eResourcesType;
-                mResUniqueId = UtilPath.getFileNameNoExt(m_origPath);
+                mResUniqueId = UtilPath.getFilePathNoExt(m_origPath);
                 mLoadPath = mResUniqueId;
             }
 

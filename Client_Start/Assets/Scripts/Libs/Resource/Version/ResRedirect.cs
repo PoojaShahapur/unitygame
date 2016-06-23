@@ -61,6 +61,8 @@ namespace SDK.Lib
             Ctx.m_instance.m_logSys.log(string.Format("ResRedirectItem::getResRedirectItem, origPath is {0}", origPath), LogTypeId.eLogResLoader);
 
             ResRedirectItem item = null;
+            FileVerInfo fileVerInfo = null;
+
             if (mOrigPath2ItemDic.ContainsKey(origPath))
             {
                 Ctx.m_instance.m_logSys.log("ResRedirectItem::getResRedirectItem, Cached", LogTypeId.eLogResLoader);
@@ -74,7 +76,7 @@ namespace SDK.Lib
                 // 从版本系统中获取
                 item = new ResRedirectItem(origPath, (int)ResLoadType.eLoadResource);
                 mOrigPath2ItemDic[origPath] = item;
-                FileVerInfo fileVerInfo = null;
+
                 item.mResLoadType = (ResLoadType)Ctx.m_instance.m_versionSys.m_localVer.getFileVerInfo(origPath, ref fileVerInfo);
                 item.mFileVerInfo = fileVerInfo;
             }
@@ -82,6 +84,15 @@ namespace SDK.Lib
             if (item.mFileVerInfo == null)
             {
                 Ctx.m_instance.m_logSys.log(string.Format("ResRedirectItem::getResRedirectItem, Path is {0}, Can not Find Version Info Item", origPath), LogTypeId.eLogResLoader);
+
+                fileVerInfo = new FileVerInfo();
+                fileVerInfo.mOrigPath = origPath;
+                fileVerInfo.mResUniqueId = UtilPath.getFilePathNoExt(origPath);
+                fileVerInfo.mLoadPath = UtilPath.getFilePathNoExt(origPath);
+                fileVerInfo.m_fileMd5 = "error";
+                fileVerInfo.m_fileSize = 0;
+
+                item.mFileVerInfo = fileVerInfo;
             }
             else
             {
