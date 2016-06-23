@@ -8,6 +8,8 @@ public class SDK_Lib_CtxWrap
 		LuaMethod[] regs = new LuaMethod[]
 		{
 			new LuaMethod("instance", instance),
+			new LuaMethod("editorToolInit", editorToolInit),
+			new LuaMethod("dispose", dispose),
 			new LuaMethod("postInit", postInit),
 			new LuaMethod("init", init),
 			new LuaMethod("setNoDestroyObject", setNoDestroyObject),
@@ -73,7 +75,7 @@ public class SDK_Lib_CtxWrap
 			new LuaField("m_loginSys", get_m_loginSys, set_m_loginSys),
 			new LuaField("m_wordFilterManager", get_m_wordFilterManager, set_m_wordFilterManager),
 			new LuaField("m_versionSys", get_m_versionSys, set_m_versionSys),
-			new LuaField("m_pAutoUpdateSys", get_m_pAutoUpdateSys, set_m_pAutoUpdateSys),
+			new LuaField("mAutoUpdateSys", get_mAutoUpdateSys, set_mAutoUpdateSys),
 			new LuaField("m_TaskQueue", get_m_TaskQueue, set_m_TaskQueue),
 			new LuaField("m_TaskThreadPool", get_m_TaskThreadPool, set_m_TaskThreadPool),
 			new LuaField("m_pRandName", get_m_pRandName, set_m_pRandName),
@@ -104,6 +106,8 @@ public class SDK_Lib_CtxWrap
 			new LuaField("mCoroutineTaskMgr", get_mCoroutineTaskMgr, set_mCoroutineTaskMgr),
 			new LuaField("mSceneNodeGraph", get_mSceneNodeGraph, set_mSceneNodeGraph),
 			new LuaField("mTerrainEntityMgr", get_mTerrainEntityMgr, set_mTerrainEntityMgr),
+			new LuaField("mResRedirect", get_mResRedirect, set_mResRedirect),
+			new LuaField("mDownloadMgr", get_mDownloadMgr, set_mDownloadMgr),
 		};
 
 		LuaScriptMgr.RegisterLib(L, "SDK.Lib.Ctx", typeof(SDK.Lib.Ctx), regs, fields, typeof(object));
@@ -1441,7 +1445,7 @@ public class SDK_Lib_CtxWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int get_m_pAutoUpdateSys(IntPtr L)
+	static int get_mAutoUpdateSys(IntPtr L)
 	{
 		object o = LuaScriptMgr.GetLuaObject(L, 1);
 		SDK.Lib.Ctx obj = (SDK.Lib.Ctx)o;
@@ -1452,11 +1456,11 @@ public class SDK_Lib_CtxWrap
 
 			if (types == LuaTypes.LUA_TTABLE)
 			{
-				LuaDLL.luaL_error(L, "unknown member name m_pAutoUpdateSys");
+				LuaDLL.luaL_error(L, "unknown member name mAutoUpdateSys");
 			}
 			else
 			{
-				LuaDLL.luaL_error(L, "attempt to index m_pAutoUpdateSys on a nil value");
+				LuaDLL.luaL_error(L, "attempt to index mAutoUpdateSys on a nil value");
 			}
 		}
 
@@ -2181,6 +2185,54 @@ public class SDK_Lib_CtxWrap
 		}
 
 		LuaScriptMgr.PushObject(L, obj.mTerrainEntityMgr);
+		return 1;
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int get_mResRedirect(IntPtr L)
+	{
+		object o = LuaScriptMgr.GetLuaObject(L, 1);
+		SDK.Lib.Ctx obj = (SDK.Lib.Ctx)o;
+
+		if (obj == null)
+		{
+			LuaTypes types = LuaDLL.lua_type(L, 1);
+
+			if (types == LuaTypes.LUA_TTABLE)
+			{
+				LuaDLL.luaL_error(L, "unknown member name mResRedirect");
+			}
+			else
+			{
+				LuaDLL.luaL_error(L, "attempt to index mResRedirect on a nil value");
+			}
+		}
+
+		LuaScriptMgr.PushObject(L, obj.mResRedirect);
+		return 1;
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int get_mDownloadMgr(IntPtr L)
+	{
+		object o = LuaScriptMgr.GetLuaObject(L, 1);
+		SDK.Lib.Ctx obj = (SDK.Lib.Ctx)o;
+
+		if (obj == null)
+		{
+			LuaTypes types = LuaDLL.lua_type(L, 1);
+
+			if (types == LuaTypes.LUA_TTABLE)
+			{
+				LuaDLL.luaL_error(L, "unknown member name mDownloadMgr");
+			}
+			else
+			{
+				LuaDLL.luaL_error(L, "attempt to index mDownloadMgr on a nil value");
+			}
+		}
+
+		LuaScriptMgr.PushObject(L, obj.mDownloadMgr);
 		return 1;
 	}
 
@@ -3488,7 +3540,7 @@ public class SDK_Lib_CtxWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int set_m_pAutoUpdateSys(IntPtr L)
+	static int set_mAutoUpdateSys(IntPtr L)
 	{
 		object o = LuaScriptMgr.GetLuaObject(L, 1);
 		SDK.Lib.Ctx obj = (SDK.Lib.Ctx)o;
@@ -3499,11 +3551,11 @@ public class SDK_Lib_CtxWrap
 
 			if (types == LuaTypes.LUA_TTABLE)
 			{
-				LuaDLL.luaL_error(L, "unknown member name m_pAutoUpdateSys");
+				LuaDLL.luaL_error(L, "unknown member name mAutoUpdateSys");
 			}
 			else
 			{
-				LuaDLL.luaL_error(L, "attempt to index m_pAutoUpdateSys on a nil value");
+				LuaDLL.luaL_error(L, "attempt to index mAutoUpdateSys on a nil value");
 			}
 		}
 
@@ -4232,12 +4284,78 @@ public class SDK_Lib_CtxWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int set_mResRedirect(IntPtr L)
+	{
+		object o = LuaScriptMgr.GetLuaObject(L, 1);
+		SDK.Lib.Ctx obj = (SDK.Lib.Ctx)o;
+
+		if (obj == null)
+		{
+			LuaTypes types = LuaDLL.lua_type(L, 1);
+
+			if (types == LuaTypes.LUA_TTABLE)
+			{
+				LuaDLL.luaL_error(L, "unknown member name mResRedirect");
+			}
+			else
+			{
+				LuaDLL.luaL_error(L, "attempt to index mResRedirect on a nil value");
+			}
+		}
+
+		obj.mResRedirect = (SDK.Lib.ResRedirect)LuaScriptMgr.GetNetObject(L, 3, typeof(SDK.Lib.ResRedirect));
+		return 0;
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int set_mDownloadMgr(IntPtr L)
+	{
+		object o = LuaScriptMgr.GetLuaObject(L, 1);
+		SDK.Lib.Ctx obj = (SDK.Lib.Ctx)o;
+
+		if (obj == null)
+		{
+			LuaTypes types = LuaDLL.lua_type(L, 1);
+
+			if (types == LuaTypes.LUA_TTABLE)
+			{
+				LuaDLL.luaL_error(L, "unknown member name mDownloadMgr");
+			}
+			else
+			{
+				LuaDLL.luaL_error(L, "attempt to index mDownloadMgr on a nil value");
+			}
+		}
+
+		obj.mDownloadMgr = (SDK.Lib.DownloadMgr)LuaScriptMgr.GetNetObject(L, 3, typeof(SDK.Lib.DownloadMgr));
+		return 0;
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static int instance(IntPtr L)
 	{
 		LuaScriptMgr.CheckArgsCount(L, 0);
 		SDK.Lib.Ctx o = SDK.Lib.Ctx.instance();
 		LuaScriptMgr.PushObject(L, o);
 		return 1;
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int editorToolInit(IntPtr L)
+	{
+		LuaScriptMgr.CheckArgsCount(L, 1);
+		SDK.Lib.Ctx obj = (SDK.Lib.Ctx)LuaScriptMgr.GetNetObjectSelf(L, 1, "SDK.Lib.Ctx");
+		obj.editorToolInit();
+		return 0;
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int dispose(IntPtr L)
+	{
+		LuaScriptMgr.CheckArgsCount(L, 1);
+		SDK.Lib.Ctx obj = (SDK.Lib.Ctx)LuaScriptMgr.GetNetObjectSelf(L, 1, "SDK.Lib.Ctx");
+		obj.dispose();
+		return 0;
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]

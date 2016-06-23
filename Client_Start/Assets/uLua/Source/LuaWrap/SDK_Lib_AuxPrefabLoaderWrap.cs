@@ -38,11 +38,11 @@ public class SDK_Lib_AuxPrefabLoaderWrap
 	{
 		int count = LuaDLL.lua_gettop(L);
 
-		if (count == 1)
+		if (count == 2)
 		{
-            string arg0 = LuaScriptMgr.GetString(L, 1);
-            bool arg1 = LuaScriptMgr.GetBoolean(L, 2);
-			SDK.Lib.AuxPrefabLoader obj = new SDK.Lib.AuxPrefabLoader(arg0, arg1);
+			string arg0 = LuaScriptMgr.GetLuaString(L, 1);
+			bool arg1 = LuaScriptMgr.GetBoolean(L, 2);
+			SDK.Lib.AuxPrefabLoader obj = new SDK.Lib.AuxPrefabLoader(arg0,arg1);
 			LuaScriptMgr.PushObject(L, obj);
 			return 1;
 		}

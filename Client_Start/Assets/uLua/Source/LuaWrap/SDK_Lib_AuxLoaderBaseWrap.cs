@@ -33,9 +33,10 @@ public class SDK_Lib_AuxLoaderBaseWrap
 	{
 		int count = LuaDLL.lua_gettop(L);
 
-		if (count == 0)
+		if (count == 1)
 		{
-			SDK.Lib.AuxLoaderBase obj = new SDK.Lib.AuxLoaderBase();
+			string arg0 = LuaScriptMgr.GetLuaString(L, 1);
+			SDK.Lib.AuxLoaderBase obj = new SDK.Lib.AuxLoaderBase(arg0);
 			LuaScriptMgr.PushObject(L, obj);
 			return 1;
 		}

@@ -22,6 +22,7 @@ public class SDK_Lib_UtilPathWrap
 			new LuaMethod("getFileNameWithExt", getFileNameWithExt),
 			new LuaMethod("getFileNameNoExt", getFileNameNoExt),
 			new LuaMethod("getFilePathNoName", getFilePathNoName),
+			new LuaMethod("getFilePathNoExt", getFilePathNoExt),
 			new LuaMethod("getAllFile", getAllFile),
 			new LuaMethod("versionPath", versionPath),
 			new LuaMethod("delFileNoVer", delFileNoVer),
@@ -218,6 +219,16 @@ public class SDK_Lib_UtilPathWrap
 		LuaScriptMgr.CheckArgsCount(L, 1);
 		string arg0 = LuaScriptMgr.GetLuaString(L, 1);
 		string o = SDK.Lib.UtilPath.getFilePathNoName(arg0);
+		LuaScriptMgr.Push(L, o);
+		return 1;
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int getFilePathNoExt(IntPtr L)
+	{
+		LuaScriptMgr.CheckArgsCount(L, 1);
+		string arg0 = LuaScriptMgr.GetLuaString(L, 1);
+		string o = SDK.Lib.UtilPath.getFilePathNoExt(arg0);
 		LuaScriptMgr.Push(L, o);
 		return 1;
 	}
