@@ -45,6 +45,8 @@
                 mEvtHandle = new ResEventDispatch();
                 mEvtHandle.addEventHandle(null, evtHandle);
                 mTextRes = Ctx.m_instance.m_textResMgr.getAndSyncLoadRes(path);
+
+                onTexLoaded(mTextRes);
             }
         }
 

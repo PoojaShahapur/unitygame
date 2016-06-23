@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SDK.Lib
+﻿namespace SDK.Lib
 {
     public class AuxSpriteAtlasLoader : AuxLoaderBase
     {
@@ -30,6 +28,26 @@ namespace SDK.Lib
             }
 
             return mPath;
+        }
+
+        // 同步加载对象
+        override public void syncLoad(string path, MAction<IDispatchObject> evtHandle = null)
+        {
+            if (needUnload(path))
+            {
+                unload();
+            }
+
+            this.setPath(path);
+
+            if (this.isInvalid())
+            {
+                mEvtHandle = new ResEventDispatch();
+                mEvtHandle.addEventHandle(null, evtHandle);
+                mSpriteAtlasRes = Ctx.m_instance.mSpriteMgr.getAndSyncLoadRes(path);
+
+                onTexLoaded(mSpriteAtlasRes);
+            }
         }
 
         // 异步加载对象
