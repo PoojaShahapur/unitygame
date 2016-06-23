@@ -125,6 +125,7 @@ namespace SDK.Lib
 #else
             AsyncOperation asyncOpt = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(m_levelName);
 #endif
+
             yield return asyncOpt;
 
             // 确保场景资源都创建出来

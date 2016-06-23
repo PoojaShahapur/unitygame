@@ -35,6 +35,7 @@ namespace SDK.Lib
                     Ctx.m_instance.m_logSys.log("不能实例化数据");
                 }
             }
+
             return m_retGO;
         }
 
@@ -61,6 +62,7 @@ namespace SDK.Lib
             }
 
             yield return null;
+
             evtHandle.setInsGO(retGO);
             evtHandle.dispatchEvent(evtHandle);
         }

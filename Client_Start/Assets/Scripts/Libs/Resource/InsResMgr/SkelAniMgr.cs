@@ -1,4 +1,4 @@
-using System;
+using LuaInterface;
 
 namespace SDK.Lib
 {
@@ -17,6 +17,11 @@ namespace SDK.Lib
         public SkelAnimRes getAndAsyncLoadRes(string path, MAction<IDispatchObject> handle)
         {
             return getAndAsyncLoad<SkelAnimRes>(path, handle);
+        }
+
+        public SkelAnimRes getAndAsyncLoadRes(string path, LuaTable luaTable = null, LuaFunction luaFunction = null)
+        {
+            return getAndAsyncLoad<SkelAnimRes>(path, luaTable, luaFunction, true);
         }
     }
 }

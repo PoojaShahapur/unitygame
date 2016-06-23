@@ -1,5 +1,4 @@
 using LuaInterface;
-using System;
 
 namespace SDK.Lib
 {

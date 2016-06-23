@@ -25,6 +25,7 @@ namespace SDK.Lib
         override public void load()
         {
             base.load();
+
             if(ResLoadType.eLoadResource == m_resLoadType)
             {
                 Ctx.m_instance.m_logSys.log(string.Format("LevelLoadItem::load, ResLoadType is {0}, ResPackType is {1}, Load Not Need Coroutine, m_origPath is {2}", "LoadResource", "Level", m_origPath), LogTypeId.eLogResLoader);
@@ -121,6 +122,7 @@ namespace SDK.Lib
 #else
             m_assetBundle = AssetBundle.LoadFromFile(path);
 #endif
+
             assetAssetBundlesLevelLoaded();
         }
 

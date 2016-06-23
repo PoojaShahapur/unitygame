@@ -70,7 +70,9 @@ namespace SDK.Lib
                 UtilApi.UnloadAsset(mTextAsset);
                 mTextAsset = null;
             }
+
             mBytes = null;
+
             base.unload();
         }
 
@@ -81,9 +83,17 @@ namespace SDK.Lib
 
             bool isSuccess = false;
             mTextAsset = Resources.Load<TextAsset>(m_loadPath);
+
             if (mTextAsset != null)
             {
                 mBytes = mTextAsset.bytes;
+
+                if (mTextAsset != null)
+                {
+                    UtilApi.UnloadAsset(mTextAsset);
+                    mTextAsset = null;
+                }
+
                 isSuccess = true;
             }
 
@@ -109,6 +119,13 @@ namespace SDK.Lib
             {
                 mTextAsset = req.asset as TextAsset;
                 mBytes = mTextAsset.bytes;
+
+                if (mTextAsset != null)
+                {
+                    UtilApi.UnloadAsset(mTextAsset);
+                    mTextAsset = null;
+                }
+
                 m_nonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }
             else

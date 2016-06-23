@@ -75,6 +75,7 @@ namespace SDK.Lib
         public bool isResSuccessLoaded(string resUniqueId)
         {
             ResItem res = this.getResource(resUniqueId);
+
             if (res == null)
             {
                 return false;
@@ -275,7 +276,10 @@ namespace SDK.Lib
 
             if (param.m_loadEventHandle != null)
             {
-                resItem.refCountResLoadResultNotify.loadResEventDispatch.addEventHandle(null, param.m_loadEventHandle);
+                resItem.refCountResLoadResultNotify.loadResEventDispatch.addEventHandle(
+                    null, 
+                    param.m_loadEventHandle
+                    );
             }
 
             return resItem;
@@ -362,6 +366,7 @@ namespace SDK.Lib
         {
             m_LoadData.m_path2Res[param.mResUniqueId] = resItem;
             m_LoadData.m_path2Res[param.mResUniqueId].refCountResLoadResultNotify.resLoadState.setLoading();
+
             // 如果不存在 LoadItem ，这个时候才需要创建，如果已经存在 LoadItem，这个时候不需要再次创建，这种情况通常发生在在加载一个资源，当 LoadItem 还没有加载完成，然后卸载了 ResItem，这个时候再次加载的时候，如果不判断，就会再次生成一个 LoadItem，这样 m_path2LDItem 字典里就会覆盖之前的 LoadItem，但是可能回调事件仍然存在，导致回调好几次
             if (!hasLoadItem(param.mResUniqueId))
             {
@@ -371,6 +376,7 @@ namespace SDK.Lib
                 {
                     // 先增加，否则退出的时候可能是先减 1 ，导致越界出现很大的值
                     ++m_curNum;
+
                     m_LoadData.m_path2LDItem[param.mResUniqueId] = loadItem;
                     m_LoadData.m_path2LDItem[param.mResUniqueId].load();
                 }
@@ -393,6 +399,7 @@ namespace SDK.Lib
         public void load(LoadParam param)
         {
             ++m_loadingDepth;
+
             if (m_LoadData.m_path2Res.ContainsKey(param.mResUniqueId))
             {
                 loadWithResCreatedAndLoad(param);
@@ -405,6 +412,7 @@ namespace SDK.Lib
             {
                 loadWithNotResCreatedAndNotLoad(param);
             }
+
             --m_loadingDepth;
 
             if (m_loadingDepth == 0)
@@ -417,6 +425,7 @@ namespace SDK.Lib
         {
             param.resolvePath();
             load(param);
+
             return getResource(param.mResUniqueId);
         }
 
@@ -479,6 +488,7 @@ namespace SDK.Lib
                     unloadNoRef(path);
                 }
             }
+
             m_zeroRefResIDList.Clear();
         }
 
@@ -555,6 +565,7 @@ namespace SDK.Lib
         protected void releaseLoadItem(LoadItem item)
         {
             item.reset();
+
             m_LoadData.m_noUsedLDItem.Add(item);
             m_LoadData.m_willLDItem.Remove(item);
             m_LoadData.m_path2LDItem.Remove(item.getResUniqueId());
@@ -579,6 +590,7 @@ namespace SDK.Lib
         protected ResItem findResFormPool(ResPackType type)
         {
             m_retResItem = null;
+
             foreach (ResItem item in m_LoadData.m_noUsedResItem)
             {
                 if (item.resPackType == type)
@@ -595,6 +607,7 @@ namespace SDK.Lib
         protected LoadItem findLoadItemFormPool(ResPackType type)
         {
             m_retLoadItem = null;
+
             foreach (LoadItem item in m_LoadData.m_noUsedLDItem)
             {
                 if (item.resPackType == type)

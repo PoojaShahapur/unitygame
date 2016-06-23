@@ -1,4 +1,4 @@
-using System;
+using LuaInterface;
 
 namespace SDK.Lib
 {
@@ -19,6 +19,11 @@ namespace SDK.Lib
         public MatRes getAndAsyncLoadRes(string path, MAction<IDispatchObject> handle)
         {
             return getAndAsyncLoad<MatRes>(path, handle);
+        }
+
+        public MatRes getAndAsyncLoadRes(string path, LuaTable luaTable = null, LuaFunction luaFunction = null)
+        {
+            return getAndAsyncLoad<MatRes>(path, luaTable, luaFunction, true);
         }
     }
 }

@@ -15,6 +15,7 @@ namespace SDK.Lib
         override public void init(LoadItem item)
         {
             base.init(item);
+
             if (!mIsLoadAll)
             {
                 m_prefabObj = (item as ResourceLoadItem).prefabObj;
@@ -23,6 +24,7 @@ namespace SDK.Lib
             {
                 mAllPrefabObj = (item as ResourceLoadItem).getAllPrefabObject();
             }
+
             m_refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             m_refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
@@ -40,6 +42,7 @@ namespace SDK.Lib
         public override void reset()
         {
             base.reset();
+
             m_prefabName = null;
             mAllPrefabObj = null;
             m_retGO = null;
@@ -67,18 +70,51 @@ namespace SDK.Lib
             // 如果你用个全局变量保存你 Load 的 Assets，又没有显式的设为 null，那 在这个变量失效前你无论如何 UnloadUnusedAssets 也释放不了那些Assets的。如果你这些Assets又不是从磁盘加载的，那除了 UnloadUnusedAssets 或者加载新场景以外没有其他方式可以卸载之。
             if (m_prefabObj != null)
             {
-                m_prefabObj = null;
+                // m_prefabObj = null;
 
                 // Asset-Object 无法被Destroy销毁，Asset-Objec t由 Resources 系统管理，需要手工调用Resources.UnloadUnusedAssets()或者其他类似接口才能删除。
-                UtilApi.UnloadUnusedAssets();
+                if (m_prefabObj is GameObject)
+                {
+                    m_prefabObj = null;
+                    UtilApi.UnloadUnusedAssets();   // UnloadUnusedAssets 可以卸载没有引用的资源，一定要先设置 null ，然后再调用 UnloadUnusedAssets
+                }
+                else
+                {
+                    UtilApi.UnloadAsset(m_prefabObj);    // 只能卸载组件类型的资源，比如 Textture、 Material、TextAsset 之类的资源，不能卸载容器之类的资源，例如 GameObject，因为组件是添加到 GameObject 上面去的
+                    m_prefabObj = null;
+                }
             }
 
             // 如果不想释放资源，只需要置空就行了
             if(mAllPrefabObj != null)
             {
+                bool hasGameObject = false;
+                int idx = 0;
+                int len = mAllPrefabObj.Length;
+
+                while(idx < len)
+                {
+                    if(mAllPrefabObj[idx] != null)
+                    {
+                        if (mAllPrefabObj[idx] is GameObject)
+                        {
+                            mAllPrefabObj[idx] = null;
+                            hasGameObject = true;
+                        }
+                        else
+                        {
+                            UtilApi.UnloadAsset(mAllPrefabObj[idx]);
+                            mAllPrefabObj[idx] = null;
+                        }
+                    }
+                    ++idx;
+                }
                 mAllPrefabObj = null;
 
-                UtilApi.UnloadUnusedAssets();
+                if (hasGameObject)
+                {
+                    UtilApi.UnloadUnusedAssets();
+                }
             }
 
             base.unload(unloadAllLoadedObjects);
@@ -105,6 +141,7 @@ namespace SDK.Lib
                     Ctx.m_instance.m_logSys.log("不能实例化数据");
                 }
             }
+
             return m_retGO;
         }
 
@@ -126,6 +163,7 @@ namespace SDK.Lib
             }
 
             yield return null;
+
             evtHandle.setInsGO(retGO);
             evtHandle.dispatchEvent(evtHandle);
         }

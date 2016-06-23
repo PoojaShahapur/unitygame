@@ -80,6 +80,7 @@
         override public void setLoadParam(LoadParam param)
         {
             base.setLoadParam(param);
+
             this.m_loadNeedCoroutine = param.m_loadNeedCoroutine;
             this.mIsCheckDep = param.mIsCheckDep;
         }

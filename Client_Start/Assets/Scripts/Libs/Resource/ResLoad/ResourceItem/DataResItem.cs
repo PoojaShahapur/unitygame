@@ -23,6 +23,7 @@
         override public string getText(string resName)
         {
             string text = "";
+
             if(m_bytes != null)
             {
                 text = GkEncode.UTF8.GetString(m_bytes);

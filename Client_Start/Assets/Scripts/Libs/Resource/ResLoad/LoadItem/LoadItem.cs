@@ -5,8 +5,8 @@ namespace SDK.Lib
 {
     public class LoadItem : IDispatchObject
     {
-        protected ResPackType m_resPackType;
-        protected ResLoadType m_resLoadType;   // 资源加载类型
+        protected ResPackType m_resPackType;    // 资源打包类型
+        protected ResLoadType m_resLoadType;    // 资源加载类型
 
         protected string m_loadPath;            // 完整的目录
         protected string m_origPath;            // 原始的资源目录
@@ -175,9 +175,7 @@ namespace SDK.Lib
 
         virtual public void reset()
         {
-            //m_type = ResType.eNoneType;
             m_loadPath = "";
-            //m_loadNeedCoroutine = false;
             m_w3File = null;
             m_loadNeedCoroutine = false;
         }
@@ -205,7 +203,7 @@ namespace SDK.Lib
         // 检查加载成功
         protected bool isLoadedSuccess(WWW www)
         {
-            if (www.error != null)
+            if (!UtilApi.isWWWNoError(www))
             {
                 return false;
             }

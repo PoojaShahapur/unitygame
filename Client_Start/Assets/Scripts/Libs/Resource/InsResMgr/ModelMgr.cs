@@ -1,4 +1,4 @@
-using System;
+using LuaInterface;
 
 namespace SDK.Lib
 {
@@ -20,6 +20,11 @@ namespace SDK.Lib
         public ModelRes getAndAsyncLoadRes(string path, MAction<IDispatchObject> handle)
         {
             return getAndAsyncLoad<ModelRes>(path, handle);
+        }
+
+        public ModelRes getAndAsyncLoadRes(string path, LuaTable luaTable = null, LuaFunction luaFunction = null)
+        {
+            return getAndAsyncLoad<ModelRes>(path, luaTable, luaFunction, true);
         }
 
         //public string[] getBonesListByName(string name)

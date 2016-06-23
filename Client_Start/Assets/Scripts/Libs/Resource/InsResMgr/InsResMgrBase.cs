@@ -1,5 +1,4 @@
 ﻿using LuaInterface;
-using System;
 using System.Collections.Generic;
 
 namespace SDK.Lib
@@ -29,7 +28,7 @@ namespace SDK.Lib
 
         public T getAndAsyncLoad<T>(string path, LuaTable luaTable = null, LuaFunction luaFunction = null, bool isLoadAll = false) where T : InsResBase, new()
         {
-            Ctx.m_instance.m_logSys.log(string.Format("InsResMgrBase::getAndAsyncLoad Path is {0}", path), LogTypeId.eLogResLoader);
+            Ctx.m_instance.m_logSys.log(string.Format("InsResMgrBase::getAndAsyncLoad, Path is {0}", path), LogTypeId.eLogResLoader);
 
             T ret = null;
             LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
@@ -69,7 +68,7 @@ namespace SDK.Lib
         // 同步加载，立马加载完成，并且返回加载的资源， syncLoad 同步加载资源不能喝异步加载资源的接口同时去加载一个资源，如果异步加载一个资源，这个时候资源还没有加载完成，然后又同步加载一个资源，这个时候获取的资源是没有加载完成的，由于同步加载资源没有回调，因此即使同步加载的资源加载完成，也不可能获取加载完成事件
         public void syncLoad<T>(string path, bool isLoadAll = false) where T : InsResBase, new()
         {
-            Ctx.m_instance.m_logSys.log(string.Format("InsResMgrBase::syncLoad Path is {0}", path), LogTypeId.eLogResLoader);
+            Ctx.m_instance.m_logSys.log(string.Format("InsResMgrBase::syncLoad, Path is {0}", path), LogTypeId.eLogResLoader);
 
             LoadParam param;
             param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
@@ -137,6 +136,7 @@ namespace SDK.Lib
         public virtual void load<T>(LoadParam param) where T : InsResBase, new()
         {
             ++m_loadingDepth;
+
             if (m_path2ResDic.ContainsKey(param.mResUniqueId))
             {
                 loadWithResCreatedAndLoad(param);
@@ -149,6 +149,7 @@ namespace SDK.Lib
             {
                 loadWithNotResCreatedAndNotLoad<T>(param);
             }
+
             --m_loadingDepth;
 
             if (m_loadingDepth == 0)
@@ -193,6 +194,7 @@ namespace SDK.Lib
                     unloadNoRef(path);
                 }
             }
+
             m_zeroRefResIDList.Clear();
         }
 
@@ -230,7 +232,7 @@ namespace SDK.Lib
             }
             else
             {
-                Ctx.m_instance.m_logSys.log(string.Format("路径不能查找到 {0}", path));
+                Ctx.m_instance.m_logSys.log(string.Format("InsResMgrBase::onLoadEventHandle, Path is {0}", path));
                 Ctx.m_instance.m_resLoadMgr.unload(path, onLoadEventHandle);
             }
         }
