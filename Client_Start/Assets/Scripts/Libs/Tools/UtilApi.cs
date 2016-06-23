@@ -617,7 +617,7 @@ namespace SDK.Lib
         public static void ImmeUnloadUnusedAssets(bool needGC = false)
         {
             // 用于释放所有没有引用的Asset对象
-            Resources.UnloadUnusedAssets();     // 这个卸载好像很卡，使用的时候要小心使用
+            Resources.UnloadUnusedAssets();     // 这个卸载好像很卡，使用的时候要小心使用，好像是遍历整个资源 Tree
             if (needGC)
             {
                 // 强制垃圾收集器立即释放内存 Unity的GC功能不算好，没把握的时候就强制调用一下
@@ -629,7 +629,7 @@ namespace SDK.Lib
         public static void UnloadAsset(UnityEngine.Object assetToUnload)
         {
             // 显式的释放已加载的Asset对象，只能卸载磁盘文件加载的Asset对象,从磁盘文件夹的 Asset 对象拷贝出来的 Asset 对象不能释放
-            Resources.UnloadAsset(assetToUnload);
+            Resources.UnloadAsset(assetToUnload);   // 不能卸载 GameObject 类型的对象，可能 GameObject 对象是一个容器，不能卸载容器，可以卸载 Texture 、 TextAsset 这类的资源
         }
 
         // 卸载整个 AssetBundles
@@ -637,10 +637,10 @@ namespace SDK.Lib
         {
             assetBundle.Unload(unloadAllLoadedObjects);
 
-            if (unloadAllLoadedObjects)
-            {
-                UtilApi.UnloadUnusedAssets();
-            }
+            //if (unloadAllLoadedObjects)
+            //{
+            //    UtilApi.UnloadUnusedAssets();
+            //}
         }
 
         // 从场景图中移除,  worldPositionStays 是否在两个 local 中移动保持 world 信息不变，如果要保持 local 信息不变，就设置成 false ，通常 UI 需要设置成  false ，如果 worldPositionStays 为 true ，就是从当前局部空间变换到另外一个局部空间变换，父节点的变换会应用到对象上， worldPositionStays 为 false ，就是局部变换直接移动到另外一个局部空间，直接应用目的局部空间父变换

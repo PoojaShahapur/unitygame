@@ -62,6 +62,12 @@ namespace SDK.Lib
                 UtilApi.UnloadUnusedAssets();
             }
 
+            if(mAllPrefabObj != null)
+            {
+                mAllPrefabObj = null;
+                UtilApi.UnloadUnusedAssets();
+            }
+
             base.unload();
         }
 

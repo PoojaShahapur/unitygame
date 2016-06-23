@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 
 namespace SDK.Lib
@@ -142,6 +141,12 @@ namespace SDK.Lib
             }
         }
 
+        // 释放 Asset-Object 资源，自己保存引用
+        virtual public void unrefAssetObject()
+        {
+
+        }
+
         public void setLoadAll(bool value)
         {
             mIsLoadAll = value;
@@ -186,7 +191,7 @@ namespace SDK.Lib
         }
 
         // 卸载
-        virtual public void unload()
+        virtual public void unload(bool unloadAllLoadedObjects = true)
         {
 
         }

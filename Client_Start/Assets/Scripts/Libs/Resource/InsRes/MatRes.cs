@@ -20,6 +20,7 @@ namespace SDK.Lib
         {
             // 获取资源单独保存
             m_mat = res.getObject(res.getPrefabName()) as Material;
+
             base.initImpl(res);
         }
 
@@ -27,9 +28,14 @@ namespace SDK.Lib
         {
             if (m_mat != null)
             {
+                // 这个接口不知道行不行
                 UtilApi.UnloadAsset(m_mat);
                 m_mat = null;
+
+                // 这个接口肯定可以
+                //UtilApi.UnloadUnusedAssets();
             }
+
             base.unload();
         }
     }

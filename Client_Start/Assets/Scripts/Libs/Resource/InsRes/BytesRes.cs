@@ -22,6 +22,7 @@
         override public void unload()
         {
             m_bytes = null;
+
             base.unload();
         }
 

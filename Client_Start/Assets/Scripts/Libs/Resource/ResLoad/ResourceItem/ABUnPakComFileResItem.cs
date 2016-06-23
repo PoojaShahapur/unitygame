@@ -162,7 +162,7 @@ namespace SDK.Lib
             return null;
         }
 
-        override public void unload()
+        override public void unload(bool unloadAllLoadedObjects = true)
         {
             //UtilApi.Destroy(m_object);      // LoadAssetAsync 加载出来的 GameObject 是不能 Destroy 的，只能有 Unload(true) 或者 Resources.UnloadUnusedAssets 卸载
             //m_bytes = null;
@@ -170,8 +170,9 @@ namespace SDK.Lib
             //m_bundle.Unload(true);
             //m_bundle.Unload(false);
 
-            base.unload();
             m_retGO = null;
+
+            base.unload(unloadAllLoadedObjects);
         }
 
         // 清理实例化事件监听器

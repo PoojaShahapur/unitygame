@@ -22,14 +22,15 @@
             }
         }
 
-        override public void unload()
+        override public void unload(bool unloadAllLoadedObjects = true)
         {
-            base.unload();
-
             if (m_resItem != null)
             {
                 m_resItem.refCountResLoadResultNotify.refCount.decRef();
+                m_resItem = null;
             }
+
+            base.unload(unloadAllLoadedObjects);
         }
 
         virtual public void initByPakRes()

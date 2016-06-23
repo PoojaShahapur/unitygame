@@ -26,8 +26,15 @@ namespace SDK.Lib
 
         public override void unload()
         {
-            UtilApi.UnloadAsset(m_texture);
-            m_texture = null;
+            if (m_texture != null)
+            {
+                // 这个接口不知道行不行
+                UtilApi.UnloadAsset(m_texture);
+                m_texture = null;
+
+                // 这个接口肯定可以
+                //UtilApi.UnloadUnusedAssets();
+            }
             base.unload();
         }
 

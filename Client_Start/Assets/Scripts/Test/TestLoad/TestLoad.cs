@@ -20,7 +20,8 @@ namespace UnitTest
             //testScriptController();
 
             //testLoadPreafab();
-            testLoadText();
+            //testLoadText();
+            this.testTextureLoader();
             //this.testDownload();
             //this.testLuaLoad();
 
@@ -186,6 +187,8 @@ namespace UnitTest
         {
             AuxPrefabLoader loader = new AuxPrefabLoader("", false);
             loader.syncLoad("Model/TestCube.prefab");
+            loader.dispose();
+            loader = null;
         }
 
         protected void testLoadText()
@@ -292,6 +295,14 @@ namespace UnitTest
             }
 
             dataStream.dispose();
+        }
+
+        protected void testTextureLoader()
+        {
+            AuxTextureLoader loader = new AuxTextureLoader();
+            loader.syncLoad("Materials/Textures/Terrain/haidi01.png");
+            loader.dispose();
+            loader = null;
         }
     }
 }

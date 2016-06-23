@@ -119,6 +119,14 @@ namespace SDK.Lib
             yield break;
         }
 
+        override public void unrefAssetObject()
+        {
+            m_prefabObj = null;
+            mAllPrefabObj = null;
+
+            base.unrefAssetObject();
+        }
+
         override public void reset()
         {
             base.reset();
@@ -234,7 +242,7 @@ namespace SDK.Lib
             return list.ToArray();
         }
 
-        override public void unload()
+        override public void unload(bool unloadAllLoadedObjects = true)
         {
             // 如果是用了 Unload(true) ，就不用 Resources.UnloadUnusedAssets() ，如果使用了 Unload(false) ，就需要使用 Resources.UnloadUnusedAssets()
             //m_bundle.Unload(true);
@@ -244,12 +252,12 @@ namespace SDK.Lib
 
             if (m_bundle != null)
             {
-                UtilApi.UnloadAssetBundles(m_bundle, true);
-                //UtilApi.UnloadAssetBundles(m_bundle, false);
+                UtilApi.UnloadAssetBundles(m_bundle, unloadAllLoadedObjects);
+                //UtilApi.UnloadAssetBundles(m_bundle, unloadAllLoadedObjects);
                 m_bundle = null;
             }
 
-            base.unload();
+            base.unload(unloadAllLoadedObjects);
         }
     }
 }

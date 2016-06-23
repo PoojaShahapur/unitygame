@@ -80,7 +80,7 @@
         // 这个是内部初始化实现，初始化都重载这个，但是现在很多都是重在了
         virtual protected void initImpl(ResItem res)
         {
-
+            res.unrefAssetObject();     // 直接自己保存 Asset-Object 对象
         }
 
         virtual public void failed(ResItem res)

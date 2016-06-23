@@ -41,8 +41,23 @@ namespace SDK.Lib
 
         public override void unload()
         {
-            //UtilApi.UnloadAsset(mSpriteAtlas);
-            mSpriteAtlas = null;
+            if (mSpriteAtlas != null)
+            {
+                int idx = 0;
+                int len = mSpriteAtlas.Length;
+                while (idx < len)
+                {
+                    if (mSpriteAtlas[idx] != null)
+                    {
+                        UtilApi.UnloadAsset(mSpriteAtlas[idx]);
+                        mSpriteAtlas[idx] = null;
+                    }
+                }
+                mSpriteAtlas = null;
+
+                // 这个接口肯定可以
+                //UtilApi.UnloadUnusedAssets();
+            }
             base.unload();
         }
     }

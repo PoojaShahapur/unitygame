@@ -66,7 +66,7 @@
             onResLoaded();
         }
 
-        override public void unload()
+        override public void unload(bool unloadAllLoadedObjects = true)
         {
             if (mResAndDepItem != null)
             {
@@ -74,7 +74,7 @@
                 mResAndDepItem = null;
             }
 
-            base.unload();
+            base.unload(unloadAllLoadedObjects);
         }
 
         override public void setLoadParam(LoadParam param)

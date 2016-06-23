@@ -34,6 +34,25 @@ namespace SDK.Lib
             return mPath;
         }
 
+        override public void syncLoad(string path, MAction<IDispatchObject> evtHandle = null)
+        {
+            if (needUnload(path))
+            {
+                unload();
+            }
+
+            this.setPath(path);
+
+            if (this.isInvalid())
+            {
+                mEvtHandle = new ResEventDispatch();
+                mEvtHandle.addEventHandle(null, evtHandle);
+                mTextureRes = Ctx.m_instance.m_texMgr.getAndSyncLoadRes(path);
+
+                onTexLoaded(mTextureRes);
+            }
+        }
+
         // 异步加载对象
         override public void asyncLoad(string path, MAction<IDispatchObject> evtHandle)
         {

@@ -77,6 +77,8 @@ namespace SDK.Lib
                 // 一定要先设置 null，然后再调用 UnloadUnusedAssets ，否则删除不了 Resources 管理器中的 Asset-Object 资源
                 m_go = null;
 
+                UtilApi.UnloadUnusedAssets();
+
                 //UtilApi.UnloadAsset(m_go);      // 强制卸载资源数据
                 //UtilApi.DestroyImmediate(m_go, true); // 这个会删除磁盘上的资源
                 //UtilApi.UnloadUnusedAssets();   // 卸载的时候， AssetBundles 完全卸载掉 AssetBundles 资源，因为现在使用 AssetBundles::Unload(true); 一次性卸载所有的资源，这次这里就不再调用 UnloadUnusedAssets 这个资源了 

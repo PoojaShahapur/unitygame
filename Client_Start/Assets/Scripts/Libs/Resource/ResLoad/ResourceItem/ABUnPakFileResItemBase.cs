@@ -50,9 +50,10 @@ namespace SDK.Lib
             return null;
         }
 
-        override public void unload()
+        override public void unload(bool unloadAllLoadedObjects = true)
         {
             m_bytes = null;
+
             if (Ctx.m_instance.m_cfg.m_pakExtNameList.IndexOf(m_extName) != -1)         // 打包成 unity3d 加载的
             {
                 if (m_bundle != null)
