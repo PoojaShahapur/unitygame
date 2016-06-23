@@ -115,6 +115,7 @@ public class SDK_Lib_UtilApiWrap
 			new LuaField("FALSE", get_FALSE, null),
 			new LuaField("PREFAB_DOT_EXT", get_PREFAB_DOT_EXT, null),
 			new LuaField("PREFAB", get_PREFAB, null),
+			new LuaField("SHADER", get_SHADER, null),
 			new LuaField("PNG", get_PNG, null),
 			new LuaField("JPG", get_JPG, null),
 			new LuaField("TGA", get_TGA, null),
@@ -125,6 +126,7 @@ public class SDK_Lib_UtilApiWrap
 			new LuaField("DOTUNITY3D", get_DOTUNITY3D, null),
 			new LuaField("UNITY3D", get_UNITY3D, null),
 			new LuaField("DOTPNG", get_DOTPNG, null),
+			new LuaField("DOTUNITY", get_DOTUNITY, null),
 			new LuaField("ASSETBUNDLES", get_ASSETBUNDLES, null),
 			new LuaField("CR_LF", get_CR_LF, null),
 			new LuaField("SEPARATOR", get_SEPARATOR, null),
@@ -187,6 +189,13 @@ public class SDK_Lib_UtilApiWrap
 	static int get_PREFAB(IntPtr L)
 	{
 		LuaScriptMgr.Push(L, SDK.Lib.UtilApi.PREFAB);
+		return 1;
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int get_SHADER(IntPtr L)
+	{
+		LuaScriptMgr.Push(L, SDK.Lib.UtilApi.SHADER);
 		return 1;
 	}
 
@@ -257,6 +266,13 @@ public class SDK_Lib_UtilApiWrap
 	static int get_DOTPNG(IntPtr L)
 	{
 		LuaScriptMgr.Push(L, SDK.Lib.UtilApi.DOTPNG);
+		return 1;
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int get_DOTUNITY(IntPtr L)
+	{
+		LuaScriptMgr.Push(L, SDK.Lib.UtilApi.DOTUNITY);
 		return 1;
 	}
 
@@ -1085,8 +1101,9 @@ public class SDK_Lib_UtilApiWrap
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static int UnloadUnusedAssets(IntPtr L)
 	{
-		LuaScriptMgr.CheckArgsCount(L, 0);
-		AsyncOperation o = SDK.Lib.UtilApi.UnloadUnusedAssets();
+		LuaScriptMgr.CheckArgsCount(L, 1);
+		bool arg0 = LuaScriptMgr.GetBoolean(L, 1);
+		AsyncOperation o = SDK.Lib.UtilApi.UnloadUnusedAssets(arg0);
 		LuaScriptMgr.PushObject(L, o);
 		return 1;
 	}
@@ -1094,8 +1111,9 @@ public class SDK_Lib_UtilApiWrap
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static int ImmeUnloadUnusedAssets(IntPtr L)
 	{
-		LuaScriptMgr.CheckArgsCount(L, 0);
-		SDK.Lib.UtilApi.ImmeUnloadUnusedAssets();
+		LuaScriptMgr.CheckArgsCount(L, 1);
+		bool arg0 = LuaScriptMgr.GetBoolean(L, 1);
+		SDK.Lib.UtilApi.ImmeUnloadUnusedAssets(arg0);
 		return 0;
 	}
 
