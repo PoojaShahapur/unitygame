@@ -45,6 +45,7 @@
         {
             return m_origPath;
         }
+
         public string getPrefabName()
         {
             return m_prefabName;

@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 
 namespace SDK.Lib
@@ -196,6 +195,7 @@ namespace SDK.Lib
             }
             deleteFromCache(path);
             m_w3File = WWW.LoadFromCacheOrDownload(path, 1);
+            // WWW::LoadFromCacheOrDownload 是加载 AssetBundles 使用的
             //m_w3File = WWW.LoadFromCacheOrDownload(path, UnityEngine.Random.Range(0, int.MaxValue));
             yield return m_w3File;
 

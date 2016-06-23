@@ -604,6 +604,7 @@ namespace SDK.Lib
         // 卸载内部 Resources 管理的共享的那块资源，注意这个是异步事件
         public static AsyncOperation UnloadUnusedAssets(bool needGC = false)
         {
+            // 卸载从 AssetBundles 加载的 由 Resources 管理的 Asset-Object，或者直接使用 Resource.Load 加载的由 Resources 管理的 Asset-Object 资源
             AsyncOperation opt = Resources.UnloadUnusedAssets();
             if (needGC)
             {
@@ -615,9 +616,11 @@ namespace SDK.Lib
         // 立即垃圾回收
         public static void ImmeUnloadUnusedAssets(bool needGC = false)
         {
+            // 用于释放所有没有引用的Asset对象
             Resources.UnloadUnusedAssets();     // 这个卸载好像很卡，使用的时候要小心使用
             if (needGC)
             {
+                // 强制垃圾收集器立即释放内存 Unity的GC功能不算好，没把握的时候就强制调用一下
                 GC.Collect();
             }
         }
@@ -625,6 +628,7 @@ namespace SDK.Lib
         // 小心使用这个资源，这个函数把共享资源卸载掉了，如果有引用，就会有问题，确切的知道释放哪个资源，这个卸载除了 GameObject 之外的资源
         public static void UnloadAsset(UnityEngine.Object assetToUnload)
         {
+            // 显式的释放已加载的Asset对象，只能卸载磁盘文件加载的Asset对象,从磁盘文件夹的 Asset 对象拷贝出来的 Asset 对象不能释放
             Resources.UnloadAsset(assetToUnload);
         }
 

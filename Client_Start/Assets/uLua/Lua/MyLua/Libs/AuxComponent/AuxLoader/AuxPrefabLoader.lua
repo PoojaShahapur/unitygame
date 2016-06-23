@@ -36,7 +36,7 @@ end
 function M:asyncLoad(path, pThis, handle)
     self.mEvtHandle = GlobalNS.new(GlobalNS.ResEventDispatch);
     self.mEvtHandle:addEventHandle(pThis, handle);
-    self.mNativePrefabLoader = GlobalNS.CSSystem.AuxPrefabLoader.New(false);
+    self.mNativePrefabLoader = GlobalNS.CSSystem.AuxPrefabLoader.New("", false);
     self.mNativePrefabLoader:asyncLoad(path, self, self.onPrefabLoaded);
 end
 

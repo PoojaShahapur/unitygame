@@ -192,6 +192,7 @@ namespace UnitTest
         {
             AuxTextLoader loader = new AuxTextLoader();
             loader.syncLoad("XmlConfig/ReadMe.txt");
+            loader.getText();
         }
 
         protected void testDownload()

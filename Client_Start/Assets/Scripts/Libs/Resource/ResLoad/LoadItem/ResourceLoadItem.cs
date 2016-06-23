@@ -54,9 +54,14 @@ namespace SDK.Lib
         {
             if (m_prefabObj != null)
             {
-                UtilApi.DestroyImmediate(m_prefabObj, true);
+                //UtilApi.DestroyImmediate(m_prefabObj, true);
+                // 如果你用个全局变量保存你 Load 的 Assets，又没有显式的设为 null，那 在这个变量失效前你无论如何 UnloadUnusedAssets 也释放不了那些Assets的。如果你这些Assets又不是从磁盘加载的，那除了 UnloadUnusedAssets 或者加载新场景以外没有其他方式可以卸载之。
                 m_prefabObj = null;
+
+                // Asset-Object 无法被Destroy销毁，Asset-Objec t由 Resources 系统管理，需要手工调用Resources.UnloadUnusedAssets()或者其他类似接口才能删除。
+                UtilApi.UnloadUnusedAssets();
             }
+
             base.unload();
         }
 
