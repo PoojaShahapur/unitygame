@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace SDK.Lib
+﻿namespace SDK.Lib
 {
     /**
      * @brief 二进制资源

@@ -20,8 +20,8 @@ namespace UnitTest
             //testScriptController();
 
             //testLoadPreafab();
-            //testLoadText();
-            this.testDownload();
+            testLoadText();
+            //this.testDownload();
             //this.testLuaLoad();
 
             //this.testTextLoaderAndStream();
