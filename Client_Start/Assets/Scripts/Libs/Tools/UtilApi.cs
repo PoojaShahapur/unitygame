@@ -602,18 +602,24 @@ namespace SDK.Lib
         }
 
         // 卸载内部 Resources 管理的共享的那块资源，注意这个是异步事件
-        public static AsyncOperation UnloadUnusedAssets()
+        public static AsyncOperation UnloadUnusedAssets(bool needGC = false)
         {
             AsyncOperation opt = Resources.UnloadUnusedAssets();
-            GC.Collect();
+            if (needGC)
+            {
+                GC.Collect();
+            }
             return opt;
         }
 
         // 立即垃圾回收
-        public static void ImmeUnloadUnusedAssets()
+        public static void ImmeUnloadUnusedAssets(bool needGC = false)
         {
             Resources.UnloadUnusedAssets();     // 这个卸载好像很卡，使用的时候要小心使用
-            GC.Collect();
+            if (needGC)
+            {
+                GC.Collect();
+            }
         }
 
         // 小心使用这个资源，这个函数把共享资源卸载掉了，如果有引用，就会有问题，确切的知道释放哪个资源，这个卸载除了 GameObject 之外的资源
