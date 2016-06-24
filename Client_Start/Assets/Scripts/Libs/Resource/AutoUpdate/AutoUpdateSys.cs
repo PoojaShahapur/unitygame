@@ -100,7 +100,7 @@ namespace SDK.Lib
             ResItem res = dispObj as ResItem;
             if (res.hasSuccessLoaded())
             {
-                Ctx.m_instance.m_logSys.log(string.Format("更新下载文件成功 {0}", (dispObj as DataResItem).getLoadPath()));
+                Ctx.m_instance.m_logSys.log(string.Format("AutoUpdateSys::onLoadEventHandle, Success, Path is {0}", (dispObj as DataResItem).getLoadPath()));
 
                 m_loadedPath.Add((dispObj as DataResItem).getResUniqueId());
                 m_loadingPath.Remove((dispObj as DataResItem).getResUniqueId());
@@ -112,7 +112,7 @@ namespace SDK.Lib
             }
             else if (res.hasFailed())
             {
-                Ctx.m_instance.m_logSys.log(string.Format("更新下载文件失败 {0}", (dispObj as DataResItem).getLoadPath()));
+                Ctx.m_instance.m_logSys.log(string.Format("AutoUpdateSys::onLoadEventHandle, Fail, Path is {0}", (dispObj as DataResItem).getLoadPath()));
 
                 m_failedPath.Add((dispObj as DataResItem).getResUniqueId());
                 m_loadingPath.Remove((dispObj as DataResItem).getResUniqueId());

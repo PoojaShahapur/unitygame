@@ -287,7 +287,7 @@ namespace SDK.Lib
             }
             else
             {
-                Ctx.m_instance.m_logSys.log(string.Format("路径不能查找到 {0}", resUniqueId));
+                Ctx.m_instance.m_logSys.log(string.Format("DownloadMgr::unloadNoRef, Path Can not Find， ResUniqueId is {0}", resUniqueId));
             }
         }
 

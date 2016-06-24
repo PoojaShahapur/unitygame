@@ -19,9 +19,9 @@ namespace UnitTest
             //testLoadScriptAnimatorControllerPrefab();
             //testScriptController();
 
-            //testLoadPreafab();
+            testLoadPreafab();
             //testLoadText();
-            this.testTextureLoader();
+            //this.testTextureLoader();
             //this.testDownload();
             //this.testLuaLoad();
 

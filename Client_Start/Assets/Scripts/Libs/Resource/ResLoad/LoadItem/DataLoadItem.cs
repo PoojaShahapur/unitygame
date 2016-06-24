@@ -88,11 +88,8 @@ namespace SDK.Lib
             {
                 mBytes = mTextAsset.bytes;
 
-                if (mTextAsset != null)
-                {
-                    UtilApi.UnloadAsset(mTextAsset);
-                    mTextAsset = null;
-                }
+                UtilApi.UnloadAsset(mTextAsset);
+                mTextAsset = null;
 
                 isSuccess = true;
             }

@@ -4,7 +4,7 @@ using UnityEngine;
 namespace SDK.Lib
 {
     /**
-     * @brief 移动
+     * @brief 预制
      */
     public class AuxPrefabLoader : AuxLoaderBase
     {
