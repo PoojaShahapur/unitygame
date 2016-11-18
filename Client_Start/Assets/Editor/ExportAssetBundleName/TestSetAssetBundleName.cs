@@ -81,7 +81,12 @@ namespace EditorTool
         [MenuItem("My/Tools/CreateAssetBundle")]
         static void OnCreateAssetBundle()
         {
+#if UNITY_5_0 || UNITY_5_1 || UNITY_5_2 || UNITY_5_3
             BuildPipeline.BuildAssetBundles(EditorConfig.OUTPUT_PATH);
+#else
+            // 从 UNITY_5_4 开始，需要指定平台了
+            BuildPipeline.BuildAssetBundles(EditorConfig.OUTPUT_PATH, BuildAssetBundleOptions.UncompressedAssetBundle, BuildTarget.StandaloneWindows64);
+#endif
             //刷新编辑器
             AssetDatabase.Refresh();
             Debug.Log("AssetBundle打包完毕");
