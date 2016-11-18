@@ -7,6 +7,10 @@ using LuaFramework;
 using BindType = ToLuaMenu.BindType;
 using UnityEngine.UI;
 
+//#if UNIT_TEST
+using UnitTest;
+//#endif
+
 public static class CustomSettings
 {
     public static string FrameworkPath = AppConst.FrameworkRoot;
@@ -126,6 +130,21 @@ public static class CustomSettings
         _GT(typeof(ThreadManager)),
         _GT(typeof(NetworkManager)),
         _GT(typeof(ResourceManager)),
+
+        _GT(typeof(SDK.Lib.GObject)),
+        _GT(typeof(SDK.Lib.Ctx)),
+        _GT(typeof(SDK.Lib.UtilPath)),
+        _GT(typeof(SDK.Lib.UtilApi)),
+        _GT(typeof(SDK.Lib.GlobalEventCmd)),
+        _GT(typeof(SDK.Lib.LogSys)),
+        _GT(typeof(SDK.Lib.AuxLoaderBase)),
+        _GT(typeof(SDK.Lib.AuxPrefabLoader)),
+        _GT(typeof(SDK.Lib.MFileSys)),
+        _GT(typeof(SDK.Lib.LuaSystem)),
+
+        //#if UNIT_TEST
+        _GT(typeof(UnitTest.GlobalEventCmdTest)),
+        //#endif
     };
 
     //重载函数，相同参数个数，相同位置out参数匹配出问题时, 需要强制匹配解决
