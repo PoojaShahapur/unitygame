@@ -20,35 +20,37 @@ namespace SDK.Lib
 
         public void loadLuaCfg_bak()
         {
-            // 首先读取 UIFormID 表
-            LuaTable idTable = Ctx.m_instance.m_luaSystem.GetLuaTable("GlobalNS.UIFormID");
-            ListDictionary idList = Ctx.m_instance.m_luaSystem.lua.GetTableDict(idTable);
-            LuaTable luaAttrsTable = Ctx.m_instance.m_luaSystem.GetLuaTable("GlobalNS.UIAttrSystem");
-            LuaTable luaAttrsItemTable = null;
-            int id = 0;
-            UIAttrItem attrItem;
-            foreach(double value in idList.Values)
-            //foreach (string key in idList.Keys)
-            {
-                id = Convert.ToInt32(value);
-                //id = Convert.ToInt32(idList[key]);
-                attrItem = new UIAttrItem();
-                m_uiAttrs.m_id2AttrDic[(UIFormID)id] = attrItem;
-                luaAttrsItemTable = luaAttrsTable[id] as LuaTable;
-                //luaAttrsItemTable = luaAttrsTable[key] as LuaTable;
+            //// 首先读取 UIFormID 表
+            //LuaTable idTable = Ctx.m_instance.m_luaSystem.GetLuaTable("GlobalNS.UIFormID");
+            ////ListDictionary idList = Ctx.m_instance.m_luaSystem.lua.GetTableDict(idTable);
+            //ListDictionary idList = Ctx.m_instance.m_luaSystem.lua.GetTableDict(idTable);
+            //LuaTable luaAttrsTable = Ctx.m_instance.m_luaSystem.GetLuaTable("GlobalNS.UIAttrSystem");
+            //LuaTable luaAttrsItemTable = null;
+            //int id = 0;
+            //UIAttrItem attrItem;
+            //foreach(double value in idList.Values)
+            ////foreach (string key in idList.Keys)
+            //{
+            //    id = Convert.ToInt32(value);
+            //    //id = Convert.ToInt32(idList[key]);
+            //    attrItem = new UIAttrItem();
+            //    m_uiAttrs.m_id2AttrDic[(UIFormID)id] = attrItem;
+            //    luaAttrsItemTable = luaAttrsTable[id] as LuaTable;
+            //    //luaAttrsItemTable = luaAttrsTable[key] as LuaTable;
 
-                attrItem.m_bNeedLua = true;
-                attrItem.m_widgetPath = luaAttrsItemTable["m_widgetPath"] as string;
-                attrItem.m_luaScriptPath = luaAttrsItemTable["m_luaScriptPath"] as string;
-                attrItem.m_luaScriptTableName = luaAttrsItemTable["m_luaScriptTableName"] as string;
-            }
+            //    attrItem.m_bNeedLua = true;
+            //    attrItem.m_widgetPath = luaAttrsItemTable["m_widgetPath"] as string;
+            //    attrItem.m_luaScriptPath = luaAttrsItemTable["m_luaScriptPath"] as string;
+            //    attrItem.m_luaScriptTableName = luaAttrsItemTable["m_luaScriptTableName"] as string;
+            //}
         }
 
         public void loadLuaCfg()
         {
             // 首先读取 UIFormID 表
             LuaTable idTable = Ctx.m_instance.m_luaSystem.GetLuaTable("GlobalNS.UIFormID");
-            IDictionaryEnumerator idTableEnum =  idTable.GetEnumerator();
+            //IDictionaryEnumerator idTableEnum =  idTable.GetEnumerator();
+            IDictionaryEnumerator idTableEnum = idTable.ToDictTable().GetEnumerator() as IDictionaryEnumerator;
             idTableEnum.Reset();
 
             LuaTable luaAttrsTable = Ctx.m_instance.m_luaSystem.GetLuaTable("GlobalNS.UIAttrSystem");

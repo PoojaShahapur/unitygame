@@ -70,7 +70,8 @@ namespace SDK.Lib
             m_form.formName = luaTable["name"] as string;
             LuaTable btnClickTable = luaTable["BtnClickTable"] as LuaTable;
 
-            string[] btnArray = btnClickTable.ToArray<string>();
+            //string[] btnArray = btnClickTable.ToArray<string>();
+            string[] btnArray = btnClickTable.ToArray() as string[];
             m_form.registerBtnClickEventByList(btnArray);
 
             // LuaTable imageClickTable = luaTable["ImageClickTable"] as LuaTable;

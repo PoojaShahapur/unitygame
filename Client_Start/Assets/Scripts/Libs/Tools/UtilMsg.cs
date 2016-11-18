@@ -29,7 +29,8 @@ namespace SDK.Lib
             Ctx.m_instance.m_netMgr.send(bnet);
         }
 
-        static public void sendMsg(ushort commandID, LuaStringBuffer buffer, bool bnet = true)
+        //static public void sendMsg(ushort commandID, LuaStringBuffer buffer, bool bnet = true)
+        static public void sendMsg(ushort commandID, LuaInterface.LuaByteBuffer buffer, bool bnet = true)
         {
             Ctx.m_instance.m_shareData.m_tmpBA = Ctx.m_instance.m_netMgr.getSendBA();
             if (Ctx.m_instance.m_shareData.m_tmpBA != null)
@@ -40,7 +41,8 @@ namespace SDK.Lib
         }
 
         //static public void sendMsgParam(LuaTable luaTable, LuaStringBuffer buffer, bool bnet = true)
-        static public void sendMsgRpc(LuaStringBuffer buffer, bool bnet = true)
+        //static public void sendMsgRpc(LuaStringBuffer buffer, bool bnet = true)
+        static public void sendMsgRpc(LuaInterface.LuaByteBuffer buffer, bool bnet = true)
         {
             //uint id = UtilLua2CS.getTableAttrUInt(luaTable, "id");
             //string service = UtilLua2CS.getTableAttrStr(luaTable, "service");

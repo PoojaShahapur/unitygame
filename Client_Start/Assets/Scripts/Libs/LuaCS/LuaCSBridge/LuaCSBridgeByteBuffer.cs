@@ -42,125 +42,125 @@ namespace SDK.Lib
         // writeInt8 函数调用，写一个字节到 Lua 表中
         protected void writeInt8ToLua(string tableName_, string funcName_, int oneByte)
         {
-            string fullFuncName = "";               // 完全的有表的完全名字
-            if (!String.IsNullOrEmpty(tableName_))  // 如果在 _G 表中
-            {
-                fullFuncName = tableName_ + "." + funcName_;
-                LuaTable luaTable = Ctx.m_instance.m_luaSystem.GetLuaTable(tableName_);
+            //string fullFuncName = "";               // 完全的有表的完全名字
+            //if (!String.IsNullOrEmpty(tableName_))  // 如果在 _G 表中
+            //{
+            //    fullFuncName = tableName_ + "." + funcName_;
+            //    LuaTable luaTable = Ctx.m_instance.m_luaSystem.GetLuaTable(tableName_);
 
-                IntPtr L = Ctx.m_instance.m_luaSystem.lua.L;
-                int oldTop = LuaDLL.lua_gettop(L);
+            //    IntPtr L = Ctx.m_instance.m_luaSystem.lua.L;
+            //    int oldTop = LuaDLL.lua_gettop(L);
 
-                // 获取表
-                LuaDLL.lua_pushstring(L, tableName_);
-                LuaDLL.lua_rawget(L, LuaIndexes.LUA_GLOBALSINDEX);      // 从 _G 表中获取数据
-                // 检查类型
-                LuaTypes type = LuaDLL.lua_type(L, -1);
-                if (type != LuaTypes.LUA_TTABLE)
-                {
-                    LuaDLL.lua_settop(L, oldTop);
-                    return;
-                }
-                // 获取函数
-                LuaDLL.lua_pushstring(L, funcName_);
-                LuaDLL.lua_rawget(L, -2);
-                type = LuaDLL.lua_type(L, -1);
-                if (type != LuaTypes.LUA_TFUNCTION)
-                {
-                    LuaDLL.lua_settop(L, oldTop);
-                    return;
-                }
-                // 放 Lua 表
-                luaTable.push(L);
-                type = LuaDLL.lua_type(L, -1);
-                if (type != LuaTypes.LUA_TTABLE)
-                {
-                    LuaDLL.lua_settop(L, oldTop);
-                    return;
-                }
-                // 放数字
-                LuaDLL.lua_pushinteger(L, oneByte);
-                type = LuaDLL.lua_type(L, -1);
-                if (type != LuaTypes.LUA_TNUMBER)
-                {
-                    LuaDLL.lua_settop(L, oldTop);
-                    return;
-                }
+            //    // 获取表
+            //    LuaDLL.lua_pushstring(L, tableName_);
+            //    LuaDLL.lua_rawget(L, LuaIndexes.LUA_GLOBALSINDEX);      // 从 _G 表中获取数据
+            //    // 检查类型
+            //    LuaTypes type = LuaDLL.lua_type(L, -1);
+            //    if (type != LuaTypes.LUA_TTABLE)
+            //    {
+            //        LuaDLL.lua_settop(L, oldTop);
+            //        return;
+            //    }
+            //    // 获取函数
+            //    LuaDLL.lua_pushstring(L, funcName_);
+            //    LuaDLL.lua_rawget(L, -2);
+            //    type = LuaDLL.lua_type(L, -1);
+            //    if (type != LuaTypes.LUA_TFUNCTION)
+            //    {
+            //        LuaDLL.lua_settop(L, oldTop);
+            //        return;
+            //    }
+            //    // 放 Lua 表
+            //    luaTable.push(L);
+            //    type = LuaDLL.lua_type(L, -1);
+            //    if (type != LuaTypes.LUA_TTABLE)
+            //    {
+            //        LuaDLL.lua_settop(L, oldTop);
+            //        return;
+            //    }
+            //    // 放数字
+            //    LuaDLL.lua_pushinteger(L, oneByte);
+            //    type = LuaDLL.lua_type(L, -1);
+            //    if (type != LuaTypes.LUA_TNUMBER)
+            //    {
+            //        LuaDLL.lua_settop(L, oldTop);
+            //        return;
+            //    }
 
-                int nArgs = 0;
-                nArgs = 2;
-                int error = LuaDLL.lua_pcall(L, nArgs, -1, -nArgs - 2);
-                if (error != 0)
-                {
-                    string err = LuaDLL.lua_tostring(L, -1);
-                    LuaDLL.lua_settop(L, oldTop);
-                    return;
-                }
+            //    int nArgs = 0;
+            //    nArgs = 2;
+            //    int error = LuaDLL.lua_pcall(L, nArgs, -1, -nArgs - 2);
+            //    if (error != 0)
+            //    {
+            //        string err = LuaDLL.lua_tostring(L, -1);
+            //        LuaDLL.lua_settop(L, oldTop);
+            //        return;
+            //    }
 
-                LuaDLL.lua_settop(L, oldTop);
-            }
+            //    LuaDLL.lua_settop(L, oldTop);
+            //}
         }
 
         // 直接写一个 byte[] 数组到 Lua
         protected void writeByteArrToLua(string tableName_, string funcName_, byte[] bytes, int size_)
         {
-            string fullFuncName = "";               // 完全的有表的完全名字
-            if (!String.IsNullOrEmpty(tableName_))  // 如果在 _G 表中
-            {
-                fullFuncName = tableName_ + "." + funcName_;
-                LuaTable luaTable = Ctx.m_instance.m_luaSystem.GetLuaTable(tableName_);
+            //string fullFuncName = "";               // 完全的有表的完全名字
+            //if (!String.IsNullOrEmpty(tableName_))  // 如果在 _G 表中
+            //{
+            //    fullFuncName = tableName_ + "." + funcName_;
+            //    LuaTable luaTable = Ctx.m_instance.m_luaSystem.GetLuaTable(tableName_);
 
-                IntPtr L = Ctx.m_instance.m_luaSystem.lua.L;
-                int oldTop = LuaDLL.lua_gettop(L);
+            //    IntPtr L = Ctx.m_instance.m_luaSystem.lua.L;
+            //    int oldTop = LuaDLL.lua_gettop(L);
 
-                // 获取表
-                LuaDLL.lua_pushstring(L, tableName_);
-                LuaDLL.lua_rawget(L, LuaIndexes.LUA_GLOBALSINDEX);      // 从 _G 表中获取数据
-                // 检查类型
-                LuaTypes type = LuaDLL.lua_type(L, -1);
-                if (type != LuaTypes.LUA_TTABLE)
-                {
-                    LuaDLL.lua_settop(L, oldTop);
-                    return;
-                }
-                // 获取函数
-                LuaDLL.lua_pushstring(L, funcName_);
-                LuaDLL.lua_rawget(L, -2);
-                type = LuaDLL.lua_type(L, -1);
-                if (type != LuaTypes.LUA_TFUNCTION)
-                {
-                    LuaDLL.lua_settop(L, oldTop);
-                    return;
-                }
-                // 放 Lua 表
-                luaTable.push(L);
-                type = LuaDLL.lua_type(L, -1);
-                if (type != LuaTypes.LUA_TTABLE)
-                {
-                    LuaDLL.lua_settop(L, oldTop);
-                    return;
-                }
-                // 放一个字节数组
-                LuaDLL.lua_pushlstring(L, bytes, size_);
-                type = LuaDLL.lua_type(L, -1);
-                if (type != LuaTypes.LUA_TSTRING)
-                {
-                    LuaDLL.lua_settop(L, oldTop);
-                    return;
-                }
+            //    // 获取表
+            //    LuaDLL.lua_pushstring(L, tableName_);
+            //    LuaDLL.lua_rawget(L, LuaIndexes.LUA_GLOBALSINDEX);      // 从 _G 表中获取数据
+            //    // 检查类型
+            //    LuaTypes type = LuaDLL.lua_type(L, -1);
+            //    if (type != LuaTypes.LUA_TTABLE)
+            //    {
+            //        LuaDLL.lua_settop(L, oldTop);
+            //        return;
+            //    }
+            //    // 获取函数
+            //    LuaDLL.lua_pushstring(L, funcName_);
+            //    LuaDLL.lua_rawget(L, -2);
+            //    type = LuaDLL.lua_type(L, -1);
+            //    if (type != LuaTypes.LUA_TFUNCTION)
+            //    {
+            //        LuaDLL.lua_settop(L, oldTop);
+            //        return;
+            //    }
+            //    // 放 Lua 表
+            //    luaTable.push(L);
+            //    type = LuaDLL.lua_type(L, -1);
+            //    if (type != LuaTypes.LUA_TTABLE)
+            //    {
+            //        LuaDLL.lua_settop(L, oldTop);
+            //        return;
+            //    }
+            //    // 放一个字节数组
+            //    LuaDLL.lua_pushlstring(L, bytes, size_);
+            //    type = LuaDLL.lua_type(L, -1);
+            //    if (type != LuaTypes.LUA_TSTRING)
+            //    {
+            //        LuaDLL.lua_settop(L, oldTop);
+            //        return;
+            //    }
 
-                int nArgs = 0;
-                nArgs = 2;
-                int error = LuaDLL.lua_pcall(L, nArgs, -1, -nArgs - 2);
-                if (error != 0)
-                {
-                    string err = LuaDLL.lua_tostring(L, -1);
-                    LuaDLL.lua_settop(L, oldTop);
-                    return;
-                }
+            //    int nArgs = 0;
+            //    nArgs = 2;
+            //    int error = LuaDLL.lua_pcall(L, nArgs, -1, -nArgs - 2);
+            //    if (error != 0)
+            //    {
+            //        string err = LuaDLL.lua_tostring(L, -1);
+            //        LuaDLL.lua_settop(L, oldTop);
+            //        return;
+            //    }
 
-                LuaDLL.lua_settop(L, oldTop);
-            }
+            //    LuaDLL.lua_settop(L, oldTop);
+            //}
         }
 
         public void setSysEndian(int endian_)

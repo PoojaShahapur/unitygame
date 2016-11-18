@@ -26,7 +26,7 @@ namespace SDK.Lib
 
         public void init()
         {
-            m_luaScriptMgr.Start();
+            m_luaScriptMgr.InitStart();
             //m_luaCtx = DoFile("MyLua.Libs.FrameWork.GCtx")[0] as LuaTable;  // lua 入口
             DoFile("MyLua.Module.App.AppSys");        // 启动 Lua AppSys
             m_luaClassLoader = new LuaCSBridgeClassLoader();
@@ -43,7 +43,7 @@ namespace SDK.Lib
         {
             get
             {
-                return m_luaScriptMgr.lua;
+                return m_luaScriptMgr.GetMainState();
             }
         }
 
@@ -83,20 +83,36 @@ namespace SDK.Lib
         }
 
         // 从 Lua 中发送 pb 消息
-        public void sendFromLua(ushort commandID, LuaStringBuffer buffer)
+        //public void sendFromLua(ushort commandID, LuaStringBuffer buffer)
+        //{
+        //    UtilMsg.sendMsg(commandID, buffer);
+        //}
+
+        public void sendFromLua(ushort commandID, LuaInterface.LuaByteBuffer buffer)
         {
             UtilMsg.sendMsg(commandID, buffer);
         }
 
         //public void sendFromLuaParam(LuaTable luaTable, LuaStringBuffer buffer)
-        public void sendFromLuaRpc(LuaStringBuffer buffer)
+        //public void sendFromLuaRpc(LuaStringBuffer buffer)
+        //{
+        //    UtilMsg.sendMsgRpc(buffer);
+        //}
+
+        public void sendFromLuaRpc(LuaInterface.LuaByteBuffer buffer)
         {
             UtilMsg.sendMsgRpc(buffer);
         }
 
+        //public void receiveToLua(ByteBuffer msg)
+        //{
+        //    LuaStringBuffer buffer = new LuaStringBuffer(msg.dynBuff.m_buff);
+        //    this.CallLuaFunction("GlobalNS.GlobalEventCmd.onReceiveToLua", 0, buffer);
+        //}
+
         public void receiveToLua(ByteBuffer msg)
         {
-            LuaStringBuffer buffer = new LuaStringBuffer(msg.dynBuff.m_buff);
+            LuaInterface.LuaByteBuffer buffer = new LuaInterface.LuaByteBuffer(msg.dynBuff.m_buff);
             this.CallLuaFunction("GlobalNS.GlobalEventCmd.onReceiveToLua", 0, buffer);
         }
 
@@ -106,7 +122,8 @@ namespace SDK.Lib
             // 拷贝数据，因为 LuaStringBuffer 不支持偏移和长度
             byte[] cmdBuf = new byte[msg.length];
             Array.Copy(msg.dynBuff.m_buff, 0, cmdBuf, 0, msg.length);
-            LuaStringBuffer buffer = new LuaStringBuffer(msg.dynBuff.m_buff);
+            //LuaStringBuffer buffer = new LuaStringBuffer(msg.dynBuff.m_buff);
+            LuaInterface.LuaByteBuffer buffer = new LuaInterface.LuaByteBuffer(msg.dynBuff.m_buff);
 
             //LuaStringBuffer buffer = new LuaStringBuffer(cmdBuf);
             //MLuaStringBuffer buffer = new MLuaStringBuffer(cmdBuf);
@@ -118,7 +135,8 @@ namespace SDK.Lib
 
         public void receiveToLua(Byte[] msg)
         {
-            LuaStringBuffer buffer = new LuaStringBuffer(msg);
+            //LuaStringBuffer buffer = new LuaStringBuffer(msg);
+            LuaInterface.LuaByteBuffer buffer = new LuaInterface.LuaByteBuffer(msg);
             //this.CallLuaFunction("NetMgr.receiveCmd", 0, buffer);
             this.CallLuaFunction("GlobalNS.GlobalEventCmd.onReceiveToLua", 1000, buffer);
         }
@@ -178,7 +196,8 @@ namespace SDK.Lib
             }
 
             LuaTable luaTable = Ctx.m_instance.m_luaSystem.GetLuaTable(fullTableName);
-            string[] strArray = luaTable.ToArray<string>();
+            //string[] strArray = luaTable.ToArray<string>();
+            string[] strArray = luaTable.ToArray() as string[];
             return strArray;
         }
 
@@ -196,7 +215,10 @@ namespace SDK.Lib
             }
 
             LuaTable luaTable = Ctx.m_instance.m_luaSystem.GetLuaTable(fullTableName);
-            int[] strArray = luaTable.ToArray<int>();
+            //int[] strArray = luaTable.ToArray<int>();
+            object[] objArray = luaTable.ToArray();
+            int[] strArray = new int[objArray.Length];
+            objArray.CopyTo(strArray, 0);
             return strArray;
         }
 

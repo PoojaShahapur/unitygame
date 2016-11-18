@@ -66,7 +66,7 @@ namespace UnitTest
             LuaScriptMgr luaMgr = Ctx.m_instance.m_luaSystem.getLuaScriptMgr();
 
             string path = "";
-            luaMgr.lua.DoFile("Test/UtilDebug.lua");
+            luaMgr.GetMainState().DoFile("Test/UtilDebug.lua");
 
             LuaFunction reflf = Ctx.m_instance.m_luaSystem.lua.GetFunction("regPath");
             string luaPath = string.Format("{0}/{1}", UtilApi.getDataPath(), "Resources/LuaScript");
@@ -74,11 +74,11 @@ namespace UnitTest
             object[] ret = reflf.Call(luaPath);
 
             luaPath = string.Format("{0}/{1}", UtilApi.getDataPath(), "Plugins/x86_64");
-            reflf = luaMgr.lua.GetFunction("regCPath");
+            reflf = luaMgr.GetMainState().GetFunction("regCPath");
             ret = reflf.Call(luaPath);
 
             path = string.Format("{0}/{1}", UtilApi.getDataPath(), "Resources/LuaScript/UtilDebug.lua");
-            luaMgr.lua.DoFile("Test/TestLua.lua");
+            luaMgr.GetMainState().DoFile("Test/TestLua.lua");
 
             //LuaFunction reflf = Ctx.m_instance.m_luaScriptMgr.lua.GetFunction("addVarArg");
             //object[] ret = reflf.Call(10, 30);
@@ -89,7 +89,7 @@ namespace UnitTest
         {
             LuaScriptMgr luaMgr = Ctx.m_instance.m_luaSystem.getLuaScriptMgr();
             //luaMgr.lua.DoFile("Common/Prerequisites.lua");
-            luaMgr.lua.DoFile("Test/TestLua.lua");
+            luaMgr.GetMainState().DoFile("Test/TestLua.lua");
 
             //Process.Start("\"D:\\ProgramFiles(x86)\\Lua\\5.1\\lua\" -e \"require('debugger')('192.168.122.64', '10000');\" E:\\Work\\Code20150402\\client\\trunk\\Client\\Assets\\Lua\\LuaScript\\TestLua.lua");
             //Process.Start("D:\\ProgramFiles(x86)\\Lua\\5.1\\lua");
@@ -100,7 +100,7 @@ namespace UnitTest
         protected void testLuaBindFile()
         {
             LuaScriptMgr luaMgr = Ctx.m_instance.m_luaSystem.getLuaScriptMgr();
-            luaMgr.lua.DoFile("Common/Prerequisites.lua");
+            luaMgr.GetMainState().DoFile("Common/Prerequisites.lua");
 
             LuaCSBridge _luaCSBridge = new LuaCSBridge("", "testTable");
             string path = "Test/TestLuaBind.lua";      // 
@@ -184,12 +184,13 @@ namespace UnitTest
         private void testPCall()
         {
             LuaFunction luaFunc = null;
-            int oldTop = luaFunc.BeginPCall();       // 将函数压栈
-            LuaInterface.LuaDLL.lua_pushinteger(Ctx.m_instance.m_luaSystem.lua.L, 10);
-            if(luaFunc.PCall(oldTop, 1))
-            {
-                luaFunc.EndPCall(oldTop);
-            }
+            //int oldTop = luaFunc.BeginPCall();       // 将函数压栈
+            //LuaInterface.LuaDLL.lua_pushinteger(Ctx.m_instance.m_luaSystem.lua.L, 10);
+            //if (luaFunc.PCall(oldTop, 1))
+            //{
+            //    luaFunc.EndPCall(oldTop);
+            //}
+            luaFunc.Call(10);
         }
 
         // 测试 Lua 中回调 CS 中保存 Lua 中的表的出来

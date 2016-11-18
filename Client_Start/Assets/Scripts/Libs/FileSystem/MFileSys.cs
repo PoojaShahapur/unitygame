@@ -243,10 +243,17 @@ namespace SDK.Lib
         //    File.WriteAllText(msRWDataPath + "/" + fileName, text);
         //}
 
-        static public LuaStringBuffer readLuaBufferToFile(string fileName)
+        //static public LuaStringBuffer readLuaBufferToFile(string fileName)
+        //{
+        //    byte[] ret = readFileAllBytes(fileName.ToString());
+        //    LuaStringBuffer buffer = new LuaStringBuffer(ret);
+        //    return buffer;
+        //}
+
+        static public LuaInterface.LuaByteBuffer readLuaBufferToFile(string fileName)
         {
             byte[] ret = readFileAllBytes(fileName.ToString());
-            LuaStringBuffer buffer = new LuaStringBuffer(ret);
+            LuaInterface.LuaByteBuffer buffer = new LuaInterface.LuaByteBuffer(ret);
             return buffer;
         }
 

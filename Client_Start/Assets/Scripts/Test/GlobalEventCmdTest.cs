@@ -13,7 +13,8 @@ namespace UnitTest
             string reqaccount = UtilLua2CS.getTableAttrStr(cmd, "reqaccount");
         }
 
-        static public void onTestProtoBufBuffer(ushort commandID, LuaStringBuffer buffer)
+        //static public void onTestProtoBufBuffer(ushort commandID, LuaStringBuffer buffer)
+        static public void onTestProtoBufBuffer(ushort commandID, LuaInterface.LuaByteBuffer buffer)
         {
             MSG_ReqTest msg = ProtobufUtil.DeSerializeFBytes<MSG_ReqTest>(buffer.buffer);
         }

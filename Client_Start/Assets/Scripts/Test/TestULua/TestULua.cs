@@ -1,15 +1,16 @@
-﻿using UnityEngine;
+﻿using SDK.Lib;
+using UnityEngine;
 
-public class TestULua : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
+public class TestULua : MonoBehaviour
+{
+	void Start ()
+    {
         LuaScriptMgr lua = new LuaScriptMgr();
-        lua.Start();
+        lua.InitStart();
 	}
 	
-	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
 	
 	}
 }
