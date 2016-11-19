@@ -90,4 +90,8 @@ function M.SetRectTransformParent(child, parent, worldPositionStays)
     this.UtilApi.SetRectTransParent(child, parent, worldPositionStays);
 end
 
+function M.buildByteBuffer()
+	Ctx.m_instance.m_factoryBuild.buildByteBuffer();
+end
+
 return M;

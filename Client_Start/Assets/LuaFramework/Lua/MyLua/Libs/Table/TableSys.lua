@@ -71,15 +71,15 @@ function M:onLoadEventHandle(dispObj)
     if (m_res.refCountResLoadResultNotify.resLoadState:hasSuccessLoaded()) then
         GCtx.mLogSys.log(self.m_res:GetPath(), GlobalNS.LogTypeId.eLogCommon);
 
-        local bytes = m_res.getBytes("");
+        local bytes = self.m_res.getBytes();
         if (nil ~= bytes) then
-            self.m_byteArray = Ctx.m_instance.m_factoryBuild.buildByteBuffer();
-            self.m_byteArray.clear();
-            self.m_byteArray.writeBytes(bytes, 0, (uint)bytes.Length);
-            self.m_byteArray.setPos(0);
-            self:readTable(self:getTableIDByPath(m_res.GetPath()), self.m_byteArray);
+            self.m_byteArray = GlobalNS.CSSystem.buildByteBuffer();
+            self.m_byteArray:clear();
+            self.m_byteArray:writeBytes(bytes, 0, bytes.Length);
+            self.m_byteArray:setPos(0);
+            self:readTable(self:getTableIDByPath(self.m_res:GetPath()), self.m_byteArray);
         end
-    elseif (m_res.refCountResLoadResultNotify.resLoadState:hasFailed()) then
+    elseif (self.m_res.refCountResLoadResultNotify.resLoadState:hasFailed()) then
 		GCtx.mLogSys.log(self.m_res:GetPath(), GlobalNS.LogTypeId.eLogCommon);
     end
 

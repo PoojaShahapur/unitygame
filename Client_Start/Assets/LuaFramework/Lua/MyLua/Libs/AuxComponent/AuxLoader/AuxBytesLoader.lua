@@ -23,6 +23,10 @@ function M:dispose()
     end
 end
 
+function M:getBytes()
+	return self.mNativeBytesLoader.getBytes();
+end
+
 function M:syncLoad(path, pThis, handle)
     self.mEvtHandle = GlobalNS.new(GlobalNS.ResEventDispatch);
     self.mEvtHandle:addEventHandle(pThis, handle);
