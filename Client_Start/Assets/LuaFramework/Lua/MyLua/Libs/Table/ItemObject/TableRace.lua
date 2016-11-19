@@ -11,7 +11,7 @@ end
 
 function M:parseBodyByteBuffer(bytes, offset)
     bytes.position = offset;
-    GlobalNS.UtilTable.readString(bytes, self.m_raceName);
+    self.m_raceName = GlobalNS.UtilTable.readString(bytes, self.m_raceName);
 end
 
 return M;

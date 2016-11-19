@@ -21,9 +21,9 @@ end
 
 function M:parseBodyByteBuffer(bytes, offset)
     bytes.position = offset;
-    bytes:readInt32(self.m_frameRate);
-    bytes:readInt32(self.m_frameCount);
-    GlobalNS.UtilTable.readString(bytes, self.m_aniResNameNoExt);
+    _, self.m_frameRate = bytes:readInt32(self.m_frameRate);
+    _, self.m_frameCount = bytes:readInt32(self.m_frameCount);
+    self.m_aniResNameNoExt = GlobalNS.UtilTable.readString(bytes, self.m_aniResNameNoExt);
 
     self.m_invFrameRate = 1 / self.m_frameRate;
     self.m_aniResName = string.format("%s.asset", self.m_aniResNameNoExt);

@@ -65,32 +65,32 @@ end
 
 function M:parseBodyByteBuffer(bytes, offset)
     bytes:setPos(offset);
-    GlobalNS.UtilTable.readString(bytes, self.m_name);
+    self.m_name = GlobalNS.UtilTable.readString(bytes, self.m_name);
 
-    bytes:readInt32(self.m_type);
-    bytes:readInt32(self.m_career);
-    bytes:readInt32(self.m_race);
-    bytes:readInt32(self.m_quality);
-    bytes:readInt32(self.m_magicConsume);
+    _, self.m_type = bytes:readInt32(self.m_type);
+    _, self.m_career = bytes:readInt32(self.m_career);
+    _, self.m_race = bytes:readInt32(self.m_race);
+    _, self.m_quality = bytes:readInt32(self.m_quality);
+    _, self.m_magicConsume = bytes:readInt32(self.m_magicConsume);
 
-    bytes:readInt32(self.m_attack);
-    bytes:readInt32(self.m_hp);
-    bytes:readInt32(self.m_Durable);
+    _, self.m_attack = bytes:readInt32(self.m_attack);
+    _, self.m_hp = bytes:readInt32(self.m_hp);
+    _, self.m_Durable = bytes:readInt32(self.m_Durable);
 
-    bytes:readInt32(self.m_chaoFeng);
-    bytes:readInt32(self.m_chongFeng);
-    bytes:readInt32(self.m_fengNu);
-    bytes:readInt32(self.m_qianXing);
-    bytes:readInt32(self.m_shengDun);
-    bytes:readInt32(self.m_mpAdded);
-    bytes:readInt32(self.m_guoZai);
-    bytes:readInt32(self.m_faShu);
-    bytes:readInt32(self.m_zhanHou);
-    bytes:readUnsignedInt8(self.m_bNeedFaShuTarget);
-    bytes:readInt32(self.m_bNeedZhanHouTarget);
-    GlobalNS.UtilTable.readString(bytes, self.m_cardDesc);
-    GlobalNS.UtilTable.readString(bytes, self.m_cardHeader);
-    bytes:readUnsignedInt32(self.m_skillPrepareEffect);
+    _, self.m_chaoFeng = bytes:readInt32(self.m_chaoFeng);
+    _, self.m_chongFeng = bytes:readInt32(self.m_chongFeng);
+    _, self.m_fengNu = bytes:readInt32(self.m_fengNu);
+    _, self.m_qianXing = bytes:readInt32(self.m_qianXing);
+    _, self.m_shengDun = bytes:readInt32(self.m_shengDun);
+    _, self.m_mpAdded = bytes:readInt32(self.m_mpAdded);
+    _, self.m_guoZai = bytes:readInt32(self.m_guoZai);
+    _, self.m_faShu = bytes:readInt32(self.m_faShu);
+    _, self.m_zhanHou = bytes:readInt32(self.m_zhanHou);
+    _, self.m_bNeedFaShuTarget = bytes:readUnsignedInt8(self.m_bNeedFaShuTarget);
+    _, self.m_bNeedZhanHouTarget = bytes:readInt32(self.m_bNeedZhanHouTarget);
+    self.m_cardDesc = GlobalNS.UtilTable.readString(bytes, self.m_cardDesc);
+    self.m_cardHeader = GlobalNS.UtilTable.readString(bytes, self.m_cardHeader);
+    _, self.m_skillPrepareEffect = bytes:readUnsignedInt32(self.m_skillPrepareEffect);
 
     self:initDefaultValue();
 end

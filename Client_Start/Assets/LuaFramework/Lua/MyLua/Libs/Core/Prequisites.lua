@@ -87,6 +87,7 @@ MLoader("MyLua.Libs.FrameWork.NoDestroyGo");
 -- 工具
 MLoader("MyLua.Libs.Tools.EEndian");
 MLoader("MyLua.Libs.Tools.GkEncode");
+MLoader("MyLua.Libs.Tools.UtilStr");
 MLoader("MyLua.Libs.Tools.UtilApi");
 MLoader("MyLua.Libs.Tools.UtilPath");
 MLoader("MyLua.Libs.Tools.UtilMath");

@@ -13,9 +13,9 @@ end
 
 function M:parseBodyByteBuffer(bytes, offset)
     bytes.position = offset;
-    GlobalNS.UtilTable.readString(bytes, self.m_name);
-    GlobalNS.UtilTable.readString(bytes, self.m_res);
-    bytes:readInt32(self.m_effectId);
+    self.m_name = GlobalNS.UtilTable.readString(bytes, self.m_name);
+    self.m_res = GlobalNS.UtilTable.readString(bytes, self.m_res);
+    _, self.m_effectId = bytes:readInt32(self.m_effectId);
 
     self:initDefaultValue();
 end

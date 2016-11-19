@@ -26,16 +26,16 @@ end
 
 function M:parseBodyByteBuffer(bytes, offset)
     bytes.position = offset;
-    GlobalNS.UtilTable.readString(bytes, self.m_jobName);
-    GlobalNS.UtilTable.readString(bytes, self.m_jobDesc);
-    GlobalNS.UtilTable.readString(bytes, self.m_frameImage);
-    GlobalNS.UtilTable.readString(bytes, self.m_yaoDaiImage);
+    self.m_jobName = GlobalNS.UtilTable.readString(bytes, self.m_jobName);
+    self.m_jobDesc = GlobalNS.UtilTable.readString(bytes, self.m_jobDesc);
+    self.m_frameImage = GlobalNS.UtilTable.readString(bytes, self.m_frameImage);
+    self.m_yaoDaiImage = GlobalNS.UtilTable.readString(bytes, self.m_yaoDaiImage);
 
-    GlobalNS.UtilTable.readString(bytes, self.m_jobRes);
-    GlobalNS.UtilTable.readString(bytes, self.m_cardSetRes);
-    GlobalNS.UtilTable.readString(bytes, self.m_skillName);
-    GlobalNS.UtilTable.readString(bytes, self.m_skillDesc);
-    GlobalNS.UtilTable.readString(bytes, self.m_skillRes);
+    self.m_jobRes = GlobalNS.UtilTable.readString(bytes, self.m_jobRes);
+    self.m_cardSetRes = GlobalNS.UtilTable.readString(bytes, self.m_cardSetRes);
+    self.m_skillName = GlobalNS.UtilTable.readString(bytes, self.m_skillName);
+    self.m_skillDesc = GlobalNS.UtilTable.readString(bytes, self.m_skillDesc);
+    self.m_skillRes = GlobalNS.UtilTable.readString(bytes, self.m_skillRes);
 
     self:initDefaultValue();
 end
@@ -60,7 +60,7 @@ function M:initDefaultValue()
         self.m_jobNameRes = string.format("%s_name", self.m_jobRes);
         self.m_jobBtnRes = string.format("%s_btn", self.m_jobRes);
     end
-    if (string.IsNullOrEmpty(self.m_jobRes)) then
+    if (GlobalNS.UtilStr.IsNullOrEmpty(self.m_jobRes)) then
         self.m_jobRes = "emei_zhiyepai";
     end
 end

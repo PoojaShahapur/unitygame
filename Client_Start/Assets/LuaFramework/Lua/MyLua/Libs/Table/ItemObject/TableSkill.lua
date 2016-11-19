@@ -20,10 +20,10 @@ end
 
 function M:parseBodyByteBuffer(bytes, offset)
     bytes:setPos(offset);
-    GlobalNS.UtilTable.readString(bytes, self.m_name);
-    GlobalNS.UtilTable.readString(bytes, self.m_effect);
-    bytes:readUnsignedInt32(self.m_skillAttackEffect);
-    bytes:readInt32(self.m_bNeedMove);
+    self.m_name = GlobalNS.UtilTable.readString(bytes, self.m_name);
+    self.m_effect = GlobalNS.UtilTable.readString(bytes, self.m_effect);
+    _, self.m_skillAttackEffect = bytes:readUnsignedInt32(self.m_skillAttackEffect);
+    _, self.m_bNeedMove = bytes:readInt32(self.m_bNeedMove);
 
     self:initDefaultValue();
 end
