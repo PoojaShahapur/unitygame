@@ -1,3 +1,3 @@
-require "MyLua.Module.Login.LoginSys"
-require "MyLua.Module.Login.EventCB.LoginNetHandleCB"
-require "MyLua.Module.Login.LoginNetHandle.LoginCmdHandle"
+MLoader("MyLua.Module.Login.LoginSys");
+MLoader("MyLua.Module.Login.EventCB.LoginNetHandleCB");
+MLoader("MyLua.Module.Login.LoginNetHandle.LoginCmdHandle");

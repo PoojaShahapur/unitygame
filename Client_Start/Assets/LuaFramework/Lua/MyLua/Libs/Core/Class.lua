@@ -1,6 +1,6 @@
 -- 定义一个类表
 
-require "MyLua.Libs.Core.GlobalNS"
+MLoader("MyLua.Libs.Core.GlobalNS");
 
 local Class = function (super)
     local classType = {};        -- 返回的类表

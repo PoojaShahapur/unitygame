@@ -1,8 +1,8 @@
-require "MyLua.Libs.Core.GlobalNS"
-require "MyLua.Libs.Core.Class"
-require "MyLua.Libs.Core.StaticClass"
-require "MyLua.Libs.Core.GObject"
-require "MyLua.Libs.UI.UICore.UILayer"
+MLoader("MyLua.Libs.Core.GlobalNS");
+MLoader("MyLua.Libs.Core.Class");
+MLoader("MyLua.Libs.Core.StaticClass");
+MLoader("MyLua.Libs.Core.GObject");
+MLoader("MyLua.Libs.UI.UICore.UILayer");
 
 local M = GlobalNS.StaticClass();
 M.clsName = "UICanvasID";

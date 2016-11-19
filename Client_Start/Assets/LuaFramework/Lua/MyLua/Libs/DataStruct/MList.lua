@@ -2,11 +2,11 @@
     @brief 数组实现，类实现，数组的下标从 0 开始，但是 lua 中数组的下标从 1 开始
 ]]
 
-require "MyLua.Libs.Core.GlobalNS"
-require "MyLua.Libs.Core.Class"
-require "MyLua.Libs.Core.GObject"
-require "MyLua.Libs.Functor.CmpFuncObject"
-require "MyLua.Libs.DataStruct.MListBase"
+MLoader("MyLua.Libs.Core.GlobalNS");
+MLoader("MyLua.Libs.Core.Class");
+MLoader("MyLua.Libs.Core.GObject");
+MLoader("MyLua.Libs.Functor.CmpFuncObject");
+MLoader("MyLua.Libs.DataStruct.MListBase");
 
 -- bug 提示，如果 require "MyLua.Libs.DataStruct.MListBase" 导入后，如果 clsName 不是 MListBase ，就会导致 GlobalNS.MListBase 为空，就会导致基类为空  
 local M = GlobalNS.Class(GlobalNS.MListBase);

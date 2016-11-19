@@ -1,6 +1,6 @@
-require "MyLua.Libs.Core.GlobalNS"
-require "MyLua.Libs.Core.StaticClass"
-require "MyLua.Libs.EventHandle.IDispatchObject"
+MLoader("MyLua.Libs.Core.GlobalNS");
+MLoader("MyLua.Libs.Core.StaticClass");
+MLoader("MyLua.Libs.EventHandle.IDispatchObject");
 
 --local M = GlobalNS.StaticClass(GlobalNS.IDispatchObject);
 local M = GlobalNS.StaticClass();

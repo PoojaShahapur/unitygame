@@ -1,7 +1,7 @@
-require "MyLua.Libs.Network.CmdDisp.NetModuleDispHandle"
-require "MyLua.Module.Game.GameNetHandle.GameTestCmdHandle"
+MLoader("MyLua.Libs.Network.CmdDisp.NetModuleDispHandle");
+MLoader("MyLua.Module.Game.GameNetHandle.GameTestCmdHandle");
 
-require "MyLua.Test.TestCmdDisp.TestNetHandleCB"
+MLoader("MyLua.Test.TestCmdDisp.TestNetHandleCB");
 
 local M = GlobalNS.Class(GlobalNS.GObject);
 M.clsName = "TestCmdDisp";

@@ -1,7 +1,7 @@
-require "MyLua.Libs.Core.GlobalNS"
-require "MyLua.Libs.Core.Class"
-require "MyLua.Libs.Core.GObject"
-require "MyLua.Libs.Functor.CallFuncObjectFixParam"
+MLoader("MyLua.Libs.Core.GlobalNS");
+MLoader("MyLua.Libs.Core.Class");
+MLoader("MyLua.Libs.Core.GObject");
+MLoader("MyLua.Libs.Functor.CallFuncObjectFixParam");
 
 -- MCoroutine 状态
 local M

@@ -1,7 +1,7 @@
-require "MyLua.Libs.Core.GlobalNS"
-require "MyLua.Libs.Core.StaticClass"
+MLoader("MyLua.Libs.Core.GlobalNS");
+MLoader("MyLua.Libs.Core.StaticClass");
 
-require "MyLua.UI.UITest.TestNS"
+MLoader("MyLua.UI.UITest.TestNS");
 
 local M = GlobalNS.StaticClass();
 local this = M;

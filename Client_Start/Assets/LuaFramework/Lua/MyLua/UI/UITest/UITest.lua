@@ -1,12 +1,12 @@
-require "MyLua.Libs.Core.GlobalNS"
-require "MyLua.Libs.Core.Class"
-require "MyLua.Libs.UI.UICore.Form"
+MLoader("MyLua.Libs.Core.GlobalNS");
+MLoader("MyLua.Libs.Core.Class");
+MLoader("MyLua.Libs.UI.UICore.Form");
 
-require "MyLua.Libs.AuxComponent.AuxUIComponent.AuxBasicButton"
+MLoader("MyLua.Libs.AuxComponent.AuxUIComponent.AuxBasicButton");
 
-require "MyLua.UI.UITest.TestNS"
-require "MyLua.UI.UITest.TestData"
-require "MyLua.UI.UITest.TestCV"
+MLoader("MyLua.UI.UITest.TestNS");
+MLoader("MyLua.UI.UITest.TestData");
+MLoader("MyLua.UI.UITest.TestCV");
 
 local M = GlobalNS.Class(GlobalNS.Form);
 M.clsName = "UITest";

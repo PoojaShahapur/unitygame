@@ -1,5 +1,5 @@
-require "MyLua.Libs.Core.GlobalNS"
-require "MyLua.Libs.Core.Class"
+MLoader("MyLua.Libs.Core.GlobalNS");
+MLoader("MyLua.Libs.Core.Class");
 
 local M = GlobalNS.Class(GlobalNS.TableItemBodyBase);
 M.clsName = "TableRaceItemBody";

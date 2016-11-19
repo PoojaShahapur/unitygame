@@ -1,6 +1,6 @@
-require "MyLua.Libs.Core.GlobalNS"
-require "MyLua.Libs.Core.Class"
-require "MyLua.Libs.Core.GObject"
+MLoader("MyLua.Libs.Core.GlobalNS");
+MLoader("MyLua.Libs.Core.Class");
+MLoader("MyLua.Libs.Core.GObject");
 
 --[[
     @brief 场景中的实体，没有什么功能，就是基本循环

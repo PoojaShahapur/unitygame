@@ -1,5 +1,5 @@
-require "MyLua.Libs.Network.CmdDisp.NetModuleDispHandle"
-require "MyLua.Test.TestCmdDisp.TestCmdHandle"
+MLoader("MyLua.Libs.Network.CmdDisp.NetModuleDispHandle");
+MLoader("MyLua.Test.TestCmdDisp.TestCmdHandle");
 
 local M = GlobalNS.Class(GlobalNS.NetModuleDispHandle);
 M.clsName = "TestNetHandleCB";

@@ -1,6 +1,6 @@
-require "MyLua.Libs.Core.GlobalNS"
-require "MyLua.Libs.Core.Class"
-require "MyLua.Libs.Core.GObject"
+MLoader("MyLua.Libs.Core.GlobalNS");
+MLoader("MyLua.Libs.Core.Class");
+MLoader("MyLua.Libs.Core.GObject");
 
 --[[
     @brief 基本的渲染器，所有与显示有关的接口都在这里

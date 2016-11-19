@@ -1,5 +1,5 @@
-require "MyLua.Libs.Core.GlobalNS"
-require "MyLua.Libs.Core.StaticClass"
+MLoader("MyLua.Libs.Core.GlobalNS");
+MLoader("MyLua.Libs.Core.StaticClass");
 
 --[[
     处理 CS 到 Lua 的全局事件

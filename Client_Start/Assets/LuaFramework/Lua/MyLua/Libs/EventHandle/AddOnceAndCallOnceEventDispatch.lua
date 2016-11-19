@@ -1,6 +1,6 @@
-require "MyLua.Libs.Core.GlobalNS"
-require "MyLua.Libs.Core.Class"
-require "MyLua.Libs.EventHandle.EventDispatch"
+MLoader("MyLua.Libs.Core.GlobalNS");
+MLoader("MyLua.Libs.Core.Class");
+MLoader("MyLua.Libs.EventHandle.EventDispatch");
 
 local M = GlobalNS.Class(GlobalNS.EventDispatch);
 M.clsName = "AddOnceAndCallOnceEventDispatch";

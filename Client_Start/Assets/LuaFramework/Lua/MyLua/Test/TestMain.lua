@@ -1,13 +1,13 @@
-require "MyLua.Libs.Core.GlobalNS"
-require "MyLua.Libs.Core.Class"
-require "MyLua.Libs.Core.GObject"
+MLoader("MyLua.Libs.Core.GlobalNS");
+MLoader("MyLua.Libs.Core.Class");
+MLoader("MyLua.Libs.Core.GObject");
 
-require "MyLua.Test.CSSystemTest"
-require "MyLua.Test.GlobalEventCmdTest"
+MLoader("MyLua.Test.CSSystemTest");
+MLoader("MyLua.Test.GlobalEventCmdTest");
 
-require "MyLua.Test.TestCmdDisp.TestCmdDisp"
-require "MyLua.Test.TestProtoBuf.TestProtoBuf"
-require "MyLua.Test.TestUI.TestUI"
+MLoader("MyLua.Test.TestCmdDisp.TestCmdDisp");
+MLoader("MyLua.Test.TestProtoBuf.TestProtoBuf");
+MLoader("MyLua.Test.TestUI.TestUI");
 
 local M = GlobalNS.Class(GlobalNS.GObject);
 M.clsName = "TestMain";

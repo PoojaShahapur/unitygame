@@ -2,10 +2,10 @@
     @brief 数组实现，类实现，数组的下标从 0 开始，但是 lua 中数组的下标从 1 开始
 ]]
 
-require "MyLua.Libs.Core.GlobalNS"
-require "MyLua.Libs.Core.Class"
-require "MyLua.Libs.Core.GObject"
-require "MyLua.Libs.Functor.CmpFuncObject"
+MLoader("MyLua.Libs.Core.GlobalNS");
+MLoader("MyLua.Libs.Core.Class");
+MLoader("MyLua.Libs.Core.GObject");
+MLoader("MyLua.Libs.Functor.CmpFuncObject");
 
 local M = GlobalNS.Class(GlobalNS.GObject);
 M.clsName = "MListBase";

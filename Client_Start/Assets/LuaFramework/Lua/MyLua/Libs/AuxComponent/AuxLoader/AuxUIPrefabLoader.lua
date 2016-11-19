@@ -1,7 +1,7 @@
-require "MyLua.Libs.Core.GlobalNS"
-require "MyLua.Libs.Core.Class"
-require "MyLua.Libs.Core.GObject"
-require "MyLua.Libs.AuxComponent.AuxLoader.AuxPrefabLoader"
+MLoader("MyLua.Libs.Core.GlobalNS");
+MLoader("MyLua.Libs.Core.Class");
+MLoader("MyLua.Libs.Core.GObject");
+MLoader("MyLua.Libs.AuxComponent.AuxLoader.AuxPrefabLoader");
 
 local M = GlobalNS.Class(GlobalNS.AuxPrefabLoader);
 M.clsName = "AuxUIPrefabLoader";

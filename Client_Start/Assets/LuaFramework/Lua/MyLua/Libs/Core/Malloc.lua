@@ -1,4 +1,4 @@
-require "MyLua.Libs.Core.GlobalNS"
+MLoader("MyLua.Libs.Core.GlobalNS");
 
 -- 内存分配
 local new = function (cls, ...)

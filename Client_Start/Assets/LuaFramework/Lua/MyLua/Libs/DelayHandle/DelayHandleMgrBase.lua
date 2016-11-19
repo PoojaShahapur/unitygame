@@ -1,10 +1,10 @@
-require "MyLua.Libs.Core.GlobalNS"
-require "MyLua.Libs.Core.Class"
-require "MyLua.Libs.Core.GObject"
-require "MyLua.Libs.DataStruct.MList"
-require "MyLua.Libs.DelayHandle.DelayHandleObject"
-require "MyLua.Libs.DelayHandle.DelayAddParam"
-require "MyLua.Libs.DelayHandle.DelayDelParam"
+MLoader("MyLua.Libs.Core.GlobalNS");
+MLoader("MyLua.Libs.Core.Class");
+MLoader("MyLua.Libs.Core.GObject");
+MLoader("MyLua.Libs.DataStruct.MList");
+MLoader("MyLua.Libs.DelayHandle.DelayHandleObject");
+MLoader("MyLua.Libs.DelayHandle.DelayAddParam");
+MLoader("MyLua.Libs.DelayHandle.DelayDelParam");
 
 local M = GlobalNS.Class(GlobalNS.GObject);
 M.clsName = "DelayHandleMgrBase";

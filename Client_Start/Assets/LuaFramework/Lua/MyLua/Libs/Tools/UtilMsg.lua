@@ -1,6 +1,6 @@
-require "MyLua.Libs.Core.GlobalNS"
-require "MyLua.Libs.Core.StaticClass"
-require "MyLua.Libs.Tools.UtilApi"
+MLoader("MyLua.Libs.Core.GlobalNS");
+MLoader("MyLua.Libs.Core.StaticClass");
+MLoader("MyLua.Libs.Tools.UtilApi");
 
 local M = GlobalNS.StaticClass();
 local this = M;

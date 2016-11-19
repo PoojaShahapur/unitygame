@@ -1,5 +1,5 @@
-require "MyLua.Libs.Core.GlobalNS"
-require "MyLua.Libs.Core.StaticClass"
+MLoader("MyLua.Libs.Core.GlobalNS");
+MLoader("MyLua.Libs.Core.StaticClass");
 
 if(MacroDef.UNIT_TEST) then
 	require "MyLua.Test.TestMain"

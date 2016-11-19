@@ -1,11 +1,11 @@
 --连接列表实现
 
-require "MyLua.Libs.Core.GlobalNS"
-require "MyLua.Libs.Core.Class"
-require "MyLua.Libs.Core.GObject"
-require "MyLua.Libs.DataStruct.MLinkListNode"
-require "MyLua.Libs.Functor.CmpFuncObject"
-require "MyLua.Libs.DataStruct.MListBase"
+MLoader("MyLua.Libs.Core.GlobalNS");
+MLoader("MyLua.Libs.Core.Class");
+MLoader("MyLua.Libs.Core.GObject");
+MLoader("MyLua.Libs.DataStruct.MLinkListNode");
+MLoader("MyLua.Libs.Functor.CmpFuncObject");
+MLoader("MyLua.Libs.DataStruct.MListBase");
 
 local M = GlobalNS.Class(GlobalNS.MListBase);
 M.clsName = "MLinkList";

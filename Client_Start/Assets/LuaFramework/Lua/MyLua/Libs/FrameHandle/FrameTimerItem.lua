@@ -2,9 +2,9 @@
     @brief 定时器，这个是不断增长的
 ]]
 
-require "MyLua.Libs.Core.GlobalNS"
-require "MyLua.Libs.Core.Class"
-require "MyLua.Libs.DelayHandle.IDelayHandleItem"
+MLoader("MyLua.Libs.Core.GlobalNS");
+MLoader("MyLua.Libs.Core.Class");
+MLoader("MyLua.Libs.DelayHandle.IDelayHandleItem");
 
 local M = GlobalNS.Class(GlobalNS.IDelayHandleItem);
 M.clsName = "FrameTimerItem";

@@ -1,4 +1,4 @@
-require "MyLua.Libs.Network.CmdDisp.NetModuleDispHandle"
+MLoader("MyLua.Libs.Network.CmdDisp.NetModuleDispHandle");
 
 local M = GlobalNS.Class(GlobalNS.GObject);
 M.clsName = "NetCmdNotify";

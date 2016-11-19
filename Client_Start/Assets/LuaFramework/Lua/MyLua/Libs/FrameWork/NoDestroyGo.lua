@@ -1,6 +1,6 @@
-require "MyLua.Libs.Core.GlobalNS"
-require "MyLua.Libs.Core.StaticClass"
-require "MyLua.Libs.Core.GObject"
+MLoader("MyLua.Libs.Core.GlobalNS");
+MLoader("MyLua.Libs.Core.StaticClass");
+MLoader("MyLua.Libs.Core.GObject");
 
 local M = GlobalNS.StaticClass();
 M.clsName = "NoDestroyId";

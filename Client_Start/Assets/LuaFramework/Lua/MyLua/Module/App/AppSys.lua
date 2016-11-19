@@ -1,9 +1,9 @@
 --导入公用文件
-require "MyLua.Libs.FrameWork.GCtx"
+MLoader("MyLua.Libs.FrameWork.GCtx");
 --导入登陆模块
-require "MyLua.Module.Login.LoginCommon"
+MLoader("MyLua.Module.Login.LoginCommon");
 --导入游戏模块
-require "MyLua.Module.Game.GameCommon"
+MLoader("MyLua.Module.Game.GameCommon");
 
 -- 定义 Application 应用程序表
 

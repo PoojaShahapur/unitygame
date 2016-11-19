@@ -1,6 +1,6 @@
-require "MyLua.Libs.Core.GlobalNS"
-require "MyLua.Libs.Core.Class"
-require "MyLua.Libs.DelayHandle.DelayHandleParamBase"
+MLoader("MyLua.Libs.Core.GlobalNS");
+MLoader("MyLua.Libs.Core.Class");
+MLoader("MyLua.Libs.DelayHandle.DelayHandleParamBase");
 
 local M = GlobalNS.Class(GlobalNS.DelayHandleParamBase);
 M.clsName = "DelayAddParam";

@@ -1,5 +1,5 @@
-require "MyLua.Libs.Network.CmdDisp.NetModuleDispHandle"
-require "MyLua.Module.Login.LoginNetHandle.LoginCmdHandle"
+MLoader("MyLua.Libs.Network.CmdDisp.NetModuleDispHandle");
+MLoader("MyLua.Module.Login.LoginNetHandle.LoginCmdHandle");
 
 local M = GlobalNS.Class(GlobalNS.NetModuleDispHandle);
 M.clsName = "LoginNetHandleCB";

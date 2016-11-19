@@ -1,6 +1,6 @@
 -- 静态类，不能继承
 
-require "MyLua.Libs.Core.GlobalNS"
+MLoader("MyLua.Libs.Core.GlobalNS");
 
 local StaticClass = function (...)
     local classType = {};        -- 返回的类表

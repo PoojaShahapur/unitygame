@@ -2,9 +2,9 @@
     @brief 显示在文本组件上的倒计时定时器
 ]]
 
-require "MyLua.Libs.Core.GlobalNS"
-require "MyLua.Libs.Core.Class"
-require "MyLua.Libs.FrameHandle.TimerItemBase"
+MLoader("MyLua.Libs.Core.GlobalNS");
+MLoader("MyLua.Libs.Core.Class");
+MLoader("MyLua.Libs.FrameHandle.TimerItemBase");
 
 local M = GlobalNS.Class(GlobalNS.DaoJiShiTimer);
 M.clsName = "TextCompTimer";

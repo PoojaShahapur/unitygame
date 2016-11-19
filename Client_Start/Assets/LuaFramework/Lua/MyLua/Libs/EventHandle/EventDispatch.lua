@@ -2,11 +2,11 @@
     @brief 事件分发器
 ]]
 
-require "MyLua.Libs.Core.GlobalNS"
-require "MyLua.Libs.Core.Class"
-require "MyLua.Libs.DataStruct.MList"
-require "MyLua.Libs.DelayHandle.DelayHandleMgrBase"
-require "MyLua.Libs.EventHandle.EventDispatchFunctionObject"
+MLoader("MyLua.Libs.Core.GlobalNS");
+MLoader("MyLua.Libs.Core.Class");
+MLoader("MyLua.Libs.DataStruct.MList");
+MLoader("MyLua.Libs.DelayHandle.DelayHandleMgrBase");
+MLoader("MyLua.Libs.EventHandle.EventDispatchFunctionObject");
 
 local M = GlobalNS.Class(GlobalNS.DelayHandleMgrBase);
 M.clsName = "EventDispatch";

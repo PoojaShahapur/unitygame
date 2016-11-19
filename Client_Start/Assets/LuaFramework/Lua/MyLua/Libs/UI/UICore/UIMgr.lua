@@ -1,11 +1,11 @@
-require "MyLua.Libs.Core.GlobalNS"
-require "MyLua.Libs.Core.Class"
-require "MyLua.Libs.Core.GObject"
-require "MyLua.Libs.Core.ClassLoader"
-require "MyLua.Libs.DataStruct.MStack"
-require "MyLua.Libs.DataStruct.MDictionary"
-require "MyLua.Libs.UI.UICore.UICanvas"
-require "MyLua.Libs.AuxComponent.AuxLoader.AuxUIPrefabLoader"
+MLoader("MyLua.Libs.Core.GlobalNS");
+MLoader("MyLua.Libs.Core.Class");
+MLoader("MyLua.Libs.Core.GObject");
+MLoader("MyLua.Libs.Core.ClassLoader");
+MLoader("MyLua.Libs.DataStruct.MStack");
+MLoader("MyLua.Libs.DataStruct.MDictionary");
+MLoader("MyLua.Libs.UI.UICore.UICanvas");
+MLoader("MyLua.Libs.AuxComponent.AuxLoader.AuxUIPrefabLoader");
 
 local M = GlobalNS.Class(GlobalNS.GObject);
 M.clsName = "UIMgr";

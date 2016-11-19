@@ -1,4 +1,4 @@
-require "MyLua.Libs.Network.CmdDisp.NetCmdDispHandle"
+MLoader("MyLua.Libs.Network.CmdDisp.NetCmdDispHandle");
 
 local M = GlobalNS.Class(GlobalNS.NetCmdDispHandle);
 M.clsName = "TestCmdHandle";

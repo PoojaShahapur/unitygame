@@ -1,5 +1,5 @@
-require "MyLua.Libs.Module.ILoginSys"
-require "MyLua.Module.Login.EventCB.LoginNetHandleCB"
+MLoader("MyLua.Libs.Module.ILoginSys");
+MLoader("MyLua.Module.Login.EventCB.LoginNetHandleCB");
 
 local M = GlobalNS.Class(GlobalNS.ILoginSys);
 M.clsName = "LoginSys";

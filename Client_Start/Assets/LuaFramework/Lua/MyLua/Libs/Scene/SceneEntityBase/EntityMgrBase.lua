@@ -1,7 +1,7 @@
-require "MyLua.Libs.Core.GlobalNS"
-require "MyLua.Libs.Core.Class"
-require "MyLua.Libs.Core.GObject"
-require "MyLua.Libs.DelayHandle.DelayHandleMgrBase"
+MLoader("MyLua.Libs.Core.GlobalNS");
+MLoader("MyLua.Libs.Core.Class");
+MLoader("MyLua.Libs.Core.GObject");
+MLoader("MyLua.Libs.DelayHandle.DelayHandleMgrBase");
 
 local M = GlobalNS.Class(GlobalNS.DelayHandleMgrBase);
 M.clsName = "EntityMgrBase";

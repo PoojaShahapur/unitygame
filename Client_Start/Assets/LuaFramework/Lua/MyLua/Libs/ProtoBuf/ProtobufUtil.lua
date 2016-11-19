@@ -1,4 +1,4 @@
-require "3rd/pbc/protobuf"
+MLoader("3rd/pbc/protobuf");
 
 local M = {};
 M.clsName = "ProtobufUtil";

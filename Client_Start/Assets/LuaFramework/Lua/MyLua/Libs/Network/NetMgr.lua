@@ -1,6 +1,6 @@
-require "MyLua.Libs.Network.NetCommand"
-require "MyLua.Libs.ProtoBuf.ProtobufUtil"
-require "MyLua.Libs.Network.CmdDisp.CmdDispInfo"
+MLoader("MyLua.Libs.Network.NetCommand");
+MLoader("MyLua.Libs.ProtoBuf.ProtobufUtil");
+MLoader("MyLua.Libs.Network.CmdDisp.CmdDispInfo");
 
 local g_CmdDispInfo = GlobalNS.CmdDispInfo;
 
