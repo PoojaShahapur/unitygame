@@ -225,6 +225,7 @@ namespace SDK.Lib
             }
         }
 
+        // 是否是从 Resources 目录下加载的资源
         static public bool isPrefabType(string extName)
         {
             return extName == UtilApi.PREFAB ||
@@ -232,7 +233,9 @@ namespace SDK.Lib
                    extName == UtilApi.PNG ||
                    extName == UtilApi.JPG ||
                    extName == UtilApi.TGA ||
-                   extName == UtilApi.SHADER;
+                   extName == UtilApi.SHADER ||
+                   extName == UtilApi.TXT ||
+                   extName == UtilApi.BYTES;
         }
 
         static public bool isAssetBundleType(string extName)

@@ -142,6 +142,8 @@ public static class CustomSettings
         _GT(typeof(SDK.Lib.AuxBytesLoader)),
         _GT(typeof(SDK.Lib.MFileSys)),
         _GT(typeof(SDK.Lib.LuaSystem)),
+        _GT(typeof(SDK.Lib.ByteBuffer)),
+        _GT(typeof(SDK.Lib.FactoryBuild)),
 
         //#if UNIT_TEST
         _GT(typeof(UnitTest.GlobalEventCmdTest)),

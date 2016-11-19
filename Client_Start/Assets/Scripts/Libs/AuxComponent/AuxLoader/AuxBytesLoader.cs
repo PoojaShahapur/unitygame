@@ -47,6 +47,7 @@ namespace SDK.Lib
                 mEvtHandle = new ResEventDispatch();
                 mEvtHandle.addEventHandle(null, evtHandle);
                 mBytesRes = Ctx.m_instance.m_bytesResMgr.getAndSyncLoadRes(path);
+                onBytesLoaded(mBytesRes);
             }
         }
 

@@ -77,6 +77,7 @@ namespace SDK.Lib
             bool isSuccess = false;
             if(!mIsLoadAll)
             {
+                // Table/ObjectBase_client 可以加载， 而 Table//ObjectBase_client 加载失败
                 m_prefabObj = Resources.Load<Object>(m_loadPath);
                 if (m_prefabObj != null)
                 {

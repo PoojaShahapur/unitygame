@@ -69,7 +69,7 @@ end
 function M:onLoadEventHandle(dispObj)
     self.m_res = dispObj;
     if (self.m_res:hasSuccessLoaded()) then
-        GCtx.mLogSys.log(self.m_res:GetPath(), GlobalNS.LogTypeId.eLogCommon);
+        GCtx.mLogSys:log(self.m_res:getLogicPath(), GlobalNS.LogTypeId.eLogCommon);
 
         local bytes = self.m_res:getBytes();
         if (nil ~= bytes) then
@@ -90,9 +90,12 @@ end
 
 -- 根据路径查找表的 ID
 function M:getTableIDByPath(path)
-    for key, value in pairs(m_dicTable) do
-        if (Ctx.m_instance.m_cfg.m_pathLst[ResPathType.ePathTablePath] + kv.Value.m_resName == path) then
-            return kv.Key;
+	local tablePath = "";
+	
+    for key, value in pairs(self.m_dicTable:getData()) do
+		tablePath = GlobalNS.UtilPath.CombineTwo(GCtx.m_config.m_pathLst[GlobalNS.ResPathType.ePathTablePath], value.m_resName);
+        if (tablePath == path) then
+            return key;
         end
     end
 
@@ -137,10 +140,12 @@ function M:readTable(tableID, bytes)
     bytes:readUnsignedInt32(len);
     local i = 0;
     local item = nil;
-    for i = 0, i < len, 1 do
+    while(i < len) do
         item = GlobalNS.new(GlobalNS.TableItemBase);
         item.parseHeaderByteBuffer(bytes);
         table.m_List:Add(item);
+		
+		i = i + 1
     end
 end
 

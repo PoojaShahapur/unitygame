@@ -92,7 +92,7 @@ function M.SetRectTransformParent(child, parent, worldPositionStays)
 end
 
 function M.buildByteBuffer()
-	Ctx.m_instance.m_factoryBuild.buildByteBuffer();
+	this.Ctx.m_instance.m_factoryBuild:buildByteBuffer();
 end
 
 return M;
