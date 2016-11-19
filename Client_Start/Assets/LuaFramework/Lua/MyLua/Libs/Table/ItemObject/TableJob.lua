@@ -25,18 +25,17 @@ function M:ctor()
 end
 
 function M:parseBodyByteBuffer(bytes, offset)
-    local UtilTable = nil;
     bytes.position = offset;
-    UtilTable.readString(bytes, self.m_jobName);
-    UtilTable.readString(bytes, self.m_jobDesc);
-    UtilTable.readString(bytes, self.m_frameImage);
-    UtilTable.readString(bytes, self.m_yaoDaiImage);
+    GlobalNS.UtilTable.readString(bytes, self.m_jobName);
+    GlobalNS.UtilTable.readString(bytes, self.m_jobDesc);
+    GlobalNS.UtilTable.readString(bytes, self.m_frameImage);
+    GlobalNS.UtilTable.readString(bytes, self.m_yaoDaiImage);
 
-    UtilTable.readString(bytes, self.m_jobRes);
-    UtilTable.readString(bytes, self.m_cardSetRes);
-    UtilTable.readString(bytes, self.m_skillName);
-    UtilTable.readString(bytes, self.m_skillDesc);
-    UtilTable.readString(bytes, self.m_skillRes);
+    GlobalNS.UtilTable.readString(bytes, self.m_jobRes);
+    GlobalNS.UtilTable.readString(bytes, self.m_cardSetRes);
+    GlobalNS.UtilTable.readString(bytes, self.m_skillName);
+    GlobalNS.UtilTable.readString(bytes, self.m_skillDesc);
+    GlobalNS.UtilTable.readString(bytes, self.m_skillRes);
 
     self:initDefaultValue();
 end

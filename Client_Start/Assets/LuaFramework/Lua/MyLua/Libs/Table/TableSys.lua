@@ -137,9 +137,10 @@ function M:readTable(tableID, bytes)
 
     --bytes:setEndian(GlobalNS.EEndian.eLITTLE_ENDIAN);
 	bytes:setEndian(GlobalNS.CSSystem.EEndian.eLITTLE_ENDIAN);
-	local tmp = nil;
+	--local tmp = nil;
     local count = 0;
-    tmp, count = bytes:readUnsignedInt32(count);
+    --tmp, count = bytes:readUnsignedInt32(count);
+	_, count = bytes:readUnsignedInt32(count);
     local i = 0;
     local item = nil;
     while(i < count) do

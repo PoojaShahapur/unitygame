@@ -19,10 +19,9 @@ function M:ctor()
 end
 
 function M:parseBodyByteBuffer(bytes, offset)
-    local UtilTable = nil;
     bytes:setPos(offset);
-    UtilTable.readString(bytes, self.m_name);
-    UtilTable.readString(bytes, self.m_effect);
+    GlobalNS.UtilTable.readString(bytes, self.m_name);
+    GlobalNS.UtilTable.readString(bytes, self.m_effect);
     bytes:readUnsignedInt32(self.m_skillAttackEffect);
     bytes:readInt32(self.m_bNeedMove);
 

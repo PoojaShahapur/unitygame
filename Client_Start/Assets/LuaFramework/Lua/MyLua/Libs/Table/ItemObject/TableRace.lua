@@ -10,9 +10,8 @@ function M:ctor()
 end
 
 function M:parseBodyByteBuffer(bytes, offset)
-    local UtilTable = nil;
     bytes.position = offset;
-    UtilTable.readString(bytes, self.m_raceName);
+    GlobalNS.UtilTable.readString(bytes, self.m_raceName);
 end
 
 return M;

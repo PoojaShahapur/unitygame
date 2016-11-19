@@ -20,11 +20,10 @@ function M:ctor()
 end
 
 function M:parseBodyByteBuffer(bytes, offset)
-    local UtilTable = nil;
     bytes.position = offset;
     bytes:readInt32(self.m_frameRate);
     bytes:readInt32(self.m_frameCount);
-    UtilTable.readString(bytes, self.m_aniResNameNoExt);
+    GlobalNS.UtilTable.readString(bytes, self.m_aniResNameNoExt);
 
     self.m_invFrameRate = 1 / self.m_frameRate;
     self.m_aniResName = string.format("%s.asset", self.m_aniResNameNoExt);

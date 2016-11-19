@@ -13,8 +13,8 @@ end
 
 -- 解析头部
 function M:parseHeaderByteBuffer(bytes)
-    bytes.readUnsignedInt32(self.m_uID);
-    bytes.readUnsignedInt32(self.m_offset);
+    _, self.m_uID = bytes:readUnsignedInt32(self.m_uID);
+    _, self.m_offset = bytes:readUnsignedInt32(self.m_offset);
 end
 
 return M;

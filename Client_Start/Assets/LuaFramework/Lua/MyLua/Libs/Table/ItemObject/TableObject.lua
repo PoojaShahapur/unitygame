@@ -18,13 +18,12 @@ function M:ctor()
 end
 
 function M:parseBodyByteBuffer(bytes, offset)
-    local UtilTable = nil;
     bytes:setPos(offset);  -- 从偏移处继续读取真正的内容
-    UtilTable.readString(bytes, self.m_name);
-    bytes:readInt32(self.m_maxNum);
-    bytes:readInt32(self.m_type);
-    bytes:readInt32(self.m_color);
-    UtilTable.readString(bytes, self.m_objResName);
+    GlobalNS.UtilTable.readString(bytes, self.m_name);
+    _, self.m_maxNum = bytes:readInt32(self.m_maxNum);
+    _, self.m_type = bytes:readInt32(self.m_type);
+    _, self.m_color = bytes:readInt32(self.m_color);
+    GlobalNS.UtilTable.readString(bytes, self.m_objResName);
 end
 
 return M;

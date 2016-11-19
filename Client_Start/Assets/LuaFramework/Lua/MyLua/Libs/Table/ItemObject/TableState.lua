@@ -12,10 +12,9 @@ function M:ctor()
 end
 
 function M:parseBodyByteBuffer(bytes, offset)
-    local UtilTable = nil; 
     bytes.position = offset;
-    UtilTable.readString(bytes, self.m_name);
-    UtilTable.readString(bytes, self.m_res);
+    GlobalNS.UtilTable.readString(bytes, self.m_name);
+    GlobalNS.UtilTable.readString(bytes, self.m_res);
     bytes:readInt32(self.m_effectId);
 
     self:initDefaultValue();

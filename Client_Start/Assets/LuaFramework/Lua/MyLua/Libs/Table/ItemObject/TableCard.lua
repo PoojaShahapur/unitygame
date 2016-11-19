@@ -64,9 +64,8 @@ function M:ctor()
 end
 
 function M:parseBodyByteBuffer(bytes, offset)
-    local UtilTable;
     bytes:setPos(offset);
-    UtilTable.readString(bytes, self.m_name);
+    GlobalNS.UtilTable.readString(bytes, self.m_name);
 
     bytes:readInt32(self.m_type);
     bytes:readInt32(self.m_career);
@@ -89,8 +88,8 @@ function M:parseBodyByteBuffer(bytes, offset)
     bytes:readInt32(self.m_zhanHou);
     bytes:readUnsignedInt8(self.m_bNeedFaShuTarget);
     bytes:readInt32(self.m_bNeedZhanHouTarget);
-    UtilTable.readString(bytes, self.m_cardDesc);
-    UtilTable.readString(bytes, self.m_cardHeader);
+    GlobalNS.UtilTable.readString(bytes, self.m_cardDesc);
+    GlobalNS.UtilTable.readString(bytes, self.m_cardHeader);
     bytes:readUnsignedInt32(self.m_skillPrepareEffect);
 
     self:initDefaultValue();
