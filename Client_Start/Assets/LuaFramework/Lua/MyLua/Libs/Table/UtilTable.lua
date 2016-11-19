@@ -13,8 +13,9 @@ function M.ctor()
 end
 
 function M.readString(bytes, tmpStr)
-    bytes:readUnsignedInt16(this.m_sCnt);
-    bytes:readMultiByte(tmpStr, this.m_sCnt, GkEncode.UTF8);
+    _, this.m_sCnt = bytes:readUnsignedInt16(this.m_sCnt);
+    _, tmpStr = bytes:readMultiByte(tmpStr, this.m_sCnt, GlobalNS.GkEncode.UTF8);
+	return tmpStr;
 end
 
 M.ctor();        -- 构造

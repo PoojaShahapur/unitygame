@@ -145,6 +145,7 @@ public static class CustomSettings
         _GT(typeof(SDK.Lib.ByteBuffer)),
         _GT(typeof(SDK.Lib.FactoryBuild)),
         _GT(typeof(SDK.Lib.EEndian)),
+        _GT(typeof(SDK.Lib.GkEncode)),
 
         //#if UNIT_TEST
         _GT(typeof(UnitTest.GlobalEventCmdTest)),

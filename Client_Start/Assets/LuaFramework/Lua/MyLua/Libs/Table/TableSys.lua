@@ -105,19 +105,47 @@ end
 -- 加载一个表中一项的所有内容
 function M:loadOneTableOneItemAll(tableID, table, itemBase)
     if (GlobalNS.TableID.TABLE_OBJECT == tableID) then
-        itemBase.parseBodyByteBuffer(table.m_byteBuffer, itemBase.m_itemHeader.m_offset, GlobalNS.TableObjectItemBody);
+        itemBase:parseBodyByteBuffer(
+			table.m_byteBuffer, 
+			itemBase.m_itemHeader.m_offset, 
+			GlobalNS.TableObjectItemBody
+			);
     elseif (GlobalNS.TableID.TABLE_CARD == tableID) then
-        itemBase.parseBodyByteBuffer(table.m_byteBuffer, itemBase.m_itemHeader.m_offset, GlobalNS.TableCardItemBody);
+        itemBase:parseBodyByteBuffer(
+			table.m_byteBuffer, 
+			itemBase.m_itemHeader.m_offset, 
+			GlobalNS.TableCardItemBody
+			);
     elseif (GlobalNS.TableID.TABLE_SKILL == tableID) then  -- 添加一个表的步骤四
-        itemBase.parseBodyByteBuffer(table.m_byteBuffer, itemBase.m_itemHeader.m_offset, GlobalNS.TableSkillItemBody);
+        itemBase:parseBodyByteBuffer(
+			table.m_byteBuffer, 
+			itemBase.m_itemHeader.m_offset, 
+			GlobalNS.TableSkillItemBody
+			);
     elseif (GlobalNS.TableID.TABLE_JOB == tableID) then
-        itemBase.parseBodyByteBuffer(table.m_byteBuffer, itemBase.m_itemHeader.m_offset, GlobalNS.TableJobItemBody);
+        itemBase:parseBodyByteBuffer(
+			table.m_byteBuffer, 
+			itemBase.m_itemHeader.m_offset, 
+			GlobalNS.TableJobItemBody
+			);
     elseif (GlobalNS.TableID.TABLE_SPRITEANI == tableID) then
-        itemBase.parseBodyByteBuffer(table.m_byteBuffer, itemBase.m_itemHeader.m_offset, GlobalNS.TableSpriteAniItemBody);
+        itemBase:parseBodyByteBuffer(
+			table.m_byteBuffer, 
+			itemBase.m_itemHeader.m_offset, 
+			GlobalNS.TableSpriteAniItemBody
+			);
     elseif (GlobalNS.TableID.TABLE_RACE == tableID) then
-        itemBase.parseBodyByteBuffer(table.m_byteBuffer, itemBase.m_itemHeader.m_offset, GlobalNS.TableRaceItemBody);
+        itemBase:parseBodyByteBuffer(
+			table.m_byteBuffer, 
+			itemBase.m_itemHeader.m_offset, 
+			GlobalNS.TableRaceItemBody
+			);
     elseif (GlobalNS.TableID.TABLE_STATE == tableID) then
-        itemBase.parseBodyByteBuffer(table.m_byteBuffer, itemBase.m_itemHeader.m_offset, GlobalNS.TableStateItemBody);
+        itemBase:parseBodyByteBuffer(
+			table.m_byteBuffer, 
+			itemBase.m_itemHeader.m_offset, 
+			GlobalNS.TableStateItemBody
+			);
     end
 end
 
@@ -161,7 +189,7 @@ function M:findDataItem(table, id)
 	local idCur = 0;
 	
 	while (low <= high) do
-		middle = (low + high) / 2;
+		middle = GlobalNS.UtilMath.floor((low + high) / 2);
         idCur = table.m_List:at(middle).m_itemHeader.m_uID;
 		if (idCur == id) then
 			break;

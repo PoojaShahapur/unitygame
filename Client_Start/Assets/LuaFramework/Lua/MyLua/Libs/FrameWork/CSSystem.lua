@@ -16,6 +16,7 @@ function M.init()
 	this.UtilApi = SDK.Lib.UtilApi;
 	this.MFileSys = SDK.Lib.MFileSys;
 	this.EEndian = SDK.Lib.EEndian;
+	this.GkEncode = SDK.Lib.GkEncode;
 end
 
 --[[
