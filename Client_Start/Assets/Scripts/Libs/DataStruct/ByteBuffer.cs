@@ -303,8 +303,11 @@ namespace SDK.Lib
             return this;
         }
 
-        public ByteBuffer readMultiByte(ref string tmpStr, uint len, Encoding charSet)
+        //public ByteBuffer readMultiByte(ref string tmpStr, uint len, Encoding charSet)
+        public ByteBuffer readMultiByte(ref string tmpStr, uint len, GkEncode gkCharSet)
         {
+            Encoding charSet = UtilApi.convGkEncode2EncodingEncoding(gkCharSet);
+
             // 如果是 unicode ，需要大小端判断
             if (canRead(len))
             {
@@ -483,8 +486,10 @@ namespace SDK.Lib
         }
 
         // 写入字符串
-        public void writeMultiByte(string value, Encoding charSet, int len)
+        //public void writeMultiByte(string value, Encoding charSet, int len)
+        public void writeMultiByte(string value, GkEncode gkCharSet, int len)
         {
+            Encoding charSet = UtilApi.convGkEncode2EncodingEncoding(gkCharSet);
             int num = 0;
 
             if (null != value)

@@ -1166,7 +1166,7 @@ namespace SDK.Lib
             return Screen.width;
         }
 
-        static public int getScteedHeight()
+        static public int getScreenHeight()
         {
             return Screen.height;
         }
@@ -1179,6 +1179,30 @@ namespace SDK.Lib
             }
 
             return true;
+        }
+
+        static public System.Text.Encoding convGkEncode2EncodingEncoding(GkEncode gkEncode)
+        {
+            System.Text.Encoding retEncode = System.Text.Encoding.UTF8;
+
+            if(GkEncode.eUTF8 == gkEncode)
+            {
+                retEncode = System.Text.Encoding.UTF8;
+            }
+            else if (GkEncode.eGB2312 == gkEncode)
+            {
+                retEncode = System.Text.Encoding.UTF8;
+            }
+            else if (GkEncode.eUnicode == gkEncode)
+            {
+                retEncode = System.Text.Encoding.Unicode;
+            }
+            else if (GkEncode.eDefault == gkEncode)
+            {
+                retEncode = System.Text.Encoding.Default;
+            }
+
+            return retEncode;
         }
     }
 }

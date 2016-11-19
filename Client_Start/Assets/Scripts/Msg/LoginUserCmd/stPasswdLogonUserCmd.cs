@@ -22,8 +22,10 @@ namespace Game.Msg
 
             bu.writeUnsignedInt32(loginTempID);
             bu.writeUnsignedInt32(dwUserID);
-            bu.writeMultiByte(pstrName, GkEncode.UTF8, ProtoCV.MAX_ACCNAMESIZE);
-            bu.writeMultiByte(pstrPassword, GkEncode.UTF8, ProtoCV.MAX_PASSWORD);
+            //bu.writeMultiByte(pstrName, GkEncode.UTF8, ProtoCV.MAX_ACCNAMESIZE);
+            bu.writeMultiByte(pstrName, GkEncode.eUTF8, ProtoCV.MAX_ACCNAMESIZE);
+            //bu.writeMultiByte(pstrPassword, GkEncode.UTF8, ProtoCV.MAX_PASSWORD);
+            bu.writeMultiByte(pstrPassword, GkEncode.eUTF8, ProtoCV.MAX_PASSWORD);
 
             bu.writeUnsignedInt32(reserve);
             bu.writeUnsignedInt32(version);

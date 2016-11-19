@@ -59,13 +59,15 @@ namespace SDK.Lib
 
         public void serialize(ByteBuffer buffer, int uniqueIdSize)
         {
-            buffer.writeMultiByte(mUniqueId, Encoding.UTF8, uniqueIdSize);
+            //buffer.writeMultiByte(mUniqueId, Encoding.UTF8, uniqueIdSize);
+            buffer.writeMultiByte(mUniqueId, GkEncode.eUTF8, uniqueIdSize);
             buffer.writeInt32(mOffset);
         }
 
         public void deserialize(ByteBuffer buffer, int uniqueIdSize, int offsetSize)
         {
-            buffer.readMultiByte(ref mUniqueId, (uint)uniqueIdSize, Encoding.UTF8);
+            //buffer.readMultiByte(ref mUniqueId, (uint)uniqueIdSize, Encoding.UTF8);
+            buffer.readMultiByte(ref mUniqueId, (uint)uniqueIdSize, GkEncode.eUTF8);
             buffer.readInt32(ref mOffset);
 
             //Debug.Log(mUniqueId);

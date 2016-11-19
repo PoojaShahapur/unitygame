@@ -38,8 +38,9 @@ namespace SDK.Lib
 			fileHandle.Read(pMByteBuffer.dynBuff.buff, 0, 4);
 			pMByteBuffer.length = 4;
             string magic = "";
-			pMByteBuffer.readMultiByte(ref magic, 4, Encoding.UTF8);
-			if (magic != "asdf")		// ¼ì²é magic
+            //pMByteBuffer.readMultiByte(ref magic, 4, Encoding.UTF8);
+            pMByteBuffer.readMultiByte(ref magic, 4, GkEncode.eUTF8);
+            if (magic != "asdf")		// ¼ì²é magic
 			{
 				return false;
 			}

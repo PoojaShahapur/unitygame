@@ -523,8 +523,11 @@ namespace SDK.Lib
             return bytes;
         }
 
-        public void writeText(string text, Encoding encode = null)
+        //public void writeText(string text, Encoding encode = null)
+        public void writeText(string text, GkEncode gkEncode = GkEncode.eUTF8)
         {
+            Encoding encode = UtilApi.convGkEncode2EncodingEncoding(gkEncode);
+
             checkAndOpen();
 
             if (isResourcesFile())
@@ -539,10 +542,10 @@ namespace SDK.Lib
             {
                 if (mFileStream.CanWrite)
                 {
-                    if (encode == null)
-                    {
-                        encode = GkEncode.UTF8;
-                    }
+                    //if (encode == null)
+                    //{
+                    //    encode = GkEncode.UTF8;
+                    //}
 
                     byte[] bytes = encode.GetBytes(text);
                     if (bytes != null)
@@ -599,10 +602,12 @@ namespace SDK.Lib
             }
         }
 
-        public void writeLine(string text, Encoding encode = null)
+        //public void writeLine(string text, Encoding encode = null)
+        public void writeLine(string text, GkEncode gkEncode = GkEncode.eUTF8)
         {
             text = text + UtilApi.CR_LF;
-            writeText(text, encode);
+            //writeText(text, encode);
+            writeText(text, gkEncode);
         }
     }
 }

@@ -59,7 +59,7 @@
             m_preWidth = m_curWidth;
             m_curWidth = UtilApi.getScreenWidth();
             m_preHeight = m_curHeight;
-            m_curHeight = UtilApi.getScteedHeight();
+            m_curHeight = UtilApi.getScreenHeight();
 
             if(m_preWidth != m_curWidth || m_preHeight != m_curHeight)
             {

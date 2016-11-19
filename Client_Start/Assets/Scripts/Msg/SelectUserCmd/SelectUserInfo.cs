@@ -50,14 +50,14 @@ namespace Game.Msg
         public void derialize(ByteBuffer bu)
         {
             bu.readUnsignedInt32(ref id);
-            bu.readMultiByte(ref name, ProtoCV.MAX_NAMESIZE + 1, GkEncode.UTF8);
+            bu.readMultiByte(ref name, ProtoCV.MAX_NAMESIZE + 1, GkEncode.eUTF8);
             bu.readUnsignedInt16(ref type);
             bu.readUnsignedInt16(ref level);
             bu.readUnsignedInt32(ref mapid);
-            bu.readMultiByte(ref mapName, ProtoCV.MAX_NAMESIZE + 1, GkEncode.UTF8);
+            bu.readMultiByte(ref mapName, ProtoCV.MAX_NAMESIZE + 1, GkEncode.eUTF8);
             bu.readUnsignedInt16(ref country);
 
-            bu.readMultiByte(ref countryName, ProtoCV.MAX_NAMESIZE + 1, GkEncode.UTF8);
+            bu.readMultiByte(ref countryName, ProtoCV.MAX_NAMESIZE + 1, GkEncode.eUTF8);
             bu.readUnsignedInt32(ref bitmask);
             bu.readUnsignedInt32(ref zone_state);
             bu.readUnsignedInt32(ref target_zone);

@@ -28,7 +28,7 @@ namespace Game.Msg
             bu.readUnsignedInt16(ref size);
             if(size > 0)
             {
-                bu.readMultiByte(ref data, size, GkEncode.UTF8);
+                bu.readMultiByte(ref data, size, GkEncode.eUTF8);
             }
         }
     }

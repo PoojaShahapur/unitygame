@@ -118,8 +118,8 @@ namespace UnitTest
             bu.writeInt16(257);
             bu.writeInt32(2147483647);
             bu.writeInt16(-86);
-            bu.writeMultiByte("asdfasdf", GkEncode.UTF8, 16);
-            bu.writeMultiByte("测试啊", GkEncode.UTF8, 16);
+            bu.writeMultiByte("asdfasdf", GkEncode.eUTF8, 16);
+            bu.writeMultiByte("测试啊", GkEncode.eUTF8, 16);
             //bu.luaCSBridgeByteBuffer.CallClassMethod("tableFunc");
             bu.luaCSBridgeByteBuffer.updateLuaByteBuffer(bu);
             bu.luaCSBridgeByteBuffer.CallClassMethod("", "TestOut");

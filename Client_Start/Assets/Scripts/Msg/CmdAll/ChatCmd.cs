@@ -22,8 +22,10 @@ namespace Game.Msg
 
             bu.readUnsignedInt32(ref dwType);
             bu.readUnsignedInt32(ref dwSysInfoType);
-            bu.readMultiByte(ref pstrName, ProtoCV.MAX_NAMESIZE, GkEncode.UTF8);
-            bu.readMultiByte(ref pstrChat, ProtoCV.MAX_CHATINFO, GkEncode.UTF8);
+            //bu.readMultiByte(ref pstrName, ProtoCV.MAX_NAMESIZE, GkEncode.UTF8);
+            bu.readMultiByte(ref pstrName, ProtoCV.MAX_NAMESIZE, GkEncode.eUTF8);
+            //bu.readMultiByte(ref pstrChat, ProtoCV.MAX_CHATINFO, GkEncode.UTF8);
+            bu.readMultiByte(ref pstrChat, ProtoCV.MAX_CHATINFO, GkEncode.eUTF8);
             bu.readUnsignedInt32(ref dwFromID);
             bu.readUnsignedInt32(ref dwChannelID);
         }
@@ -34,8 +36,10 @@ namespace Game.Msg
 
             bu.writeUnsignedInt32(dwType);
             bu.writeUnsignedInt32(dwSysInfoType);
-            bu.writeMultiByte(pstrName, GkEncode.UTF8, ProtoCV.MAX_NAMESIZE);
-            bu.writeMultiByte(pstrChat, GkEncode.UTF8, ProtoCV.MAX_CHATINFO);
+            //bu.writeMultiByte(pstrName, GkEncode.UTF8, ProtoCV.MAX_NAMESIZE);
+            bu.writeMultiByte(pstrName, GkEncode.eUTF8, ProtoCV.MAX_NAMESIZE);
+            //bu.writeMultiByte(pstrChat, GkEncode.UTF8, ProtoCV.MAX_CHATINFO);
+            bu.writeMultiByte(pstrChat, GkEncode.eUTF8, ProtoCV.MAX_CHATINFO);
             bu.writeUnsignedInt32(dwFromID);
             bu.writeUnsignedInt32(dwChannelID);
         }

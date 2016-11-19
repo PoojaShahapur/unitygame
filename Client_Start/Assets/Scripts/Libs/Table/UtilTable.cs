@@ -8,7 +8,8 @@
         static public void readString(ByteBuffer bytes, ref string tmpStr)
         {
             bytes.readUnsignedInt16(ref m_sCnt);
-            bytes.readMultiByte(ref tmpStr, m_sCnt, GkEncode.UTF8);
+            //bytes.readMultiByte(ref tmpStr, m_sCnt, GkEncode.UTF8);
+            bytes.readMultiByte(ref tmpStr, m_sCnt, GkEncode.eUTF8);
         }
     }
 }

@@ -23,7 +23,7 @@ namespace UnitTest
             bu.writeUnsignedInt32(reserve);
             bu.writeUnsignedInt32(version);
 
-            bu.writeMultiByte(testStr, GkEncode.UTF8, 100);
+            bu.writeMultiByte(testStr, GkEncode.eUTF8, 100);
         }
 
         public override void derialize(ByteBuffer bu)
@@ -32,7 +32,7 @@ namespace UnitTest
             bu.readUnsignedInt32(ref reserve);
             bu.readUnsignedInt32(ref version);
 
-            bu.readMultiByte(ref testStr, 100, GkEncode.UTF8);
+            bu.readMultiByte(ref testStr, 100, GkEncode.eUTF8);
         }
     }
 }

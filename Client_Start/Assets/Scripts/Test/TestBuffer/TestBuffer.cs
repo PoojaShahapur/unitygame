@@ -94,10 +94,10 @@ namespace UnitTest
         {
             string str = "测试数据";
             ByteBuffer bu = new ByteBuffer();
-            bu.writeMultiByte(str, GkEncode.UTF8, 24);
+            bu.writeMultiByte(str, GkEncode.eUTF8, 24);
             bu.position = 0;
             string ret = "";
-            bu.readMultiByte(ref ret, 24, GkEncode.UTF8);
+            bu.readMultiByte(ref ret, 24, GkEncode.eUTF8);
         }
 
         protected void testSend()

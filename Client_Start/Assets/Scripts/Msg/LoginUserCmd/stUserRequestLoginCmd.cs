@@ -23,15 +23,15 @@ namespace Game.Msg
         {
             base.serialize(bu);
 
-            bu.writeMultiByte(pstrName, GkEncode.UTF8, ProtoCV.MAX_ACCNAMESIZE);
-            bu.writeMultiByte(pstrPassword, GkEncode.UTF8, 33);
+            bu.writeMultiByte(pstrName, GkEncode.eUTF8, ProtoCV.MAX_ACCNAMESIZE);
+            bu.writeMultiByte(pstrPassword, GkEncode.eUTF8, 33);
             bu.writeUnsignedInt16(game);
             bu.writeUnsignedInt16(zone);
-            bu.writeMultiByte(jpegPassport, GkEncode.UTF8, 7);
-            bu.writeMultiByte(mac_addr, GkEncode.UTF8, 13);
-            bu.writeMultiByte(uuid, GkEncode.UTF8, 25);
+            bu.writeMultiByte(jpegPassport, GkEncode.eUTF8, 7);
+            bu.writeMultiByte(mac_addr, GkEncode.eUTF8, 13);
+            bu.writeMultiByte(uuid, GkEncode.eUTF8, 25);
             bu.writeUnsignedInt16(wdNetType);
-            bu.writeMultiByte(passpodPwd, GkEncode.UTF8, 9);
+            bu.writeMultiByte(passpodPwd, GkEncode.eUTF8, 9);
         }
 
         //public override void derialize(ByteBuffer bu)

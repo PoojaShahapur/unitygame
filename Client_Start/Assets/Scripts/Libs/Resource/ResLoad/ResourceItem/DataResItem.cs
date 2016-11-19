@@ -23,10 +23,11 @@
         override public string getText(string resName)
         {
             string text = "";
+            System.Text.Encoding encode = UtilApi.convGkEncode2EncodingEncoding(GkEncode.eUTF8);
 
             if(m_bytes != null)
             {
-                text = GkEncode.UTF8.GetString(m_bytes);
+                text = encode.GetString(m_bytes);
             }
 
             return text;

@@ -52,7 +52,8 @@ namespace SDK.Lib
 		public void readHeaderFromArchiveFile(ByteBuffer bu)
 		{
             bu.readUnsignedInt8(ref m_pathLen);
-            bu.readMultiByte(ref m_fileNamePath, m_pathLen, Encoding.UTF8);
+            //bu.readMultiByte(ref m_fileNamePath, m_pathLen, Encoding.UTF8);
+            bu.readMultiByte(ref m_fileNamePath, m_pathLen, GkEncode.eUTF8);
             bu.readUnsignedInt32(ref m_fileOffset);
             bu.readUnsignedInt32(ref m_fileSize);
             bu.readUnsignedInt32(ref m_flags);

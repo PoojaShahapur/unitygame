@@ -22,7 +22,7 @@ namespace Game.Msg
         public override void serialize(ByteBuffer bu)
         {
             base.serialize(bu);
-            bu.writeMultiByte(strUserName, GkEncode.UTF8, ProtoCV.MAX_NAMESIZE + 1);
+            bu.writeMultiByte(strUserName, GkEncode.eUTF8, ProtoCV.MAX_NAMESIZE + 1);
             bu.writeUnsignedInt16(gender);
             bu.writeUnsignedInt16(race);
 

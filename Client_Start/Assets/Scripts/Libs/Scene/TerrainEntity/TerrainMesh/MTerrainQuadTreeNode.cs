@@ -119,7 +119,8 @@ namespace SDK.Lib
                 header.mOffset = (int)vertexBuffer.length + mTerrain.mSerializeData.getBasicAndHeaderSize();
                 mVertexDataRecord.cpuVertexData.writeVertData(vertexBuffer);
                 vertexBuffer.writeAABB(mAABB);
-                headerBuffer.writeMultiByte(header.mUniqueId, Encoding.UTF8, mTerrain.mSerializeData.mUniqueIdSize);
+                //headerBuffer.writeMultiByte(header.mUniqueId, Encoding.UTF8, mTerrain.mSerializeData.mUniqueIdSize);
+                headerBuffer.writeMultiByte(header.mUniqueId, GkEncode.eUTF8, mTerrain.mSerializeData.mUniqueIdSize);
                 headerBuffer.writeInt32(header.mOffset);
             }
             else
