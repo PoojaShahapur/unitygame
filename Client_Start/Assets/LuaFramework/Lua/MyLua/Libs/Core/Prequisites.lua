@@ -75,6 +75,7 @@ MLoader("MyLua.Libs.AuxComponent.AuxUIComponent.AuxLabel");
 MLoader("MyLua.Libs.AuxComponent.AuxLoader.AuxLoaderBase");
 MLoader("MyLua.Libs.AuxComponent.AuxLoader.AuxPrefabLoader");
 MLoader("MyLua.Libs.AuxComponent.AuxLoader.AuxUIPrefabLoader");
+MLoader("MyLua.Libs.AuxComponent.AuxLoader.AuxBytesLoader");
 
 -- FrameWork 脚本
 MLoader("MyLua.Libs.FrameWork.ProcessSys");

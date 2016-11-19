@@ -12,6 +12,7 @@ function M.init()
     this.UtilPath = SDK.Lib.UtilPath;
     this.GlobalEventCmd = SDK.Lib.GlobalEventCmd;
     this.AuxPrefabLoader = SDK.Lib.AuxPrefabLoader;
+	this.AuxBytesLoader = SDK.Lib.AuxBytesLoader;
 	this.UtilApi = SDK.Lib.UtilApi;
 	this.MFileSys = SDK.Lib.MFileSys;
 end

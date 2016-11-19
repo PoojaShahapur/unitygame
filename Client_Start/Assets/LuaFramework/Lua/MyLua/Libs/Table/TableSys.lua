@@ -29,7 +29,7 @@ end
 function getTable(tableID)
 	local table = self.m_dicTable:value(tableID);
 	if (nil == table) then
-		self.loadOneTable(tableID);
+		self:loadOneTable(tableID);
 		table = self.m_dicTable:value(tableID);
 	end
 	return table.m_List;
@@ -39,13 +39,13 @@ end
 function M:getItem(tableID, itemID)
     local table = self.m_dicTable:value(tableID);
     if (nil == table.m_byteBuffer) then
-		self.loadOneTable(tableID);
+		self:loadOneTable(tableID);
 		table = self.m_dicTable:value(tableID);
 	end
     local ret = self:findDataItem(table, itemID);
 
     if (nil ~= ret and nil == ret.m_itemBody) then
-        self.loadOneTableOneItemAll(tableID, table, ret);
+        self:loadOneTableOneItemAll(tableID, table, ret);
     end
 
     if (nil == ret) then
@@ -120,7 +120,7 @@ end
 
 -- 获取一个表的名字
 function M:getTableName(tableID)
-	table = m_dicTable.value(tableID);
+	local table = self.m_dicTable:value(tableID);
 	if (nil ~= table) then
 		return table.m_tableName;
 	end
@@ -129,14 +129,14 @@ end
 
 -- 读取一个表，仅仅读取表头
 function M:readTable(tableID, bytes)
-    table = m_dicTable.value(tableID);
+    local table = self.m_dicTable:value(tableID);
     table.m_byteBuffer = bytes;
 
-    bytes.setEndian(EEndian.eLITTLE_ENDIAN);
+    bytes.setEndian(GlobalNS.EEndian.eLITTLE_ENDIAN);
     local len = 0;
     bytes.readUnsignedInt32(len);
     local i = 0;
-    item = nil;
+    local item = nil;
     for i = 0, i < len, 1 do
         item = GlobalNS.new(GlobalNS.TableItemBase);
         item.parseHeaderByteBuffer(bytes);

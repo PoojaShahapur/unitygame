@@ -139,6 +139,7 @@ public static class CustomSettings
         _GT(typeof(SDK.Lib.LogSys)),
         _GT(typeof(SDK.Lib.AuxLoaderBase)),
         _GT(typeof(SDK.Lib.AuxPrefabLoader)),
+        _GT(typeof(SDK.Lib.AuxBytesLoader)),
         _GT(typeof(SDK.Lib.MFileSys)),
         _GT(typeof(SDK.Lib.LuaSystem)),
 
