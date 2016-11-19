@@ -1,4 +1,4 @@
--- 类加载器，加载类使用
+-- 类加载器，加载类使用，不要在使用这个，使用 ModuleImport.lua 这个
 
 require "MyLua.Libs.Core.GlobalNS"
 require "MyLua.Libs.Core.StaticClass"
