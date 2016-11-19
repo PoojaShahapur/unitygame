@@ -144,6 +144,7 @@ public static class CustomSettings
         _GT(typeof(SDK.Lib.LuaSystem)),
         _GT(typeof(SDK.Lib.ByteBuffer)),
         _GT(typeof(SDK.Lib.FactoryBuild)),
+        _GT(typeof(SDK.Lib.EEndian)),
 
         //#if UNIT_TEST
         _GT(typeof(UnitTest.GlobalEventCmdTest)),

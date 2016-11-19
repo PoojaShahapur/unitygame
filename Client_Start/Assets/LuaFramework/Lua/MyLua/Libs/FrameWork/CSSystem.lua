@@ -15,6 +15,7 @@ function M.init()
 	this.AuxBytesLoader = SDK.Lib.AuxBytesLoader;
 	this.UtilApi = SDK.Lib.UtilApi;
 	this.MFileSys = SDK.Lib.MFileSys;
+	this.EEndian = SDK.Lib.EEndian;
 end
 
 --[[
@@ -92,7 +93,7 @@ function M.SetRectTransformParent(child, parent, worldPositionStays)
 end
 
 function M.buildByteBuffer()
-	this.Ctx.m_instance.m_factoryBuild:buildByteBuffer();
+	return this.Ctx.m_instance.m_factoryBuild:buildByteBuffer();
 end
 
 return M;

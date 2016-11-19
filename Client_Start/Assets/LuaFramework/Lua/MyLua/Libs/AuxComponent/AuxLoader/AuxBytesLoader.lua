@@ -28,7 +28,7 @@ function M:getNativeLoader()
 end
 
 function M:getBytes()
-	return self.mNativeBytesLoader.getBytes();
+	return self.mNativeBytesLoader:getBytes();
 end
 
 function M:syncLoad(path, pThis, handle)

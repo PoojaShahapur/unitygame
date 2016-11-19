@@ -75,9 +75,9 @@ function M:onLoadEventHandle(dispObj)
         if (nil ~= bytes) then
             self.m_byteArray = GlobalNS.CSSystem.buildByteBuffer();
             self.m_byteArray:clear();
-            self.m_byteArray:writeBytes(bytes, 0, bytes.Length);
+            self.m_byteArray:writeBytes(bytes, 0, bytes.Length, true);
             self.m_byteArray:setPos(0);
-            self:readTable(self:getTableIDByPath(self.m_res:GetPath()), self.m_byteArray);
+            self:readTable(self:getTableIDByPath(self.m_res:getLogicPath()), self.m_byteArray);
         end
     elseif (self.m_res:hasFailed()) then
 		GCtx.mLogSys:log(self.m_res:getLogicPath(), GlobalNS.LogTypeId.eLogCommon);
@@ -135,14 +135,15 @@ function M:readTable(tableID, bytes)
     local table = self.m_dicTable:value(tableID);
     table.m_byteBuffer = bytes;
 
-    bytes.setEndian(GlobalNS.EEndian.eLITTLE_ENDIAN);
-    local len = 0;
-    bytes:readUnsignedInt32(len);
+    --bytes:setEndian(GlobalNS.EEndian.eLITTLE_ENDIAN);
+	bytes:setEndian(GlobalNS.CSSystem.EEndian.eLITTLE_ENDIAN);
+    local count = 0;
+    bytes:readUnsignedInt32(count);
     local i = 0;
     local item = nil;
-    while(i < len) do
+    while(i < count) do
         item = GlobalNS.new(GlobalNS.TableItemBase);
-        item.parseHeaderByteBuffer(bytes);
+        item:parseHeaderByteBuffer(bytes);
         table.m_List:Add(item);
 		
 		i = i + 1
