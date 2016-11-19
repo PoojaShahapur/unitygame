@@ -23,6 +23,7 @@ function M.preInit()
     this.mLogSys = GlobalNS.new(GlobalNS.LogSys);
     this.m_widgetStyleMgr = GlobalNS.new(GlobalNS.WidgetStyleMgr);
 	this.mUIMgr = GlobalNS.new(GlobalNS.UIMgr);
+	this.mTableSys = GlobalNS.new(GlobalNS.TableSys);
 	
     this.m_netCmdNotify = GlobalNS.new(GlobalNS.NetCmdNotify);
 end

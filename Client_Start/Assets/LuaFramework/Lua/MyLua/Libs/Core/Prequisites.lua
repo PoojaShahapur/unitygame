@@ -108,3 +108,24 @@ MLoader("MyLua.Libs.Module.ILoginSys");
 
 -- 资源系统
 MLoader("MyLua.Libs.Resource.ResLoadData.ResPathType");
+
+-- 表系统
+MLoader("MyLua.Libs.Table.TableID");
+
+MLoader("MyLua.Libs.Table.ItemObject.TableItemBodyBase");
+
+MLoader("MyLua.Libs.Table.ItemObject.TableCard");
+MLoader("MyLua.Libs.Table.ItemObject.TableJob");
+MLoader("MyLua.Libs.Table.ItemObject.TableObject");
+MLoader("MyLua.Libs.Table.ItemObject.TableRace");
+MLoader("MyLua.Libs.Table.ItemObject.TableSkill");
+MLoader("MyLua.Libs.Table.ItemObject.TableSpriteAni");
+MLoader("MyLua.Libs.Table.ItemObject.TableState");
+
+MLoader("MyLua.Libs.Table.TableItemHeader");
+MLoader("MyLua.Libs.Table.TableItemBase");
+MLoader("MyLua.Libs.Table.TableBase");
+
+MLoader("MyLua.Libs.Table.UtilTable");
+MLoader("MyLua.Libs.Table.TableSys");
+
