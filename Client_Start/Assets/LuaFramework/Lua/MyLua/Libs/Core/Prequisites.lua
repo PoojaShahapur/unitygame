@@ -85,6 +85,7 @@ MLoader("MyLua.Libs.FrameWork.NoDestroyGo");
 
 -- 工具
 MLoader("MyLua.Libs.Tools.UtilApi");
+MLoader("MyLua.Libs.Tools.UtilPath");
 
 -- 日志
 MLoader("MyLua.Libs.Log.LogTypeId");
@@ -105,3 +106,5 @@ MLoader("MyLua.Libs.Tools.UtilMsg");
 MLoader("MyLua.Libs.Module.IGameSys");
 MLoader("MyLua.Libs.Module.ILoginSys");
 
+-- 资源系统
+MLoader("MyLua.Libs.Resource.ResLoadData.ResPathType");

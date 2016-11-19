@@ -79,6 +79,11 @@ namespace SDK.Lib
 
         }
 
+        virtual public void syncLoad(string path, LuaTable luaTable, LuaFunction luaFunction)
+        {
+
+        }
+
         virtual public void asyncLoad(string path, MAction<IDispatchObject> evtHandle)
         {
 
