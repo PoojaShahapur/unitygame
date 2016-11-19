@@ -23,6 +23,10 @@ function M:dispose()
     end
 end
 
+function M:getNativeLoader()
+	return self.mNativeBytesLoader;
+end
+
 function M:getBytes()
 	return self.mNativeBytesLoader.getBytes();
 end

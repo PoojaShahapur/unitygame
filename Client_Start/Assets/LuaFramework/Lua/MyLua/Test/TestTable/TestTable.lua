@@ -23,7 +23,7 @@ function M:run()
 end
 
 function M:testTableLoad()
-	
+	GCtx.mTableSys:getItem(GlobalNS.TableID.TABLE_OBJECT, 100);
 end
 
 return M;

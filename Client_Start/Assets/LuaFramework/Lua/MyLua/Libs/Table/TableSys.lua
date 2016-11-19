@@ -16,33 +16,33 @@ GlobalNS[M.clsName] = M;
 
 function M:ctor()
 	self.m_dicTable = GlobalNS.new(GlobalNS.MDictionary);
-    self.m_dicTable.Add(GlobalNS.TableID.TABLE_OBJECT, GlobalNS.new(GlobalNS.TableBase, "ObjectBase_client.bytes", "ObjectBase_client"));
-    self.m_dicTable.Add(GlobalNS.TableID.TABLE_CARD, GlobalNS.new(GlobalNS.TableBase, "CardBase_client.bytes", "CardBase_client"));
-    self.m_dicTable.Add(GlobalNS.TableID.TABLE_SKILL, GlobalNS.new(GlobalNS.TableBase, "SkillBase_client.bytes", "SkillBase_client"));    -- 添加一个表的步骤三
-    self.m_dicTable.Add(GlobalNS.TableID.TABLE_JOB, GlobalNS.new(GlobalNS.TableBase, "proBase_client.bytes", "proBase_client"));
-    self.m_dicTable.Add(GlobalNS.TableID.TABLE_SPRITEANI, GlobalNS.new(GlobalNS.TableBase, "FrameAni_client.bytes", "FrameAni_client"));
-    self.m_dicTable.Add(GlobalNS.TableID.TABLE_RACE, GlobalNS.new(GlobalNS.TableBase, "RaceBase_client.bytes", "RaceBase_client"));
-    self.m_dicTable.Add(GlobalNS.TableID.TABLE_STATE, GlobalNS.new(GlobalNS.TableBase, "StateBase_client.bytes", "StateBase_client"));
+    self.m_dicTable:Add(GlobalNS.TableID.TABLE_OBJECT, GlobalNS.new(GlobalNS.TableBase, "ObjectBase_client.bytes", "ObjectBase_client"));
+    self.m_dicTable:Add(GlobalNS.TableID.TABLE_CARD, GlobalNS.new(GlobalNS.TableBase, "CardBase_client.bytes", "CardBase_client"));
+    self.m_dicTable:Add(GlobalNS.TableID.TABLE_SKILL, GlobalNS.new(GlobalNS.TableBase, "SkillBase_client.bytes", "SkillBase_client"));    -- 添加一个表的步骤三
+    self.m_dicTable:Add(GlobalNS.TableID.TABLE_JOB, GlobalNS.new(GlobalNS.TableBase, "proBase_client.bytes", "proBase_client"));
+    self.m_dicTable:Add(GlobalNS.TableID.TABLE_SPRITEANI, GlobalNS.new(GlobalNS.TableBase, "FrameAni_client.bytes", "FrameAni_client"));
+    self.m_dicTable:Add(GlobalNS.TableID.TABLE_RACE, GlobalNS.new(GlobalNS.TableBase, "RaceBase_client.bytes", "RaceBase_client"));
+    self.m_dicTable:Add(GlobalNS.TableID.TABLE_STATE, GlobalNS.new(GlobalNS.TableBase, "StateBase_client.bytes", "StateBase_client"));
 end
 
 -- 返回一个表
 function getTable(tableID)
-	table = m_dicTable.value(tableID);
+	local table = self.m_dicTable:value(tableID);
 	if (nil == table) then
 		self.loadOneTable(tableID);
-		table = m_dicTable[tableID];
+		table = self.m_dicTable:value(tableID);
 	end
 	return table.m_List;
 end
 
 -- 返回一个表中一项，返回的时候表中数据全部加载到 Item 中
 function M:getItem(tableID, itemID)
-    table = m_dicTable.value(tableID);
+    local table = self.m_dicTable:value(tableID);
     if (nil == table.m_byteBuffer) then
 		self.loadOneTable(tableID);
-		table = m_dicTable[tableID];
+		table = self.m_dicTable:value(tableID);
 	end
-    ret = M.findDataItem(table, itemID);
+    local ret = self:findDataItem(table, itemID);
 
     if (nil ~= ret and nil == ret.m_itemBody) then
         self.loadOneTableOneItemAll(tableID, table, ret);
@@ -68,10 +68,10 @@ end
 -- 加载一个表完成
 function M:onLoadEventHandle(dispObj)
     self.m_res = dispObj;
-    if (m_res.refCountResLoadResultNotify.resLoadState:hasSuccessLoaded()) then
+    if (self.m_res:hasSuccessLoaded()) then
         GCtx.mLogSys.log(self.m_res:GetPath(), GlobalNS.LogTypeId.eLogCommon);
 
-        local bytes = self.m_res.getBytes();
+        local bytes = self.m_res:getBytes();
         if (nil ~= bytes) then
             self.m_byteArray = GlobalNS.CSSystem.buildByteBuffer();
             self.m_byteArray:clear();
@@ -79,7 +79,7 @@ function M:onLoadEventHandle(dispObj)
             self.m_byteArray:setPos(0);
             self:readTable(self:getTableIDByPath(self.m_res:GetPath()), self.m_byteArray);
         end
-    elseif (self.m_res.refCountResLoadResultNotify.resLoadState:hasFailed()) then
+    elseif (self.m_res:hasFailed()) then
 		GCtx.mLogSys.log(self.m_res:GetPath(), GlobalNS.LogTypeId.eLogCommon);
     end
 

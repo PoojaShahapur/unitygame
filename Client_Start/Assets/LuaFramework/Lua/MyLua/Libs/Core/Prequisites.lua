@@ -112,7 +112,7 @@ MLoader("MyLua.Libs.Resource.ResLoadData.ResPathType");
 -- 表系统
 MLoader("MyLua.Libs.Table.TableID");
 
-MLoader("MyLua.Libs.Table.ItemObject.TableItemBodyBase");
+MLoader("MyLua.Libs.Table.TableItemBodyBase");
 
 MLoader("MyLua.Libs.Table.ItemObject.TableCard");
 MLoader("MyLua.Libs.Table.ItemObject.TableJob");
