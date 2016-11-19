@@ -50,7 +50,7 @@ namespace SDK.Lib
             // 首先读取 UIFormID 表
             LuaTable idTable = Ctx.m_instance.m_luaSystem.GetLuaTable("GlobalNS.UIFormID");
             //IDictionaryEnumerator idTableEnum =  idTable.GetEnumerator();
-            IDictionaryEnumerator idTableEnum = idTable.ToDictTable().GetEnumerator() as IDictionaryEnumerator;
+            System.Collections.Generic.IEnumerator<DictionaryEntry> idTableEnum = idTable.ToDictTable().GetEnumerator();
             idTableEnum.Reset();
 
             LuaTable luaAttrsTable = Ctx.m_instance.m_luaSystem.GetLuaTable("GlobalNS.UIAttrSystem");
@@ -59,11 +59,11 @@ namespace SDK.Lib
             UIAttrItem attrItem;
             while(idTableEnum.MoveNext())
             {
-                if(Ctx.m_instance.m_luaSystem.IsSystemAttr((string)idTableEnum.Key))
+                if(Ctx.m_instance.m_luaSystem.IsSystemAttr((string)idTableEnum.Current.Key))
                 {
                     continue;
                 }
-                id = Convert.ToInt32(idTableEnum.Value);
+                id = Convert.ToInt32(idTableEnum.Current.Value);
                 luaAttrsItemTable = luaAttrsTable[id] as LuaTable;
 
                 // 有个 eUICount 是个数，这个是没有 FormId 的
