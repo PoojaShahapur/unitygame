@@ -5,7 +5,7 @@ local UIFormID =
 
 GlobalNS['UIFormID'] = UIFormID;
 
-GlobalNS['FormUIDBase'] = 0;
+GlobalNS['FormUIDBase'] = 1;
 
 local addFormId = function(curId)
     GlobalNS.UIFormID[curId] = GlobalNS['FormUIDBase'];
