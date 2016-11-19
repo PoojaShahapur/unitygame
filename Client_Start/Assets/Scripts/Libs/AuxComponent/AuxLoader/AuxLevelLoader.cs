@@ -39,6 +39,9 @@
                 param.m_loadNeedCoroutine = false;
                 Ctx.m_instance.m_resLoadMgr.loadAsset(param);
                 Ctx.m_instance.m_poolSys.deleteObj(param);
+
+                this.mLevelResItem = Ctx.m_instance.m_resLoadMgr.getResource(param.mResUniqueId) as LevelResItem;
+                this.onLevelLoaded(this.mLevelResItem);
             }
         }
 

@@ -61,15 +61,10 @@ namespace SDK.Lib
 
             if (this.isInvalid())
             {
-                unload();
                 mEvtHandle = new ResEventDispatch();
                 mEvtHandle.addEventHandle(null, null, luaTable, luaFunction);
                 mBytesRes = Ctx.m_instance.m_bytesResMgr.getAndSyncLoadRes(path);
-            }
-
-            if (mEvtHandle != null)
-            {
-                mEvtHandle.dispatchEvent(this);
+                onBytesLoaded(mBytesRes);
             }
         }
 

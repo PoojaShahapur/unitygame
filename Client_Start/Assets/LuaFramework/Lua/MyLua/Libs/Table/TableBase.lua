@@ -10,7 +10,7 @@ function M:ctor(resName, tablename)
     self.m_resName = resName;
     self.m_tableName = tablename;                -- 表的名字
 
-    self.m_List = GlobalNS.new(GlobalNS.TableItemBase);
+    self.m_List = GlobalNS.new(GlobalNS.MList);
     self.m_byteBuffer = nil;      -- 整个表格所有的原始数据
 end
 

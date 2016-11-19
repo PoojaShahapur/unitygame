@@ -80,7 +80,7 @@ function M:onLoadEventHandle(dispObj)
             self:readTable(self:getTableIDByPath(self.m_res:GetPath()), self.m_byteArray);
         end
     elseif (self.m_res:hasFailed()) then
-		GCtx.mLogSys.log(self.m_res:GetPath(), GlobalNS.LogTypeId.eLogCommon);
+		GCtx.mLogSys:log(self.m_res:getLogicPath(), GlobalNS.LogTypeId.eLogCommon);
     end
 
     -- 卸载资源
@@ -134,19 +134,19 @@ function M:readTable(tableID, bytes)
 
     bytes.setEndian(GlobalNS.EEndian.eLITTLE_ENDIAN);
     local len = 0;
-    bytes.readUnsignedInt32(len);
+    bytes:readUnsignedInt32(len);
     local i = 0;
     local item = nil;
     for i = 0, i < len, 1 do
         item = GlobalNS.new(GlobalNS.TableItemBase);
         item.parseHeaderByteBuffer(bytes);
-        table.m_List.Add(item);
+        table.m_List:Add(item);
     end
 end
 
 -- 查找表中的一项
 function M:findDataItem(table, id)
-	local size = table.m_List.Count();
+	local size = table.m_List:Count();
 	local low = 0;
 	local high = size - 1;
 	local middle = 0;
@@ -154,7 +154,7 @@ function M:findDataItem(table, id)
 	
 	while (low <= high) do
 		middle = (low + high) / 2;
-        idCur = table.m_List.at(middle).m_itemHeader.m_uID;
+        idCur = table.m_List:at(middle).m_itemHeader.m_uID;
 		if (idCur == id) then
 			break;
 		end
@@ -166,7 +166,7 @@ function M:findDataItem(table, id)
 	end
 	
 	if (low <= high) then
-        return table.m_List[middle];
+        return table.m_List:at(middle);
 	end
 	
 	return nil;

@@ -26,8 +26,8 @@ function M:hasFailed()
 	return self:getNativeLoader():hasFailed();
 end
 
-function M:GetPath()
-	return self:getNativeLoader():GetPath();
+function M:getLogicPath()
+	return self:getNativeLoader():getLogicPath();
 end
 
 function M:getNativeLoader()
