@@ -50,10 +50,10 @@ namespace UnitTest
             pDataBuffer.rawBuffer.circularBuffer.pushBackBA(pDataBuffer.sendBuffer);         // 直接放到接收原始消息缓冲区
             pDataBuffer.moveRaw2Msg();
 
-            ByteBuffer bu;
-            bu = pDataBuffer.getMsg();
-            UAssert.DebugAssert(bu != null);
-            pUnitTestCmd.derialize(bu);
+            ByteBuffer byteBuffer;
+            byteBuffer = pDataBuffer.getMsg();
+            UAssert.DebugAssert(byteBuffer != null);
+            pUnitTestCmd.derialize(byteBuffer);
             UAssert.DebugAssert(pUnitTestCmd.testStr.Substring(0, 4) == "测试数据");
 
             pDataBuffer.getSocketSendData();
@@ -66,9 +66,9 @@ namespace UnitTest
                 pDataBuffer.moveRaw2Msg();
             }
 
-            bu = pDataBuffer.getMsg();
-            UAssert.DebugAssert(bu != null);
-            pUnitTestCmd.derialize(bu);
+            byteBuffer = pDataBuffer.getMsg();
+            UAssert.DebugAssert(byteBuffer != null);
+            pUnitTestCmd.derialize(byteBuffer);
             UAssert.DebugAssert(pUnitTestCmd.testStr.Substring(0, 4) == "成功返回");
 
             pDataBuffer.getSocketSendData();
@@ -81,9 +81,9 @@ namespace UnitTest
                 pDataBuffer.moveRaw2Msg();
             }
 
-            bu = pDataBuffer.getMsg();
-            UAssert.DebugAssert(bu != null);
-            pUnitTesNumtCmd.derialize(bu);
+            byteBuffer = pDataBuffer.getMsg();
+            UAssert.DebugAssert(byteBuffer != null);
+            pUnitTesNumtCmd.derialize(byteBuffer);
             UAssert.DebugAssert(pUnitTesNumtCmd.num == 2001);
 
             Ctx.m_instance.m_netCmdNotify.clearOneRevMsg();
@@ -93,11 +93,11 @@ namespace UnitTest
         protected void testBA()
         {
             string str = "测试数据";
-            ByteBuffer bu = new ByteBuffer();
-            bu.writeMultiByte(str, GkEncode.eUTF8, 24);
-            bu.position = 0;
+            ByteBuffer byteBuffer = new ByteBuffer();
+            byteBuffer.writeMultiByte(str, GkEncode.eUTF8, 24);
+            byteBuffer.position = 0;
             string ret = "";
-            bu.readMultiByte(ref ret, 24, GkEncode.eUTF8);
+            byteBuffer.readMultiByte(ref ret, 24, GkEncode.eUTF8);
         }
 
         protected void testSend()

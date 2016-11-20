@@ -257,23 +257,23 @@ namespace Game.Login
         // 返回基本角色信息
         public void psstUserInfoUserCmd(IDispatchObject dispObj)
         {
-            ByteBuffer bu = dispObj as ByteBuffer;
+            ByteBuffer byteBuffer = dispObj as ByteBuffer;
             // 发送选择角色登陆进入游戏
             stLoginSelectUserCmd cmd1f = new stLoginSelectUserCmd();
             cmd1f.charNo = 0;
             UtilMsg.sendMsg(cmd1f);
 
             stUserInfoUserCmd cmd = new stUserInfoUserCmd();
-            cmd.derialize(bu);
+            cmd.derialize(byteBuffer);
         }
 
         // 终于登陆成功了
         public void psstLoginSelectSuccessUserCmd(IDispatchObject dispObj)
         {
-            ByteBuffer bu = dispObj as ByteBuffer;
+            ByteBuffer byteBuffer = dispObj as ByteBuffer;
 
             stLoginSelectSuccessUserCmd cmd = new stLoginSelectSuccessUserCmd();
-            cmd.derialize(bu);
+            cmd.derialize(byteBuffer);
 
             Ctx.m_instance.m_netCmdNotify.bStopNetHandle = true;     // 停止网络消息处理
             // 进入场景

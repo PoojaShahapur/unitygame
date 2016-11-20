@@ -38,9 +38,9 @@ namespace UnitTest
             byte[] outBytes = null;
             //uint outSize = 0;
 
-            ByteBuffer bu = new ByteBuffer();
+            ByteBuffer byteBuffer = new ByteBuffer();
             stUserRequestLoginCmd cmd = new stUserRequestLoginCmd();
-            cmd.serialize(bu);
+            cmd.serialize(byteBuffer);
             //Compress.CompressByteZip(bu.dynBuff.buff, 0, (uint)bu.length, ref outBytes, ref outSize);
 
             writeFile("e:\\log.zip", outBytes);

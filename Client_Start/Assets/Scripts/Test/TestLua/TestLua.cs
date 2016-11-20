@@ -112,58 +112,58 @@ namespace UnitTest
 
         protected void testLuaByteBuffer()
         {
-            ByteBuffer bu = new ByteBuffer();
-            bu.luaCSBridgeByteBuffer = new LuaCSBridgeByteBuffer();
+            ByteBuffer byteBuffer = new ByteBuffer();
+            byteBuffer.luaCSBridgeByteBuffer = new LuaCSBridgeByteBuffer();
 
-            bu.writeInt16(257);
-            bu.writeInt32(2147483647);
-            bu.writeInt16(-86);
-            bu.writeMultiByte("asdfasdf", GkEncode.eUTF8, 16);
-            bu.writeMultiByte("测试啊", GkEncode.eUTF8, 16);
-            //bu.luaCSBridgeByteBuffer.CallClassMethod("tableFunc");
-            bu.luaCSBridgeByteBuffer.updateLuaByteBuffer(bu);
-            bu.luaCSBridgeByteBuffer.callClassMethod("", "TestOut");
+            byteBuffer.writeInt16(257);
+            byteBuffer.writeInt32(2147483647);
+            byteBuffer.writeInt16(-86);
+            byteBuffer.writeMultiByte("asdfasdf", GkEncode.eUTF8, 16);
+            byteBuffer.writeMultiByte("测试啊", GkEncode.eUTF8, 16);
+            //byteBuffer.luaCSBridgeByteBuffer.callClassMethod("tableFunc");
+            byteBuffer.luaCSBridgeByteBuffer.updateLuaByteBuffer(byteBuffer);
+            byteBuffer.luaCSBridgeByteBuffer.callClassMethod("", "TestOut");
             //bu.luaCSBridgeByteBuffer.callClassMethod("dumpAllBytes");
 
-            object _int16 = bu.luaCSBridgeByteBuffer.callClassMethod("", "readInt16FromCS");
-            object _int32 = bu.luaCSBridgeByteBuffer.callClassMethod("", "readInt32FromCS");
-            object _int16Neg = bu.luaCSBridgeByteBuffer.callClassMethod("", "readInt16FromCS");
-            object _strEn = bu.luaCSBridgeByteBuffer.callClassMethod("", "readMultiByteFromCS");
-            object _strChs = bu.luaCSBridgeByteBuffer.callClassMethod("", "readMultiByteFromCS");
+            object _int16 = byteBuffer.luaCSBridgeByteBuffer.callClassMethod("", "readInt16FromCS");
+            object _int32 = byteBuffer.luaCSBridgeByteBuffer.callClassMethod("", "readInt32FromCS");
+            object _int16Neg = byteBuffer.luaCSBridgeByteBuffer.callClassMethod("", "readInt16FromCS");
+            object _strEn = byteBuffer.luaCSBridgeByteBuffer.callClassMethod("", "readMultiByteFromCS");
+            object _strChs = byteBuffer.luaCSBridgeByteBuffer.callClassMethod("", "readMultiByteFromCS");
             int aaa = 0;
         }
 
         // 测试符号数
         protected void testLuaByteBufferNeg()
         {
-            ByteBuffer bu = new ByteBuffer();
-            bu.luaCSBridgeByteBuffer = new LuaCSBridgeByteBuffer();
+            ByteBuffer byteBuffer = new ByteBuffer();
+            byteBuffer.luaCSBridgeByteBuffer = new LuaCSBridgeByteBuffer();
 
-            bu.writeUnsignedInt8(123);
-            bu.writeInt16(-7894);
-            bu.writeInt32(456789132);
-            bu.writeInt32(-789445678);
-            bu.luaCSBridgeByteBuffer.updateLuaByteBuffer(bu);
-            bu.luaCSBridgeByteBuffer.callClassMethod("", "TestOut");
+            byteBuffer.writeUnsignedInt8(123);
+            byteBuffer.writeInt16(-7894);
+            byteBuffer.writeInt32(456789132);
+            byteBuffer.writeInt32(-789445678);
+            byteBuffer.luaCSBridgeByteBuffer.updateLuaByteBuffer(byteBuffer);
+            byteBuffer.luaCSBridgeByteBuffer.callClassMethod("", "TestOut");
 
-            object _int8Neg = bu.luaCSBridgeByteBuffer.callClassMethod("", "readInt8FromCS");
-            object _int16Neg = bu.luaCSBridgeByteBuffer.callClassMethod("", "readInt16FromCS");
-            object _int32Pos = bu.luaCSBridgeByteBuffer.callClassMethod("", "readInt32FromCS");
-            object _int32Neg = bu.luaCSBridgeByteBuffer.callClassMethod("", "readInt32FromCS");
+            object _int8Neg = byteBuffer.luaCSBridgeByteBuffer.callClassMethod("", "readInt8FromCS");
+            object _int16Neg = byteBuffer.luaCSBridgeByteBuffer.callClassMethod("", "readInt16FromCS");
+            object _int32Pos = byteBuffer.luaCSBridgeByteBuffer.callClassMethod("", "readInt32FromCS");
+            object _int32Neg = byteBuffer.luaCSBridgeByteBuffer.callClassMethod("", "readInt32FromCS");
             int aaa = 0;
         }
 
         protected void testSysEndian()
         {
-            ByteBuffer bu = new ByteBuffer();
-            bu.luaCSBridgeByteBuffer = new LuaCSBridgeByteBuffer();
-            bu.luaCSBridgeByteBuffer.setSysEndian(23);
+            ByteBuffer byteBuffer = new ByteBuffer();
+            byteBuffer.luaCSBridgeByteBuffer = new LuaCSBridgeByteBuffer();
+            byteBuffer.luaCSBridgeByteBuffer.setSysEndian(23);
 
-            bu.writeInt32(-789445678);
-            bu.luaCSBridgeByteBuffer.updateLuaByteBuffer(bu);
-            bu.luaCSBridgeByteBuffer.callClassMethod("", "TestOut");
+            byteBuffer.writeInt32(-789445678);
+            byteBuffer.luaCSBridgeByteBuffer.updateLuaByteBuffer(byteBuffer);
+            byteBuffer.luaCSBridgeByteBuffer.callClassMethod("", "TestOut");
 
-            object _int32Neg = bu.luaCSBridgeByteBuffer.callClassMethod("", "readInt32FromCS");
+            object _int32Neg = byteBuffer.luaCSBridgeByteBuffer.callClassMethod("", "readInt32FromCS");
             int aaa = 0;
         }
 
