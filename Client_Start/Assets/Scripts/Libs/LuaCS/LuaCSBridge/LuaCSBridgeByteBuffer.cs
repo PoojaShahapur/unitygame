@@ -17,8 +17,8 @@ namespace SDK.Lib
             //base("ByteBuffer")
         {
             string path = "LuaScript/DataStruct/NetMsgData.lua";
-            Ctx.m_instance.m_luaSystem.DoFile(path);
-            m_luaTable = Ctx.m_instance.m_luaSystem.GetLuaTable(m_tableName);
+            Ctx.m_instance.m_luaSystem.doFile(path);
+            m_luaTable = Ctx.m_instance.m_luaSystem.getLuaTable(m_tableName);
             // 设置系统字节序
             setSysEndian((int)SystemEndian.msLocalEndian);
         }

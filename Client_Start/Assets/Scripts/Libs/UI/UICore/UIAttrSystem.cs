@@ -54,7 +54,7 @@ namespace SDK.Lib
         public void init()
         {
             m_luaCSBridgeUICore = new LuaCSBridgeUICore(this);
-            Ctx.m_instance.m_luaSystem.DoFile("MyLua/Libs/UI/UICore/UIAttrSystem.lua");
+            Ctx.m_instance.m_luaSystem.doFile("MyLua/Libs/UI/UICore/UIAttrSystem.lua");
             m_luaCSBridgeUICore.loadLuaCfg();
         }
 

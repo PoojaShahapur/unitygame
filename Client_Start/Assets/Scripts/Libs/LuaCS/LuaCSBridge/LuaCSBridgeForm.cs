@@ -82,7 +82,7 @@ namespace SDK.Lib
         public void handleUIEvent(string eventName, string formName, string path)
         {
             // Ctx.m_instance.m_luaSystem.DoFile("script/panelscript/UIMgr.lua");
-            LuaTable luaTable = Ctx.m_instance.m_luaSystem.GetLuaTable("UIManager");
+            LuaTable luaTable = Ctx.m_instance.m_luaSystem.getLuaTable("UIManager");
             callGlobalMethod(LuaCSBridgeForm.LUA_DISPATCH_FULL_FUNC_NAME, luaTable, eventName, formName, path);  // 这个地方把 luaTable 传递进去，是因为 Lua 中是这么写的 UIManager:OnBtnClick ，而不是 UIManager.OnBtnClick 写的
             // CallGlobalMethod("UISysTest.OnUiMsg", "bbb", "ffff");
         }
@@ -93,7 +93,7 @@ namespace SDK.Lib
             if (!String.IsNullOrEmpty(m_tableName))  // 如果在 _G 表中
             {
                 fullFuncName = m_tableName + "." + funcName_;
-                return Ctx.m_instance.m_luaSystem.CallLuaFunction(fullFuncName, m_luaInsTable, args);
+                return Ctx.m_instance.m_luaSystem.callLuaFunction(fullFuncName, m_luaInsTable, args);
             }
 
             return null;

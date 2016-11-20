@@ -104,7 +104,7 @@ namespace UnitTest
 
             LuaCSBridge _luaCSBridge = new LuaCSBridge("", "testTable");
             string path = "Test/TestLuaBind.lua";      // 
-            Ctx.m_instance.m_luaSystem.DoFile(path);                      // 添加函数，如果 "TestLuaBind.lua" 文件直接调用了一个函数，例如 luaFunc(10) ，执行 DoFile 后返回值是 null ，注意这一点，但是自己手工调用这个函数却有返回值的。
+            Ctx.m_instance.m_luaSystem.doFile(path);                      // 添加函数，如果 "TestLuaBind.lua" 文件直接调用了一个函数，例如 luaFunc(10) ，执行 DoFile 后返回值是 null ，注意这一点，但是自己手工调用这个函数却有返回值的。
             object[] ret = _luaCSBridge.callTableMethod("", "tableFunc", 10);
 
             object member = _luaCSBridge.getMember("tableData");
@@ -169,7 +169,7 @@ namespace UnitTest
 
         protected void testGet_GTable()
         {
-            LuaTable luaTable = Ctx.m_instance.m_luaSystem.GetLuaTable("_G");
+            LuaTable luaTable = Ctx.m_instance.m_luaSystem.getLuaTable("_G");
         }
 
         // 下面函数仅仅是说明用法，不能真正运行

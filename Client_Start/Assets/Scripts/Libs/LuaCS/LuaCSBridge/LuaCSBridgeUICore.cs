@@ -46,9 +46,9 @@ namespace SDK.Lib
 
             // 新版本
             // 首先读取 UIFormID 表
-            LuaTable idTable = Ctx.m_instance.m_luaSystem.GetLuaTable("GlobalNS.UIFormID");
+            LuaTable idTable = Ctx.m_instance.m_luaSystem.getLuaTable("GlobalNS.UIFormID");
             System.Collections.Generic.IEnumerator<DictionaryEntry> idList = idTable.ToDictTable().GetEnumerator();
-            LuaTable luaAttrsTable = Ctx.m_instance.m_luaSystem.GetLuaTable("GlobalNS.UIAttrSystem");
+            LuaTable luaAttrsTable = Ctx.m_instance.m_luaSystem.getLuaTable("GlobalNS.UIAttrSystem");
             LuaTable luaAttrsItemTable = null;
             int id = 0;
             UIAttrItem attrItem = null;
@@ -71,18 +71,18 @@ namespace SDK.Lib
         public void loadLuaCfg()
         {
             // 首先读取 UIFormID 表
-            LuaTable idTable = Ctx.m_instance.m_luaSystem.GetLuaTable("GlobalNS.UIFormID");
+            LuaTable idTable = Ctx.m_instance.m_luaSystem.getLuaTable("GlobalNS.UIFormID");
             //IDictionaryEnumerator idTableEnum =  idTable.GetEnumerator();
             System.Collections.Generic.IEnumerator<DictionaryEntry> idTableEnum = idTable.ToDictTable().GetEnumerator();
             idTableEnum.Reset();
 
-            LuaTable luaAttrsTable = Ctx.m_instance.m_luaSystem.GetLuaTable("GlobalNS.UIAttrSystem");
+            LuaTable luaAttrsTable = Ctx.m_instance.m_luaSystem.getLuaTable("GlobalNS.UIAttrSystem");
             LuaTable luaAttrsItemTable = null;
             int id = 0;
             UIAttrItem attrItem;
             while(idTableEnum.MoveNext())
             {
-                if(Ctx.m_instance.m_luaSystem.IsSystemAttr((string)idTableEnum.Current.Key))
+                if(Ctx.m_instance.m_luaSystem.isSystemAttr((string)idTableEnum.Current.Key))
                 {
                     continue;
                 }

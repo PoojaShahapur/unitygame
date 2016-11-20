@@ -139,7 +139,7 @@ namespace SDK.Lib
             }
             else if (!string.IsNullOrEmpty(m_tableName))
             {
-                m_luaTable = Ctx.m_instance.m_luaSystem.GetLuaTable(m_tableName);
+                m_luaTable = Ctx.m_instance.m_luaSystem.getLuaTable(m_tableName);
             }
         }
 
@@ -269,7 +269,7 @@ namespace SDK.Lib
          */
         public object[] callGlobalMethod(string funcName_, params object[] args)
         {
-            return Ctx.m_instance.m_luaSystem.CallLuaFunction(funcName_, args);
+            return Ctx.m_instance.m_luaSystem.callLuaFunction(funcName_, args);
         }
 
         /**
@@ -277,7 +277,7 @@ namespace SDK.Lib
          */
         public object getGlobalMember(string memberName_)
         {
-            return Ctx.m_instance.m_luaSystem.GetLuaMember(memberName_);
+            return Ctx.m_instance.m_luaSystem.getLuaMember(memberName_);
         }
     }
 }
