@@ -16,7 +16,7 @@
         {
             //LuaStringBuffer luaBuffer = new LuaStringBuffer(bu.dynBuff.buff);
             LuaInterface.LuaByteBuffer luaBuffer = new LuaInterface.LuaByteBuffer(bu.dynBuff.buff);
-            CallClassMethod("", "handleMsg", byCmd, byParam, luaBuffer);    // 回调 Lua 函数
+            callClassMethod("", "handleMsg", byCmd, byParam, luaBuffer);    // 回调 Lua 函数
         }
     }
 }

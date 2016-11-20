@@ -27,6 +27,25 @@ namespace SDK.Lib
             m_funcName = funcName;
         }
 
+        virtual public void dispose()
+        {
+            if (null != m_luaTable)
+            {
+                m_luaTable.Dispose();
+                m_luaTable = null;
+            }
+
+            if (null != m_luaFunc)
+            {
+                m_luaFunc.Dispose();
+                m_luaFunc = null;
+            }
+
+            Util.ClearMemory();
+
+            Ctx.m_instance.m_logSys.log(string.Format("~ {0} was destroy!", m_tableName));
+        }
+
         public void setTable(LuaTable luaTable)
         {
             m_luaTable = luaTable;
@@ -138,19 +157,13 @@ namespace SDK.Lib
             loadFunction();
         }
 
-        virtual public void dispose()
-        {
-            Util.ClearMemory();
-            Ctx.m_instance.m_logSys.log(string.Format("~ {0} was destroy!", m_tableName));
-        }
-
         /**
          * @brief 执行Lua方法
          * @param funcName_ 函数名字
          * @example CallMethod("OnClick");  CallMethod("OnClick", GameObject go_);
          * @example 表中需要这么写 TableName.FunctionName()
          */
-        public object[] CallTableMethod(string tableName_, string funcName_, params object[] args)
+        public object[] callTableMethod(string tableName_, string funcName_, params object[] args)
         {
             /*
             string fullFuncName = "";   // 完全的有表的完全名字
@@ -180,7 +193,7 @@ namespace SDK.Lib
          * @brief 调用类方法
          * @example 表中需要这么写 TableName:FunctionName()， 需要把这个表作为第二个参数传递进入，在 Lua 函数中就直接可以使用 self 了
          */
-        virtual public object[] CallClassMethod(string tableName_, string funcName_, params object[] args)
+        virtual public object[] callClassMethod(string tableName_, string funcName_, params object[] args)
         {
             /*
             string fullFuncName = "";               // 完全的有表的完全名字
@@ -228,7 +241,7 @@ namespace SDK.Lib
          * @brief 获取 Lua 表中的数据
          * @param member_ 表中成员的名字
          */
-        public object GetMember(string memberName_)
+        public object getMember(string memberName_)
         {
             /*
             string fullMemberName = "";             // 有表前缀的成员的名字
@@ -254,7 +267,7 @@ namespace SDK.Lib
         /**
          * @brief 强制调用 _G 中的函数
          */
-        public object[] CallGlobalMethod(string funcName_, params object[] args)
+        public object[] callGlobalMethod(string funcName_, params object[] args)
         {
             return Ctx.m_instance.m_luaSystem.CallLuaFunction(funcName_, args);
         }
@@ -262,7 +275,7 @@ namespace SDK.Lib
         /**
          * @brief 强制从 _G 中获取数据
          */
-        public object GetGlobalMember(string memberName_)
+        public object getGlobalMember(string memberName_)
         {
             return Ctx.m_instance.m_luaSystem.GetLuaMember(memberName_);
         }

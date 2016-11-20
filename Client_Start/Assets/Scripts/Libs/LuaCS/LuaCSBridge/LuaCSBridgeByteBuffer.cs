@@ -26,7 +26,7 @@ namespace SDK.Lib
         // 更新 Lua 中表的数据
         public void updateLuaByteBuffer(ByteBuffer bu)
         {
-            CallClassMethod("", LuaCSBridgeByteBuffer.CLEAR);       // 清除字节缓冲区
+            callClassMethod("", LuaCSBridgeByteBuffer.CLEAR);       // 清除字节缓冲区
             for(int idx = 0; idx < bu.dynBuff.size; ++idx)
             {
                 //m_luaTable[idx] = bu.dynBuff.buff[idx];               // 这样是直接加入表中
@@ -99,6 +99,12 @@ namespace SDK.Lib
 
             //    LuaDLL.lua_settop(L, oldTop);
             //}
+
+            // 新版本
+            if (!String.IsNullOrEmpty(tableName_))  // 如果在 _G 表中
+            {
+                this.callClassMethod(tableName_, funcName_, oneByte);
+            }
         }
 
         // 直接写一个 byte[] 数组到 Lua
@@ -161,6 +167,12 @@ namespace SDK.Lib
 
             //    LuaDLL.lua_settop(L, oldTop);
             //}
+
+            // 新版本
+            if (!String.IsNullOrEmpty(tableName_))  // 如果在 _G 表中
+            {
+                this.callClassMethod(tableName_, funcName_, bytes, size_);
+            }
         }
 
         public void setSysEndian(int endian_)
@@ -170,7 +182,7 @@ namespace SDK.Lib
 
         public void updateLuaByteBuffer(byte[] bytes, int bytesLen)
         {
-            CallClassMethod("", LuaCSBridgeByteBuffer.CLEAR);
+            callClassMethod("", LuaCSBridgeByteBuffer.CLEAR);
             writeByteArrToLua(m_tableName, WRITEMULTIBYTE, bytes, bytesLen);
         }
     }

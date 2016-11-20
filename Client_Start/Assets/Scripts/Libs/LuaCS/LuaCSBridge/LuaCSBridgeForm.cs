@@ -83,11 +83,11 @@ namespace SDK.Lib
         {
             // Ctx.m_instance.m_luaSystem.DoFile("script/panelscript/UIMgr.lua");
             LuaTable luaTable = Ctx.m_instance.m_luaSystem.GetLuaTable("UIManager");
-            CallGlobalMethod(LuaCSBridgeForm.LUA_DISPATCH_FULL_FUNC_NAME, luaTable, eventName, formName, path);  // 这个地方把 luaTable 传递进去，是因为 Lua 中是这么写的 UIManager:OnBtnClick ，而不是 UIManager.OnBtnClick 写的
+            callGlobalMethod(LuaCSBridgeForm.LUA_DISPATCH_FULL_FUNC_NAME, luaTable, eventName, formName, path);  // 这个地方把 luaTable 传递进去，是因为 Lua 中是这么写的 UIManager:OnBtnClick ，而不是 UIManager.OnBtnClick 写的
             // CallGlobalMethod("UISysTest.OnUiMsg", "bbb", "ffff");
         }
 
-        override public object[] CallClassMethod(string tableName_, string funcName_, params object[] args)
+        override public object[] callClassMethod(string tableName_, string funcName_, params object[] args)
         {
             string fullFuncName = "";               // 完全的有表的完全名字
             if (!String.IsNullOrEmpty(m_tableName))  // 如果在 _G 表中

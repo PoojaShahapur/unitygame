@@ -43,6 +43,29 @@ namespace SDK.Lib
             //    attrItem.m_luaScriptPath = luaAttrsItemTable["m_luaScriptPath"] as string;
             //    attrItem.m_luaScriptTableName = luaAttrsItemTable["m_luaScriptTableName"] as string;
             //}
+
+            // 新版本
+            // 首先读取 UIFormID 表
+            LuaTable idTable = Ctx.m_instance.m_luaSystem.GetLuaTable("GlobalNS.UIFormID");
+            System.Collections.Generic.IEnumerator<DictionaryEntry> idList = idTable.ToDictTable().GetEnumerator();
+            LuaTable luaAttrsTable = Ctx.m_instance.m_luaSystem.GetLuaTable("GlobalNS.UIAttrSystem");
+            LuaTable luaAttrsItemTable = null;
+            int id = 0;
+            UIAttrItem attrItem = null;
+            while (idList.MoveNext())
+            {
+                id = Convert.ToInt32(idList.Current.Value);
+                attrItem = new UIAttrItem();
+                m_uiAttrs.m_id2AttrDic[(UIFormID)id] = attrItem;
+                luaAttrsItemTable = luaAttrsTable[id] as LuaTable;
+
+                attrItem.m_bNeedLua = true;
+                attrItem.m_widgetPath = luaAttrsItemTable["m_widgetPath"] as string;
+                attrItem.m_luaScriptPath = luaAttrsItemTable["m_luaScriptPath"] as string;
+                attrItem.m_luaScriptTableName = luaAttrsItemTable["m_luaScriptTableName"] as string;
+            }
+
+            idList.Dispose();
         }
 
         public void loadLuaCfg()
