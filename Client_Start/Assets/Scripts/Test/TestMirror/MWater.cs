@@ -7,7 +7,7 @@ using System.Collections.Generic;
 /// </summary>  
 [AddComponentMenu("GameCore/Effect/Water/Water (Base)")]
 [ExecuteInEditMode]
-public class Water : MonoBehaviour
+public class MWater : MonoBehaviour
 {
     public enum FlageWaterRefType
     {
