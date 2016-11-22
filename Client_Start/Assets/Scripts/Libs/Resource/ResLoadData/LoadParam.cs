@@ -156,7 +156,7 @@ namespace SDK.Lib
                 mLogicPath = m_origPath;        // mLogicPath 有扩展名字
             }
 
-            ResRedirectItem redirectItem = Ctx.m_instance.mResRedirect.getResRedirectItem(m_origPath);
+            ResRedirectItem redirectItem = Ctx.mInstance.mResRedirect.getResRedirectItem(m_origPath);
             if(redirectItem != null && redirectItem.mFileVerInfo != null)
             {
                 mResUniqueId = redirectItem.mFileVerInfo.mResUniqueId;
@@ -262,7 +262,7 @@ namespace SDK.Lib
         static public string convOrigPathToUniqueId(string origPath)
         {
             string resUniqueId = "";
-            ResRedirectItem redirectItem = Ctx.m_instance.mResRedirect.getResRedirectItem(origPath);
+            ResRedirectItem redirectItem = Ctx.mInstance.mResRedirect.getResRedirectItem(origPath);
             if (redirectItem != null && redirectItem.mFileVerInfo != null)
             {
                 resUniqueId = redirectItem.mFileVerInfo.mResUniqueId;

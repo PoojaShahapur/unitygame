@@ -79,7 +79,7 @@ namespace SDK.Lib
 
         protected GameObject loadBundleAsync(string resName)
         {
-            Ctx.m_instance.m_coroutineMgr.StartCoroutine(loadBundleByCoroutine());
+            Ctx.mInstance.mCoroutineMgr.StartCoroutine(loadBundleByCoroutine());
             return null;
         }
 
@@ -125,7 +125,7 @@ namespace SDK.Lib
                 m_retGO = GameObject.Instantiate(m_object) as GameObject;
                 if (null == m_retGO)
                 {
-                    Ctx.m_instance.m_logSys.log("不能实例化数据");
+                    Ctx.mInstance.mLogSys.log("不能实例化数据");
                 }
             }
 

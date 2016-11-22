@@ -390,7 +390,7 @@ namespace SDK.Lib
             }
             else
             {
-                Ctx.m_instance.m_logSys.log("Destroy Object is null");
+                Ctx.mInstance.mLogSys.log("Destroy Object is null");
             }
         }
 
@@ -474,7 +474,7 @@ namespace SDK.Lib
             {
                 if (image.sprite != null)
                 {
-                    ImageItem imageItem = Ctx.m_instance.m_atlasMgr.getAndSyncLoadImage(CVAtlasName.ShopDyn, image.sprite.name);
+                    ImageItem imageItem = Ctx.mInstance.mAtlasMgr.getAndSyncLoadImage(CVAtlasName.ShopDyn, image.sprite.name);
                     if (imageItem != null && imageItem.image != null)
                     {
                         if (image.sprite.texture != null)

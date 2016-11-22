@@ -35,12 +35,12 @@ namespace SDK.Lib
 
         virtual public void loadFile()
         {
-            LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
+            LoadParam param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
             param.setPath(FILE_LIST);
             param.m_loadEventHandle = onLoadEventHandle;
 
-            Ctx.m_instance.m_resLoadMgr.loadData(param);
-            Ctx.m_instance.m_poolSys.deleteObj(param);
+            Ctx.mInstance.mResLoadMgr.loadData(param);
+            Ctx.mInstance.mPoolSys.deleteObj(param);
         }
 
         public void onLoadEventHandle(IDispatchObject dispObj)
@@ -48,7 +48,7 @@ namespace SDK.Lib
             ResItem res = dispObj as ResItem;
             if (res.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
             {
-                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, res.getLoadPath());
+                Ctx.mInstance.mLogSys.debugLog_1(LangItemID.eItem0, res.getLoadPath());
 
                 byte[] textAsset = (res as DataResItem).getBytes("");
                 if (textAsset != null)
@@ -57,7 +57,7 @@ namespace SDK.Lib
                 }
 
                 // 卸载
-                Ctx.m_instance.m_resLoadMgr.unload(res.getResUniqueId(), onLoadEventHandle);
+                Ctx.mInstance.mResLoadMgr.unload(res.getResUniqueId(), onLoadEventHandle);
 
                 if (m_pakCfgLoadDisp != null)
                 {
@@ -66,9 +66,9 @@ namespace SDK.Lib
             }
             else if (res.refCountResLoadResultNotify.resLoadState.hasFailed())
             {
-                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, res.getLoadPath());
+                Ctx.mInstance.mLogSys.debugLog_1(LangItemID.eItem1, res.getLoadPath());
                 // 卸载
-                Ctx.m_instance.m_resLoadMgr.unload(res.getResUniqueId(), onLoadEventHandle);
+                Ctx.mInstance.mResLoadMgr.unload(res.getResUniqueId(), onLoadEventHandle);
 
                 if (m_pakCfgLoadDisp != null)
                 {
@@ -101,8 +101,8 @@ namespace SDK.Lib
         // 获取当前资源所在的包文件名字
         public string getCurResPakPathByResPath(string resPath, LoadParam param)
         {
-            //Ctx.m_instance.m_shareData.m_resInPakPath = resPath;
-            //return Ctx.m_instance.m_shareData.m_resInPakPath;
+            //Ctx.mInstance.mShareData.m_resInPakPath = resPath;
+            //return Ctx.mInstance.mShareData.m_resInPakPath;
             if (MacroDef.PKG_RES_LOAD)
             {
                 string retPath = resPath;

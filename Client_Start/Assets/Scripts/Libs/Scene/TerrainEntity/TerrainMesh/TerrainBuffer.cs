@@ -67,7 +67,7 @@ namespace SDK.Lib
 
         public bool getVertData(string key, ref MVertexDataRecord record)
         {
-            if (!Ctx.m_instance.mTerrainGlobalOption.mIsReadFile)
+            if (!Ctx.mInstance.mTerrainGlobalOption.mIsReadFile)
             {
                 return false;
             }
@@ -103,7 +103,7 @@ namespace SDK.Lib
 
         public bool getAABB(string key, ref MAxisAlignedBox aabb)
         {
-            if (!Ctx.m_instance.mTerrainGlobalOption.mIsReadFile)
+            if (!Ctx.mInstance.mTerrainGlobalOption.mIsReadFile)
             {
                 return false;
             }
@@ -137,7 +137,7 @@ namespace SDK.Lib
 
         public bool getTerrainTileRender(string key, ref TerrainTileRender render)
         {
-            if (!Ctx.m_instance.mTerrainGlobalOption.mIsReadFile)
+            if (!Ctx.mInstance.mTerrainGlobalOption.mIsReadFile)
             {
                 return false;
             }
@@ -150,7 +150,7 @@ namespace SDK.Lib
             else
             {
                 render = new TerrainTileRender(null);
-                render.pntGo = Ctx.m_instance.mSceneNodeGraph.mSceneNodes[(int)eSceneNodeId.eSceneTerrainRoot];
+                render.pntGo = Ctx.mInstance.mSceneNodeGraph.mSceneNodes[(int)eSceneNodeId.eSceneTerrainRoot];
                 render.setTmplMaterial(getMatTmpl());
             }
 
@@ -159,7 +159,7 @@ namespace SDK.Lib
 
         public void addTerrainTileRender(string key, ref TerrainTileRender render)
         {
-            if (!Ctx.m_instance.mTerrainGlobalOption.mIsReadFile)
+            if (!Ctx.mInstance.mTerrainGlobalOption.mIsReadFile)
             {
                 return;
             }
@@ -177,7 +177,7 @@ namespace SDK.Lib
 
         public bool getTerrainMat(ref TerrainMat mat)
         {
-            if (!Ctx.m_instance.mTerrainGlobalOption.mIsReadFile)
+            if (!Ctx.mInstance.mTerrainGlobalOption.mIsReadFile)
             {
                 return false;
             }

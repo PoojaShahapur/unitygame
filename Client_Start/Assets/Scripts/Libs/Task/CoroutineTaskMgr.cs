@@ -39,7 +39,7 @@ namespace SDK.Lib
             if (!isRuning())
             {
                 mState = eCoroutineTaskState.eRunning;
-                Ctx.m_instance.m_coroutineMgr.StartCoroutine(run());
+                Ctx.mInstance.mCoroutineMgr.StartCoroutine(run());
             }
         }
 

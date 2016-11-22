@@ -67,19 +67,19 @@ namespace SDK.Lib
         // 注册文件日志，因为需要账号，因此需要等待输入账号后才能注册，可能多次注册
         public void registerFileLogDevice()
         {
-            Ctx.m_instance.m_dataPlayer.m_accountData.m_account = "A1000";
+            Ctx.mInstance.mDataPlayer.m_accountData.m_account = "A1000";
             if (MacroDef.ENABLE_FILELOG)
             {
                 unRegisterFileLogDevice();
 
                 LogDeviceBase logDevice = null;
                 logDevice = new FileLogDevice();
-                (logDevice as FileLogDevice).fileSuffix = Ctx.m_instance.m_dataPlayer.m_accountData.m_account;
+                (logDevice as FileLogDevice).fileSuffix = Ctx.mInstance.mDataPlayer.m_accountData.m_account;
                 logDevice.initDevice();
                 m_logDeviceList.Add(logDevice);
 
                 logDevice = new FileLogDevice();
-                (logDevice as FileLogDevice).fileSuffix = Ctx.m_instance.m_dataPlayer.m_accountData.m_account;
+                (logDevice as FileLogDevice).fileSuffix = Ctx.mInstance.mDataPlayer.m_accountData.m_account;
                 (logDevice as FileLogDevice).filePrefix = "FightLog";   // 战斗日志
                 logDevice.initDevice();
                 m_fightLogDeviceList.Add(logDevice);
@@ -102,22 +102,22 @@ namespace SDK.Lib
         // 需要一个参数的
         public void debugLog_1(LangItemID idx, string str)
         {
-            string textStr = Ctx.m_instance.m_langMgr.getText(LangTypeId.eDebug5, idx);
+            string textStr = Ctx.mInstance.mLangMgr.getText(LangTypeId.eDebug5, idx);
             m_tmpStr = string.Format(textStr, str);
-            Ctx.m_instance.m_logSys.log(m_tmpStr);
+            Ctx.mInstance.mLogSys.log(m_tmpStr);
         }
 
         public void formatLog(LangTypeId type, LangItemID item, params string[] param)
         {
             if (param.Length == 0)
             {
-                m_tmpStr = Ctx.m_instance.m_langMgr.getText(type, item);
+                m_tmpStr = Ctx.mInstance.mLangMgr.getText(type, item);
             }
             else if (param.Length == 1)
             {
-                m_tmpStr = string.Format(Ctx.m_instance.m_langMgr.getText(type, item), param[0], param[1]);
+                m_tmpStr = string.Format(Ctx.mInstance.mLangMgr.getText(type, item), param[0], param[1]);
             }
-            Ctx.m_instance.m_logSys.log(m_tmpStr);
+            Ctx.mInstance.mLogSys.log(m_tmpStr);
         }
 
         /**
@@ -234,8 +234,8 @@ namespace SDK.Lib
             m_asyncLogList.Add(message);
 
             //ThreadLogMR threadLog = new ThreadLogMR();
-            //threadLog.m_logSys = message;
-            //Ctx.m_instance.m_sysMsgRoute.push(threadLog);
+            //threadLog.mLogSys = message;
+            //Ctx.mInstance.mSysMsgRoute.push(threadLog);
         }
 
         // 多线程日志
@@ -248,8 +248,8 @@ namespace SDK.Lib
             m_asyncWarnList.Add(message);
 
             //ThreadLogMR threadLog = new ThreadLogMR();
-            //threadLog.m_logSys = message;
-            //Ctx.m_instance.m_sysMsgRoute.push(threadLog);
+            //threadLog.mLogSys = message;
+            //Ctx.mInstance.mSysMsgRoute.push(threadLog);
         }
 
         // 多线程日志
@@ -262,8 +262,8 @@ namespace SDK.Lib
             m_asyncErrorList.Add(message);
 
             //ThreadLogMR threadLog = new ThreadLogMR();
-            //threadLog.m_logSys = message;
-            //Ctx.m_instance.m_sysMsgRoute.push(threadLog);
+            //threadLog.mLogSys = message;
+            //Ctx.mInstance.mSysMsgRoute.push(threadLog);
         }
 
         public void logout(string message, LogColor type = LogColor.LOG)
@@ -310,15 +310,15 @@ namespace SDK.Lib
             // LogType.Log 日志直接自己输出
             if (LogType.Error == type || LogType.Exception == type)
             {
-                Ctx.m_instance.m_logSys.error("onDebugLogCallbackHandler ---- Error");
-                Ctx.m_instance.m_logSys.error(name);
-                Ctx.m_instance.m_logSys.error(stack);
+                Ctx.mInstance.mLogSys.error("onDebugLogCallbackHandler ---- Error");
+                Ctx.mInstance.mLogSys.error(name);
+                Ctx.mInstance.mLogSys.error(stack);
             }
             else if(LogType.Assert == type || LogType.Warning == type)
             {
-                Ctx.m_instance.m_logSys.warn("onDebugLogCallbackHandler ---- Warning");
-                Ctx.m_instance.m_logSys.warn(name);
-                Ctx.m_instance.m_logSys.warn(stack);
+                Ctx.mInstance.mLogSys.warn("onDebugLogCallbackHandler ---- Warning");
+                Ctx.mInstance.mLogSys.warn(name);
+                Ctx.mInstance.mLogSys.warn(stack);
             }
         }
 
@@ -326,15 +326,15 @@ namespace SDK.Lib
         {
             if (LogType.Error == type || LogType.Exception == type)
             {
-                Ctx.m_instance.m_logSys.asyncError("onDebugLogCallbackThreadHandler ---- Error");
-                Ctx.m_instance.m_logSys.asyncError(name);
-                Ctx.m_instance.m_logSys.asyncError(stack);
+                Ctx.mInstance.mLogSys.asyncError("onDebugLogCallbackThreadHandler ---- Error");
+                Ctx.mInstance.mLogSys.asyncError(name);
+                Ctx.mInstance.mLogSys.asyncError(stack);
             }
             else if (LogType.Assert == type || LogType.Warning == type)
             {
-                Ctx.m_instance.m_logSys.asyncWarn("onDebugLogCallbackThreadHandler ---- Warning");
-                Ctx.m_instance.m_logSys.asyncWarn(name);
-                Ctx.m_instance.m_logSys.asyncWarn(stack);
+                Ctx.mInstance.mLogSys.asyncWarn("onDebugLogCallbackThreadHandler ---- Warning");
+                Ctx.mInstance.mLogSys.asyncWarn(name);
+                Ctx.mInstance.mLogSys.asyncWarn(stack);
             }
         }
 

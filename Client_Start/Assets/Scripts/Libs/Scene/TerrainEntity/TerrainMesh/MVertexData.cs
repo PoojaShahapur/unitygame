@@ -16,8 +16,8 @@ namespace SDK.Lib
 
         public MVertexData()
         {
-            mSize = Ctx.m_instance.mTerrainGlobalOption.mTerrainSize;
-            mMaxBatchSize = Ctx.m_instance.mTerrainGlobalOption.mMaxBatchSize;
+            mSize = Ctx.mInstance.mTerrainGlobalOption.mTerrainSize;
+            mMaxBatchSize = Ctx.mInstance.mTerrainGlobalOption.mMaxBatchSize;
 
             m_vertexs = new Vector3[mMaxBatchSize * mMaxBatchSize];
             m_uvs = new Vector2[mMaxBatchSize * mMaxBatchSize];

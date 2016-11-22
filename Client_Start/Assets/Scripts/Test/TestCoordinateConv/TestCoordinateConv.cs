@@ -15,26 +15,26 @@ namespace UnitTest
 
         public void testConv()
         {
-            Ctx.m_instance.m_sceneSys.loadScene("TestCoordinateConv.unity", onResLoadScene);
+            Ctx.mInstance.mSceneSys.loadScene("TestCoordinateConv.unity", onResLoadScene);
         }
 
         protected void onResLoadScene(IDispatchObject dispObj)
         {
             Scene scene = dispObj as Scene;
             // 获取主摄像机
-            Ctx.m_instance.m_camSys.setUGuiCamera(UtilApi.GoFindChildByName("NoDestroy/UICamera").GetComponent<Camera>());
-            Ctx.m_instance.m_camSys.setMainCamera(UtilApi.GoFindChildByName("MainCamera").GetComponent<Camera>());
+            Ctx.mInstance.mCamSys.setUGuiCamera(UtilApi.GoFindChildByName("NoDestroy/UICamera").GetComponent<Camera>());
+            Ctx.mInstance.mCamSys.setMainCamera(UtilApi.GoFindChildByName("MainCamera").GetComponent<Camera>());
             m_plane = UtilApi.GoFindChildByName("Plane");
             UtilApi.addEventHandle(m_plane, onPlaneClick);
-            Ctx.m_instance.m_uiMgr.loadAndShow((UIFormID)100);
+            Ctx.mInstance.mUiMgr.loadAndShow((UIFormID)100);
         }
 
         public void onPlaneClick(GameObject go)
         {
-            m_currentPos = Ctx.m_instance.m_coordConv.getCurTouchScenePos();
-            //Vector3 screenPos = UtilApi.convPosFromSceneToUICam(Ctx.m_instance.m_camSys.getMainCamera(), m_currentPos);
-            Vector3 screenPos = UtilApi.convPosFromSrcToDestCam(Ctx.m_instance.m_camSys.getMainCamera(), Ctx.m_instance.m_camSys.getUGuiCamera(), m_currentPos);
-            Form form = Ctx.m_instance.m_uiMgr.getForm((UIFormID)100);
+            m_currentPos = Ctx.mInstance.mCoordConv.getCurTouchScenePos();
+            //Vector3 screenPos = UtilApi.convPosFromSceneToUICam(Ctx.mInstance.mCamSys.getMainCamera(), m_currentPos);
+            Vector3 screenPos = UtilApi.convPosFromSrcToDestCam(Ctx.mInstance.mCamSys.getMainCamera(), Ctx.mInstance.mCamSys.getUGuiCamera(), m_currentPos);
+            Form form = Ctx.mInstance.mUiMgr.getForm((UIFormID)100);
             UtilApi.setRectPos(form.m_guiWin.m_uiRoot.GetComponent<RectTransform>(), screenPos);
         }
     }

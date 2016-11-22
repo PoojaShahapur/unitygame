@@ -16,7 +16,7 @@ namespace UnitTest
         protected void testIns()
         {
             string path = "Model/Character/ChangCard";
-            mPrefabRes = Ctx.m_instance.m_prefabMgr.getAndAsyncLoadRes(path, onResLoaded);
+            mPrefabRes = Ctx.mInstance.mPrefabMgr.getAndAsyncLoadRes(path, onResLoaded);
         }
 
         protected void onResLoaded(IDispatchObject dispObj)
@@ -34,7 +34,7 @@ namespace UnitTest
             }
             else if(mPrefabRes.hasFailed())
             {
-                Ctx.m_instance.m_prefabMgr.unload(mPrefabRes.getResUniqueId(), onResLoaded);
+                Ctx.mInstance.mPrefabMgr.unload(mPrefabRes.getResUniqueId(), onResLoaded);
             }
         }
 

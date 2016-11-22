@@ -21,10 +21,10 @@ namespace SDK.Lib
         public void loadLuaCfg_bak()
         {
             //// 首先读取 UIFormID 表
-            //LuaTable idTable = Ctx.m_instance.m_luaSystem.GetLuaTable("GlobalNS.UIFormID");
-            ////ListDictionary idList = Ctx.m_instance.m_luaSystem.lua.GetTableDict(idTable);
-            //ListDictionary idList = Ctx.m_instance.m_luaSystem.lua.GetTableDict(idTable);
-            //LuaTable luaAttrsTable = Ctx.m_instance.m_luaSystem.GetLuaTable("GlobalNS.UIAttrSystem");
+            //LuaTable idTable = Ctx.mInstance.mLuaSystem.GetLuaTable("GlobalNS.UIFormID");
+            ////ListDictionary idList = Ctx.mInstance.mLuaSystem.lua.GetTableDict(idTable);
+            //ListDictionary idList = Ctx.mInstance.mLuaSystem.lua.GetTableDict(idTable);
+            //LuaTable luaAttrsTable = Ctx.mInstance.mLuaSystem.GetLuaTable("GlobalNS.UIAttrSystem");
             //LuaTable luaAttrsItemTable = null;
             //int id = 0;
             //UIAttrItem attrItem;
@@ -46,9 +46,9 @@ namespace SDK.Lib
 
             // 新版本
             // 首先读取 UIFormID 表
-            LuaTable idTable = Ctx.m_instance.m_luaSystem.getLuaTable("GlobalNS.UIFormID");
+            LuaTable idTable = Ctx.mInstance.mLuaSystem.getLuaTable("GlobalNS.UIFormID");
             System.Collections.Generic.IEnumerator<DictionaryEntry> idList = idTable.ToDictTable().GetEnumerator();
-            LuaTable luaAttrsTable = Ctx.m_instance.m_luaSystem.getLuaTable("GlobalNS.UIAttrSystem");
+            LuaTable luaAttrsTable = Ctx.mInstance.mLuaSystem.getLuaTable("GlobalNS.UIAttrSystem");
             LuaTable luaAttrsItemTable = null;
             int id = 0;
             UIAttrItem attrItem = null;
@@ -71,18 +71,18 @@ namespace SDK.Lib
         public void loadLuaCfg()
         {
             // 首先读取 UIFormID 表
-            LuaTable idTable = Ctx.m_instance.m_luaSystem.getLuaTable("GlobalNS.UIFormID");
+            LuaTable idTable = Ctx.mInstance.mLuaSystem.getLuaTable("GlobalNS.UIFormID");
             //IDictionaryEnumerator idTableEnum =  idTable.GetEnumerator();
             System.Collections.Generic.IEnumerator<DictionaryEntry> idTableEnum = idTable.ToDictTable().GetEnumerator();
             idTableEnum.Reset();
 
-            LuaTable luaAttrsTable = Ctx.m_instance.m_luaSystem.getLuaTable("GlobalNS.UIAttrSystem");
+            LuaTable luaAttrsTable = Ctx.mInstance.mLuaSystem.getLuaTable("GlobalNS.UIAttrSystem");
             LuaTable luaAttrsItemTable = null;
             int id = 0;
             UIAttrItem attrItem;
             while(idTableEnum.MoveNext())
             {
-                if(Ctx.m_instance.m_luaSystem.isSystemAttr((string)idTableEnum.Current.Key))
+                if(Ctx.mInstance.mLuaSystem.isSystemAttr((string)idTableEnum.Current.Key))
                 {
                     continue;
                 }

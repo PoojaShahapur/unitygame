@@ -6,7 +6,7 @@ public class AutoUpdateRoot : MonoBehaviour
 	// Use this for initialization
 	void Start () 
     {
-        Ctx.m_instance.m_autoUpdate = new Game.AutoUpdate.AutoUpdateSys();
-        ((Ctx.m_instance.m_autoUpdate) as Game.AutoUpdate.AutoUpdateSys).Start();
+        Ctx.mInstance.mAutoUpdate = new Game.AutoUpdate.AutoUpdateSys();
+        ((Ctx.mInstance.mAutoUpdate) as Game.AutoUpdate.AutoUpdateSys).Start();
 	}
 }

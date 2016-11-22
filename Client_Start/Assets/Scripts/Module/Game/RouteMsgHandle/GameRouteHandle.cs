@@ -13,12 +13,12 @@ namespace Game.Game
         protected void threadLog(IDispatchObject dispObj)
         {
             MsgRouteBase msg = dispObj as MsgRouteBase;
-            Ctx.m_instance.m_logSys.log((msg as ThreadLogMR).mLogSys);
+            Ctx.mInstance.mLogSys.log((msg as ThreadLogMR).mLogSys);
         }
 
         protected void onSocketOpened(IDispatchObject dispObj)
         {
-            Ctx.m_instance.m_luaSystem.onSocketConnected();
+            Ctx.mInstance.mLuaSystem.onSocketConnected();
         }
     }
 }

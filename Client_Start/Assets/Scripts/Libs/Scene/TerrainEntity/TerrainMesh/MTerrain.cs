@@ -144,8 +144,8 @@ namespace SDK.Lib
 
         public void deserialize()
         {
-            Ctx.m_instance.m_terrainBufferSys.setHeaderSize(mImportData.mTerrainId, ((mSize - 1) / (mMaxBatchSize - 1)) * ((mSize - 1) / (mMaxBatchSize - 1)));
-            Ctx.m_instance.m_terrainBufferSys.deserialize(mImportData.mTerrainId);
+            Ctx.mInstance.mTerrainBufferSys.setHeaderSize(mImportData.mTerrainId, ((mSize - 1) / (mMaxBatchSize - 1)) * ((mSize - 1) / (mMaxBatchSize - 1)));
+            Ctx.mInstance.mTerrainBufferSys.deserialize(mImportData.mTerrainId);
         }
 
         public bool isLoaded()
@@ -319,7 +319,7 @@ namespace SDK.Lib
 
             int numVertices = mSize * mSize;
 
-            Ctx.m_instance.m_terrainBufferSys.getTerrainMat(mImportData.mTerrainId, ref mTerrainMat);
+            Ctx.mInstance.mTerrainBufferSys.getTerrainMat(mImportData.mTerrainId, ref mTerrainMat);
 
             mQuadTree = new MTerrainQuadTreeNode(this, null, 0, 0, mSize, (ushort)(mNumLodLevels - 1), 0, 0);
             mQuadTree.prepare();
@@ -1837,7 +1837,7 @@ namespace SDK.Lib
         override public void show(MFrustum frustum)
         {
             //onFirstShow();
-            Ctx.m_instance.m_terrainBufferSys.mTerrainVisibleCheck.addWillRemoveTerrain(this);
+            Ctx.mInstance.mTerrainBufferSys.mTerrainVisibleCheck.addWillRemoveTerrain(this);
             //this.getParentSceneNode().setWorldBoxNeedUpdate();
         }
 

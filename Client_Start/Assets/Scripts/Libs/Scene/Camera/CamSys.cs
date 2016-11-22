@@ -26,7 +26,7 @@ namespace SDK.Lib
         public void setLocalCamera(Camera cam)
         {
             //m_localCamera = new MCamera(cam.gameObject.transform);
-            m_localCamera = new MOctreeCamera("OctreeCamera", Ctx.m_instance.m_sceneManager, cam.gameObject.transform);
+            m_localCamera = new MOctreeCamera("OctreeCamera", Ctx.mInstance.mSceneManager, cam.gameObject.transform);
             if (cam.orthographic)
             {
                 m_localCamera.setProjectionType(ProjectionType.PT_ORTHOGRAPHIC);
@@ -50,7 +50,7 @@ namespace SDK.Lib
 
         public void setSceneCamera2UICamera()
         {
-            m_uiCam.mCam = Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UICamera].GetComponent<Camera>();
+            m_uiCam.mCam = Ctx.mInstance.mLayerMgr.m_path2Go[NotDestroyPath.ND_CV_UICamera].GetComponent<Camera>();
         }
 
         public void setSceneCamera2MainCamera()
@@ -113,18 +113,18 @@ namespace SDK.Lib
             {
                 m_localCamera.invalid();
                 //m_localCamera.updateTmpPosOrient();
-                if (Ctx.m_instance.mTerrainGlobalOption.mNeedCull)
+                if (Ctx.mInstance.mTerrainGlobalOption.mNeedCull)
                 {
-                    //Ctx.m_instance.m_sceneManager.cullScene();
-                    Ctx.m_instance.m_sceneManager.runUpdateTask();
+                    //Ctx.mInstance.mSceneManager.cullScene();
+                    Ctx.mInstance.mSceneManager.runUpdateTask();
                     //testFrustumDir();
 
                     // 如果是第一次， Tree 刚把 TreeNode 添加到场景管理器中，需要再次更新才能裁剪，才能显示，不是第一次就不用更新了，因为移动会很小，不会有太大问题
                     if (m_bFirst)
                     {
                         m_bFirst = false;
-                        //Ctx.m_instance.m_sceneManager.cullScene();
-                        Ctx.m_instance.m_sceneManager.runUpdateTask();
+                        //Ctx.mInstance.mSceneManager.cullScene();
+                        Ctx.mInstance.mSceneManager.runUpdateTask();
                     }
                 }
             }

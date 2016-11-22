@@ -359,7 +359,7 @@ namespace SDK.Lib
 
             m_faceNormalsDirty = false;
 
-            //Ctx.m_instance.m_fileSys.serializeArray<float>("buildFaceFNormal.txt", m_faceNormals.ToArray(), 3);
+            //Ctx.mInstance.m_fileSys.serializeArray<float>("buildFaceFNormal.txt", m_faceNormals.ToArray(), 3);
         }
 
         /**

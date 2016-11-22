@@ -17,8 +17,8 @@ namespace SDK.Lib
             //base("ByteBuffer")
         {
             string path = "LuaScript/DataStruct/NetMsgData.lua";
-            Ctx.m_instance.m_luaSystem.doFile(path);
-            m_luaTable = Ctx.m_instance.m_luaSystem.getLuaTable(m_tableName);
+            Ctx.mInstance.mLuaSystem.doFile(path);
+            m_luaTable = Ctx.mInstance.mLuaSystem.getLuaTable(m_tableName);
             // 设置系统字节序
             setSysEndian((int)SystemEndian.msLocalEndian);
         }
@@ -46,9 +46,9 @@ namespace SDK.Lib
             //if (!String.IsNullOrEmpty(tableName_))  // 如果在 _G 表中
             //{
             //    fullFuncName = tableName_ + "." + funcName_;
-            //    LuaTable luaTable = Ctx.m_instance.m_luaSystem.GetLuaTable(tableName_);
+            //    LuaTable luaTable = Ctx.mInstance.mLuaSystem.GetLuaTable(tableName_);
 
-            //    IntPtr L = Ctx.m_instance.m_luaSystem.lua.L;
+            //    IntPtr L = Ctx.mInstance.mLuaSystem.lua.L;
             //    int oldTop = LuaDLL.lua_gettop(L);
 
             //    // 获取表
@@ -114,9 +114,9 @@ namespace SDK.Lib
             //if (!String.IsNullOrEmpty(tableName_))  // 如果在 _G 表中
             //{
             //    fullFuncName = tableName_ + "." + funcName_;
-            //    LuaTable luaTable = Ctx.m_instance.m_luaSystem.GetLuaTable(tableName_);
+            //    LuaTable luaTable = Ctx.mInstance.mLuaSystem.GetLuaTable(tableName_);
 
-            //    IntPtr L = Ctx.m_instance.m_luaSystem.lua.L;
+            //    IntPtr L = Ctx.mInstance.mLuaSystem.lua.L;
             //    int oldTop = LuaDLL.lua_gettop(L);
 
             //    // 获取表

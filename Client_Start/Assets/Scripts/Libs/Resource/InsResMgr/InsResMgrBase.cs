@@ -28,10 +28,10 @@ namespace SDK.Lib
 
         public T getAndAsyncLoad<T>(string path, LuaTable luaTable = null, LuaFunction luaFunction = null, bool isLoadAll = false) where T : InsResBase, new()
         {
-            Ctx.m_instance.m_logSys.log(string.Format("InsResMgrBase::getAndAsyncLoad, Path is {0}", path), LogTypeId.eLogResLoader);
+            Ctx.mInstance.mLogSys.log(string.Format("InsResMgrBase::getAndAsyncLoad, Path is {0}", path), LogTypeId.eLogResLoader);
 
             T ret = null;
-            LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
+            LoadParam param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
             param.setPath(path);
             param.m_loadNeedCoroutine = true;
             param.m_resNeedCoroutine = true;
@@ -39,7 +39,7 @@ namespace SDK.Lib
             param.mLuaFunction = luaFunction;
             param.mIsLoadAll = isLoadAll;
             ret = getAndLoad<T>(param);
-            Ctx.m_instance.m_poolSys.deleteObj(param);
+            Ctx.mInstance.mPoolSys.deleteObj(param);
 
             return ret;
         }
@@ -47,14 +47,14 @@ namespace SDK.Lib
         public T getAndAsyncLoad<T>(string path, MAction<IDispatchObject> handle, bool isLoadAll = false) where T : InsResBase, new()
         {
             T ret = null;
-            LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
+            LoadParam param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
             param.setPath(path);
             param.m_loadNeedCoroutine = true;
             param.m_resNeedCoroutine = true;
             param.m_loadEventHandle = handle;
             param.mIsLoadAll = isLoadAll;
             ret = getAndLoad<T>(param);
-            Ctx.m_instance.m_poolSys.deleteObj(param);
+            Ctx.mInstance.mPoolSys.deleteObj(param);
 
             return ret;
         }
@@ -68,17 +68,17 @@ namespace SDK.Lib
         // 同步加载，立马加载完成，并且返回加载的资源， syncLoad 同步加载资源不能喝异步加载资源的接口同时去加载一个资源，如果异步加载一个资源，这个时候资源还没有加载完成，然后又同步加载一个资源，这个时候获取的资源是没有加载完成的，由于同步加载资源没有回调，因此即使同步加载的资源加载完成，也不可能获取加载完成事件
         public void syncLoad<T>(string path, bool isLoadAll = false) where T : InsResBase, new()
         {
-            Ctx.m_instance.m_logSys.log(string.Format("InsResMgrBase::syncLoad, Path is {0}", path), LogTypeId.eLogResLoader);
+            Ctx.mInstance.mLogSys.log(string.Format("InsResMgrBase::syncLoad, Path is {0}", path), LogTypeId.eLogResLoader);
 
             LoadParam param;
-            param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
+            param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
             param.setPath(path);
             // param.m_loadEventHandle = onLoadEventHandle;        // 这个地方是同步加载，因此不需要回调，如果写了，就会形成死循环， InsResBase 中的 init 又会调用 onLoadEventHandle 这个函数，这个函数是外部回调的函数，由于同步加载，没有回调，因此不要设置这个 param.m_loadEventHandle = onLoadEventHandle ，内部会自动调用
             param.m_loadNeedCoroutine = false;
             param.m_resNeedCoroutine = false;
             param.mIsLoadAll = isLoadAll;
             load<T>(param);
-            Ctx.m_instance.m_poolSys.deleteObj(param);
+            Ctx.mInstance.mPoolSys.deleteObj(param);
         }
 
         public T createResItem<T>(LoadParam param) where T : InsResBase, new()
@@ -124,7 +124,7 @@ namespace SDK.Lib
             m_path2ResDic[param.mResUniqueId] = resItem;
             m_path2ResDic[param.mResUniqueId].refCountResLoadResultNotify.resLoadState.setLoading();
             param.m_loadEventHandle = onLoadEventHandle;
-            Ctx.m_instance.m_resLoadMgr.loadAsset(param);
+            Ctx.mInstance.mResLoadMgr.loadAsset(param);
         }
 
         protected void loadWithNotResCreatedAndNotLoad<T>(LoadParam param) where T : InsResBase, new()
@@ -202,7 +202,7 @@ namespace SDK.Lib
         {
             m_path2ResDic[resUniqueId].unload();
             // 卸载加载的原始资源
-            Ctx.m_instance.m_resLoadMgr.unload(resUniqueId, onLoadEventHandle);
+            Ctx.mInstance.mResLoadMgr.unload(resUniqueId, onLoadEventHandle);
             m_path2ResDic.Remove(resUniqueId);
             //UtilApi.UnloadUnusedAssets();           // 异步卸载共用资源
         }
@@ -221,19 +221,19 @@ namespace SDK.Lib
                     if (m_path2ResDic[path].bOrigResNeedImmeUnload)
                     {
                         // 卸载资源
-                        Ctx.m_instance.m_resLoadMgr.unload(path, onLoadEventHandle);
+                        Ctx.mInstance.mResLoadMgr.unload(path, onLoadEventHandle);
                     }
                 }
                 else
                 {
                     m_path2ResDic[path].failed(res);
-                    Ctx.m_instance.m_resLoadMgr.unload(path, onLoadEventHandle);
+                    Ctx.mInstance.mResLoadMgr.unload(path, onLoadEventHandle);
                 }
             }
             else
             {
-                Ctx.m_instance.m_logSys.log(string.Format("InsResMgrBase::onLoadEventHandle, Path is {0}", path));
-                Ctx.m_instance.m_resLoadMgr.unload(path, onLoadEventHandle);
+                Ctx.mInstance.mLogSys.log(string.Format("InsResMgrBase::onLoadEventHandle, Path is {0}", path));
+                Ctx.mInstance.mResLoadMgr.unload(path, onLoadEventHandle);
             }
         }
 

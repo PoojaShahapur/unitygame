@@ -13,13 +13,13 @@ namespace Game.AutoUpdate
         public void initGVar()
         {
             // 游戏逻辑处理
-            Ctx.m_instance.m_cbUIEvent = new AutoUpdateUIEventCB();
+            Ctx.mInstance.mCbUIEvent = new AutoUpdateUIEventCB();
         }
 
         protected void startAutoUpdate()
         {
-            Ctx.m_instance.mAutoUpdateSys.mOnUpdateEndDisp.addEventHandle(null, onAutoUpdateEnd);
-            Ctx.m_instance.mAutoUpdateSys.startUpdate();
+            Ctx.mInstance.mAutoUpdateSys.mOnUpdateEndDisp.addEventHandle(null, onAutoUpdateEnd);
+            Ctx.mInstance.mAutoUpdateSys.startUpdate();
             //onAutoUpdateEnd();
         }
 
@@ -31,14 +31,14 @@ namespace Game.AutoUpdate
 
         protected void loadPakCfg()
         {
-            Ctx.m_instance.m_pPakSys.m_pakCfgLoadDisp = onPakSysCfgEnd;
-            Ctx.m_instance.m_pPakSys.loadFile();
+            Ctx.mInstance.mPakSys.m_pakCfgLoadDisp = onPakSysCfgEnd;
+            Ctx.mInstance.mPakSys.loadFile();
         }
 
         // 调用这个函数，说明打包信息加载完成
         protected void onPakSysCfgEnd()
         {
-            Ctx.m_instance.m_moduleSys.loadModule(ModuleID.LOGINMN);
+            Ctx.mInstance.mModuleSys.loadModule(ModuleID.LOGINMN);
         }
 
         // 卸载模块

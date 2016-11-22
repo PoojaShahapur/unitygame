@@ -9,7 +9,7 @@ namespace SDK.Lib
     {
         public XmlMarketCfg()
         {
-            m_path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathXmlCfg], "marketconfig.xml");
+            m_path = string.Format("{0}{1}", Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathXmlCfg], "marketconfig.xml");
         }
 
         //public override XmlElement parseXml(string str)

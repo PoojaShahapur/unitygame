@@ -14,7 +14,7 @@ namespace EditorTool
         {
             MFileSys.init();
             ToolCtx.instance();
-            ToolCtx.m_instance.exportAssetBundleName();
+            ToolCtx.mInstance.exportAssetBundleName();
             AssetDatabase.Refresh();
         }
 
@@ -24,7 +24,7 @@ namespace EditorTool
         {
             MFileSys.init();
             ToolCtx.instance();
-            ToolCtx.m_instance.exportAssetBundleName();
+            ToolCtx.mInstance.exportAssetBundleName();
             BuildScript.BuildPlayer(BuildTarget.StandaloneWindows, false);
             ToolCtx.instance().dispose();
         }
@@ -33,7 +33,7 @@ namespace EditorTool
         public static void BuildWindowAssetBundlesList()
         {
             Ctx.instance();
-            Ctx.m_instance.editorToolInit();
+            Ctx.mInstance.editorToolInit();
 
             ExportAssetRelation exportAssetRelation = new ExportAssetRelation();
 			exportAssetRelation.setBuildTarget(BuildTarget.StandaloneWindows64);
@@ -46,7 +46,7 @@ namespace EditorTool
         public static void BuildMacAssetBundlesList()
         {
             Ctx.instance();
-            Ctx.m_instance.editorToolInit();
+            Ctx.mInstance.editorToolInit();
 
             ExportAssetRelation exportAssetRelation = new ExportAssetRelation();
             exportAssetRelation.setBuildTarget(BuildTarget.StandaloneOSXUniversal);
@@ -59,7 +59,7 @@ namespace EditorTool
 		public static void BuildIOSAssetBundlesList()
 		{
 			Ctx.instance();
-			Ctx.m_instance.editorToolInit();
+			Ctx.mInstance.editorToolInit();
 
 			ExportAssetRelation exportAssetRelation = new ExportAssetRelation();
 			exportAssetRelation.setBuildTarget(BuildTarget.iOS);

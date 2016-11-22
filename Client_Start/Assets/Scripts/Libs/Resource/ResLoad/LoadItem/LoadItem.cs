@@ -189,7 +189,7 @@ namespace SDK.Lib
             }
             else if (m_resLoadType == ResLoadType.eLoadWeb)
             {
-                path = Ctx.m_instance.m_cfg.m_webIP + m_loadPath;
+                path = Ctx.mInstance.mCfg.mWebIP + m_loadPath;
             }
             deleteFromCache(path);
             m_w3File = WWW.LoadFromCacheOrDownload(path, 1);

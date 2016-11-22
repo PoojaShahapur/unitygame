@@ -17,7 +17,7 @@
         public LuaCSBridgeDispatch(string tableName)
             : base("", tableName)
         {
-            Ctx.m_instance.m_luaSystem.doFile("GlobalEvent/GlobalEventMgr.lua");
+            Ctx.mInstance.mLuaSystem.doFile("GlobalEvent/GlobalEventMgr.lua");
         }
 
         // 事件分发

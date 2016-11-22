@@ -85,7 +85,7 @@ namespace SDK.Lib
             }
             else
             {
-                if(!Ctx.m_instance.m_terrainBufferSys.getAABB(mTerrain.getTerrainId(), getNameStr(), ref mAABB))
+                if(!Ctx.mInstance.mTerrainBufferSys.getAABB(mTerrain.getTerrainId(), getNameStr(), ref mAABB))
                 {
                     mAABB.setMinimum(new MVector3(-mTerrain.getMaxBatchWorldSize() / 2, -mTerrain.getMaxBatchWorldSize() / 2, -mTerrain.getMaxBatchWorldSize() / 2));
                     mAABB.setMaximum(new MVector3(mTerrain.getMaxBatchWorldSize() / 2, mTerrain.getMaxBatchWorldSize() / 2, mTerrain.getMaxBatchWorldSize() / 2));
@@ -291,7 +291,7 @@ namespace SDK.Lib
 
         public void createCpuVertexData()
         {
-            if (!Ctx.m_instance.m_terrainBufferSys.getVertData(mTerrain.getTerrainId(), getNameStr(), ref mVertexDataRecord))
+            if (!Ctx.mInstance.mTerrainBufferSys.getVertData(mTerrain.getTerrainId(), getNameStr(), ref mVertexDataRecord))
             {
                 mVertexDataRecord = new MVertexDataRecord();
                 mCurIndexBufferIndex = 0;
@@ -304,7 +304,7 @@ namespace SDK.Lib
                 mWorldAabb.setNull();
                 mBoundingRadius = 0;
 
-                Ctx.m_instance.m_terrainBufferSys.getAABB(mTerrain.getTerrainId(), getNameStr(), ref mAABB);
+                Ctx.mInstance.mTerrainBufferSys.getAABB(mTerrain.getTerrainId(), getNameStr(), ref mAABB);
                 updateWorldAABB();
 
                 mBoundingRadius = mAABB.getHalfSize().length();
@@ -323,7 +323,7 @@ namespace SDK.Lib
             float height = 0;
             //float heightData = 0;
             MVector3 pos = new MVector3(0, 0, 0);
-            //Ctx.m_instance.m_terrainBufferSys.openFile();
+            //Ctx.mInstance.mTerrainBufferSys.openFile();
             for (ushort y = (ushort)rect.top; y < rect.bottom; y += inc)
             {
                 for (ushort x = (ushort)rect.left; x < rect.right; x += inc)
@@ -331,13 +331,13 @@ namespace SDK.Lib
                     height = mTerrain.getHeightAtPoint(x, y);
                     //heightData = mTerrain.getOrigHeightData(x, y);
                     mTerrain.getPoint(x, y, height, ref pos);
-                    //Ctx.m_instance.m_terrainBufferSys.writeVertex(pos, heightData);
+                    //Ctx.mInstance.mTerrainBufferSys.writeVertex(pos, heightData);
                     mergeIntoBounds(x, y, ref pos);
                     pos -= mLocalCentre;
                     writePosVertex(x, y, ref pos, uvScale);
                 }
             }
-            //Ctx.m_instance.m_terrainBufferSys.closeFile();
+            //Ctx.mInstance.mTerrainBufferSys.closeFile();
         }
 
         protected void writePosVertex(ushort x, ushort y, ref MVector3 pos, float uvScale)
@@ -458,7 +458,7 @@ namespace SDK.Lib
                 attachRender();
                 showBoundBox();
 
-                Ctx.m_instance.m_terrainBufferSys.mTerrainVisibleCheck.addVisibleTreeNode(this);
+                Ctx.mInstance.mTerrainBufferSys.mTerrainVisibleCheck.addVisibleTreeNode(this);
                 mIsSceneGraphVisible = true;
                 mTreeNodeStateNotify.onShow();
             }
@@ -624,12 +624,12 @@ namespace SDK.Lib
         {
             if (mTileRender == null)
             {
-                if (!Ctx.m_instance.m_terrainBufferSys.getTerrainTileRender(mTerrain.getTerrainId(), this.getNameStr(), ref mTileRender))
+                if (!Ctx.mInstance.mTerrainBufferSys.getTerrainTileRender(mTerrain.getTerrainId(), this.getNameStr(), ref mTileRender))
                 {
                     mTileRender = new TerrainTileRender(this);
                     mTileRender.setTmplMaterial(mTerrain.getMatTmpl());
 
-                    mTileRender.pntGo = Ctx.m_instance.mSceneNodeGraph.mSceneNodes[(int)eSceneNodeId.eSceneTerrainRoot];
+                    mTileRender.pntGo = Ctx.mInstance.mSceneNodeGraph.mSceneNodes[(int)eSceneNodeId.eSceneTerrainRoot];
                     mTileRender.show();
                 }
                 else
@@ -649,15 +649,15 @@ namespace SDK.Lib
             if(mTileRender != null)
             {
                 mTileRender.hide();
-                Ctx.m_instance.m_terrainBufferSys.addTerrainTileRender(mTerrain.getTerrainId(), this.getNameStr(), ref mTileRender);
+                Ctx.mInstance.mTerrainBufferSys.addTerrainTileRender(mTerrain.getTerrainId(), this.getNameStr(), ref mTileRender);
             }
         }
 
         // 节点在二维数组中的索引
         public bool getNodeIndex(ref int idx, ref int idz)
         {
-            idx = (mOffsetX - 1) / (Ctx.m_instance.mTerrainGlobalOption.mMaxBatchSize - 1);
-            idz = (mOffsetY - 1) / (Ctx.m_instance.mTerrainGlobalOption.mMaxBatchSize - 1);
+            idx = (mOffsetX - 1) / (Ctx.mInstance.mTerrainGlobalOption.mMaxBatchSize - 1);
+            idz = (mOffsetY - 1) / (Ctx.mInstance.mTerrainGlobalOption.mMaxBatchSize - 1);
             return true;
         }
 

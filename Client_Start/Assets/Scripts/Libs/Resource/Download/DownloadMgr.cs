@@ -30,7 +30,7 @@ namespace SDK.Lib
         {
             // 游戏逻辑处理
             m_resMsgRouteCB = new ResMsgRouteCB();
-            Ctx.m_instance.m_msgRouteNotify.addOneDisp(m_resMsgRouteCB);
+            Ctx.mInstance.mMsgRouteNotify.addOneDisp(m_resMsgRouteCB);
         }
 
         protected void resetLoadParam(DownloadParam loadParam)
@@ -287,7 +287,7 @@ namespace SDK.Lib
             }
             else
             {
-                Ctx.m_instance.m_logSys.log(string.Format("DownloadMgr::unloadNoRef, Path Can not Find， ResUniqueId is {0}", resUniqueId));
+                Ctx.mInstance.mLogSys.log(string.Format("DownloadMgr::unloadNoRef, Path Can not Find， ResUniqueId is {0}", resUniqueId));
             }
         }
 

@@ -28,7 +28,7 @@ namespace SDK.Lib
             m_id2AttrDic[UIFormID.eUITest].m_canvasID = UICanvasID.eSecondCanvas;
             m_id2AttrDic[UIFormID.eUITest].m_LayerID = UILayerID.eTopLayer;
             m_id2AttrDic[UIFormID.eUITest].addUISceneType(UISceneType.eUIScene_Game);
-            m_id2AttrDic[UIFormID.eUITest].m_widgetPath = string.Format("{0}{1}/{2}{3}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI], "UITest", "UITest", ".prefab");
+            m_id2AttrDic[UIFormID.eUITest].m_widgetPath = string.Format("{0}{1}/{2}{3}", Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathComUI], "UITest", "UITest", ".prefab");
             m_id2AttrDic[UIFormID.eUITest].m_scriptTypeName = "Game.UI.UITest";
 
 
@@ -36,7 +36,7 @@ namespace SDK.Lib
             m_id2AttrDic[UIFormID.eUITerrainEdit].m_canvasID = UICanvasID.eSecondCanvas;
             m_id2AttrDic[UIFormID.eUITerrainEdit].m_LayerID = UILayerID.eSecondLayer;
             m_id2AttrDic[UIFormID.eUITerrainEdit].addUISceneType(UISceneType.eUIScene_Game);
-            m_id2AttrDic[UIFormID.eUITerrainEdit].m_widgetPath = string.Format("{0}{1}/{2}{3}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI], "UITerrainEdit", "UITerrainEdit", ".prefab");
+            m_id2AttrDic[UIFormID.eUITerrainEdit].m_widgetPath = string.Format("{0}{1}/{2}{3}", Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathComUI], "UITerrainEdit", "UITerrainEdit", ".prefab");
             m_id2AttrDic[UIFormID.eUITerrainEdit].m_scriptTypeName = "Game.UI.UITerrainEdit";
 
             // ****************** 第二层结束 ***********************
@@ -54,7 +54,7 @@ namespace SDK.Lib
         public void init()
         {
             m_luaCSBridgeUICore = new LuaCSBridgeUICore(this);
-            Ctx.m_instance.m_luaSystem.doFile("MyLua/Libs/UI/UICore/UIAttrSystem.lua");
+            Ctx.mInstance.mLuaSystem.doFile("MyLua/Libs/UI/UICore/UIAttrSystem.lua");
             m_luaCSBridgeUICore.loadLuaCfg();
         }
 
@@ -63,7 +63,7 @@ namespace SDK.Lib
             if (m_id2AttrDic.ContainsKey(id))
             {
                 return m_id2AttrDic[id].m_widgetPath;
-                //ret = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI] + ret;
+                //ret = Ctx.mInstance.mCfg.m_pathLst[(int)ResPathType.ePathComUI] + ret;
                 //return ret;
             }
 

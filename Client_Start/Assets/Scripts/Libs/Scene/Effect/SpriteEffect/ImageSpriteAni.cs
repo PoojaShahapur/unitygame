@@ -11,7 +11,7 @@ namespace SDK.Lib
 
         public override void dispose()
         {
-            Ctx.m_instance.m_spriteAniMgr.removeFromList(this);
+            Ctx.mInstance.mSpriteAniMgr.removeFromList(this);
             base.dispose();
         }
 
@@ -49,7 +49,7 @@ namespace SDK.Lib
             //}
             //catch(Exception ex)
             //{
-            //    Ctx.m_instance.m_logSys.catchLog(ex.ToString());
+            //    Ctx.mInstance.mLogSys.catchLog(ex.ToString());
             //}
 
             UtilApi.SetNativeSize(this.mImage);

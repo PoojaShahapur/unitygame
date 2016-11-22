@@ -11,8 +11,8 @@ namespace UnitTest
 
         protected void testVersion()
         {
-            //Ctx.m_instance.m_versionSys.loadVerFile();
-            Ctx.m_instance.m_versionSys.loadMiniVerFile();
+            //Ctx.mInstance.mVersionSys.loadVerFile();
+            Ctx.mInstance.mVersionSys.loadMiniVerFile();
         }
     }
 }

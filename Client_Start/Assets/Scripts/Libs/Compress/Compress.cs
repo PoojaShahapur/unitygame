@@ -294,7 +294,7 @@ namespace SDK.Lib
             }
             catch
             {
-                Ctx.m_instance.m_logSys.error("CompressByteZipNet error");
+                Ctx.mInstance.mLogSys.error("CompressByteZipNet error");
             }
         }
         /// <summary>
@@ -324,7 +324,7 @@ namespace SDK.Lib
                     }
                     else
                     {
-                        Ctx.m_instance.m_logSys.log("ZipNet Decompress Error");
+                        Ctx.mInstance.mLogSys.log("ZipNet Decompress Error");
                     }
                 }
 
@@ -338,7 +338,7 @@ namespace SDK.Lib
             }
             catch
             {
-                Ctx.m_instance.m_logSys.log("DecompressByteZipNet error");
+                Ctx.mInstance.mLogSys.log("DecompressByteZipNet error");
             }
         }
     }

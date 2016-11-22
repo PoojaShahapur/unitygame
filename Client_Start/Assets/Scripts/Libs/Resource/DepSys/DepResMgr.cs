@@ -127,7 +127,7 @@ namespace SDK.Lib
             }
             else if (mAuxAssetBundleManifestLoader.hasFailed())
             {
-                Ctx.m_instance.m_logSys.log("DepResMgr::onLoadEventHandle, AssetBundleManifest AssetBundles Can not Load", LogTypeId.eLogCommon);
+                Ctx.mInstance.mLogSys.log("DepResMgr::onLoadEventHandle, AssetBundleManifest AssetBundles Can not Load", LogTypeId.eLogCommon);
             }
         }
 
@@ -136,7 +136,7 @@ namespace SDK.Lib
         {
             if (m_AssetBundleManifest == null)
             {
-                Ctx.m_instance.m_logSys.log("DepResMgr::hasDep, AssetBundleManifest not Initialize ");
+                Ctx.mInstance.mLogSys.log("DepResMgr::hasDep, AssetBundleManifest not Initialize ");
                 return false;
             }
 
@@ -154,7 +154,7 @@ namespace SDK.Lib
         {
             foreach(string depName in depList)
             {
-                if(!Ctx.m_instance.m_resLoadMgr.isResLoaded(depName))
+                if(!Ctx.mInstance.mResLoadMgr.isResLoaded(depName))
                 {
                     return false;
                 }
@@ -168,7 +168,7 @@ namespace SDK.Lib
         {
             if (m_AssetBundleManifest == null)
             {
-                Ctx.m_instance.m_logSys.log("DepResMgr::isDepResLoaded, AssetBundleManifest not Initialize");
+                Ctx.mInstance.mLogSys.log("DepResMgr::isDepResLoaded, AssetBundleManifest not Initialize");
                 return true;
             }
 

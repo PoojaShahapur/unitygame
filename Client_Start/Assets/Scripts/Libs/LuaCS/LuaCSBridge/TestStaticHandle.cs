@@ -4,7 +4,7 @@
     {
         static public void log(string desc)
         {
-            Ctx.m_instance.m_logSys.log(desc);
+            Ctx.mInstance.mLogSys.log(desc);
         }
     }
 }

@@ -144,7 +144,7 @@ namespace SDK.Lib
                         }
                         catch (Exception /*err*/)
                         {
-                            Ctx.m_instance.m_logSys.log(string.Format("删除文件 {0} 出错", fi.FullName));
+                            Ctx.mInstance.mLogSys.log(string.Format("删除文件 {0} 出错", fi.FullName));
                         }
                     }
                 }

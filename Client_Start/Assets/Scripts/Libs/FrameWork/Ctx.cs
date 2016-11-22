@@ -5,102 +5,102 @@
      */
     public class Ctx
     {
-        static public Ctx m_instance;
+        static public Ctx mInstance;
 
-        public NetworkMgr m_netMgr;                // 网络通信
-        public Config m_cfg;                       // 整体配置文件
-        public LogSys m_logSys;                    // 日志系统
-        public ResLoadMgr m_resLoadMgr;            // 资源管理器
-        public InputMgr m_inputMgr;                // 输入管理器
+        public NetworkMgr mNetMgr;                // 网络通信
+        public Config mCfg;                       // 整体配置文件
+        public LogSys mLogSys;                    // 日志系统
+        public ResLoadMgr mResLoadMgr;            // 资源管理器
+        public InputMgr mInputMgr;                // 输入管理器
 
-        public IGameSys m_gameSys;                 // 游戏系统
-        public SceneSys m_sceneSys;                // 场景系统
-        public TickMgr m_tickMgr;                  // 心跳管理器
-        public ProcessSys m_processSys;            // 游戏处理系统
+        public IGameSys mGameSys;                 // 游戏系统
+        public SceneSys mSceneSys;                // 场景系统
+        public TickMgr mTickMgr;                  // 心跳管理器
+        public ProcessSys mProcessSys;            // 游戏处理系统
 
-        public TimerMgr m_timerMgr;                // 定时器系统
-        public FrameTimerMgr m_frameTimerMgr;      // 定时器系统
-        public UIMgr m_uiMgr;                      // UI 管理器
-        public ResizeMgr m_resizeMgr;              // 窗口大小修改管理器
-        public IUIEvent m_cbUIEvent;               // UI 事件回调
-        public CoroutineMgr m_coroutineMgr;        // 协程管理器
+        public TimerMgr mTimerMgr;                // 定时器系统
+        public FrameTimerMgr mFrameTimerMgr;      // 定时器系统
+        public UIMgr mUiMgr;                      // UI 管理器
+        public ResizeMgr mResizeMgr;              // 窗口大小修改管理器
+        public IUIEvent mCbUIEvent;               // UI 事件回调
+        public CoroutineMgr mCoroutineMgr;        // 协程管理器
 
-        public EngineLoop m_engineLoop;            // 引擎循环
-        public GameAttr m_gameAttr;                // 游戏属性
-        public FObjectMgr m_fObjectMgr;            // 掉落物管理器
-        public NpcMgr m_npcMgr;                    // Npc管理器
-        public PlayerMgr m_playerMgr;              // Player管理器
-        public MonsterMgr m_monsterMgr;            // Monster 管理器
-        public SpriteAniMgr m_spriteAniMgr;
+        public EngineLoop mEngineLoop;            // 引擎循环
+        public GameAttr mGameAttr;                // 游戏属性
+        public FObjectMgr mFObjectMgr;            // 掉落物管理器
+        public NpcMgr mNpcMgr;                    // Npc管理器
+        public PlayerMgr mPlayerMgr;              // Player管理器
+        public MonsterMgr mMonsterMgr;            // Monster 管理器
+        public SpriteAniMgr mSpriteAniMgr;
 
-        public ShareData m_shareData;               // 共享数据系统
-        public LayerMgr m_layerMgr;                 // 层管理器
-        public ISceneEventCB m_sceneEventCB;        // 场景加载事件
-        public CamSys m_camSys;
+        public ShareData mShareData;               // 共享数据系统
+        public LayerMgr mLayerMgr;                 // 层管理器
+        public ISceneEventCB mSceneEventCB;        // 场景加载事件
+        public CamSys mCamSys;
 
-        public ISceneLogic m_sceneLogic;
-        public SysMsgRoute m_sysMsgRoute;           // 消息分发
-        public NetCmdNotify m_netCmdNotify;         // 网络处理器
-        public MsgRouteNotify m_msgRouteNotify;     // RouteMsg 客户端自己消息流程
-        public IModuleSys m_moduleSys;              // 模块
-        public TableSys m_tableSys;                 // 表格
-        public MFileSys m_fileSys;                  // 文件系统
-        public FactoryBuild m_factoryBuild;         // 生成各种内容，上层只用接口
+        public ISceneLogic mSceneLogic;
+        public SysMsgRoute mSysMsgRoute;           // 消息分发
+        public NetCmdNotify mNetCmdNotify;         // 网络处理器
+        public MsgRouteNotify mMsgRouteNotify;     // RouteMsg 客户端自己消息流程
+        public IModuleSys mModuleSys;              // 模块
+        public TableSys mTableSys;                 // 表格
+        public MFileSys mFileSys;                  // 文件系统
+        public FactoryBuild mFactoryBuild;         // 生成各种内容，上层只用接口
 
-        public LangMgr m_langMgr;                   // 语言管理器
-        public DataPlayer m_dataPlayer;
-        public XmlCfgMgr m_xmlCfgMgr;
-        public MaterialMgr m_matMgr;
-        public ModelMgr m_modelMgr;
-        public TextureMgr m_texMgr;
-        public SkelAniMgr m_skelAniMgr;
-        public SkinResMgr m_skinResMgr;
-        public PrefabMgr m_prefabMgr;
-        public ControllerMgr m_controllerMgr;
-        public BytesResMgr m_bytesResMgr;
+        public LangMgr mLangMgr;                   // 语言管理器
+        public DataPlayer mDataPlayer;
+        public XmlCfgMgr mXmlCfgMgr;
+        public MaterialMgr mMatMgr;
+        public ModelMgr mModelMgr;
+        public TextureMgr mTexMgr;
+        public SkelAniMgr mSkelAniMgr;
+        public SkinResMgr mSkinResMgr;
+        public PrefabMgr mPrefabMgr;
+        public ControllerMgr mControllerMgr;
+        public BytesResMgr mBytesResMgr;
         public SpriteMgr mSpriteMgr;
 
-        public SystemSetting m_systemSetting;
-        public CoordConv m_coordConv;
-        public FlyNumMgr m_pFlyNumMgr;              // Header Num
+        public SystemSetting mSystemSetting;
+        public CoordConv mCoordConv;
+        public FlyNumMgr mFlyNumMgr;              // Header Num
 
-        public TimerMsgHandle m_pTimerMsgHandle;
+        public TimerMsgHandle mTimerMsgHandle;
         //public WebSocketMgr m_pWebSocketMgr;
-        public PoolSys m_poolSys;
-        public ILoginSys m_loginSys;
-        public WordFilterManager m_wordFilterManager;
-        public VersionSys m_versionSys;
+        public PoolSys mPoolSys;
+        public ILoginSys mLoginSys;
+        public WordFilterManager mWordFilterManager;
+        public VersionSys mVersionSys;
         public AutoUpdateSys mAutoUpdateSys;
 
-        public TaskQueue m_TaskQueue;
-        public TaskThreadPool m_TaskThreadPool;
+        public TaskQueue mTaskQueue;
+        public TaskThreadPool mTaskThreadPool;
 
-        public RandName m_pRandName;
-        public PakSys m_pPakSys;
-        public GameRunStage m_gameRunStage;
-        public SoundMgr m_soundMgr;
-        public MapCfg m_mapCfg;
+        public RandName mRandName;
+        public PakSys mPakSys;
+        public GameRunStage mGameRunStage;
+        public SoundMgr mSoundMgr;
+        public MapCfg mMapCfg;
 
-        public IAutoUpdate m_autoUpdate;
-        public AtlasMgr m_atlasMgr;
-        public AuxUIHelp m_auxUIHelp;
-        public WidgetStyleMgr m_widgetStyleMgr;
-        public SceneEffectMgr m_sceneEffectMgr;
-        public SystemFrameData m_systemFrameData;
-        public SystemTimeData m_systemTimeData;
-        public ScriptDynLoad m_scriptDynLoad;
-        public ScenePlaceHolder m_scenePlaceHolder;
+        public IAutoUpdate mAutoUpdate;
+        public AtlasMgr mAtlasMgr;
+        public AuxUIHelp mAuxUIHelp;
+        public WidgetStyleMgr mWidgetStyleMgr;
+        public SceneEffectMgr mSceneEffectMgr;
+        public SystemFrameData mSystemFrameData;
+        public SystemTimeData mSystemTimeData;
+        public ScriptDynLoad mScriptDynLoad;
+        public ScenePlaceHolder mScenePlaceHolder;
 
-        public LuaSystem m_luaSystem;
-        public MovieMgr m_movieMgr;    // 视频 Clip 播放
-        public NativeInterface m_nativeInterface;   // 本地接口调用
-        public GCAutoCollect m_gcAutoCollect;     // 自动垃圾回收
-        public MemoryCheck m_memoryCheck;       // 内存查找
-        public DepResMgr m_depResMgr;
-        public MTerrainGroup m_terrainGroup;
-        public TextResMgr m_textResMgr;
-        public MSceneManager m_sceneManager;
-        public TerrainBufferSys m_terrainBufferSys;
+        public LuaSystem mLuaSystem;
+        public MovieMgr mMovieMgr;    // 视频 Clip 播放
+        public NativeInterface mNativeInterface;   // 本地接口调用
+        public GCAutoCollect mGcAutoCollect;     // 自动垃圾回收
+        public MemoryCheck mMemoryCheck;       // 内存查找
+        public DepResMgr mDepResMgr;
+        public MTerrainGroup mTerrainGroup;
+        public TextResMgr mTextResMgr;
+        public MSceneManager mSceneManager;
+        public TerrainBufferSys mTerrainBufferSys;
         public TerrainGlobalOption mTerrainGlobalOption;
         public CoroutineTaskMgr mCoroutineTaskMgr;
         public SceneNodeGraph mSceneNodeGraph;
@@ -117,23 +117,23 @@
 
         public static Ctx instance()
         {
-            if (m_instance == null)
+            if (mInstance == null)
             {
-                m_instance = new Ctx();
+                mInstance = new Ctx();
             }
-            return m_instance;
+            return mInstance;
         }
 
         public void editorToolInit()
         {
             MFileSys.init();
-            m_dataPlayer = new DataPlayer();
-            m_logSys = new LogSys();
+            this.mDataPlayer = new DataPlayer();
+            this.mLogSys = new LogSys();
         }
 
         public void dispose()
         {
-            m_instance = null;
+            mInstance = null;
         }
 
         protected void preInit()
@@ -146,95 +146,95 @@
 
             mTerrainGlobalOption = new TerrainGlobalOption();
 
-            m_netCmdNotify = new NetCmdNotify();
-            m_msgRouteNotify = new MsgRouteNotify();
+            this.mNetCmdNotify = new NetCmdNotify();
+            this.mMsgRouteNotify = new MsgRouteNotify();
 
-            m_xmlCfgMgr = new XmlCfgMgr();
-            m_matMgr = new MaterialMgr();
-            m_modelMgr = new ModelMgr();
-            m_texMgr = new TextureMgr();
-            m_skelAniMgr = new SkelAniMgr();
-            m_skinResMgr = new SkinResMgr();
-            m_prefabMgr = new PrefabMgr();
-            m_controllerMgr = new ControllerMgr();
-            m_bytesResMgr = new BytesResMgr();
-            mSpriteMgr = new SpriteMgr();
+            this.mXmlCfgMgr = new XmlCfgMgr();
+            this.mMatMgr = new MaterialMgr();
+            this.mModelMgr = new ModelMgr();
+            this.mTexMgr = new TextureMgr();
+            this.mSkelAniMgr = new SkelAniMgr();
+            this.mSkinResMgr = new SkinResMgr();
+            this.mPrefabMgr = new PrefabMgr();
+            this.mControllerMgr = new ControllerMgr();
+            this.mBytesResMgr = new BytesResMgr();
+            this.mSpriteMgr = new SpriteMgr();
 
-            m_systemSetting = new SystemSetting();
-            m_coordConv = new CoordConv();
-            m_pFlyNumMgr = new FlyNumMgr();              // Header Num
+            this.mSystemSetting = new SystemSetting();
+            this.mCoordConv = new CoordConv();
+            this.mFlyNumMgr = new FlyNumMgr();              // Header Num
 
-            m_pTimerMsgHandle = new TimerMsgHandle();
-            m_poolSys = new PoolSys();
-            m_wordFilterManager = new WordFilterManager();
-            m_versionSys = new VersionSys();
-            mAutoUpdateSys = new AutoUpdateSys();
+            this.mTimerMsgHandle = new TimerMsgHandle();
+            this.mPoolSys = new PoolSys();
+            this.mWordFilterManager = new WordFilterManager();
+            this.mVersionSys = new VersionSys();
+            this.mAutoUpdateSys = new AutoUpdateSys();
 
-            m_TaskQueue = new TaskQueue("TaskQueue");
-            m_TaskThreadPool = new TaskThreadPool();
+            this.mTaskQueue = new TaskQueue("TaskQueue");
+            this.mTaskThreadPool = new TaskThreadPool();
 
-            m_pRandName = new RandName();
-            m_pPakSys = new PakSys();
-            m_gameRunStage = new GameRunStage();
-            m_soundMgr = new SoundMgr();
-            m_mapCfg = new MapCfg();
+            this.mRandName = new RandName();
+            this.mPakSys = new PakSys();
+            this.mGameRunStage = new GameRunStage();
+            this.mSoundMgr = new SoundMgr();
+            this.mMapCfg = new MapCfg();
 
-            m_atlasMgr = new AtlasMgr();
-            m_auxUIHelp = new AuxUIHelp();
-            m_widgetStyleMgr = new WidgetStyleMgr();
-            m_systemFrameData = new SystemFrameData();
-            m_systemTimeData = new SystemTimeData();
-            m_scriptDynLoad = new ScriptDynLoad();
-            m_scenePlaceHolder = new ScenePlaceHolder();
+            this.mAtlasMgr = new AtlasMgr();
+            this.mAuxUIHelp = new AuxUIHelp();
+            this.mWidgetStyleMgr = new WidgetStyleMgr();
+            this.mSystemFrameData = new SystemFrameData();
+            this.mSystemTimeData = new SystemTimeData();
+            this.mScriptDynLoad = new ScriptDynLoad();
+            this.mScenePlaceHolder = new ScenePlaceHolder();
 
-            m_luaSystem = new LuaSystem();
-            m_movieMgr = new MovieMgr();
-            m_nativeInterface = new NativeInterface();
-            m_gcAutoCollect = new GCAutoCollect();
-            m_memoryCheck = new MemoryCheck();
-            m_depResMgr = new DepResMgr();
-            m_terrainGroup = new MTerrainGroup(mTerrainGlobalOption.mTerrainSize, mTerrainGlobalOption.mTerrainWorldSize);
-            m_textResMgr = new TextResMgr();
-            m_terrainBufferSys = new TerrainBufferSys();
-            //m_terrainGroup = new MTerrainGroup(513, 512);
+            this.mLuaSystem = new LuaSystem();
+            this.mMovieMgr = new MovieMgr();
+            this.mNativeInterface = new NativeInterface();
+            this.mGcAutoCollect = new GCAutoCollect();
+            this.mMemoryCheck = new MemoryCheck();
+            this.mDepResMgr = new DepResMgr();
+            this.mTerrainGroup = new MTerrainGroup(mTerrainGlobalOption.mTerrainSize, mTerrainGlobalOption.mTerrainWorldSize);
+            this.mTextResMgr = new TextResMgr();
+            this.mTerrainBufferSys = new TerrainBufferSys();
+            //this.mTerrainGroup = new MTerrainGroup(513, 512);
 
-            m_cfg = new Config();
-            m_dataPlayer = new DataPlayer();
-            m_factoryBuild = new FactoryBuild();
+            this.mCfg = new Config();
+            this.mDataPlayer = new DataPlayer();
+            this.mFactoryBuild = new FactoryBuild();
 
-            m_netMgr = new NetworkMgr();
-            m_resLoadMgr = new ResLoadMgr();
-            m_inputMgr = new InputMgr();
+            this.mNetMgr = new NetworkMgr();
+            this.mResLoadMgr = new ResLoadMgr();
+            this.mInputMgr = new InputMgr();
 
-            m_processSys = new ProcessSys();
-            m_tickMgr = new TickMgr();
-            m_timerMgr = new TimerMgr();
-            m_frameTimerMgr = new FrameTimerMgr();
-            m_coroutineMgr = new CoroutineMgr();
-            m_shareData = new ShareData();
-            m_sceneSys = new SceneSys();
-            m_layerMgr = new LayerMgr();
+            this.mProcessSys = new ProcessSys();
+            this.mTickMgr = new TickMgr();
+            this.mTimerMgr = new TimerMgr();
+            this.mFrameTimerMgr = new FrameTimerMgr();
+            this.mCoroutineMgr = new CoroutineMgr();
+            this.mShareData = new ShareData();
+            this.mSceneSys = new SceneSys();
+            this.mLayerMgr = new LayerMgr();
 
-            m_uiMgr = new UIMgr();
-            m_engineLoop = new EngineLoop();
-            m_resizeMgr = new ResizeMgr();
+            this.mUiMgr = new UIMgr();
+            this.mEngineLoop = new EngineLoop();
+            this.mResizeMgr = new ResizeMgr();
 
-            m_playerMgr = new PlayerMgr();
-            m_monsterMgr = new MonsterMgr();
-            m_fObjectMgr = new FObjectMgr();
-            m_npcMgr = new NpcMgr();
-            m_spriteAniMgr = new SpriteAniMgr();
+            this.mPlayerMgr = new PlayerMgr();
+            this.mMonsterMgr = new MonsterMgr();
+            this.mFObjectMgr = new FObjectMgr();
+            this.mNpcMgr = new NpcMgr();
+            this.mSpriteAniMgr = new SpriteAniMgr();
 
-            m_camSys = new CamSys();
-            m_sysMsgRoute = new SysMsgRoute("SysMsgRoute");
-            m_moduleSys = new ModuleSys();
-            m_tableSys = new TableSys();
-            m_fileSys = new MFileSys();
-            m_logSys = new LogSys();
-            m_langMgr = new LangMgr();
-            m_sceneEffectMgr = new SceneEffectMgr();
+            this.mCamSys = new CamSys();
+            this.mSysMsgRoute = new SysMsgRoute("SysMsgRoute");
+            this.mModuleSys = new ModuleSys();
+            this.mTableSys = new TableSys();
+            this.mFileSys = new MFileSys();
+            this.mLogSys = new LogSys();
+            this.mLangMgr = new LangMgr();
+            this.mSceneEffectMgr = new SceneEffectMgr();
 
-            m_sceneManager = new MOctreeSceneManager("DummyScene");
+            this.mSceneManager = new MOctreeSceneManager("DummyScene");
             mCoroutineTaskMgr = new CoroutineTaskMgr();
             mSceneNodeGraph = new SceneNodeGraph();
             mTerrainEntityMgr = new TerrainEntityMgr();
@@ -252,35 +252,35 @@
 
         public void postInit()
         {
-            m_resizeMgr.addResizeObject(m_uiMgr as IResizeObject);
-            m_tickMgr.addTick(m_inputMgr as ITickedObject);
-            m_inputMgr.postInit();
-            //m_tickMgr.addTick(m_playerMgr as ITickedObject);
-            //m_tickMgr.addTick(m_monsterMgr as ITickedObject);
-            //m_tickMgr.addTick(m_fObjectMgr as ITickedObject);
-            //m_tickMgr.addTick(m_npcMgr as ITickedObject);
-            m_tickMgr.addTick(m_spriteAniMgr as ITickedObject);
-            m_tickMgr.addTick(m_sceneEffectMgr as ITickedObject);
-            //m_tickMgr.addTick(m_sceneCardMgr as ITickedObject);
-            //m_tickMgr.addTick(m_aiSystem.aiControllerMgr as ITickedObject);
+            this.mResizeMgr.addResizeObject(this.mUiMgr as IResizeObject);
+            this.mTickMgr.addTick(this.mInputMgr as ITickedObject);
+            this.mInputMgr.postInit();
+            //mTickMgr.addTick(mPlayerMgr as ITickedObject);
+            //mTickMgr.addTick(mMonsterMgr as ITickedObject);
+            //mTickMgr.addTick(m_fObjectMgr as ITickedObject);
+            //mTickMgr.addTick(mNpcMgr as ITickedObject);
+            this.mTickMgr.addTick(this.mSpriteAniMgr as ITickedObject);
+            this.mTickMgr.addTick(this.mSceneEffectMgr as ITickedObject);
+            //mTickMgr.addTick(m_sceneCardMgr as ITickedObject);
+            //mTickMgr.addTick(m_aiSystem.aiControllerMgr as ITickedObject);
 
-            m_uiMgr.findCanvasGO();
-            m_dataPlayer.m_dataPack.postConstruct();
+            this.mUiMgr.findCanvasGO();
+            this.mDataPlayer.m_dataPack.postConstruct();
 
             // 初始化重定向
-            mResRedirect.postInit();
-            m_resLoadMgr.postInit();
-            mDownloadMgr.postInit();
+            this.mResRedirect.postInit();
+            this.mResLoadMgr.postInit();
+            this.mDownloadMgr.postInit();
 
-            m_TaskQueue.m_pTaskThreadPool = m_TaskThreadPool;
-            m_TaskThreadPool.initThreadPool(2, m_TaskQueue);
+            this.mTaskQueue.m_pTaskThreadPool = this.mTaskThreadPool;
+            this.mTaskThreadPool.initThreadPool(2, this.mTaskQueue);
 
-            m_versionSys.loadLocalVer();    // 加载版本文件
-            m_depResMgr.init();             // 加载依赖文件
-            mCoroutineTaskMgr.start();
+            this.mVersionSys.loadLocalVer();    // 加载版本文件
+            this.mDepResMgr.init();             // 加载依赖文件
+            this.mCoroutineTaskMgr.start();
 
-            m_luaSystem.init();
-            m_uiMgr.init();
+            this.mLuaSystem.init();
+            this.mUiMgr.init();
 
             mMKBEMainEntry.Start();
         }
@@ -301,8 +301,8 @@
 
         public void setNoDestroyObject()
         {
-            m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Root] = UtilApi.GoFindChildByName(NotDestroyPath.ND_CV_Root);
-            UtilApi.DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Root]);
+            this.mLayerMgr.m_path2Go[NotDestroyPath.ND_CV_Root] = UtilApi.GoFindChildByName(NotDestroyPath.ND_CV_Root);
+            UtilApi.DontDestroyOnLoad(Ctx.mInstance.mLayerMgr.m_path2Go[NotDestroyPath.ND_CV_Root]);
 
             setNoDestroyObject_impl(NotDestroyPath.ND_CV_App, NotDestroyPath.ND_CV_Root);
             setNoDestroyObject_impl(NotDestroyPath.ND_CV_UIFirstCanvas, NotDestroyPath.ND_CV_Root);
@@ -327,30 +327,30 @@
 
         protected void setNoDestroyObject_impl(string child, string parent)
         {
-            m_layerMgr.m_path2Go[child] = UtilApi.TransFindChildByPObjAndPath(m_layerMgr.m_path2Go[parent], child);
-            //UtilApi.DontDestroyOnLoad(m_layerMgr.m_path2Go[child]);
+            this.mLayerMgr.m_path2Go[child] = UtilApi.TransFindChildByPObjAndPath(this.mLayerMgr.m_path2Go[parent], child);
+            //UtilApi.DontDestroyOnLoad(mLayerMgr.m_path2Go[child]);
         }
 
         protected void initBasicCfg()
         {
-            BasicConfig basicCfg = m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Root].GetComponent<BasicConfig>();
-            //m_cfg.m_ip = basicCfg.getIp();
-            m_cfg.m_zone = basicCfg.getPort();
+            BasicConfig basicCfg = this.mLayerMgr.m_path2Go[NotDestroyPath.ND_CV_Root].GetComponent<BasicConfig>();
+            //mCfg.m_ip = basicCfg.getIp();
+            this.mCfg.mZone = basicCfg.getPort();
         }
 
         // 卸载所有的资源
         public void unloadAll()
         {
             // 卸载所有的模型
-            m_modelMgr.unloadAll();
+            this.mModelMgr.unloadAll();
             // 卸载所有的材质
-            m_matMgr.unloadAll();
+            this.mMatMgr.unloadAll();
             // 卸载所有的纹理
-            m_texMgr.unloadAll();
+            this.mTexMgr.unloadAll();
             // 卸载音乐
-            m_soundMgr.unloadAll();
+            this.mSoundMgr.unloadAll();
             // 场景卸载
-            m_sceneSys.unloadAll();
+            this.mSceneSys.unloadAll();
         }
     }
 }

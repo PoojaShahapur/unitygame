@@ -86,22 +86,22 @@ namespace SDK.Lib
             if (importData.layerList.length() > 0)
             {
                 m_splat0TexName = importData.layerList[0].textureName;
-                vec.x = Ctx.m_instance.mTerrainGlobalOption.mTerrainSize / importData.layerList[0].worldSize;
+                vec.x = Ctx.mInstance.mTerrainGlobalOption.mTerrainSize / importData.layerList[0].worldSize;
             }
             if (importData.layerList.length() > 1)
             {
                 m_splat1TexName = importData.layerList[1].textureName;
-                vec.y = Ctx.m_instance.mTerrainGlobalOption.mTerrainSize / importData.layerList[1].worldSize;
+                vec.y = Ctx.mInstance.mTerrainGlobalOption.mTerrainSize / importData.layerList[1].worldSize;
             }
             if (importData.layerList.length() > 2)
             {
                 m_splat2TexName = importData.layerList[2].textureName;
-                vec.z = Ctx.m_instance.mTerrainGlobalOption.mTerrainSize / importData.layerList[2].worldSize;
+                vec.z = Ctx.mInstance.mTerrainGlobalOption.mTerrainSize / importData.layerList[2].worldSize;
             }
             if (importData.layerList.length() > 3)
             {
                 m_splat3TexName = importData.layerList[3].textureName;
-                vec.w = Ctx.m_instance.mTerrainGlobalOption.mTerrainSize / importData.layerList[3].worldSize;
+                vec.w = Ctx.mInstance.mTerrainGlobalOption.mTerrainSize / importData.layerList[3].worldSize;
             }
             setUVMultiplier(vec);
             m_controlTexName = importData.mAlphaTexName;
@@ -125,13 +125,13 @@ namespace SDK.Lib
         // 加载漫反射材质
         public void loadDiffuseMat()
         {
-            m_diffuseMatRes = Ctx.m_instance.m_matMgr.getAndSyncLoad<MatRes>(m_difffuseMatName);
+            m_diffuseMatRes = Ctx.mInstance.mMatMgr.getAndSyncLoad<MatRes>(m_difffuseMatName);
             m_diffuseMat = m_diffuseMatRes.getMat();
 
             m_diffuseShader = Shader.Find(m_diffuseShaderName);
             m_diffuseMat.shader = m_diffuseShader;
 
-            m_diffuseTexRes = Ctx.m_instance.m_texMgr.getAndSyncLoad<TextureRes>(m_diffuseTexName);
+            m_diffuseTexRes = Ctx.mInstance.mTexMgr.getAndSyncLoad<TextureRes>(m_diffuseTexName);
             m_diffuseTex = m_diffuseTexRes.getTexture();
 
             if (m_diffuseMat.HasProperty("_MainTex"))
@@ -143,20 +143,20 @@ namespace SDK.Lib
         // 加载高光材质
         public void loadSpecularMat()
         {
-            m_specularMatRes = Ctx.m_instance.m_matMgr.getAndSyncLoad<MatRes>(m_specularMatName);
+            m_specularMatRes = Ctx.mInstance.mMatMgr.getAndSyncLoad<MatRes>(m_specularMatName);
             m_specularMat = m_specularMatRes.getMat();
 
             m_specularShader = Shader.Find(m_specularShaderName);
             m_specularMat.shader = m_specularShader;
 
-            m_diffuseTexRes = Ctx.m_instance.m_texMgr.getAndSyncLoad<TextureRes>(m_diffuseTexName);
+            m_diffuseTexRes = Ctx.mInstance.mTexMgr.getAndSyncLoad<TextureRes>(m_diffuseTexName);
             m_diffuseTex = m_diffuseTexRes.getTexture();
             if (m_splatMat.HasProperty("_MainTex"))
             {
                 m_specularMat.SetTexture("_MainTex", m_diffuseTex);
             }
 
-            m_normalTexRes = Ctx.m_instance.m_texMgr.getAndSyncLoad<TextureRes>(m_normalTexName);
+            m_normalTexRes = Ctx.mInstance.mTexMgr.getAndSyncLoad<TextureRes>(m_normalTexName);
             m_normalTex = m_normalTexRes.getTexture();
             if (m_splatMat.HasProperty("_BumpMap"))
             {
@@ -166,36 +166,36 @@ namespace SDK.Lib
 
         public void loadSplatDiffuseMat()
         {
-            m_splatMatRes = Ctx.m_instance.m_matMgr.getAndSyncLoad<MatRes>(m_splatMatName);
+            m_splatMatRes = Ctx.mInstance.mMatMgr.getAndSyncLoad<MatRes>(m_splatMatName);
             m_splatMat = m_splatMatRes.getMat();
 
             m_splatShader = Shader.Find(m_splatShaderName);
             m_splatMat.shader = m_splatShader;
 
             /*
-            m_splat0TexRes = Ctx.m_instance.m_texMgr.getAndSyncLoad<TextureRes>(m_splat0TexName);
+            m_splat0TexRes = Ctx.mInstance.mTexMgr.getAndSyncLoad<TextureRes>(m_splat0TexName);
             m_splat0Tex = m_splat0TexRes.getTexture();
             if (m_splatMat.HasProperty("_MainTex"))
             {
                 m_splatMat.SetTexture("_MainTex", m_splat0Tex);
             }
 
-            m_splat1TexRes = Ctx.m_instance.m_texMgr.getAndSyncLoad<TextureRes>(m_splat1TexName);
+            m_splat1TexRes = Ctx.mInstance.mTexMgr.getAndSyncLoad<TextureRes>(m_splat1TexName);
             m_splat1Tex = m_splat1TexRes.getTexture();
             if (m_splatMat.HasProperty("_Splat1"))
             {
                 m_splatMat.SetTexture("_Splat1", m_splat1Tex);
             }
 
-            m_splat2TexRes = Ctx.m_instance.m_texMgr.getAndSyncLoad<TextureRes>(m_splat2TexName);
+            m_splat2TexRes = Ctx.mInstance.mTexMgr.getAndSyncLoad<TextureRes>(m_splat2TexName);
             m_splat2Tex = m_splat2TexRes.getTexture();
             m_splatMat.SetTexture("_Splat2", m_splat2Tex);
 
-            m_splat3TexRes = Ctx.m_instance.m_texMgr.getAndSyncLoad<TextureRes>(m_splat3TexName);
+            m_splat3TexRes = Ctx.mInstance.mTexMgr.getAndSyncLoad<TextureRes>(m_splat3TexName);
             m_splat3Tex = m_splat3TexRes.getTexture();
             m_splatMat.SetTexture("_Splat3", m_splat3Tex);
 
-            m_controlTexRes = Ctx.m_instance.m_texMgr.getAndSyncLoad<TextureRes>(m_controlTexName);
+            m_controlTexRes = Ctx.mInstance.mTexMgr.getAndSyncLoad<TextureRes>(m_controlTexName);
             m_controlTex = m_controlTexRes.getTexture();
             if (m_splatMat.HasProperty("_Control"))
             {

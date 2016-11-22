@@ -91,11 +91,11 @@ namespace SDK.Lib
                 if (!string.IsNullOrEmpty(this.mTexPath))
                 {
                     LoadParam param;
-                    param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
+                    param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
                     param.setPath(this.mTexPath);
                     param.m_loadEventHandle = onTexLoadEventHandle;
-                    Ctx.m_instance.m_texMgr.load<TextureRes>(param);
-                    Ctx.m_instance.m_poolSys.deleteObj(param);
+                    Ctx.mInstance.mTexMgr.load<TextureRes>(param);
+                    Ctx.mInstance.mPoolSys.deleteObj(param);
                 }
             }
         }
@@ -104,7 +104,7 @@ namespace SDK.Lib
         {
             if (this.mSelfGo != null)
             {
-                Ctx.m_instance.m_texMgr.unload(this.mTexPath, onTexLoadEventHandle);
+                Ctx.mInstance.mTexMgr.unload(this.mTexPath, onTexLoadEventHandle);
                 this.mTexRes = null;
             }
         }

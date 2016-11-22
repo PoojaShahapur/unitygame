@@ -23,13 +23,13 @@ namespace UnitTest
         {
             mStream = dispObj as MDataStream;
             string text = mStream.readText();
-            Ctx.m_instance.m_logSys.log("Text = " + text);
+            Ctx.mInstance.mLogSys.log("Text = " + text);
         }
 
         protected void testEditor()
         {
             string text = mStream.readText();
-            Ctx.m_instance.m_logSys.log("Text = " + text);
+            Ctx.mInstance.mLogSys.log("Text = " + text);
         }
     }
 }

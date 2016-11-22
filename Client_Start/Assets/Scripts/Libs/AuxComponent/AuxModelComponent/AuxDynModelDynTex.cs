@@ -49,7 +49,7 @@ namespace SDK.Lib
 
                     if(this.mTexRes != null)
                     {
-                        Ctx.m_instance.m_texMgr.unload(this.mTexRes.getResUniqueId(), null);
+                        Ctx.mInstance.mTexMgr.unload(this.mTexRes.getResUniqueId(), null);
                         this.mTexRes = null;
                     }
                 }
@@ -61,7 +61,7 @@ namespace SDK.Lib
         {
             if (this.mTexRes != null)
             {
-                Ctx.m_instance.m_texMgr.unload(this.mTexRes.getResUniqueId(), null);
+                Ctx.mInstance.mTexMgr.unload(this.mTexRes.getResUniqueId(), null);
                 this.mTexRes = null;
             }
 
@@ -81,18 +81,18 @@ namespace SDK.Lib
             {
                 if (this.mTexRes != null)
                 {
-                    Ctx.m_instance.m_texMgr.unload(this.mTexRes.getResUniqueId(), null);
+                    Ctx.mInstance.mTexMgr.unload(this.mTexRes.getResUniqueId(), null);
                     this.mTexRes = null;
                 }
 
-                this.mTexRes = Ctx.m_instance.m_texMgr.getAndSyncLoad<TextureRes>(this.mTexPath);
+                this.mTexRes = Ctx.mInstance.mTexMgr.getAndSyncLoad<TextureRes>(this.mTexPath);
                 this.mMat.mainTexture = this.mTexRes.getTexture();
             }
             else if (this.mIsModelChanged)
             {
                 if (this.mTexRes == null)
                 {
-                    this.mTexRes = Ctx.m_instance.m_texMgr.getAndSyncLoad<TextureRes>(this.mTexPath);
+                    this.mTexRes = Ctx.mInstance.mTexMgr.getAndSyncLoad<TextureRes>(this.mTexPath);
                 }
 
                 this.mMat.mainTexture = this.mTexRes.getTexture();

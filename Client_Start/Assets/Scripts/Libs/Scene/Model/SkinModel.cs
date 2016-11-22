@@ -59,12 +59,12 @@ namespace SDK.Lib
         {
             if (m_modelRes != null)
             {
-                Ctx.m_instance.m_modelMgr.unload(m_modelRes.getResUniqueId(), onSubModelLoaded);
+                Ctx.mInstance.mModelMgr.unload(m_modelRes.getResUniqueId(), onSubModelLoaded);
                 m_modelRes = null;
             }
             if (m_skinRes != null)
             {
-                Ctx.m_instance.m_modelMgr.unload(m_skinRes.getResUniqueId(), onSubModelLoaded);
+                Ctx.mInstance.mModelMgr.unload(m_skinRes.getResUniqueId(), onSubModelLoaded);
                 m_skinRes = null;
             }
         }
@@ -127,11 +127,11 @@ namespace SDK.Lib
             {
                 if(m_modelRes != null)
                 {
-                    Ctx.m_instance.m_modelMgr.unload(m_modelRes.getResUniqueId(), onSubModelLoaded);
+                    Ctx.mInstance.mModelMgr.unload(m_modelRes.getResUniqueId(), onSubModelLoaded);
                     m_modelRes = null;
                 }
 
-                m_modelRes = Ctx.m_instance.m_modelMgr.getAndAsyncLoad<ModelRes>(m_modelPath, onSubModelLoaded) as ModelRes;
+                m_modelRes = Ctx.mInstance.mModelMgr.getAndAsyncLoad<ModelRes>(m_modelPath, onSubModelLoaded) as ModelRes;
                 m_bNeedReloadModel = false;
             }
         }
@@ -139,7 +139,7 @@ namespace SDK.Lib
         public void onSubModelLoaded(IDispatchObject dispObj)
         {
             ModelRes res = dispObj as ModelRes;
-            Ctx.m_instance.m_logSys.logLoad(res);
+            Ctx.mInstance.mLogSys.logLoad(res);
 
             if (res.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
             {
@@ -150,7 +150,7 @@ namespace SDK.Lib
             }
             else if (res.refCountResLoadResultNotify.resLoadState.hasFailed())
             {
-                Ctx.m_instance.m_modelMgr.unload(res.getResUniqueId(), onSubModelLoaded);
+                Ctx.mInstance.mModelMgr.unload(res.getResUniqueId(), onSubModelLoaded);
                 m_modelRes = null;
             }
         }
@@ -161,11 +161,11 @@ namespace SDK.Lib
             {
                 if (m_skinRes != null)
                 {
-                    Ctx.m_instance.m_modelMgr.unload(m_skinRes.getResUniqueId(), onSubModelLoaded);
+                    Ctx.mInstance.mModelMgr.unload(m_skinRes.getResUniqueId(), onSubModelLoaded);
                     m_skinRes = null;
                 }
 
-                m_skinRes = Ctx.m_instance.m_modelMgr.getAndAsyncLoad<SkinRes>(m_skinPath, onSkinLoaded) as SkinRes;
+                m_skinRes = Ctx.mInstance.mModelMgr.getAndAsyncLoad<SkinRes>(m_skinPath, onSkinLoaded) as SkinRes;
                 m_bNeedReloadSkin = false;
             }
         }
@@ -173,7 +173,7 @@ namespace SDK.Lib
         public void onSkinLoaded(IDispatchObject dispObj)
         {
             SkinRes res = dispObj as SkinRes;
-            Ctx.m_instance.m_logSys.logLoad(res);
+            Ctx.mInstance.mLogSys.logLoad(res);
 
             if (res.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
             {
@@ -187,7 +187,7 @@ namespace SDK.Lib
             }
             else if (res.refCountResLoadResultNotify.resLoadState.hasFailed())
             {
-                Ctx.m_instance.m_modelMgr.unload(res.getResUniqueId(), onSkinLoaded);
+                Ctx.mInstance.mModelMgr.unload(res.getResUniqueId(), onSkinLoaded);
                 m_skinRes = null;
             }
         }

@@ -44,7 +44,7 @@ namespace UnitTest
             pSource.reqaccount = "qwer";
 
             byte[] bytes = ProtobufUtil.SerializeTBytes<MSG_ReqTest>(pSource);
-            Ctx.m_instance.m_luaSystem.receiveToLua(bytes);
+            Ctx.mInstance.mLuaSystem.receiveToLua(bytes);
         }
 
         // 测试 RPC
@@ -56,7 +56,7 @@ namespace UnitTest
             pSource.reqaccount = "qwer";
 
             byte[] bytes = ProtobufUtil.SerializeTBytes<MSG_ReqTest>(pSource);
-            Ctx.m_instance.m_luaSystem.receiveToLua(bytes);
+            Ctx.mInstance.mLuaSystem.receiveToLua(bytes);
         }
     }
 }

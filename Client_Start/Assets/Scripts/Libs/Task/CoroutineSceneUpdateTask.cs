@@ -14,7 +14,7 @@
         override public void run()
         {
             base.run();
-            Ctx.m_instance.m_sceneManager.cullScene();
+            Ctx.mInstance.mSceneManager.cullScene();
         }
     }
 }

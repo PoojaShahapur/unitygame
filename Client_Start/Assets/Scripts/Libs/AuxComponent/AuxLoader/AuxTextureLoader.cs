@@ -47,7 +47,7 @@ namespace SDK.Lib
             {
                 mEvtHandle = new ResEventDispatch();
                 mEvtHandle.addEventHandle(null, evtHandle);
-                mTextureRes = Ctx.m_instance.m_texMgr.getAndSyncLoadRes(path);
+                mTextureRes = Ctx.mInstance.mTexMgr.getAndSyncLoadRes(path);
 
                 onTexLoaded(mTextureRes);
             }
@@ -67,7 +67,7 @@ namespace SDK.Lib
             {
                 mEvtHandle = new ResEventDispatch();
                 mEvtHandle.addEventHandle(null, evtHandle);
-                mTextureRes = Ctx.m_instance.m_texMgr.getAndAsyncLoadRes(path, onTexLoaded);
+                mTextureRes = Ctx.mInstance.mTexMgr.getAndAsyncLoadRes(path, onTexLoaded);
             }
         }
 
@@ -82,7 +82,7 @@ namespace SDK.Lib
             else if (mTextureRes.hasFailed())
             {
                 mIsSuccess = false;
-                Ctx.m_instance.m_texMgr.unload(mTextureRes.getResUniqueId(), onTexLoaded);
+                Ctx.mInstance.mTexMgr.unload(mTextureRes.getResUniqueId(), onTexLoaded);
                 mTextureRes = null;
             }
 
@@ -96,7 +96,7 @@ namespace SDK.Lib
         {
             if(mTextureRes != null)
             {
-                Ctx.m_instance.m_texMgr.unload(mTextureRes.getResUniqueId(), onTexLoaded);
+                Ctx.mInstance.mTexMgr.unload(mTextureRes.getResUniqueId(), onTexLoaded);
                 mTextureRes = null;
             }
 

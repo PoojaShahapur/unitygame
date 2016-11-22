@@ -38,15 +38,15 @@ namespace SDK.Lib
                 mEvtHandle = new ResEventDispatch();
                 mEvtHandle.addEventHandle(null, evtHandle);
 
-                LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
+                LoadParam param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
                 param.setPath(path);
                 param.m_loadEventHandle = onLoadEventHandle;
 
                 param.m_loadNeedCoroutine = false;
                 param.m_resNeedCoroutine = false;
 
-                Ctx.m_instance.m_resLoadMgr.loadAsset(param, false);
-                Ctx.m_instance.m_poolSys.deleteObj(param);
+                Ctx.mInstance.mResLoadMgr.loadAsset(param, false);
+                Ctx.mInstance.mPoolSys.deleteObj(param);
             }
         }
 
@@ -65,11 +65,11 @@ namespace SDK.Lib
             {
                 this.mIsSuccess = false;
 
-                Ctx.m_instance.m_logSys.log("AssetBundleManifest AssetBundles Can not Load", LogTypeId.eLogCommon);
+                Ctx.mInstance.mLogSys.log("AssetBundleManifest AssetBundles Can not Load", LogTypeId.eLogCommon);
             }
 
             // 卸载资源，AssetBundles 现在只有不使用的时候一次性全部卸载掉，如果在不使用 AssetBundleManifest 之前就卸载对应的 AssetBundles ，这个 AssetBundleManifest 就会变成 null 的
-            //Ctx.m_instance.m_resLoadMgr.unload(res.getResUniqueId(), onLoadEventHandle);
+            //Ctx.mInstance.mResLoadMgr.unload(res.getResUniqueId(), onLoadEventHandle);
 
             if (this.mEvtHandle != null)
             {
@@ -81,7 +81,7 @@ namespace SDK.Lib
         {
             if (this.mResItem != null)
             {
-                Ctx.m_instance.m_resLoadMgr.unload(mResItem.getResUniqueId(), onLoadEventHandle);
+                Ctx.mInstance.mResLoadMgr.unload(mResItem.getResUniqueId(), onLoadEventHandle);
                 this.mResItem = null;
             }
 

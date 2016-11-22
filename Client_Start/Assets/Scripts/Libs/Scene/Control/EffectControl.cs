@@ -83,7 +83,7 @@ namespace SDK.Lib
         {
             addFrameSpriteGO();
 
-            LinkEffect effect = Ctx.m_instance.m_sceneEffectMgr.addLinkEffect(id, m_effectRootGO, bAutoRemove, bLoop, bPlay) as LinkEffect;
+            LinkEffect effect = Ctx.mInstance.mSceneEffectMgr.addLinkEffect(id, m_effectRootGO, bAutoRemove, bLoop, bPlay) as LinkEffect;
             m_linkEffectList.Add(effect);
             effect.addEffectPlayEndHandle(onLinkEffectPlayEnd);
             effect.linkedEntity = this.m_being;
@@ -93,7 +93,7 @@ namespace SDK.Lib
         // 添加移动特效
         public MoveEffect addMoveEffect(int id, Vector3 srcPos, Vector3 destPos, float moveTime, bool bAutoRemove = true, bool bLoop = false, bool bPlay = true)
         {
-            MoveEffect effect = Ctx.m_instance.m_sceneEffectMgr.addMoveEffect(id, Ctx.m_instance.m_scenePlaceHolder.m_sceneRoot, srcPos, destPos, moveTime, bAutoRemove, bLoop, bPlay) as MoveEffect;
+            MoveEffect effect = Ctx.mInstance.mSceneEffectMgr.addMoveEffect(id, Ctx.mInstance.mScenePlaceHolder.m_sceneRoot, srcPos, destPos, moveTime, bAutoRemove, bLoop, bPlay) as MoveEffect;
 
             return effect;
         }

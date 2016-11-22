@@ -157,7 +157,7 @@ namespace SDK.Lib
         static public string getAbsPathByRelPath(ref string relPath, ref ResLoadType loadType)
         {
             // 获取版本
-            string version = Ctx.m_instance.m_versionSys.getFileVer(relPath);
+            string version = Ctx.mInstance.mVersionSys.getFileVer(relPath);
             string absPath = relPath;
             if (!string.IsNullOrEmpty(version))
             {
@@ -201,18 +201,18 @@ namespace SDK.Lib
 
                 if(ret == null)
                 {
-                    Ctx.m_instance.m_logSys.log(string.Format("MFileSys::readFileAllBytes, Path is {0}, Failed", fileName), LogTypeId.eLogResLoader);
+                    Ctx.mInstance.mLogSys.log(string.Format("MFileSys::readFileAllBytes, Path is {0}, Failed", fileName), LogTypeId.eLogResLoader);
                 }
                 else
                 {
-                    Ctx.m_instance.m_logSys.log(string.Format("MFileSys::readFileAllBytes, Path is {0}, Success", fileName), LogTypeId.eLogResLoader);
+                    Ctx.mInstance.mLogSys.log(string.Format("MFileSys::readFileAllBytes, Path is {0}, Success", fileName), LogTypeId.eLogResLoader);
                 }
 
                 auxBytesLoader.dispose();
             }
             catch
             {
-                Ctx.m_instance.m_logSys.log("Not Find File " + fileName, LogTypeId.eLogCommon);
+                Ctx.mInstance.mLogSys.log("Not Find File " + fileName, LogTypeId.eLogCommon);
             }
 
             return ret;

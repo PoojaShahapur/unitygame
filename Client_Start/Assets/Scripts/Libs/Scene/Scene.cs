@@ -39,56 +39,56 @@ namespace SDK.Lib
             //m_terrain.buildPage();        // 生成地形
             //m_terrain.buildQuadTree();    // 生成四叉树
 
-            //Ctx.m_instance.m_camSys.setMCamera(Camera.main);
+            //Ctx.mInstance.mCamSys.setMCamera(Camera.main);
             //m_terrain.updateClip();
-            Ctx.m_instance.mSceneNodeGraph.init();
-            Ctx.m_instance.m_sceneManager.addUpdateTask();
-            Ctx.m_instance.m_terrainBufferSys.loadSceneCfg("S1000");
+            Ctx.mInstance.mSceneNodeGraph.init();
+            Ctx.mInstance.mSceneManager.addUpdateTask();
+            Ctx.mInstance.mTerrainBufferSys.loadSceneCfg("S1000");
             string terrainId = "";
 
-            if (Ctx.m_instance.mTerrainGlobalOption.mIsReadFile)
+            if (Ctx.mInstance.mTerrainGlobalOption.mIsReadFile)
             {
-                Ctx.m_instance.m_terrainBufferSys.loadNeedRes();
+                Ctx.mInstance.mTerrainBufferSys.loadNeedRes();
             }
 
             int pageIdx = 0;
             int pageIdy = 0;
-            while(pageIdy < Ctx.m_instance.mTerrainGlobalOption.mTerrainPageCount)
+            while(pageIdy < Ctx.mInstance.mTerrainGlobalOption.mTerrainPageCount)
             {
                 pageIdx = 0;
-                while (pageIdx < Ctx.m_instance.mTerrainGlobalOption.mTerrainPageCount)
+                while (pageIdx < Ctx.mInstance.mTerrainGlobalOption.mTerrainPageCount)
                 {
-                    terrainId = Ctx.m_instance.m_terrainBufferSys.getTerrainId(pageIdx, pageIdy);
+                    terrainId = Ctx.mInstance.mTerrainBufferSys.getTerrainId(pageIdx, pageIdy);
                     if(string.IsNullOrEmpty(terrainId))
                     {
                         terrainId = "T1000";
                     }
-                    Ctx.m_instance.m_terrainGroup.defineTerrain(pageIdx, pageIdy, terrainId);
-                    Ctx.m_instance.m_terrainGroup.loadTerrain(pageIdx, pageIdy, true);
-                    if (!Ctx.m_instance.mTerrainGlobalOption.mNeedCull)
+                    Ctx.mInstance.mTerrainGroup.defineTerrain(pageIdx, pageIdy, terrainId);
+                    Ctx.mInstance.mTerrainGroup.loadTerrain(pageIdx, pageIdy, true);
+                    if (!Ctx.mInstance.mTerrainGlobalOption.mNeedCull)
                     {
-                        Ctx.m_instance.m_terrainGroup.updateAABB(pageIdx, pageIdy);
-                        Ctx.m_instance.m_terrainGroup.showTerrain(pageIdx, pageIdy);
+                        Ctx.mInstance.mTerrainGroup.updateAABB(pageIdx, pageIdy);
+                        Ctx.mInstance.mTerrainGroup.showTerrain(pageIdx, pageIdy);
                     }
-                    if (Ctx.m_instance.mTerrainGlobalOption.mNeedSaveScene)
+                    if (Ctx.mInstance.mTerrainGlobalOption.mNeedSaveScene)
                     {
-                        Ctx.m_instance.m_terrainGroup.serializeTerrain(pageIdx, pageIdy);
+                        Ctx.mInstance.mTerrainGroup.serializeTerrain(pageIdx, pageIdy);
                     }
                     ++pageIdx;
                 }
                 ++pageIdy;
             }
 
-            Ctx.m_instance.m_camSys.setLocalCamera(Camera.main);
-            if(Ctx.m_instance.mTerrainGlobalOption.mNeedCull)
+            Ctx.mInstance.mCamSys.setLocalCamera(Camera.main);
+            if(Ctx.mInstance.mTerrainGlobalOption.mNeedCull)
             {
-                Ctx.m_instance.m_camSys.invalidCamera();
+                Ctx.mInstance.mCamSys.invalidCamera();
             }
         }
 
         public void updateClip()
         {
-            Ctx.m_instance.m_terrainGroup.cullTerrain(0, 0, Ctx.m_instance.m_camSys.getLocalCamera());
+            Ctx.mInstance.mTerrainGroup.cullTerrain(0, 0, Ctx.mInstance.mCamSys.getLocalCamera());
         }
 
         public float getHeightAt(float x, float z)

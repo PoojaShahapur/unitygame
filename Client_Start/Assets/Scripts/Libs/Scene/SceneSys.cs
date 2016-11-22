@@ -40,7 +40,7 @@ namespace SDK.Lib
 
             // 加载新的场景
             m_scene = new Scene();
-            m_scene.file = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathScene] + filename;
+            m_scene.file = Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathScene] + filename;
             if(func != null)
             {
                 mOnSceneLoadedDisp.addEventHandle(null, func);
@@ -59,11 +59,11 @@ namespace SDK.Lib
 
         public void loadSceneCfg(string filename)
         {
-            LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            param.setPath(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathSceneXml] + filename);
+            LoadParam param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
+            param.setPath(Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathSceneXml] + filename);
             param.m_loadEventHandle = onSceneCfgLoadded;
-            Ctx.m_instance.m_resLoadMgr.loadBundle(param);
-            Ctx.m_instance.m_poolSys.deleteObj(param);
+            Ctx.mInstance.mResLoadMgr.loadBundle(param);
+            Ctx.mInstance.mPoolSys.deleteObj(param);
         }
 
         protected void onSceneCfgLoadded(IDispatchObject dispObj)
@@ -76,7 +76,7 @@ namespace SDK.Lib
 
         public void loadSceneRes(string filename)
         {
-            Ctx.m_instance.m_netCmdNotify.bStopNetHandle = true;        // 加载场景需要停止处理消息，因为很多资源都要等到场景加载完成才初始化
+            Ctx.mInstance.mNetCmdNotify.bStopNetHandle = true;        // 加载场景需要停止处理消息，因为很多资源都要等到场景加载完成才初始化
 
             mAuxLevelLoader.asyncLoad(filename, onSceneResLoadded);
         }
@@ -86,7 +86,7 @@ namespace SDK.Lib
             //ResItem res = dispObj as ResItem;
             mOnSceneLoadedDisp.dispatchEvent(m_scene);
 
-            Ctx.m_instance.m_netCmdNotify.bStopNetHandle = false;        // 加载场景完成需要处理处理消息
+            Ctx.mInstance.mNetCmdNotify.bStopNetHandle = false;        // 加载场景完成需要处理处理消息
 
             mAuxLevelLoader.unload();
         }

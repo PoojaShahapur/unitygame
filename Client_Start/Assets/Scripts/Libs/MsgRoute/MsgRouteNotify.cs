@@ -29,7 +29,7 @@ namespace SDK.Lib
                 item.handleMsg(msg);
             }
 
-            Ctx.m_instance.m_poolSys.deleteObj(msg);
+            Ctx.mInstance.mPoolSys.deleteObj(msg);
         }
     }
 }

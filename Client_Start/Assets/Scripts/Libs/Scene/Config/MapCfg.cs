@@ -6,7 +6,7 @@
 
         protected void loadXml()
         {
-            m_mapXml = Ctx.m_instance.m_xmlCfgMgr.getXmlCfg<MapXml>(XmlCfgID.eXmlMapCfg);
+            m_mapXml = Ctx.mInstance.mXmlCfgMgr.getXmlCfg<MapXml>(XmlCfgID.eXmlMapCfg);
         }
 
         public MapXmlItem getXmlItem(uint sceneId)

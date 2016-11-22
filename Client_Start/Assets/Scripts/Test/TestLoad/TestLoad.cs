@@ -31,11 +31,11 @@ namespace UnitTest
         protected void testModelLoad()
         {
             LoadParam param;
-            param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
+            param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
             param.setPath("Model/log.prefab");
             param.m_loadEventHandle = onLoadEventHandle;
-            Ctx.m_instance.m_modelMgr.load<ModelRes>(param);
-            Ctx.m_instance.m_poolSys.deleteObj(param);
+            Ctx.mInstance.mModelMgr.load<ModelRes>(param);
+            Ctx.mInstance.mPoolSys.deleteObj(param);
         }
 
         public virtual void onLoadEventHandle(IDispatchObject dispObj)
@@ -59,12 +59,12 @@ namespace UnitTest
         protected void testAsyncLoadImage()
         {
             LoadParam param;
-            param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
+            param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
             param.setPath(CVAtlasName.TuJianDyn);
             param.m_subPath = "ka1_paizu";
             param.m_loadEventHandle = onImageLoadEventHandle;
-            Ctx.m_instance.m_atlasMgr.getAndLoadImage(param);
-            Ctx.m_instance.m_poolSys.deleteObj(param);
+            Ctx.mInstance.mAtlasMgr.getAndLoadImage(param);
+            Ctx.mInstance.mPoolSys.deleteObj(param);
         }
 
         public virtual void onImageLoadEventHandle(IDispatchObject dispObj)
@@ -79,62 +79,62 @@ namespace UnitTest
 
         public void testSyncLoadRefCount()
         {
-            PrefabRes aaa = Ctx.m_instance.m_prefabMgr.getAndSyncLoad<PrefabRes>("UI/UIChat/UIChat.prefab");
-            PrefabRes bbb = Ctx.m_instance.m_prefabMgr.getAndSyncLoad<PrefabRes>("UI/UIChat/UIChat.prefab");
+            PrefabRes aaa = Ctx.mInstance.mPrefabMgr.getAndSyncLoad<PrefabRes>("UI/UIChat/UIChat.prefab");
+            PrefabRes bbb = Ctx.mInstance.mPrefabMgr.getAndSyncLoad<PrefabRes>("UI/UIChat/UIChat.prefab");
         }
 
         public void testAsyncLoadUIPrefabRefCount()
         {
             LoadParam param;
-            param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
+            param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
             param.setPath("UI/UIChat/UIChat.prefab");
             param.m_loadEventHandle = onUIPrefabLoadEventHandle;
-            PrefabRes aaa = Ctx.m_instance.m_prefabMgr.getAndLoad<PrefabRes>(param);
-            Ctx.m_instance.m_poolSys.deleteObj(param);
+            PrefabRes aaa = Ctx.mInstance.mPrefabMgr.getAndLoad<PrefabRes>(param);
+            Ctx.mInstance.mPoolSys.deleteObj(param);
 
-            Ctx.m_instance.m_prefabMgr.unload(aaa.getResUniqueId(), onUIPrefabLoadEventHandle);
+            Ctx.mInstance.mPrefabMgr.unload(aaa.getResUniqueId(), onUIPrefabLoadEventHandle);
 
-            param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
+            param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
             param.setPath("UI/UIChat/UIChat.prefab");
             param.m_loadEventHandle = onUIPrefabLoadEventHandle;
-            PrefabRes bbb = Ctx.m_instance.m_prefabMgr.getAndLoad<PrefabRes>(param);
-            Ctx.m_instance.m_poolSys.deleteObj(param);
+            PrefabRes bbb = Ctx.mInstance.mPrefabMgr.getAndLoad<PrefabRes>(param);
+            Ctx.mInstance.mPoolSys.deleteObj(param);
 
-            Ctx.m_instance.m_prefabMgr.unload(bbb.getResUniqueId(), onUIPrefabLoadEventHandle);
+            Ctx.mInstance.mPrefabMgr.unload(bbb.getResUniqueId(), onUIPrefabLoadEventHandle);
         }
 
         public void testAsyncLoadAtlasRefCount()
         {
             LoadParam param;
-            param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
+            param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
             param.setPath(CVAtlasName.TuJianDyn);
             param.m_subPath = "ka1_paizu";
             param.m_loadEventHandle = onImageLoadEventHandle;
-            ImageItem aaa = Ctx.m_instance.m_atlasMgr.getAndLoadImage(param);
-            Ctx.m_instance.m_poolSys.deleteObj(param);
+            ImageItem aaa = Ctx.mInstance.mAtlasMgr.getAndLoadImage(param);
+            Ctx.mInstance.mPoolSys.deleteObj(param);
 
-            param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
+            param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
             param.setPath(CVAtlasName.TuJianDyn);
             param.m_subPath = "ka1_paizu";
             param.m_loadEventHandle = onImageLoadEventHandle;
-            ImageItem bbb = Ctx.m_instance.m_atlasMgr.getAndLoadImage(param);
-            Ctx.m_instance.m_poolSys.deleteObj(param);
+            ImageItem bbb = Ctx.mInstance.mAtlasMgr.getAndLoadImage(param);
+            Ctx.mInstance.mPoolSys.deleteObj(param);
 
-            Ctx.m_instance.m_atlasMgr.unloadImage(aaa, onImageLoadEventHandle);
-            Ctx.m_instance.m_atlasMgr.unloadImage(bbb, onImageLoadEventHandle);
+            Ctx.mInstance.mAtlasMgr.unloadImage(aaa, onImageLoadEventHandle);
+            Ctx.mInstance.mAtlasMgr.unloadImage(bbb, onImageLoadEventHandle);
         }
 
         protected void testLoadAnimatorController()
         {
             LoadParam param;
-            param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
+            param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
             param.setPath("Animation/Scene/CommonCard.controller");
             param.m_loadNeedCoroutine = false;
             param.m_resNeedCoroutine = false;
-            ResItem bbb = Ctx.m_instance.m_resLoadMgr.getAndLoad(param);
+            ResItem bbb = Ctx.mInstance.mResLoadMgr.getAndLoad(param);
             System.Type type = bbb.getObject("").GetType();
-            Ctx.m_instance.m_logSys.log(string.Format("类型名字 {0}", type.FullName));
-            Ctx.m_instance.m_poolSys.deleteObj(param);
+            Ctx.mInstance.mLogSys.log(string.Format("类型名字 {0}", type.FullName));
+            Ctx.mInstance.mPoolSys.deleteObj(param);
 
             //GameObject _go = UtilApi.createGameObject("AnimatorController");
             //Animator animator = _go.AddComponent<Animator>();
@@ -144,12 +144,12 @@ namespace UnitTest
         protected void testLoadAnimatorControllerPrefab()
         {
             LoadParam param;
-            param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
+            param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
             param.setPath("Animation/Scene/Control.prefab");
             param.m_loadNeedCoroutine = false;
             param.m_resNeedCoroutine = false;
-            PrefabResItem bbb = Ctx.m_instance.m_resLoadMgr.getAndLoad(param) as PrefabResItem;
-            Ctx.m_instance.m_poolSys.deleteObj(param);
+            PrefabResItem bbb = Ctx.mInstance.mResLoadMgr.getAndLoad(param) as PrefabResItem;
+            Ctx.mInstance.mPoolSys.deleteObj(param);
 
             GameObject _go = UtilApi.createGameObject("AnimatorController");
             Animator animator = _go.AddComponent<Animator>();
@@ -164,23 +164,23 @@ namespace UnitTest
 
         protected void testLoadScriptAnimatorControllerPrefab()
         {
-            string path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathSceneAnimatorController], "SelfCardAni.asset");
+            string path = string.Format("{0}{1}", Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathSceneAnimatorController], "SelfCardAni.asset");
             LoadParam param;
-            param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
+            param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
             param.setPath(path);
             param.m_loadNeedCoroutine = false;
             param.m_resNeedCoroutine = false;
-            PrefabResItem bbb = Ctx.m_instance.m_resLoadMgr.getAndLoad(param) as PrefabResItem;
-            Ctx.m_instance.m_poolSys.deleteObj(param);
+            PrefabResItem bbb = Ctx.mInstance.mResLoadMgr.getAndLoad(param) as PrefabResItem;
+            Ctx.mInstance.mPoolSys.deleteObj(param);
         }
 
         protected void testScriptController()
         {
-            string path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathSceneAnimatorController], "SelfCardAni.asset");
-            ControllerRes res = Ctx.m_instance.m_controllerMgr.getAndSyncLoad<ControllerRes>(path);
+            string path = string.Format("{0}{1}", Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathSceneAnimatorController], "SelfCardAni.asset");
+            ControllerRes res = Ctx.mInstance.mControllerMgr.getAndSyncLoad<ControllerRes>(path);
             RuntimeAnimatorController copyCom = res.InstantiateController();
             res.DestroyControllerInstance(copyCom);
-            Ctx.m_instance.m_controllerMgr.unload(res.getResUniqueId(), null);
+            Ctx.mInstance.mControllerMgr.unload(res.getResUniqueId(), null);
         }
 
         protected void testLoadPreafab()
@@ -222,7 +222,7 @@ namespace UnitTest
             AuxTextLoader sync_loader_a = new AuxTextLoader();
             sync_loader_a.syncLoad("XmlConfig/Test_a.txt");
 
-            Ctx.m_instance.m_logSys.log(string.Format("XmlConfig/Test_a Sync Content {0} ", sync_loader_a.getText()), LogTypeId.eLogTestRL);
+            Ctx.mInstance.mLogSys.log(string.Format("XmlConfig/Test_a Sync Content {0} ", sync_loader_a.getText()), LogTypeId.eLogTestRL);
 
             sync_loader_a.dispose();
 
@@ -230,7 +230,7 @@ namespace UnitTest
             AuxTextLoader sync_loader_b = new AuxTextLoader();
             sync_loader_b.syncLoad("XmlConfig/Test_b.txt");
 
-            Ctx.m_instance.m_logSys.log(string.Format("XmlConfig/Test_b Sync Content {0}", sync_loader_b.getText()), LogTypeId.eLogTestRL);
+            Ctx.mInstance.mLogSys.log(string.Format("XmlConfig/Test_b Sync Content {0}", sync_loader_b.getText()), LogTypeId.eLogTestRL);
 
             sync_loader_b.dispose();
 
@@ -251,7 +251,7 @@ namespace UnitTest
         {
             AuxTextLoader async_loader_a = dispObj as AuxTextLoader;
 
-            Ctx.m_instance.m_logSys.log(string.Format("XmlConfig/Test_a Async Content {0} ", async_loader_a.getText()), LogTypeId.eLogTestRL);
+            Ctx.mInstance.mLogSys.log(string.Format("XmlConfig/Test_a Async Content {0} ", async_loader_a.getText()), LogTypeId.eLogTestRL);
 
             async_loader_a.dispose();
         }
@@ -260,7 +260,7 @@ namespace UnitTest
         {
             AuxTextLoader async_loader_b = dispObj as AuxTextLoader;
 
-            Ctx.m_instance.m_logSys.log(string.Format("XmlConfig/Test_b Async Content {0} ", async_loader_b.getText()), LogTypeId.eLogTestRL);
+            Ctx.mInstance.mLogSys.log(string.Format("XmlConfig/Test_b Async Content {0} ", async_loader_b.getText()), LogTypeId.eLogTestRL);
 
             async_loader_b.dispose();
         }
@@ -271,11 +271,11 @@ namespace UnitTest
             if (dataStream.isValid())
             {
                 string text = dataStream.readText();
-                Ctx.m_instance.m_logSys.log(string.Format("XmlConfig/Test_a.txt DataStream Content {0} ", text), LogTypeId.eLogResLoader);
+                Ctx.mInstance.mLogSys.log(string.Format("XmlConfig/Test_a.txt DataStream Content {0} ", text), LogTypeId.eLogResLoader);
             }
             else
             {
-                Ctx.m_instance.m_logSys.log("Open File Failed", LogTypeId.eLogResLoader);
+                Ctx.mInstance.mLogSys.log("Open File Failed", LogTypeId.eLogResLoader);
             }
 
             dataStream.dispose();
@@ -287,11 +287,11 @@ namespace UnitTest
             if (dataStream.isValid())
             {
                 string text = dataStream.readText();
-                Ctx.m_instance.m_logSys.log(string.Format("XmlConfig/Test_b.txt DataStream Content {0} ", text), LogTypeId.eLogResLoader);
+                Ctx.mInstance.mLogSys.log(string.Format("XmlConfig/Test_b.txt DataStream Content {0} ", text), LogTypeId.eLogResLoader);
             }
             else
             {
-                Ctx.m_instance.m_logSys.log("Open File Failed", LogTypeId.eLogResLoader);
+                Ctx.mInstance.mLogSys.log("Open File Failed", LogTypeId.eLogResLoader);
             }
 
             dataStream.dispose();

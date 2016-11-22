@@ -25,7 +25,7 @@ namespace SDK.Lib
             m_objList.Add(item);
             m_id2ObjDic[tableid] = item;
 
-            item.m_tableItemObject = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_OBJECT, tableid) as TableItemBase;
+            item.m_tableItemObject = Ctx.mInstance.mTableSys.getItem(TableID.TABLE_OBJECT, tableid) as TableItemBase;
         }
 
         // 添加道具列表
@@ -40,7 +40,7 @@ namespace SDK.Lib
                 obj = opt.mobject;
                 DataItemObjectBase item = new DataItemObjectBase();
                 item.m_srvItemObject = obj;
-                item.m_tableItemObject = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_OBJECT, item.m_srvItemObject.dwObjectID) as TableItemBase;
+                item.m_tableItemObject = Ctx.mInstance.mTableSys.getItem(TableID.TABLE_OBJECT, item.m_srvItemObject.dwObjectID) as TableItemBase;
                 m_objList.Add(item);
                 m_id2ObjDic[item.m_srvItemObject.dwThisID] = item;
             }
@@ -50,7 +50,7 @@ namespace SDK.Lib
         {
             DataItemObjectBase item = new DataItemObjectBase();
             item.m_srvItemObject = obj;
-            item.m_tableItemObject = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_OBJECT, item.m_srvItemObject.dwObjectID) as TableItemBase;
+            item.m_tableItemObject = Ctx.mInstance.mTableSys.getItem(TableID.TABLE_OBJECT, item.m_srvItemObject.dwObjectID) as TableItemBase;
             m_objList.Add(item);
             m_id2ObjDic[item.m_srvItemObject.dwThisID] = item;
         }

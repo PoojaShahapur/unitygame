@@ -53,15 +53,15 @@ namespace SDK.Lib
             base.init();
             // 现在 new 移动到一个另外一个文件中了
             //m_luaInsTable = base.CallClassMethod("new")[0] as LuaTable;
-            m_luaInsTable = Ctx.m_instance.m_luaSystem.malloc(m_luaTable);
+            m_luaInsTable = Ctx.mInstance.mLuaSystem.malloc(m_luaTable);
         }
 
         // 资源加载完成初始化
         public void postInit()
         {
-            Ctx.m_instance.m_luaSystem.lua[m_tableName + ".gameObject"] = m_gameObject;
-            Ctx.m_instance.m_luaSystem.lua[m_tableName + ".transform"] = m_gameObject.transform;
-            Ctx.m_instance.m_luaSystem.lua[m_tableName + ".form"] = m_form;
+            Ctx.mInstance.mLuaSystem.lua[m_tableName + ".gameObject"] = m_gameObject;
+            Ctx.mInstance.mLuaSystem.lua[m_tableName + ".transform"] = m_gameObject.transform;
+            Ctx.mInstance.mLuaSystem.lua[m_tableName + ".form"] = m_form;
         }
 
         // 根据表注册 UI 事件， LuaTable 的格式如下 luaTable {name="Panel_Name", BtnClickTable={"ui/click", "ui/tab"} ImageClickTable={"ui/click", "ui/tab"}}
@@ -81,8 +81,8 @@ namespace SDK.Lib
 
         public void handleUIEvent(string eventName, string formName, string path)
         {
-            // Ctx.m_instance.m_luaSystem.DoFile("script/panelscript/UIMgr.lua");
-            LuaTable luaTable = Ctx.m_instance.m_luaSystem.getLuaTable("UIManager");
+            // Ctx.mInstance.mLuaSystem.DoFile("script/panelscript/UIMgr.lua");
+            LuaTable luaTable = Ctx.mInstance.mLuaSystem.getLuaTable("UIManager");
             callGlobalMethod(LuaCSBridgeForm.LUA_DISPATCH_FULL_FUNC_NAME, luaTable, eventName, formName, path);  // 这个地方把 luaTable 传递进去，是因为 Lua 中是这么写的 UIManager:OnBtnClick ，而不是 UIManager.OnBtnClick 写的
             // CallGlobalMethod("UISysTest.OnUiMsg", "bbb", "ffff");
         }
@@ -93,7 +93,7 @@ namespace SDK.Lib
             if (!String.IsNullOrEmpty(m_tableName))  // 如果在 _G 表中
             {
                 fullFuncName = m_tableName + "." + funcName_;
-                return Ctx.m_instance.m_luaSystem.callLuaFunction(fullFuncName, m_luaInsTable, args);
+                return Ctx.mInstance.mLuaSystem.callLuaFunction(fullFuncName, m_luaInsTable, args);
             }
 
             return null;

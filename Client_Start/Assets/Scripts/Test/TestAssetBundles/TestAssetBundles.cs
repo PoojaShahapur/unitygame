@@ -27,11 +27,11 @@ namespace UnitTest
             // 从内存创建资源
             AssetBundle bundles = AssetBundle.LoadFromMemory(memBytes);
             string[] nameList = bundles.GetAllAssetNames();
-            Ctx.m_instance.m_logSys.log("TestExportPrefab");
+            Ctx.mInstance.mLogSys.log("TestExportPrefab");
 
             GameObject go = bundles.LoadAsset<GameObject>("Assets/Resources/Module/Login.prefab");
             UtilApi.Instantiate(go);
-            Ctx.m_instance.m_logSys.log("TestPrefabUnity3d");
+            Ctx.mInstance.mLogSys.log("TestPrefabUnity3d");
         }
 
         // 测试从 AssetBundles 中加载 Scene
@@ -46,10 +46,10 @@ namespace UnitTest
             // 从内存创建资源
             AssetBundle bundles = AssetBundle.LoadFromMemory(memBytes);
             string[] nameList = bundles.GetAllAssetNames();
-            Ctx.m_instance.m_logSys.log("testexportscene");
+            Ctx.mInstance.mLogSys.log("testexportscene");
 
             GameObject go = bundles.LoadAsset<GameObject>("Assets/Scenes/Start.unity");
-            Ctx.m_instance.m_logSys.log("TestPrefabUnity3d");
+            Ctx.mInstance.mLogSys.log("TestPrefabUnity3d");
 
             Application.LoadLevel("dz");
         }

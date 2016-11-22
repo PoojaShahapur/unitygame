@@ -289,11 +289,11 @@ namespace SDK.Lib
                 if (!string.IsNullOrEmpty(path))
                 {
                     LoadParam param;
-                    param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
+                    param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
                     param.setPath(path);
                     param.m_loadEventHandle = onload;
-                    Ctx.m_instance.m_modelMgr.load<ModelRes>(param);
-                    Ctx.m_instance.m_poolSys.deleteObj(param);
+                    Ctx.mInstance.mModelMgr.load<ModelRes>(param);
+                    Ctx.mInstance.mPoolSys.deleteObj(param);
                 }
             }
         }
@@ -305,14 +305,14 @@ namespace SDK.Lib
 
         public static string webFullPath(string path)
         {
-            return string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_webIP, path);
+            return string.Format("{0}{1}", Ctx.mInstance.mCfg.mWebIP, path);
         }
 
         public static string getRelPath(string path)
         {
-            if (path.IndexOf(Ctx.m_instance.m_cfg.m_webIP) != -1)
+            if (path.IndexOf(Ctx.mInstance.mCfg.mWebIP) != -1)
             {
-                return path.Substring(Ctx.m_instance.m_cfg.m_webIP.Length);
+                return path.Substring(Ctx.mInstance.mCfg.mWebIP.Length);
             }
 
             return path;
@@ -417,19 +417,19 @@ namespace SDK.Lib
         public static void onLoaded(IDispatchObject dispObj, MAction<IDispatchObject> loadEventHandle)
         {
             ResItem res = dispObj as ResItem;
-            Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, res.getLoadPath());
+            Ctx.mInstance.mLogSys.debugLog_1(LangItemID.eItem0, res.getLoadPath());
 
             // 卸载资源
-            Ctx.m_instance.m_resLoadMgr.unload(res.getResUniqueId(), loadEventHandle);
+            Ctx.mInstance.mResLoadMgr.unload(res.getResUniqueId(), loadEventHandle);
         }
 
         public static void onFailed(IDispatchObject dispObj, MAction<IDispatchObject> loadEventHandle)
         {
             ResItem res = dispObj as ResItem;
-            Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, res.getLoadPath());
+            Ctx.mInstance.mLogSys.debugLog_1(LangItemID.eItem1, res.getLoadPath());
 
             // 卸载资源
-            Ctx.m_instance.m_resLoadMgr.unload(res.getResUniqueId(), loadEventHandle);
+            Ctx.mInstance.mResLoadMgr.unload(res.getResUniqueId(), loadEventHandle);
         }
 
         // 通过下划线获取最后的数字，例如 asdf_23 获取 23

@@ -25,7 +25,7 @@ namespace SDK.Lib
             
             if(this.mPrefabRes != null)
             {
-                Ctx.m_instance.m_prefabMgr.unload(this.mPrefabRes.getResUniqueId(), null);
+                Ctx.mInstance.mPrefabMgr.unload(this.mPrefabRes.getResUniqueId(), null);
             }
         }
 
@@ -66,10 +66,10 @@ namespace SDK.Lib
                 }
                 if (this.mPrefabRes != null)
                 {
-                    Ctx.m_instance.m_prefabMgr.unload(this.mPrefabRes.getResUniqueId(), null);
+                    Ctx.mInstance.mPrefabMgr.unload(this.mPrefabRes.getResUniqueId(), null);
                     this.mPrefabRes = null;
                 }
-                this.mPrefabRes = Ctx.m_instance.m_prefabMgr.getAndSyncLoad<PrefabRes>(this.mPrefabPath);
+                this.mPrefabRes = Ctx.mInstance.mPrefabMgr.getAndSyncLoad<PrefabRes>(this.mPrefabPath);
                 this.mSelfGo = this.mPrefabRes.InstantiateObject(this.mPrefabPath);
 
                 if (this.mIsNeedPlaceHolderGo && this.mPlaceHolderGo != null)

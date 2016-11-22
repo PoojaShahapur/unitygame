@@ -43,7 +43,7 @@ namespace SDK.Lib
 
             Util.ClearMemory();
 
-            Ctx.m_instance.m_logSys.log(string.Format("~ {0} was destroy!", m_tableName));
+            Ctx.mInstance.mLogSys.log(string.Format("~ {0} was destroy!", m_tableName));
         }
 
         public void setTable(LuaTable luaTable)
@@ -135,11 +135,11 @@ namespace SDK.Lib
             if (!string.IsNullOrEmpty(m_luaFile))
             {
                 //this.m_luaTable = this.DoFile(m_luaFile)[0] as LuaTable;        // 加载 lua 脚本
-                m_luaTable = Ctx.m_instance.m_luaSystem.loadModule(m_luaFile);   // 加载 lua 脚本
+                m_luaTable = Ctx.mInstance.mLuaSystem.loadModule(m_luaFile);   // 加载 lua 脚本
             }
             else if (!string.IsNullOrEmpty(m_tableName))
             {
-                m_luaTable = Ctx.m_instance.m_luaSystem.getLuaTable(m_tableName);
+                m_luaTable = Ctx.mInstance.mLuaSystem.getLuaTable(m_tableName);
             }
         }
 
@@ -175,7 +175,7 @@ namespace SDK.Lib
             {
                 fullFuncName = m_tableName + "." + funcName_;
             }
-            return Ctx.m_instance.m_luaSystem.CallLuaFunction(fullFuncName, args);
+            return Ctx.mInstance.mLuaSystem.CallLuaFunction(fullFuncName, args);
             */
 
             setTableName(tableName_);
@@ -200,7 +200,7 @@ namespace SDK.Lib
             if (!String.IsNullOrEmpty(m_tableName))  // 如果在 _G 表中
             {
                 fullFuncName = m_tableName + "." + funcName_;
-                return Ctx.m_instance.m_luaSystem.CallLuaFunction(fullFuncName, m_luaTable, args);
+                return Ctx.mInstance.mLuaSystem.CallLuaFunction(fullFuncName, m_luaTable, args);
             }
             else
             {
@@ -254,7 +254,7 @@ namespace SDK.Lib
                 fullMemberName = m_tableName + "." + memberName_;
             }
 
-            return Ctx.m_instance.m_luaSystem.lua[fullMemberName];
+            return Ctx.mInstance.mLuaSystem.lua[fullMemberName];
             */
             if (m_luaTable != null)
             {
@@ -269,7 +269,7 @@ namespace SDK.Lib
          */
         public object[] callGlobalMethod(string funcName_, params object[] args)
         {
-            return Ctx.m_instance.m_luaSystem.callLuaFunction(funcName_, args);
+            return Ctx.mInstance.mLuaSystem.callLuaFunction(funcName_, args);
         }
 
         /**
@@ -277,7 +277,7 @@ namespace SDK.Lib
          */
         public object getGlobalMember(string memberName_)
         {
-            return Ctx.m_instance.m_luaSystem.getLuaMember(memberName_);
+            return Ctx.mInstance.mLuaSystem.getLuaMember(memberName_);
         }
     }
 }

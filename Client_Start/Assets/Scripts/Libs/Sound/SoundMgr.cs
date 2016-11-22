@@ -24,7 +24,7 @@ namespace SDK.Lib
                 addTimer();
             }
 
-            soundParam.m_path = Ctx.m_instance.m_pPakSys.getCurResPakPathByResPath(soundParam.m_path, null);
+            soundParam.m_path = Ctx.mInstance.mPakSys.getCurResPakPathByResPath(soundParam.m_path, null);
 
             if (m_path2SoundDic.ContainsKey(soundParam.m_path))      // 如果已经有了直接返回
             {
@@ -49,13 +49,13 @@ namespace SDK.Lib
                 m_audioList.Add(m_path2SoundDic[soundParam.m_path]);
                 m_path2SoundDic[soundParam.m_path].initParam(soundParam);
 
-                LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
+                LoadParam param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
                 param.setPath(soundParam.m_path);
                 param.m_loadEventHandle = onLoadEventHandle;
                 param.m_loadNeedCoroutine = false;
                 param.m_resNeedCoroutine = false;
-                Ctx.m_instance.m_resLoadMgr.loadAsset(param);
-                Ctx.m_instance.m_poolSys.deleteObj(param);
+                Ctx.mInstance.mResLoadMgr.loadAsset(param);
+                Ctx.mInstance.mPoolSys.deleteObj(param);
             }
         }
 
@@ -68,17 +68,17 @@ namespace SDK.Lib
             }
             else
             {
-                SoundParam param = Ctx.m_instance.m_poolSys.newObject<SoundParam>();
+                SoundParam param = Ctx.mInstance.mPoolSys.newObject<SoundParam>();
                 param.m_path = path;
                 param.m_bLoop = loop_;
                 play(param);
-                Ctx.m_instance.m_poolSys.deleteObj(param);
+                Ctx.mInstance.mPoolSys.deleteObj(param);
             }
         }
 
         public void stop(string path)
         {
-            path = Ctx.m_instance.m_pPakSys.getCurResPakPathByResPath(path, null);
+            path = Ctx.mInstance.mPakSys.getCurResPakPathByResPath(path, null);
             unload(path);
         }
 
@@ -87,7 +87,7 @@ namespace SDK.Lib
             ResItem res = dispObj as ResItem;
             if (res.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
             {
-                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, res.getLoadPath());
+                Ctx.mInstance.mLogSys.debugLog_1(LangItemID.eItem0, res.getLoadPath());
 
                 if (m_path2SoundDic.ContainsKey(res.getResUniqueId()))      // 如果有，说明还没被停止
                 {
@@ -105,11 +105,11 @@ namespace SDK.Lib
             }
             else if (res.refCountResLoadResultNotify.resLoadState.hasFailed())
             {
-                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, res.getLoadPath());
+                Ctx.mInstance.mLogSys.debugLog_1(LangItemID.eItem0, res.getLoadPath());
                 delSoundItem(m_path2SoundDic[res.getResUniqueId()]);
             }
             // 卸载数据
-            Ctx.m_instance.m_resLoadMgr.unload(res.getResUniqueId(), onLoadEventHandle);
+            Ctx.mInstance.mResLoadMgr.unload(res.getResUniqueId(), onLoadEventHandle);
         }
 
         protected void unload(string path)
@@ -154,7 +154,7 @@ namespace SDK.Lib
 
             if (!hasNoLoop)
             {
-                Ctx.m_instance.m_timerMgr.removeTimer(m_timer);
+                Ctx.mInstance.mTimerMgr.removeTimer(m_timer);
             }
         }
 
@@ -169,7 +169,7 @@ namespace SDK.Lib
             }
 
             // 检查是否要加入定时器
-            Ctx.m_instance.m_timerMgr.addTimer(m_timer);
+            Ctx.mInstance.mTimerMgr.addTimer(m_timer);
         }
 
         protected bool isPrefab(string path)
@@ -187,7 +187,7 @@ namespace SDK.Lib
         {
             if (m_timer != null)
             {
-                Ctx.m_instance.m_timerMgr.removeTimer(m_timer);
+                Ctx.mInstance.mTimerMgr.removeTimer(m_timer);
             }
 
             // 遍历看有没有播放完成的

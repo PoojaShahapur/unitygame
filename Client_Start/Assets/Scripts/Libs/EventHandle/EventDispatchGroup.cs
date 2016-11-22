@@ -46,7 +46,7 @@ namespace SDK.Lib
             }
             else
             {
-                Ctx.m_instance.m_logSys.log("Event Dispatch Group not exist");
+                Ctx.mInstance.mLogSys.log("Event Dispatch Group not exist");
             }
         }
 
@@ -59,7 +59,7 @@ namespace SDK.Lib
             }
             else
             {
-                Ctx.m_instance.m_logSys.log("Event Dispatch Group not exist");
+                Ctx.mInstance.mLogSys.log("Event Dispatch Group not exist");
             }
             this.mIsInLoop = false;
         }
@@ -77,7 +77,7 @@ namespace SDK.Lib
             }
             else
             {
-                Ctx.m_instance.m_logSys.log("looping cannot delete element");
+                Ctx.mInstance.mLogSys.log("looping cannot delete element");
             }
         }
 
@@ -92,12 +92,12 @@ namespace SDK.Lib
                 }
                 else
                 {
-                    Ctx.m_instance.m_logSys.log("Event Dispatch Group not exist");
+                    Ctx.mInstance.mLogSys.log("Event Dispatch Group not exist");
                 }
             }
             else
             {
-                Ctx.m_instance.m_logSys.log("looping cannot delete element");
+                Ctx.mInstance.mLogSys.log("looping cannot delete element");
             }
         }
 

@@ -58,7 +58,7 @@ namespace SDK.Lib
 
             if (null == ret)
             {
-                Ctx.m_instance.m_logSys.log(string.Format("table name: {0}, table Item {1} 加载失败", (int)tableID, itemID));
+                Ctx.mInstance.mLogSys.log(string.Format("table name: {0}, table Item {1} 加载失败", (int)tableID, itemID));
             }
 
 			return ret;
@@ -69,13 +69,13 @@ namespace SDK.Lib
 		{
 			TableBase table = m_dicTable[tableID];
 
-            LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            param.setPath(Path.Combine(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathTablePath], table.m_resName));
+            LoadParam param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
+            param.setPath(Path.Combine(Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathTablePath], table.m_resName));
             param.m_loadEventHandle = onLoadEventHandle;
             param.m_loadNeedCoroutine = false;
             param.m_resNeedCoroutine = false;
-            Ctx.m_instance.m_resLoadMgr.loadAsset(param);
-            Ctx.m_instance.m_poolSys.deleteObj(param);
+            Ctx.mInstance.mResLoadMgr.loadAsset(param);
+            Ctx.mInstance.mPoolSys.deleteObj(param);
 		}
 
         // 加载一个表完成
@@ -84,12 +84,12 @@ namespace SDK.Lib
             m_res = dispObj as ResItem;
             if (m_res.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
             {
-                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, m_res.getLoadPath());
+                Ctx.mInstance.mLogSys.debugLog_1(LangItemID.eItem0, m_res.getLoadPath());
 
                 byte[] bytes = m_res.getBytes("");
                 if (bytes != null)
                 {
-                    m_byteArray = Ctx.m_instance.m_factoryBuild.buildByteBuffer();
+                    m_byteArray = Ctx.mInstance.mFactoryBuild.buildByteBuffer();
                     m_byteArray.clear();
                     m_byteArray.writeBytes(bytes, 0, (uint)bytes.Length);
                     m_byteArray.setPos(0);
@@ -98,11 +98,11 @@ namespace SDK.Lib
             }
             else if (m_res.refCountResLoadResultNotify.resLoadState.hasFailed())
             {
-                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, m_res.getLoadPath());
+                Ctx.mInstance.mLogSys.debugLog_1(LangItemID.eItem1, m_res.getLoadPath());
             }
 
             // 卸载资源
-            Ctx.m_instance.m_resLoadMgr.unload(m_res.getResUniqueId(), onLoadEventHandle);
+            Ctx.mInstance.mResLoadMgr.unload(m_res.getResUniqueId(), onLoadEventHandle);
         }
 
         // 根据路径查找表的 ID
@@ -110,7 +110,7 @@ namespace SDK.Lib
         {
             foreach (KeyValuePair<TableID, TableBase> kv in m_dicTable)
             {
-                if (Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathTablePath] + kv.Value.m_resName == path)
+                if (Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathTablePath] + kv.Value.m_resName == path)
                 {
                     return kv.Key;
                 }

@@ -24,7 +24,7 @@ namespace SDK.Lib
         //public override ABUnPakFileResItemBase loadRes(string resName)
         //{
         //    // 获取打包后的 unity3d 资源名字
-        //    string unity3dName = Ctx.m_instance.m_pPakSys.path2PakDic[resName].m_unity3dName;
+        //    string unity3dName = Ctx.mInstance.mPakSys.path2PakDic[resName].m_unity3dName;
         //    if (!m_path2UnPakRes.ContainsKey(unity3dName))
         //    {
         //        m_path2UnPakRes[unity3dName] = new ABUnPakComFileResItem();
@@ -45,7 +45,7 @@ namespace SDK.Lib
 
         //public void unloadRes(string path)
         //{
-        //    string unity3dName = Ctx.m_instance.m_pPakSys.path2PakDic[path].m_unity3dName;
+        //    string unity3dName = Ctx.mInstance.mPakSys.path2PakDic[path].m_unity3dName;
         //    if (m_path2UnPakRes.ContainsKey(unity3dName))
         //    {
         //        m_path2UnPakRes[unity3dName].decreaseRef();
@@ -66,7 +66,7 @@ namespace SDK.Lib
         //    }
         //    else
         //    {
-        //        Ctx.m_instance.m_logSys.log(string.Format("路径不能查找到 {0}", path));
+        //        Ctx.mInstance.mLogSys.log(string.Format("路径不能查找到 {0}", path));
         //    }
         //}
     }

@@ -99,19 +99,19 @@ namespace SDK.Lib
         {
             if(checkResourcesFile())
             {
-                Ctx.m_instance.m_logSys.log(string.Format("MDataStream::checkPlatformAndPath, Resources Load, Path is {0}", path), LogTypeId.eLogLocalFile);
+                Ctx.mInstance.mLogSys.log(string.Format("MDataStream::checkPlatformAndPath, Resources Load, Path is {0}", path), LogTypeId.eLogLocalFile);
 
                 mFilePlatformAndPath = eFilePlatformAndPath.eResourcesPath;
             }
             else if (UtilPath.isAndroidRuntime() && UtilPath.isStreamingAssetsPath(path))
             {
-                Ctx.m_instance.m_logSys.log(string.Format("MDataStream::checkPlatformAndPath, WWWStreamingAssets Load, Path is {0}", path), LogTypeId.eLogLocalFile);
+                Ctx.mInstance.mLogSys.log(string.Format("MDataStream::checkPlatformAndPath, WWWStreamingAssets Load, Path is {0}", path), LogTypeId.eLogLocalFile);
 
                 mFilePlatformAndPath = eFilePlatformAndPath.eAndroidStreamingAssetsPath;
             }
             else
             {
-                Ctx.m_instance.m_logSys.log(string.Format("MDataStream::checkPlatformAndPath, FileStream Load, Path is {0}", path), LogTypeId.eLogLocalFile);
+                Ctx.mInstance.mLogSys.log(string.Format("MDataStream::checkPlatformAndPath, FileStream Load, Path is {0}", path), LogTypeId.eLogLocalFile);
 
                 mFilePlatformAndPath = eFilePlatformAndPath.eOther;
             }
@@ -162,7 +162,7 @@ namespace SDK.Lib
                     {
                         mFileOpState = eFileOpState.eOpenFail;
 
-                        Ctx.m_instance.m_logSys.log(string.Format("MDataStream::syncOpenFileStream, Open File Fail, FileName is {0}, Exception is {1}", mFilePath, exp.Message), LogTypeId.eLogLocalFile);
+                        Ctx.mInstance.mLogSys.log(string.Format("MDataStream::syncOpenFileStream, Open File Fail, FileName is {0}, Exception is {1}", mFilePath, exp.Message), LogTypeId.eLogLocalFile);
                     }
                 }
 
@@ -185,13 +185,13 @@ namespace SDK.Lib
 
                     if(UtilApi.isWWWNoError(mWWW))
                     {
-                        Ctx.m_instance.m_logSys.log(string.Format("MDataStream::asyncWWWStreamingAssetOpen, Success, Path is {0}", mFilePath), LogTypeId.eLogLocalFile);
+                        Ctx.mInstance.mLogSys.log(string.Format("MDataStream::asyncWWWStreamingAssetOpen, Success, Path is {0}", mFilePath), LogTypeId.eLogLocalFile);
 
                         mFileOpState = eFileOpState.eOpenSuccess;
                     }
                     else
                     {
-                        Ctx.m_instance.m_logSys.log(string.Format("MDataStream::asyncWWWStreamingAssetOpen, Fail, Path is {0}", mFilePath), LogTypeId.eLogLocalFile);
+                        Ctx.mInstance.mLogSys.log(string.Format("MDataStream::asyncWWWStreamingAssetOpen, Fail, Path is {0}", mFilePath), LogTypeId.eLogLocalFile);
 
                         mFileOpState = eFileOpState.eOpenFail;
                     }
@@ -220,7 +220,7 @@ namespace SDK.Lib
                     textAsset = Resources.Load<TextAsset>(fileNoExt);
                     if (textAsset != null)
                     {
-                        Ctx.m_instance.m_logSys.log(string.Format("MDataStream::syncOpenResourcesFile, Success, OrigPath is {0}, LoadPath is {1}", mFilePath, fileNoExt), LogTypeId.eLogLocalFile);
+                        Ctx.mInstance.mLogSys.log(string.Format("MDataStream::syncOpenResourcesFile, Success, OrigPath is {0}, LoadPath is {1}", mFilePath, fileNoExt), LogTypeId.eLogLocalFile);
 
                         mFileOpState = eFileOpState.eOpenSuccess;
 
@@ -230,7 +230,7 @@ namespace SDK.Lib
                     }
                     else
                     {
-                        Ctx.m_instance.m_logSys.log(string.Format("MDataStream::syncOpenResourcesFile, Fail, OrigPath is {0}, LoadPath is {1}", mFilePath, fileNoExt), LogTypeId.eLogLocalFile);
+                        Ctx.mInstance.mLogSys.log(string.Format("MDataStream::syncOpenResourcesFile, Fail, OrigPath is {0}, LoadPath is {1}", mFilePath, fileNoExt), LogTypeId.eLogLocalFile);
 
                         mFileOpState = eFileOpState.eOpenFail;
                     }
@@ -239,7 +239,7 @@ namespace SDK.Lib
                 {
                     mFileOpState = eFileOpState.eOpenFail;
 
-                    Ctx.m_instance.m_logSys.log(string.Format("MDataStream Load Failed, OrigPath is {0}, Exception Message is {1}", mFilePath, exp.Message), LogTypeId.eLogLocalFile);
+                    Ctx.mInstance.mLogSys.log(string.Format("MDataStream Load Failed, OrigPath is {0}, Exception Message is {1}", mFilePath, exp.Message), LogTypeId.eLogLocalFile);
                 }
 
                 onAsyncOpened();
@@ -265,7 +265,7 @@ namespace SDK.Lib
                     textAsset = req.asset as TextAsset;
                     if (textAsset != null)
                     {
-                        Ctx.m_instance.m_logSys.log(string.Format("MDataStream::asyncOpenResourcesFile, Success, FileName is {0}", mFilePath), LogTypeId.eLogLocalFile);
+                        Ctx.mInstance.mLogSys.log(string.Format("MDataStream::asyncOpenResourcesFile, Success, FileName is {0}", mFilePath), LogTypeId.eLogLocalFile);
 
                         mFileOpState = eFileOpState.eOpenSuccess;
 
@@ -275,7 +275,7 @@ namespace SDK.Lib
                     }
                     else
                     {
-                        Ctx.m_instance.m_logSys.log(string.Format("MDataStream::asyncOpenResourcesFile, Fail, FileName is {0}", mFilePath), LogTypeId.eLogLocalFile);
+                        Ctx.mInstance.mLogSys.log(string.Format("MDataStream::asyncOpenResourcesFile, Fail, FileName is {0}", mFilePath), LogTypeId.eLogLocalFile);
 
                         mFileOpState = eFileOpState.eOpenFail;
                     }
@@ -285,7 +285,7 @@ namespace SDK.Lib
                 //{
                 //    mFileOpState = eFileOpState.eOpenFail;
 
-                //    Ctx.m_instance.m_logSys.log("MDataStream Load Failed, FileName is " + mFilePath + " Exception is" + exp.Message, LogTypeId.eLogLocalFile);
+                //    Ctx.mInstance.mLogSys.log("MDataStream Load Failed, FileName is " + mFilePath + " Exception is" + exp.Message, LogTypeId.eLogLocalFile);
                 //}
 
                 onAsyncOpened();
@@ -320,12 +320,12 @@ namespace SDK.Lib
                     else
                     {
                         // 异步模式
-                        Ctx.m_instance.m_coroutineMgr.StartCoroutine(asyncOpenResourcesFile());
+                        Ctx.mInstance.mCoroutineMgr.StartCoroutine(asyncOpenResourcesFile());
                     }
                 }
                 else if (isWWWStream())
                 {
-                    Ctx.m_instance.m_coroutineMgr.StartCoroutine(asyncWWWStreamingAssetOpen());
+                    Ctx.mInstance.mCoroutineMgr.StartCoroutine(asyncWWWStreamingAssetOpen());
                 }
                 else
                 {
@@ -379,7 +379,7 @@ namespace SDK.Lib
                         }
                         catch(Exception exp)
                         {
-                            Ctx.m_instance.m_logSys.log("FileSeek Failed" + exp.Message, LogTypeId.eLogCommon);
+                            Ctx.mInstance.mLogSys.log("FileSeek Failed" + exp.Message, LogTypeId.eLogCommon);
                         }
                     }
                     */
@@ -470,7 +470,7 @@ namespace SDK.Lib
                         }
                         catch (Exception err)
                         {
-                            Ctx.m_instance.m_logSys.log(string.Format("MDataStream::readText, Exception Message is {0}", err.Message), LogTypeId.eLogLocalFile);
+                            Ctx.mInstance.mLogSys.log(string.Format("MDataStream::readText, Exception Message is {0}", err.Message), LogTypeId.eLogLocalFile);
                         }
                     }
                 }
@@ -515,7 +515,7 @@ namespace SDK.Lib
                     }
                     catch (Exception err)
                     {
-                        Ctx.m_instance.m_logSys.log(string.Format("MDataStream::readByte, Exception Message is {0}", err.Message), LogTypeId.eLogLocalFile);
+                        Ctx.mInstance.mLogSys.log(string.Format("MDataStream::readByte, Exception Message is {0}", err.Message), LogTypeId.eLogLocalFile);
                     }
                 }
             }
@@ -536,7 +536,7 @@ namespace SDK.Lib
             }
             else if (isWWWStream())
             {
-                Ctx.m_instance.m_logSys.log("MDataStream::writeText, Current Path Cannot Write Content", LogTypeId.eLogLocalFile);
+                Ctx.mInstance.mLogSys.log("MDataStream::writeText, Current Path Cannot Write Content", LogTypeId.eLogLocalFile);
             }
             else
             {
@@ -556,7 +556,7 @@ namespace SDK.Lib
                         }
                         catch (Exception err)
                         {
-                            Ctx.m_instance.m_logSys.log(string.Format("MDataStream::writeText, Exception Message {0}", err.Message), LogTypeId.eLogLocalFile);
+                            Ctx.mInstance.mLogSys.log(string.Format("MDataStream::writeText, Exception Message {0}", err.Message), LogTypeId.eLogLocalFile);
                         }
                     }
                 }
@@ -573,7 +573,7 @@ namespace SDK.Lib
             }
             else if (isWWWStream())
             {
-                Ctx.m_instance.m_logSys.log("MDataStream::writeByte, Current Path Cannot Write Content", LogTypeId.eLogLocalFile);
+                Ctx.mInstance.mLogSys.log("MDataStream::writeByte, Current Path Cannot Write Content", LogTypeId.eLogLocalFile);
             }
             else
             {
@@ -594,7 +594,7 @@ namespace SDK.Lib
                             }
                             catch (Exception err)
                             {
-                                Ctx.m_instance.m_logSys.log(string.Format("MDataStream::writeByte, Exception Message is {0}", err.Message), LogTypeId.eLogLocalFile);
+                                Ctx.mInstance.mLogSys.log(string.Format("MDataStream::writeByte, Exception Message is {0}", err.Message), LogTypeId.eLogLocalFile);
                             }
                         }
                     }

@@ -86,8 +86,8 @@ namespace UnitTest
             pUnitTesNumtCmd.derialize(byteBuffer);
             UAssert.DebugAssert(pUnitTesNumtCmd.num == 2001);
 
-            Ctx.m_instance.m_netCmdNotify.clearOneRevMsg();
-            Ctx.m_instance.m_netCmdNotify.clearOneHandleMsg();
+            Ctx.mInstance.mNetCmdNotify.clearOneRevMsg();
+            Ctx.mInstance.mNetCmdNotify.clearOneHandleMsg();
         }
 
         protected void testBA()
@@ -107,7 +107,7 @@ namespace UnitTest
 
             for (int idx = 0; idx < 500; ++idx)
             {
-                Ctx.m_instance.m_logSys.log(string.Format("发送缓冲区测试索引 {0}", idx));
+                Ctx.mInstance.mLogSys.log(string.Format("发送缓冲区测试索引 {0}", idx));
                 pDataBuffer.sendData.clear();
                 pCmd.serialize(pDataBuffer.sendData);
                 pDataBuffer.send();
@@ -132,22 +132,22 @@ namespace UnitTest
             pDataBuffer.moveRaw2Msg();
 
             GameNetHandleCB gameNetHandleCB = new GameNetHandleCB();
-            Ctx.m_instance.m_netCmdNotify.addOneDisp(gameNetHandleCB);
+            Ctx.mInstance.mNetCmdNotify.addOneDisp(gameNetHandleCB);
 
             ByteBuffer buff;
             stNullUserCmd cmd = new stNullUserCmd();
             while((buff = pDataBuffer.getMsg()) != null)
             {
-                if (null != Ctx.m_instance.m_netCmdNotify)
+                if (null != Ctx.mInstance.mNetCmdNotify)
                 {
-                    //Ctx.m_instance.m_netDispList.handleMsg(buff);
+                    //Ctx.mInstance.m_netDispList.handleMsg(buff);
                     cmd.derialize(buff);
                 }
             }
 
-            Ctx.m_instance.m_netCmdNotify.removeOneDisp(gameNetHandleCB);
-            Ctx.m_instance.m_netCmdNotify.clearOneRevMsg();
-            Ctx.m_instance.m_netCmdNotify.clearOneHandleMsg();   
+            Ctx.mInstance.mNetCmdNotify.removeOneDisp(gameNetHandleCB);
+            Ctx.mInstance.mNetCmdNotify.clearOneRevMsg();
+            Ctx.mInstance.mNetCmdNotify.clearOneHandleMsg();   
         }
 
         protected void testReceiveMsg()

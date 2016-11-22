@@ -139,12 +139,12 @@ namespace SDK.Lib
                 UtilApi.Destroy(t.gameObject);
             }
 
-            Ctx.m_instance.m_coroutineMgr.StartCoroutine(bancardgohand());
+            Ctx.mInstance.mCoroutineMgr.StartCoroutine(bancardgohand());
         }
 
         void banok()
         {
-            Ctx.m_instance.m_coroutineMgr.StartCoroutine(bancardgohand());
+            Ctx.mInstance.mCoroutineMgr.StartCoroutine(bancardgohand());
         }
 
         /// <summary>
@@ -269,7 +269,7 @@ namespace SDK.Lib
 
             //实例一张敌人卡
             Transform c = null;
-            //c = (UtilApi.Instantiate(Ctx.m_instance.m_modelMgr.getEnemyCardModel().getObject(), enemycarddeap.position, transform.rotation) as GameObject).transform;
+            //c = (UtilApi.Instantiate(Ctx.mInstance.mModelMgr.getEnemyCardModel().getObject(), enemycarddeap.position, transform.rotation) as GameObject).transform;
             c.Rotate(-90f, -90f, 0);
 
             Vector3 pp = new Vector3(start + x * interval, 0, 0);
@@ -289,7 +289,7 @@ namespace SDK.Lib
         public void draw()
         {
             Transform c = null;
-            //Transform c = (UtilApi.Instantiate(Ctx.m_instance.m_modelMgr.getSceneCardModel(CardType.CARDTYPE_ATTEND).getObject(), mycarddeap.position, transform.rotation) as GameObject).transform;
+            //Transform c = (UtilApi.Instantiate(Ctx.mInstance.mModelMgr.getSceneCardModel(CardType.CARDTYPE_ATTEND).getObject(), mycarddeap.position, transform.rotation) as GameObject).transform;
             c.parent = mHand;
             c.Rotate(-90f, -90f, 0);
             clearUpHand();
@@ -308,7 +308,7 @@ namespace SDK.Lib
             for (int x = 0; x < num; x++)
             {
                 Transform c = null;
-                //Transform c = (UtilApi.Instantiate(Ctx.m_instance.m_modelMgr.getcostModel().getObject()) as GameObject).transform;
+                //Transform c = (UtilApi.Instantiate(Ctx.mInstance.mModelMgr.getcostModel().getObject()) as GameObject).transform;
                 iTween.ShakeScale(c.gameObject, new Vector3(1.5f, 1.5f, 1.5f), 0.5f);
                 cost.Add(c);
             }

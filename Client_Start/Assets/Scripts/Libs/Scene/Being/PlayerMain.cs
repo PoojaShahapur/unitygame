@@ -18,7 +18,7 @@ namespace SDK.Lib
             //Transform tran = m_skinAniModel.transform.FindChild("Reference/Hips");
             //if(tran)
             //{
-                //Ctx.m_instance.m_camSys.m_sceneCam.setTarget(tran);
+                //Ctx.mInstance.mCamSys.m_sceneCam.setTarget(tran);
             //}
         }
 

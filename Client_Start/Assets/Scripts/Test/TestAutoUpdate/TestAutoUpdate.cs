@@ -11,7 +11,7 @@ namespace UnitTest
 
         protected void testAutoUpdate()
         {
-            Ctx.m_instance.mAutoUpdateSys.startUpdate();
+            Ctx.mInstance.mAutoUpdateSys.startUpdate();
         }
     }
 }

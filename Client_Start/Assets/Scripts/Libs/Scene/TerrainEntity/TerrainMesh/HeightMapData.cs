@@ -52,7 +52,7 @@ namespace SDK.Lib
         {
             if(m_texRes != null)
             {
-                Ctx.m_instance.m_texMgr.unload(m_texRes.getResUniqueId(), null);
+                Ctx.mInstance.mTexMgr.unload(m_texRes.getResUniqueId(), null);
             }
             if (tex != null)
             {
@@ -90,7 +90,7 @@ namespace SDK.Lib
          */
         public void loadHeightMap(string path_, bool async = false)
         {
-            TextureRes tex = Ctx.m_instance.m_texMgr.getAndSyncLoad<TextureRes>(path_);
+            TextureRes tex = Ctx.mInstance.mTexMgr.getAndSyncLoad<TextureRes>(path_);
             setHeightMapData(tex);
         }
 
@@ -294,7 +294,7 @@ namespace SDK.Lib
             {
                 mByteBuffer = new ByteBuffer();
                 mByteBuffer.dynBuff.maxCapacity = 1000 * 1024 * 1024;
-                mBytesRes = Ctx.m_instance.m_bytesResMgr.getAndSyncLoadRes(mHeightDataPath);
+                mBytesRes = Ctx.mInstance.mBytesResMgr.getAndSyncLoadRes(mHeightDataPath);
             }
 
             byte[] bytes = mBytesRes.getBytes("");

@@ -12,7 +12,7 @@ namespace SDK.Lib
         public void getTest()
         {
             //GET请求
-            Ctx.m_instance.m_coroutineMgr.StartCoroutine(GET("http://xuanyusong.com/"));
+            Ctx.mInstance.mCoroutineMgr.StartCoroutine(GET("http://xuanyusong.com/"));
         }
 
         public void sendTest()
@@ -24,7 +24,7 @@ namespace SDK.Lib
             dic.Add("usrname","xys");
             dic.Add("psw","123456");
 
-            Ctx.m_instance.m_coroutineMgr.StartCoroutine(POST("http://192.168.1.12/login.php", dic));
+            Ctx.mInstance.mCoroutineMgr.StartCoroutine(POST("http://192.168.1.12/login.php", dic));
         }
 
         //POST请求
@@ -83,8 +83,8 @@ namespace SDK.Lib
             //注册请求 POST
             Dictionary<string, string> dic = new Dictionary<string, string>();
             dic.Add("id", "1000");
-            dic.Add("charid", Ctx.m_instance.m_dataPlayer.m_dataMain.m_dwUserTempID.ToString());
-            dic.Add("name", Ctx.m_instance.m_dataPlayer.m_dataMain.m_name);
+            dic.Add("charid", Ctx.mInstance.mDataPlayer.m_dataMain.m_dwUserTempID.ToString());
+            dic.Add("name", Ctx.mInstance.mDataPlayer.m_dataMain.m_name);
             dic.Add("type", "1000");
             dic.Add("platform", "1000");
             dic.Add("version", "1000");
@@ -94,7 +94,7 @@ namespace SDK.Lib
             dic.Add("XDEBUG_SESSION_START", "ECLIPSE_DBGP");
             dic.Add("KEY", "142527193505815");
 
-            Ctx.m_instance.m_coroutineMgr.StartCoroutine(POST(string.Format("{0}/{1}", Ctx.m_instance.m_cfg.m_webIP, Ctx.m_instance.m_cfg.m_netLogPhp), dic));
+            Ctx.mInstance.mCoroutineMgr.StartCoroutine(POST(string.Format("{0}/{1}", Ctx.mInstance.mCfg.mWebIP, Ctx.mInstance.mCfg.mNetLogPhp), dic));
         }
     }
 }

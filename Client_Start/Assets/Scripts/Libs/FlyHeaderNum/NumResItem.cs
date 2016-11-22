@@ -67,11 +67,11 @@ namespace SDK.Lib
                 modelItem.pntGo = this.mParentGo;
                 if (this.mIsPositive)
                 {
-                    modelItem.modelResPath = string.Format("{0}Num/+{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], ".prefab");
+                    modelItem.modelResPath = string.Format("{0}Num/+{1}", Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathModel], ".prefab");
                 }
                 else
                 {
-                    modelItem.modelResPath = string.Format("{0}Num/-{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], ".prefab");
+                    modelItem.modelResPath = string.Format("{0}Num/-{1}", Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathModel], ".prefab");
                 }
                 modelItem.syncUpdateModel();
                 UtilApi.setPos(modelItem.selfGo.transform, new Vector3(((float)-(numList.Count + 1) / 2) * this.mModelWidth, 0, 0));
@@ -84,11 +84,11 @@ namespace SDK.Lib
                     modelItem.pntGo = this.mParentGo;
                     if (this.mIsPositive)
                     {
-                        modelItem.modelResPath = string.Format("{0}Num/+{1}{2}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], curNum, ".prefab");
+                        modelItem.modelResPath = string.Format("{0}Num/+{1}{2}", Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathModel], curNum, ".prefab");
                     }
                     else
                     {
-                        modelItem.modelResPath = string.Format("{0}Num/-{1}{2}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], curNum, ".prefab");
+                        modelItem.modelResPath = string.Format("{0}Num/-{1}{2}", Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathModel], curNum, ".prefab");
                     }
                     modelItem.syncUpdateModel();
                     UtilApi.setPos(modelItem.selfGo.transform, new Vector3(((float)-(numList.Count + 1) / 2 + (idx + 1)) * this.mModelWidth, 0, 0));

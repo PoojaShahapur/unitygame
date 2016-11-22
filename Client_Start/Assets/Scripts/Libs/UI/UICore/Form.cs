@@ -129,17 +129,17 @@ namespace SDK.Lib
 
         public void show()
         {
-            Ctx.m_instance.m_uiMgr.showForm(m_id);
+            Ctx.mInstance.mUiMgr.showForm(m_id);
         }
 
         //private void hide()
         //{
-        //    Ctx.m_instance.m_uiMgr.hideForm(m_id);
+        //    Ctx.mInstance.mUiMgr.hideForm(m_id);
         //}
 
         public void exit()
         {
-            Ctx.m_instance.m_uiMgr.exitForm(m_id);
+            Ctx.mInstance.mUiMgr.exitForm(m_id);
         }
 
         // 界面代码创建后就调用
@@ -152,7 +152,7 @@ namespace SDK.Lib
             //if (m_bLoadWidgetRes)
             //{
                 // 默认会继续加载资源
-                Ctx.m_instance.m_uiMgr.loadWidgetRes(this.id);
+                Ctx.mInstance.mUiMgr.loadWidgetRes(this.id);
             //}
         }
         
@@ -181,7 +181,7 @@ namespace SDK.Lib
 
             if (m_bBlurBg)
             {
-                //Ctx.m_instance.m_uiMgr.showForm(UIFormID.eUIBlurBg);        // 显示模糊背景界面
+                //Ctx.mInstance.mUiMgr.showForm(UIFormID.eUIBlurBg);        // 显示模糊背景界面
             }
 		    //adjustPosWithAlign();
 		}
@@ -196,7 +196,7 @@ namespace SDK.Lib
 
             if (m_bBlurBg)
             {
-                //Ctx.m_instance.m_uiMgr.exitForm(UIFormID.eUIBlurBg);
+                //Ctx.mInstance.mUiMgr.exitForm(UIFormID.eUIBlurBg);
             }
 		}
 
@@ -210,7 +210,7 @@ namespace SDK.Lib
 
             if (m_bBlurBg)
             {
-                //Ctx.m_instance.m_uiMgr.exitForm(UIFormID.eUIBlurBg);
+                //Ctx.mInstance.mUiMgr.exitForm(UIFormID.eUIBlurBg);
             }
 		}
 
@@ -288,7 +288,7 @@ namespace SDK.Lib
 
         public void registerWidgetEvent()
         {
-            string[] pathArr = Ctx.m_instance.m_luaSystem.getTable2StrArray("BtnClickTable");
+            string[] pathArr = Ctx.mInstance.mLuaSystem.getTable2StrArray("BtnClickTable");
             foreach(var path in pathArr)
             {
                 addClick(m_guiWin.m_uiRoot, path);
@@ -306,7 +306,7 @@ namespace SDK.Lib
             }
 
             // 测试全局分发事件
-            // Ctx.m_instance.m_globalEventMgr.eventDispatchGroup.dispatchEvent((int)eGlobalEventType.eGlobalTest, null);
+            // Ctx.mInstance.m_globalEventMgr.eventDispatchGroup.dispatchEvent((int)eGlobalEventType.eGlobalTest, null);
         }
 
         public void addClick(GameObject go, string path)

@@ -43,25 +43,25 @@ namespace SDK.Lib
 
         public void loadDep()
         {
-            m_depNameArr = Ctx.m_instance.m_depResMgr.getDep(mLoadPath);
+            m_depNameArr = Ctx.mInstance.mDepResMgr.getDep(mLoadPath);
             mLoadedDepList.Clear();
 
             for (int i = 0; i < m_depNameArr.Length; ++i)
             {
                 // 不管资源是否加载完成，都要再加载一次，增加引用计数，因此必须使用 loadResources 添加一次引用
-                //if (Ctx.m_instance.m_resLoadMgr.isResLoaded(m_depNameArr[i]))
+                //if (Ctx.mInstance.mResLoadMgr.isResLoaded(m_depNameArr[i]))
                 //{
                 //    mLoadedDepList.Add(m_depNameArr[i]);
                 //}
                 //else
                 //{
-                    LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
+                    LoadParam param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
                     param.setPath(m_depNameArr[i]);
                     param.m_loadEventHandle = onLoadEventHandle;
                     param.m_loadNeedCoroutine = m_loadNeedCoroutine;
                     param.m_resNeedCoroutine = m_resNeedCoroutine;
-                    Ctx.m_instance.m_resLoadMgr.loadAsset(param);       // 依赖加载也需要检查依赖
-                    Ctx.m_instance.m_poolSys.deleteObj(param);
+                    Ctx.mInstance.mResLoadMgr.loadAsset(param);       // 依赖加载也需要检查依赖
+                    Ctx.mInstance.mPoolSys.deleteObj(param);
                 //}
             }
 
@@ -74,7 +74,7 @@ namespace SDK.Lib
             foreach (string path in m_depNameArr)
             {
                 resUniqueId = LoadParam.convLoadPathToUniqueId(path);
-                Ctx.m_instance.m_resLoadMgr.unload(resUniqueId, onLoadEventHandle);
+                Ctx.mInstance.mResLoadMgr.unload(resUniqueId, onLoadEventHandle);
             }
         }
 

@@ -9,31 +9,31 @@
         {
             // 处理客户端自己的消息机制
             MsgRouteBase routeMsg = null;
-            while ((routeMsg = Ctx.m_instance.m_sysMsgRoute.pop()) != null)
+            while ((routeMsg = Ctx.mInstance.mSysMsgRoute.pop()) != null)
             {
-                Ctx.m_instance.m_msgRouteNotify.handleMsg(routeMsg);
+                Ctx.mInstance.mMsgRouteNotify.handleMsg(routeMsg);
             }
 
             // 处理网络
-            if (!Ctx.m_instance.m_netCmdNotify.bStopNetHandle)
+            if (!Ctx.mInstance.mNetCmdNotify.bStopNetHandle)
             {
                 ByteBuffer ret = null;
-                while ((ret = Ctx.m_instance.m_netMgr.getMsg()) != null)
+                while ((ret = Ctx.mInstance.mNetMgr.getMsg()) != null)
                 {
-                    if (null != Ctx.m_instance.m_netCmdNotify)
+                    if (null != Ctx.mInstance.mNetCmdNotify)
                     {
-                        Ctx.m_instance.m_netCmdNotify.addOneHandleMsg();
-                        Ctx.m_instance.m_netCmdNotify.handleMsg(ret);       // CS 中处理
-                        Ctx.m_instance.m_luaSystem.receiveToLuaRpc(ret);    // Lua 中处理
+                        Ctx.mInstance.mNetCmdNotify.addOneHandleMsg();
+                        Ctx.mInstance.mNetCmdNotify.handleMsg(ret);       // CS 中处理
+                        Ctx.mInstance.mLuaSystem.receiveToLuaRpc(ret);    // Lua 中处理
                     }
                 }
             }
 
             // 处理 input
-            //Ctx.m_instance.m_inputMgr.handleKeyBoard();
+            //Ctx.mInstance.mInputMgr.handleKeyBoard();
             // 游戏循环处理
-            Ctx.m_instance.m_processSys.ProcessNextFrame();
-            //Ctx.m_instance.m_logSys.updateLog();
+            Ctx.mInstance.mProcessSys.ProcessNextFrame();
+            //Ctx.mInstance.mLogSys.updateLog();
         }
     }
 }

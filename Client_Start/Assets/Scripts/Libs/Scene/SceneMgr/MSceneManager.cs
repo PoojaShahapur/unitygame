@@ -284,16 +284,16 @@ namespace SDK.Lib
 
         public void cullSceneThread(MUpdateTransformRequest request, int threadIdx)
         {
-            //Ctx.m_instance.m_logSys.log("cullSceneThread Start", LogTypeId.eSceneCull);
+            //Ctx.mInstance.mLogSys.log("cullSceneThread Start", LogTypeId.eSceneCull);
 
-            _updateSceneGraph(Ctx.m_instance.m_camSys.getLocalCamera());
-            _findVisibleObjects(Ctx.m_instance.m_camSys.getLocalCamera());
-            Ctx.m_instance.m_terrainBufferSys.mTerrainVisibleCheck.checkVisible();
-            Ctx.m_instance.m_terrainBufferSys.mTerrainVisibleCheck.delayRemoveTerrain();
+            _updateSceneGraph(Ctx.mInstance.mCamSys.getLocalCamera());
+            _findVisibleObjects(Ctx.mInstance.mCamSys.getLocalCamera());
+            Ctx.mInstance.mTerrainBufferSys.mTerrainVisibleCheck.checkVisible();
+            Ctx.mInstance.mTerrainBufferSys.mTerrainVisibleCheck.delayRemoveTerrain();
 
-            //Ctx.m_instance.m_logSys.log("cullSceneThread End", LogTypeId.eSceneCull);
+            //Ctx.mInstance.mLogSys.log("cullSceneThread End", LogTypeId.eSceneCull);
 
-            Ctx.m_instance.m_logSys.setEnableLog(false);
+            Ctx.mInstance.mLogSys.setEnableLog(false);
         }
 
         public long updateWorkerThread(MSceneThread threadHandle)
@@ -367,7 +367,7 @@ namespace SDK.Lib
         public void addUpdateTask()
         {
             mCoroutineSceneUpdateTask = new CoroutineSceneUpdateTask();
-            Ctx.m_instance.mCoroutineTaskMgr.addTask(mCoroutineSceneUpdateTask);
+            Ctx.mInstance.mCoroutineTaskMgr.addTask(mCoroutineSceneUpdateTask);
         }
 
         public void runUpdateTask()

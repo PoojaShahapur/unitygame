@@ -25,14 +25,14 @@ namespace SDK.Lib
 
             if (null == m_go)
             {
-                Ctx.m_instance.m_logSys.log("prefab 为 null");
+                Ctx.mInstance.mLogSys.log("prefab 为 null");
             }
             else
             {
                 m_retGO = GameObject.Instantiate(m_go) as GameObject;
                 if (null == m_retGO)
                 {
-                    Ctx.m_instance.m_logSys.log("不能实例化数据");
+                    Ctx.mInstance.mLogSys.log("不能实例化数据");
                 }
             }
 
@@ -41,7 +41,7 @@ namespace SDK.Lib
 
         public void InstantiateObject(string resName, ResInsEventDispatch evtHandle)
         {
-            Ctx.m_instance.m_coroutineMgr.StartCoroutine(asyncInstantiateObject(resName, evtHandle));
+            Ctx.mInstance.mCoroutineMgr.StartCoroutine(asyncInstantiateObject(resName, evtHandle));
         }
 
         public IEnumerator asyncInstantiateObject(string resName, ResInsEventDispatch evtHandle)
@@ -50,14 +50,14 @@ namespace SDK.Lib
 
             if (null == m_go)
             {
-                Ctx.m_instance.m_logSys.log("prefab 为 null");
+                Ctx.mInstance.mLogSys.log("prefab 为 null");
             }
             else
             {
                 retGO = GameObject.Instantiate(m_go) as GameObject;
                 if (null == retGO)
                 {
-                    Ctx.m_instance.m_logSys.log("不能实例化数据");
+                    Ctx.mInstance.mLogSys.log("不能实例化数据");
                 }
             }
 

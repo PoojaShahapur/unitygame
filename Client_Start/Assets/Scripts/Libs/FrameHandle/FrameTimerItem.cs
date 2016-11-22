@@ -40,7 +40,7 @@ namespace SDK.Lib
 
             //if (m_preFrame == m_curFrame)
             //{
-            //    Ctx.m_instance.m_logSys.log("aaaaaaaafadfsasdf");
+            //    Ctx.mInstance.mLogSys.log("aaaaaaaafadfsasdf");
             //}
 
             //m_curFrame = m_preFrame;

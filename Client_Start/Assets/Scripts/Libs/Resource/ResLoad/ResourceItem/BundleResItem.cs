@@ -29,7 +29,7 @@ namespace SDK.Lib
         {
             if (m_resNeedCoroutine)
             {
-                Ctx.m_instance.m_coroutineMgr.StartCoroutine(initAssetByCoroutine());
+                Ctx.mInstance.mCoroutineMgr.StartCoroutine(initAssetByCoroutine());
             }
             else
             {

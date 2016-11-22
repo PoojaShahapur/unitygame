@@ -19,8 +19,8 @@ namespace SDK.Lib
         {
             base.load();
 
-            Ctx.m_instance.m_coroutineMgr.StartCoroutine(coroutWebDown());
-            //Ctx.m_instance.m_TaskQueue.push(this);
+            Ctx.mInstance.mCoroutineMgr.StartCoroutine(coroutWebDown());
+            //Ctx.mInstance.m_TaskQueue.push(this);
         }
 
         // 协程下载
@@ -47,7 +47,7 @@ namespace SDK.Lib
         // 没有文件大小直接下载
         protected void downWithNoFileLen()
         {
-            Ctx.m_instance.m_logSys.log(string.Format("HttpWebDownloadItem::downWithNoFileLen, Thread Start Download, Path is {0}", mLoadPath));
+            Ctx.mInstance.mLogSys.log(string.Format("HttpWebDownloadItem::downWithNoFileLen, Thread Start Download, Path is {0}", mLoadPath));
 
             string saveFile = mLocalPath;
             string origFile = saveFile;     // 没有版本号的文件名字，如果本地没有这个文件，需要先建立这个文件，等下载完成后，然后再改名字，保证下载的文件除了网络传输因素外，肯定正确
@@ -85,7 +85,7 @@ namespace SDK.Lib
                 //}
                 //catch (Exception ex2)
                 //{
-                //    Ctx.m_instance.m_logSys.asynclog("error");
+                //    Ctx.mInstance.mLogSys.asynclog("error");
                 //}
 
                 long readedLength = 0;
@@ -115,7 +115,7 @@ namespace SDK.Lib
                     }
                     catch (Exception exp)
                     {
-                        Ctx.m_instance.m_logSys.error(string.Format("HttpWebDownloadItem::downWithNoFileLen, Fail, Path is{0}, Exception Message is {1}", saveFile, exp.Message));
+                        Ctx.mInstance.mLogSys.error(string.Format("HttpWebDownloadItem::downWithNoFileLen, Fail, Path is{0}, Exception Message is {1}", saveFile, exp.Message));
                     }
                 }
 
@@ -142,7 +142,7 @@ namespace SDK.Lib
                     readedLength += readSize;
 
                     logStr = string.Format("HttpWebDownloadItem::downWithNoFileLen, Path is {0}, Already Downloaded {1} b", mLoadPath, fileStream.getLength());
-                    Ctx.m_instance.m_logSys.log(logStr);
+                    Ctx.mInstance.mLogSys.log(logStr);
 
                     readSize = retStream.Read(mBytes, 0, len);
                 }
@@ -170,7 +170,7 @@ namespace SDK.Lib
             }
             catch (Exception exp)
             {
-                Ctx.m_instance.m_logSys.log(string.Format("HttpWebDownloadItem::downWithNoFileLen, Download File Error, FileName Is {0}, Exception Message is {1}", mLocalPath, exp.Message));
+                Ctx.mInstance.mLogSys.log(string.Format("HttpWebDownloadItem::downWithNoFileLen, Download File Error, FileName Is {0}, Exception Message is {1}", mLocalPath, exp.Message));
 
                 // 释放资源
                 if (request != null)
@@ -206,7 +206,7 @@ namespace SDK.Lib
         // 根据文件大小下载
         protected void downWithFileLen()
         {
-            Ctx.m_instance.m_logSys.log(string.Format("HttpWebDownloadItem::downWithFileLen, Thread Start Download, Path is {0}", mLoadPath));
+            Ctx.mInstance.mLogSys.log(string.Format("HttpWebDownloadItem::downWithFileLen, Thread Start Download, Path is {0}", mLoadPath));
 
             string saveFile = mLocalPath;
             string origFile = saveFile;     // 没有版本号的文件名字，如果本地没有这个文件，需要先建立这个文件，等下载完成后，然后再改名字，保证下载的文件除了网络传输因素外，肯定正确
@@ -244,7 +244,7 @@ namespace SDK.Lib
                 //}
                 //catch (Exception ex2)
                 //{
-                //    Ctx.m_instance.m_logSys.asynclog("error");
+                //    Ctx.mInstance.mLogSys.asynclog("error");
                 //}
                 
                 long contentLength = mFileLen;
@@ -261,7 +261,7 @@ namespace SDK.Lib
                         fileStream.dispose();
                         fileStream = null;
 
-                        Ctx.m_instance.m_logSys.log("HttpWebDownloadItem::downWithFileLen, File already Downloaded, Do not Need Download");
+                        Ctx.mInstance.mLogSys.log("HttpWebDownloadItem::downWithFileLen, File already Downloaded, Do not Need Download");
                         onRunTaskEnd();
 
                         return;
@@ -286,7 +286,7 @@ namespace SDK.Lib
                     }
                     catch (Exception exp)
                     {
-                        Ctx.m_instance.m_logSys.log(string.Format("HttpWebDownloadItem::downWithFileLen, Create File Fail, FileName Is {0}, Exception Message is {1}", origFile, exp.Message));
+                        Ctx.mInstance.mLogSys.log(string.Format("HttpWebDownloadItem::downWithFileLen, Create File Fail, FileName Is {0}, Exception Message is {1}", origFile, exp.Message));
                     }
                 }
 
@@ -315,7 +315,7 @@ namespace SDK.Lib
                     readedLength += readSize;
 
                     logStr = string.Format("HttpWebDownloadItem::downWithFileLen, Path is {0}, Already Downloaded [ {1} b / {2} b ]", mLoadPath, fileStream.getLength(), contentLength);
-                    Ctx.m_instance.m_logSys.log(logStr);
+                    Ctx.mInstance.mLogSys.log(logStr);
 
                     if (readedLength == contentLength)
                     {
@@ -360,7 +360,7 @@ namespace SDK.Lib
             }
             catch (Exception exp)
             {
-                Ctx.m_instance.m_logSys.log(string.Format("HttpWebDownloadItem::downWithFileLen, Download File Error, FileName Is {0}, Exception Message is {1}", mLocalPath, exp.Message));
+                Ctx.mInstance.mLogSys.log(string.Format("HttpWebDownloadItem::downWithFileLen, Download File Error, FileName Is {0}, Exception Message is {1}", mLocalPath, exp.Message));
 
                 // 释放资源
                 if (request != null)
@@ -395,14 +395,14 @@ namespace SDK.Lib
 
         protected void onRunTaskEnd()
         {
-            Ctx.m_instance.m_logSys.log(string.Format("HttpWebDownloadItem::onRunTaskEnd, Thread End Download Task, Path is {0}", mLoadPath));
+            Ctx.mInstance.mLogSys.log(string.Format("HttpWebDownloadItem::onRunTaskEnd, Thread End Download Task, Path is {0}", mLoadPath));
 
-            LoadedWebResMR pRoute = Ctx.m_instance.m_poolSys.newObject<LoadedWebResMR>();
+            LoadedWebResMR pRoute = Ctx.mInstance.mPoolSys.newObject<LoadedWebResMR>();
             pRoute.m_task = this;
 
-            Ctx.m_instance.m_logSys.log(string.Format("HttpWebDownloadItem::onRunTaskEnd, Thread Download Result Push Main Thread, Path is {0}", mLoadPath));
+            Ctx.mInstance.mLogSys.log(string.Format("HttpWebDownloadItem::onRunTaskEnd, Thread Download Result Push Main Thread, Path is {0}", mLoadPath));
 
-            Ctx.m_instance.m_sysMsgRoute.push(pRoute);
+            Ctx.mInstance.mSysMsgRoute.push(pRoute);
         }
 
         // 处理结果在这回调，然后分发给资源处理器，如果资源提前释放，就自动断开资源和加载器的事件分发就行了，不用在线程中处理了

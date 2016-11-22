@@ -47,7 +47,7 @@ namespace Game.UI
         protected void onClkBg()
         {
             // 关闭焦点窗口
-            Ctx.m_instance.m_uiMgr.exitAllWin();
+            Ctx.mInstance.mUiMgr.exitAllWin();
         }
     }
 }

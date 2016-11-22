@@ -4,7 +4,7 @@
     {
         public ResMsgRouteCB()
         {
-            this.addRouteHandle((int)MsgRouteType.eMRT_BASIC, Ctx.m_instance.mDownloadMgr, Ctx.m_instance.mDownloadMgr.handleMsg);
+            this.addRouteHandle((int)MsgRouteType.eMRT_BASIC, Ctx.mInstance.mDownloadMgr, Ctx.mInstance.mDownloadMgr.handleMsg);
         }
     }
 }

@@ -40,7 +40,7 @@
                 param.mIsWriteFile = isWriteFile;
                 param.mDownloadType = (DownloadType)downloadType;
 
-                Ctx.m_instance.mDownloadMgr.load(param);
+                Ctx.mInstance.mDownloadMgr.load(param);
             }
         }
 

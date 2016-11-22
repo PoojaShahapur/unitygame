@@ -6,7 +6,7 @@ namespace UnitTest
     {
         public void testSendMsg()
         {
-            Ctx.m_instance.m_luaSystem.callLuaFunction("GlobalNS.GlobalEventCmdTest.testSendMsg");
+            Ctx.mInstance.mLuaSystem.callLuaFunction("GlobalNS.GlobalEventCmdTest.testSendMsg");
         }
     }
 }

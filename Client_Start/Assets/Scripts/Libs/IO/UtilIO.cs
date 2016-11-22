@@ -209,7 +209,7 @@ namespace SDK.Lib
         // 播放协程
         //public Coroutine StartCoroutine(IEnumerator routine)
         //{
-        //    return Ctx.m_instance.m_coroutineMgr.StartCoroutine(routine);
+        //    return Ctx.mInstance.mCoroutineMgr.StartCoroutine(routine);
         //}
 
         /// <summary>

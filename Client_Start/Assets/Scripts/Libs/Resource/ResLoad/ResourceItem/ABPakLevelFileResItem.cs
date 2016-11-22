@@ -26,7 +26,7 @@
         //public void loadLevel(string resName)
         //{
         //    // 获取打包后的 unity3d 资源名字
-        //    string unity3dName = Ctx.m_instance.m_pPakSys.path2PakDic[resName].m_unity3dName;
+        //    string unity3dName = Ctx.mInstance.mPakSys.path2PakDic[resName].m_unity3dName;
         //    if (!m_path2UnPakRes.ContainsKey(unity3dName))
         //    {
         //        m_path2UnPakRes[unity3dName] = new ABUnPakLevelFileResItem();

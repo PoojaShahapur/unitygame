@@ -21,14 +21,14 @@ namespace Game.Game
             this.mGotoScene = new GotoScene();
 
             // 游戏逻辑处理
-            Ctx.m_instance.m_cbUIEvent = new GameUIEventCB();
+            Ctx.mInstance.mCbUIEvent = new GameUIEventCB();
             this.mGameNetHandleCB = new GameNetHandleCB();
-            Ctx.m_instance.m_netCmdNotify.addOneDisp(mGameNetHandleCB);
+            Ctx.mInstance.mNetCmdNotify.addOneDisp(mGameNetHandleCB);
             this.mGameRouteCB = new GameRouteCB();
-            Ctx.m_instance.m_msgRouteNotify.addOneDisp(mGameRouteCB);
-            Ctx.m_instance.m_netCmdNotify.bStopNetHandle = false;     // 停止网络消息处理
-            Ctx.m_instance.m_sceneEventCB = new GameSceneEventCB();
-            Ctx.m_instance.m_sceneLogic = new GameSceneLogic();
+            Ctx.mInstance.mMsgRouteNotify.addOneDisp(mGameRouteCB);
+            Ctx.mInstance.mNetCmdNotify.bStopNetHandle = false;     // 停止网络消息处理
+            Ctx.mInstance.mSceneEventCB = new GameSceneEventCB();
+            Ctx.mInstance.mSceneLogic = new GameSceneLogic();
 
             this.mGotoScene.addSceneHandle();
         }
@@ -40,9 +40,9 @@ namespace Game.Game
 
         protected void registerScriptType()
         {
-            Ctx.m_instance.m_scriptDynLoad.registerScriptType("Game.UI.UIBlurBg", typeof(UIBlurBg));
-            Ctx.m_instance.m_scriptDynLoad.registerScriptType("Game.UI.UITest", typeof(UITest));
-            Ctx.m_instance.m_scriptDynLoad.registerScriptType("Game.UI.UITerrainEdit", typeof(UITerrainEdit));
+            Ctx.mInstance.mScriptDynLoad.registerScriptType("Game.UI.UIBlurBg", typeof(UIBlurBg));
+            Ctx.mInstance.mScriptDynLoad.registerScriptType("Game.UI.UITest", typeof(UITest));
+            Ctx.mInstance.mScriptDynLoad.registerScriptType("Game.UI.UITerrainEdit", typeof(UITerrainEdit));
         }
     }
 }

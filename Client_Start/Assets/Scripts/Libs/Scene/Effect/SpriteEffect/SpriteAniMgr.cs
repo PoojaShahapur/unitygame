@@ -73,7 +73,7 @@ namespace SDK.Lib
             ImageSpriteAni ani = null;
             ani = new ImageSpriteAni();
 
-            Ctx.m_instance.m_spriteAniMgr.add2List(ani);
+            Ctx.mInstance.mSpriteAniMgr.add2List(ani);
             return ani;
         }
 

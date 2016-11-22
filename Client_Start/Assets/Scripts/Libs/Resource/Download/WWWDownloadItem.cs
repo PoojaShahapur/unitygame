@@ -18,7 +18,7 @@ namespace SDK.Lib
         {
             base.load();
 
-            Ctx.m_instance.m_coroutineMgr.StartCoroutine(downloadAsset());
+            Ctx.mInstance.mCoroutineMgr.StartCoroutine(downloadAsset());
         }
 
         // m_path 是这个格式 http://127.0.0.1/UnityServer/Version.txt?ver=100

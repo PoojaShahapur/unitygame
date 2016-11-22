@@ -144,7 +144,7 @@ namespace SDK.Lib
             }
             else
             {
-                Ctx.m_instance.m_logSys.log("current socket null");
+                Ctx.mInstance.mLogSys.log("current socket null");
             }
         }
 

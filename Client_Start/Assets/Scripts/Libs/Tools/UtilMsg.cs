@@ -11,32 +11,32 @@ namespace SDK.Lib
         // 发送消息， bnet 如果 true 就直接发送到 socket ，否则直接进入输出消息队列
         public static void sendMsg(stNullUserCmd msg, bool bnet = true)
         {
-            Ctx.m_instance.m_shareData.m_tmpBA = Ctx.m_instance.m_netMgr.getSendBA();
-            if (Ctx.m_instance.m_shareData.m_tmpBA != null)
+            Ctx.mInstance.mShareData.m_tmpBA = Ctx.mInstance.mNetMgr.getSendBA();
+            if (Ctx.mInstance.mShareData.m_tmpBA != null)
             {
-                msg.serialize(Ctx.m_instance.m_shareData.m_tmpBA);
+                msg.serialize(Ctx.mInstance.mShareData.m_tmpBA);
             }
             else
             {
-                Ctx.m_instance.m_logSys.log("socket buffer null");
+                Ctx.mInstance.mLogSys.log("socket buffer null");
             }
             if (bnet)
             {
                 // 打印日志
-                Ctx.m_instance.m_shareData.m_tmpStr = string.Format("发送消息: byCmd = {0}, byParam = {1}", msg.byCmd, msg.byParam);
-                Ctx.m_instance.m_logSys.log(Ctx.m_instance.m_shareData.m_tmpStr);
+                Ctx.mInstance.mShareData.m_tmpStr = string.Format("发送消息: byCmd = {0}, byParam = {1}", msg.byCmd, msg.byParam);
+                Ctx.mInstance.mLogSys.log(Ctx.mInstance.mShareData.m_tmpStr);
             }
-            Ctx.m_instance.m_netMgr.send(bnet);
+            Ctx.mInstance.mNetMgr.send(bnet);
         }
 
         //static public void sendMsg(ushort commandID, LuaStringBuffer buffer, bool bnet = true)
         static public void sendMsg(ushort commandID, LuaInterface.LuaByteBuffer buffer, bool bnet = true)
         {
-            Ctx.m_instance.m_shareData.m_tmpBA = Ctx.m_instance.m_netMgr.getSendBA();
-            if (Ctx.m_instance.m_shareData.m_tmpBA != null)
+            Ctx.mInstance.mShareData.m_tmpBA = Ctx.mInstance.mNetMgr.getSendBA();
+            if (Ctx.mInstance.mShareData.m_tmpBA != null)
             {
-                Ctx.m_instance.m_shareData.m_tmpBA.writeBytes(buffer.buffer, 0, (uint)buffer.buffer.Length);
-                Ctx.m_instance.m_netMgr.send(bnet);
+                Ctx.mInstance.mShareData.m_tmpBA.writeBytes(buffer.buffer, 0, (uint)buffer.buffer.Length);
+                Ctx.mInstance.mNetMgr.send(bnet);
             }
         }
 
@@ -48,15 +48,15 @@ namespace SDK.Lib
             //string service = UtilLua2CS.getTableAttrStr(luaTable, "service");
             //string method = UtilLua2CS.getTableAttrStr(luaTable, "method");
 
-            Ctx.m_instance.m_shareData.m_tmpBA = Ctx.m_instance.m_netMgr.getSendBA();
-            if (Ctx.m_instance.m_shareData.m_tmpBA != null)
+            Ctx.mInstance.mShareData.m_tmpBA = Ctx.mInstance.mNetMgr.getSendBA();
+            if (Ctx.mInstance.mShareData.m_tmpBA != null)
             {
-                //Ctx.m_instance.m_shareData.m_tmpBA.writeUnsignedInt32(id);
-                //Ctx.m_instance.m_shareData.m_tmpBA.writeMultiByte(service, Encoding.UTF8, 0);
-                //Ctx.m_instance.m_shareData.m_tmpBA.writeMultiByte(method, Encoding.UTF8, 0);
+                //Ctx.mInstance.mShareData.m_tmpBA.writeUnsignedInt32(id);
+                //Ctx.mInstance.mShareData.m_tmpBA.writeMultiByte(service, Encoding.UTF8, 0);
+                //Ctx.mInstance.mShareData.m_tmpBA.writeMultiByte(method, Encoding.UTF8, 0);
 
-                Ctx.m_instance.m_shareData.m_tmpBA.writeBytes(buffer.buffer, 0, (uint)buffer.buffer.Length);
-                Ctx.m_instance.m_netMgr.send(bnet);
+                Ctx.mInstance.mShareData.m_tmpBA.writeBytes(buffer.buffer, 0, (uint)buffer.buffer.Length);
+                Ctx.mInstance.mNetMgr.send(bnet);
             }
         }
 
@@ -64,7 +64,7 @@ namespace SDK.Lib
         {
             if (string.IsNullOrEmpty(str))
             {
-                Ctx.m_instance.m_logSys.log("str is null");
+                Ctx.mInstance.mLogSys.log("str is null");
             }
         }
 
@@ -88,7 +88,7 @@ namespace SDK.Lib
 
             str += " }";
 
-            Ctx.m_instance.m_logSys.log(str);
+            Ctx.mInstance.mLogSys.log(str);
         }
     }
 }

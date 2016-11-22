@@ -17,12 +17,12 @@ namespace UnitTest
         // 测试 .anim 动画
         protected void testAnim()
         {
-            LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
+            LoadParam param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
             string resPath = "Anim/boxcampush";
             param.setPath(resPath);
             param.m_loadEventHandle = onLoadEventHandle;
-            Ctx.m_instance.m_resLoadMgr.loadAsset(param);
-            Ctx.m_instance.m_poolSys.deleteObj(param);
+            Ctx.mInstance.mResLoadMgr.loadAsset(param);
+            Ctx.mInstance.mPoolSys.deleteObj(param);
         }
 
         protected void onLoadEventHandle(IDispatchObject dispObj)
@@ -37,7 +37,7 @@ namespace UnitTest
 
             }
 
-            Ctx.m_instance.m_resLoadMgr.unload("Anim/boxcampush", onLoadEventHandle);
+            Ctx.mInstance.mResLoadMgr.unload("Anim/boxcampush", onLoadEventHandle);
         }
 
         protected void testDopeSheetAni()

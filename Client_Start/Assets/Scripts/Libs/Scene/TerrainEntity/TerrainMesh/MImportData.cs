@@ -39,17 +39,17 @@ namespace SDK.Lib
 
         public MImportData()
         {
-            terrainSize = Ctx.m_instance.mTerrainGlobalOption.mTerrainSize;
-            maxBatchSize = Ctx.m_instance.mTerrainGlobalOption.mMaxBatchSize;
-            minBatchSize = Ctx.m_instance.mTerrainGlobalOption.mMinBatchSize;
+            terrainSize = Ctx.mInstance.mTerrainGlobalOption.mTerrainSize;
+            maxBatchSize = Ctx.mInstance.mTerrainGlobalOption.mMaxBatchSize;
+            minBatchSize = Ctx.mInstance.mTerrainGlobalOption.mMinBatchSize;
             pos = MVector3.ZERO;
-            worldSize = Ctx.m_instance.mTerrainGlobalOption.mTerrainWorldSize;
+            worldSize = Ctx.mInstance.mTerrainGlobalOption.mTerrainWorldSize;
             diffusePath = "Materials/Textures/Terrain/TerrainDiffuse_1.png";
             //diffusePath = "Materials/Textures/Terrain/terrain_diffuse.png";
             heightPath = "Materials/Textures/Terrain/TerrainHeight_1.png";
             //heightPath = "Materials/Textures/Terrain/terrain.png";
-            inputScale = Ctx.m_instance.mTerrainGlobalOption.mInputScale;
-            inputBias = Ctx.m_instance.mTerrainGlobalOption.mInputBias;
+            inputScale = Ctx.mInstance.mTerrainGlobalOption.mInputScale;
+            inputBias = Ctx.mInstance.mTerrainGlobalOption.mInputBias;
             deleteInputData = true;
             detailWorldSize = 8;
             isUseSplatMap = true;
@@ -85,7 +85,7 @@ namespace SDK.Lib
 
         public void parseXml()
         {
-            m_textRes = Ctx.m_instance.m_textResMgr.getAndSyncLoadRes(string.Format("TerrainData/{0}.xml", mTerrainId));
+            m_textRes = Ctx.mInstance.mTextResMgr.getAndSyncLoadRes(string.Format("TerrainData/{0}.xml", mTerrainId));
             if (m_textRes != null)
             {
                 string text = m_textRes.getText("");

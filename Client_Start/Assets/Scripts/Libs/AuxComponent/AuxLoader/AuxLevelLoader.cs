@@ -32,15 +32,15 @@
                 mEvtHandle = new ResEventDispatch();
                 mEvtHandle.addEventHandle(null, evtHandle);
 
-                LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-                param.setPath(string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathScene], mPath));
+                LoadParam param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
+                param.setPath(string.Format("{0}{1}", Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathScene], mPath));
                 param.m_loadEventHandle = onLevelLoaded;
                 param.m_resNeedCoroutine = false;
                 param.m_loadNeedCoroutine = false;
-                Ctx.m_instance.m_resLoadMgr.loadAsset(param);
-                Ctx.m_instance.m_poolSys.deleteObj(param);
+                Ctx.mInstance.mResLoadMgr.loadAsset(param);
+                Ctx.mInstance.mPoolSys.deleteObj(param);
 
-                this.mLevelResItem = Ctx.m_instance.m_resLoadMgr.getResource(param.mResUniqueId) as LevelResItem;
+                this.mLevelResItem = Ctx.mInstance.mResLoadMgr.getResource(param.mResUniqueId) as LevelResItem;
                 this.onLevelLoaded(this.mLevelResItem);
             }
         }
@@ -60,13 +60,13 @@
                 mEvtHandle = new ResEventDispatch();
                 mEvtHandle.addEventHandle(null, evtHandle);
 
-                LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-                param.setPath(string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathScene], mPath));
+                LoadParam param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
+                param.setPath(string.Format("{0}{1}", Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathScene], mPath));
                 param.m_loadEventHandle = onLevelLoaded;
                 param.m_resNeedCoroutine = true;
                 param.m_loadNeedCoroutine = true;
-                Ctx.m_instance.m_resLoadMgr.loadAsset(param);
-                Ctx.m_instance.m_poolSys.deleteObj(param);
+                Ctx.mInstance.mResLoadMgr.loadAsset(param);
+                Ctx.mInstance.mPoolSys.deleteObj(param);
             }
         }
 
@@ -92,7 +92,7 @@
         {
             if (mLevelResItem != null)
             {
-                Ctx.m_instance.m_resLoadMgr.unload(mLevelResItem.getResUniqueId(), null);
+                Ctx.mInstance.mResLoadMgr.unload(mLevelResItem.getResUniqueId(), null);
                 base.unload();
             }
         }

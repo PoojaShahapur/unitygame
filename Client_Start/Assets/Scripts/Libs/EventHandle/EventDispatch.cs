@@ -71,7 +71,7 @@ namespace SDK.Lib
             }
             else
             {
-                Ctx.m_instance.m_logSys.log("Event Handle is null");
+                Ctx.mInstance.mLogSys.log("Event Handle is null");
             }
         }
 
@@ -95,7 +95,7 @@ namespace SDK.Lib
             }
             else
             {
-                Ctx.m_instance.m_logSys.log("Event Handle not exist");
+                Ctx.mInstance.mLogSys.log("Event Handle not exist");
             }
         }
 
@@ -122,7 +122,7 @@ namespace SDK.Lib
             {
                 if (!this.mHandleList.Remove(delayObject as EventDispatchFunctionObject))
                 {
-                    Ctx.m_instance.m_logSys.log("Event Handle not exist");
+                    Ctx.mInstance.mLogSys.log("Event Handle not exist");
                 }
             }
         }
@@ -150,7 +150,7 @@ namespace SDK.Lib
             //}
             //catch (Exception ex)
             //{
-            //    Ctx.m_instance.m_logSys.catchLog(ex.ToString());
+            //    Ctx.mInstance.mLogSys.catchLog(ex.ToString());
             //}
         }
 

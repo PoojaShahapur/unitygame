@@ -124,8 +124,8 @@ namespace SDK.Lib
         {
             if (slot.instance == null && (!string.IsNullOrEmpty(slot.def.filename) || slot.def.importData != null))
             {
-                slot.instance = new MTerrain(Ctx.m_instance.m_sceneManager);
-                if (!Ctx.m_instance.mTerrainGlobalOption.mIsReadFile)
+                slot.instance = new MTerrain(Ctx.mInstance.mSceneManager);
+                if (!Ctx.mInstance.mTerrainGlobalOption.mIsReadFile)
                 {
                     slot.instance.prepareOrig(slot.def.importData);
                 }

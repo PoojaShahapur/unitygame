@@ -17,7 +17,7 @@ namespace UnitTest
             //testProjectMatrix();
             //testPrint();
 
-            Ctx.m_instance.m_scriptDynLoad.registerScriptType("Game.UI.UITerrainEdit", typeof(UITerrainEdit));
+            Ctx.mInstance.mScriptDynLoad.registerScriptType("Game.UI.UITerrainEdit", typeof(UITerrainEdit));
             testNewTerrain();
         }
 
@@ -36,14 +36,14 @@ namespace UnitTest
         // 代码整理，将地形放到对应的场景里面了
         public void testSceneTerrain()
         {
-            Ctx.m_instance.m_sceneSys.createTerrain();
+            Ctx.mInstance.mSceneSys.createTerrain();
 
             // 操作摄像机
             GameObject camera = UtilApi.GoFindChildByName("MainCamera");
             GameObject man = UtilApi.GoFindChildByName("Cube");
             UtilApi.setPos(man.transform, Vector3.zero);
-            Ctx.m_instance.m_camSys.setMainCamera(camera.GetComponent<Camera>());
-            Ctx.m_instance.m_camSys.setCameraActor(man);
+            Ctx.mInstance.mCamSys.setMainCamera(camera.GetComponent<Camera>());
+            Ctx.mInstance.mCamSys.setCameraActor(man);
         }
 
         public void testPrint()
@@ -57,14 +57,14 @@ namespace UnitTest
         // 测试投影矩阵
         public void testProjectMatrix()
         {
-            Ctx.m_instance.m_sceneSys.loadScene("TestHeightMap.unity", onResLoadScene);
+            Ctx.mInstance.mSceneSys.loadScene("TestHeightMap.unity", onResLoadScene);
         }
 
         public void onResLoadScene(IDispatchObject dispObj)
         {
             Scene scene = dispObj as Scene;
             //checkCamera();
-            //Ctx.m_instance.m_uiMgr.loadAndShow((UIFormID)100);
+            //Ctx.mInstance.mUiMgr.loadAndShow((UIFormID)100);
             testSceneTerrain();
         }
 
@@ -81,22 +81,22 @@ namespace UnitTest
 
         protected void testNewTerrain()
         {
-            Ctx.m_instance.m_sceneSys.loadScene("TestHeightMap.unity", onNewResLoadScene);
+            Ctx.mInstance.mSceneSys.loadScene("TestHeightMap.unity", onNewResLoadScene);
         }
 
         public void onNewResLoadScene(IDispatchObject dispObj)
         {
             Scene scene = dispObj as Scene;
-            Ctx.m_instance.m_sceneSys.createTerrain();
+            Ctx.mInstance.mSceneSys.createTerrain();
 
             // 操作摄像机
             GameObject camera = UtilApi.GoFindChildByName("MainCamera");
             GameObject man = UtilApi.GoFindChildByName("Cube");
             UtilApi.setPos(man.transform, Vector3.zero);
-            Ctx.m_instance.m_camSys.setMainCamera(camera.GetComponent<Camera>());
-            Ctx.m_instance.m_camSys.setCameraActor(man);
+            Ctx.mInstance.mCamSys.setMainCamera(camera.GetComponent<Camera>());
+            Ctx.mInstance.mCamSys.setCameraActor(man);
 
-            Ctx.m_instance.m_uiMgr.loadAndShow(UIFormID.eUITerrainEdit);
+            Ctx.mInstance.mUiMgr.loadAndShow(UIFormID.eUITerrainEdit);
 
             //AuxTextLoader auxTextLoader = new AuxTextLoader();
             //auxTextLoader.syncLoad("Table/FrameTimerMgr.lua");

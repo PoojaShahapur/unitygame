@@ -9,16 +9,16 @@ namespace Game.Game
     {
         public void addSceneHandle()
         {
-            Ctx.m_instance.m_gameRunStage.addQuitingAndEnteringDisp(quitingAndEnteringStageHandle);
-            Ctx.m_instance.m_gameRunStage.addQuitedAndEnteredDisp(quitedAndEnteredStageHandle);
+            Ctx.mInstance.mGameRunStage.addQuitingAndEnteringDisp(quitingAndEnteringStageHandle);
+            Ctx.mInstance.mGameRunStage.addQuitedAndEnteredDisp(quitedAndEnteredStageHandle);
         }
 
         public void loadGameScene()
         {
-            if (!Ctx.m_instance.m_gameRunStage.isCurInStage(EGameStage.eStage_Game))
+            if (!Ctx.mInstance.mGameRunStage.isCurInStage(EGameStage.eStage_Game))
             {
-                Ctx.m_instance.m_gameRunStage.toggleGameStage(EGameStage.eStage_Game);
-                Ctx.m_instance.m_sceneSys.loadScene("Game.unity", onGameResLoadScene);
+                Ctx.mInstance.mGameRunStage.toggleGameStage(EGameStage.eStage_Game);
+                Ctx.mInstance.mSceneSys.loadScene("Game.unity", onGameResLoadScene);
             }
         }
 
@@ -26,55 +26,55 @@ namespace Game.Game
         public void onGameResLoadScene(IDispatchObject dispObj)
         {
             Scene scene = dispObj as Scene;
-            Ctx.m_instance.m_gameRunStage.quitedAndEnteredCurStage();
+            Ctx.mInstance.mGameRunStage.quitedAndEnteredCurStage();
         }
 
         public void loadScene(string sceneName)
         {
-            Ctx.m_instance.m_sceneSys.loadScene(sceneName, onLoadScene);
+            Ctx.mInstance.mSceneSys.loadScene(sceneName, onLoadScene);
         }
 
         public void onLoadScene(IDispatchObject dispObj)
         {
             Scene scene = dispObj as Scene;
-            Ctx.m_instance.m_sceneEventCB.onLevelLoaded();
+            Ctx.mInstance.mSceneEventCB.onLevelLoaded();
         }
 
         // 加载 Main Scene UI
         protected void loadAllUIScene()
         {
-            Ctx.m_instance.m_uiMgr.loadAndShow(UIFormID.eUITest);
+            Ctx.mInstance.mUiMgr.loadAndShow(UIFormID.eUITest);
         }
 
         protected void loadAllDZUIScene()
         {
-            Ctx.m_instance.m_uiMgr.loadAndShow(UIFormID.eUITest);
+            Ctx.mInstance.mUiMgr.loadAndShow(UIFormID.eUITest);
         }
 
         // 第一次进入游戏场景初始化
         protected void initOnFirstEnterGameScene()
         {
-            if (Ctx.m_instance.m_gameRunStage.ePreGameStage == EGameStage.eStage_Login)
+            if (Ctx.mInstance.mGameRunStage.ePreGameStage == EGameStage.eStage_Login)
             {
                 // 卸载登陆模块，关闭登陆界面
-                Ctx.m_instance.m_moduleSys.unloadModule(ModuleID.LOGINMN);
+                Ctx.mInstance.mModuleSys.unloadModule(ModuleID.LOGINMN);
             }
         }
 
         // 进入场景，但是场景还没有加载完成
         public void quitingAndEnteringStageHandle(EGameStage srcGameState, EGameStage destGameState)
         {
-            //Ctx.m_instance.m_soundMgr.unloadAll();          // 卸载所有的音频
+            //Ctx.mInstance.m_soundMgr.unloadAll();          // 卸载所有的音频
         }
 
         // 进入场景，场景资源加载成功
         public void quitedAndEnteredStageHandle(EGameStage srcGameState, EGameStage destGameState)
         {
             // 播放音乐
-            //SoundParam param = Ctx.m_instance.m_poolSys.newObject<SoundParam>();
-            //param.m_path = Path.Combine(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathAudio], "ZuiZhenDeMeng.mp3");
-            //Ctx.m_instance.m_soundMgr.play(param);
-            //Ctx.m_instance.m_poolSys.deleteObj(param);
+            //SoundParam param = Ctx.mInstance.mPoolSys.newObject<SoundParam>();
+            //param.m_path = Path.Combine(Ctx.mInstance.mCfg.m_pathLst[(int)ResPathType.ePathAudio], "ZuiZhenDeMeng.mp3");
+            //Ctx.mInstance.m_soundMgr.play(param);
+            //Ctx.mInstance.mPoolSys.deleteObj(param);
 
             if (EGameStage.eStage_Login == srcGameState)
             {

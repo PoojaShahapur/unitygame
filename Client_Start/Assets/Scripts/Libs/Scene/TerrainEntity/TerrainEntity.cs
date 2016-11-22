@@ -20,7 +20,7 @@
 
         public void init()
         {
-            int size = Ctx.m_instance.mTerrainGlobalOption.getTreeNodeCount();
+            int size = Ctx.mInstance.mTerrainGlobalOption.getTreeNodeCount();
             mDistrictArr = new MDistrict[size * size];
         }
 
@@ -36,16 +36,16 @@
 
         public MDistrict getTerrainDistrictByPos(float posX, float posZ)
         {
-            int idx = UtilMath.floorToInt(posX % Ctx.m_instance.mTerrainGlobalOption.mTerrainWorldSize / Ctx.m_instance.mTerrainGlobalOption.getTreeNodeWorldSize());
-            int idy = UtilMath.floorToInt(posX % Ctx.m_instance.mTerrainGlobalOption.mTerrainWorldSize / Ctx.m_instance.mTerrainGlobalOption.getTreeNodeWorldSize());
-            int size = Ctx.m_instance.mTerrainGlobalOption.getTreeNodeCount();
+            int idx = UtilMath.floorToInt(posX % Ctx.mInstance.mTerrainGlobalOption.mTerrainWorldSize / Ctx.mInstance.mTerrainGlobalOption.getTreeNodeWorldSize());
+            int idy = UtilMath.floorToInt(posX % Ctx.mInstance.mTerrainGlobalOption.mTerrainWorldSize / Ctx.mInstance.mTerrainGlobalOption.getTreeNodeWorldSize());
+            int size = Ctx.mInstance.mTerrainGlobalOption.getTreeNodeCount();
             int lineIndex = idy * size + idx;
 
             if (mDistrictArr[lineIndex] == null)
             {
                 mDistrictArr[lineIndex] = new MDistrict(this, idx, idy);
-                MTerrain terrain = Ctx.m_instance.m_terrainGroup.getTerrain(mPosX, mPosY);
-                MTerrainQuadTreeNode node = terrain.getTerrainQuadTreeNode(idx * Ctx.m_instance.mTerrainGlobalOption.getTreeNodeHalfSize(), idy * Ctx.m_instance.mTerrainGlobalOption.getTreeNodeHalfSize());
+                MTerrain terrain = Ctx.mInstance.mTerrainGroup.getTerrain(mPosX, mPosY);
+                MTerrainQuadTreeNode node = terrain.getTerrainQuadTreeNode(idx * Ctx.mInstance.mTerrainGlobalOption.getTreeNodeHalfSize(), idy * Ctx.mInstance.mTerrainGlobalOption.getTreeNodeHalfSize());
                 mDistrictArr[lineIndex].attachToTreeNode(node);
             }
 
@@ -62,7 +62,7 @@
             }
             else
             {
-                Ctx.m_instance.m_logSys.log("District is Null", LogTypeId.eLogMSceneManager);
+                Ctx.mInstance.mLogSys.log("District is Null", LogTypeId.eLogMSceneManager);
             }
         }
 
@@ -76,7 +76,7 @@
             }
             else
             {
-                Ctx.m_instance.m_logSys.log("District is Null", LogTypeId.eLogMSceneManager);
+                Ctx.mInstance.mLogSys.log("District is Null", LogTypeId.eLogMSceneManager);
             }
         }
     }

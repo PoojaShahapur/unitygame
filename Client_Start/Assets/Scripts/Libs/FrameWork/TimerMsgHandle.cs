@@ -12,7 +12,7 @@ namespace SDK.Lib
         {
             ByteBuffer msg = dispObj as ByteBuffer;
 
-            Ctx.m_instance.m_logSys.log(Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem10));
+            Ctx.mInstance.mLogSys.log(Ctx.mInstance.mLangMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem10));
 
             stGameTimeTimerUserCmd cmd = new stGameTimeTimerUserCmd();
             cmd.derialize(msg);
@@ -24,7 +24,7 @@ namespace SDK.Lib
         {
             ByteBuffer msg = dispObj as ByteBuffer;
 
-            Ctx.m_instance.m_logSys.log(Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem11));
+            Ctx.mInstance.mLogSys.log(Ctx.mInstance.mLangMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem11));
 
             stRequestUserGameTimeTimerUserCmd cmd = new stRequestUserGameTimeTimerUserCmd();
             cmd.derialize(msg);
@@ -35,7 +35,7 @@ namespace SDK.Lib
         // 步骤 9 ，发送消息
         public void sendMsg9f()
         {
-            Ctx.m_instance.m_logSys.log(Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem12));
+            Ctx.mInstance.mLogSys.log(Ctx.mInstance.mLangMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem12));
 
             stUserGameTimeTimerUserCmd cmd = new stUserGameTimeTimerUserCmd();
             cmd.qwGameTime = UtilApi.getUTCSec() + qwGameTime;
@@ -43,7 +43,7 @@ namespace SDK.Lib
             UtilMsg.sendMsg(cmd);
 
             // 加载游戏模块
-            //Ctx.m_instance.m_moduleSys.loadModule(ModuleName.GAMEMN);
+            //Ctx.mInstance.mModuleSys.loadModule(ModuleName.GAMEMN);
         }
     }
 }

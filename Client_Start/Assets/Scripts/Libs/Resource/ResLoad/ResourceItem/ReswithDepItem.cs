@@ -36,7 +36,7 @@
 
         protected bool hasDep()
         {
-            return Ctx.m_instance.m_depResMgr.hasDep(this.m_loadPath);
+            return Ctx.mInstance.mDepResMgr.hasDep(this.m_loadPath);
         }
 
         // 如果有依赖返回 true，没有就返回 false

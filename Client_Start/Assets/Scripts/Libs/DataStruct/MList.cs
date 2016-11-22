@@ -149,7 +149,7 @@ namespace SDK.Lib
             }
             else
             {
-                Ctx.m_instance.m_logSys.log(string.Format("Insert Failed index={0}, Count={1}", index, Count()));
+                Ctx.mInstance.mLogSys.log(string.Format("Insert Failed index={0}, Count={1}", index, Count()));
             }
         }
 

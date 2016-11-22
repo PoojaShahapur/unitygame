@@ -34,8 +34,8 @@ namespace SDK.Lib
             UtilApi.SetParent(mSceneNodes[(int)eSceneNodeId.eSceneTerrainRoot], mSceneNodes[(int)eSceneNodeId.eSceneRootNode]);
             UtilApi.SetParent(mSceneNodes[(int)eSceneNodeId.eSceneEntityRoot], mSceneNodes[(int)eSceneNodeId.eSceneRootNode]);
 
-            Ctx.m_instance.m_sceneManager.getRootSceneNode().createChildSceneNode(SceneTerrainRootName, new MVector3(0, 0, 0), MQuaternion.IDENTITY);
-            Ctx.m_instance.m_sceneManager.getRootSceneNode().createChildSceneNode(SceneEntityRootName, new MVector3(0, 0, 0), MQuaternion.IDENTITY);
+            Ctx.mInstance.mSceneManager.getRootSceneNode().createChildSceneNode(SceneTerrainRootName, new MVector3(0, 0, 0), MQuaternion.IDENTITY);
+            Ctx.mInstance.mSceneManager.getRootSceneNode().createChildSceneNode(SceneEntityRootName, new MVector3(0, 0, 0), MQuaternion.IDENTITY);
         }
     }
 }

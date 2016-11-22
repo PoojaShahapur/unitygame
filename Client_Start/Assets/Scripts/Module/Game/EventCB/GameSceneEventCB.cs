@@ -11,7 +11,7 @@ namespace Game.Game
         // 场景加载完成处理事件
         public void onLevelLoaded()
         {
-            Ctx.m_instance.m_luaSystem.onSceneLoaded();
+            Ctx.mInstance.mLuaSystem.onSceneLoaded();
 
             runTest();
         }
@@ -23,7 +23,7 @@ namespace Game.Game
             TestMain pTestMain = new TestMain();
             pTestMain.run();
 #endif
-            //Ctx.m_instance.m_netMgr.openSocket("106.14.32.169", 20013);
+            //Ctx.mInstance.mNetMgr.openSocket("106.14.32.169", 20013);
         }
     }
 }

@@ -234,7 +234,7 @@ namespace SDK.Lib
             mDownloadNoVerPath = ResPathResolve.msDataStreamLoadRootPathList[(int)mResLoadType] + "/" + mLoadPath;
             mDownloadVerPath = ResPathResolve.msDataStreamLoadRootPathList[(int)mResLoadType] + "/" + mLoadPath + "?ver=" + mVersion;
 
-            Ctx.m_instance.m_logSys.log(string.Format("DownloadItem::load, Add Download Task {0}", mLoadPath));
+            Ctx.mInstance.mLogSys.log(string.Format("DownloadItem::load, Add Download Task {0}", mLoadPath));
         }
 
         public virtual void runTask()

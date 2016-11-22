@@ -20,7 +20,7 @@ namespace SDK.Lib
             string curExt = "";
 
             // 如果是打包的资源
-            if (Ctx.m_instance.m_cfg.m_pakExtNameList.IndexOf(m_extName) != -1)
+            if (Ctx.mInstance.mCfg.mPakExtNameList.IndexOf(m_extName) != -1)
             {
                 curExt = FileResItem.UNITY3D_EXT;
             }
@@ -46,7 +46,7 @@ namespace SDK.Lib
             }
             else
             {
-                Ctx.m_instance.m_logSys.log(string.Format("{0} 文件不存在", curPath));
+                Ctx.mInstance.mLogSys.log(string.Format("{0} 文件不存在", curPath));
             }
 
             if (m_bytes != null)

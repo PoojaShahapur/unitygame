@@ -39,12 +39,12 @@ namespace Game.UI
 
         protected void exportScene()
         {
-            Ctx.m_instance.m_terrainGroup.serializeTerrain(0, 0);
+            Ctx.mInstance.mTerrainGroup.serializeTerrain(0, 0);
         }
 
         protected void onBtnEnableLogClk()
         {
-            Ctx.m_instance.m_logSys.setEnableLog(true);
+            Ctx.mInstance.mLogSys.setEnableLog(true);
         }
     }
 }

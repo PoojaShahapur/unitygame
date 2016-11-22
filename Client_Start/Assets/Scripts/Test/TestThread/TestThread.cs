@@ -15,13 +15,13 @@ namespace UnitTest
         {
             MEvent pMEvent = new MEvent(false);
             pMEvent.WaitOne();
-            Ctx.m_instance.m_logSys.log("aaaaa");
+            Ctx.mInstance.mLogSys.log("aaaaa");
         }
 
         protected void testThreadTask()
         {
             GameRouteCB m_gameRouteCB = new GameRouteCB();
-            Ctx.m_instance.m_msgRouteNotify.addOneDisp(m_gameRouteCB);
+            Ctx.mInstance.mMsgRouteNotify.addOneDisp(m_gameRouteCB);
         }
     }
 }

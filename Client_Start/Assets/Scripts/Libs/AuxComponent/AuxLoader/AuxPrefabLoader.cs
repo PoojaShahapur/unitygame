@@ -79,7 +79,7 @@ namespace SDK.Lib
             {
                 mEvtHandle = new ResEventDispatch();
                 mEvtHandle.addEventHandle(null, evtHandle);
-                mPrefabRes = Ctx.m_instance.m_prefabMgr.getAndSyncLoadRes(path);
+                mPrefabRes = Ctx.mInstance.mPrefabMgr.getAndSyncLoadRes(path);
                 onPrefabLoaded(mPrefabRes);
             }
         }
@@ -98,7 +98,7 @@ namespace SDK.Lib
             {
                 mEvtHandle = new ResEventDispatch();
                 mEvtHandle.addEventHandle(null, evtHandle);
-                mPrefabRes = Ctx.m_instance.m_prefabMgr.getAndAsyncLoadRes(path, onPrefabLoaded);
+                mPrefabRes = Ctx.mInstance.mPrefabMgr.getAndAsyncLoadRes(path, onPrefabLoaded);
             }
         }
 
@@ -111,7 +111,7 @@ namespace SDK.Lib
                 unload();
                 mEvtHandle = new ResEventDispatch();
                 mEvtHandle.addEventHandle(null, null, luaTable, luaFunction);
-                mPrefabRes = Ctx.m_instance.m_prefabMgr.getAndAsyncLoadRes(path, onPrefabLoaded);
+                mPrefabRes = Ctx.mInstance.mPrefabMgr.getAndAsyncLoadRes(path, onPrefabLoaded);
             }
         }
 
@@ -137,7 +137,7 @@ namespace SDK.Lib
             else if (mPrefabRes.hasFailed())
             {
                 mIsSuccess = false;
-                Ctx.m_instance.m_prefabMgr.unload(mPrefabRes.getResUniqueId(), onPrefabLoaded);
+                Ctx.mInstance.mPrefabMgr.unload(mPrefabRes.getResUniqueId(), onPrefabLoaded);
                 mPrefabRes = null;
 
                 if (mEvtHandle != null)
@@ -176,7 +176,7 @@ namespace SDK.Lib
         {
             if(mPrefabRes != null)
             {
-                Ctx.m_instance.m_prefabMgr.unload(mPrefabRes.getResUniqueId(), onPrefabLoaded);
+                Ctx.mInstance.mPrefabMgr.unload(mPrefabRes.getResUniqueId(), onPrefabLoaded);
                 mPrefabRes = null;
             }
 

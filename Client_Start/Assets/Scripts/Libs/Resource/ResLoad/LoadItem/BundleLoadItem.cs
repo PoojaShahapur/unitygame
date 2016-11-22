@@ -19,7 +19,7 @@ namespace SDK.Lib
                 {
                     // 如果有协程的直接这么调用，编辑器会卡死
                     //loadFromAssetBundleByCoroutine()
-                    Ctx.m_instance.m_coroutineMgr.StartCoroutine(loadFromAssetBundleByCoroutine());
+                    Ctx.mInstance.mCoroutineMgr.StartCoroutine(loadFromAssetBundleByCoroutine());
                 }
                 else
                 {
@@ -28,9 +28,9 @@ namespace SDK.Lib
             }
             else if (ResLoadType.eLoadWeb == m_resLoadType)
             {
-                Ctx.m_instance.m_logSys.log(string.Format("BundleLoadItem::load, ResLoadType is {0}, ResPackType is {1}, Load Not Need Coroutine, m_origPath is {2}", "LoadWeb", "AssetBundles", m_origPath), LogTypeId.eLogResLoader);
+                Ctx.mInstance.mLogSys.log(string.Format("BundleLoadItem::load, ResLoadType is {0}, ResPackType is {1}, Load Not Need Coroutine, m_origPath is {2}", "LoadWeb", "AssetBundles", m_origPath), LogTypeId.eLogResLoader);
 
-                Ctx.m_instance.m_coroutineMgr.StartCoroutine(downloadAsset());
+                Ctx.mInstance.mCoroutineMgr.StartCoroutine(downloadAsset());
             }
         }
 
@@ -54,7 +54,7 @@ namespace SDK.Lib
             //AssetBundleCreateRequest req = null;
 
 #if UNITY_5_0 || UNITY_5_1 || UNITY_5_2
-            //byte[] bytes = Ctx.m_instance.m_fileSys.LoadFileByte(path);
+            //byte[] bytes = Ctx.mInstance.m_fileSys.LoadFileByte(path);
             //req = AssetBundle.CreateFromMemory(bytes);
             //yield return req;
 
@@ -74,11 +74,11 @@ namespace SDK.Lib
 
             if (m_resLoadType == ResLoadType.eLoadStreamingAssets)
             {
-                Ctx.m_instance.m_logSys.log(string.Format("BundleLoadItem::loadFromAssetBundleByCoroutine, ResLoadType is {0}, ResPackType is {1}, Load Need Coroutine, FullPath is {2}", "LoadStreamingAssets", "AssetBundles", path), LogTypeId.eLogResLoader);
+                Ctx.mInstance.mLogSys.log(string.Format("BundleLoadItem::loadFromAssetBundleByCoroutine, ResLoadType is {0}, ResPackType is {1}, Load Need Coroutine, FullPath is {2}", "LoadStreamingAssets", "AssetBundles", path), LogTypeId.eLogResLoader);
             }
             else
             {
-                Ctx.m_instance.m_logSys.log(string.Format("BundleLoadItem::loadFromAssetBundleByCoroutine, ResLoadType is {0}, ResPackType is {1}, Load Need Coroutine, FullPath is {2}", "LoadLocalPersistentData", "AssetBundles", path), LogTypeId.eLogResLoader);
+                Ctx.mInstance.mLogSys.log(string.Format("BundleLoadItem::loadFromAssetBundleByCoroutine, ResLoadType is {0}, ResPackType is {1}, Load Need Coroutine, FullPath is {2}", "LoadLocalPersistentData", "AssetBundles", path), LogTypeId.eLogResLoader);
             }
 
             req = AssetBundle.LoadFromFileAsync(path);

@@ -29,7 +29,7 @@ namespace SDK.Lib
             }
             else
             {
-                Ctx.m_instance.m_logSys.log("TerrainEntity is Null", LogTypeId.eLogMSceneManager);
+                Ctx.mInstance.mLogSys.log("TerrainEntity is Null", LogTypeId.eLogMSceneManager);
             }
         }
 
@@ -43,14 +43,14 @@ namespace SDK.Lib
             }
             else
             {
-                Ctx.m_instance.m_logSys.log("TerrainEntity is Null", LogTypeId.eLogMSceneManager);
+                Ctx.mInstance.mLogSys.log("TerrainEntity is Null", LogTypeId.eLogMSceneManager);
             }
         }
 
         public TerrainEntity getTerrainEntityByPos(float posX, float posZ)
         {
-            int idx = UtilMath.floorToInt(posX / Ctx.m_instance.mTerrainGlobalOption.mTerrainWorldSize);
-            int idy = UtilMath.floorToInt(posX / Ctx.m_instance.mTerrainGlobalOption.mTerrainWorldSize);
+            int idx = UtilMath.floorToInt(posX / Ctx.mInstance.mTerrainGlobalOption.mTerrainWorldSize);
+            int idy = UtilMath.floorToInt(posX / Ctx.mInstance.mTerrainGlobalOption.mTerrainWorldSize);
             uint key = UtilApi.packIndex(idx, idy);
 
             if (!mId2TerrainEntityDic.ContainsKey(key))

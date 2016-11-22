@@ -32,7 +32,7 @@ namespace SDK.Lib
 
         public override byte[] getBytes(string resName)
         {
-            string unity3dName = Ctx.m_instance.m_pPakSys.path2PakDic[resName].m_unity3dName;
+            string unity3dName = Ctx.mInstance.mPakSys.path2PakDic[resName].m_unity3dName;
 
             byte[] bytes = null;
 

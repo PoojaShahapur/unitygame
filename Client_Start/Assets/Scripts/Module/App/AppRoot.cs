@@ -25,22 +25,22 @@ public class AppRoot : MonoBehaviour
         //BugResolve();
         //try
         //{
-            Ctx.m_instance.m_engineLoop.MainLoop();
+            Ctx.mInstance.mEngineLoop.MainLoop();
         //}
         //catch(Exception err)
         //{
-        //    Ctx.m_instance.m_logSys.log("Main Loop Error");
+        //    Ctx.mInstance.mLogSys.log("Main Loop Error");
         //}
     }
 
     void OnApplicationQuit()
     {
         // 等待网络关闭
-        Ctx.m_instance.m_netMgr.quipApp();
+        Ctx.mInstance.mNetMgr.quipApp();
         // 卸载所有的资源
-        Ctx.m_instance.unloadAll();
+        Ctx.mInstance.unloadAll();
         // 关闭日志设备
-        Ctx.m_instance.m_logSys.closeDevice();
+        Ctx.mInstance.mLogSys.closeDevice();
     }
 
     // unity 自己产生的 bug ，DontDestroyOnLoad 的对象，加载 Level 后会再产生一个
@@ -57,24 +57,24 @@ public class AppRoot : MonoBehaviour
 
     //public Ctx getCtx()
     //{
-    //    return Ctx.m_instance;
+    //    return Ctx.mInstance;
     //}
 
     public void init()
     {
         // 初始化全局数据
         Ctx.instance();
-        Ctx.m_instance.init();
+        Ctx.mInstance.init();
 
         // 加载模块
         if (MacroDef.PKG_RES_LOAD)
         {
-            Ctx.m_instance.m_moduleSys.loadModule(ModuleID.AUTOUPDATEMN);
+            Ctx.mInstance.mModuleSys.loadModule(ModuleID.AUTOUPDATEMN);
         }
         else
         {
-            //Ctx.m_instance.m_moduleSys.loadModule(ModuleID.LOGINMN);
-            Ctx.m_instance.m_moduleSys.loadModule(ModuleID.GAMEMN);
+            //Ctx.mInstance.mModuleSys.loadModule(ModuleID.LOGINMN);
+            Ctx.mInstance.mModuleSys.loadModule(ModuleID.GAMEMN);
         }
     }
 }

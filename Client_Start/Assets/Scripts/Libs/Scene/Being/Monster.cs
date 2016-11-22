@@ -11,7 +11,7 @@
         override public void dispose()
         {
             base.dispose();
-            Ctx.m_instance.m_monsterMgr.removeEntity(this);
+            Ctx.mInstance.mMonsterMgr.removeEntity(this);
         }
     }
 }

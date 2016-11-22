@@ -12,7 +12,7 @@ namespace Game.Login
 
         public void Start()
         {
-            Ctx.m_instance.m_moduleSys.unloadModule(ModuleID.AUTOUPDATEMN);
+            Ctx.mInstance.mModuleSys.unloadModule(ModuleID.AUTOUPDATEMN);
             this.registerScriptType();
             this.initGVar();
             //this.loadScene();
@@ -22,24 +22,24 @@ namespace Game.Login
         public void initGVar()
         {
             // 游戏逻辑处理
-            Ctx.m_instance.m_cbUIEvent = new LoginUIEventCB();
+            Ctx.mInstance.mCbUIEvent = new LoginUIEventCB();
             this.mLoginNetHandleCB = new LoginNetHandleCB();
-            Ctx.m_instance.m_netCmdNotify.addOneDisp(this.mLoginNetHandleCB);
+            Ctx.mInstance.mNetCmdNotify.addOneDisp(this.mLoginNetHandleCB);
             this.mLoginRouteCB = new LoginRouteCB();
-            Ctx.m_instance.m_msgRouteNotify.addOneDisp(this.mLoginRouteCB);
+            Ctx.mInstance.mMsgRouteNotify.addOneDisp(this.mLoginRouteCB);
         }
 
         // 加载登陆常见
         public void loadScene()
         {
-            Ctx.m_instance.m_sceneSys.loadScene("login.unity", onResLoadScene);
+            Ctx.mInstance.mSceneSys.loadScene("login.unity", onResLoadScene);
         }
 
         public void onResLoadScene(IDispatchObject dispObj)
         {
             Scene scene = dispObj as Scene;
-            Ctx.m_instance.m_gameRunStage.toggleGameStage(EGameStage.eStage_Login);
-            Ctx.m_instance.m_logSys.log("加载场景");
+            Ctx.mInstance.mGameRunStage.toggleGameStage(EGameStage.eStage_Login);
+            Ctx.mInstance.mLogSys.log("加载场景");
         }
 
         public void connectLoginServer(string name, string passwd)
@@ -60,8 +60,8 @@ namespace Game.Login
         // 卸载模块
         public void unload()
         {
-            Ctx.m_instance.m_netCmdNotify.removeOneDisp(this.mLoginNetHandleCB);
-            Ctx.m_instance.m_msgRouteNotify.removeOneDisp(this.mLoginRouteCB);
+            Ctx.mInstance.mNetCmdNotify.removeOneDisp(this.mLoginNetHandleCB);
+            Ctx.mInstance.mMsgRouteNotify.removeOneDisp(this.mLoginRouteCB);
         }
 
         public uint getUserID()

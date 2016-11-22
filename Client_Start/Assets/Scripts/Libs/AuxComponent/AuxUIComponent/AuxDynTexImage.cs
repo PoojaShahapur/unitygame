@@ -65,17 +65,17 @@ namespace SDK.Lib
             {
                 if (this.mTexRes != null)
                 {
-                    Ctx.m_instance.m_texMgr.unload(this.mTexRes.getResUniqueId(), null);
+                    Ctx.mInstance.mTexMgr.unload(this.mTexRes.getResUniqueId(), null);
                     this.mTexRes = null;
                 }
-                this.mTexRes = Ctx.m_instance.m_texMgr.getAndSyncLoad<TextureRes>(this.mTexPath);
+                this.mTexRes = Ctx.mInstance.mTexMgr.getAndSyncLoad<TextureRes>(this.mTexPath);
                 this.mTexRes.setImageTex(this.mImage);
             }
             else if (this.mIsImageGoChange)
             {
                 if (this.mTexRes == null)
                 {
-                    this.mTexRes = Ctx.m_instance.m_texMgr.getAndSyncLoad<TextureRes>(this.mTexPath);
+                    this.mTexRes = Ctx.mInstance.mTexMgr.getAndSyncLoad<TextureRes>(this.mTexPath);
                 }
                 this.mTexRes.setImageTex(this.mImage);
             }
@@ -89,7 +89,7 @@ namespace SDK.Lib
             base.dispose();
             if (this.mTexRes != null)
             {
-                Ctx.m_instance.m_texMgr.unload(this.mTexRes.getResUniqueId(), null);
+                Ctx.mInstance.mTexMgr.unload(this.mTexRes.getResUniqueId(), null);
                 this.mTexRes = null;
             }
         }

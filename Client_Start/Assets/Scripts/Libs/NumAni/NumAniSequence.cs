@@ -8,7 +8,7 @@
         public NumAniSequence()
         {
             m_go = UtilApi.createGameObject("NumAniSeq");
-            m_go.transform.parent = Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_App].transform;
+            m_go.transform.parent = Ctx.mInstance.mLayerMgr.m_path2Go[NotDestroyPath.ND_CV_App].transform;
             NumAniSeqBehaviour seqBeh = m_go.AddComponent<NumAniSeqBehaviour>();
             seqBeh.onAniEndDisp = onOneAniEndHandle;
         }

@@ -2,17 +2,17 @@
 {
     public class ToolCtx
     {
-        static public ToolCtx m_instance;
+        static public ToolCtx mInstance;
 
         public ExportAssetBundleNameSys mExportAssetBundleNameSys;
 
         public static ToolCtx instance()
         {
-            if (m_instance == null)
+            if (mInstance == null)
             {
-                m_instance = new ToolCtx();
+                mInstance = new ToolCtx();
             }
-            return m_instance;
+            return mInstance;
         }
 
         public ToolCtx()
@@ -24,7 +24,7 @@
 
         public void dispose()
         {
-            m_instance = null;
+            mInstance = null;
         }
 
         public void init()

@@ -12,7 +12,7 @@ namespace UnitTest
             {
                 Debug.Log("CoroutineTaskOut::CoroutineTaskOut");
             }
-            //Ctx.m_instance.mCoroutineTaskMgr.stop();
+            //Ctx.mInstance.mCoroutineTaskMgr.stop();
         }
     }
 
@@ -27,7 +27,7 @@ namespace UnitTest
         {
             CoroutineTaskOut task = new CoroutineTaskOut();
             task.setNeedRemove(false);
-            Ctx.m_instance.mCoroutineTaskMgr.addTask(task);
+            Ctx.mInstance.mCoroutineTaskMgr.addTask(task);
         }
     }
 }

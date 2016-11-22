@@ -28,7 +28,7 @@ namespace SDK.Lib
 
             if(ResLoadType.eLoadResource == m_resLoadType)
             {
-                Ctx.m_instance.m_logSys.log(string.Format("LevelLoadItem::load, ResLoadType is {0}, ResPackType is {1}, Load Not Need Coroutine, m_origPath is {2}", "LoadResource", "Level", m_origPath), LogTypeId.eLogResLoader);
+                Ctx.mInstance.mLogSys.log(string.Format("LevelLoadItem::load, ResLoadType is {0}, ResPackType is {1}, Load Not Need Coroutine, m_origPath is {2}", "LoadResource", "Level", m_origPath), LogTypeId.eLogResLoader);
 
                 m_nonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
                 m_nonRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
@@ -39,7 +39,7 @@ namespace SDK.Lib
                 // 需要加载 AssetBundles 加载
                 if (m_loadNeedCoroutine)
                 {
-                    Ctx.m_instance.m_coroutineMgr.StartCoroutine(loadFromAssetBundleByCoroutine());
+                    Ctx.mInstance.mCoroutineMgr.StartCoroutine(loadFromAssetBundleByCoroutine());
                 }
                 else
                 {
@@ -48,9 +48,9 @@ namespace SDK.Lib
             }
             else if (ResLoadType.eLoadWeb == m_resLoadType)
             {
-                Ctx.m_instance.m_logSys.log(string.Format("LevelLoadItem::load, ResLoadType is {0}, ResPackType is {1}, Load Not Need Coroutine, m_origPath is {2}", "LoadWeb", "Level", m_origPath), LogTypeId.eLogResLoader);
+                Ctx.mInstance.mLogSys.log(string.Format("LevelLoadItem::load, ResLoadType is {0}, ResPackType is {1}, Load Not Need Coroutine, m_origPath is {2}", "LoadWeb", "Level", m_origPath), LogTypeId.eLogResLoader);
 
-                Ctx.m_instance.m_coroutineMgr.StartCoroutine(downloadAsset());
+                Ctx.mInstance.mCoroutineMgr.StartCoroutine(downloadAsset());
             }
         }
 
@@ -66,7 +66,7 @@ namespace SDK.Lib
             //AssetBundleCreateRequest req = null;
 
 #if UNITY_5_0 || UNITY_5_1 || UNITY_5_2
-            //byte[] bytes = Ctx.m_instance.m_fileSys.LoadFileByte(path);
+            //byte[] bytes = Ctx.mInstance.m_fileSys.LoadFileByte(path);
             //req = AssetBundle.CreateFromMemory(bytes);
             //yield return req;
 
@@ -86,11 +86,11 @@ namespace SDK.Lib
 
             if (m_resLoadType == ResLoadType.eLoadStreamingAssets)
             {
-                Ctx.m_instance.m_logSys.log(string.Format("LevelLoadItem::loadFromAssetBundleByCoroutine, ResLoadType is {0}, ResPackType is {1}, Load Need Coroutine, FullPath is {2}", "LoadStreamingAssets", "Level", path), LogTypeId.eLogResLoader);
+                Ctx.mInstance.mLogSys.log(string.Format("LevelLoadItem::loadFromAssetBundleByCoroutine, ResLoadType is {0}, ResPackType is {1}, Load Need Coroutine, FullPath is {2}", "LoadStreamingAssets", "Level", path), LogTypeId.eLogResLoader);
             }
             else
             {
-                Ctx.m_instance.m_logSys.log(string.Format("LevelLoadItem::loadFromAssetBundleByCoroutine, ResLoadType is {0}, ResPackType is {1}, Load Need Coroutine, FullPath is {2}", "LoadLocalPersistentData", "Level", path), LogTypeId.eLogResLoader);
+                Ctx.mInstance.mLogSys.log(string.Format("LevelLoadItem::loadFromAssetBundleByCoroutine, ResLoadType is {0}, ResPackType is {1}, Load Need Coroutine, FullPath is {2}", "LoadLocalPersistentData", "Level", path), LogTypeId.eLogResLoader);
             }
 
             req = AssetBundle.LoadFromFileAsync(path);
@@ -109,11 +109,11 @@ namespace SDK.Lib
 
             if (m_resLoadType == ResLoadType.eLoadStreamingAssets)
             {
-                Ctx.m_instance.m_logSys.log(string.Format("LevelLoadItem::loadFromAssetBundle, ResLoadType is {0}, ResPackType is {1}, Load Not Need Coroutine, FullPath is {2}", "LoadStreamingAssets", "Level", path), LogTypeId.eLogResLoader);
+                Ctx.mInstance.mLogSys.log(string.Format("LevelLoadItem::loadFromAssetBundle, ResLoadType is {0}, ResPackType is {1}, Load Not Need Coroutine, FullPath is {2}", "LoadStreamingAssets", "Level", path), LogTypeId.eLogResLoader);
             }
             else
             {
-                Ctx.m_instance.m_logSys.log(string.Format("LevelLoadItem::loadFromAssetBundle, ResLoadType is {0}, ResPackType is {1}, Load Not Need Coroutine, FullPath is {2}", "LoadLocalPersistentData", "Level", path), LogTypeId.eLogResLoader);
+                Ctx.mInstance.mLogSys.log(string.Format("LevelLoadItem::loadFromAssetBundle, ResLoadType is {0}, ResPackType is {1}, Load Not Need Coroutine, FullPath is {2}", "LoadLocalPersistentData", "Level", path), LogTypeId.eLogResLoader);
             }
 
             // UNITY_5_2 没有
@@ -130,13 +130,13 @@ namespace SDK.Lib
         {
             if (m_assetBundle != null)
             {
-                Ctx.m_instance.m_logSys.log(string.Format("LevelLoadItem::assetAssetBundlesLevelLoaded, Level Load Success, Path is {0}", m_origPath), LogTypeId.eLogResLoader);
+                Ctx.mInstance.mLogSys.log(string.Format("LevelLoadItem::assetAssetBundlesLevelLoaded, Level Load Success, Path is {0}", m_origPath), LogTypeId.eLogResLoader);
 
                 m_nonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }
             else
             {
-                Ctx.m_instance.m_logSys.log(string.Format("LevelLoadItem::assetAssetBundlesLevelLoaded, Level Load Fail, Path is {0}", m_origPath), LogTypeId.eLogResLoader);
+                Ctx.mInstance.mLogSys.log(string.Format("LevelLoadItem::assetAssetBundlesLevelLoaded, Level Load Fail, Path is {0}", m_origPath), LogTypeId.eLogResLoader);
 
                 m_nonRefCountResLoadResultNotify.resLoadState.setFailed();
             }

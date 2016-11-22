@@ -11,9 +11,9 @@ namespace UnitTest
 
         protected void testCardTable()
         {
-            //Ctx.m_instance.m_tableSys.loadOneTable(TableID.TABLE_SKILL);
-            //Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_SKILL, 2);
-            Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_CARD, 12000);
+            //Ctx.mInstance.mTableSys.loadOneTable(TableID.TABLE_SKILL);
+            //Ctx.mInstance.mTableSys.getItem(TableID.TABLE_SKILL, 2);
+            Ctx.mInstance.mTableSys.getItem(TableID.TABLE_CARD, 12000);
         }
     }
 }

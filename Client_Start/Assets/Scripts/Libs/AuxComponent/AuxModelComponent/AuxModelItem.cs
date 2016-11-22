@@ -37,7 +37,7 @@
 
             if(this.mModelRes != null)
             {
-                Ctx.m_instance.m_modelMgr.unload(this.mModelRes.getResUniqueId(), null);
+                Ctx.mInstance.mModelMgr.unload(this.mModelRes.getResUniqueId(), null);
                 this.mModelRes = null;
             }
             
@@ -50,7 +50,7 @@
             {
                 if(this.mModelRes != null)
                 {
-                    Ctx.m_instance.m_modelMgr.unload(this.mModelRes.getResUniqueId(), null);
+                    Ctx.mInstance.mModelMgr.unload(this.mModelRes.getResUniqueId(), null);
                     this.mModelRes = null;
                 }
                 if(this.mSelfGo != null)
@@ -60,15 +60,15 @@
                 }
 
                 LoadParam param;
-                param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
+                param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
                 param.setPath(this.mResPath);
 
                 // 这个需要立即加载
                 param.m_loadNeedCoroutine = false;
                 param.m_resNeedCoroutine = false;
 
-                this.mModelRes = Ctx.m_instance.m_modelMgr.getAndLoad<ModelRes>(param);
-                Ctx.m_instance.m_poolSys.deleteObj(param);
+                this.mModelRes = Ctx.mInstance.mModelMgr.getAndLoad<ModelRes>(param);
+                Ctx.mInstance.mPoolSys.deleteObj(param);
 
                 this.mSelfGo = this.mModelRes.InstantiateObject(this.mResPath);
                 if (this.mIsNeedPlaceHolderGo)

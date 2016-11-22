@@ -44,7 +44,7 @@
             {
                 mEvtHandle = new ResEventDispatch();
                 mEvtHandle.addEventHandle(null, evtHandle);
-                mTextRes = Ctx.m_instance.m_textResMgr.getAndSyncLoadRes(path);
+                mTextRes = Ctx.mInstance.mTextResMgr.getAndSyncLoadRes(path);
 
                 onTexLoaded(mTextRes);
             }
@@ -60,7 +60,7 @@
                 unload();
                 mEvtHandle = new ResEventDispatch();
                 mEvtHandle.addEventHandle(null, evtHandle);
-                mTextRes = Ctx.m_instance.m_textResMgr.getAndAsyncLoadRes(path, onTexLoaded);
+                mTextRes = Ctx.mInstance.mTextResMgr.getAndAsyncLoadRes(path, onTexLoaded);
             }
         }
 
@@ -74,7 +74,7 @@
             else if (mTextRes.hasFailed())
             {
                 mIsSuccess = false;
-                Ctx.m_instance.m_texMgr.unload(mTextRes.getResUniqueId(), onTexLoaded);
+                Ctx.mInstance.mTexMgr.unload(mTextRes.getResUniqueId(), onTexLoaded);
                 mTextRes = null;
             }
 
@@ -88,7 +88,7 @@
         {
             if(mTextRes != null)
             {
-                Ctx.m_instance.m_texMgr.unload(mTextRes.getResUniqueId(), onTexLoaded);
+                Ctx.mInstance.mTexMgr.unload(mTextRes.getResUniqueId(), onTexLoaded);
                 mTextRes = null;
             }
 

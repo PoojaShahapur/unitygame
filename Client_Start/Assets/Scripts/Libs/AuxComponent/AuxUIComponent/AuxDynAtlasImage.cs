@@ -92,17 +92,17 @@ namespace SDK.Lib
             {
                 if (this.mImageItem != null)
                 {
-                    Ctx.m_instance.m_atlasMgr.unloadImage(this.mImageItem, null);
+                    Ctx.mInstance.mAtlasMgr.unloadImage(this.mImageItem, null);
                     this.mImageItem = null;
                 }
-                this.mImageItem = Ctx.m_instance.m_atlasMgr.getAndSyncLoadImage(this.mAtlasName, this.mImageName);
+                this.mImageItem = Ctx.mInstance.mAtlasMgr.getAndSyncLoadImage(this.mAtlasName, this.mImageName);
                 this.mImageItem.setImageImage(this.mImage);
             }
             else if (this.mIsImageGoChange)
             {
                 if (this.mImageItem == null)
                 {
-                    this.mImageItem = Ctx.m_instance.m_atlasMgr.getAndSyncLoadImage(this.mAtlasName, this.mImageName);
+                    this.mImageItem = Ctx.mInstance.mAtlasMgr.getAndSyncLoadImage(this.mAtlasName, this.mImageName);
                 }
                 this.mImageItem.setImageImage(this.mImage);
             }
@@ -116,7 +116,7 @@ namespace SDK.Lib
             base.dispose();
             if (this.mImageItem != null)
             {
-                Ctx.m_instance.m_atlasMgr.unloadImage(this.mImageItem, null);
+                Ctx.mInstance.mAtlasMgr.unloadImage(this.mImageItem, null);
                 this.mImageItem = null;
             }
         }

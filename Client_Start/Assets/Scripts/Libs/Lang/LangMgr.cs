@@ -21,7 +21,7 @@ namespace SDK.Lib
         public LangMgr()
         {
             m_ID2FileName[LangID.zh_CN] = new LangAttrItem();
-            m_ID2FileName[LangID.zh_CN].m_filePath = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathLangXml] + "zh_CN.xml";
+            m_ID2FileName[LangID.zh_CN].m_filePath = Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathLangXml] + "zh_CN.xml";
         }
 
         public string getText(LangTypeId typeId, LangItemID itemIdx)
@@ -47,7 +47,7 @@ namespace SDK.Lib
                     {
                         m_hasItem = true;
                         m_tmpEle = m_tmpEleList[(int)itemIdx] as SecurityElement;
-                        //Ctx.m_instance.m_shareData.m_retLangStr = m_tmpEle.InnerText;
+                        //Ctx.mInstance.mShareData.m_retLangStr = m_tmpEle.InnerText;
                         textStr = m_tmpEle.Text;
                     }
                 }
@@ -55,7 +55,7 @@ namespace SDK.Lib
 
             if (!m_hasItem)
             {
-                //Ctx.m_instance.m_shareData.m_retLangStr = "default string";
+                //Ctx.mInstance.mShareData.m_retLangStr = "default string";
                 textStr = "default string";
             }
 
@@ -74,13 +74,13 @@ namespace SDK.Lib
             if(!m_isLoaded)
             {
                 m_isLoaded = true;
-                LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
+                LoadParam param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
                 param.m_loadNeedCoroutine = false;
                 param.m_resNeedCoroutine = false;
                 param.setPath(m_ID2FileName[m_langID].m_filePath);
                 param.m_loadEventHandle = onLoadEventHandle;
-                Ctx.m_instance.m_resLoadMgr.loadAsset(param);
-                Ctx.m_instance.m_poolSys.deleteObj(param);
+                Ctx.mInstance.mResLoadMgr.loadAsset(param);
+                Ctx.mInstance.mPoolSys.deleteObj(param);
             }
         }
 
@@ -88,8 +88,8 @@ namespace SDK.Lib
         public void onLoadEventHandle(IDispatchObject dispObj)
         {
             ResItem res = dispObj as ResItem;
-            //Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, res.GetPath());    // 这行执行的时候 m_isLoaded 设置加载标志，但是 m_nodeList 还没有初始化
-            Ctx.m_instance.m_logSys.log("local xml loaded");
+            //Ctx.mInstance.mLogSys.debugLog_1(LangItemID.eItem0, res.GetPath());    // 这行执行的时候 m_isLoaded 设置加载标志，但是 m_nodeList 还没有初始化
+            Ctx.mInstance.mLogSys.log("local xml loaded");
 
             string text = res.getText(m_ID2FileName[m_langID].m_filePath);
             if (text != null)
@@ -101,16 +101,16 @@ namespace SDK.Lib
             }
 
             // 卸载资源
-            Ctx.m_instance.m_resLoadMgr.unload(res.getResUniqueId(), onLoadEventHandle);
+            Ctx.mInstance.mResLoadMgr.unload(res.getResUniqueId(), onLoadEventHandle);
         }
 
         public void onFailed(IDispatchObject dispObj)
         {
             ResItem res = dispObj as ResItem;
-            Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, res.getLoadPath());
+            Ctx.mInstance.mLogSys.debugLog_1(LangItemID.eItem1, res.getLoadPath());
 
             // 卸载资源
-            Ctx.m_instance.m_resLoadMgr.unload(res.getResUniqueId(), onLoadEventHandle);
+            Ctx.mInstance.mResLoadMgr.unload(res.getResUniqueId(), onLoadEventHandle);
         }
     }
 }

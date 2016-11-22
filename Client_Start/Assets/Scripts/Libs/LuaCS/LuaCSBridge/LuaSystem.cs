@@ -15,7 +15,7 @@ namespace SDK.Lib
         protected LuaCSBridgeMalloc m_luaCSBridgeMalloc;
 
         //protected LuaTable m_luaCtx;
-        //protected LuaTable m_processSys;
+        //protected LuaTable mProcessSys;
         protected bool m_bNeedUpdate;           // 是否需要更新 Lua
 
         public LuaSystem()
@@ -31,7 +31,7 @@ namespace SDK.Lib
             this.doFile("MyLua.Module.Entry.MainEntry");        // 启动 Lua AppSys
             this.m_luaClassLoader = new LuaCSBridgeClassLoader();
             this.m_luaCSBridgeMalloc = new LuaCSBridgeMalloc("MyLua.Libs.Core.Malloc", "GlobalNS");
-            //m_processSys = m_luaCtx["m_processSys"] as LuaTable;
+            //mProcessSys = m_luaCtx["mProcessSys"] as LuaTable;
         }
 
         public LuaScriptMgr getLuaScriptMgr()
@@ -195,7 +195,7 @@ namespace SDK.Lib
                 fullTableName = parentTable + "." + tableName;
             }
 
-            LuaTable luaTable = Ctx.m_instance.m_luaSystem.getLuaTable(fullTableName);
+            LuaTable luaTable = Ctx.mInstance.mLuaSystem.getLuaTable(fullTableName);
             //string[] strArray = luaTable.ToArray<string>();
             string[] strArray = luaTable.ToArray() as string[];
             return strArray;

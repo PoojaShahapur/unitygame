@@ -20,7 +20,7 @@ namespace SDK.Lib
             }
             else
             {
-                Ctx.m_instance.m_logSys.log("Msg Id Already Register");
+                Ctx.mInstance.mLogSys.log("Msg Id Already Register");
             }
 
             m_id2HandleDic[paramId].addEventHandle(null, handle);
@@ -34,7 +34,7 @@ namespace SDK.Lib
             }
             else
             {
-                Ctx.m_instance.m_logSys.log("ParamId not Register");
+                Ctx.mInstance.mLogSys.log("ParamId not Register");
             }
         }
 
@@ -51,7 +51,7 @@ namespace SDK.Lib
             }
             else
             {
-                Ctx.m_instance.m_logSys.log(string.Format("消息没有处理: byCmd = {0},  byParam = {1}", cmd.byCmd, cmd.byParam));
+                Ctx.mInstance.mLogSys.log(string.Format("消息没有处理: byCmd = {0},  byParam = {1}", cmd.byCmd, cmd.byParam));
             }
         }
     }

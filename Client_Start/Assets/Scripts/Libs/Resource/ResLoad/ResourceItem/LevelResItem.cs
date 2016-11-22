@@ -36,12 +36,12 @@ namespace SDK.Lib
             //Object[] resArr = asset.LoadAllAssets();
             if (m_resNeedCoroutine)
             {
-                Ctx.m_instance.m_coroutineMgr.StartCoroutine(initAssetByCoroutine());
+                Ctx.mInstance.mCoroutineMgr.StartCoroutine(initAssetByCoroutine());
             }
             else
             {
                 initAsset();
-                //Ctx.m_instance.m_coroutineMgr.StartCoroutine(initAssetNextFrame());
+                //Ctx.mInstance.mCoroutineMgr.StartCoroutine(initAssetNextFrame());
             }
         }
 
@@ -88,13 +88,13 @@ namespace SDK.Lib
 
             if (isSuccess)
             {
-                Ctx.m_instance.m_logSys.log(string.Format("LevelResItem::initAsset, Success", m_origPath), LogTypeId.eLogResLoader);
+                Ctx.mInstance.mLogSys.log(string.Format("LevelResItem::initAsset, Success", m_origPath), LogTypeId.eLogResLoader);
 
                 m_refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }
             else
             {
-                Ctx.m_instance.m_logSys.log(string.Format("LevelResItem::initAsset, Failed", m_origPath), LogTypeId.eLogResLoader);
+                Ctx.mInstance.mLogSys.log(string.Format("LevelResItem::initAsset, Failed", m_origPath), LogTypeId.eLogResLoader);
 
                 m_refCountResLoadResultNotify.resLoadState.setFailed();
             }
@@ -139,13 +139,13 @@ namespace SDK.Lib
             // asyncOpt.progress == 1.0f
             if (null != asyncOpt && asyncOpt.isDone)
             {
-                Ctx.m_instance.m_logSys.log(string.Format("LevelResItem::initAssetByCoroutine, LoadScene Success, Path is", m_origPath), LogTypeId.eLogResLoader);
+                Ctx.mInstance.mLogSys.log(string.Format("LevelResItem::initAssetByCoroutine, LoadScene Success, Path is", m_origPath), LogTypeId.eLogResLoader);
 
                 m_refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }
             else
             {
-                Ctx.m_instance.m_logSys.log(string.Format("LevelResItem::initAssetByCoroutine, LoadScene Fail, Path is", m_origPath), LogTypeId.eLogResLoader);
+                Ctx.mInstance.mLogSys.log(string.Format("LevelResItem::initAssetByCoroutine, LoadScene Fail, Path is", m_origPath), LogTypeId.eLogResLoader);
 
                 m_refCountResLoadResultNotify.resLoadState.setFailed();
             }

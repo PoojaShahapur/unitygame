@@ -61,7 +61,7 @@ namespace SDK.Lib
             AuxDownloader downloadItem = dispObj as AuxDownloader;
             if (downloadItem.hasSuccessLoaded())
             {
-                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, downloadItem.getLogicPath());
+                Ctx.mInstance.mLogSys.debugLog_1(LangItemID.eItem0, downloadItem.getLogicPath());
 
                 byte[] textAsset = downloadItem.getBytes();
                 if (textAsset != null)
@@ -73,7 +73,7 @@ namespace SDK.Lib
             }
             else if (downloadItem.hasFailed())
             {
-                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, downloadItem.getLogicPath());
+                Ctx.mInstance.mLogSys.debugLog_1(LangItemID.eItem1, downloadItem.getLogicPath());
 
                 mIsVerLoadSuccess = false;
             }

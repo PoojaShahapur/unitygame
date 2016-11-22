@@ -12,17 +12,17 @@ namespace SDK.Lib
 
         public void ProcessNextFrame()
         {
-            Ctx.m_instance.m_systemTimeData.nextFrame();
-            Advance(Ctx.m_instance.m_systemTimeData.deltaSec);
+            Ctx.mInstance.mSystemTimeData.nextFrame();
+            Advance(Ctx.mInstance.mSystemTimeData.deltaSec);
         }
 
         public void Advance(float delta)
         {
-            Ctx.m_instance.m_systemFrameData.nextFrame(delta);
-            //Ctx.m_instance.m_luaSystem.Advance(delta);            // lua 脚本 Advance
-            Ctx.m_instance.m_tickMgr.Advance(delta);            // 心跳
-            //Ctx.m_instance.m_timerMgr.Advance(delta);           // 定时器
-            //Ctx.m_instance.m_frameTimerMgr.Advance(delta);           // 帧定时器
+            Ctx.mInstance.mSystemFrameData.nextFrame(delta);
+            //Ctx.mInstance.mLuaSystem.Advance(delta);            // lua 脚本 Advance
+            Ctx.mInstance.mTickMgr.Advance(delta);            // 心跳
+            //Ctx.mInstance.mTimerMgr.Advance(delta);           // 定时器
+            //Ctx.mInstance.mFrameTimerMgr.Advance(delta);           // 帧定时器
         }
     }
 }

@@ -44,7 +44,7 @@
             {
                 mEvtHandle = new ResEventDispatch();
                 mEvtHandle.addEventHandle(null, evtHandle);
-                mSpriteAtlasRes = Ctx.m_instance.mSpriteMgr.getAndSyncLoadRes(path);
+                mSpriteAtlasRes = Ctx.mInstance.mSpriteMgr.getAndSyncLoadRes(path);
 
                 onTexLoaded(mSpriteAtlasRes);
             }
@@ -64,7 +64,7 @@
             {
                 mEvtHandle = new ResEventDispatch();
                 mEvtHandle.addEventHandle(null, evtHandle);
-                mSpriteAtlasRes = Ctx.m_instance.mSpriteMgr.getAndAsyncLoadRes(path, onTexLoaded);
+                mSpriteAtlasRes = Ctx.mInstance.mSpriteMgr.getAndAsyncLoadRes(path, onTexLoaded);
             }
         }
 
@@ -78,7 +78,7 @@
             else if (mSpriteAtlasRes.hasFailed())
             {
                 mIsSuccess = false;
-                Ctx.m_instance.mSpriteMgr.unload(mSpriteAtlasRes.getResUniqueId(), onTexLoaded);
+                Ctx.mInstance.mSpriteMgr.unload(mSpriteAtlasRes.getResUniqueId(), onTexLoaded);
                 mSpriteAtlasRes = null;
             }
 
@@ -92,7 +92,7 @@
         {
             if(mSpriteAtlasRes != null)
             {
-                Ctx.m_instance.m_texMgr.unload(mSpriteAtlasRes.getResUniqueId(), onTexLoaded);
+                Ctx.mInstance.mTexMgr.unload(mSpriteAtlasRes.getResUniqueId(), onTexLoaded);
                 mSpriteAtlasRes = null;
             }
 

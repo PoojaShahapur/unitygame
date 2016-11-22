@@ -7,11 +7,11 @@ namespace Game.Game
     {
         public GameSceneLogic()
         {
-            Ctx.m_instance.m_inputMgr.addKeyListener(EventID.KEYDOWN_EVENT, onKeyDown);
-            Ctx.m_instance.m_inputMgr.addKeyListener(EventID.KEYUP_EVENT, onKeyUp);
-            Ctx.m_instance.m_inputMgr.addMouseListener(EventID.MOUSEDOWN_EVENT, onMouseDown);
-            Ctx.m_instance.m_inputMgr.addMouseListener(EventID.MOUSEUP_EVENT, onMouseUp);
-            Ctx.m_instance.m_inputMgr.addAxisListener(EventID.AXIS_EVENT, onAxisDown);
+            Ctx.mInstance.mInputMgr.addKeyListener(EventID.KEYDOWN_EVENT, onKeyDown);
+            Ctx.mInstance.mInputMgr.addKeyListener(EventID.KEYUP_EVENT, onKeyUp);
+            Ctx.mInstance.mInputMgr.addMouseListener(EventID.MOUSEDOWN_EVENT, onMouseDown);
+            Ctx.mInstance.mInputMgr.addMouseListener(EventID.MOUSEUP_EVENT, onMouseUp);
+            Ctx.mInstance.mInputMgr.addAxisListener(EventID.AXIS_EVENT, onAxisDown);
         }
 
         private void onKeyDown(KeyCode keyCode)
@@ -22,7 +22,7 @@ namespace Game.Game
             }
             else if (Input.GetKeyDown(KeyCode.K))  // 加载 UI 资源
             {
-                Ctx.m_instance.m_uiMgr.loadForm(UIFormID.eUITest);
+                Ctx.mInstance.mUiMgr.loadForm(UIFormID.eUITest);
             }
         }
 
@@ -68,32 +68,32 @@ namespace Game.Game
 
         private void onAxisDown()
         {
-            Ctx.m_instance.m_playerMgr.getHero().evtMove();
+            Ctx.mInstance.mPlayerMgr.getHero().evtMove();
         }
 
         public void loadUI()
         {
-            //LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            //param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI] + "UIScrollForm.unity3d";
+            //LoadParam param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
+            //param.m_path = Ctx.mInstance.mCfg.m_pathLst[(int)ResPathType.ePathComUI] + "UIScrollForm.unity3d";
             //param.m_type = ResPackType.eBundleType;
             //param.m_resLoadType = ResLoadType.eLoadDicWeb;
             //param.m_prefabName = "UIScrollForm";
             //param.m_loadedcb = onResLoad;
             //param.m_resNeedCoroutine = false;
             //param.m_loadNeedCoroutine = true;
-            //Ctx.m_instance.m_resLoadMgr.load(param);
+            //Ctx.mInstance.mResLoadMgr.load(param);
 
-            Ctx.m_instance.m_uiMgr.loadForm(UIFormID.eUITest);
+            Ctx.mInstance.mUiMgr.loadForm(UIFormID.eUITest);
         }
 
         protected void onShopClk()
         {
-            Ctx.m_instance.m_uiMgr.loadForm(UIFormID.eUITest);
+            Ctx.mInstance.mUiMgr.loadForm(UIFormID.eUITest);
         }
 
         //protected void onClkBtn(RaycastHit hit)
         //{
-        //    Ctx.m_instance.m_interActiveEntityMgr.OnMouseUp(hit.collider.gameObject);
+        //    Ctx.mInstance.m_interActiveEntityMgr.OnMouseUp(hit.collider.gameObject);
         //}
 
         //// 是否是按钮的名字

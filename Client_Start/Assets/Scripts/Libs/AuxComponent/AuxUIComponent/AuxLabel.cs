@@ -16,7 +16,7 @@ namespace SDK.Lib
         {
             this.mSelfGo = UtilApi.TransFindChildByPObjAndPath(pntNode, path);
             this.mText = UtilApi.getComByP<Text>(pntNode, path);
-            this.mLabelStyle = Ctx.m_instance.m_widgetStyleMgr.GetWidgetStyle<LabelStyleBase>(WidgetStyleID.eWSID_Text, (int)styleId);
+            this.mLabelStyle = Ctx.mInstance.mWidgetStyleMgr.GetWidgetStyle<LabelStyleBase>(WidgetStyleID.eWSID_Text, (int)styleId);
 
             if(this.mLabelStyle.needClearText())
             {

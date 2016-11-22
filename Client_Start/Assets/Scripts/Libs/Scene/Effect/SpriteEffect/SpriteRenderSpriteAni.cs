@@ -37,7 +37,7 @@ namespace SDK.Lib
 
             if (this.mEffectPrefab != null)
             {
-                Ctx.m_instance.m_modelMgr.unload(this.mEffectPrefab.getResUniqueId(), null);
+                Ctx.mInstance.mModelMgr.unload(this.mEffectPrefab.getResUniqueId(), null);
                 this.mEffectPrefab = null;
             }
         }
@@ -55,7 +55,7 @@ namespace SDK.Lib
             }
             else
             {
-                Ctx.m_instance.m_logSys.log("spriteRender 释放的时候已经为空值");
+                Ctx.mInstance.mLogSys.log("spriteRender 释放的时候已经为空值");
             }
         }
 
@@ -80,7 +80,7 @@ namespace SDK.Lib
 
                 if(this.mSpriteRender == null)
                 {
-                    Ctx.m_instance.m_logSys.log("m_spriteRender is null");
+                    Ctx.mInstance.mLogSys.log("m_spriteRender is null");
                 }
             }
         }
@@ -92,12 +92,12 @@ namespace SDK.Lib
                 this.mSpriteRender.sprite = this.mAtlasScriptRes.getImage(mCurFrame).image;
                 if(this.mSpriteRender.sprite == null)
                 {
-                    Ctx.m_instance.m_logSys.log("updateImage m_spriteRender is null");
+                    Ctx.mInstance.mLogSys.log("updateImage m_spriteRender is null");
                 }
             }
             else
             {
-                Ctx.m_instance.m_logSys.log("updateImage m_spriteRender is null");
+                Ctx.mInstance.mLogSys.log("updateImage m_spriteRender is null");
             }
         }
 
@@ -116,13 +116,13 @@ namespace SDK.Lib
         {
             clearEffectRes();
 
-            string path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathSpriteAni], this.mTableBody.m_aniPrefabName);
-            this.mEffectPrefab = Ctx.m_instance.m_modelMgr.getAndSyncLoad<ModelRes>(path);
+            string path = string.Format("{0}{1}", Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathSpriteAni], this.mTableBody.m_aniPrefabName);
+            this.mEffectPrefab = Ctx.mInstance.mModelMgr.getAndSyncLoad<ModelRes>(path);
             selfGo = this.mEffectPrefab.InstantiateObject(path);
 
             if(this.mSelfGo == null)
             {
-                Ctx.m_instance.m_logSys.log(string.Format("Load SpritePrefab Path = {0} Failed", path));
+                Ctx.mInstance.mLogSys.log(string.Format("Load SpritePrefab Path = {0} Failed", path));
             }
         }
 

@@ -13,7 +13,7 @@ namespace EditorTool
         public static void setAssetBundleName()
         {
             ToolCtx.instance();
-            ToolCtx.m_instance.exportAssetBundleName();
+            ToolCtx.mInstance.exportAssetBundleName();
             AssetDatabase.Refresh();
         }
     }

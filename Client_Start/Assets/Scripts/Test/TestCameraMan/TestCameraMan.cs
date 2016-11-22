@@ -12,7 +12,7 @@ namespace UnitTest
 
         public void test()
         {
-            Ctx.m_instance.m_sceneSys.loadScene("TestCameraControl.unity", onResLoadScene);
+            Ctx.mInstance.mSceneSys.loadScene("TestCameraControl.unity", onResLoadScene);
         }
 
         public void onResLoadScene(IDispatchObject dispObj)
@@ -20,8 +20,8 @@ namespace UnitTest
             Scene scene = dispObj as Scene;
             GameObject camera = UtilApi.GoFindChildByName("MainCamera");
             GameObject man = UtilApi.GoFindChildByName("Cube");
-            Ctx.m_instance.m_camSys.setMainCamera(camera.GetComponent<Camera>());
-            Ctx.m_instance.m_camSys.setCameraActor(man);
+            Ctx.mInstance.mCamSys.setMainCamera(camera.GetComponent<Camera>());
+            Ctx.mInstance.mCamSys.setCameraActor(man);
         }
     }
 }

@@ -13,13 +13,13 @@ namespace UnitTest
         protected void testFilter()
         {
             string testStr = "aasbbsccsdddasbbsccs";
-            Ctx.m_instance.m_wordFilterManager.doFilter(ref testStr);
+            Ctx.mInstance.mWordFilterManager.doFilter(ref testStr);
         }
 
         protected void testMatch()
         {
             string testStr = "aasbbsccsdddasbbsccs";
-            Ctx.m_instance.m_wordFilterManager.IsMatch(testStr);
+            Ctx.mInstance.mWordFilterManager.IsMatch(testStr);
         }
     }
 }

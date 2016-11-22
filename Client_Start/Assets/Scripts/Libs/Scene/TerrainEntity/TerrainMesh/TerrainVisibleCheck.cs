@@ -45,7 +45,7 @@ namespace SDK.Lib
             }
             else
             {
-                Ctx.m_instance.m_logSys.log("MTerrainQuadTreeNode is Already Exist");
+                Ctx.mInstance.mLogSys.log("MTerrainQuadTreeNode is Already Exist");
             }
         }
 
@@ -71,7 +71,7 @@ namespace SDK.Lib
             len = mVisibleTreeNodeList[mPreIndex].Count();
             while(idx < len)
             {
-                mVisibleTreeNodeList[mPreIndex][idx].hide(Ctx.m_instance.m_camSys.getLocalCamera());
+                mVisibleTreeNodeList[mPreIndex][idx].hide(Ctx.mInstance.mCamSys.getLocalCamera());
                 ++idx;
             }
 

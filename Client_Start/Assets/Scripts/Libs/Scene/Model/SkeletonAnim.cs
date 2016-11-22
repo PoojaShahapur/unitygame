@@ -49,7 +49,7 @@
         {
             if (m_skelAnim != null)
             {
-                Ctx.m_instance.m_skelAniMgr.unload(m_skelAnim.getResUniqueId(), onLoaded);
+                Ctx.mInstance.mSkelAniMgr.unload(m_skelAnim.getResUniqueId(), onLoaded);
                 m_skelAnim = null;
             }
 
@@ -62,11 +62,11 @@
             {
                 if (m_skelAnim != null)
                 {
-                    Ctx.m_instance.m_skelAniMgr.unload(m_skelAnim.getResUniqueId(), onLoaded);
+                    Ctx.mInstance.mSkelAniMgr.unload(m_skelAnim.getResUniqueId(), onLoaded);
                     m_skelAnim = null;
                 }
 
-                m_skelAnim = Ctx.m_instance.m_skelAniMgr.getAndAsyncLoad<SkelAnimRes>(m_skelAnimPath, onLoaded) as SkelAnimRes;
+                m_skelAnim = Ctx.mInstance.mSkelAniMgr.getAndAsyncLoad<SkelAnimRes>(m_skelAnimPath, onLoaded) as SkelAnimRes;
                 m_bNeedReloadSkel = false;
             }
         }
@@ -74,7 +74,7 @@
         public void onLoaded(IDispatchObject dispObj)
         {
             SkelAnimRes res = dispObj as SkelAnimRes;
-            Ctx.m_instance.m_logSys.logLoad(res);
+            Ctx.mInstance.mLogSys.logLoad(res);
 
             if (res.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
             {
@@ -83,7 +83,7 @@
             }
             else if (res.refCountResLoadResultNotify.resLoadState.hasFailed())
             {
-                Ctx.m_instance.m_skelAniMgr.unload(res.getResUniqueId(), onLoaded);
+                Ctx.mInstance.mSkelAniMgr.unload(res.getResUniqueId(), onLoaded);
                 m_skelAnim = null;
             }
         }

@@ -9,8 +9,8 @@
 
         protected void loadMarket()
         {
-            //Ctx.m_instance.m_xmlCfgMgr.loadMarket();
-            //Ctx.m_instance.m_xmlCfgMgr.getXmlCfg(XmlCfgID.eXmlMarketCfg);
+            //Ctx.mInstance.mXmlCfgMgr.loadMarket();
+            //Ctx.mInstance.mXmlCfgMgr.getXmlCfg(XmlCfgID.eXmlMarketCfg);
         }
     }
 }

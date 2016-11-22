@@ -26,14 +26,14 @@ namespace SDK.Lib
             string textStr = "";
             if(mEventDispatchGroup.hasEventHandle((int)msg.m_msgType))
             {
-                textStr = Ctx.m_instance.m_langMgr.getText(LangTypeId.eMsgRoute1, LangItemID.eItem2);
-                Ctx.m_instance.m_logSys.log(string.Format(textStr, (int)msg.m_msgType));
+                textStr = Ctx.mInstance.mLangMgr.getText(LangTypeId.eMsgRoute1, LangItemID.eItem2);
+                Ctx.mInstance.mLogSys.log(string.Format(textStr, (int)msg.m_msgType));
                 mEventDispatchGroup.dispatchEvent((int)msg.m_msgType, msg);
             }
             else
             {
-                textStr = Ctx.m_instance.m_langMgr.getText(LangTypeId.eMsgRoute1, LangItemID.eItem3);
-                Ctx.m_instance.m_logSys.log(string.Format(textStr, (int)msg.m_msgID));
+                textStr = Ctx.mInstance.mLangMgr.getText(LangTypeId.eMsgRoute1, LangItemID.eItem3);
+                Ctx.mInstance.mLogSys.log(string.Format(textStr, (int)msg.m_msgID));
             }
         }
     }

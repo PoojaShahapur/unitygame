@@ -80,14 +80,14 @@
             {
                 //if (m_tableID == 11)
                 //{
-                //    Ctx.m_instance.m_logSys.log("asdfasdasdfas");
+                //    Ctx.mInstance.mLogSys.log("asdfasdasdfas");
                 //}
                 if (this.mTableID != value)
                 {
                     this.mIsNeedReloadRes = true;
 
                     this.mTableID = value;
-                    this.mTableBody = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_SPRITEANI, (uint)this.mTableID).m_itemBody as TableSpriteAniItemBody;
+                    this.mTableBody = Ctx.mInstance.mTableSys.getItem(TableID.TABLE_SPRITEANI, (uint)this.mTableID).m_itemBody as TableSpriteAniItemBody;
 
                     onSpritePrefabChanged();
                 }
@@ -160,7 +160,7 @@
         {
             if (mAtlasScriptRes != null)
             {
-                Ctx.m_instance.m_atlasMgr.unload(this.mAtlasScriptRes.getResUniqueId(), null);
+                Ctx.mInstance.mAtlasMgr.unload(this.mAtlasScriptRes.getResUniqueId(), null);
                 this.mAtlasScriptRes = null;
             }
             this.mPlayEndEventDispatch.clearEventHandle();
@@ -220,10 +220,10 @@
             {
                 if(this.mAtlasScriptRes != null)
                 {
-                    Ctx.m_instance.m_atlasMgr.unload(this.mAtlasScriptRes.getResUniqueId(), null);
+                    Ctx.mInstance.mAtlasMgr.unload(this.mAtlasScriptRes.getResUniqueId(), null);
                     this.mAtlasScriptRes = null;
                 }
-                this.mAtlasScriptRes = Ctx.m_instance.m_atlasMgr.getAndSyncLoad<AtlasScriptRes>(string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathSpriteAni], this.mTableBody.m_aniResName));
+                this.mAtlasScriptRes = Ctx.mInstance.mAtlasMgr.getAndSyncLoad<AtlasScriptRes>(string.Format("{0}{1}", Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathSpriteAni], this.mTableBody.m_aniResName));
             }
 
             this.mIsNeedReloadRes = false;

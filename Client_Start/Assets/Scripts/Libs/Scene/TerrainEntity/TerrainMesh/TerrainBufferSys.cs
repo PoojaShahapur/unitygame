@@ -46,7 +46,7 @@ namespace SDK.Lib
 
         public void loadNeedRes()
         {
-            m_textRes = Ctx.m_instance.m_textResMgr.getAndSyncLoadRes("TerrainData/Terrain.xml");
+            m_textRes = Ctx.mInstance.mTextResMgr.getAndSyncLoadRes("TerrainData/Terrain.xml");
             if (m_textRes != null)
             {
                 string text = m_textRes.getText("");
@@ -68,7 +68,7 @@ namespace SDK.Lib
 
         public bool getVertData(string terrainId, string key, ref MVertexDataRecord record)
         {
-            if (!Ctx.m_instance.mTerrainGlobalOption.mIsReadFile)
+            if (!Ctx.mInstance.mTerrainGlobalOption.mIsReadFile)
             {
                 return false;
             }
@@ -82,7 +82,7 @@ namespace SDK.Lib
 
         public bool getAABB(string terrainId, string key, ref MAxisAlignedBox aabb)
         {
-            if (!Ctx.m_instance.mTerrainGlobalOption.mIsReadFile)
+            if (!Ctx.mInstance.mTerrainGlobalOption.mIsReadFile)
             {
                 return false;
             }
@@ -96,7 +96,7 @@ namespace SDK.Lib
 
         public bool getTerrainTileRender(string terrainId, string key, ref TerrainTileRender render)
         {
-            if (!Ctx.m_instance.mTerrainGlobalOption.mIsReadFile)
+            if (!Ctx.mInstance.mTerrainGlobalOption.mIsReadFile)
             {
                 return false;
             }
@@ -105,7 +105,7 @@ namespace SDK.Lib
 
         public void addTerrainTileRender(string terrainId, string key, ref TerrainTileRender render)
         {
-            if (!Ctx.m_instance.mTerrainGlobalOption.mIsReadFile)
+            if (!Ctx.mInstance.mTerrainGlobalOption.mIsReadFile)
             {
                 return;
             }
@@ -115,7 +115,7 @@ namespace SDK.Lib
 
         public bool getTerrainMat(string terrainId, ref TerrainMat mat)
         {
-            if (!Ctx.m_instance.mTerrainGlobalOption.mIsReadFile)
+            if (!Ctx.mInstance.mTerrainGlobalOption.mIsReadFile)
             {
                 return false;
             }
@@ -157,7 +157,7 @@ namespace SDK.Lib
                 m_scenePageCfg.Clear();
             }
 
-            m_textRes = Ctx.m_instance.m_textResMgr.getAndSyncLoadRes(string.Format("TerrainData/{0}.xml", path));
+            m_textRes = Ctx.mInstance.mTextResMgr.getAndSyncLoadRes(string.Format("TerrainData/{0}.xml", path));
             if (m_textRes != null)
             {
                 string text = m_textRes.getText("");

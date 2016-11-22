@@ -58,32 +58,32 @@ namespace SDK.Lib
 
         public ResRedirectItem getResRedirectItem(string origPath)
         {
-            Ctx.m_instance.m_logSys.log(string.Format("ResRedirectItem::getResRedirectItem, origPath is {0}", origPath), LogTypeId.eLogResLoader);
+            Ctx.mInstance.mLogSys.log(string.Format("ResRedirectItem::getResRedirectItem, origPath is {0}", origPath), LogTypeId.eLogResLoader);
 
             ResRedirectItem item = null;
             FileVerInfo fileVerInfo = null;
 
             if (mOrigPath2ItemDic.ContainsKey(origPath))
             {
-                Ctx.m_instance.m_logSys.log("ResRedirectItem::getResRedirectItem, Cached", LogTypeId.eLogResLoader);
+                Ctx.mInstance.mLogSys.log("ResRedirectItem::getResRedirectItem, Cached", LogTypeId.eLogResLoader);
 
                 item = mOrigPath2ItemDic[origPath];
             }
             else
             {
-                Ctx.m_instance.m_logSys.log("ResRedirectItem::getResRedirectItem, Not Cached", LogTypeId.eLogResLoader);
+                Ctx.mInstance.mLogSys.log("ResRedirectItem::getResRedirectItem, Not Cached", LogTypeId.eLogResLoader);
 
                 // 从版本系统中获取
                 item = new ResRedirectItem(origPath, (int)ResLoadType.eLoadResource);
                 mOrigPath2ItemDic[origPath] = item;
 
-                item.mResLoadType = (ResLoadType)Ctx.m_instance.m_versionSys.mLocalVer.getFileVerInfo(origPath, ref fileVerInfo);
+                item.mResLoadType = (ResLoadType)Ctx.mInstance.mVersionSys.mLocalVer.getFileVerInfo(origPath, ref fileVerInfo);
                 item.mFileVerInfo = fileVerInfo;
             }
 
             if (item.mFileVerInfo == null)
             {
-                Ctx.m_instance.m_logSys.log(string.Format("ResRedirectItem::getResRedirectItem, Path is {0}, Can not Find Version Info Item", origPath), LogTypeId.eLogResLoader);
+                Ctx.mInstance.mLogSys.log(string.Format("ResRedirectItem::getResRedirectItem, Path is {0}, Can not Find Version Info Item", origPath), LogTypeId.eLogResLoader);
 
                 fileVerInfo = new FileVerInfo();
                 fileVerInfo.mOrigPath = origPath;
@@ -96,7 +96,7 @@ namespace SDK.Lib
             }
             else
             {
-                Ctx.m_instance.m_logSys.log(string.Format("ResRedirectItem::getResRedirectItem, Path is {0}, ResLoadType is {1}", item.mFileVerInfo.mOrigPath, item.mResLoadType), LogTypeId.eLogResLoader);
+                Ctx.mInstance.mLogSys.log(string.Format("ResRedirectItem::getResRedirectItem, Path is {0}, ResLoadType is {1}", item.mFileVerInfo.mOrigPath, item.mResLoadType), LogTypeId.eLogResLoader);
             }
 
             return item;

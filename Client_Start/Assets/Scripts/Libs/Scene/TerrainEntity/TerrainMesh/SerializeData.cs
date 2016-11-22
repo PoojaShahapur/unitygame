@@ -146,7 +146,7 @@ namespace SDK.Lib
                 mByteBuffer = new ByteBuffer();
                 mByteBuffer.dynBuff.maxCapacity = 1000 * 1024 * 1024;
                 string path = string.Format("TerrainData/{0}_{1}.bytes", "Map", mTerrainId);
-                m_byteRes = Ctx.m_instance.m_bytesResMgr.getAndSyncLoadRes(path);
+                m_byteRes = Ctx.mInstance.mBytesResMgr.getAndSyncLoadRes(path);
             }
 
             byte[] bytes = m_byteRes.getBytes("");
@@ -208,7 +208,7 @@ namespace SDK.Lib
             }
             catch (Exception e)
             {
-                Ctx.m_instance.m_logSys.log(string.Format("{0}\n{1}", e.Message, e.StackTrace));
+                Ctx.mInstance.mLogSys.log(string.Format("{0}\n{1}", e.Message, e.StackTrace));
             }
         }
     }

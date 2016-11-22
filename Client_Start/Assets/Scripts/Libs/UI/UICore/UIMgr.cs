@@ -147,7 +147,7 @@ namespace SDK.Lib
                 //string path = m_UIAttrs.getPath(ID);
                 //if (path != null)
                 //{
-                //    Ctx.m_instance.m_resLoadMgr.unload(path);
+                //    Ctx.mInstance.mResLoadMgr.unload(path);
                 //}
                 UtilApi.UnloadUnusedAssets();       // 异步卸载共用资源
                 m_id2FormDic.Remove(ID);
@@ -216,9 +216,9 @@ namespace SDK.Lib
             {
                 if (window.IsResReady)      // 如果资源也已经加载进来了
                 {
-                    if(null != Ctx.m_instance.m_cbUIEvent)
+                    if(null != Ctx.mInstance.mCbUIEvent)
                     {
-                        Ctx.m_instance.m_cbUIEvent.onCodeFormLoaded(window);  // 资源加载完成
+                        Ctx.mInstance.mCbUIEvent.onCodeFormLoaded(window);  // 资源加载完成
                     }
                 }
             }
@@ -232,7 +232,7 @@ namespace SDK.Lib
                 }
                 else
                 {
-                    form = Ctx.m_instance.m_scriptDynLoad.getScriptObject(attrItem.m_scriptTypeName) as Form;
+                    form = Ctx.mInstance.mScriptDynLoad.getScriptObject(attrItem.m_scriptTypeName) as Form;
                 }
                 
                 if (form != null)                   // 如果代码已经在本地
@@ -275,13 +275,13 @@ namespace SDK.Lib
         // 从本地磁盘或者网络加载资源
         protected void loadFromFile(string reaPath, MAction<IDispatchObject> onLoadEventHandle)
         {
-            LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
+            LoadParam param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
             param.setPath(reaPath);
             param.m_loadNeedCoroutine = false;
             param.m_resNeedCoroutine = false;
             param.m_loadEventHandle = onLoadEventHandle;
-            Ctx.m_instance.m_prefabMgr.load<PrefabRes>(param);
-            Ctx.m_instance.m_poolSys.deleteObj(param);
+            Ctx.mInstance.mPrefabMgr.load<PrefabRes>(param);
+            Ctx.mInstance.mPoolSys.deleteObj(param);
         }
 		
 		// 代码资源加载处理
@@ -311,7 +311,7 @@ namespace SDK.Lib
             {
                 UIFormID ID = m_UIAttrs.GetFormIDByPath(res.getLogicPath(), ResPathType.ePathComUI);  // 获取 FormID
                 m_ID2WidgetLoadingItemDic.Remove(ID);
-                Ctx.m_instance.m_logSys.log("UIFormID =  ， Failed Prefab");
+                Ctx.mInstance.mLogSys.log("UIFormID =  ， Failed Prefab");
             }
         }
 
@@ -326,9 +326,9 @@ namespace SDK.Lib
 
         protected void onCodeLoadedByForm(Form form)
         {
-            if (null != Ctx.m_instance.m_cbUIEvent)
+            if (null != Ctx.mInstance.mCbUIEvent)
             {
-                Ctx.m_instance.m_cbUIEvent.onCodeFormLoaded(form);  // 资源加载完成
+                Ctx.mInstance.mCbUIEvent.onCodeFormLoaded(form);  // 资源加载完成
             }
         }
 
@@ -364,16 +364,16 @@ namespace SDK.Lib
                 showFormInternal(ID);   // 如果 onShow 中调用 exit 函数，就会清掉 m_dicForm 中的内容。如果设置了 exitMode = false，就不会清掉 m_dicForm ，就不会有问题
             }
 
-            if (null != Ctx.m_instance.m_cbUIEvent)
+            if (null != Ctx.mInstance.mCbUIEvent)
             {
                 if (m_id2FormDic.ContainsKey(ID))      // 如果 onShow 中调用 exit 函数，并且没有设置 exitMode = false ，就会清除 m_dicForm， 这个时候再调用这个函数，就会有问题，是不是添加延迟卸载
                 {
-                    Ctx.m_instance.m_cbUIEvent.onWidgetLoaded(m_id2FormDic[ID]);  // 资源加载完成
+                    Ctx.mInstance.mCbUIEvent.onWidgetLoaded(m_id2FormDic[ID]);  // 资源加载完成
                 }
             }
 
             // 卸载资源
-            Ctx.m_instance.m_prefabMgr.unload(resUniqueId, onWidgetLoadEventHandle);
+            Ctx.mInstance.mPrefabMgr.unload(resUniqueId, onWidgetLoadEventHandle);
         }
 
         // 大小发生变化后，调用此函数

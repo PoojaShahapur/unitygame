@@ -18,65 +18,65 @@ namespace SDK.Lib
         public string m_ip = "222.73.30.21";
         public int m_port = 7000;
 #else
-        public string m_ip;
-        public int m_port;
-        public ushort m_zone;
+        public string mIp;
+        public int mPort;
+        public ushort mZone;
 #endif
 
-        public string m_webIP;               // web 服务器
-        public int m_webPort;
+        public string mWebIP;               // web 服务器
+        public int mWebPort;
 
-        public string[] m_pathLst;
-        public ResLoadType m_resLoadType;   // 资源加载类型
-        public string m_dataPath;
+        public string[] mPathLst;
+        public ResLoadType mResLoadType;   // 资源加载类型
+        public string mDataPath;
         //public bool m_bNeedNet = false;                       // 是否需要网络
-        public string m_netLogPhp;       // Php 处理文件
-        public List<string> m_pakExtNameList;       // 打包的扩展名字列表
+        public string mNetLogPhp;       // Php 处理文件
+        public List<string> mPakExtNameList;       // 打包的扩展名字列表
 
         public Config()
         {
             StreamingAssets = "StreamingAssets/";
 
-            m_ip = "192.168.122.253";
-            m_port = 10002;
-            m_zone = 30;
+            this.mIp = "192.168.122.253";
+            this.mPort = 10002;
+            this.mZone = 30;
 
-            m_webIP = "http://127.0.0.1/UnityServer/";
-            m_webPort = 80;
-            m_netLogPhp = "/netlog/NetLog.php";
-            m_pakExtNameList = new List<string>();
+            this.mWebIP = "http://127.0.0.1/UnityServer/";
+            this.mWebPort = 80;
+            this.mNetLogPhp = "/netlog/NetLog.php";
+            this.mPakExtNameList = new List<string>();
 
-            m_resLoadType = ResLoadType.eLoadResource;
-            m_pathLst = new string[(int)ResPathType.eTotal];
-            m_pathLst[(int)ResPathType.ePathScene] = "Scenes/";
-            m_pathLst[(int)ResPathType.ePathSceneXml] = "Scenes/Xml/";
-            m_pathLst[(int)ResPathType.ePathModule] = "Module/";
-            m_pathLst[(int)ResPathType.ePathComUI] = "UI/";
-            m_pathLst[(int)ResPathType.ePathComUIScene] = "UIScene/";
-            m_pathLst[(int)ResPathType.ePathBeingPath] = "Being/";
-            m_pathLst[(int)ResPathType.ePathAIPath] = "AI/";
-            m_pathLst[(int)ResPathType.ePathTablePath] = "Table/";
-            m_pathLst[(int)ResPathType.ePathLangXml] = "Languages/";
-            m_pathLst[(int)ResPathType.ePathXmlCfg] = "XmlConfig/";
-            m_pathLst[(int)ResPathType.ePathModel] = "Model/";
-            m_pathLst[(int)ResPathType.ePathMaterial] = "Model/Materials/";
-            m_pathLst[(int)ResPathType.ePathBuildImage] = "Image/Build/";
-            m_pathLst[(int)ResPathType.ePathCardImage] = "Image/Card/";
-            m_pathLst[(int)ResPathType.ePathWord] = "Word/";
-            m_pathLst[(int)ResPathType.ePathAudio] = "Sound/";
-            m_pathLst[(int)ResPathType.ePathAtlas] = "Atlas/";
-            m_pathLst[(int)ResPathType.ePathSpriteAni] = "Effect/SpriteEffect/";
-            m_pathLst[(int)ResPathType.ePathSceneAnimatorController] = "Animation/Scene/";
-            m_pathLst[(int)ResPathType.ePathULua] = "LuaScript/";
-            m_pathLst[(int)ResPathType.ePathLuaScript] = "LuaScript/";
-            m_pathLst[(int)ResPathType.ePathSkillAction] = "SkillAction/";
+            this.mResLoadType = ResLoadType.eLoadResource;
+            this.mPathLst = new string[(int)ResPathType.eTotal];
+            this.mPathLst[(int)ResPathType.ePathScene] = "Scenes/";
+            this.mPathLst[(int)ResPathType.ePathSceneXml] = "Scenes/Xml/";
+            this.mPathLst[(int)ResPathType.ePathModule] = "Module/";
+            this.mPathLst[(int)ResPathType.ePathComUI] = "UI/";
+            this.mPathLst[(int)ResPathType.ePathComUIScene] = "UIScene/";
+            this.mPathLst[(int)ResPathType.ePathBeingPath] = "Being/";
+            this.mPathLst[(int)ResPathType.ePathAIPath] = "AI/";
+            this.mPathLst[(int)ResPathType.ePathTablePath] = "Table/";
+            this.mPathLst[(int)ResPathType.ePathLangXml] = "Languages/";
+            this.mPathLst[(int)ResPathType.ePathXmlCfg] = "XmlConfig/";
+            this.mPathLst[(int)ResPathType.ePathModel] = "Model/";
+            this.mPathLst[(int)ResPathType.ePathMaterial] = "Model/Materials/";
+            this.mPathLst[(int)ResPathType.ePathBuildImage] = "Image/Build/";
+            this.mPathLst[(int)ResPathType.ePathCardImage] = "Image/Card/";
+            this.mPathLst[(int)ResPathType.ePathWord] = "Word/";
+            this.mPathLst[(int)ResPathType.ePathAudio] = "Sound/";
+            this.mPathLst[(int)ResPathType.ePathAtlas] = "Atlas/";
+            this.mPathLst[(int)ResPathType.ePathSpriteAni] = "Effect/SpriteEffect/";
+            this.mPathLst[(int)ResPathType.ePathSceneAnimatorController] = "Animation/Scene/";
+            this.mPathLst[(int)ResPathType.ePathULua] = "LuaScript/";
+            this.mPathLst[(int)ResPathType.ePathLuaScript] = "LuaScript/";
+            this.mPathLst[(int)ResPathType.ePathSkillAction] = "SkillAction/";
 
-            m_dataPath = Application.dataPath;
+            this.mDataPath = Application.dataPath;
 
-            m_pakExtNameList.Add("prefab");
-            m_pakExtNameList.Add("png");
-            m_pakExtNameList.Add("shader");
-            m_pakExtNameList.Add("unity");
+            this.mPakExtNameList.Add("prefab");
+            this.mPakExtNameList.Add("png");
+            this.mPakExtNameList.Add("shader");
+            this.mPakExtNameList.Add("unity");
         }
     }
 }

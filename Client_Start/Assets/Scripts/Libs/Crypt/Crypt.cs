@@ -63,7 +63,7 @@ namespace SDK.Lib
             }
             catch
             {
-                Ctx.m_instance.m_logSys.error("RC5_ECB_Symmetry_Encode_Byte error");
+                Ctx.mInstance.mLogSys.error("RC5_ECB_Symmetry_Encode_Byte error");
                 return false;
             }
         }
@@ -78,7 +78,7 @@ namespace SDK.Lib
             }
             catch
             {
-                Ctx.m_instance.m_logSys.error("RC5_ECB_Symmetry_Decode_Byte error");
+                Ctx.mInstance.mLogSys.error("RC5_ECB_Symmetry_Decode_Byte error");
                 return false;
             }
         }
@@ -93,7 +93,7 @@ namespace SDK.Lib
             }
             catch
             {
-                Ctx.m_instance.m_logSys.error("DES_ECB_Symmetry_Encode_OpenSSL error");
+                Ctx.mInstance.mLogSys.error("DES_ECB_Symmetry_Encode_OpenSSL error");
                 return false;
             }
         }
@@ -108,7 +108,7 @@ namespace SDK.Lib
             }
             catch
             {
-                Ctx.m_instance.m_logSys.error("DES_ecb_encrypt_one error");
+                Ctx.mInstance.mLogSys.error("DES_ecb_encrypt_one error");
                 return false;
             }
         }

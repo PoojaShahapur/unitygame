@@ -46,7 +46,7 @@ namespace SDK.Lib
             {
                 mEvtHandle = new ResEventDispatch();
                 mEvtHandle.addEventHandle(null, evtHandle);
-                mBytesRes = Ctx.m_instance.m_bytesResMgr.getAndSyncLoadRes(path);
+                mBytesRes = Ctx.mInstance.mBytesResMgr.getAndSyncLoadRes(path);
                 onBytesLoaded(mBytesRes);
             }
         }
@@ -64,7 +64,7 @@ namespace SDK.Lib
             {
                 mEvtHandle = new ResEventDispatch();
                 mEvtHandle.addEventHandle(null, null, luaTable, luaFunction);
-                mBytesRes = Ctx.m_instance.m_bytesResMgr.getAndSyncLoadRes(path);
+                mBytesRes = Ctx.mInstance.mBytesResMgr.getAndSyncLoadRes(path);
                 onBytesLoaded(mBytesRes);
             }
         }
@@ -83,7 +83,7 @@ namespace SDK.Lib
             {
                 mEvtHandle = new ResEventDispatch();
                 mEvtHandle.addEventHandle(null, evtHandle);
-                mBytesRes = Ctx.m_instance.m_bytesResMgr.getAndAsyncLoadRes(path, onBytesLoaded);
+                mBytesRes = Ctx.mInstance.mBytesResMgr.getAndAsyncLoadRes(path, onBytesLoaded);
             }
         }
 
@@ -97,7 +97,7 @@ namespace SDK.Lib
             else if (mBytesRes.hasFailed())
             {
                 mIsSuccess = false;
-                Ctx.m_instance.m_bytesResMgr.unload(mBytesRes.getResUniqueId(), onBytesLoaded);
+                Ctx.mInstance.mBytesResMgr.unload(mBytesRes.getResUniqueId(), onBytesLoaded);
                 mBytesRes = null;
             }
 
@@ -111,7 +111,7 @@ namespace SDK.Lib
         {
             if(mBytesRes != null)
             {
-                Ctx.m_instance.m_bytesResMgr.unload(mBytesRes.getResUniqueId(), onBytesLoaded);
+                Ctx.mInstance.mBytesResMgr.unload(mBytesRes.getResUniqueId(), onBytesLoaded);
                 mBytesRes = null;
             }
 

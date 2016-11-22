@@ -54,7 +54,7 @@
 
             if(this.mModelRes != null)
             {
-                Ctx.m_instance.m_modelMgr.unload(this.mModelRes.getResUniqueId(), null);
+                Ctx.mInstance.mModelMgr.unload(this.mModelRes.getResUniqueId(), null);
                 this.mModelRes = null;
             }
 
@@ -90,7 +90,7 @@
             {
                 if(this.mModelRes != null)
                 {
-                    Ctx.m_instance.m_modelMgr.unload(this.mModelRes.getResUniqueId(), null);
+                    Ctx.mInstance.mModelMgr.unload(this.mModelRes.getResUniqueId(), null);
                     this.mModelRes = null;
                 }
                 if(this.mSelfGo != null)
@@ -99,7 +99,7 @@
                     this.mSelfGo = null;
                 }
 
-                this.mModelRes = Ctx.m_instance.m_modelMgr.getAndSyncLoad<ModelRes>(this.mModelResPath);
+                this.mModelRes = Ctx.mInstance.mModelMgr.getAndSyncLoad<ModelRes>(this.mModelResPath);
 
                 selfGo = this.mModelRes.InstantiateObject(this.mModelResPath);
                 attach2Parent();

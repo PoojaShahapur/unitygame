@@ -42,7 +42,7 @@ namespace SDK.Lib
         {
             if (this.mControlRes != null)
             {
-                Ctx.m_instance.m_controllerMgr.unload(this.mControlRes.getResUniqueId(), null);
+                Ctx.mInstance.mControllerMgr.unload(this.mControlRes.getResUniqueId(), null);
                 this.mControlRes = null;
             }
 
@@ -53,17 +53,17 @@ namespace SDK.Lib
 
             if(this.mNextFrametimer != null)
             {
-                Ctx.m_instance.m_frameTimerMgr.removeFrameTimer(this.mNextFrametimer);
+                Ctx.mInstance.mFrameTimerMgr.removeFrameTimer(this.mNextFrametimer);
                 this.mNextFrametimer = null;
             }
             if (this.mIdleStateFrametimer != null)
             {
-                Ctx.m_instance.m_frameTimerMgr.removeFrameTimer(this.mIdleStateFrametimer);
+                Ctx.mInstance.mFrameTimerMgr.removeFrameTimer(this.mIdleStateFrametimer);
                 this.mIdleStateFrametimer = null;
             }
             if (this.mOneAniEndTimer != null)
             {
-                Ctx.m_instance.m_timerMgr.removeTimer(this.mOneAniEndTimer);
+                Ctx.mInstance.mTimerMgr.removeTimer(this.mOneAniEndTimer);
                 this.mOneAniEndTimer = null;
             }
 
@@ -143,7 +143,7 @@ namespace SDK.Lib
             {
                 if (this.mControlRes != null)
                 {
-                    Ctx.m_instance.m_controllerMgr.unload(this.mControlRes.getResUniqueId(), null);
+                    Ctx.mInstance.mControllerMgr.unload(this.mControlRes.getResUniqueId(), null);
                     this.mControlRes = null;
 
                     if (this.mAnimator != null)
@@ -152,7 +152,7 @@ namespace SDK.Lib
                     }
                 }
 
-                this.mControlRes = Ctx.m_instance.m_controllerMgr.getAndSyncLoad<ControllerRes>(this.mControlPath);
+                this.mControlRes = Ctx.mInstance.mControllerMgr.getAndSyncLoad<ControllerRes>(this.mControlPath);
             }
             if (this.mSelfGoChanged)
             {
@@ -253,7 +253,7 @@ namespace SDK.Lib
             }
 
             this.mIsIdleStateDetect = true;
-            Ctx.m_instance.m_frameTimerMgr.addFrameTimer(this.mIdleStateFrametimer);
+            Ctx.mInstance.mFrameTimerMgr.addFrameTimer(this.mIdleStateFrametimer);
         }
 
         // 启动下一帧定时器
@@ -271,7 +271,7 @@ namespace SDK.Lib
                 this.mNextFrametimer.reset();
             }
 
-            Ctx.m_instance.m_frameTimerMgr.addFrameTimer(this.mNextFrametimer);
+            Ctx.mInstance.mFrameTimerMgr.addFrameTimer(this.mNextFrametimer);
         }
 
         protected void startOneAniEndTimer()
@@ -288,17 +288,17 @@ namespace SDK.Lib
 
             AnimatorStateInfo state = this.mAnimator.GetCurrentAnimatorStateInfo(0);
             // 这个地方立马获取数据是获取不到的，需要等待下一帧才能获取到正确的数据
-            Ctx.m_instance.m_logSys.log(string.Format("当前长度 {0}", state.length));
+            Ctx.mInstance.mLogSys.log(string.Format("当前长度 {0}", state.length));
             this.mOneAniEndTimer.mInternal = state.length;
             this.mOneAniEndTimer.mTotalTime = mOneAniEndTimer.mInternal;
 
-            Ctx.m_instance.m_timerMgr.addTimer(mOneAniEndTimer);
+            Ctx.mInstance.mTimerMgr.addTimer(mOneAniEndTimer);
         }
 
         // 默认状态监测处理器
         public void onIdleStateFrameHandle(FrameTimerItem timer)
         {
-            Ctx.m_instance.m_logSys.log(string.Format("Idle 当前帧 {0}", timer.mCurFrame));
+            Ctx.mInstance.mLogSys.log(string.Format("Idle 当前帧 {0}", timer.mCurFrame));
             if (canStopIdleFrameTimer())
             {
                 this.mIsIdleStateDetect = false;
@@ -316,7 +316,7 @@ namespace SDK.Lib
 
         public void onNextFrameHandle(FrameTimerItem timer)
         {
-            Ctx.m_instance.m_logSys.log(string.Format("当前帧 {0}", timer.mCurFrame));
+            Ctx.mInstance.mLogSys.log(string.Format("当前帧 {0}", timer.mCurFrame));
             if (canStopNextFrameTimer())
             {
                 timer.mDisposed = true;
@@ -334,7 +334,7 @@ namespace SDK.Lib
         protected bool canStopIdleFrameTimer()
         {
             AnimatorStateInfo state = this.mAnimator.GetCurrentAnimatorStateInfo(0);
-            Ctx.m_instance.m_logSys.log(string.Format("Idle 当前检测长度 {0}", state.length));
+            Ctx.mInstance.mLogSys.log(string.Format("Idle 当前检测长度 {0}", state.length));
             //return (state.length == 0);
             return state.normalizedTime >= 1.0f;    // Unity4 使用这个判断动画是否结束， Unity5 可以和 UE4 一样，使用事件
         }
@@ -343,7 +343,7 @@ namespace SDK.Lib
         {
             //return (m_state.length > 0);
             AnimatorStateInfo state = this.mAnimator.GetCurrentAnimatorStateInfo(0);
-            Ctx.m_instance.m_logSys.log(string.Format("当前检测长度 {0}", state.length));
+            Ctx.mInstance.mLogSys.log(string.Format("当前检测长度 {0}", state.length));
             //return (state.length > 0);
             return state.normalizedTime >= 1.0f;
         }

@@ -11,13 +11,13 @@ namespace SDK.Lib
         public void loadFile()
         {
             string name = "forbidWords.txt";
-            LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            param.setPath(Path.Combine(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathWord], name));
+            LoadParam param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
+            param.setPath(Path.Combine(Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathWord], name));
             param.m_loadEventHandle = onLoadEventHandle;
             param.m_loadNeedCoroutine = false;
             param.m_resNeedCoroutine = false;
-            Ctx.m_instance.m_resLoadMgr.loadAsset(param);
-            Ctx.m_instance.m_poolSys.deleteObj(param);
+            Ctx.mInstance.mResLoadMgr.loadAsset(param);
+            Ctx.mInstance.mPoolSys.deleteObj(param);
         }
 
         // 加载一个表完成
@@ -26,7 +26,7 @@ namespace SDK.Lib
             ResItem res = dispObj as ResItem;
             if (res.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
             {
-                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, res.getLoadPath());
+                Ctx.mInstance.mLogSys.debugLog_1(LangItemID.eItem0, res.getLoadPath());
                 string text = res.getText("");
 
                 if (text != null)
@@ -49,11 +49,11 @@ namespace SDK.Lib
             }
             else if (res.refCountResLoadResultNotify.resLoadState.hasFailed())
             {
-                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, res.getLoadPath());
+                Ctx.mInstance.mLogSys.debugLog_1(LangItemID.eItem1, res.getLoadPath());
             }
 
             // 卸载资源
-            Ctx.m_instance.m_resLoadMgr.unload(res.getResUniqueId(), onLoadEventHandle);
+            Ctx.mInstance.mResLoadMgr.unload(res.getResUniqueId(), onLoadEventHandle);
         }
 
         public bool doFilter(ref string str)

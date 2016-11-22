@@ -19,7 +19,7 @@
                 this.mCurFrameCount = 0;
                 this.mCurTime = 0;
 
-                //Ctx.m_instance.m_logSys.log(string.Format("当前帧率 {0}", m_fps));
+                //Ctx.mInstance.mLogSys.log(string.Format("当前帧率 {0}", m_fps));
             }
         }
     }

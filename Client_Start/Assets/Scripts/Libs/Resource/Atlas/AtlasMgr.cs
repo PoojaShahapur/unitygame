@@ -54,13 +54,13 @@ namespace SDK.Lib
         public void syncLoadImage(string atlasName, string spriteName)
         {
             LoadParam param;
-            param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
+            param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
             param.setPath(atlasName);
             param.m_subPath = spriteName;
             param.m_loadNeedCoroutine = false;
             param.m_resNeedCoroutine = false;
             loadImage(param);
-            Ctx.m_instance.m_poolSys.deleteObj(param);
+            Ctx.mInstance.mPoolSys.deleteObj(param);
         }
 
         // 目前只实现同步加载，异步加载没有实现。syncLoad 同步加载资源不能喝异步加载资源的接口同时去加载一个资源，如果异步加载一个资源，这个时候资源还没有加载完成，然后又同步加载一个资源，这个时候获取的资源是没有加载完成的，由于同步加载资源没有回调，因此即使同步加载的资源加载完成，也不可能获取加载完成事件
@@ -93,7 +93,7 @@ namespace SDK.Lib
             }
             else
             {
-                Ctx.m_instance.m_logSys.log(string.Format("Unload Atlas {0} failed", atlasName));
+                Ctx.mInstance.mLogSys.log(string.Format("Unload Atlas {0} failed", atlasName));
             }
         }
 
@@ -106,7 +106,7 @@ namespace SDK.Lib
             }
             else
             {
-                Ctx.m_instance.m_logSys.log("Unload Null ImageItem");
+                Ctx.mInstance.mLogSys.log("Unload Null ImageItem");
             }
         }
     }

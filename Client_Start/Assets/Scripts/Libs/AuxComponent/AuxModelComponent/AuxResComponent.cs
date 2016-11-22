@@ -52,22 +52,22 @@ namespace SDK.Lib
             this.mRes = dispObj as ModelRes;
             if (this.mRes.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
             {
-                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, this.mRes.getLoadPath());
+                Ctx.mInstance.mLogSys.debugLog_1(LangItemID.eItem0, this.mRes.getLoadPath());
 
                 this.mSelfGo = this.mRes.InstantiateObject(this.mPath);
                 this.mSelfGo.transform.SetParent(this.mSelfLocalGo.transform, false);
 
-                // 不是使用 m_resLoadMgr.load 接口加载的资源，不要使用 m_resLoadMgr.unload 去卸载资源
+                // 不是使用 mResLoadMgr.load 接口加载的资源，不要使用 mResLoadMgr.unload 去卸载资源
                 // 卸载资源
-                //Ctx.m_instance.m_resLoadMgr.unload(m_res.GetPath());
+                //Ctx.mInstance.mResLoadMgr.unload(m_res.GetPath());
             }
             else if (this.mRes.refCountResLoadResultNotify.resLoadState.hasFailed())
             {
                 this.mRes = dispObj as ModelRes;
-                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, this.mRes.getLoadPath());
+                Ctx.mInstance.mLogSys.debugLog_1(LangItemID.eItem1, this.mRes.getLoadPath());
 
                 // 卸载资源
-                //Ctx.m_instance.m_resLoadMgr.unload(m_res.GetPath());
+                //Ctx.mInstance.mResLoadMgr.unload(m_res.GetPath());
             }
         }
 
@@ -77,7 +77,7 @@ namespace SDK.Lib
             {
                 UtilApi.Destroy(this.mSelfGo);
                 this.mSelfGo = null;
-                Ctx.m_instance.m_modelMgr.unload(this.mPath, null);
+                Ctx.mInstance.mModelMgr.unload(this.mPath, null);
                 this.mRes = null;
             }
         }
@@ -102,11 +102,11 @@ namespace SDK.Lib
                 if (!string.IsNullOrEmpty(this.mPath))
                 {
                     LoadParam param;
-                    param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
+                    param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
                     param.setPath(this.mPath);
                     param.m_loadEventHandle = onLoadEventHandle;
-                    Ctx.m_instance.m_modelMgr.load<ModelRes>(param);
-                    Ctx.m_instance.m_poolSys.deleteObj(param);
+                    Ctx.mInstance.mModelMgr.load<ModelRes>(param);
+                    Ctx.mInstance.mPoolSys.deleteObj(param);
                 }
             }
         }
