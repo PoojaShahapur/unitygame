@@ -54,7 +54,7 @@ function M:receiveCmd(id, buffer)
         local data = GlobalNS.ProtobufUtil.decode(command.proto, buffer, buffer.mLength);
         if(data ~= nil) then
             GCtx.mLogSys:log("NetMgr handleMsg", GlobalNS.LogTypeId.eLogCommon);
-            GCtx.m_netCmdNotify:handleMsg(data);
+            GCtx.mNetCmdNotify:handleMsg(data);
         end
     end
 end
@@ -75,7 +75,7 @@ function M:receiveCmdRpc(buffer, length)
 				g_CmdDispInfo.byCmd = rpcData.response.id + 1;
 				g_CmdDispInfo.byParam = rpcData.response.id + 1;
 				g_CmdDispInfo.bu = msgBody;
-				GCtx.m_netCmdNotify:handleMsg(g_CmdDispInfo);
+				GCtx.mNetCmdNotify:handleMsg(g_CmdDispInfo);
 			end
         end
     end

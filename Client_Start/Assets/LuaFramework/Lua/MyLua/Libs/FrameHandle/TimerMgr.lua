@@ -29,7 +29,7 @@ function M:addObject(delayObject, priority)
         end
     end
     
-    GCtx.m_processSys:refreshUpdateFlag();
+    GCtx.mProcessSys:refreshUpdateFlag();
 end
 
 function M:removeObject(delayObject)
@@ -49,7 +49,7 @@ function M:removeObject(delayObject)
     end
     
     if(self.m_timerList:Count() == 0) then
-        GCtx.m_processSys:refreshUpdateFlag();
+        GCtx.mProcessSys:refreshUpdateFlag();
     end
 end
 

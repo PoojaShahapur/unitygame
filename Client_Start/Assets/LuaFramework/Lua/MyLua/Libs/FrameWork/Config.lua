@@ -6,35 +6,35 @@ M.clsName = "Config";
 GlobalNS[M.clsName] = M;
 
 function M:ctor()
-    self.m_allowCallCS = false;     -- 是否允许调用 CS
+    self.mAllowCallCS = false;     -- 是否允许调用 CS
 	
-	self.m_pathLst = {};
-	self.m_pathLst[GlobalNS.ResPathType.ePathScene] = "Scenes/";
-	self.m_pathLst[GlobalNS.ResPathType.ePathSceneXml] = "Scenes/Xml/";
-	self.m_pathLst[GlobalNS.ResPathType.ePathModule] = "Module/";
-	self.m_pathLst[GlobalNS.ResPathType.ePathComUI] = "UI/";
-	self.m_pathLst[GlobalNS.ResPathType.ePathComUIScene] = "UIScene/";
-	self.m_pathLst[GlobalNS.ResPathType.ePathBeingPath] = "Being/";
-	self.m_pathLst[GlobalNS.ResPathType.ePathAIPath] = "AI/";
-	self.m_pathLst[GlobalNS.ResPathType.ePathTablePath] = "Table/";
-	self.m_pathLst[GlobalNS.ResPathType.ePathLangXml] = "Languages/";
-	self.m_pathLst[GlobalNS.ResPathType.ePathXmlCfg] = "XmlConfig/";
-	self.m_pathLst[GlobalNS.ResPathType.ePathModel] = "Model/";
-	self.m_pathLst[GlobalNS.ResPathType.ePathMaterial] = "Model/Materials/";
-	self.m_pathLst[GlobalNS.ResPathType.ePathBuildImage] = "Image/Build/";
-	self.m_pathLst[GlobalNS.ResPathType.ePathCardImage] = "Image/Card/";
-	self.m_pathLst[GlobalNS.ResPathType.ePathWord] = "Word/";
-	self.m_pathLst[GlobalNS.ResPathType.ePathAudio] = "Sound/";
-	self.m_pathLst[GlobalNS.ResPathType.ePathAtlas] = "Atlas/";
-	self.m_pathLst[GlobalNS.ResPathType.ePathSpriteAni] = "Effect/SpriteEffect/";
-	self.m_pathLst[GlobalNS.ResPathType.ePathSceneAnimatorController] = "Animation/Scene/";
-	self.m_pathLst[GlobalNS.ResPathType.ePathULua] = "LuaScript/";
-	self.m_pathLst[GlobalNS.ResPathType.ePathLuaScript] = "LuaScript/";
-	self.m_pathLst[GlobalNS.ResPathType.ePathSkillAction] = "SkillAction/";
+	self.mPathLst = {};
+	self.mPathLst[GlobalNS.ResPathType.ePathScene] = "Scenes/";
+	self.mPathLst[GlobalNS.ResPathType.ePathSceneXml] = "Scenes/Xml/";
+	self.mPathLst[GlobalNS.ResPathType.ePathModule] = "Module/";
+	self.mPathLst[GlobalNS.ResPathType.ePathComUI] = "UI/";
+	self.mPathLst[GlobalNS.ResPathType.ePathComUIScene] = "UIScene/";
+	self.mPathLst[GlobalNS.ResPathType.ePathBeingPath] = "Being/";
+	self.mPathLst[GlobalNS.ResPathType.ePathAIPath] = "AI/";
+	self.mPathLst[GlobalNS.ResPathType.ePathTablePath] = "Table/";
+	self.mPathLst[GlobalNS.ResPathType.ePathLangXml] = "Languages/";
+	self.mPathLst[GlobalNS.ResPathType.ePathXmlCfg] = "XmlConfig/";
+	self.mPathLst[GlobalNS.ResPathType.ePathModel] = "Model/";
+	self.mPathLst[GlobalNS.ResPathType.ePathMaterial] = "Model/Materials/";
+	self.mPathLst[GlobalNS.ResPathType.ePathBuildImage] = "Image/Build/";
+	self.mPathLst[GlobalNS.ResPathType.ePathCardImage] = "Image/Card/";
+	self.mPathLst[GlobalNS.ResPathType.ePathWord] = "Word/";
+	self.mPathLst[GlobalNS.ResPathType.ePathAudio] = "Sound/";
+	self.mPathLst[GlobalNS.ResPathType.ePathAtlas] = "Atlas/";
+	self.mPathLst[GlobalNS.ResPathType.ePathSpriteAni] = "Effect/SpriteEffect/";
+	self.mPathLst[GlobalNS.ResPathType.ePathSceneAnimatorController] = "Animation/Scene/";
+	self.mPathLst[GlobalNS.ResPathType.ePathULua] = "LuaScript/";
+	self.mPathLst[GlobalNS.ResPathType.ePathLuaScript] = "LuaScript/";
+	self.mPathLst[GlobalNS.ResPathType.ePathSkillAction] = "SkillAction/";
 end
 
 function M:isAllowCallCS()
-    return self.m_allowCallCS;
+    return self.mAllowCallCS;
 end
 
 return M;

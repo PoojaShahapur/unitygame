@@ -27,7 +27,7 @@ function M:AuxLabel_1(...)
     
     self.m_selfGo = GlobalNS.UtilApi.TransFindChildByPObjAndPath(pntNode, path);
     self.m_text = GlobalNS.UtilApi.getComByPath(pntNode, path, GlobalNS.AuxUITypeId.Label);
-    self.m_labelStyle = GCtx.m_widgetStyleMgr:GetWidgetStyle(GlobalNS.WidgetStyleID.eWSID_Text, styleId);
+    self.m_labelStyle = GCtx.mWidgetStyleMgr:GetWidgetStyle(GlobalNS.WidgetStyleID.eWSID_Text, styleId);
     if(self.m_labelStyle:needClearText()) then
         self.m_text.text = "";
     end

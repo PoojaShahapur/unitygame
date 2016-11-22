@@ -15,24 +15,24 @@ function M.dtor()
 end
 
 function M.preInit()
-    this.m_config = GlobalNS.new(GlobalNS.Config);
-    this.m_timerIdGentor = GlobalNS.new(GlobalNS.UniqueIdGentor);
-    this.m_processSys = GlobalNS.new(GlobalNS.ProcessSys);
-    this.m_timerMgr = GlobalNS.new(GlobalNS.TimerMgr);
+    this.mConfig = GlobalNS.new(GlobalNS.Config);
+    this.mTimerIdGentor = GlobalNS.new(GlobalNS.UniqueIdGentor);
+    this.mProcessSys = GlobalNS.new(GlobalNS.ProcessSys);
+    this.mTimerMgr = GlobalNS.new(GlobalNS.TimerMgr);
     this.mNetMgr = GlobalNS.NetMgr;     -- Net 使用原始的表
     this.mLogSys = GlobalNS.new(GlobalNS.LogSys);
-    this.m_widgetStyleMgr = GlobalNS.new(GlobalNS.WidgetStyleMgr);
-	this.mUIMgr = GlobalNS.new(GlobalNS.UIMgr);
+    this.mWidgetStyleMgr = GlobalNS.new(GlobalNS.WidgetStyleMgr);
+	this.mUiMgr = GlobalNS.new(GlobalNS.UIMgr);
 	this.mTableSys = GlobalNS.new(GlobalNS.TableSys);
 	
-    this.m_netCmdNotify = GlobalNS.new(GlobalNS.NetCmdNotify);
+    this.mNetCmdNotify = GlobalNS.new(GlobalNS.NetCmdNotify);
 end
 
 function M.interInit()
     GlobalNS.CSSystem.init();
     this.mNetMgr:init();
 	GlobalNS.NoDestroyGo.init();
-	this.mUIMgr:init();
+	this.mUiMgr:init();
 end
 
 function M.postInit()

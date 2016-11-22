@@ -9,14 +9,14 @@ M.clsName = "UniqueIdGentor";
 GlobalNS[M.clsName] = M;
 
 function M:ctor()
-   self.m_curIdx = 0;
-   self.m_preIdx = 0;
+   self.mCurIdx = 0;
+   self.mPreIdx = 0;
 end
 
 function M:next()
-    self.m_preIdx = self.m_curIdx;
-    self.m_curIdx = self.m_curIdx + 1;
-    return self.m_preIdx;
+    self.mPreIdx = self.mCurIdx;
+    self.mCurIdx = self.mCurIdx + 1;
+    return self.mPreIdx;
 end
 
 return M;

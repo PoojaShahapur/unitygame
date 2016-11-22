@@ -12,13 +12,13 @@ end
 
 function M:advance(delta)
     --print("ProcessSys:advance");
-    GCtx.m_timerMgr:Advance(delta);
+    GCtx.mTimerMgr:Advance(delta);
 end
 
 -- 刷新更新标志
 function M:refreshUpdateFlag()
-    if(GCtx.m_cofig:isAllowCallCS()) then
-        if(GCtx.m_timerMgr:getCount() > 0) then
+    if(GCtx.mConfig:isAllowCallCS()) then
+        if(GCtx.mTimerMgr:getCount() > 0) then
             Ctx.mInstance.mLuaSystem:setNeedUpdate(true);
         else
             Ctx.mInstance.mLuaSystem:setNeedUpdate(false);

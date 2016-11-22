@@ -60,7 +60,7 @@ function M:loadOneTable(tableID)
 	local table = self.m_dicTable:value(tableID);
 	
 	local auxBytesLoader = GlobalNS.new(GlobalNS.AuxBytesLoader);
-	local path = GlobalNS.UtilPath.CombineTwo(GCtx.m_config.m_pathLst[GlobalNS.ResPathType.ePathTablePath], table.m_resName);
+	local path = GlobalNS.UtilPath.CombineTwo(GCtx.mConfig.mPathLst[GlobalNS.ResPathType.ePathTablePath], table.m_resName);
 	
 	auxBytesLoader:syncLoad(path, self, self.onLoadEventHandle);
 end
@@ -93,7 +93,7 @@ function M:getTableIDByPath(path)
 	local tablePath = "";
 	
     for key, value in pairs(self.m_dicTable:getData()) do
-		tablePath = GlobalNS.UtilPath.CombineTwo(GCtx.m_config.m_pathLst[GlobalNS.ResPathType.ePathTablePath], value.m_resName);
+		tablePath = GlobalNS.UtilPath.CombineTwo(GCtx.mConfig.mPathLst[GlobalNS.ResPathType.ePathTablePath], value.m_resName);
         if (tablePath == path) then
             return key;
         end
