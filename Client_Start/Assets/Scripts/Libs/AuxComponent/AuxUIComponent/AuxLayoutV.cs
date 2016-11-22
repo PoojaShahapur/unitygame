@@ -8,40 +8,40 @@ namespace SDK.Lib
      */
     public class AuxLayoutV : AuxLayoutBase
     {
-        protected int m_rowCount;       // 总共行数
+        protected int mRowCount;       // 总共行数
 
         public AuxLayoutV()
         {
-            m_rowCount = 0;
+            this.mRowCount = 0;
         }
 
         public int rowCount
         {
             get
             {
-                return m_rowCount;
+                return this.mRowCount;
             }
             set
             {
-                m_rowCount = value;
+                this.mRowCount = value;
             }
         }
 
         override public void addElem(GameObject go_, bool recalc = false)
         {
-            ++m_rowCount;
+            ++this.mRowCount;
             base.addElem(go_, recalc);
         }
 
         override public void removeAndDestroyElem(GameObject go_, bool recalc = false)
         {
-            --m_rowCount;
+            --this.mRowCount;
             base.removeAndDestroyElem(go_, recalc);
         }
 
         override public void removeElem(GameObject go_, bool recalc = false)
         {
-            --m_rowCount;
+            --this.mRowCount;
             base.removeElem(go_, recalc);
         }
 
@@ -49,9 +49,9 @@ namespace SDK.Lib
         override public void reposition()
         {
             // 计算容器的大小
-            RectTransform trans = m_selfGo.GetComponent<RectTransform>();
-            VerticalLayoutGroup layout = m_selfGo.GetComponent<VerticalLayoutGroup>();
-            trans.sizeDelta = new Vector2(elemWidth + layout.padding.left + layout.padding.right, m_rowCount * elemHeight + layout.spacing * (m_rowCount - 1) + layout.padding.top + layout.padding.bottom);
+            RectTransform trans = this.mSelfGo.GetComponent<RectTransform>();
+            VerticalLayoutGroup layout = this.mSelfGo.GetComponent<VerticalLayoutGroup>();
+            trans.sizeDelta = new Vector2(elemWidth + layout.padding.left + layout.padding.right, this.mRowCount * elemHeight + layout.spacing * (this.mRowCount - 1) + layout.padding.top + layout.padding.bottom);
         }
     }
 }

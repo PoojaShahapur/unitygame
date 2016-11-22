@@ -8,42 +8,53 @@ namespace SDK.Lib
      */
     public class SlideList : AuxComponent
     {
-        protected GameObject m_localGo;   // 局部的 GameObject
+        protected GameObject mLocalGo;   // 局部的 GameObject
 
-        protected List<SlideListItem> m_waitlist;       // 将要加入列表中的内容
-        protected SlideListItem m_addingItem;           // 正在加入的
-        protected List<SlideListItem> m_addedList;           // 已经加入的
-        protected float m_XOff = -0.3f;       // 开始的时候 X 偏移
-        protected NumAniSequence m_numAniSequence = new NumAniSequence();       // 数字动画
-        protected PosAni m_posAni = new PosAni();                               // 位置动画
+        protected List<SlideListItem> mWaitlist;        // 将要加入列表中的内容
+        protected SlideListItem mAddingItem;            // 正在加入的
+        protected List<SlideListItem> mAddedList;       // 已经加入的
+        protected float mXOff;                          // 开始的时候 X 偏移
+        protected NumAniSequence mNumAniSequence;       // 数字动画
+        protected PosAni mPosAni;                       // 位置动画
 
-        protected NumAniSequence m_downNumAniSequence = new NumAniSequence();       // 数字动画
-        protected PosAni m_downPosAni = new PosAni();                               // 位置动画
-        protected float m_ZOff = -0.3f;
+        protected NumAniSequence mDownNumAniSequence;   // 数字动画
+        protected PosAni mDownPosAni;                   // 位置动画
+        protected float mZOff;
 
         public SlideList(GameObject pnt)
         {
-            m_waitlist = new List<SlideListItem>();
-            m_addedList = new List<SlideListItem>();
-            setPntGo(pnt);
-            m_localGo = UtilApi.createGameObject("SlideList");
-            m_localGo.name = "m_localGo";
-            m_localGo.transform.SetParent(pntGo.transform, false);
+            this.mNumAniSequence = new NumAniSequence();
+            this.mDownNumAniSequence = new NumAniSequence();
+            this.mDownPosAni = new PosAni();
 
-            m_numAniSequence.setAniSeqEndDisp(onAddingEnd);
-            m_downNumAniSequence.setAniSeqEndDisp(onDownEnd);
+            this.mXOff = -0.3f;
+
+            this.mPosAni = new PosAni();
+            this.mDownPosAni = new PosAni();
+
+            this.mZOff = -0.3f;
+
+            this.mWaitlist = new List<SlideListItem>();
+            this.mAddedList = new List<SlideListItem>();
+            setPntGo(pnt);
+            this.mLocalGo = UtilApi.createGameObject("SlideList");
+            this.mLocalGo.name = "m_localGo";
+            this.mLocalGo.transform.SetParent(pntGo.transform, false);
+
+            this.mNumAniSequence.setAniSeqEndDisp(onAddingEnd);
+            this.mDownNumAniSequence.setAniSeqEndDisp(onDownEnd);
         }
 
         // 加入一个 item
         public void addItem(SlideListItem item)
         {
-            if(m_addingItem != null)        // 如果有正在加入的
+            if(this.mAddingItem != null)        // 如果有正在加入的
             {
-                m_waitlist.Add(item);
+                this.mWaitlist.Add(item);
             }
             else
             {
-                m_addingItem = item;
+                this.mAddingItem = item;
                 startDownAni();
                 startAddingAni();
             }
@@ -52,45 +63,45 @@ namespace SDK.Lib
         // 开始加入动画
         protected void startAddingAni()
         {
-            m_addingItem.setPntGo(pntGo);
-            UtilApi.setPos(m_addingItem.selfLocalGo.transform, new Vector3(m_XOff, 0, 0));
-            m_posAni.setGO(m_addingItem.selfLocalGo);
-            m_posAni.destPos = new Vector3(0, 0, 0);
-            m_posAni.setEaseType(iTween.EaseType.easeInExpo);
-            m_posAni.setTime(0.5f);
-            m_numAniSequence.addOneNumAni(m_posAni);
-            m_numAniSequence.play();
+            this.mAddingItem.setPntGo(pntGo);
+            UtilApi.setPos(this.mAddingItem.selfLocalGo.transform, new Vector3(this.mXOff, 0, 0));
+            this.mPosAni.setGO(this.mAddingItem.selfLocalGo);
+            this.mPosAni.destPos = new Vector3(0, 0, 0);
+            this.mPosAni.setEaseType(iTween.EaseType.easeInExpo);
+            this.mPosAni.setTime(0.5f);
+            this.mNumAniSequence.addOneNumAni(this.mPosAni);
+            this.mNumAniSequence.play();
 
-            m_addingItem.loadRes();         // 加载资源
+            this.mAddingItem.loadRes();         // 加载资源
         }
 
         // 开始向下移动动画
         protected void startDownAni()
         {
-            if (m_addedList.Count > 0)
+            if (this.mAddedList.Count > 0)
             {
-                UtilApi.setPos(m_localGo.transform, new Vector3(0, 0, 0));
-                m_downPosAni.setGO(m_localGo);
-                m_downPosAni.destPos = new Vector3(0, 0, m_ZOff);
-                m_downPosAni.setEaseType(iTween.EaseType.easeInExpo);
-                m_downPosAni.setTime(0.2f);
-                m_downNumAniSequence.addOneNumAni(m_downPosAni);
-                m_downNumAniSequence.play();
+                UtilApi.setPos(this.mLocalGo.transform, new Vector3(0, 0, 0));
+                this.mDownPosAni.setGO(this.mLocalGo);
+                this.mDownPosAni.destPos = new Vector3(0, 0, this.mZOff);
+                this.mDownPosAni.setEaseType(iTween.EaseType.easeInExpo);
+                this.mDownPosAni.setTime(0.2f);
+                this.mDownNumAniSequence.addOneNumAni(this.mDownPosAni);
+                this.mDownNumAniSequence.play();
             }
         }
 
         protected void onAddingEnd(NumAniSeqBase ani)
         {
-            m_addedList.Add(m_addingItem);
+            this.mAddedList.Add(this.mAddingItem);
             adjustPos();
 
-            if(m_waitlist.Count > 0)
+            if(this.mWaitlist.Count > 0)
             {
                 nextAddingItem();
             }
             else
             {
-                m_addingItem = null;
+                this.mAddingItem = null;
             }
         }
 
@@ -102,21 +113,21 @@ namespace SDK.Lib
         // 调整位置
         protected void adjustPos()
         {
-            UtilApi.setPos(m_localGo.transform, new Vector3(0, 0, 0));
+            UtilApi.setPos(this.mLocalGo.transform, new Vector3(0, 0, 0));
             float curheight = 0;
-            int idx = m_addedList.Count - 1;
-            m_addedList[m_addedList.Count - 1].setPntGo(m_localGo);
+            int idx = this.mAddedList.Count - 1;
+            this.mAddedList[this.mAddedList.Count - 1].setPntGo(this.mLocalGo);
             for (; idx >= 0; --idx)
             {
-                UtilApi.setPos(m_addedList[idx].selfLocalGo.transform, new Vector3(0, 0, curheight));
-                curheight -= m_addedList[idx].height;
+                UtilApi.setPos(this.mAddedList[idx].selfLocalGo.transform, new Vector3(0, 0, curheight));
+                curheight -= this.mAddedList[idx].height;
             }
         }
 
         protected void nextAddingItem()
         {
-            m_addingItem = m_waitlist[0];
-            m_waitlist.RemoveAt(0);
+            this.mAddingItem = this.mWaitlist[0];
+            this.mWaitlist.RemoveAt(0);
             startDownAni();
             startAddingAni();
         }

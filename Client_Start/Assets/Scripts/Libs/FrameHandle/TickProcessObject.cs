@@ -2,13 +2,13 @@
 {
     public class TickProcessObject
     {
-        public ITickedObject m_tickObject;
-		public float m_priority;
+        public ITickedObject mTickObject;
+		public float mPriority;
 
         public TickProcessObject()
         {
-            m_tickObject = null;
-            m_priority = 0.0f;
+            this.mTickObject = null;
+            this.mPriority = 0.0f;
         }
     }
 }

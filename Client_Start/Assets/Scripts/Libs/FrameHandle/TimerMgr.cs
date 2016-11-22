@@ -8,17 +8,17 @@ namespace SDK.Lib
 {
     public class TimerMgr : DelayHandleMgrBase
     {
-        protected MList<TimerItemBase> m_timerList;     // 当前所有的定时器列表
+        protected MList<TimerItemBase> mTimerList;     // 当前所有的定时器列表
 
         public TimerMgr()
         {
-            m_timerList = new MList<TimerItemBase>();
+            this.mTimerList = new MList<TimerItemBase>();
         }
 
         protected override void addObject(IDelayHandleItem delayObject, float priority = 0.0f)
         {
             // 检查当前是否已经在队列中
-            if (m_timerList.IndexOf(delayObject as TimerItemBase) == -1)
+            if (this.mTimerList.IndexOf(delayObject as TimerItemBase) == -1)
             {
                 if (bInDepth())
                 {
@@ -26,7 +26,7 @@ namespace SDK.Lib
                 }
                 else
                 {
-                    m_timerList.Add(delayObject as TimerItemBase);
+                    this.mTimerList.Add(delayObject as TimerItemBase);
                 }
             }
         }
@@ -34,20 +34,20 @@ namespace SDK.Lib
         protected override void removeObject(IDelayHandleItem delayObject)
         {
             // 检查当前是否在队列中
-            if (m_timerList.IndexOf(delayObject as TimerItemBase) != -1)
+            if (this.mTimerList.IndexOf(delayObject as TimerItemBase) != -1)
             {
-                (delayObject as TimerItemBase).m_disposed = true;
+                (delayObject as TimerItemBase).mDisposed = true;
                 if (bInDepth())
                 {
                     base.removeObject(delayObject);
                 }
                 else
                 {
-                    foreach (TimerItemBase item in m_timerList.list())
+                    foreach (TimerItemBase item in this.mTimerList.list())
                     {
                         if (UtilApi.isAddressEqual(item, delayObject))
                         {
-                            m_timerList.Remove(item);
+                            this.mTimerList.Remove(item);
                             break;
                         }
                     }
@@ -67,7 +67,7 @@ namespace SDK.Lib
             LuaFunction function = luaTimer["func"] as LuaFunction;
 
             TimerItemBase timer = new TimerItemBase();
-            timer.m_totalTime = Convert.ToSingle(luaTimer["totaltime"]);
+            timer.mTotalTime = Convert.ToSingle(luaTimer["totaltime"]);
             timer.setLuaFunctor(table, function);
 
             this.addTimer(timer);
@@ -82,14 +82,14 @@ namespace SDK.Lib
         {
             incDepth();
 
-            foreach (TimerItemBase timerItem in m_timerList.list())
+            foreach (TimerItemBase timerItem in this.mTimerList.list())
             {
                 if (!timerItem.getClientDispose())
                 {
                     timerItem.OnTimer(delta);
                 }
 
-                if (timerItem.m_disposed)        // 如果已经结束
+                if (timerItem.mDisposed)        // 如果已经结束
                 {
                     removeObject(timerItem);
                 }

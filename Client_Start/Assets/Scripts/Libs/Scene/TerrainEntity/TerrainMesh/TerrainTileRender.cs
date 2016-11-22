@@ -121,7 +121,7 @@ namespace SDK.Lib
                     if (m_renderer != null)
                     {
                         m_renderer.enabled = value;
-                        UtilApi.SetDirty(m_selfGo);
+                        UtilApi.SetDirty(this.mSelfGo);
                     }
                 }
             }
@@ -138,7 +138,7 @@ namespace SDK.Lib
             {
                 if (m_trans == null)
                 {
-                    m_trans = m_selfGo.transform;
+                    m_trans = this.mSelfGo.transform;
                 }
                 return m_trans;
             }
@@ -232,11 +232,11 @@ namespace SDK.Lib
             // 缓存所有的组件
             if (m_filter == null)
             {
-                m_filter = m_selfGo.GetComponent<MeshFilter>();
+                m_filter = this.mSelfGo.GetComponent<MeshFilter>();
             }
             if (m_filter == null)
             {
-                m_filter = m_selfGo.AddComponent<MeshFilter>();
+                m_filter = this.mSelfGo.AddComponent<MeshFilter>();
             }
 
             if (vertexCount < MAX_VERTEX_PER_MESH)  // 顶点数量判断
@@ -284,12 +284,12 @@ namespace SDK.Lib
 
             if (m_renderer == null)
             {
-                m_renderer = m_selfGo.GetComponent<MeshRenderer>();
+                m_renderer = this.mSelfGo.GetComponent<MeshRenderer>();
             }
 
             if (m_renderer == null)
             {
-                m_renderer = m_selfGo.AddComponent<MeshRenderer>();
+                m_renderer = this.mSelfGo.AddComponent<MeshRenderer>();
 #if UNITY_EDITOR
                 m_renderer.enabled = isActive;
 #endif
@@ -375,7 +375,7 @@ namespace SDK.Lib
         {
             if (!this.IsVisible())
             {
-                if (m_selfGo == null)
+                if (this.mSelfGo == null)
                 {
                     //this.selfGo = UtilApi.createGameObject("MeshRender");
                     this.selfGo = UtilApi.createGameObject("MeshRender" + "_" + m_treeNode.getNameStr());

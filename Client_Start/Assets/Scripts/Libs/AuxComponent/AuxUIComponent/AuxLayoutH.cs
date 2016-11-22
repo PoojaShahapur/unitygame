@@ -8,40 +8,40 @@ namespace SDK.Lib
      */
     public class AuxLayoutH : AuxLayoutBase
     {
-        protected int m_colCount;       // 总共列数
+        protected int mColCount;       // 总共列数
 
         public AuxLayoutH()
         {
-            m_colCount = 0;
+            this.mColCount = 0;
         }
 
         public int colCount
         {
             get
             {
-                return m_colCount;
+                return this.mColCount;
             }
             set
             {
-                m_colCount = value;
+                this.mColCount = value;
             }
         }
 
         override public void addElem(GameObject go_, bool recalc = false)
         {
-            ++m_colCount;
+            ++this.mColCount;
             base.addElem(go_, recalc);
         }
 
         override public void removeAndDestroyElem(GameObject go_, bool recalc = false)
         {
-            --m_colCount;
+            --this.mColCount;
             base.removeAndDestroyElem(go_, recalc);
         }
 
         override public void removeElem(GameObject go_, bool recalc = false)
         {
-            --m_colCount;
+            --this.mColCount;
             base.removeElem(go_, recalc);
         }
 
@@ -49,9 +49,9 @@ namespace SDK.Lib
         override public void reposition()
         {
             // 计算容器的大小
-            RectTransform trans = m_selfGo.GetComponent<RectTransform>();
-            HorizontalLayoutGroup layout = m_selfGo.GetComponent<HorizontalLayoutGroup>();
-            trans.sizeDelta = new Vector2(m_colCount * elemWidth + layout.spacing * (m_colCount - 1) + layout.padding.left + layout.padding.right, elemHeight + layout.padding.top + layout.padding.bottom);
+            RectTransform trans = this.mSelfGo.GetComponent<RectTransform>();
+            HorizontalLayoutGroup layout = this.mSelfGo.GetComponent<HorizontalLayoutGroup>();
+            trans.sizeDelta = new Vector2(this.mColCount * elemWidth + layout.spacing * (this.mColCount - 1) + layout.padding.left + layout.padding.right, elemHeight + layout.padding.top + layout.padding.bottom);
         }
     }
 }

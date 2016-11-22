@@ -8,29 +8,29 @@ namespace SDK.Lib
         [System.Serializable]
         public class SerialObject
         {
-            public Sprite m_sprite;
-            public string m_path;
+            public Sprite mSprite;
+            public string mPath;
         }
 
-        public List<SerialObject> m_objList = new List<SerialObject>();
+        public List<SerialObject> mObjList = new List<SerialObject>();
 
         public void addSprite(string path, Sprite sprite)
         {
             SerialObject obj = new SerialObject();
-            obj.m_sprite = sprite;
-            obj.m_path = path;
-            m_objList.Add(obj);
+            obj.mSprite = sprite;
+            obj.mPath = path;
+            this.mObjList.Add(obj);
         }
 
         public void unload()
         {
-            if (m_objList != null)
+            if (this.mObjList != null)
             {
-                foreach (SerialObject sprite in m_objList)
+                foreach (SerialObject sprite in this.mObjList)
                 {
-                    UtilApi.UnloadAsset(sprite.m_sprite.texture);
+                    UtilApi.UnloadAsset(sprite.mSprite.texture);
                 }
-                m_objList = null;
+                this.mObjList = null;
             }
         }
     }

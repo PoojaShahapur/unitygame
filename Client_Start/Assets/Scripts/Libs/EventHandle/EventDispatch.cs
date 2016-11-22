@@ -9,22 +9,22 @@ namespace SDK.Lib
      */
     public class EventDispatch : DelayHandleMgrBase
     {
-        protected int m_eventId;
-        protected MList<EventDispatchFunctionObject> m_handleList;
-        protected int m_uniqueId;       // 唯一 Id ，调试使用
-        protected LuaCSBridgeDispatch m_luaCSBridgeDispatch;
+        protected int mEventId;
+        protected MList<EventDispatchFunctionObject> mHandleList;
+        protected int mUniqueId;       // 唯一 Id ，调试使用
+        protected LuaCSBridgeDispatch mLuaCSBridgeDispatch;
 
         public EventDispatch(int eventId_ = 0)
         {
-            m_eventId = eventId_;
-            m_handleList = new MList<EventDispatchFunctionObject>();
+            this.mEventId = eventId_;
+            this.mHandleList = new MList<EventDispatchFunctionObject>();
         }
 
         protected MList<EventDispatchFunctionObject> handleList
         {
             get
             {
-                return m_handleList;
+                return this.mHandleList;
             }
         }
 
@@ -32,12 +32,12 @@ namespace SDK.Lib
         {
             get
             {
-                return m_uniqueId;
+                return this.mUniqueId;
             }
             set
             {
-                m_uniqueId = value;
-                m_handleList.uniqueId = m_uniqueId;
+                this.mUniqueId = value;
+                this.mHandleList.uniqueId = this.mUniqueId;
             }
         }
 
@@ -45,11 +45,11 @@ namespace SDK.Lib
         {
             get
             {
-                return m_luaCSBridgeDispatch;
+                return this.mLuaCSBridgeDispatch;
             }
             set
             {
-                m_luaCSBridgeDispatch = value;
+                this.mLuaCSBridgeDispatch = value;
             }
         }
 
@@ -79,19 +79,19 @@ namespace SDK.Lib
         {
             int idx = 0;
             int elemLen = 0;
-            elemLen = m_handleList.Count();
+            elemLen = this.mHandleList.Count();
             while (idx < elemLen)
             {
-                if (m_handleList[idx].isEqual(pThis, handle, luaTable, luaFunction))
+                if (this.mHandleList[idx].isEqual(pThis, handle, luaTable, luaFunction))
                 {
                     break;
                 }
 
                 idx += 1;
             }
-            if (idx < m_handleList.Count())
+            if (idx < this.mHandleList.Count())
             {
-                removeObject(m_handleList[idx]);
+                removeObject(this.mHandleList[idx]);
             }
             else
             {
@@ -108,7 +108,7 @@ namespace SDK.Lib
             else
             {
                 // 这个判断说明相同的函数只能加一次，但是如果不同资源使用相同的回调函数就会有问题，但是这个判断可以保证只添加一次函数，值得，因此不同资源需要不同回调函数
-                m_handleList.Add(delayObject as EventDispatchFunctionObject);
+                this.mHandleList.Add(delayObject as EventDispatchFunctionObject);
             }
         }
 
@@ -120,7 +120,7 @@ namespace SDK.Lib
             }
             else
             {
-                if (!m_handleList.Remove(delayObject as EventDispatchFunctionObject))
+                if (!this.mHandleList.Remove(delayObject as EventDispatchFunctionObject))
                 {
                     Ctx.m_instance.m_logSys.log("Event Handle not exist");
                 }
@@ -133,17 +133,17 @@ namespace SDK.Lib
             //{
                 incDepth();
 
-                foreach (EventDispatchFunctionObject handle in m_handleList.list())
+                foreach (EventDispatchFunctionObject handle in this.mHandleList.list())
                 {
-                    if (!handle.m_bClientDispose)
+                    if (!handle.mIsClientDispose)
                     {
                         handle.call(dispatchObject);
                     }
                 }
 
-                if (m_luaCSBridgeDispatch != null)
+                if (this.mLuaCSBridgeDispatch != null)
                 {
-                    m_luaCSBridgeDispatch.handleGlobalEvent(m_eventId, dispatchObject);
+                this.mLuaCSBridgeDispatch.handleGlobalEvent(this.mEventId, dispatchObject);
                 }
 
                 decDepth();
@@ -158,14 +158,14 @@ namespace SDK.Lib
         {
             if (bInDepth())
             {
-                foreach (EventDispatchFunctionObject item in m_handleList.list())
+                foreach (EventDispatchFunctionObject item in this.mHandleList.list())
                 {
                     removeObject(item);
                 }
             }
             else
             {
-                m_handleList.Clear();
+                this.mHandleList.Clear();
             }
         }
 
@@ -173,7 +173,7 @@ namespace SDK.Lib
         public bool existEventHandle(ICalleeObject pThis, MAction<IDispatchObject> handle, LuaTable luaTable = null, LuaFunction luaFunction = null)
         {
             bool bFinded = false;
-            foreach (EventDispatchFunctionObject item in m_handleList.list())
+            foreach (EventDispatchFunctionObject item in this.mHandleList.list())
             {
                 if (item.isEqual(pThis, handle, luaTable, luaFunction))
                 {
@@ -189,13 +189,13 @@ namespace SDK.Lib
         {
             foreach(EventDispatchFunctionObject handle in rhv.handleList.list())
             {
-                m_handleList.Add(handle);
+                this.mHandleList.Add(handle);
             }
         }
 
         public bool hasEventHandle()
         {
-            return m_handleList.Count() > 0;
+            return this.mHandleList.Count() > 0;
         }
     }
 }

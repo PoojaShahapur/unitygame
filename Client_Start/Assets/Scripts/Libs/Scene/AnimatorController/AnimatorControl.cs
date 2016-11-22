@@ -7,78 +7,78 @@ namespace SDK.Lib
      */
     public class AnimatorControl : IDispatchObject
     {
-        protected ControllerRes m_controlRes;
-        protected bool m_bNeedReload;       // 需要重新加载资源
-        protected bool m_selfGoChanged;     // GameObject 对象改变
-        protected string m_controlPath;
-        protected GameObject m_selfGo;      // 拥有动画控制器的场景 GameObject
+        protected ControllerRes mControlRes;
+        protected bool mIsNeedReload;       // 需要重新加载资源
+        protected bool mSelfGoChanged;     // GameObject 对象改变
+        protected string mControlPath;
+        protected GameObject mSelfGo;      // 拥有动画控制器的场景 GameObject
 
-        protected Animator m_animator;
-        protected int m_stateHashId = 0;
-        protected int m_stateValue;
-        protected float m_stateDampTime = 0.1f;
+        protected Animator mAnimator;
+        protected int mStateHashId = 0;
+        protected int mStateValue;
+        protected float mStateDampTime = 0.1f;
 
-        protected EventDispatch m_oneAniPlayEndDisp;    // 一个动画播放结束
-        protected FrameTimerItem m_nextFrametimer;       // 需要下一帧才能获取的数据
-        protected FrameTimerItem m_idleStateFrametimer;       // 0 状态监测
-        protected TimerItemBase m_oneAniEndTimer;       // 一个动画结束定时器
+        protected EventDispatch mOneAniPlayEndDisp;    // 一个动画播放结束
+        protected FrameTimerItem mNextFrametimer;       // 需要下一帧才能获取的数据
+        protected FrameTimerItem mIdleStateFrametimer;       // 0 状态监测
+        protected TimerItemBase mOneAniEndTimer;       // 一个动画结束定时器
 
-        protected bool m_startPlay;     // 是否直接播放
+        protected bool mStartPlay;     // 是否直接播放
         //protected AnimatorStateInfo m_state;
-        protected bool m_bIdleStateDetect;      // 是否在 Idle State 状态监测中
+        protected bool mIsIdleStateDetect;      // 是否在 Idle State 状态监测中
 
         public AnimatorControl()
         {
-            m_stateHashId = Animator.StringToHash("StateId");
-            m_oneAniPlayEndDisp = new AddOnceEventDispatch();
-            m_startPlay = false;
-            m_bIdleStateDetect = false;
-            m_bNeedReload = false;
-            m_controlPath = null;
-            m_selfGoChanged = false;
+            this.mStateHashId = Animator.StringToHash("StateId");
+            this.mOneAniPlayEndDisp = new AddOnceEventDispatch();
+            this.mStartPlay = false;
+            this.mIsIdleStateDetect = false;
+            this.mIsNeedReload = false;
+            this.mControlPath = null;
+            this.mSelfGoChanged = false;
         }
 
         public void dispose()
         {
-            if (m_controlRes != null)
+            if (this.mControlRes != null)
             {
-                Ctx.m_instance.m_controllerMgr.unload(m_controlRes.getResUniqueId(), null);
-                m_controlRes = null;
+                Ctx.m_instance.m_controllerMgr.unload(this.mControlRes.getResUniqueId(), null);
+                this.mControlRes = null;
             }
 
-            if(m_animator != null)
+            if(this.mAnimator != null)
             {
-                UtilApi.Destroy(m_animator.runtimeAnimatorController);
+                UtilApi.Destroy(this.mAnimator.runtimeAnimatorController);
             }
 
-            if(m_nextFrametimer != null)
+            if(this.mNextFrametimer != null)
             {
-                Ctx.m_instance.m_frameTimerMgr.removeFrameTimer(m_nextFrametimer);
-                m_nextFrametimer = null;
+                Ctx.m_instance.m_frameTimerMgr.removeFrameTimer(this.mNextFrametimer);
+                this.mNextFrametimer = null;
             }
-            if (m_idleStateFrametimer != null)
+            if (this.mIdleStateFrametimer != null)
             {
-                Ctx.m_instance.m_frameTimerMgr.removeFrameTimer(m_idleStateFrametimer);
-                m_idleStateFrametimer = null;
+                Ctx.m_instance.m_frameTimerMgr.removeFrameTimer(this.mIdleStateFrametimer);
+                this.mIdleStateFrametimer = null;
             }
-            if (m_oneAniEndTimer != null)
+            if (this.mOneAniEndTimer != null)
             {
-                Ctx.m_instance.m_timerMgr.removeTimer(m_oneAniEndTimer);
-                m_oneAniEndTimer = null;
+                Ctx.m_instance.m_timerMgr.removeTimer(this.mOneAniEndTimer);
+                this.mOneAniEndTimer = null;
             }
 
-            m_oneAniPlayEndDisp.clearEventHandle();
+            this.mOneAniPlayEndDisp.clearEventHandle();
         }
 
         public Animator animator
         {
             get
             {
-                return m_animator;
+                return this.mAnimator;
             }
             set
             {
-                m_animator = value;
+                this.mAnimator = value;
                 //m_state = m_animator.GetCurrentAnimatorStateInfo(0);
             }
         }
@@ -87,11 +87,11 @@ namespace SDK.Lib
         {
             get
             {
-                return m_oneAniPlayEndDisp;
+                return this.mOneAniPlayEndDisp;
             }
             set
             {
-                m_oneAniPlayEndDisp = value;
+                this.mOneAniPlayEndDisp = value;
             }
         }
 
@@ -99,109 +99,109 @@ namespace SDK.Lib
         {
             get
             {
-                return m_selfGo;
+                return this.mSelfGo;
             }
             set
             {
-                if (m_selfGo != value)
+                if (this.mSelfGo != value)
                 {
-                    m_selfGoChanged = true;
+                    this.mSelfGoChanged = true;
                 }
-                m_selfGo = value;
+                this.mSelfGo = value;
             }
         }
 
         public void enable()
         {
-            if(m_stateValue != 0 || m_bIdleStateDetect)     // 如果状态值不是 0 ，或者当前在 Idle State 检测中
+            if(this.mStateValue != 0 || this.mIsIdleStateDetect)     // 如果状态值不是 0 ，或者当前在 Idle State 检测中
             {
-                m_animator.enabled = true;
+                this.mAnimator.enabled = true;
             }
         }
 
         public void disable()
         {
-            if (m_animator.enabled)
+            if (this.mAnimator.enabled)
             {
-                m_animator.enabled = false;
+                this.mAnimator.enabled = false;
             }
         }
 
         public void setControlInfo(string path)
         {
-            if (m_controlPath != path)
+            if (this.mControlPath != path)
             {
-                m_controlPath = path;
-                m_bNeedReload = true;
+                this.mControlPath = path;
+                this.mIsNeedReload = true;
             }
         }
 
         // 同步更新控制器
         public void syncUpdateControl()
         {
-            if (m_bNeedReload)
+            if (this.mIsNeedReload)
             {
-                if (m_controlRes != null)
+                if (this.mControlRes != null)
                 {
-                    Ctx.m_instance.m_controllerMgr.unload(m_controlRes.getResUniqueId(), null);
-                    m_controlRes = null;
+                    Ctx.m_instance.m_controllerMgr.unload(this.mControlRes.getResUniqueId(), null);
+                    this.mControlRes = null;
 
-                    if (m_animator != null)
+                    if (this.mAnimator != null)
                     {
-                        UtilApi.Destroy(m_animator.runtimeAnimatorController);
+                        UtilApi.Destroy(this.mAnimator.runtimeAnimatorController);
                     }
                 }
 
-                m_controlRes = Ctx.m_instance.m_controllerMgr.getAndSyncLoad<ControllerRes>(m_controlPath);
+                this.mControlRes = Ctx.m_instance.m_controllerMgr.getAndSyncLoad<ControllerRes>(this.mControlPath);
             }
-            if (m_selfGoChanged)
+            if (this.mSelfGoChanged)
             {
-                UtilApi.AddAnimatorComponent(m_selfGo);
-                m_animator = m_selfGo.GetComponent<Animator>();
+                UtilApi.AddAnimatorComponent(this.mSelfGo);
+                this.mAnimator = this.mSelfGo.GetComponent<Animator>();
             }
 
-            if (m_bNeedReload || m_selfGoChanged)
+            if (this.mIsNeedReload || this.mSelfGoChanged)
             {
-                m_animator.runtimeAnimatorController = m_controlRes.InstantiateController();
+                this.mAnimator.runtimeAnimatorController = this.mControlRes.InstantiateController();
 
-                if(m_stateValue == 0 && canStopIdleFrameTimer())       // 如果当前在 Idle 状态，并且已经完成到 Idle 状态的切换
+                if(this.mStateValue == 0 && canStopIdleFrameTimer())       // 如果当前在 Idle 状态，并且已经完成到 Idle 状态的切换
                 {
-                    m_animator.enabled = false;
+                    this.mAnimator.enabled = false;
                 }
             }
 
-            m_bNeedReload = false;
-            m_selfGoChanged = false;
+            this.mIsNeedReload = false;
+            this.mSelfGoChanged = false;
         }
 
         // 当前是否处于某个动画
         public bool bInAnimator(string aniName, int layerIdx)
         {
-            AnimatorStateInfo state = m_animator.GetCurrentAnimatorStateInfo(layerIdx);
+            AnimatorStateInfo state = this.mAnimator.GetCurrentAnimatorStateInfo(layerIdx);
             return state.IsName(aniName);
         }
 
         // 当前是否在 Transition 
         public bool bInTransition(int layerIdx)
         {
-            bool inTransition = m_animator.IsInTransition(0);
+            bool inTransition = this.mAnimator.IsInTransition(0);
             return inTransition;
         }
 
         protected void SetInteger(int id, int value)
         {
-            if (m_stateValue == value)
+            if (this.mStateValue == value)
             {
                 return;
             }
 
-            if ((m_stateValue != 0 && value != 0) || value == 0)        // 如果两个有时间长度的动画切换状态，或者直接切换到 Idle 状态
+            if ((this.mStateValue != 0 && value != 0) || value == 0)        // 如果两个有时间长度的动画切换状态，或者直接切换到 Idle 状态
             {
-                idleStateSetInteger(m_stateHashId, 0);
+                idleStateSetInteger(this.mStateHashId, 0);
             }
-            else if (0 == m_stateValue)          // 如果当前状态已经是 Idle State 
+            else if (0 == this.mStateValue)          // 如果当前状态已经是 Idle State 
             {
-                if (!m_bIdleStateDetect)          // 如果 Idle State 状态没在监测中
+                if (!this.mIsIdleStateDetect)          // 如果 Idle State 状态没在监测中
                 {
                     normalStateSetInteger(id, value);
                 }
@@ -210,116 +210,116 @@ namespace SDK.Lib
 
         public void play(int value)
         {
-            SetInteger(m_stateHashId, value);
+            SetInteger(this.mStateHashId, value);
         }
 
         public void stop()
         {
-            SetInteger(m_stateHashId, 0);
+            SetInteger(this.mStateHashId, 0);
         }
 
         //  Idle State 设置状态
         protected void idleStateSetInteger(int id, int value)
         {
-            m_animator.applyRootMotion = true;  // 只有 Idle State 状态下才能自己移动
-            m_stateValue = value;           // 保存状态值
-            m_animator.SetInteger(m_stateHashId, value);
+            this.mAnimator.applyRootMotion = true;  // 只有 Idle State 状态下才能自己移动
+            this.mStateValue = value;           // 保存状态值
+            this.mAnimator.SetInteger(this.mStateHashId, value);
             startIdleStateFrameTimer();     // 启动 Idle State 监测
         }
 
         // 非 Idle State 设置状态
         protected void normalStateSetInteger(int id, int value)
         {
-            m_animator.enabled = true;
-            m_animator.applyRootMotion = false;         // 非 Idle State 状态下，有动画控制运动
-            m_stateValue = value;
-            m_animator.SetInteger(m_stateHashId, value);
+            this.mAnimator.enabled = true;
+            this.mAnimator.applyRootMotion = false;         // 非 Idle State 状态下，有动画控制运动
+            this.mStateValue = value;
+            this.mAnimator.SetInteger(this.mStateHashId, value);
             startNextFrameTimer();
         }
 
         // 启动默认状态定时器
         protected void startIdleStateFrameTimer()
         {
-            if (m_idleStateFrametimer == null)
+            if (this.mIdleStateFrametimer == null)
             {
-                m_idleStateFrametimer = new FrameTimerItem();
-                m_idleStateFrametimer.m_timerDisp = onIdleStateFrameHandle;
-                m_idleStateFrametimer.m_internal = 1;
-                m_idleStateFrametimer.m_bInfineLoop = true;
+                this.mIdleStateFrametimer = new FrameTimerItem();
+                this.mIdleStateFrametimer.mTimerDisp = onIdleStateFrameHandle;
+                this.mIdleStateFrametimer.mInternal = 1;
+                this.mIdleStateFrametimer.mIsInfineLoop = true;
             }
             else
             {
-                m_idleStateFrametimer.reset();
+                this.mIdleStateFrametimer.reset();
             }
 
-            m_bIdleStateDetect = true;
-            Ctx.m_instance.m_frameTimerMgr.addFrameTimer(m_idleStateFrametimer);
+            this.mIsIdleStateDetect = true;
+            Ctx.m_instance.m_frameTimerMgr.addFrameTimer(this.mIdleStateFrametimer);
         }
 
         // 启动下一帧定时器
         protected void startNextFrameTimer()
         {
-            if (m_nextFrametimer == null)
+            if (this.mNextFrametimer == null)
             {
-                m_nextFrametimer = new FrameTimerItem();
-                m_nextFrametimer.m_timerDisp = onNextFrameHandle;
-                m_nextFrametimer.m_internal = 1;
-                m_nextFrametimer.m_bInfineLoop = true;
+                this.mNextFrametimer = new FrameTimerItem();
+                this.mNextFrametimer.mTimerDisp = onNextFrameHandle;
+                this.mNextFrametimer.mInternal = 1;
+                this.mNextFrametimer.mIsInfineLoop = true;
             }
             else
             {
-                m_nextFrametimer.reset();
+                this.mNextFrametimer.reset();
             }
 
-            Ctx.m_instance.m_frameTimerMgr.addFrameTimer(m_nextFrametimer);
+            Ctx.m_instance.m_frameTimerMgr.addFrameTimer(this.mNextFrametimer);
         }
 
         protected void startOneAniEndTimer()
         {
-            if (m_oneAniEndTimer == null)
+            if (this.mOneAniEndTimer == null)
             {
-                m_oneAniEndTimer = new TimerItemBase();
-                m_oneAniEndTimer.m_timerDisp.setFuncObject(onTimerAniEndHandle);
+                this.mOneAniEndTimer = new TimerItemBase();
+                this.mOneAniEndTimer.mTimerDisp.setFuncObject(onTimerAniEndHandle);
             }
             else
             {
-                m_oneAniEndTimer.reset();
+                this.mOneAniEndTimer.reset();
             }
 
-            AnimatorStateInfo state = m_animator.GetCurrentAnimatorStateInfo(0);
+            AnimatorStateInfo state = this.mAnimator.GetCurrentAnimatorStateInfo(0);
             // 这个地方立马获取数据是获取不到的，需要等待下一帧才能获取到正确的数据
             Ctx.m_instance.m_logSys.log(string.Format("当前长度 {0}", state.length));
-            m_oneAniEndTimer.m_internal = state.length;
-            m_oneAniEndTimer.m_totalTime = m_oneAniEndTimer.m_internal;
+            this.mOneAniEndTimer.mInternal = state.length;
+            this.mOneAniEndTimer.mTotalTime = mOneAniEndTimer.mInternal;
 
-            Ctx.m_instance.m_timerMgr.addTimer(m_oneAniEndTimer);
+            Ctx.m_instance.m_timerMgr.addTimer(mOneAniEndTimer);
         }
 
         // 默认状态监测处理器
         public void onIdleStateFrameHandle(FrameTimerItem timer)
         {
-            Ctx.m_instance.m_logSys.log(string.Format("Idle 当前帧 {0}", timer.m_curFrame));
+            Ctx.m_instance.m_logSys.log(string.Format("Idle 当前帧 {0}", timer.mCurFrame));
             if (canStopIdleFrameTimer())
             {
-                m_bIdleStateDetect = false;
-                timer.m_disposed = true;
-                if (m_stateValue != 0)
+                this.mIsIdleStateDetect = false;
+                timer.mDisposed = true;
+                if (this.mStateValue != 0)
                 {
-                    normalStateSetInteger(m_stateHashId, m_stateValue);
+                    normalStateSetInteger(this.mStateHashId, this.mStateValue);
                 }
                 else
                 {
-                    m_animator.enabled = false;         // 切换到空闲状态的时候，关闭，这样才能缩放
+                    this.mAnimator.enabled = false;         // 切换到空闲状态的时候，关闭，这样才能缩放
                 }
             }
         }
 
         public void onNextFrameHandle(FrameTimerItem timer)
         {
-            Ctx.m_instance.m_logSys.log(string.Format("当前帧 {0}", timer.m_curFrame));
+            Ctx.m_instance.m_logSys.log(string.Format("当前帧 {0}", timer.mCurFrame));
             if (canStopNextFrameTimer())
             {
-                timer.m_disposed = true;
+                timer.mDisposed = true;
                 startOneAniEndTimer();
             }
         }
@@ -327,13 +327,13 @@ namespace SDK.Lib
         // 定时器动画结束处理函数
         public void onTimerAniEndHandle(TimerItemBase timer)
         {
-            m_oneAniPlayEndDisp.dispatchEvent(this);
+            this.mOneAniPlayEndDisp.dispatchEvent(this);
             // chechParams();
         }
 
         protected bool canStopIdleFrameTimer()
         {
-            AnimatorStateInfo state = m_animator.GetCurrentAnimatorStateInfo(0);
+            AnimatorStateInfo state = this.mAnimator.GetCurrentAnimatorStateInfo(0);
             Ctx.m_instance.m_logSys.log(string.Format("Idle 当前检测长度 {0}", state.length));
             //return (state.length == 0);
             return state.normalizedTime >= 1.0f;    // Unity4 使用这个判断动画是否结束， Unity5 可以和 UE4 一样，使用事件
@@ -342,7 +342,7 @@ namespace SDK.Lib
         protected bool canStopNextFrameTimer()
         {
             //return (m_state.length > 0);
-            AnimatorStateInfo state = m_animator.GetCurrentAnimatorStateInfo(0);
+            AnimatorStateInfo state = this.mAnimator.GetCurrentAnimatorStateInfo(0);
             Ctx.m_instance.m_logSys.log(string.Format("当前检测长度 {0}", state.length));
             //return (state.length > 0);
             return state.normalizedTime >= 1.0f;
@@ -352,8 +352,8 @@ namespace SDK.Lib
         protected void chechParams()
         {
             // AnimatorStateInfo.length 和 AnimatorClipInfo.clip.length 是一样的
-            AnimatorStateInfo state = m_animator.GetCurrentAnimatorStateInfo(0);
-            AnimatorClipInfo[] clipArr = m_animator.GetCurrentAnimatorClipInfo(0);
+            AnimatorStateInfo state = this.mAnimator.GetCurrentAnimatorStateInfo(0);
+            AnimatorClipInfo[] clipArr = this.mAnimator.GetCurrentAnimatorClipInfo(0);
             bool aaa = bInTransition(0);
         }
 
@@ -362,12 +362,12 @@ namespace SDK.Lib
          */
         public void AddEvent(string clipName, string funcName, float time)
         {
-            if(m_animator == null)
+            if(this.mAnimator == null)
             {
                 return;
             }
 
-            AnimationClip[] animClip = m_animator.runtimeAnimatorController.animationClips;
+            AnimationClip[] animClip = this.mAnimator.runtimeAnimatorController.animationClips;
             if(animClip.Length == 0)
             {
                 return;
@@ -399,9 +399,9 @@ namespace SDK.Lib
         // 倒着播放动画
         protected void playFromBackToFront()
         {
-            AnimatorStateInfo stateInfo = m_animator.GetCurrentAnimatorStateInfo(0);
+            AnimatorStateInfo stateInfo = this.mAnimator.GetCurrentAnimatorStateInfo(0);
             //m_animator.SetTime
-            m_animator.speed = -1.0f;
+            this.mAnimator.speed = -1.0f;
         }
     }
 }

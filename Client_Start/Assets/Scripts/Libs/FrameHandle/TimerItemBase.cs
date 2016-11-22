@@ -8,57 +8,57 @@ namespace SDK.Lib
      */
     public class TimerItemBase : IDelayHandleItem, IDispatchObject
     {
-        public float m_internal;        // 定时器间隔
-        public float m_totalTime;       // 总共定时器时间
-        public float m_curRunTime;      // 当前定时器运行的时间
-        public float m_curCallTime;     // 当前定时器已经调用的时间
-        public bool m_bInfineLoop;      // 是否是无限循环
-        public float m_intervalLeftTime;     // 定时器调用间隔剩余时间
-        public TimerFunctionObject m_timerDisp;       // 定时器分发
-        public bool m_disposed;             // 是否已经被释放
-        public bool m_bContinuous;          // 是否是连续的定时器
+        public float mInternal;        // 定时器间隔
+        public float mTotalTime;       // 总共定时器时间
+        public float mCurRunTime;      // 当前定时器运行的时间
+        public float mCurCallTime;     // 当前定时器已经调用的时间
+        public bool mIsInfineLoop;      // 是否是无限循环
+        public float mIntervalLeftTime;     // 定时器调用间隔剩余时间
+        public TimerFunctionObject mTimerDisp;       // 定时器分发
+        public bool mDisposed;             // 是否已经被释放
+        public bool mIsContinuous;          // 是否是连续的定时器
 
         public TimerItemBase()
         {
-            m_internal = 1;
-            m_totalTime = 1;
-            m_curRunTime = 0;
-            m_curCallTime = 0;
-            m_bInfineLoop = false;
-            m_intervalLeftTime = 0;
-            m_timerDisp = new TimerFunctionObject();
-            m_disposed = false;
-            m_bContinuous = false;
+            this.mInternal = 1;
+            this.mTotalTime = 1;
+            this.mCurRunTime = 0;
+            this.mCurCallTime = 0;
+            this.mIsInfineLoop = false;
+            this.mIntervalLeftTime = 0;
+            this.mTimerDisp = new TimerFunctionObject();
+            this.mDisposed = false;
+            mIsContinuous = false;
         }
 
         public void setFuncObject(Action<TimerItemBase> handle)
         {
-            m_timerDisp.setFuncObject(handle);
+            this.mTimerDisp.setFuncObject(handle);
         }
 
         virtual public void setTotalTime(float value)
         {
-            this.m_totalTime = value;
+            this.mTotalTime = value;
         }
 
         virtual public float getRunTime()
         {
-            return this.m_curRunTime;
+            return this.mCurRunTime;
         }
 
         virtual public float getCallTime()
         {
-            return this.m_curCallTime;
+            return this.mCurCallTime;
         }
 
         virtual public float getLeftRunTime()
         {
-            return this.m_totalTime - this.m_curRunTime;
+            return this.mTotalTime - this.mCurRunTime;
         }
 
         virtual public float getLeftCallTime()
         {
-            return this.m_totalTime - this.m_curCallTime;
+            return this.mTotalTime - this.mCurCallTime;
         }
 
         // 在调用回调函数之前处理
@@ -69,25 +69,25 @@ namespace SDK.Lib
 
         public virtual void OnTimer(float delta)
         {
-            if (m_disposed)
+            if (this.mDisposed)
             {
                 return;
             }
 
-            m_curRunTime += delta;
-            if (m_curRunTime > m_totalTime)
+            this.mCurRunTime += delta;
+            if (this.mCurRunTime > this.mTotalTime)
             {
-                m_curRunTime = m_totalTime;
+                this.mCurRunTime = this.mTotalTime;
             }
-            m_intervalLeftTime += delta;
+            this.mIntervalLeftTime += delta;
 
-            if (m_bInfineLoop)
+            if (this.mIsInfineLoop)
             {
                 checkAndDisp();
             }
             else
             {
-                if (m_curRunTime >= m_totalTime)
+                if (this.mCurRunTime >= this.mTotalTime)
                 {
                     disposeAndDisp();
                 }
@@ -100,7 +100,7 @@ namespace SDK.Lib
 
         public virtual void disposeAndDisp()
         {
-            if (this.m_bContinuous)
+            if (this.mIsContinuous)
             {
                 this.continueDisposeAndDisp();
             }
@@ -112,36 +112,36 @@ namespace SDK.Lib
 
         protected void continueDisposeAndDisp()
         {
-            this.m_disposed = true;
+            this.mDisposed = true;
 
-            while (this.m_intervalLeftTime >= this.m_internal && this.m_curCallTime < this.m_totalTime)
+            while (this.mIntervalLeftTime >= this.mInternal && this.mCurCallTime < this.mTotalTime)
             {
-                this.m_curCallTime = this.m_curCallTime + this.m_internal;
-                this.m_intervalLeftTime = this.m_intervalLeftTime - this.m_internal;
+                this.mCurCallTime = this.mCurCallTime + this.mInternal;
+                this.mIntervalLeftTime = this.mIntervalLeftTime - this.mInternal;
                 this.onPreCallBack();
 
-                if (this.m_timerDisp.isValid())
+                if (this.mTimerDisp.isValid())
                 {
-                    this.m_timerDisp.call(this);
+                    this.mTimerDisp.call(this);
                 }
             }
         }
 
         protected void discontinueDisposeAndDisp()
         {
-            m_disposed = true;
-            m_curCallTime = m_totalTime;
+            this.mDisposed = true;
+            this.mCurCallTime = this.mTotalTime;
             this.onPreCallBack();
 
-            if (m_timerDisp.isValid())
+            if (this.mTimerDisp.isValid())
             {
-                m_timerDisp.call(this);
+                this.mTimerDisp.call(this);
             }
         }
 
         public virtual void checkAndDisp()
         {
-            if(m_bContinuous)
+            if(this.mIsContinuous)
             {
                 continueCheckAndDisp();
             }
@@ -154,16 +154,16 @@ namespace SDK.Lib
         // 连续的定时器
         protected void continueCheckAndDisp()
         {
-            while (m_intervalLeftTime >= m_internal)
+            while (this.mIntervalLeftTime >= this.mInternal)
             {
                 // 这个地方 m_curCallTime 肯定会小于 m_totalTime，因为在调用这个函数的外部已经进行了判断
-                m_curCallTime = m_curCallTime + m_internal;
-                m_intervalLeftTime = m_intervalLeftTime - m_internal;
+                this.mCurCallTime = this.mCurCallTime + this.mInternal;
+                this.mIntervalLeftTime = this.mIntervalLeftTime - this.mInternal;
                 this.onPreCallBack();
 
-                if (m_timerDisp.isValid())
+                if (this.mTimerDisp.isValid())
                 {
-                    m_timerDisp.call(this);
+                    this.mTimerDisp.call(this);
                 }
             }
         }
@@ -171,26 +171,26 @@ namespace SDK.Lib
         // 不连续的定时器
         protected void discontinueCheckAndDisp()
         {
-            if (m_intervalLeftTime >= m_internal)
+            if (this.mIntervalLeftTime >= this.mInternal)
             {
                 // 这个地方 m_curCallTime 肯定会小于 m_totalTime，因为在调用这个函数的外部已经进行了判断
-                m_curCallTime = m_curCallTime + (((int)(m_intervalLeftTime / m_internal)) * m_internal);
-                m_intervalLeftTime = m_intervalLeftTime % m_internal;   // 只保留余数
+                this.mCurCallTime = this.mCurCallTime + (((int)(this.mIntervalLeftTime / this.mInternal)) * this.mInternal);
+                this.mIntervalLeftTime = this.mIntervalLeftTime % this.mInternal;   // 只保留余数
                 this.onPreCallBack();
 
-                if (m_timerDisp.isValid())
+                if (this.mTimerDisp.isValid())
                 {
-                    m_timerDisp.call(this);
+                    this.mTimerDisp.call(this);
                 }
             }
         }
 
         public virtual void reset()
         {
-            m_curRunTime = 0;
-            m_curCallTime = 0;
-            m_intervalLeftTime = 0;
-            m_disposed = false;
+            this.mCurRunTime = 0;
+            this.mCurCallTime = 0;
+            this.mIntervalLeftTime = 0;
+            this.mDisposed = false;
         }
 
         public void setClientDispose()
@@ -205,7 +205,7 @@ namespace SDK.Lib
 
         public void setLuaFunctor(LuaTable luaTable, LuaFunction function)
         {
-            m_timerDisp.setLuaFunctor(luaTable, function);
+            this.mTimerDisp.setLuaFunctor(luaTable, function);
         }
     }
 }

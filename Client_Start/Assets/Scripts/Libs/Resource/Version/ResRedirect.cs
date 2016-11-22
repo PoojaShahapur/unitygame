@@ -77,7 +77,7 @@ namespace SDK.Lib
                 item = new ResRedirectItem(origPath, (int)ResLoadType.eLoadResource);
                 mOrigPath2ItemDic[origPath] = item;
 
-                item.mResLoadType = (ResLoadType)Ctx.m_instance.m_versionSys.m_localVer.getFileVerInfo(origPath, ref fileVerInfo);
+                item.mResLoadType = (ResLoadType)Ctx.m_instance.m_versionSys.mLocalVer.getFileVerInfo(origPath, ref fileVerInfo);
                 item.mFileVerInfo = fileVerInfo;
             }
 
@@ -89,8 +89,8 @@ namespace SDK.Lib
                 fileVerInfo.mOrigPath = origPath;
                 fileVerInfo.mResUniqueId = UtilPath.getFilePathNoExt(origPath);
                 fileVerInfo.mLoadPath = UtilPath.getFilePathNoExt(origPath);
-                fileVerInfo.m_fileMd5 = "error";
-                fileVerInfo.m_fileSize = 0;
+                fileVerInfo.mFileMd5 = "error";
+                fileVerInfo.mFileSize = 0;
 
                 item.mFileVerInfo = fileVerInfo;
             }

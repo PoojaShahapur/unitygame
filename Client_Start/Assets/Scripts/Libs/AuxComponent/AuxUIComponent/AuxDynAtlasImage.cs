@@ -7,14 +7,14 @@ namespace SDK.Lib
      */
     public class AuxDynAtlasImage : AuxWindow
     {
-        protected string m_goName;          // 场景中有 Image 的 GameObject 的名字
-        protected Image m_image;            // 图像
-        protected ImageItem m_imageItem;    // 图像资源
+        protected string mGoName;          // 场景中有 Image 的 GameObject 的名字
+        protected Image mImage;            // 图像
+        protected ImageItem mImageItem;    // 图像资源
 
-        protected string m_atlasName;       // 图集名字
-        protected string m_imageName;       // 图集中图片的名字
-        protected bool m_bNeedUpdateImage = false;  // 是否需要更新图像
-        protected bool m_bImageGoChange = false;    // Image 组件所在的 GameObject 改变
+        protected string mAtlasName;       // 图集名字
+        protected string mImageName;       // 图集中图片的名字
+        protected bool mIsNeedUpdateImage = false;  // 是否需要更新图像
+        protected bool mIsImageGoChange = false;    // Image 组件所在的 GameObject 改变
 
         protected EventDispatch m_imageLoadedDisp;  // 图像加载完成事件分发，改变 GameObject 或者 Image 图像内容都会分发
 
@@ -27,7 +27,7 @@ namespace SDK.Lib
         {
             set
             {
-                m_goName = value;
+                this.mGoName = value;
             }
         }
 
@@ -35,11 +35,11 @@ namespace SDK.Lib
         {
             set
             {
-                if (m_atlasName != value)
+                if (this.mAtlasName != value)
                 {
-                    m_bNeedUpdateImage = true;
+                    this.mIsNeedUpdateImage = true;
                 }
-                m_atlasName = value;
+                this.mAtlasName = value;
             }
         }
 
@@ -47,11 +47,11 @@ namespace SDK.Lib
         {
             set
             {
-                if (m_imageName != value)
+                if (this.mImageName != value)
                 {
-                    m_bNeedUpdateImage = true;
+                    this.mIsNeedUpdateImage = true;
                 }
-                m_imageName = value;
+                this.mImageName = value;
             }
         }
 
@@ -66,17 +66,17 @@ namespace SDK.Lib
         // 设置图像信息
         public void setImageInfo(string atlasName, string imageName)
         {
-            if (m_atlasName != atlasName)
+            if (this.mAtlasName != atlasName)
             {
-                m_bNeedUpdateImage = true;
+                this.mIsNeedUpdateImage = true;
             }
-            if (m_imageName != imageName)
+            if (this.mImageName != imageName)
             {
-                m_bNeedUpdateImage = true;
+                this.mIsNeedUpdateImage = true;
             }
 
-            m_atlasName = atlasName;
-            m_imageName = imageName;
+            this.mAtlasName = atlasName;
+            this.mImageName = imageName;
         }
 
         // 查找 UI 组件
@@ -88,36 +88,36 @@ namespace SDK.Lib
         // 资源改变更新图像
         protected void updateImage()
         {
-            if (m_bNeedUpdateImage)
+            if (this.mIsNeedUpdateImage)
             {
-                if (m_imageItem != null)
+                if (this.mImageItem != null)
                 {
-                    Ctx.m_instance.m_atlasMgr.unloadImage(m_imageItem, null);
-                    m_imageItem = null;
+                    Ctx.m_instance.m_atlasMgr.unloadImage(this.mImageItem, null);
+                    this.mImageItem = null;
                 }
-                m_imageItem = Ctx.m_instance.m_atlasMgr.getAndSyncLoadImage(m_atlasName, m_imageName);
-                m_imageItem.setImageImage(m_image);
+                this.mImageItem = Ctx.m_instance.m_atlasMgr.getAndSyncLoadImage(this.mAtlasName, this.mImageName);
+                this.mImageItem.setImageImage(this.mImage);
             }
-            else if (m_bImageGoChange)
+            else if (this.mIsImageGoChange)
             {
-                if (m_imageItem == null)
+                if (this.mImageItem == null)
                 {
-                    m_imageItem = Ctx.m_instance.m_atlasMgr.getAndSyncLoadImage(m_atlasName, m_imageName);
+                    this.mImageItem = Ctx.m_instance.m_atlasMgr.getAndSyncLoadImage(this.mAtlasName, this.mImageName);
                 }
-                m_imageItem.setImageImage(m_image);
+                this.mImageItem.setImageImage(this.mImage);
             }
 
-            m_bImageGoChange = false;
-            m_bNeedUpdateImage = false;
+            this.mIsImageGoChange = false;
+            this.mIsNeedUpdateImage = false;
         }
 
         override public void dispose()
         {
             base.dispose();
-            if (m_imageItem != null)
+            if (this.mImageItem != null)
             {
-                Ctx.m_instance.m_atlasMgr.unloadImage(m_imageItem, null);
-                m_imageItem = null;
+                Ctx.m_instance.m_atlasMgr.unloadImage(this.mImageItem, null);
+                this.mImageItem = null;
             }
         }
 

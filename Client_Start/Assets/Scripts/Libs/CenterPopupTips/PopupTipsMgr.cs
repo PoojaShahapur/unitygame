@@ -2,6 +2,6 @@
 {
     public class PopupTipsMgr
     {
-        protected MList<PopupTipsItemBase> m_list; 
+        protected MList<PopupTipsItemBase> mList; 
     }
 }

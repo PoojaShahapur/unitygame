@@ -50,8 +50,8 @@ namespace SDK.Lib
             mFileVerInfo.mOrigPath = equalList[0];
             mFileVerInfo.mResUniqueId = equalList[1];
             mFileVerInfo.mLoadPath = equalList[2];
-            mFileVerInfo.m_fileMd5 = equalList[3];
-            mFileVerInfo.m_fileSize = Int32.Parse(equalList[4]);
+            mFileVerInfo.mFileMd5 = equalList[3];
+            mFileVerInfo.mFileSize = Int32.Parse(equalList[4]);
         }
 
         // 这个主要是解析版本文件的
@@ -72,8 +72,8 @@ namespace SDK.Lib
                 fileInfo.mOrigPath = equalList[0];
                 fileInfo.mResUniqueId = equalList[1];
                 fileInfo.mLoadPath = equalList[2];
-                fileInfo.m_fileMd5 = equalList[3];
-                fileInfo.m_fileSize = Int32.Parse(equalList[4]);
+                fileInfo.mFileMd5 = equalList[3];
+                fileInfo.mFileSize = Int32.Parse(equalList[4]);
 
                 //dic[fileInfo.mResUniqueId] = fileInfo;
                 dic[fileInfo.mOrigPath] = fileInfo;

@@ -25,44 +25,44 @@
      */
     public class SpriteAni : AuxComponent, IDispatchObject
     {
-        protected float m_leftTime;     // 播放完成一帧后还剩余的时间
-        protected int m_curFrame;       // 当前播放到第几帧
-        protected bool m_bLoop;         // 是否是循环播放动画
-        protected string m_goName;
-        protected SpritePlayState m_playState;
+        protected float mLeftTime;     // 播放完成一帧后还剩余的时间
+        protected int mCurFrame;       // 当前播放到第几帧
+        protected bool mIsLoop;         // 是否是循环播放动画
+        protected string mGoName;
+        protected SpritePlayState mPlayState;
 
-        protected int m_tableID;            // 表中 id
-        protected bool m_bNeedReloadRes;    // 是否需要重新加载资源
-        protected TableSpriteAniItemBody m_tableBody;
-        protected AtlasScriptRes m_atlasScriptRes;
-        protected EventDispatch m_playEndEventDispatch;         // 特效播放完成事件分发
-        protected bool m_bClientDispose;        // 客户端已经释放这个对象，但是由于在遍历中，等着遍历结束再删除，所有多这个对象的操作都是无效的
-        protected bool m_bKeepLastFrame;        // 停止特效后，是否保留最后一帧的内容
-        protected eSpriteLoopType m_loopType;
-        protected ePlayDirection m_curPlayDirection;        // 如果是 PingPang 播放的时候当前播放方向
+        protected int mTableID;            // 表中 id
+        protected bool mIsNeedReloadRes;    // 是否需要重新加载资源
+        protected TableSpriteAniItemBody mTableBody;
+        protected AtlasScriptRes mAtlasScriptRes;
+        protected EventDispatch mPlayEndEventDispatch;         // 特效播放完成事件分发
+        protected bool mIsClientDispose;        // 客户端已经释放这个对象，但是由于在遍历中，等着遍历结束再删除，所有多这个对象的操作都是无效的
+        protected bool mIsKeepLastFrame;        // 停止特效后，是否保留最后一帧的内容
+        protected eSpriteLoopType mLoopType;
+        protected ePlayDirection mCurPlayDirection;        // 如果是 PingPang 播放的时候当前播放方向
 
         public SpriteAni()
         {
-            m_leftTime = 0;
-            m_curFrame = 0;
-            m_bLoop = false;
-            m_bNeedReloadRes = false;
-            m_playState = SpritePlayState.eNone;
-            m_playEndEventDispatch = new AddOnceAndCallOnceEventDispatch();
-            m_bKeepLastFrame = false;
-            m_loopType = eSpriteLoopType.eSequence;
-            m_curPlayDirection = ePlayDirection.ePositive;
+            this.mLeftTime = 0;
+            this.mCurFrame = 0;
+            this.mIsLoop = false;
+            this.mIsNeedReloadRes = false;
+            this.mPlayState = SpritePlayState.eNone;
+            this.mPlayEndEventDispatch = new AddOnceAndCallOnceEventDispatch();
+            this.mIsKeepLastFrame = false;
+            this.mLoopType = eSpriteLoopType.eSequence;
+            this.mCurPlayDirection = ePlayDirection.ePositive;
         }
 
         public bool bLoop
         {
             get
             {
-                return m_bLoop;
+                return this.mIsLoop;
             }
             set
             {
-                m_bLoop = value;
+                this.mIsLoop = value;
             }
         }
 
@@ -70,7 +70,7 @@
         {
             set
             {
-                m_goName = value;
+                this.mGoName = value;
             }
         }
 
@@ -82,12 +82,12 @@
                 //{
                 //    Ctx.m_instance.m_logSys.log("asdfasdasdfas");
                 //}
-                if (m_tableID != value)
+                if (this.mTableID != value)
                 {
-                    m_bNeedReloadRes = true;
+                    this.mIsNeedReloadRes = true;
 
-                    m_tableID = value;
-                    m_tableBody = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_SPRITEANI, (uint)m_tableID).m_itemBody as TableSpriteAniItemBody;
+                    this.mTableID = value;
+                    this.mTableBody = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_SPRITEANI, (uint)this.mTableID).m_itemBody as TableSpriteAniItemBody;
 
                     onSpritePrefabChanged();
                 }
@@ -98,11 +98,11 @@
         {
             get
             {
-                return m_playState;
+                return this.mPlayState;
             }
             set
             {
-                m_playState = value;
+                this.mPlayState = value;
             }
         }
 
@@ -110,11 +110,11 @@
         {
             get
             {
-                return m_playEndEventDispatch;
+                return this.mPlayEndEventDispatch;
             }
             set
             {
-                m_playEndEventDispatch = value;
+                this.mPlayEndEventDispatch = value;
             }
         }
 
@@ -122,32 +122,32 @@
         {
             get
             {
-                return m_bKeepLastFrame;
+                return this.mIsKeepLastFrame;
             }
             set
             {
-                m_bKeepLastFrame = value;
+                this.mIsKeepLastFrame = value;
             }
         }
 
         virtual public void setKeepLastFrame(bool bKeep)
         {
-            m_bKeepLastFrame = bKeep;
+            this.mIsKeepLastFrame = bKeep;
         }
 
         virtual public void setLoopType(eSpriteLoopType type)
         {
-            m_loopType = type;
+            this.mLoopType = type;
         }
 
         virtual public void setClientDispose()
         {
-            m_bClientDispose = true;
+            this.mIsClientDispose = true;
         }
 
         virtual public bool getClientDispose()
         {
-            return m_bClientDispose;
+            return this.mIsClientDispose;
         }
 
         // 特效对应的精灵 Prefab 改变
@@ -158,47 +158,47 @@
 
         override public void dispose()
         {
-            if (m_atlasScriptRes != null)
+            if (mAtlasScriptRes != null)
             {
-                Ctx.m_instance.m_atlasMgr.unload(m_atlasScriptRes.getResUniqueId(), null);
-                m_atlasScriptRes = null;
+                Ctx.m_instance.m_atlasMgr.unload(this.mAtlasScriptRes.getResUniqueId(), null);
+                this.mAtlasScriptRes = null;
             }
-            m_playEndEventDispatch.clearEventHandle();
+            this.mPlayEndEventDispatch.clearEventHandle();
             base.dispose();
         }
 
         virtual public void play()
         {
-            if(SpritePlayState.ePlaying != m_playState)
+            if(SpritePlayState.ePlaying != this.mPlayState)
             {
                 syncUpdateCom();
-                m_playState = SpritePlayState.ePlaying;
+                this.mPlayState = SpritePlayState.ePlaying;
             }
         }
 
         // 停止播放就是不显示了
         virtual public void stop()
         {
-            if (SpritePlayState.eStop != m_playState)
+            if (SpritePlayState.eStop != this.mPlayState)
             {
-                m_playState = SpritePlayState.eStop;
+                this.mPlayState = SpritePlayState.eStop;
                 // 停止后，从 0 开始播放
-                m_curFrame = 0;
-                m_leftTime = 0;
+                this.mCurFrame = 0;
+                this.mLeftTime = 0;
             }
         }
 
         virtual public void pause()
         {
-            if (SpritePlayState.eStop != m_playState)
+            if (SpritePlayState.eStop != this.mPlayState)
             {
-                m_playState = SpritePlayState.ePause;
+                this.mPlayState = SpritePlayState.ePause;
             }
         }
 
         public bool bPlay()
         {
-            return (SpritePlayState.ePlaying == m_playState);
+            return (SpritePlayState.ePlaying == this.mPlayState);
         }
 
         // 自己发生改变
@@ -216,77 +216,77 @@
 
         public void syncUpdateCom()
         {
-            if (m_bNeedReloadRes)
+            if (this.mIsNeedReloadRes)
             {
-                if(m_atlasScriptRes != null)
+                if(this.mAtlasScriptRes != null)
                 {
-                    Ctx.m_instance.m_atlasMgr.unload(m_atlasScriptRes.getResUniqueId(), null);
-                    m_atlasScriptRes = null;
+                    Ctx.m_instance.m_atlasMgr.unload(this.mAtlasScriptRes.getResUniqueId(), null);
+                    this.mAtlasScriptRes = null;
                 }
-                m_atlasScriptRes = Ctx.m_instance.m_atlasMgr.getAndSyncLoad<AtlasScriptRes>(string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathSpriteAni], m_tableBody.m_aniResName));
+                this.mAtlasScriptRes = Ctx.m_instance.m_atlasMgr.getAndSyncLoad<AtlasScriptRes>(string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathSpriteAni], this.mTableBody.m_aniResName));
             }
-            
-            m_bNeedReloadRes = false;
+
+            this.mIsNeedReloadRes = false;
         }
 
         public void onTick(float delta)
         {
-            if (SpritePlayState.ePlaying == m_playState)
+            if (SpritePlayState.ePlaying == this.mPlayState)
             {
-                m_leftTime += delta;
+                this.mLeftTime += delta;
 
-                if (m_leftTime >= m_tableBody.m_invFrameRate)
+                if (this.mLeftTime >= this.mTableBody.m_invFrameRate)
                 {
-                    if (eSpriteLoopType.eSequence == m_loopType)    // 顺序播放
+                    if (eSpriteLoopType.eSequence == this.mLoopType)    // 顺序播放
                     {
-                        ++m_curFrame;
-                        m_curFrame %= m_tableBody.m_frameCount;
+                        ++this.mCurFrame;
+                        this.mCurFrame %= this.mTableBody.m_frameCount;
                     }
                     else        // pingpang 播放
                     {
-                        if(ePlayDirection.ePositive == m_curPlayDirection)
+                        if(ePlayDirection.ePositive == this.mCurPlayDirection)
                         {
-                            if (m_curFrame == m_tableBody.m_frameCount - 1) // 如果上一帧是最后一帧
+                            if (this.mCurFrame == mTableBody.m_frameCount - 1) // 如果上一帧是最后一帧
                             {
-                                m_curPlayDirection = ePlayDirection.eNegative;
-                                --m_curFrame;
-                                if(m_curFrame < 0)  // 如果就一帧
+                                this.mCurPlayDirection = ePlayDirection.eNegative;
+                                --this.mCurFrame;
+                                if(this.mCurFrame < 0)  // 如果就一帧
                                 {
-                                    m_curFrame = 0;
-                                    m_curPlayDirection = ePlayDirection.ePositive;
+                                    this.mCurFrame = 0;
+                                    this.mCurPlayDirection = ePlayDirection.ePositive;
                                 }
                             }
                             else
                             {
-                                ++m_curFrame;
+                                ++this.mCurFrame;
                             }
                         }
                         else    // 如果向反方向播放
                         {
-                            if(m_curFrame == 0)     // 如果上一帧是第一帧
+                            if(this.mCurFrame == 0)     // 如果上一帧是第一帧
                             {
-                                m_curPlayDirection = ePlayDirection.ePositive;
-                                ++m_curFrame;
-                                if(m_curFrame == m_tableBody.m_frameCount)  // 如果总共就一帧
+                                this.mCurPlayDirection = ePlayDirection.ePositive;
+                                ++this.mCurFrame;
+                                if(this.mCurFrame == this.mTableBody.m_frameCount)  // 如果总共就一帧
                                 {
-                                    m_curFrame = 0;
-                                    m_curPlayDirection = ePlayDirection.eNegative;
+                                    this.mCurFrame = 0;
+                                    this.mCurPlayDirection = ePlayDirection.eNegative;
                                 }
                             }
                             else
                             {
-                                --m_curFrame;
+                                --this.mCurFrame;
                             }
                         }
                     }
 
-                    m_leftTime -= m_tableBody.m_invFrameRate;
+                    this.mLeftTime -= this.mTableBody.m_invFrameRate;
 
                     updateImage();
 
-                    if (m_curFrame == m_tableBody.m_frameCount - 1)
+                    if (this.mCurFrame == this.mTableBody.m_frameCount - 1)
                     {
-                        if (!m_bLoop)
+                        if (!this.mIsLoop)
                         {
                             stop();
                             dispEndEvent();         // 只有被动停止才会发送播放结束事件，如果是主动停止的，不会发送播放结束事件
@@ -298,7 +298,7 @@
 
         virtual protected void dispEndEvent()
         {
-            m_playEndEventDispatch.dispatchEvent(this);
+            this.mPlayEndEventDispatch.dispatchEvent(this);
         }
 
         virtual public void updateImage()

@@ -8,41 +8,41 @@
         override public void setTotalTime(float value)
         {
             base.setTotalTime(value);
-            this.m_curRunTime = value;
+            this.mCurRunTime = value;
         }
 
         override public float getRunTime()
         {
-            return this.m_totalTime - this.m_curRunTime;
+            return this.mTotalTime - this.mCurRunTime;
         }
 
         // 如果要获取剩余的倒计时时间，使用 getLeftCallTime
         override public float getLeftRunTime()
         {
-            return this.m_curRunTime;
+            return this.mCurRunTime;
         }
 
         public override void OnTimer(float delta)
         {
-            if (m_disposed)
+            if (this.mDisposed)
             {
                 return;
             }
 
-            m_curRunTime -= delta;
-            if(m_curRunTime < 0)
+            this.mCurRunTime -= delta;
+            if(this.mCurRunTime < 0)
             {
-                m_curRunTime = 0;
+                this.mCurRunTime = 0;
             }
-            m_intervalLeftTime += delta;
+            this.mIntervalLeftTime += delta;
 
-            if (m_bInfineLoop)
+            if (this.mIsInfineLoop)
             {
                 checkAndDisp();
             }
             else
             {
-                if (m_curRunTime <= 0)
+                if (this.mCurRunTime <= 0)
                 {
                     disposeAndDisp();
                 }
@@ -55,10 +55,10 @@
 
         public override void reset()
         {
-            m_curRunTime = m_totalTime;
-            m_curCallTime = 0;
-            m_intervalLeftTime = 0;
-            m_disposed = false;
+            this.mCurRunTime = this.mTotalTime;
+            this.mCurCallTime = 0;
+            this.mIntervalLeftTime = 0;
+            this.mDisposed = false;
         }
     }
 }

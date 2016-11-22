@@ -4,18 +4,18 @@ namespace SDK.Lib
 {
     public class AuxDynImageStaticGoButton : AuxBasicButton
     {
-        protected AuxDynImageStaticGOImage m_auxDynImageStaticGOImage;        // 这个图片和 Prefab
+        protected AuxDynImageStaticGOImage mAuxDynImageStaticGOImage;        // 这个图片和 Prefab
 
         public AuxDynImageStaticGoButton(GameObject pntNode = null, string path = "", BtnStyleID styleId = BtnStyleID.eBSID_None) :
             base(pntNode, path, styleId)
         {
-            m_auxDynImageStaticGOImage = new AuxDynImageStaticGOImage();
-            m_auxDynImageStaticGOImage.selfGo = this.selfGo;
+            this.mAuxDynImageStaticGOImage = new AuxDynImageStaticGOImage();
+            this.mAuxDynImageStaticGOImage.selfGo = this.selfGo;
         }
 
         override public void dispose()
         {
-            m_auxDynImageStaticGOImage.dispose();
+            this.mAuxDynImageStaticGOImage.dispose();
             base.dispose();
         }
 
@@ -23,11 +23,11 @@ namespace SDK.Lib
         {
             get
             {
-                return m_auxDynImageStaticGOImage;
+                return this.mAuxDynImageStaticGOImage;
             }
             set
             {
-                m_auxDynImageStaticGOImage = value;
+                this.mAuxDynImageStaticGOImage = value;
             }
         }
     }

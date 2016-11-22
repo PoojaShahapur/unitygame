@@ -2,10 +2,10 @@
 {
     public class ResizeMgr : DelayHandleMgrBase, ITickedObject
     {
-        protected int m_preWidth;       // 之前宽度
-        protected int m_preHeight;
-        protected int m_curWidth;       // 现在宽度
-        protected int m_curHeight;
+        protected int mPreWidth;       // 之前宽度
+        protected int mPreHeight;
+        protected int mCurWidth;       // 现在宽度
+        protected int mCurHeight;
 
         protected MList<IResizeObject> m_ResizeLst;
 
@@ -56,14 +56,14 @@
 
         public void onTick(float delta)
         {
-            m_preWidth = m_curWidth;
-            m_curWidth = UtilApi.getScreenWidth();
-            m_preHeight = m_curHeight;
-            m_curHeight = UtilApi.getScreenHeight();
+            mPreWidth = this.mCurWidth;
+            this.mCurWidth = UtilApi.getScreenWidth();
+            this.mPreHeight = this.mCurHeight;
+            this.mCurHeight = UtilApi.getScreenHeight();
 
-            if(m_preWidth != m_curWidth || m_preHeight != m_curHeight)
+            if(this.mPreWidth != this.mCurWidth || this.mPreHeight != this.mCurHeight)
             {
-                this.onResize(m_curWidth, m_curHeight);
+                this.onResize(this.mCurWidth, this.mCurHeight);
             }
         }
 

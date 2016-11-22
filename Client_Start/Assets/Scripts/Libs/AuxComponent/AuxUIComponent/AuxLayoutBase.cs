@@ -4,18 +4,18 @@ namespace SDK.Lib
 {
     public class AuxLayoutBase : AuxWindow
     {
-        protected int m_elemWidth;          // 元素宽度
-        protected int m_elemHeight;         // 元素高度
+        protected int mElemWidth;          // 元素宽度
+        protected int mElemHeight;         // 元素高度
 
         public int elemWidth
         {
             get
             {
-                return m_elemWidth;
+                return this.mElemWidth;
             }
             set
             {
-                m_elemWidth = value;
+                this.mElemWidth = value;
             }
         }
 
@@ -23,11 +23,11 @@ namespace SDK.Lib
         {
             get
             {
-                return m_elemHeight;
+                return this.mElemHeight;
             }
             set
             {
-                m_elemHeight = value;
+                this.mElemHeight = value;
             }
         }
 
@@ -43,7 +43,7 @@ namespace SDK.Lib
 
         virtual public void addElem(GameObject go_, bool recalc = false)
         {
-            UtilApi.SetParent(go_, m_selfGo, false);
+            UtilApi.SetParent(go_, this.mSelfGo, false);
 
             if (recalc)
             {

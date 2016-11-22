@@ -5,23 +5,23 @@ namespace SDK.Lib
 {
     public class AuxScrollbar : AuxWindow
     {
-        protected Scrollbar m_scrollbar;       // 滚动条
+        protected Scrollbar mScrollbar;       // 滚动条
 
         public AuxScrollbar(GameObject pntNode, string path, BtnStyleID styleId = BtnStyleID.eBSID_None)
         {
-            m_selfGo = UtilApi.TransFindChildByPObjAndPath(pntNode, path);
-            m_scrollbar = UtilApi.getComByP<Scrollbar>(pntNode, path);
+            this.mSelfGo = UtilApi.TransFindChildByPObjAndPath(pntNode, path);
+            this.mScrollbar = UtilApi.getComByP<Scrollbar>(pntNode, path);
         }
 
         public float value
         {
             get
             {
-                return m_scrollbar.value;
+                return this.mScrollbar.value;
             }
             set
             {
-                m_scrollbar.value = 0;
+                this.mScrollbar.value = 0;
             }
         }
     }

@@ -7,13 +7,13 @@ namespace SDK.Lib
      */
     public class SpriteRenderSpriteAni : SpriteAni
     {
-        protected SceneEntityBase m_entity;
-        protected SpriteRenderer m_spriteRender;    // 精灵渲染器
-        protected ModelRes m_effectPrefab;          // 特效 Prefab
+        protected SceneEntityBase mEntity;
+        protected SpriteRenderer mSpriteRender;    // 精灵渲染器
+        protected ModelRes mEffectPrefab;          // 特效 Prefab
 
         public SpriteRenderSpriteAni(SceneEntityBase entity_)
         {
-            m_entity = entity_;
+            this.mEntity = entity_;
 
             // 创建自己的场景 GameObject
             //selfGo = UtilApi.createSpriteGameObject();
@@ -28,28 +28,28 @@ namespace SDK.Lib
 
         protected void clearEffectRes()
         {
-            if (m_selfGo != null)        // 场景中的特效需要直接释放这个 GameObject
+            if (this.mSelfGo != null)        // 场景中的特效需要直接释放这个 GameObject
             {
-                UtilApi.Destroy(m_selfGo);
-                m_selfGo = null;
-                m_spriteRender = null;
+                UtilApi.Destroy(this.mSelfGo);
+                this.mSelfGo = null;
+                this.mSpriteRender = null;
             }
 
-            if (m_effectPrefab != null)
+            if (this.mEffectPrefab != null)
             {
-                Ctx.m_instance.m_modelMgr.unload(m_effectPrefab.getResUniqueId(), null);
-                m_effectPrefab = null;
+                Ctx.m_instance.m_modelMgr.unload(this.mEffectPrefab.getResUniqueId(), null);
+                this.mEffectPrefab = null;
             }
         }
 
         override public void stop()
         {
             base.stop();
-            if (m_spriteRender != null)
+            if (this.mSpriteRender != null)
             {
-                if (!m_bKeepLastFrame)
+                if (!this.mIsKeepLastFrame)
                 {
-                    m_spriteRender.sprite = null;
+                    this.mSpriteRender.sprite = null;
                     //m_spriteRender = null;
                 }
             }
@@ -67,18 +67,18 @@ namespace SDK.Lib
         // 查找 UI 组件
         override public void findWidget()
         {
-            if (m_spriteRender == null)
+            if (this.mSpriteRender == null)
             {
-                if (string.IsNullOrEmpty(m_goName))      // 如果 m_goName 为空，就说明就是当前 GameObject 上获取 Image 
+                if (string.IsNullOrEmpty(this.mGoName))      // 如果 m_goName 为空，就说明就是当前 GameObject 上获取 Image 
                 {
-                    m_spriteRender = UtilApi.getComByP<SpriteRenderer>(m_selfGo);
+                    this.mSpriteRender = UtilApi.getComByP<SpriteRenderer>(this.mSelfGo);
                 }
                 else
                 {
-                    m_spriteRender = UtilApi.getComByP<SpriteRenderer>(m_pntGo, m_goName);
+                    this.mSpriteRender = UtilApi.getComByP<SpriteRenderer>(this.mPntGo, this.mGoName);
                 }
 
-                if(m_spriteRender == null)
+                if(this.mSpriteRender == null)
                 {
                     Ctx.m_instance.m_logSys.log("m_spriteRender is null");
                 }
@@ -87,10 +87,10 @@ namespace SDK.Lib
         
         override public void updateImage()
         {
-            if (m_spriteRender != null)
+            if (this.mSpriteRender != null)
             {
-                m_spriteRender.sprite = m_atlasScriptRes.getImage(m_curFrame).image;
-                if(m_spriteRender.sprite == null)
+                this.mSpriteRender.sprite = this.mAtlasScriptRes.getImage(mCurFrame).image;
+                if(this.mSpriteRender.sprite == null)
                 {
                     Ctx.m_instance.m_logSys.log("updateImage m_spriteRender is null");
                 }
@@ -103,12 +103,12 @@ namespace SDK.Lib
 
         override protected void dispEndEvent()
         {
-            m_playEndEventDispatch.dispatchEvent(m_entity);
+            this.mPlayEndEventDispatch.dispatchEvent(this.mEntity);
         }
 
         override public bool checkRender()
         {
-            return m_spriteRender != null;
+            return this.mSpriteRender != null;
         }
 
         // 特效对应的精灵 Prefab 改变
@@ -116,11 +116,11 @@ namespace SDK.Lib
         {
             clearEffectRes();
 
-            string path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathSpriteAni], m_tableBody.m_aniPrefabName);
-            m_effectPrefab = Ctx.m_instance.m_modelMgr.getAndSyncLoad<ModelRes>(path);
-            selfGo = m_effectPrefab.InstantiateObject(path);
+            string path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathSpriteAni], this.mTableBody.m_aniPrefabName);
+            this.mEffectPrefab = Ctx.m_instance.m_modelMgr.getAndSyncLoad<ModelRes>(path);
+            selfGo = this.mEffectPrefab.InstantiateObject(path);
 
-            if(m_selfGo == null)
+            if(this.mSelfGo == null)
             {
                 Ctx.m_instance.m_logSys.log(string.Format("Load SpritePrefab Path = {0} Failed", path));
             }

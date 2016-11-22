@@ -4,27 +4,27 @@ namespace SDK.Lib
 {
     public class AuxDynTexDynGOImage : AuxDynTexImage
     {
-        protected string m_prefabPath;      // Prefab 目录
-        protected PrefabRes m_prefabRes;  // Prefab 资源
-        protected bool m_bNeedReload = false;
+        protected string mPrefabPath;      // Prefab 目录
+        protected PrefabRes mPrefabRes;  // Prefab 资源
+        protected bool mIsNeedReload = false;
 
         public AuxDynTexDynGOImage(bool bNeedPlaceHolderGo = false)
         {
-            m_bNeedPlaceHolderGo = bNeedPlaceHolderGo;
+            this.mIsNeedPlaceHolderGo = bNeedPlaceHolderGo;
         }
 
         override public void dispose()
         {
-            if (m_selfGo != null)
+            if (this.mSelfGo != null)
             {
-                UtilApi.Destroy(m_selfGo);
+                UtilApi.Destroy(this.mSelfGo);
             }
 
             base.dispose();
             
-            if(m_prefabRes != null)
+            if(this.mPrefabRes != null)
             {
-                Ctx.m_instance.m_prefabMgr.unload(m_prefabRes.getResUniqueId(), null);
+                Ctx.m_instance.m_prefabMgr.unload(this.mPrefabRes.getResUniqueId(), null);
             }
         }
 
@@ -32,58 +32,58 @@ namespace SDK.Lib
         {
             set
             {
-                if (m_prefabPath != value)
+                if (this.mPrefabPath != value)
                 {
-                    m_bNeedReload = true;
+                    this.mIsNeedReload = true;
                 }
-                m_prefabPath = value;
+                this.mPrefabPath = value;
             }
         }
 
         // 查找 UI 组件
         override public void findWidget()
         {
-            if (string.IsNullOrEmpty(m_goName))      // 如果 m_goName 为空，就说明就是当前 GameObject 上获取 Image 
+            if (string.IsNullOrEmpty(this.mGoName))      // 如果 m_goName 为空，就说明就是当前 GameObject 上获取 Image 
             {
-                m_image = UtilApi.getComByP<Image>(m_selfGo);
+                this.mImage = UtilApi.getComByP<Image>(this.mSelfGo);
             }
             else
             {
-                m_image = UtilApi.getComByP<Image>(m_selfGo, m_goName);
+                this.mImage = UtilApi.getComByP<Image>(this.mSelfGo, this.mGoName);
             }
         }
 
         // 加载 Prefab
         protected void loadPrefab()
         {
-            if (m_bNeedReload)
+            if (this.mIsNeedReload)
             {
-                if (m_selfGo != null)
+                if (this.mSelfGo != null)
                 {
-                    UtilApi.Destroy(m_selfGo);
-                    m_selfGo = null;
+                    UtilApi.Destroy(this.mSelfGo);
+                    this.mSelfGo = null;
                 }
-                if (m_prefabRes != null)
+                if (this.mPrefabRes != null)
                 {
-                    Ctx.m_instance.m_prefabMgr.unload(m_prefabRes.getResUniqueId(), null);
-                    m_prefabRes = null;
+                    Ctx.m_instance.m_prefabMgr.unload(this.mPrefabRes.getResUniqueId(), null);
+                    this.mPrefabRes = null;
                 }
-                m_prefabRes = Ctx.m_instance.m_prefabMgr.getAndSyncLoad<PrefabRes>(m_prefabPath);
-                m_selfGo = m_prefabRes.InstantiateObject(m_prefabPath);
+                this.mPrefabRes = Ctx.m_instance.m_prefabMgr.getAndSyncLoad<PrefabRes>(this.mPrefabPath);
+                this.mSelfGo = this.mPrefabRes.InstantiateObject(this.mPrefabPath);
 
-                if (m_bNeedPlaceHolderGo && m_placeHolderGo != null)
+                if (this.mIsNeedPlaceHolderGo && this.mPlaceHolderGo != null)
                 {
-                    UtilApi.SetParent(m_selfGo, m_placeHolderGo, false);
+                    UtilApi.SetParent(this.mSelfGo, this.mPlaceHolderGo, false);
                 }
-                else if (m_pntGo != null)
+                else if (this.mPntGo != null)
                 {
-                    UtilApi.SetParent(m_selfGo, m_pntGo, false);
+                    UtilApi.SetParent(this.mSelfGo, this.mPntGo, false);
                 }
 
                 findWidget();
-                m_bImageGoChange = true;      // 设置重新更新图像
+                this.mIsImageGoChange = true;      // 设置重新更新图像
             }
-            m_bNeedReload = false;
+            mIsNeedReload = false;
         }
 
         override public void syncUpdateCom()

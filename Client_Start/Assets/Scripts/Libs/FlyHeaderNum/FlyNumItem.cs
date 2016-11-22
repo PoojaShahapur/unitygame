@@ -8,29 +8,29 @@ namespace SDK.Lib
      */
     public class FlyNumItem
     {
-        protected NumResItem m_num;         // 数字
-        protected NumAniParallel m_numAni;  // 数字动画
-        protected Action<FlyNumItem> m_aniEndDisp;
+        protected NumResItem mNum;         // 数字
+        protected NumAniParallel mNumAni;  // 数字动画
+        protected Action<FlyNumItem> mAniEndDisp;
 
         public void setNum(int num)
         {
-            m_num = new NumResItem();
-            m_num.setNum(num);
+            this.mNum = new NumResItem();
+            this.mNum.setNum(num);
         }
 
         public void setPos(Vector3 pos)
         {
-            m_num.setPos(pos);
+            this.mNum.setPos(pos);
         }
 
         public void setDisp(Action<FlyNumItem> disp)
         {
-            m_aniEndDisp = disp;
+            this.mAniEndDisp = disp;
         }
 
         public void setParent(GameObject parentGo)
         {
-            m_num.setParent(parentGo);
+            this.mNum.setParent(parentGo);
         }
 
         public void play()
@@ -46,19 +46,19 @@ namespace SDK.Lib
 
             // 启动定时器
             TimerItemBase timer = new TimerItemBase();
-            timer.m_internal = 1;
-            timer.m_totalTime = 1;
-            timer.m_timerDisp.setFuncObject(endTimer);
+            timer.mInternal = 1;
+            timer.mTotalTime = 1;
+            timer.mTimerDisp.setFuncObject(endTimer);
             Ctx.m_instance.m_timerMgr.addTimer(timer);
         }
 
         protected void endTimer(TimerItemBase timer)
         {
-            m_num.dispose();
+            this.mNum.dispose();
 
-            if(m_aniEndDisp != null)
+            if(this.mAniEndDisp != null)
             {
-                m_aniEndDisp(this);
+                this.mAniEndDisp(this);
             }
         }
     }

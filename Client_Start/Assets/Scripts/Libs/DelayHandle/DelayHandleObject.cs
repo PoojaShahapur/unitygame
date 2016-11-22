@@ -2,7 +2,7 @@
 {
     public class DelayHandleObject
     {
-        public IDelayHandleItem m_delayObject;
-        public DelayHandleParamBase m_delayParam;
+        public IDelayHandleItem mDelayObject;
+        public DelayHandleParamBase mDelayParam;
     }
 }

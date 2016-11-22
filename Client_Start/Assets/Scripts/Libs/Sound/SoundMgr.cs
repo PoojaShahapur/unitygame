@@ -160,12 +160,12 @@ namespace SDK.Lib
 
         public void addTimer()
         {
-            if (m_timer == null)
+            if (this.m_timer == null)
             {
-                m_timer = new TimerItemBase();
-                m_timer.m_internal = 3;        // 一分钟遍历一次
-                m_timer.m_bInfineLoop = true;
-                m_timer.m_timerDisp.setFuncObject(onTimer);
+                this.m_timer = new TimerItemBase();
+                this.m_timer.mInternal = 3;        // 一分钟遍历一次
+                this.m_timer.mIsInfineLoop = true;
+                this.m_timer.mTimerDisp.setFuncObject(onTimer);
             }
 
             // 检查是否要加入定时器

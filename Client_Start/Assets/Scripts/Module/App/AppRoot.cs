@@ -73,8 +73,8 @@ public class AppRoot : MonoBehaviour
         }
         else
         {
-            Ctx.m_instance.m_moduleSys.loadModule(ModuleID.LOGINMN);
-            //Ctx.m_instance.m_moduleSys.loadModule(ModuleID.GAMEMN);
+            //Ctx.m_instance.m_moduleSys.loadModule(ModuleID.LOGINMN);
+            Ctx.m_instance.m_moduleSys.loadModule(ModuleID.GAMEMN);
         }
     }
 }

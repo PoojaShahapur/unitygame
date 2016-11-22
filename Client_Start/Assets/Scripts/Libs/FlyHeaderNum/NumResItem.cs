@@ -8,39 +8,45 @@ namespace SDK.Lib
      */
     public class NumResItem
     {
-        protected int m_num;        // 数字
-        protected bool m_bPositive;     // 负数还是正数
-        protected GameObject m_parentGo = UtilApi.createGameObject("NumResParentGO");        // 父节点
-        protected List<AuxDynModel> m_childList = new List<AuxDynModel>();
+        protected int mNum;        // 数字
+        protected bool mIsPositive;     // 负数还是正数
+        protected GameObject mParentGo;        // 父节点
+        protected List<AuxDynModel> mChildList;
 
-        protected float m_modelWidth = 0.5f;
-        protected float m_modelHeight = 0.5f;
+        protected float mModelWidth = 0.5f;
+        protected float mModelHeight = 0.5f;
+
+        public NumResItem()
+        {
+            mParentGo = UtilApi.createGameObject("NumResParentGO");
+            mChildList = new List<AuxDynModel>();
+        }
 
         public void dispose()
         {
-            m_parentGo.transform.parent = null;
+            this.mParentGo.transform.parent = null;
             disposeNum();
-            UtilApi.Destroy(m_parentGo);
+            UtilApi.Destroy(this.mParentGo);
         }
 
         public void setNum(int value)
         {
-            if (m_num != value)
+            if (this.mNum != value)
             {
                 disposeNum();
 
-                m_num = value;
+                this.mNum = value;
                 if(value > 0)
                 {
-                    m_bPositive = true;
+                    this.mIsPositive = true;
                 }
                 else
                 {
-                    m_bPositive = false;
-                    m_num = -m_num;
+                    this.mIsPositive = false;
+                    this.mNum = -this.mNum;
                 }
 
-                int left = m_num;
+                int left = this.mNum;
                 int mod = 0;
                 List<int> numList = new List<int>();
 
@@ -58,8 +64,8 @@ namespace SDK.Lib
 
                 // 添加 + - 号
                 modelItem = new AuxDynModel();
-                modelItem.pntGo = m_parentGo;
-                if (m_bPositive)
+                modelItem.pntGo = this.mParentGo;
+                if (this.mIsPositive)
                 {
                     modelItem.modelResPath = string.Format("{0}Num/+{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], ".prefab");
                 }
@@ -68,15 +74,15 @@ namespace SDK.Lib
                     modelItem.modelResPath = string.Format("{0}Num/-{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], ".prefab");
                 }
                 modelItem.syncUpdateModel();
-                UtilApi.setPos(modelItem.selfGo.transform, new Vector3(((float)-(numList.Count + 1) / 2) * m_modelWidth, 0, 0));
-                m_childList.Add(modelItem);
+                UtilApi.setPos(modelItem.selfGo.transform, new Vector3(((float)-(numList.Count + 1) / 2) * this.mModelWidth, 0, 0));
+                this.mChildList.Add(modelItem);
 
                 while (idx < numList.Count)
                 {
                     curNum = numList[numList.Count - 1 - idx];
                     modelItem = new AuxDynModel();
-                    modelItem.pntGo = m_parentGo;
-                    if (m_bPositive)
+                    modelItem.pntGo = this.mParentGo;
+                    if (this.mIsPositive)
                     {
                         modelItem.modelResPath = string.Format("{0}Num/+{1}{2}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], curNum, ".prefab");
                     }
@@ -85,8 +91,8 @@ namespace SDK.Lib
                         modelItem.modelResPath = string.Format("{0}Num/-{1}{2}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], curNum, ".prefab");
                     }
                     modelItem.syncUpdateModel();
-                    UtilApi.setPos(modelItem.selfGo.transform, new Vector3(((float)-(numList.Count + 1) / 2 + (idx + 1)) * m_modelWidth, 0, 0));
-                    m_childList.Add(modelItem);
+                    UtilApi.setPos(modelItem.selfGo.transform, new Vector3(((float)-(numList.Count + 1) / 2 + (idx + 1)) * this.mModelWidth, 0, 0));
+                    this.mChildList.Add(modelItem);
 
                     ++idx;
                 }
@@ -95,32 +101,32 @@ namespace SDK.Lib
 
         public void disposeNum()
         {
-            foreach (AuxDynModel child in m_childList)
+            foreach (AuxDynModel child in this.mChildList)
             {
                 child.dispose();
             }
 
-            m_childList.Clear();
+            this.mChildList.Clear();
         }
 
         public void setPos(Vector3 pos)
         {
-            UtilApi.setPos(m_parentGo.transform, pos);
+            UtilApi.setPos(this.mParentGo.transform, pos);
         }
 
         public Vector3 getPos()
         {
-            return m_parentGo.transform.localPosition;
+            return this.mParentGo.transform.localPosition;
         }
 
         public GameObject getParentGo()
         {
-            return m_parentGo;
+            return this.mParentGo;
         }
 
         public void setParent(GameObject pntGo)
         {
-            m_parentGo.transform.SetParent(pntGo.transform, true);
+            this.mParentGo.transform.SetParent(pntGo.transform, true);
         }
     }
 }

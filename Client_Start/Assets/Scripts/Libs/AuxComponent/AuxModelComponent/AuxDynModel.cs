@@ -5,30 +5,30 @@
      */
     public class AuxDynModel : AuxComponent
     {
-        protected string m_modelResPath;
-        protected ModelRes m_modelRes;
-        protected bool m_bNeedReloadModel;
-        protected EventDispatch m_modelInsDisp;      // 模型加载并且实例化后事件分发
+        protected string mModelResPath;
+        protected ModelRes mModelRes;
+        protected bool mBNeedReloadModel;
+        protected EventDispatch mModelInsDisp;      // 模型加载并且实例化后事件分发
 
         public AuxDynModel()
         {
-            m_modelInsDisp = new AddOnceEventDispatch();
-            m_bNeedReloadModel = false;
+            this.mModelInsDisp = new AddOnceEventDispatch();
+            this.mBNeedReloadModel = false;
         }
 
         public string modelResPath
         {
             get
             {
-                return m_modelResPath;
+                return this.mModelResPath;
             }
             set
             {
-                if (m_modelResPath != value)
+                if (this.mModelResPath != value)
                 {
-                    m_bNeedReloadModel = true;
+                    this.mBNeedReloadModel = true;
                 }
-                m_modelResPath = value;
+                this.mModelResPath = value;
             }
         }
 
@@ -36,78 +36,78 @@
         {
             get
             {
-                return m_modelInsDisp;
+                return this.mModelInsDisp;
             }
             set
             {
-                m_modelInsDisp = value;
+                this.mModelInsDisp = value;
             }
         }
 
         override public void dispose()
         {
-            if (m_selfGo != null)
+            if (this.mSelfGo != null)
             {
-                UtilApi.Destroy(m_selfGo);
-                m_selfGo = null;
+                UtilApi.Destroy(this.mSelfGo);
+                this.mSelfGo = null;
             }
 
-            if(m_modelRes != null)
+            if(this.mModelRes != null)
             {
-                Ctx.m_instance.m_modelMgr.unload(m_modelRes.getResUniqueId(), null);
-                m_modelRes = null;
+                Ctx.m_instance.m_modelMgr.unload(this.mModelRes.getResUniqueId(), null);
+                this.mModelRes = null;
             }
 
-            m_modelInsDisp.clearEventHandle();
-            m_modelInsDisp = null;
+            this.mModelInsDisp.clearEventHandle();
+            this.mModelInsDisp = null;
 
             base.dispose();
         }
 
         public void attach2Parent()
         {
-            if (m_pntGo != null)
+            if (this.mPntGo != null)
             {
-                if (m_bNeedPlaceHolderGo)
+                if (this.mIsNeedPlaceHolderGo)
                 {
-                    if (m_placeHolderGo == null)
+                    if (this.mPlaceHolderGo == null)
                     {
-                        m_placeHolderGo = new UnityEngine.GameObject();
-                        UtilApi.SetParent(m_placeHolderGo, m_pntGo, false);
+                        this.mPlaceHolderGo = new UnityEngine.GameObject();
+                        UtilApi.SetParent(this.mPlaceHolderGo, this.mPntGo, false);
                     }
-                    UtilApi.SetParent(m_selfGo, m_placeHolderGo, false);
+                    UtilApi.SetParent(this.mSelfGo, this.mPlaceHolderGo, false);
                 }
                 else
                 {
-                    UtilApi.SetParent(m_selfGo, m_pntGo, false);
+                    UtilApi.SetParent(this.mSelfGo, this.mPntGo, false);
                 }
             }
         }
 
         public void syncUpdateModel()
         {
-            if (m_bNeedReloadModel)
+            if (this.mBNeedReloadModel)
             {
-                if(m_modelRes != null)
+                if(this.mModelRes != null)
                 {
-                    Ctx.m_instance.m_modelMgr.unload(m_modelRes.getResUniqueId(), null);
-                    m_modelRes = null;
+                    Ctx.m_instance.m_modelMgr.unload(this.mModelRes.getResUniqueId(), null);
+                    this.mModelRes = null;
                 }
-                if(m_selfGo != null)
+                if(this.mSelfGo != null)
                 {
-                    UtilApi.Destroy(m_selfGo);
-                    m_selfGo = null;
+                    UtilApi.Destroy(this.mSelfGo);
+                    this.mSelfGo = null;
                 }
 
-                m_modelRes = Ctx.m_instance.m_modelMgr.getAndSyncLoad<ModelRes>(m_modelResPath);
+                this.mModelRes = Ctx.m_instance.m_modelMgr.getAndSyncLoad<ModelRes>(this.mModelResPath);
 
-                selfGo = m_modelRes.InstantiateObject(m_modelResPath);
+                selfGo = this.mModelRes.InstantiateObject(this.mModelResPath);
                 attach2Parent();
 
-                m_modelInsDisp.dispatchEvent(this);
+                this.mModelInsDisp.dispatchEvent(this);
             }
 
-            m_bNeedReloadModel = false;
+            this.mBNeedReloadModel = false;
         }
     }
 }

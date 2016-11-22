@@ -5,23 +5,23 @@ namespace SDK.Lib
 {
     public class AuxInputField : AuxWindow
     {
-        protected InputField m_inputField;     // 输入
+        protected InputField mInputField;     // 输入
 
         public AuxInputField(GameObject pntNode, string path, BtnStyleID styleId = BtnStyleID.eBSID_None)
         {
-            m_selfGo = UtilApi.TransFindChildByPObjAndPath(pntNode, path);
-            m_inputField = UtilApi.getComByP<InputField>(pntNode, path);
+            this.mSelfGo = UtilApi.TransFindChildByPObjAndPath(pntNode, path);
+            this.mInputField = UtilApi.getComByP<InputField>(pntNode, path);
         }
 
         public string text
         {
             get
             {
-                return m_inputField.text;
+                return this.mInputField.text;
             }
             set
             {
-                m_inputField.text = value;
+                this.mInputField.text = value;
             }
         }
     }

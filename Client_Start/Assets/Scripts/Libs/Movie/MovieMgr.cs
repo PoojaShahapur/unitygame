@@ -14,10 +14,10 @@ namespace SDK.Lib
     {
         protected bool m_bPlaying;
 #if UNITY_STANDALONE || UNITY_EDITOR
-        protected MovieTexture m_movieTexture;
+        protected MovieTexture mMovieTexture;
 #endif
-        protected TimerItemBase m_timer;
-        protected Action m_handle;
+        protected TimerItemBase mTimer;
+        protected Action mHandle;
 
         public MovieMgr()
         {
@@ -26,44 +26,44 @@ namespace SDK.Lib
 
         public void PlayMovie(string movieName, int time, Action acton)
         {
-            m_handle = acton;
+            this.mHandle = acton;
 #if UNITY_EDITOR
             m_bPlaying = true;
             UnityEngine.Object o = AssetDatabase.LoadAssetAtPath("Assets/res/Movie/" + movieName + ".mp4", typeof(MovieTexture));
             if(o != null)
             {
-                m_movieTexture = o as MovieTexture;
-                m_movieTexture.Play();
+                this.mMovieTexture = o as MovieTexture;
+                this.mMovieTexture.Play();
             }
 #elif UNITY_STANDALONE
             //UnityEngine.Handheld.PlayFullScreenMovie("Movie/" + movieName + ".mp4", Color.black, FullScreenMovieControlMode.Full | FullScreenMovieControlMode.Hidden);
 #endif
 
-            if (m_timer == null)
+            if (this.mTimer == null)
             {
-                m_timer = new TimerItemBase();
+                this.mTimer = new TimerItemBase();
             }
             else
             {
-                m_timer.reset();
+                this.mTimer.reset();
             }
-            m_timer.m_internal = time;        // 一分钟遍历一次
-            m_timer.m_timerDisp.setFuncObject(OnPlayEnd);
-            Ctx.m_instance.m_timerMgr.addTimer(m_timer);
+            this.mTimer.mInternal = time;        // 一分钟遍历一次
+            this.mTimer.mTimerDisp.setFuncObject(OnPlayEnd);
+            Ctx.m_instance.m_timerMgr.addTimer(this.mTimer);
         }
 
         // 视频结束，定时器回调
         protected void OnPlayEnd(TimerItemBase time)
         {
-            if (m_handle != null)
+            if (this.mHandle != null)
             {
-                m_handle();
+                this.mHandle();
             }
 #if UNITY_STANDALONE || UNITY_EDITOR
-            if (m_movieTexture != null)
+            if (this.mMovieTexture != null)
             {
-                m_movieTexture.Stop();
-                m_movieTexture = null;
+                this.mMovieTexture.Stop();
+                this.mMovieTexture = null;
             }
 #endif
         }
@@ -72,9 +72,9 @@ namespace SDK.Lib
         void OnGUI()
         {
 #if UNITY_EDITOR
-            if(m_bPlaying && m_movieTexture != null)
+            if(m_bPlaying && this.mMovieTexture != null)
             {
-                GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), m_movieTexture, ScaleMode.ScaleToFit);
+                GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), this.mMovieTexture, ScaleMode.ScaleToFit);
             }
 #endif
         }

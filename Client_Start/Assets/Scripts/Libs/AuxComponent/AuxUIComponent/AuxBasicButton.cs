@@ -7,65 +7,65 @@ namespace SDK.Lib
 {
     public class AuxBasicButton : AuxWindow
     {
-        protected EventDispatch m_eventDisp;      // 分发
-        protected Button m_btn;
+        protected EventDispatch mEventDisp;      // 分发
+        protected Button mBtn;
 
         public AuxBasicButton(GameObject go_)
         {
-            m_eventDisp = new EventDispatch();
-            m_selfGo = go_;
+            this.mEventDisp = new EventDispatch();
+            this.mSelfGo = go_;
             updateBtnCom(null);
         }
 
         public AuxBasicButton(GameObject pntNode, string path, BtnStyleID styleId = BtnStyleID.eBSID_None)
         {
-            m_eventDisp = new EventDispatch();
+            this.mEventDisp = new EventDispatch();
             if (pntNode != null)
             {
-                m_selfGo = UtilApi.TransFindChildByPObjAndPath(pntNode, path);
+                this.mSelfGo = UtilApi.TransFindChildByPObjAndPath(pntNode, path);
                 updateBtnCom(null);
             }
         }
 
         override public void dispose()
         {
-            if (m_eventDisp != null)
+            if (this.mEventDisp != null)
             {
-                UtilApi.RemoveListener(m_btn, onBtnClk);
+                UtilApi.RemoveListener(this.mBtn, onBtnClk);
             }
             base.dispose();
         }
 
         virtual protected void updateBtnCom(IDispatchObject dispObj)
         {
-            m_btn = UtilApi.getComByP<Button>(m_selfGo);
-            UtilApi.addEventHandle(m_btn, onBtnClk);
+            this.mBtn = UtilApi.getComByP<Button>(this.mSelfGo);
+            UtilApi.addEventHandle(this.mBtn, onBtnClk);
         }
 
         public void enable()
         {
-            m_btn.interactable = true;
+            this.mBtn.interactable = true;
         }
 
         public void disable()
         {
-            m_btn.interactable = false;
+            this.mBtn.interactable = false;
         }
 
         // 点击回调
         protected void onBtnClk()
         {
-            m_eventDisp.dispatchEvent(this);
+            this.mEventDisp.dispatchEvent(this);
         }
 
         public void addEventHandle(ICalleeObject pThis, MAction<IDispatchObject> btnClk, LuaTable luaTable = null, LuaFunction luaFunction = null)
         {
-            m_eventDisp.addEventHandle(pThis, btnClk, luaTable, luaFunction);
+            this.mEventDisp.addEventHandle(pThis, btnClk, luaTable, luaFunction);
         }
 
         public void removeEventHandle(ICalleeObject pThis, MAction<IDispatchObject> btnClk, LuaTable luaTable = null, LuaFunction luaFunction = null)
         {
-            m_eventDisp.removeEventHandle(pThis, btnClk, luaTable, luaFunction);
+            this.mEventDisp.removeEventHandle(pThis, btnClk, luaTable, luaFunction);
         }
 
         virtual public void syncUpdateCom()

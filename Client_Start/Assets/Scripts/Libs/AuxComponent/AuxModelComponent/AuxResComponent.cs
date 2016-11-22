@@ -7,25 +7,25 @@ namespace SDK.Lib
      */
     public class AuxResComponent : AuxComponent
     {
-        protected GameObject m_selfLocalGo;
-        protected string m_path;                          // 目录
-        protected ModelRes m_res;
+        protected GameObject mSelfLocalGo;
+        protected string mPath;                          // 目录
+        protected ModelRes mRes;
 
         public AuxResComponent()
         {
-            m_selfLocalGo = UtilApi.createGameObject("ResLocalGO");
-            m_selfLocalGo.name = "m_selfLocalGo";
+            this.mSelfLocalGo = UtilApi.createGameObject("ResLocalGO");
+            this.mSelfLocalGo.name = "m_selfLocalGo";
         }
 
         public GameObject selfLocalGo
         {
             get
             {
-                return m_selfLocalGo;
+                return this.mSelfLocalGo;
             }
             set
             {
-                m_selfLocalGo = value;
+                this.mSelfLocalGo = value;
             }
         }
 
@@ -33,38 +33,38 @@ namespace SDK.Lib
         {
             get
             {
-                return m_path;
+                return this.mPath;
             }
             set
             {
-                m_path = value;
+                this.mPath = value;
             }
         }
 
         public override void setPntGo(GameObject go)
         {
             base.setPntGo(go);
-            m_selfLocalGo.transform.SetParent(pntGo.transform, false);
+            this.mSelfLocalGo.transform.SetParent(pntGo.transform, false);
         }
 
         public virtual void onLoadEventHandle(IDispatchObject dispObj)
         {
-            m_res = dispObj as ModelRes;
-            if (m_res.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
+            this.mRes = dispObj as ModelRes;
+            if (this.mRes.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
             {
-                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, m_res.getLoadPath());
+                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, this.mRes.getLoadPath());
 
-                m_selfGo = m_res.InstantiateObject(m_path);
-                m_selfGo.transform.SetParent(m_selfLocalGo.transform, false);
+                this.mSelfGo = this.mRes.InstantiateObject(this.mPath);
+                this.mSelfGo.transform.SetParent(this.mSelfLocalGo.transform, false);
 
                 // 不是使用 m_resLoadMgr.load 接口加载的资源，不要使用 m_resLoadMgr.unload 去卸载资源
                 // 卸载资源
                 //Ctx.m_instance.m_resLoadMgr.unload(m_res.GetPath());
             }
-            else if (m_res.refCountResLoadResultNotify.resLoadState.hasFailed())
+            else if (this.mRes.refCountResLoadResultNotify.resLoadState.hasFailed())
             {
-                m_res = dispObj as ModelRes;
-                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, m_res.getLoadPath());
+                this.mRes = dispObj as ModelRes;
+                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, this.mRes.getLoadPath());
 
                 // 卸载资源
                 //Ctx.m_instance.m_resLoadMgr.unload(m_res.GetPath());
@@ -73,12 +73,12 @@ namespace SDK.Lib
 
         public virtual void unload()
         {
-            if (m_selfGo != null)
+            if (this.mSelfGo != null)
             {
-                UtilApi.Destroy(m_selfGo);
-                m_selfGo = null;
-                Ctx.m_instance.m_modelMgr.unload(m_path, null);
-                m_res = null;
+                UtilApi.Destroy(this.mSelfGo);
+                this.mSelfGo = null;
+                Ctx.m_instance.m_modelMgr.unload(this.mPath, null);
+                this.mRes = null;
             }
         }
 
@@ -86,9 +86,9 @@ namespace SDK.Lib
         {
             bool needLoad = true;
 
-            if (m_res != null)
+            if (this.mRes != null)
             {
-                if (m_res.getLogicPath() != m_path)
+                if (this.mRes.getLogicPath() != this.mPath)
                 {
                     unload();
                 }
@@ -99,11 +99,11 @@ namespace SDK.Lib
             }
             if (needLoad)
             {
-                if (!string.IsNullOrEmpty(m_path))
+                if (!string.IsNullOrEmpty(this.mPath))
                 {
                     LoadParam param;
                     param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-                    param.setPath(m_path);
+                    param.setPath(this.mPath);
                     param.m_loadEventHandle = onLoadEventHandle;
                     Ctx.m_instance.m_modelMgr.load<ModelRes>(param);
                     Ctx.m_instance.m_poolSys.deleteObj(param);

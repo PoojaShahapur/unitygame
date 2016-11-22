@@ -7,26 +7,28 @@ namespace SDK.Lib
      */
     public class AuxDynTexImage : AuxWindow
     {
-        protected string m_goName;          // 场景中有 Image 的 GameObject 的名字
-        protected Image m_image;            // 图像
-        protected TextureRes m_texRes;      // 图像的纹理资源
+        protected string mGoName;          // 场景中有 Image 的 GameObject 的名字
+        protected Image mImage;            // 图像
+        protected TextureRes mTexRes;      // 图像的纹理资源
 
-        protected string m_texPath;         // 图像纹理目录
-        protected bool m_bNeedUpdateImage = false;  // 是否需要更新图像
-        protected bool m_bImageGoChange = false;    // Image 组件所在的 GameObject 改变
+        protected string mTexPath;         // 图像纹理目录
+        protected bool mIsNeedUpdateImage = false;  // 是否需要更新图像
+        protected bool mIsImageGoChange;    // Image 组件所在的 GameObject 改变
 
-        protected EventDispatch m_texLoadedDisp;  // 图像加载完成事件分发，改变 GameObject 或者 Image 图像内容都会分发
+        protected EventDispatch mTexLoadedDisp;  // 图像加载完成事件分发，改变 GameObject 或者 Image 图像内容都会分发
 
         public AuxDynTexImage()
         {
-            m_texLoadedDisp = new EventDispatch();
+            this.mIsNeedUpdateImage = false;
+            this.mIsImageGoChange = false;
+            this.mTexLoadedDisp = new EventDispatch();
         }
 
         public string goName
         {
             set
             {
-                m_goName = value;
+                this.mGoName = value;
             }
         }
 
@@ -34,11 +36,11 @@ namespace SDK.Lib
         {
             set
             {
-                if (m_texPath != value)
+                if (this.mTexPath != value)
                 {
-                    m_bNeedUpdateImage = true;
+                    this.mIsNeedUpdateImage = true;
                 }
-                m_texPath = value;
+                this.mTexPath = value;
             }
         }
 
@@ -46,7 +48,7 @@ namespace SDK.Lib
         {
             get
             {
-                return m_texLoadedDisp;
+                return this.mTexLoadedDisp;
             }
         }
 
@@ -59,36 +61,36 @@ namespace SDK.Lib
         // 资源改变更新图像
         protected void updateImage()
         {
-            if (m_bNeedUpdateImage)
+            if (this.mIsNeedUpdateImage)
             {
-                if (m_texRes != null)
+                if (this.mTexRes != null)
                 {
-                    Ctx.m_instance.m_texMgr.unload(m_texRes.getResUniqueId(), null);
-                    m_texRes = null;
+                    Ctx.m_instance.m_texMgr.unload(this.mTexRes.getResUniqueId(), null);
+                    this.mTexRes = null;
                 }
-                m_texRes = Ctx.m_instance.m_texMgr.getAndSyncLoad<TextureRes>(m_texPath);
-                m_texRes.setImageTex(m_image);
+                this.mTexRes = Ctx.m_instance.m_texMgr.getAndSyncLoad<TextureRes>(this.mTexPath);
+                this.mTexRes.setImageTex(this.mImage);
             }
-            else if (m_bImageGoChange)
+            else if (this.mIsImageGoChange)
             {
-                if (m_texRes == null)
+                if (this.mTexRes == null)
                 {
-                    m_texRes = Ctx.m_instance.m_texMgr.getAndSyncLoad<TextureRes>(m_texPath);
+                    this.mTexRes = Ctx.m_instance.m_texMgr.getAndSyncLoad<TextureRes>(this.mTexPath);
                 }
-                m_texRes.setImageTex(m_image);
+                this.mTexRes.setImageTex(this.mImage);
             }
 
-            m_bImageGoChange = false;
-            m_bNeedUpdateImage = false;
+            this.mIsImageGoChange = false;
+            this.mIsNeedUpdateImage = false;
         }
 
         override public void dispose()
         {
             base.dispose();
-            if (m_texRes != null)
+            if (this.mTexRes != null)
             {
-                Ctx.m_instance.m_texMgr.unload(m_texRes.getResUniqueId(), null);
-                m_texRes = null;
+                Ctx.m_instance.m_texMgr.unload(this.mTexRes.getResUniqueId(), null);
+                this.mTexRes = null;
             }
         }
 
@@ -96,7 +98,7 @@ namespace SDK.Lib
         virtual public void syncUpdateCom()
         {
             updateImage();
-            m_texLoadedDisp.dispatchEvent(this);
+            this.mTexLoadedDisp.dispatchEvent(this);
         }
     }
 }

@@ -5,12 +5,12 @@ namespace SDK.Lib
 {
     public class AuxStaticImageStaticGoImage : AuxWindow
     {
-        protected Image m_image;
+        protected Image mImage;
 
         public AuxStaticImageStaticGoImage(GameObject pntNode, string path, BtnStyleID styleId = BtnStyleID.eBSID_None)
         {
-            m_selfGo = UtilApi.TransFindChildByPObjAndPath(pntNode, path);
-            m_image = UtilApi.getComByP<Image>(pntNode, path);
+            this.mSelfGo = UtilApi.TransFindChildByPObjAndPath(pntNode, path);
+            this.mImage = UtilApi.getComByP<Image>(pntNode, path);
         }
 
         public AuxStaticImageStaticGoImage(LabelStyleID styleId = LabelStyleID.eLSID_None)
@@ -20,8 +20,8 @@ namespace SDK.Lib
 
         public void setSelfGo(GameObject selfNode)
         {
-            m_selfGo = selfNode;
-            m_image = UtilApi.getComByP<Image>(m_selfGo);
+            this.mSelfGo = selfNode;
+            this.mImage = UtilApi.getComByP<Image>(this.mSelfGo);
         }
     }
 }

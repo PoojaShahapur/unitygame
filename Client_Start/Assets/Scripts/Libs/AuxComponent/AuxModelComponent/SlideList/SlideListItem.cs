@@ -8,21 +8,21 @@ namespace SDK.Lib
      */
     public class SlideListItem : AuxResComponent
     {
-        protected float m_width = 0.3f;      // 宽度
-        protected float m_height = 0.3f;     // 高度
+        protected float mWidth = 0.3f;      // 宽度
+        protected float mHeight = 0.3f;     // 高度
 
-        protected string m_texPath;                          // 目录
-        protected TextureRes m_texRes;
+        protected string mTexPath;                          // 目录
+        protected TextureRes mTexRes;
 
         public float height
         {
             get
             {
-                return m_height;
+                return this.mHeight;
             }
             set
             {
-                m_height = value;
+                this.mHeight = value;
             }
         }
 
@@ -30,11 +30,11 @@ namespace SDK.Lib
         {
             get
             {
-                return m_texPath;
+                return this.mTexPath;
             }
             set
             {
-                m_texPath = value;
+                this.mTexPath = value;
             }
         }
 
@@ -48,7 +48,7 @@ namespace SDK.Lib
         public override void onLoadEventHandle(IDispatchObject dispObj)
         {
             base.onLoadEventHandle(dispObj);
-            UtilApi.addHoverHandle(m_selfGo, OnMouseHover);
+            UtilApi.addHoverHandle(this.mSelfGo, OnMouseHover);
 
             // 加载贴图，换贴图
             loadTex();
@@ -62,10 +62,10 @@ namespace SDK.Lib
 
         public void onTexLoadEventHandle(IDispatchObject dispObj)
         {
-            m_texRes = dispObj as TextureRes;
-            GameObject go_ = UtilApi.TransFindChildByPObjAndPath(m_selfGo, "25e9d638.obj");
+            this.mTexRes = dispObj as TextureRes;
+            GameObject go_ = UtilApi.TransFindChildByPObjAndPath(this.mSelfGo, "25e9d638.obj");
 #if UNITY_5
-		    go_.GetComponent<Renderer>().material.mainTexture = m_texRes.getTexture();
+		    go_.GetComponent<Renderer>().material.mainTexture = this.mTexRes.getTexture();
 #elif UNITY_4_6 || UNITY_4_5
             go_.renderer.material.mainTexture = m_texRes.getTexture();
 #endif
@@ -75,9 +75,9 @@ namespace SDK.Lib
         {
             bool needLoad = true;
 
-            if (m_texRes != null)
+            if (this.mTexRes != null)
             {
-                if (m_texRes.getLogicPath() != m_texPath)
+                if (this.mTexRes.getLogicPath() != this.mTexPath)
                 {
                     unloadTex();
                 }
@@ -88,11 +88,11 @@ namespace SDK.Lib
             }
             if (needLoad)
             {
-                if (!string.IsNullOrEmpty(m_texPath))
+                if (!string.IsNullOrEmpty(this.mTexPath))
                 {
                     LoadParam param;
                     param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-                    param.setPath(m_texPath);
+                    param.setPath(this.mTexPath);
                     param.m_loadEventHandle = onTexLoadEventHandle;
                     Ctx.m_instance.m_texMgr.load<TextureRes>(param);
                     Ctx.m_instance.m_poolSys.deleteObj(param);
@@ -102,10 +102,10 @@ namespace SDK.Lib
 
         public void unloadTex()
         {
-            if (m_selfGo != null)
+            if (this.mSelfGo != null)
             {
-                Ctx.m_instance.m_texMgr.unload(m_texPath, onTexLoadEventHandle);
-                m_texRes = null;
+                Ctx.m_instance.m_texMgr.unload(this.mTexPath, onTexLoadEventHandle);
+                this.mTexRes = null;
             }
         }
     }

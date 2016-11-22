@@ -7,7 +7,7 @@ namespace SDK.Lib
      */
     public class ImageSpriteAni : SpriteAni, IDelayHandleItem
     {
-        protected Image m_image;    // 精灵渲染器
+        protected Image mImage;    // 精灵渲染器
 
         public override void dispose()
         {
@@ -18,25 +18,25 @@ namespace SDK.Lib
         override public void stop()
         {
             base.stop();
-            if (!m_bKeepLastFrame)
+            if (!this.mIsKeepLastFrame)
             {
-                m_image.sprite = null;
+                this.mImage.sprite = null;
             }
-            m_image.rectTransform.sizeDelta = new UnityEngine.Vector2(0, 0);
+            this.mImage.rectTransform.sizeDelta = new UnityEngine.Vector2(0, 0);
         }
 
         // 查找 UI 组件
         override public void findWidget()
         {
-            if (m_image == null)
+            if (this.mImage == null)
             {
-                if (string.IsNullOrEmpty(m_goName))      // 如果 m_goName 为空，就说明就是当前 GameObject 上获取 Image 
+                if (string.IsNullOrEmpty(this.mGoName))      // 如果 m_goName 为空，就说明就是当前 GameObject 上获取 Image 
                 {
-                    m_image = UtilApi.getComByP<Image>(m_selfGo);
+                    this.mImage = UtilApi.getComByP<Image>(this.mSelfGo);
                 }
                 else
                 {
-                    m_image = UtilApi.getComByP<Image>(m_pntGo, m_goName);
+                    this.mImage = UtilApi.getComByP<Image>(this.mPntGo, this.mGoName);
                 }
             }
         }
@@ -45,19 +45,19 @@ namespace SDK.Lib
         {
             //try
             //{
-                m_image.sprite = m_atlasScriptRes.getImage(m_curFrame).image;
+                this.mImage.sprite = this.mAtlasScriptRes.getImage(this.mCurFrame).image;
             //}
             //catch(Exception ex)
             //{
             //    Ctx.m_instance.m_logSys.catchLog(ex.ToString());
             //}
 
-            UtilApi.SetNativeSize(m_image);
+            UtilApi.SetNativeSize(this.mImage);
         }
 
         override public bool checkRender()
         {
-            return m_image != null;
+            return this.mImage != null;
         }
     }
 }

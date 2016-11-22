@@ -9,20 +9,20 @@ namespace SDK.Lib
      */
     public class AtlasScriptRes : InsResBase
     {
-        protected string m_atlasPath;       // 地图集的名字
-        protected SOSpriteList m_soSpriteList;
-        protected Dictionary<string, ImageItem> m_path2Image;
+        protected string mAtlasPath;       // 地图集的名字
+        protected SOSpriteList mSoSpriteList;
+        protected Dictionary<string, ImageItem> mPath2Image;
 
         public AtlasScriptRes()
         {
-            m_path2Image = new Dictionary<string, ImageItem>();
+            this.mPath2Image = new Dictionary<string, ImageItem>();
         }
 
         public string atlasPath
         {
             set
             {
-                m_atlasPath = value;
+                this.mAtlasPath = value;
             }
         }
 
@@ -30,18 +30,18 @@ namespace SDK.Lib
         {
             get
             {
-                return m_soSpriteList;
+                return this.mSoSpriteList;
             }
             set
             {
-                m_soSpriteList = value;
+                this.mSoSpriteList = value;
             }
         }
 
         override protected void initImpl(ResItem res)
         {
-            m_atlasPath = res.getLogicPath();
-            m_soSpriteList = res.getObject(res.getPrefabName()) as SOSpriteList;
+            this.mAtlasPath = res.getLogicPath();
+            this.mSoSpriteList = res.getObject(res.getPrefabName()) as SOSpriteList;
 
             initImage();
         }
@@ -55,25 +55,25 @@ namespace SDK.Lib
         override public void unload()
         {
             // 卸载所有图像
-            foreach (string spriteName in m_path2Image.Keys)
+            foreach (string spriteName in this.mPath2Image.Keys)
             {
-                if(m_path2Image.ContainsKey(spriteName))
+                if(this.mPath2Image.ContainsKey(spriteName))
                 {
-                    m_path2Image[spriteName].refCountResLoadResultNotify.loadResEventDispatch.clearEventHandle();
-                    m_path2Image[spriteName].refCountResLoadResultNotify.refCount.reset();
-                    m_path2Image[spriteName].unloadImage();
+                    this.mPath2Image[spriteName].refCountResLoadResultNotify.loadResEventDispatch.clearEventHandle();
+                    this.mPath2Image[spriteName].refCountResLoadResultNotify.refCount.reset();
+                    this.mPath2Image[spriteName].unloadImage();
                 }
             }
 
-            m_path2Image.Clear();
-            //m_soSpriteList.unload();
+            this.mPath2Image.Clear();
+            //this.mSoSpriteList.unload();
 
             base.unload();
         }
 
         protected void initImage()
         {
-            foreach (ImageItem imageItem in m_path2Image.Values)
+            foreach (ImageItem imageItem in this.mPath2Image.Values)
             {
                 imageItem.init(this);
             }
@@ -81,7 +81,7 @@ namespace SDK.Lib
 
         protected void failedImage()
         {
-            foreach (ImageItem imageItem in m_path2Image.Values)
+            foreach (ImageItem imageItem in this.mPath2Image.Values)
             {
                 imageItem.failed(this);
             }
@@ -90,14 +90,14 @@ namespace SDK.Lib
         public void loadImage(LoadParam param)
         {
             ImageItem retImage = null;
-            if (!m_path2Image.ContainsKey(param.m_subPath))
+            if (!this.mPath2Image.ContainsKey(param.m_subPath))
             {
                 retImage = createImage(param.m_subPath, refCountResLoadResultNotify.resLoadState);
                 retImage.image = getSprite(param.m_subPath);
             }
             else
             {
-                retImage = m_path2Image[param.m_subPath];
+                retImage = this.mPath2Image[param.m_subPath];
             }
             retImage.refCountResLoadResultNotify.resLoadState.setLoading();
             retImage.refCountResLoadResultNotify.refCount.incRef();
@@ -121,14 +121,14 @@ namespace SDK.Lib
         // 卸载一个 Image
         public void unloadImage(string spriteName, MAction<IDispatchObject> loadEventHandle)
         {
-            if(m_path2Image.ContainsKey(spriteName))
+            if(this.mPath2Image.ContainsKey(spriteName))
             {
-                m_path2Image[spriteName].refCountResLoadResultNotify.loadResEventDispatch.removeEventHandle(null, loadEventHandle);
-                m_path2Image[spriteName].refCountResLoadResultNotify.refCount.decRef();
-                if(m_path2Image[spriteName].refCountResLoadResultNotify.refCount.isNoRef())
+                this.mPath2Image[spriteName].refCountResLoadResultNotify.loadResEventDispatch.removeEventHandle(null, loadEventHandle);
+                this.mPath2Image[spriteName].refCountResLoadResultNotify.refCount.decRef();
+                if(this.mPath2Image[spriteName].refCountResLoadResultNotify.refCount.isNoRef())
                 {
-                    m_path2Image[spriteName].unloadImage();
-                    m_path2Image.Remove(spriteName);
+                    this.mPath2Image[spriteName].unloadImage();
+                    this.mPath2Image.Remove(spriteName);
                 }
             }
         }
@@ -136,17 +136,17 @@ namespace SDK.Lib
         // 必然加载完成
         public ImageItem getImage(string spriteName)
         {
-            if (m_path2Image.ContainsKey(spriteName))
+            if (this.mPath2Image.ContainsKey(spriteName))
             {
-                return m_path2Image[spriteName];
+                return this.mPath2Image[spriteName];
             }
             else
             {
-                Ctx.m_instance.m_logSys.log(string.Format("地图集 {0} 中的图片 {0} 不能加载", m_atlasPath, spriteName));
+                Ctx.m_instance.m_logSys.log(string.Format("地图集 {0} 中的图片 {0} 不能加载", this.mAtlasPath, spriteName));
                 Ctx.m_instance.m_logSys.log("输出地图集中的图片列表");
-                foreach (var key in m_path2Image.Keys)
+                foreach (var key in this.mPath2Image.Keys)
                 {
-                    Ctx.m_instance.m_logSys.log(string.Format("地图集 {0} 中的图片 {0}", m_atlasPath, key));
+                    Ctx.m_instance.m_logSys.log(string.Format("地图集 {0} 中的图片 {0}", this.mAtlasPath, key));
                 }
                 return null;
             }
@@ -155,23 +155,23 @@ namespace SDK.Lib
         // 通过索引获取图像
         public ImageItem getImage(int idx)
         {
-            if (!m_path2Image.ContainsKey(m_soSpriteList.m_objList[idx].m_path))
+            if (!this.mPath2Image.ContainsKey(this.mSoSpriteList.mObjList[idx].mPath))
             {
-                addImage2Dic(m_soSpriteList.m_objList[idx].m_path);
+                addImage2Dic(this.mSoSpriteList.mObjList[idx].mPath);
             }
-            return getImage(m_soSpriteList.m_objList[idx].m_path);
+            return getImage(this.mSoSpriteList.mObjList[idx].mPath);
         }
 
         protected void addImage2Dic(string spriteName)
         {
-            if (m_soSpriteList != null)
+            if (this.mSoSpriteList != null)
             {
-                foreach (SOSpriteList.SerialObject obj in m_soSpriteList.m_objList)
+                foreach (SOSpriteList.SerialObject obj in this.mSoSpriteList.mObjList)
                 {
-                    if (obj.m_path == spriteName)
+                    if (obj.mPath == spriteName)
                     {
                         createImage(spriteName, m_refCountResLoadResultNotify.resLoadState);
-                        m_path2Image[obj.m_path].image = obj.m_sprite;
+                        this.mPath2Image[obj.mPath].image = obj.mSprite;
                         break;
                     }
                 }
@@ -180,22 +180,22 @@ namespace SDK.Lib
 
         protected ImageItem createImage(string spriteName, ResLoadState resLoadState)
         {
-            m_path2Image[spriteName] = new ImageItem();
-            m_path2Image[spriteName].atlasScriptRes = this;
-            m_path2Image[spriteName].spriteName = spriteName;
-            m_path2Image[spriteName].refCountResLoadResultNotify.resLoadState.copyFrom(resLoadState);
-            return m_path2Image[spriteName];
+            this.mPath2Image[spriteName] = new ImageItem();
+            this.mPath2Image[spriteName].atlasScriptRes = this;
+            this.mPath2Image[spriteName].spriteName = spriteName;
+            this.mPath2Image[spriteName].refCountResLoadResultNotify.resLoadState.copyFrom(resLoadState);
+            return this.mPath2Image[spriteName];
         }
 
         public Sprite getSprite(string spriteName)
         {
-            if (m_soSpriteList != null)
+            if (this.mSoSpriteList != null)
             {
-                foreach (SOSpriteList.SerialObject obj in m_soSpriteList.m_objList)
+                foreach (SOSpriteList.SerialObject obj in this.mSoSpriteList.mObjList)
                 {
-                    if (obj.m_path == spriteName)
+                    if (obj.mPath == spriteName)
                     {
-                        return obj.m_sprite;
+                        return obj.mSprite;
                     }
                 }
             }
@@ -205,7 +205,7 @@ namespace SDK.Lib
 
         public bool bHasRefImageItem()
         {
-            return m_path2Image.Keys.Count > 0;
+            return this.mPath2Image.Keys.Count > 0;
         }
     }
 }

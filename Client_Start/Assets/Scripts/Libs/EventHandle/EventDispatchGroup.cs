@@ -4,44 +4,44 @@ namespace SDK.Lib
 {
     public class EventDispatchGroup
     {
-        protected Dictionary<int, EventDispatch> m_groupID2DispatchDic;
-        protected bool m_bInLoop;       // 是否是在循环遍历中
+        protected Dictionary<int, EventDispatch> mGroupID2DispatchDic;
+        protected bool mIsInLoop;       // 是否是在循环遍历中
 
         public EventDispatchGroup()
         {
-            m_groupID2DispatchDic = new Dictionary<int, EventDispatch>();
-            m_bInLoop = false;
+            this.mGroupID2DispatchDic = new Dictionary<int, EventDispatch>();
+            this.mIsInLoop = false;
         }
 
         // 添加分发器
         public void addEventDispatch(int groupID, EventDispatch disp)
         {
-            if (!m_groupID2DispatchDic.ContainsKey(groupID))
+            if (!this.mGroupID2DispatchDic.ContainsKey(groupID))
             {
-                m_groupID2DispatchDic[groupID] = disp;
+                this.mGroupID2DispatchDic[groupID] = disp;
             }
         }
 
         public void addEventHandle(int groupID, ICalleeObject pThis, MAction<IDispatchObject> handle)
         {
             // 如果没有就创建一个
-            if (!m_groupID2DispatchDic.ContainsKey(groupID))
+            if (!this.mGroupID2DispatchDic.ContainsKey(groupID))
             {
                 addEventDispatch(groupID, new EventDispatch());
             }
-            m_groupID2DispatchDic[groupID].addEventHandle(pThis, handle);
+            this.mGroupID2DispatchDic[groupID].addEventHandle(pThis, handle);
         }
 
         public void removeEventHandle(int groupID, ICalleeObject pThis, MAction<IDispatchObject> handle)
         {
-            if (m_groupID2DispatchDic.ContainsKey(groupID))
+            if (this.mGroupID2DispatchDic.ContainsKey(groupID))
             {
-                m_groupID2DispatchDic[groupID].removeEventHandle(pThis, handle);
+                this.mGroupID2DispatchDic[groupID].removeEventHandle(pThis, handle);
 
                 // 如果已经没有了
-                if (!m_groupID2DispatchDic[groupID].hasEventHandle())
+                if (!this.mGroupID2DispatchDic[groupID].hasEventHandle())
                 {
-                    m_groupID2DispatchDic.Remove(groupID);
+                    this.mGroupID2DispatchDic.Remove(groupID);
                 }
             }
             else
@@ -52,28 +52,28 @@ namespace SDK.Lib
 
         public void dispatchEvent(int groupID, IDispatchObject dispatchObject)
         {
-            m_bInLoop = true;
-            if (m_groupID2DispatchDic.ContainsKey(groupID))
+            this.mIsInLoop = true;
+            if (this.mGroupID2DispatchDic.ContainsKey(groupID))
             {
-                m_groupID2DispatchDic[groupID].dispatchEvent(dispatchObject);
+                this.mGroupID2DispatchDic[groupID].dispatchEvent(dispatchObject);
             }
             else
             {
                 Ctx.m_instance.m_logSys.log("Event Dispatch Group not exist");
             }
-            m_bInLoop = false;
+            this.mIsInLoop = false;
         }
 
         public void clearAllEventHandle()
         {
-            if (!m_bInLoop)
+            if (!this.mIsInLoop)
             {
-                foreach (EventDispatch dispatch in m_groupID2DispatchDic.Values)
+                foreach (EventDispatch dispatch in this.mGroupID2DispatchDic.Values)
                 {
                     dispatch.clearEventHandle();
                 }
 
-                m_groupID2DispatchDic.Clear();
+                this.mGroupID2DispatchDic.Clear();
             }
             else
             {
@@ -83,12 +83,12 @@ namespace SDK.Lib
 
         public void clearGroupEventHandle(int groupID)
         {
-            if (!m_bInLoop)
+            if (!this.mIsInLoop)
             {
-                if (m_groupID2DispatchDic.ContainsKey(groupID))
+                if (this.mGroupID2DispatchDic.ContainsKey(groupID))
                 {
-                    m_groupID2DispatchDic[groupID].clearEventHandle();
-                    m_groupID2DispatchDic.Remove(groupID);
+                    this.mGroupID2DispatchDic[groupID].clearEventHandle();
+                    this.mGroupID2DispatchDic.Remove(groupID);
                 }
                 else
                 {
@@ -103,9 +103,9 @@ namespace SDK.Lib
 
         public bool hasEventHandle(int groupID)
         {
-            if(m_groupID2DispatchDic.ContainsKey(groupID))
+            if(this.mGroupID2DispatchDic.ContainsKey(groupID))
             {
-                return m_groupID2DispatchDic[groupID].hasEventHandle();
+                return this.mGroupID2DispatchDic[groupID].hasEventHandle();
             }
 
             return false;

@@ -4,12 +4,12 @@ namespace SDK.Lib
 {
     public class TextCompTimer : DaoJiShiTimer
     {
-        protected Text m_text;
+        protected Text mText;
 
         protected override void onPreCallBack()
         {
             base.onPreCallBack();
-            m_text.text = UtilLogic.formatTime((int)m_curRunTime);
+            this.mText.text = UtilLogic.formatTime((int)this.mCurRunTime);
         }
     }
 }

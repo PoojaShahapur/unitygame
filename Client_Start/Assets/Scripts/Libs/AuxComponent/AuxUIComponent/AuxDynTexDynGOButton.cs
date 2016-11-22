@@ -2,20 +2,20 @@
 {
     public class AuxDynTexDynGOButton : AuxBasicButton
     {
-        protected AuxDynTexDynGOImage m_auxDynTexDynGOImage;        // 这个图片和 Prefab
+        protected AuxDynTexDynGOImage mAuxDynTexDynGOImage;        // 这个图片和 Prefab
 
         public AuxDynTexDynGOButton()
             : base(null, "")
         {
-            m_auxDynTexDynGOImage = new AuxDynTexDynGOImage();
-            m_auxDynTexDynGOImage.texLoadedDisp.addEventHandle(null, updateBtnCom);
+            this.mAuxDynTexDynGOImage = new AuxDynTexDynGOImage();
+            this.mAuxDynTexDynGOImage.texLoadedDisp.addEventHandle(null, updateBtnCom);
         }
 
         public string prefabPath
         {
             set
             {
-                m_auxDynTexDynGOImage.prefabPath = value;
+                this.mAuxDynTexDynGOImage.prefabPath = value;
             }
         }
 
@@ -23,7 +23,7 @@
         {
             set
             {
-                m_auxDynTexDynGOImage.texPath = value;
+                this.mAuxDynTexDynGOImage.texPath = value;
             }
         }
 
@@ -31,21 +31,21 @@
         {
             get
             {
-                return m_auxDynTexDynGOImage.texLoadedDisp;
+                return this.mAuxDynTexDynGOImage.texLoadedDisp;
             }
         }
 
         override protected void updateBtnCom(IDispatchObject dispObj)
         {
             bool bGoChange = false;
-            if (m_selfGo != m_auxDynTexDynGOImage.selfGo)
+            if (this.mSelfGo != this.mAuxDynTexDynGOImage.selfGo)
             {
-                m_selfGo = m_auxDynTexDynGOImage.selfGo;
+                this.mSelfGo = this.mAuxDynTexDynGOImage.selfGo;
                 bGoChange = true;
             }
-            if (m_pntGo == m_auxDynTexDynGOImage.pntGo)
+            if (this.mPntGo == this.mAuxDynTexDynGOImage.pntGo)
             {
-                m_pntGo = m_auxDynTexDynGOImage.pntGo;
+                this.mPntGo = this.mAuxDynTexDynGOImage.pntGo;
                 bGoChange = true;
             }
             if (bGoChange)
@@ -57,13 +57,13 @@
         public override void dispose()
         {
             base.dispose();
-            m_auxDynTexDynGOImage.texLoadedDisp.removeEventHandle(null, updateBtnCom);
-            m_auxDynTexDynGOImage.dispose();
+            this.mAuxDynTexDynGOImage.texLoadedDisp.removeEventHandle(null, updateBtnCom);
+            this.mAuxDynTexDynGOImage.dispose();
         }
 
         override public void syncUpdateCom()
         {
-            m_auxDynTexDynGOImage.syncUpdateCom();
+            this.mAuxDynTexDynGOImage.syncUpdateCom();
             base.syncUpdateCom();
         }
     }

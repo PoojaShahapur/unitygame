@@ -9,18 +9,18 @@ namespace SDK.Lib
      */
     public class AutoUpdateSys
     {
-        public List<string> m_loadingPath;
-        public List<string> m_loadedPath;
-        public List<string> m_failedPath;
+        public List<string> mLoadingPath;
+        public List<string> mLoadedPath;
+        public List<string> mFailedPath;
         public AddOnceAndCallOnceEventDispatch mOnUpdateEndDisp;
 
         public AutoUpdateSys()
         {
-            m_loadingPath = new List<string>();
-            m_loadedPath = new List<string>();
-            m_failedPath = new List<string>();
+            this.mLoadingPath = new List<string>();
+            this.mLoadedPath = new List<string>();
+            this.mFailedPath = new List<string>();
 
-            mOnUpdateEndDisp = new AddOnceAndCallOnceEventDispatch();
+            this.mOnUpdateEndDisp = new AddOnceAndCallOnceEventDispatch();
         }
 
         public void startUpdate()
@@ -43,7 +43,7 @@ namespace SDK.Lib
 
         public void verLoadResult(IDispatchObject idspObj)
         {
-            if (Ctx.m_instance.m_versionSys.m_needUpdateVerFile) // 如果需要更新
+            if (Ctx.m_instance.m_versionSys.mNeedUpdateVerFile) // 如果需要更新
             {
                 // 开始正式加载文件
                 loadAllUpdateFile();
@@ -56,11 +56,11 @@ namespace SDK.Lib
 
         public void loadAllUpdateFile()
         {
-            foreach (KeyValuePair<string, FileVerInfo> kv in Ctx.m_instance.m_versionSys.m_serverVer.m_path2HashDic)
+            foreach (KeyValuePair<string, FileVerInfo> kv in Ctx.m_instance.m_versionSys.mServerVer.mPath2HashDic)
             {
-                if(Ctx.m_instance.m_versionSys.m_localVer.m_path2Ver_P_Dic.ContainsKey(kv.Key))
+                if(Ctx.m_instance.m_versionSys.mLocalVer.mPath2Ver_P_Dic.ContainsKey(kv.Key))
                 {
-                    if(Ctx.m_instance.m_versionSys.m_localVer.m_path2Ver_P_Dic[kv.Key].m_fileMd5 != kv.Value.m_fileMd5)
+                    if(Ctx.m_instance.m_versionSys.mLocalVer.mPath2Ver_P_Dic[kv.Key].mFileMd5 != kv.Value.mFileMd5)
                     {
                         loadOneUpdateFile(kv.Key, kv.Value);
                     }
@@ -76,10 +76,10 @@ namespace SDK.Lib
         {
             //string loadPath = UtilApi.combineVerPath(path, fileInfo.m_fileMd5);
             //m_loadingPath.Add(loadPath);
-            m_loadingPath.Add(UtilLogic.webFullPath(path));
-            if (Ctx.m_instance.m_versionSys.m_localVer.m_path2Ver_P_Dic.ContainsKey(path))
+            this.mLoadingPath.Add(UtilLogic.webFullPath(path));
+            if (Ctx.m_instance.m_versionSys.mLocalVer.mPath2Ver_P_Dic.ContainsKey(path))
             {
-                UtilPath.deleteFile(Path.Combine(MFileSys.getLocalWriteDir(), UtilLogic.combineVerPath(path, Ctx.m_instance.m_versionSys.m_localVer.m_path2Ver_P_Dic[path].m_fileMd5)));     // 删除当前目录下已经有的 old 文件
+                UtilPath.deleteFile(Path.Combine(MFileSys.getLocalWriteDir(), UtilLogic.combineVerPath(path, Ctx.m_instance.m_versionSys.mLocalVer.mPath2Ver_P_Dic[path].mFileMd5)));     // 删除当前目录下已经有的 old 文件
             }
             //UtilApi.delFileNoVer(path);     // 删除当前目录下已经有的 old 文件
 
@@ -87,7 +87,7 @@ namespace SDK.Lib
             param.setPath(path);
 
             param.m_resLoadType = ResLoadType.eLoadWeb;
-            param.m_version = fileInfo.m_fileMd5;
+            param.m_version = fileInfo.mFileMd5;
 
             param.m_loadEventHandle = onLoadEventHandle;
 
@@ -102,10 +102,10 @@ namespace SDK.Lib
             {
                 Ctx.m_instance.m_logSys.log(string.Format("AutoUpdateSys::onLoadEventHandle, Success, Path is {0}", (dispObj as DataResItem).getLoadPath()));
 
-                m_loadedPath.Add((dispObj as DataResItem).getResUniqueId());
-                m_loadingPath.Remove((dispObj as DataResItem).getResUniqueId());
+                this.mLoadedPath.Add((dispObj as DataResItem).getResUniqueId());
+                this.mLoadingPath.Remove((dispObj as DataResItem).getResUniqueId());
 
-                if (m_loadingPath.Count == 0)
+                if (this.mLoadingPath.Count == 0)
                 {
                     onUpdateEnd();
                 }
@@ -114,10 +114,10 @@ namespace SDK.Lib
             {
                 Ctx.m_instance.m_logSys.log(string.Format("AutoUpdateSys::onLoadEventHandle, Fail, Path is {0}", (dispObj as DataResItem).getLoadPath()));
 
-                m_failedPath.Add((dispObj as DataResItem).getResUniqueId());
-                m_loadingPath.Remove((dispObj as DataResItem).getResUniqueId());
+                this.mFailedPath.Add((dispObj as DataResItem).getResUniqueId());
+                this.mLoadingPath.Remove((dispObj as DataResItem).getResUniqueId());
 
-                if (m_loadingPath.Count == 0)
+                if (this.mLoadingPath.Count == 0)
                 {
                     onUpdateEnd();
                 }

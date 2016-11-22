@@ -8,12 +8,17 @@ namespace SDK.Lib
      */
     public class FlyNumMgr
     {
-        protected List<FlyNumItem> m_numList = new List<FlyNumItem>();
+        protected List<FlyNumItem> mNumList;
+
+        public FlyNumMgr()
+        {
+            this.mNumList = new List<FlyNumItem>();
+        }
 
         public void addFlyNum(int num, Vector3 pos, GameObject parentGo)
         {
             FlyNumItem item = new FlyNumItem();
-            m_numList.Add(item);
+            this.mNumList.Add(item);
             item.setNum(num);
             item.setParent(parentGo);
             item.setPos(pos);
@@ -23,7 +28,7 @@ namespace SDK.Lib
 
         protected void onEndFlyNum(FlyNumItem item)
         {
-            m_numList.Remove(item);
+            this.mNumList.Remove(item);
         }
     }
 }

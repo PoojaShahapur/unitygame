@@ -2,43 +2,43 @@
 {
     public class ModelItem : AuxComponent
     {
-        protected string m_resPath;
-        protected ModelRes m_modelRes;
-        protected bool m_bNeedReloadModel;
+        protected string mResPath;
+        protected ModelRes mModelRes;
+        protected bool mIsNeedReloadModel;
 
         public ModelItem()
         {
-            m_bNeedReloadModel = false;
+            this.mIsNeedReloadModel = false;
         }
 
         public string resPath
         {
             get
             {
-                return m_resPath;
+                return this.mResPath;
             }
             set
             {
-                if (m_resPath != value)
+                if (this.mResPath != value)
                 {
-                    m_bNeedReloadModel = true;
+                    this.mIsNeedReloadModel = true;
                 }
-                m_resPath = value;
+                this.mResPath = value;
             }
         }
 
         override public void dispose()
         {
-            if (m_selfGo != null)
+            if (this.mSelfGo != null)
             {
-                UtilApi.Destroy(m_selfGo);
-                m_selfGo = null;
+                UtilApi.Destroy(this.mSelfGo);
+                this.mSelfGo = null;
             }
 
-            if(m_modelRes != null)
+            if(this.mModelRes != null)
             {
-                Ctx.m_instance.m_modelMgr.unload(m_modelRes.getResUniqueId(), null);
-                m_modelRes = null;
+                Ctx.m_instance.m_modelMgr.unload(this.mModelRes.getResUniqueId(), null);
+                this.mModelRes = null;
             }
             
             base.dispose();
@@ -46,47 +46,47 @@
 
         public void updateModel()
         {
-            if (m_bNeedReloadModel)
+            if (this.mIsNeedReloadModel)
             {
-                if(m_modelRes != null)
+                if(this.mModelRes != null)
                 {
-                    Ctx.m_instance.m_modelMgr.unload(m_modelRes.getResUniqueId(), null);
-                    m_modelRes = null;
+                    Ctx.m_instance.m_modelMgr.unload(this.mModelRes.getResUniqueId(), null);
+                    this.mModelRes = null;
                 }
-                if(m_selfGo != null)
+                if(this.mSelfGo != null)
                 {
-                    UtilApi.Destroy(m_selfGo);
-                    m_selfGo = null;
+                    UtilApi.Destroy(this.mSelfGo);
+                    this.mSelfGo = null;
                 }
 
                 LoadParam param;
                 param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-                param.setPath(m_resPath);
+                param.setPath(this.mResPath);
 
                 // 这个需要立即加载
                 param.m_loadNeedCoroutine = false;
                 param.m_resNeedCoroutine = false;
 
-                m_modelRes = Ctx.m_instance.m_modelMgr.getAndLoad<ModelRes>(param);
+                this.mModelRes = Ctx.m_instance.m_modelMgr.getAndLoad<ModelRes>(param);
                 Ctx.m_instance.m_poolSys.deleteObj(param);
 
-                m_selfGo = m_modelRes.InstantiateObject(m_resPath);
-                if (m_bNeedPlaceHolderGo)
+                this.mSelfGo = this.mModelRes.InstantiateObject(this.mResPath);
+                if (this.mIsNeedPlaceHolderGo)
                 {
-                    if(m_placeHolderGo == null)
+                    if(this.mPlaceHolderGo == null)
                     {
-                        m_placeHolderGo = new UnityEngine.GameObject();
-                        UtilApi.SetParent(m_placeHolderGo, m_pntGo, false);
+                        this.mPlaceHolderGo = new UnityEngine.GameObject();
+                        UtilApi.SetParent(this.mPlaceHolderGo, this.mPntGo, false);
                     }
-                    UtilApi.SetParent(m_selfGo, m_placeHolderGo, false);
+                    UtilApi.SetParent(this.mSelfGo, this.mPlaceHolderGo, false);
                 }
                 else
                 {
-                    UtilApi.SetParent(m_selfGo, m_pntGo, false);
+                    UtilApi.SetParent(this.mSelfGo, this.mPntGo, false);
                 }
             }
 
-            m_bNeedReloadModel = false;
+            this.mIsNeedReloadModel = false;
         }
     }
 }

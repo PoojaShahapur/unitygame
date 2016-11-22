@@ -7,62 +7,62 @@ namespace SDK.Lib
      */
     public class VersionSys
     {
-        public ServerVer m_serverVer;
-        public LocalVer m_localVer;
+        public ServerVer mServerVer;
+        public LocalVer mLocalVer;
 
         public AddOnceAndCallOnceEventDispatch mMiniLoadResultDisp;
         public AddOnceAndCallOnceEventDispatch mLoadResultDisp;
-        public bool m_needUpdateVerFile;
+        public bool mNeedUpdateVerFile;
 
-        public string m_miniVer;    // mini 版本文件版本号
+        public string mMiniVer;    // mini 版本文件版本号
 
         public VersionSys()
         {
-            m_miniVer = UtilApi.Range(0, int.MaxValue).ToString();
-            mMiniLoadResultDisp = new AddOnceAndCallOnceEventDispatch();
-            mLoadResultDisp = new AddOnceAndCallOnceEventDispatch();
+            this.mMiniVer = UtilApi.Range(0, int.MaxValue).ToString();
+            this.mMiniLoadResultDisp = new AddOnceAndCallOnceEventDispatch();
+            this.mLoadResultDisp = new AddOnceAndCallOnceEventDispatch();
 
-            m_serverVer = new ServerVer();
-            m_localVer = new LocalVer();
+            this.mServerVer = new ServerVer();
+            this.mLocalVer = new LocalVer();
         }
 
         public void loadMiniVerFile()
         {
-            m_localVer.mMiniLoadedDisp.addEventHandle(null, onLocalMiniLoaded);
-            m_localVer.loadMiniVerFile();
+            this.mLocalVer.mMiniLoadedDisp.addEventHandle(null, onLocalMiniLoaded);
+            this.mLocalVer.loadMiniVerFile();
         }
 
         public void loadVerFile()
         {
-            m_localVer.mLoadedDisp.addEventHandle(null, onVerLoaded);
+            this.mLocalVer.mLoadedDisp.addEventHandle(null, onVerLoaded);
 
-            m_localVer.loadVerFile();
+            this.mLocalVer.loadVerFile();
         }
 
         public void onLocalMiniLoaded(IDispatchObject dispObj)
         {
-            if (m_localVer.mIsMiniLoadSuccess)
+            if (this.mLocalVer.mIsMiniLoadSuccess)
             {
-                m_serverVer.mMiniLoadedDisp.addEventHandle(null, onWebMiniLoaded);
+                this.mServerVer.mMiniLoadedDisp.addEventHandle(null, onWebMiniLoaded);
             }
             else
             {
-                m_serverVer.mMiniLoadedDisp.addEventHandle(null, onWebMiniLoaded);
+                this.mServerVer.mMiniLoadedDisp.addEventHandle(null, onWebMiniLoaded);
             }
 
-            m_serverVer.loadMiniVerFile(m_miniVer);
+            this.mServerVer.loadMiniVerFile(this.mMiniVer);
         }
 
         public void onWebMiniLoaded(IDispatchObject dispObj)
         {
-            if (m_serverVer.mIsMiniLoadSuccess)
+            if (this.mServerVer.mIsMiniLoadSuccess)
             {
                 // 删除旧 mini 版本，修改新版本文件名字
                 //UtilPath.deleteFile(Path.Combine(MFileSys.getLocalWriteDir(), VerFileName.VER_P));
                 // 修改新的版本文件名字
                 //UtilPath.renameFile(UtilLogic.combineVerPath(Path.Combine(MFileSys.getLocalWriteDir(), VerFileName.VER_MINI), m_miniVer), Path.Combine(MFileSys.getLocalWriteDir(), VerFileName.VER_MINI));
 
-                m_needUpdateVerFile = (m_localVer.mFileVerInfo.m_fileMd5 != m_serverVer.mFileVerInfo.m_fileMd5);      // 如果版本不一致，需要重新加载
+                this.mNeedUpdateVerFile = (this.mLocalVer.mFileVerInfo.mFileMd5 != this.mServerVer.mFileVerInfo.mFileMd5);      // 如果版本不一致，需要重新加载
                                                                                                              //m_needUpdateVerFile = true;         // 测试强制更新
                 mMiniLoadResultDisp.dispatchEvent(null);
             }
@@ -74,26 +74,26 @@ namespace SDK.Lib
 
         public void onVerLoaded(IDispatchObject dispObj)
         {
-            if (m_localVer.mIsVerLoadSuccess)
+            if (this.mLocalVer.mIsVerLoadSuccess)
             {
-                if (m_needUpdateVerFile)
+                if (this.mNeedUpdateVerFile)
                 {
-                    m_serverVer.mLoadedDisp.addEventHandle(null, onWebVerLoaded);
-                    string ver = m_serverVer.mFileVerInfo.m_fileMd5;
-                    m_serverVer.loadVerFile(ver);
+                    this.mServerVer.mLoadedDisp.addEventHandle(null, onWebVerLoaded);
+                    string ver = this.mServerVer.mFileVerInfo.mFileMd5;
+                    this.mServerVer.loadVerFile(ver);
                 }
                 else
                 {
-                    mLoadResultDisp.dispatchEvent(null);
+                    this.mLoadResultDisp.dispatchEvent(null);
                 }
             }
             else
             {
-                if (m_needUpdateVerFile)
+                if (this.mNeedUpdateVerFile)
                 {
-                    m_serverVer.mLoadedDisp.addEventHandle(null, onWebVerLoaded);
-                    string ver = m_serverVer.mFileVerInfo.m_fileMd5;
-                    m_serverVer.loadVerFile(ver);
+                    this.mServerVer.mLoadedDisp.addEventHandle(null, onWebVerLoaded);
+                    string ver = this.mServerVer.mFileVerInfo.mFileMd5;
+                    this.mServerVer.loadVerFile(ver);
                 }
                 else
                 {
@@ -109,18 +109,18 @@ namespace SDK.Lib
 
         public string getFileVer(string path)
         {
-            if(m_needUpdateVerFile)
+            if(this.mNeedUpdateVerFile)
             {
-                if (m_serverVer.m_path2HashDic.ContainsKey(path))
+                if (this.mServerVer.mPath2HashDic.ContainsKey(path))
                 {
-                    return m_serverVer.m_path2HashDic[path].m_fileMd5;
+                    return this.mServerVer.mPath2HashDic[path].mFileMd5;
                 }
             }
             else
             {
-                if (m_localVer.m_path2Ver_P_Dic.ContainsKey(path))
+                if (this.mLocalVer.mPath2Ver_P_Dic.ContainsKey(path))
                 {
-                    return m_localVer.m_path2Ver_P_Dic[path].m_fileMd5;
+                    return this.mLocalVer.mPath2Ver_P_Dic[path].mFileMd5;
                 }
             }
 
@@ -129,7 +129,7 @@ namespace SDK.Lib
 
         public void loadLocalVer()
         {
-            m_localVer.load();
+            this.mLocalVer.load();
         }
     }
 }

@@ -4,19 +4,19 @@ namespace SDK.Lib
 {
     public class ControllerRes : InsResBase
     {
-        protected SOAnimatorController m_controller;
-        protected RuntimeAnimatorController m_insController;
+        protected SOAnimatorController mController;
+        protected RuntimeAnimatorController mInsController;
 
         override protected void initImpl(ResItem res)
         {
-            m_controller = res.getObject(res.getPrefabName()) as SOAnimatorController;
+            this.mController = res.getObject(res.getPrefabName()) as SOAnimatorController;
             base.initImpl(res);
         }
 
         public RuntimeAnimatorController InstantiateController()
         {
-            m_insController = UtilApi.Instantiate(m_controller.m_animatorController) as RuntimeAnimatorController;
-            return m_insController;
+            this.mInsController = UtilApi.Instantiate(this.mController.mAnimatorController) as RuntimeAnimatorController;
+            return this.mInsController;
         }
 
         public void DestroyControllerInstance(RuntimeAnimatorController insController_)

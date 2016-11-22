@@ -8,9 +8,9 @@ namespace SDK.Lib
      */
     public class LocalVer : FileVerBase
     {
-        public Dictionary<string, FileVerInfo> m_path2Ver_R_Dic;    // Resources 文件夹版本
-        public Dictionary<string, FileVerInfo> m_path2Ver_S_Dic;    // StreamingAssets 文件夹版本
-        public Dictionary<string, FileVerInfo> m_path2Ver_P_Dic;    // Persistent 文件夹版本
+        public Dictionary<string, FileVerInfo> mPath2Ver_R_Dic;    // Resources 文件夹版本
+        public Dictionary<string, FileVerInfo> mPath2Ver_S_Dic;    // StreamingAssets 文件夹版本
+        public Dictionary<string, FileVerInfo> mPath2Ver_P_Dic;    // Persistent 文件夹版本
 
         protected MDataStream mMiniDataStream;      // Mini 版本
         protected MDataStream mRDataStream;         // Resources 版本
@@ -19,16 +19,16 @@ namespace SDK.Lib
 
         public LocalVer()
         {
-            m_path2Ver_R_Dic = new Dictionary<string, FileVerInfo>();
-            m_path2Ver_S_Dic = new Dictionary<string, FileVerInfo>();
-            m_path2Ver_P_Dic = new Dictionary<string, FileVerInfo>();
+            this.mPath2Ver_R_Dic = new Dictionary<string, FileVerInfo>();
+            this.mPath2Ver_S_Dic = new Dictionary<string, FileVerInfo>();
+            this.mPath2Ver_P_Dic = new Dictionary<string, FileVerInfo>();
         }
 
         public void load()
         {
-            loadLocalRVer();
-            loadLocalSVer();
-            //loadLocalPVer();
+            this.loadLocalRVer();
+            this.loadLocalSVer();
+            //this.loadLocalPVer();
         }
 
         public void loadMiniVerFile()
@@ -64,7 +64,7 @@ namespace SDK.Lib
             mRDataStream = dispObj as MDataStream;
             if (mRDataStream.isValid())
             {
-                loadFormText(mRDataStream.readText(), m_path2Ver_R_Dic);
+                loadFormText(mRDataStream.readText(), this.mPath2Ver_R_Dic);
             }
             mRDataStream.dispose();
             mRDataStream = null;
@@ -82,7 +82,7 @@ namespace SDK.Lib
             mSDataStream = dispObj as MDataStream;
             if (mSDataStream.isValid())
             {
-                loadFormText(mSDataStream.readText(), m_path2Ver_S_Dic);
+                loadFormText(mSDataStream.readText(), this.mPath2Ver_S_Dic);
             }
 
             mSDataStream.dispose();
@@ -99,7 +99,7 @@ namespace SDK.Lib
             mPDataStream = dispObj as MDataStream;
             if (mPDataStream.isValid())
             {
-                loadFormText(mPDataStream.readText(), m_path2Ver_P_Dic);
+                loadFormText(mPDataStream.readText(), this.mPath2Ver_P_Dic);
             }
 
             mPDataStream.dispose();
@@ -116,28 +116,28 @@ namespace SDK.Lib
             ResLoadType resLoadType = ResLoadType.eLoadResource;
 
             // 这个目录只要有就记录
-            if (m_path2Ver_P_Dic.ContainsKey(origPath))
+            if (this.mPath2Ver_P_Dic.ContainsKey(origPath))
             {
-                analyzeHash(m_path2Ver_P_Dic[origPath], ResLoadType.eLoadLocalPersistentData, ref fileVerInfo, ref md5, ref resLoadType);
+                analyzeHash(this.mPath2Ver_P_Dic[origPath], ResLoadType.eLoadLocalPersistentData, ref fileVerInfo, ref md5, ref resLoadType);
             }
-            else if (m_path2Ver_P_Dic.ContainsKey(lowerOrigPath))
+            else if (this.mPath2Ver_P_Dic.ContainsKey(lowerOrigPath))
             {
-                analyzeHash(m_path2Ver_P_Dic[lowerOrigPath], ResLoadType.eLoadLocalPersistentData, ref fileVerInfo, ref md5, ref resLoadType);
+                analyzeHash(this.mPath2Ver_P_Dic[lowerOrigPath], ResLoadType.eLoadLocalPersistentData, ref fileVerInfo, ref md5, ref resLoadType);
             }
 
-            if (m_path2Ver_S_Dic.ContainsKey(origPath))
+            if (this.mPath2Ver_S_Dic.ContainsKey(origPath))
             {
                 // 如果两个 Hash 码是相同，就说明资源定向在 StreamAsset 目录里面
-                analyzeHash(m_path2Ver_S_Dic[origPath], ResLoadType.eLoadStreamingAssets, ref fileVerInfo, ref md5, ref resLoadType);
+                analyzeHash(this.mPath2Ver_S_Dic[origPath], ResLoadType.eLoadStreamingAssets, ref fileVerInfo, ref md5, ref resLoadType);
             }
-            else if (m_path2Ver_S_Dic.ContainsKey(lowerOrigPath))
+            else if (this.mPath2Ver_S_Dic.ContainsKey(lowerOrigPath))
             {
-                analyzeHash(m_path2Ver_S_Dic[lowerOrigPath], ResLoadType.eLoadStreamingAssets, ref fileVerInfo, ref md5, ref resLoadType);
+                analyzeHash(this.mPath2Ver_S_Dic[lowerOrigPath], ResLoadType.eLoadStreamingAssets, ref fileVerInfo, ref md5, ref resLoadType);
             }
 
-            if (m_path2Ver_R_Dic.ContainsKey(origPath))
+            if (this.mPath2Ver_R_Dic.ContainsKey(origPath))
             {
-                analyzeHash(m_path2Ver_R_Dic[origPath], ResLoadType.eLoadResource, ref fileVerInfo, ref md5, ref resLoadType);
+                analyzeHash(this.mPath2Ver_R_Dic[origPath], ResLoadType.eLoadResource, ref fileVerInfo, ref md5, ref resLoadType);
             }
 
             return (int)resLoadType;
@@ -152,7 +152,7 @@ namespace SDK.Lib
             ref ResLoadType resLoadType
             )
         {
-            if (md5 == srcFileVerInfo.m_fileMd5)
+            if (md5 == srcFileVerInfo.mFileMd5)
             {
                 fileVerInfo = srcFileVerInfo;
                 resLoadType = defaultResLoadType;
@@ -160,7 +160,7 @@ namespace SDK.Lib
             else if (string.IsNullOrEmpty(md5))
             {
                 fileVerInfo = srcFileVerInfo;
-                md5 = fileVerInfo.m_fileMd5;
+                md5 = fileVerInfo.mFileMd5;
                 resLoadType = defaultResLoadType;
             }
         }

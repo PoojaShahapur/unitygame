@@ -68,7 +68,7 @@
          */
         override public void show()
         {
-            if(m_selfGo == null)
+            if(this.mSelfGo == null)
             {
                 this.selfGo = UtilApi.createGameObject("MeshRender");
             }

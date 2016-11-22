@@ -17,31 +17,31 @@ namespace SDK.Lib
     public class BasicConfig : MonoBehaviour
     {
         //public int m_ipidx;
-        protected string[] m_ipList = new string[2];
-        protected IpSelect m_IpSelect;
+        protected string[] mIpList = new string[2];
+        protected IpSelect mIpSelect;
 
-        protected ushort[] m_zoneList = new ushort[2];
-        public ZoneSelect m_zoneSelect;
+        protected ushort[] mZoneList = new ushort[2];
+        public ZoneSelect mZoneSelect;
 
         public BasicConfig()
         {
-            m_ipList[0] = "192.168.125.79";
-            m_ipList[1] = "192.168.125.254";
-            m_IpSelect = IpSelect.IP_192_168_125_254;
+            this.mIpList[0] = "192.168.125.79";
+            this.mIpList[1] = "192.168.125.254";
+            this.mIpSelect = IpSelect.IP_192_168_125_254;
 
-            m_zoneList[0] = 30;
-            m_zoneList[1] = 31;
-            m_zoneSelect = ZoneSelect.Zone_30;
+            this.mZoneList[0] = 30;
+            this.mZoneList[1] = 31;
+            this.mZoneSelect = ZoneSelect.Zone_30;
         }
 
         public string getIp()
         {
-            return m_ipList[(int)m_IpSelect];
+            return this.mIpList[(int)this.mIpSelect];
         }
 
         public ushort getPort()
         {
-            return m_zoneList[(int)m_zoneSelect];
+            return this.mZoneList[(int)this.mZoneSelect];
         }
     }
 }

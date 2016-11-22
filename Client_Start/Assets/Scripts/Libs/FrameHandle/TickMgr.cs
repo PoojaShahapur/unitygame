@@ -5,11 +5,11 @@ namespace SDK.Lib
 {
     public class TickMgr : DelayHandleMgrBase
     {
-        protected MList<TickProcessObject> m_tickLst;
+        protected MList<TickProcessObject> mTickLst;
 
         public TickMgr()
         {
-            m_tickLst = new MList<TickProcessObject>();
+            this.mTickLst = new MList<TickProcessObject>();
         }
 
         public void addTick(ITickedObject tickObj, float priority = 0.0f)
@@ -27,18 +27,18 @@ namespace SDK.Lib
             {
                 int position = -1;
                 int idx = 0;
-                int elemLen = m_tickLst.Count();
+                int elemLen = this.mTickLst.Count();
                 while(idx < elemLen)
                 {
-                    if (m_tickLst[idx] == null)
+                    if (this.mTickLst[idx] == null)
                         continue;
 
-                    if (m_tickLst[idx].m_tickObject == delayObject)
+                    if (this.mTickLst[idx].mTickObject == delayObject)
                     {
                         return;
                     }
 
-                    if (m_tickLst[idx].m_priority < priority)
+                    if (this.mTickLst[idx].mPriority < priority)
                     {
                         position = idx;
                         break;
@@ -48,16 +48,16 @@ namespace SDK.Lib
                 }
 
                 TickProcessObject processObject = new TickProcessObject();
-                processObject.m_tickObject = delayObject as ITickedObject;
-                processObject.m_priority = priority;
+                processObject.mTickObject = delayObject as ITickedObject;
+                processObject.mPriority = priority;
 
-                if (position < 0 || position >= m_tickLst.Count())
+                if (position < 0 || position >= this.mTickLst.Count())
                 {
-                    m_tickLst.Add(processObject);
+                    this.mTickLst.Add(processObject);
                 }
                 else
                 {
-                    m_tickLst.Insert(position, processObject);
+                    this.mTickLst.Insert(position, processObject);
                 }
             }
         }
@@ -75,11 +75,11 @@ namespace SDK.Lib
             }
             else
             {
-                foreach (TickProcessObject item in m_tickLst.list())
+                foreach (TickProcessObject item in this.mTickLst.list())
                 {
-                    if (UtilApi.isAddressEqual(item.m_tickObject, delayObject))
+                    if (UtilApi.isAddressEqual(item.mTickObject, delayObject))
                     {
-                        m_tickLst.Remove(item);
+                        this.mTickLst.Remove(item);
                         break;
                     }
                 }
@@ -90,11 +90,11 @@ namespace SDK.Lib
         {
             incDepth();
 
-            foreach (TickProcessObject tk in m_tickLst.list())
+            foreach (TickProcessObject tk in this.mTickLst.list())
             {
-                if (!(tk.m_tickObject as IDelayHandleItem).getClientDispose())
+                if (!(tk.mTickObject as IDelayHandleItem).getClientDispose())
                 {
-                    (tk.m_tickObject as ITickedObject).onTick(delta);
+                    (tk.mTickObject as ITickedObject).onTick(delta);
                 }
             }
 

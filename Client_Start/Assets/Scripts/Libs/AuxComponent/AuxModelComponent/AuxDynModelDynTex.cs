@@ -7,31 +7,31 @@ namespace SDK.Lib
      */
     public class AuxDynModelDynTex : AuxDynModel
     {
-        protected string m_texPath;     // 纹理目录
-        protected TextureRes m_texRes;  // 纹理资源
-        protected Material m_mat;       // Unity 材质
-        protected bool m_bNeedReloadTex;        // 是否需要重新加载纹理
-        protected bool m_bModelChanged;         // 模型是否改变
+        protected string mTexPath;     // 纹理目录
+        protected TextureRes mTexRes;  // 纹理资源
+        protected Material mMat;       // Unity 材质
+        protected bool mIsNeedReloadTex;        // 是否需要重新加载纹理
+        protected bool mIsModelChanged;         // 模型是否改变
 
         public AuxDynModelDynTex()
         {
-            m_bNeedReloadTex = false;
-            m_bModelChanged = false;
+            this.mIsNeedReloadTex = false;
+            this.mIsModelChanged = false;
         }
 
         public string texPath
         {
             get
             {
-                return m_texPath;
+                return this.mTexPath;
             }
             set
             {
-                if (m_texPath != value)
+                if (this.mTexPath != value)
                 {
-                    m_bNeedReloadTex = true;
+                    this.mIsNeedReloadTex = true;
                 }
-                m_texPath = value;
+                this.mTexPath = value;
             }
         }
 
@@ -39,30 +39,30 @@ namespace SDK.Lib
         {
             get
             {
-                return m_texRes;
+                return this.mTexRes;
             }
             set
             {
-                if (m_texRes != value)
+                if (this.mTexRes != value)
                 {
-                    m_bNeedReloadTex = true;
+                    this.mIsNeedReloadTex = true;
 
-                    if(m_texRes != null)
+                    if(this.mTexRes != null)
                     {
-                        Ctx.m_instance.m_texMgr.unload(m_texRes.getResUniqueId(), null);
-                        m_texRes = null;
+                        Ctx.m_instance.m_texMgr.unload(this.mTexRes.getResUniqueId(), null);
+                        this.mTexRes = null;
                     }
                 }
-                m_texRes = value;
+                this.mTexRes = value;
             }
         }
 
         override public void dispose()
         {
-            if (m_texRes != null)
+            if (this.mTexRes != null)
             {
-                Ctx.m_instance.m_texMgr.unload(m_texRes.getResUniqueId(), null);
-                m_texRes = null;
+                Ctx.m_instance.m_texMgr.unload(this.mTexRes.getResUniqueId(), null);
+                this.mTexRes = null;
             }
 
             base.dispose();
@@ -70,36 +70,36 @@ namespace SDK.Lib
 
         protected override void onSelfChanged()
         {
-            m_bModelChanged = true;
+            this.mIsModelChanged = true;
             base.onSelfChanged();
-            m_mat = m_selfGo.GetComponent<Renderer>().material;
+            this.mMat = this.mSelfGo.GetComponent<Renderer>().material;
         }
 
         public void syncUpdateTex()
         {
-            if(m_bNeedReloadTex)
+            if(this.mIsNeedReloadTex)
             {
-                if (m_texRes != null)
+                if (this.mTexRes != null)
                 {
-                    Ctx.m_instance.m_texMgr.unload(m_texRes.getResUniqueId(), null);
-                    m_texRes = null;
+                    Ctx.m_instance.m_texMgr.unload(this.mTexRes.getResUniqueId(), null);
+                    this.mTexRes = null;
                 }
 
-                m_texRes = Ctx.m_instance.m_texMgr.getAndSyncLoad<TextureRes>(m_texPath);
-                m_mat.mainTexture = m_texRes.getTexture();
+                this.mTexRes = Ctx.m_instance.m_texMgr.getAndSyncLoad<TextureRes>(this.mTexPath);
+                this.mMat.mainTexture = this.mTexRes.getTexture();
             }
-            else if (m_bModelChanged)
+            else if (this.mIsModelChanged)
             {
-                if (m_texRes == null)
+                if (this.mTexRes == null)
                 {
-                    m_texRes = Ctx.m_instance.m_texMgr.getAndSyncLoad<TextureRes>(m_texPath);
+                    this.mTexRes = Ctx.m_instance.m_texMgr.getAndSyncLoad<TextureRes>(this.mTexPath);
                 }
 
-                m_mat.mainTexture = m_texRes.getTexture();
+                this.mMat.mainTexture = this.mTexRes.getTexture();
             }
 
-            m_bNeedReloadTex = false;
-            m_bModelChanged = false;
+            this.mIsNeedReloadTex = false;
+            this.mIsModelChanged = false;
         }
     }
 }

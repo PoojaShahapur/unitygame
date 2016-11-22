@@ -8,25 +8,26 @@ namespace SDK.Lib
      */
     public class AuxLabel : AuxWindow
     {
-        protected Text m_text;
-        protected LabelStyleBase m_labelStyle;
+        protected Text mText;
+        protected LabelStyleBase mLabelStyle;
 
         // 初始构造
         public AuxLabel(GameObject pntNode, string path, LabelStyleID styleId = LabelStyleID.eLSID_None)
         {
-            m_selfGo = UtilApi.TransFindChildByPObjAndPath(pntNode, path);
-            m_text = UtilApi.getComByP<Text>(pntNode, path);
-            m_labelStyle = Ctx.m_instance.m_widgetStyleMgr.GetWidgetStyle<LabelStyleBase>(WidgetStyleID.eWSID_Text, (int)styleId);
-            if(m_labelStyle.needClearText())
+            this.mSelfGo = UtilApi.TransFindChildByPObjAndPath(pntNode, path);
+            this.mText = UtilApi.getComByP<Text>(pntNode, path);
+            this.mLabelStyle = Ctx.m_instance.m_widgetStyleMgr.GetWidgetStyle<LabelStyleBase>(WidgetStyleID.eWSID_Text, (int)styleId);
+
+            if(this.mLabelStyle.needClearText())
             {
-                m_text.text = "";
+                this.mText.text = "";
             }
         }
 
         public AuxLabel(GameObject selfNode, LabelStyleID styleId = LabelStyleID.eLSID_None)
         {
-            m_selfGo = selfNode;
-            m_text = UtilApi.getComByP<Text>(selfNode);
+            this.mSelfGo = selfNode;
+            this.mText = UtilApi.getComByP<Text>(selfNode);
         }
 
         public AuxLabel(LabelStyleID styleId = LabelStyleID.eLSID_None)
@@ -37,32 +38,32 @@ namespace SDK.Lib
         // 后期修改
         public void setSelfGo(GameObject pntNode, string path)
         {
-            m_selfGo = UtilApi.TransFindChildByPObjAndPath(pntNode, path);
-            m_text = UtilApi.getComByP<Text>(pntNode, path);
+            this.mSelfGo = UtilApi.TransFindChildByPObjAndPath(pntNode, path);
+            this.mText = UtilApi.getComByP<Text>(pntNode, path);
         }
 
         public string text
         {
             get
             {
-                if (m_text != null)
+                if (this.mText != null)
                 {
-                    return m_text.text;
+                    return this.mText.text;
                 }
                 return "";
             }
             set
             {
-                if (m_text != null)
+                if (this.mText != null)
                 {
-                    m_text.text = value;
+                    this.mText.text = value;
                 }
             }
         }
 
         public void changeSize()
         {
-            m_text.rectTransform.sizeDelta = new Vector2(m_text.rectTransform.sizeDelta.x, m_text.preferredHeight);
+            this.mText.rectTransform.sizeDelta = new Vector2(this.mText.rectTransform.sizeDelta.x, this.mText.preferredHeight);
         }
     }
 }

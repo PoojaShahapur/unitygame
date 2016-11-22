@@ -4,16 +4,16 @@ namespace SDK.Lib
 {
     public class SOAnimatorController : ScriptableObject
     {
-        public RuntimeAnimatorController m_animatorController;
+        public RuntimeAnimatorController mAnimatorController;
 
         public void addAnimator(string path, RuntimeAnimatorController animatorController_)
         {
-            m_animatorController = animatorController_;
+            this.mAnimatorController = animatorController_;
         }
 
         public void unload()
         {
-            UtilApi.UnloadAsset(m_animatorController);
+            UtilApi.UnloadAsset(this.mAnimatorController);
         }
     }
 }

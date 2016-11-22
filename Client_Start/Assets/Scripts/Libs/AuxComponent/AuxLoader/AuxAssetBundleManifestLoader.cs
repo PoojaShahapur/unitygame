@@ -5,7 +5,7 @@ namespace SDK.Lib
     public class AuxAssetBundleManifestLoader : AuxLoaderBase
     {
         protected ResItem mResItem;
-        protected AssetBundleManifest m_AssetBundleManifest;
+        protected AssetBundleManifest mAssetBundleManifest;
 
         public AuxAssetBundleManifestLoader(string path = "")
             : base(path)
@@ -20,7 +20,7 @@ namespace SDK.Lib
 
         public AssetBundleManifest getAssetBundleManifest()
         {
-            return m_AssetBundleManifest;
+            return this.mAssetBundleManifest;
         }
 
         // 同步加载
@@ -52,18 +52,18 @@ namespace SDK.Lib
 
         public void onLoadEventHandle(IDispatchObject dispObj)
         {
-            mResItem = dispObj as ResItem;
+            this.mResItem = dispObj as ResItem;
 
             if (mResItem.hasSuccessLoaded())
             {
-                mIsSuccess = true;
+                this.mIsSuccess = true;
 
                 // 从 AssetBundle 中获取名字 AssetBundleManifest
-                m_AssetBundleManifest = mResItem.getObject("AssetBundleManifest") as AssetBundleManifest;
+                this.mAssetBundleManifest = mResItem.getObject("AssetBundleManifest") as AssetBundleManifest;
             }
-            else if (mResItem.hasFailed())
+            else if (this.mResItem.hasFailed())
             {
-                mIsSuccess = false;
+                this.mIsSuccess = false;
 
                 Ctx.m_instance.m_logSys.log("AssetBundleManifest AssetBundles Can not Load", LogTypeId.eLogCommon);
             }
@@ -71,18 +71,18 @@ namespace SDK.Lib
             // 卸载资源，AssetBundles 现在只有不使用的时候一次性全部卸载掉，如果在不使用 AssetBundleManifest 之前就卸载对应的 AssetBundles ，这个 AssetBundleManifest 就会变成 null 的
             //Ctx.m_instance.m_resLoadMgr.unload(res.getResUniqueId(), onLoadEventHandle);
 
-            if (mEvtHandle != null)
+            if (this.mEvtHandle != null)
             {
-                mEvtHandle.dispatchEvent(this);
+                this.mEvtHandle.dispatchEvent(this);
             }
         }
 
         override public void unload()
         {
-            if (mResItem != null)
+            if (this.mResItem != null)
             {
                 Ctx.m_instance.m_resLoadMgr.unload(mResItem.getResUniqueId(), onLoadEventHandle);
-                mResItem = null;
+                this.mResItem = null;
             }
 
             base.unload();
