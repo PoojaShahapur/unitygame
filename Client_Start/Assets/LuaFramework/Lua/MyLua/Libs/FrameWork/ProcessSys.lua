@@ -19,9 +19,9 @@ end
 function M:refreshUpdateFlag()
     if(GCtx.m_cofig:isAllowCallCS()) then
         if(GCtx.m_timerMgr:getCount() > 0) then
-            Ctx.m_instance.m_luaSystem:setNeedUpdate(true);
+            Ctx.mInstance.mLuaSystem:setNeedUpdate(true);
         else
-            Ctx.m_instance.m_luaSystem:setNeedUpdate(false);
+            Ctx.mInstance.mLuaSystem:setNeedUpdate(false);
         end
     end
 end

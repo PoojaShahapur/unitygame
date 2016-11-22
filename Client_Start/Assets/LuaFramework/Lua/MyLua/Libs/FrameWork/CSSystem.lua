@@ -27,11 +27,11 @@ end
 
 -- LogSys 日志区域
 function M.log(message, logTypeId)
-    if(this.Ctx.m_instance.m_logSys ~= nil) then
+    if(this.Ctx.mInstance.mLogSys ~= nil) then
         if(logTypeId == nil) then
             GlobalNS.UtilApi.error("CSSystem logTypeId is nil");
         else
-            this.Ctx.m_instance.m_logSys:lua_log(message, logTypeId);
+            this.Ctx.mInstance.mLogSys:lua_log(message, logTypeId);
         end
     else
         GlobalNS.UtilApi.error("CSSystem LogSys is nil");
@@ -39,11 +39,11 @@ function M.log(message, logTypeId)
 end
 
 function M.warn(message, logTypeId)
-    this.Ctx.m_instance.m_logSys:lua_warn(message, logTypeId);
+    this.Ctx.mInstance.mLogSys:lua_warn(message, logTypeId);
 end
 
 function M.error(message, logTypeId)
-    this.Ctx.m_instance.m_logSys:lua_error(message, logTypeId);
+    this.Ctx.mInstance.mLogSys:lua_error(message, logTypeId);
 end
 
 -- GlobalEventCmd 交互区域
@@ -57,11 +57,11 @@ end
 
 -- 网络区域
 function M.sendFromLua(id, buffer)
-    this.Ctx.m_instance.m_luaSystem:sendFromLua(id, buffer);
+    this.Ctx.mInstance.mLuaSystem:sendFromLua(id, buffer);
 end
 
 function M.sendFromLuaRpc(buffer)
-    this.Ctx.m_instance.m_luaSystem:sendFromLuaRpc(buffer);
+    this.Ctx.mInstance.mLuaSystem:sendFromLuaRpc(buffer);
 end
 
 function M.readLuaBufferToFile(file)
@@ -94,7 +94,7 @@ function M.SetRectTransformParent(child, parent, worldPositionStays)
 end
 
 function M.buildByteBuffer()
-	return this.Ctx.m_instance.m_factoryBuild:buildByteBuffer();
+	return this.Ctx.mInstance.mFactoryBuild:buildByteBuffer();
 end
 
 return M;
