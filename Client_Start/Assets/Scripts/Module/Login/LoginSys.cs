@@ -5,28 +5,28 @@ namespace Game.Login
 {
     public class LoginSys : ILoginSys
     {
-        public LoginFlowHandle m_loginFlowHandle;       // 整个登陆流程处理
-        public LoginState m_loginState;                 // 登陆状态
-        public LoginRouteCB m_loginRouteCB;
-        public LoginNetHandleCB m_loginNetHandleCB;
+        public LoginFlowHandle mLoginFlowHandle;       // 整个登陆流程处理
+        public LoginState mLoginState;                 // 登陆状态
+        public LoginRouteCB mLoginRouteCB;
+        public LoginNetHandleCB mLoginNetHandleCB;
 
         public void Start()
         {
             Ctx.m_instance.m_moduleSys.unloadModule(ModuleID.AUTOUPDATEMN);
-            registerScriptType();
-            initGVar();
-            //loadScene();
-            onResLoadScene(null);
+            this.registerScriptType();
+            this.initGVar();
+            //this.loadScene();
+            this.onResLoadScene(null);
         }
 
         public void initGVar()
         {
             // 游戏逻辑处理
             Ctx.m_instance.m_cbUIEvent = new LoginUIEventCB();
-            m_loginNetHandleCB = new LoginNetHandleCB();
-            Ctx.m_instance.m_netCmdNotify.addOneDisp(m_loginNetHandleCB);
-            m_loginRouteCB = new LoginRouteCB();
-            Ctx.m_instance.m_msgRouteNotify.addOneDisp(m_loginRouteCB);
+            this.mLoginNetHandleCB = new LoginNetHandleCB();
+            Ctx.m_instance.m_netCmdNotify.addOneDisp(this.mLoginNetHandleCB);
+            this.mLoginRouteCB = new LoginRouteCB();
+            Ctx.m_instance.m_msgRouteNotify.addOneDisp(this.mLoginRouteCB);
         }
 
         // 加载登陆常见
@@ -44,29 +44,29 @@ namespace Game.Login
 
         public void connectLoginServer(string name, string passwd)
         {
-            m_loginFlowHandle.connectLoginServer(name, passwd);
+            this.mLoginFlowHandle.connectLoginServer(name, passwd);
         }
 
         public LoginState get_LoginState()
         {
-            return m_loginState;
+            return this.mLoginState;
         }
 
         public void set_LoginState(LoginState state)
         {
-            m_loginState = state;
+            this.mLoginState = state;
         }
 
         // 卸载模块
         public void unload()
         {
-            Ctx.m_instance.m_netCmdNotify.removeOneDisp(m_loginNetHandleCB);
-            Ctx.m_instance.m_msgRouteNotify.removeOneDisp(m_loginRouteCB);
+            Ctx.m_instance.m_netCmdNotify.removeOneDisp(this.mLoginNetHandleCB);
+            Ctx.m_instance.m_msgRouteNotify.removeOneDisp(this.mLoginRouteCB);
         }
 
         public uint getUserID()
         {
-            return m_loginFlowHandle.getDwUserID();
+            return this.mLoginFlowHandle.getDwUserID();
         }
 
         protected void registerScriptType()

@@ -9,13 +9,13 @@ namespace Game.Login
      */
     public class LoginFlowHandle
     {
-        protected string m_gateIP;
-        protected ushort m_gatePort;
+        protected string mGateIP;
+        protected ushort mGatePort;
 
-        protected uint m_dwUserID;
+        protected uint mDwUserID;
 
-        public string m_name;
-        public string m_passwd;
+        public string mName;
+        public string mPasswd;
         protected byte[] m_cryptKey;
 
         public LoginFlowHandle()
@@ -25,15 +25,15 @@ namespace Game.Login
 
         public uint getDwUserID()
         {
-            return m_dwUserID;
+            return mDwUserID;
         }
 
         public void connectLoginServer(string name, string passwd)
         {
             Ctx.m_instance.m_loginSys.set_LoginState(LoginState.eLoginingLoginServer);     // 设置登陆状态
 
-            m_name = name;
-            m_passwd = passwd;
+            this.mName = name;
+            this.mPasswd = passwd;
             Ctx.m_instance.m_dataPlayer.m_accountData.m_account = name;
             Ctx.m_instance.m_logSys.registerFileLogDevice();
 
@@ -49,7 +49,7 @@ namespace Game.Login
         {
             Ctx.m_instance.m_loginSys.set_LoginState(LoginState.eLoginSuccessLoginServer);     // 设置登陆状态
             Ctx.m_instance.m_logSys.log(Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem1));
-            sendMsg1f();
+            this.sendMsg1f();
         }
 
         // 登陆登录服务器
@@ -95,8 +95,8 @@ namespace Game.Login
             stUserRequestLoginCmd cmd = new stUserRequestLoginCmd();
             //cmd.pstrName = "zhanghao01";
             //cmd.pstrPassword = "1";
-            cmd.pstrName = m_name;
-            cmd.pstrPassword = m_passwd;
+            cmd.pstrName = this.mName;
+            cmd.pstrPassword = this.mPasswd;
 #if KOKSERVER_TEST
             cmd.pstrName = "fayatudou615";
             cmd.pstrPassword = "mjw0505";
@@ -122,15 +122,15 @@ namespace Game.Login
             m_cryptKey = cmd.key;
             Ctx.m_instance.m_logSys.log(string.Format("crypt key: {0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}", m_cryptKey[0], m_cryptKey[1], m_cryptKey[2], m_cryptKey[3], m_cryptKey[4], m_cryptKey[5], m_cryptKey[6], m_cryptKey[7]));
 
-            m_gateIP = cmd.pstrIP;
-            m_gateIP = m_gateIP.TrimEnd('\0');     // 剔除结尾 '\0' 字符
-            m_gatePort = cmd.wdPort;
+            this.mGateIP = cmd.pstrIP;
+            this.mGateIP = this.mGateIP.TrimEnd('\0');     // 剔除结尾 '\0' 字符
+            this.mGatePort = cmd.wdPort;
 
-            m_dwUserID = cmd.dwUserID;
+            this.mDwUserID = cmd.dwUserID;
             Ctx.m_instance.m_pTimerMsgHandle.m_loginTempID = cmd.loginTempID;
             Ctx.m_instance.m_dataPlayer.m_dataMain.m_dwUserTempID = cmd.loginTempID;
 
-            string str = string.Format(Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem5), m_gateIP, m_gatePort, m_dwUserID, Ctx.m_instance.m_pTimerMsgHandle.m_loginTempID);
+            string str = string.Format(Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem5), this.mGateIP, this.mGatePort, this.mDwUserID, Ctx.m_instance.m_pTimerMsgHandle.m_loginTempID);
             Ctx.m_instance.m_logSys.log(str);
 
             Ctx.m_instance.m_netMgr.closeSocket(Ctx.m_instance.m_cfg.m_ip, Ctx.m_instance.m_cfg.m_port);            // 关闭之前的 socket
@@ -142,7 +142,7 @@ namespace Game.Login
         {
             Ctx.m_instance.m_loginSys.set_LoginState(LoginState.eLoginingGateServer);     // 设置登陆状态
             Ctx.m_instance.m_logSys.log(Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem6));
-            Ctx.m_instance.m_netMgr.openSocket(m_gateIP, m_gatePort);
+            Ctx.m_instance.m_netMgr.openSocket(this.mGateIP, this.mGatePort);
         }
 
         public void onGateServerSocketOpened()
@@ -155,7 +155,7 @@ namespace Game.Login
                 Ctx.m_instance.m_netMgr.setCryptKey(m_cryptKey);
             }
             Ctx.m_instance.m_logSys.log(Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem7));
-            sendMsg5f();
+            this.sendMsg5f();
         }
         
         // 登陆网关服务器
@@ -168,7 +168,7 @@ namespace Game.Login
             //UtilMsg.sendMsg(cmdVerify);
 
             stPasswdLogonUserCmd cmd = new stPasswdLogonUserCmd();
-            cmd.dwUserID = m_dwUserID;
+            cmd.dwUserID = this.mDwUserID;
             cmd.loginTempID = Ctx.m_instance.m_pTimerMsgHandle.m_loginTempID;
             UtilMsg.sendMsg(cmd);
         }

@@ -78,7 +78,7 @@ namespace Game.Game
 
             if (EGameStage.eStage_Login == srcGameState)
             {
-                initOnFirstEnterGameScene();
+                this.initOnFirstEnterGameScene();
             }
         }
     }

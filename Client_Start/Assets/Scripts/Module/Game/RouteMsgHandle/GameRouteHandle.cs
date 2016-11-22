@@ -13,7 +13,7 @@ namespace Game.Game
         protected void threadLog(IDispatchObject dispObj)
         {
             MsgRouteBase msg = dispObj as MsgRouteBase;
-            Ctx.m_instance.m_logSys.log((msg as ThreadLogMR).m_logSys);
+            Ctx.m_instance.m_logSys.log((msg as ThreadLogMR).mLogSys);
         }
 
         protected void onSocketOpened(IDispatchObject dispObj)

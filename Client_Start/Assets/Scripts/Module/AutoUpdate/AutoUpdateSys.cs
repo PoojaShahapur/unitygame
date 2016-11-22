@@ -6,8 +6,8 @@ namespace Game.AutoUpdate
     {
         public void Start()
         {
-            initGVar();
-            startAutoUpdate();
+            this.initGVar();
+            this.startAutoUpdate();
         }
 
         public void initGVar()
@@ -26,7 +26,7 @@ namespace Game.AutoUpdate
         // 调用这个函数，说明文件已经更新到本地，版本文件也加载完成
         public void onAutoUpdateEnd(IDispatchObject dispObj)
         {
-            loadPakCfg();
+            this.loadPakCfg();
         }
 
         protected void loadPakCfg()

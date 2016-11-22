@@ -37,7 +37,7 @@
     // 线程日志
     public class ThreadLogMR : MsgRouteBase
     {
-        public string m_logSys;
+        public string mLogSys;
 
         public ThreadLogMR()
             : base(MsgRouteID.eMRIDThreadLog)

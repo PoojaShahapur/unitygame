@@ -15,18 +15,18 @@ namespace Game.Login
             MsgRouteBase msg = dispObj as MsgRouteBase;
             if (Ctx.m_instance.m_loginSys.get_LoginState() == LoginState.eLoginingLoginServer)
             {
-                (Ctx.m_instance.m_loginSys as LoginSys).m_loginFlowHandle.onLoginServerSocketOpened();
+                (Ctx.m_instance.m_loginSys as LoginSys).mLoginFlowHandle.onLoginServerSocketOpened();
             }
             else if(Ctx.m_instance.m_loginSys.get_LoginState() == LoginState.eLoginingGateServer)
             {
-                (Ctx.m_instance.m_loginSys as LoginSys).m_loginFlowHandle.onGateServerSocketOpened();
+                (Ctx.m_instance.m_loginSys as LoginSys).mLoginFlowHandle.onGateServerSocketOpened();
             }
         }
 
         protected void threadLog(IDispatchObject dispObj)
         {
             MsgRouteBase msg = dispObj as MsgRouteBase;
-            Ctx.m_instance.m_logSys.log((msg as ThreadLogMR).m_logSys);
+            Ctx.m_instance.m_logSys.log((msg as ThreadLogMR).mLogSys);
         }
     }
 }

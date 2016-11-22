@@ -7,8 +7,8 @@ namespace Game.Login
     {
         public LoginSelectUserCmdHandle()
         {
-            this.addParamHandle(stSelectUserCmd.USERINFO_SELECT_USERCMD_PARA, ((Ctx.m_instance.m_loginSys) as LoginSys).m_loginFlowHandle.psstUserInfoUserCmd);
-            this.addParamHandle(stSelectUserCmd.LOGIN_SELECT_SUCCESS_USERCMD_PARA, ((Ctx.m_instance.m_loginSys) as LoginSys).m_loginFlowHandle.psstLoginSelectSuccessUserCmd);
+            this.addParamHandle(stSelectUserCmd.USERINFO_SELECT_USERCMD_PARA, ((Ctx.m_instance.m_loginSys) as LoginSys).mLoginFlowHandle.psstUserInfoUserCmd);
+            this.addParamHandle(stSelectUserCmd.LOGIN_SELECT_SUCCESS_USERCMD_PARA, ((Ctx.m_instance.m_loginSys) as LoginSys).mLoginFlowHandle.psstLoginSelectSuccessUserCmd);
         }
     }
 }

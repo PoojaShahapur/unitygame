@@ -52,7 +52,7 @@ namespace SDK.Lib
                 if (ModuleID.LOGINMN == moduleID)
                 {
                     Ctx.m_instance.m_loginSys = new LoginSys();
-                    ((Ctx.m_instance.m_loginSys) as LoginSys).m_loginFlowHandle = new LoginFlowHandle();
+                    ((Ctx.m_instance.m_loginSys) as LoginSys).mLoginFlowHandle = new LoginFlowHandle();
                     ((Ctx.m_instance.m_loginSys) as LoginSys).Start();
                 }
                 else if(ModuleID.GAMEMN == moduleID)

@@ -24,7 +24,7 @@ namespace SDK.Lib
         {
             get
             {
-                return m_ePreGameStage;
+                return this.m_ePreGameStage;
             }
         }
 
@@ -32,64 +32,64 @@ namespace SDK.Lib
         {
             get
             {
-                return m_eCurGameStage ;
+                return this.m_eCurGameStage ;
             }
         }
 
         public void toggleGameStage(EGameStage newStage)
         {
-            if (newStage != m_eCurGameStage)
+            if (newStage != this.m_eCurGameStage)
             {
-                m_ePreGameStage = m_eCurGameStage;
-                m_eCurGameStage = newStage;
-                quitingAndEnteringCurStage();
+                this.m_ePreGameStage = this.m_eCurGameStage;
+                this.m_eCurGameStage = newStage;
+                this.quitingAndEnteringCurStage();
             }
         }
 
         protected void quitingAndEnteringCurStage()
         {
-            if (m_quitingAndEnteringStageDisp != null)
+            if (this.m_quitingAndEnteringStageDisp != null)
             {
-                m_quitingAndEnteringStageDisp(m_ePreGameStage, m_eCurGameStage);
+                this.m_quitingAndEnteringStageDisp(m_ePreGameStage, m_eCurGameStage);
             }
         }
 
         public void quitedAndEnteredCurStage()
         {
-            if (m_quitedAndEnteredStageDisp != null)
+            if (this.m_quitedAndEnteredStageDisp != null)
             {
-                m_quitedAndEnteredStageDisp(m_ePreGameStage, m_eCurGameStage);
+                this.m_quitedAndEnteredStageDisp(this.m_ePreGameStage, this.m_eCurGameStage);
             }
         }
 
         public bool isPreInStage(EGameStage eGameStage)
         {
-            return m_eCurGameStage == eGameStage;
+            return this.m_eCurGameStage == eGameStage;
         }
 
         public bool isCurInStage(EGameStage eGameStage)
         {
-            return m_eCurGameStage == eGameStage;
+            return this.m_eCurGameStage == eGameStage;
         }
 
         public void addQuitingAndEnteringDisp(Action<EGameStage, EGameStage> handle)
         {
-            m_quitingAndEnteringStageDisp += handle;
+            this.m_quitingAndEnteringStageDisp += handle;
         }
 
         public void removeQuitingAndEnteringDisp(Action<EGameStage, EGameStage> handle)
         {
-            m_quitingAndEnteringStageDisp -= handle;
+            this.m_quitingAndEnteringStageDisp -= handle;
         }
 
         public void addQuitedAndEnteredDisp(Action<EGameStage, EGameStage> handle)
         {
-            m_quitedAndEnteredStageDisp += handle;
+            this.m_quitedAndEnteredStageDisp += handle;
         }
 
         public void removeQuitedAndEnteredDisp(Action<EGameStage, EGameStage> handle)
         {
-            m_quitedAndEnteredStageDisp -= handle;
+            this.m_quitedAndEnteredStageDisp -= handle;
         }
     }
 }
