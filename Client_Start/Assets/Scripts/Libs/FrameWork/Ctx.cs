@@ -108,6 +108,7 @@
 
         public ResRedirect mResRedirect;            // 重定向
         public DownloadMgr mDownloadMgr;            // 下载管理器
+        public MKBEMainEntry mMKBEMainEntry;        // KBEngine 相关处理
 
         public Ctx()
         {
@@ -240,6 +241,8 @@
 
             mResRedirect = new ResRedirect();
             mDownloadMgr = new DownloadMgr();
+
+            mMKBEMainEntry = new MKBEMainEntry();
         }
 
         protected void interInit()
@@ -278,6 +281,8 @@
 
             m_luaSystem.init();
             m_uiMgr.init();
+
+            mMKBEMainEntry.Start();
         }
 
         public void init()
