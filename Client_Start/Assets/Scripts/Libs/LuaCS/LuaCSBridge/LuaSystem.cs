@@ -28,7 +28,7 @@ namespace SDK.Lib
         {
             this.m_luaScriptMgr.InitStart();
             //m_luaCtx = DoFile("MyLua.Libs.FrameWork.GCtx")[0] as LuaTable;  // lua 入口
-            this.doFile("MyLua.Module.Entry.Main");        // 启动 Lua AppSys
+            this.doFile("MyLua.Module.Entry.MainEntry");        // 启动 Lua AppSys
             this.m_luaClassLoader = new LuaCSBridgeClassLoader();
             this.m_luaCSBridgeMalloc = new LuaCSBridgeMalloc("MyLua.Libs.Core.Malloc", "GlobalNS");
             //m_processSys = m_luaCtx["m_processSys"] as LuaTable;
