@@ -9,7 +9,7 @@ public class Controller : IController {
     protected IDictionary<string, Type> m_commandMap;
     protected IDictionary<IView, List<string>> m_viewCmdMap;
 
-    protected static volatile IController m_instance;
+    protected static volatile IController mInstance;
     protected readonly object m_syncRoot = new object();
     protected static readonly object m_staticSyncRoot = new object();
 
@@ -22,12 +22,12 @@ public class Controller : IController {
 
     public static IController Instance {
         get {
-            if (m_instance == null) {
+            if (mInstance == null) {
                 lock (m_staticSyncRoot) {
-                    if (m_instance == null) m_instance = new Controller();
+                    if (mInstance == null) mInstance = new Controller();
                 }
             }
-            return m_instance;
+            return mInstance;
         }
     }
 
