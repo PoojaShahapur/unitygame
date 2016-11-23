@@ -18,12 +18,12 @@ namespace SDK.Lib
             }
             else
             {
-                Ctx.mInstance.mLogSys.log("socket buffer null");
+                Ctx.mInstance.mLogSys.log("Socket buffer null");
             }
             if (isSendToNet)
             {
                 // 打印日志
-                Ctx.mInstance.mShareData.mTmpStr = string.Format("发送消息: byCmd = {0}, byParam = {1}", msg.byCmd, msg.byParam);
+                Ctx.mInstance.mShareData.mTmpStr = string.Format("Send msg: byCmd = {0}, byParam = {1}", msg.byCmd, msg.byParam);
                 Ctx.mInstance.mLogSys.log(Ctx.mInstance.mShareData.mTmpStr);
             }
             Ctx.mInstance.mNetMgr.send(isSendToNet);
@@ -38,15 +38,15 @@ namespace SDK.Lib
             }
             else
             {
-                Ctx.mInstance.mLogSys.log("socket buffer null");
+                Ctx.mInstance.mLogSys.log("Socket buffer null");
             }
             if (isSendToNet)
             {
                 // 打印日志
-                Ctx.mInstance.mShareData.mTmpStr = string.Format("发送消息");
+                Ctx.mInstance.mShareData.mTmpStr = string.Format("Send msg");
                 Ctx.mInstance.mLogSys.log(Ctx.mInstance.mShareData.mTmpStr);
             }
-            Ctx.mInstance.mNetMgr.send(isSendToNet);
+            Ctx.mInstance.mNetMgr.send_KBE(isSendToNet);
         }
 
         //static public void sendMsg(ushort commandID, LuaStringBuffer buffer, bool bnet = true)

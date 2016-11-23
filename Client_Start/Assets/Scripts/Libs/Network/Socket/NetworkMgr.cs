@@ -159,6 +159,23 @@ namespace SDK.Lib
             }
         }
 
+        // TODO:KBEngine 引擎发送
+        public void send_KBE(bool isSendToNet = true)
+        {
+            if (mCurClient != null)
+            {
+                mCurClient.clientBuffer.send_KBE(isSendToNet);
+                if (!MacroDef.NET_MULTHREAD)
+                {
+                    mCurClient.Send();
+                }
+            }
+            else
+            {
+                Ctx.mInstance.mLogSys.log("current socket null");
+            }
+        }
+
         // 关闭 App ，需要等待子线程结束
         public void quipApp()
         {

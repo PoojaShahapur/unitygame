@@ -203,6 +203,24 @@
             }
         }
 
+        // TODO: KBEngine 引擎发送
+        public void send_KBE(bool isSendToNet = true)
+        {
+            mTmpData.clear();
+
+            if (isSendToNet)       // 从 socket 发送出去
+            {
+                using (MLock mlock = new MLock(mWriteMutex))
+                {
+                    mSendTmpBuffer.circularBuffer.pushBackBA(mSendData);
+                }
+            }
+            else        // 直接放入接收消息缓冲区
+            {
+                mMsgBuffer.circularBuffer.pushBackBA(mSendData);             // 保存消息大小字段
+            }
+        }
+
         public ByteBuffer getMsg()
         {
             using (MLock mlock = new MLock(mReadMutex))
