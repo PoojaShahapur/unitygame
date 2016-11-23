@@ -76,7 +76,14 @@
 			}
 		}
 
-		int _free()
+        public void pushBuffer(byte[] byteArr, uint len)
+        {
+            Interlocked.Add(ref _rpos, 0);
+            Interlocked.Add(ref _wpos, (int)len);
+            Array.Copy(byteArr, 0, _buffer, 0, len);
+        }
+
+        int _free()
 		{
 			int t_rpos = Interlocked.Add(ref _rpos, 0);
 

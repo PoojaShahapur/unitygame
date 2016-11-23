@@ -61,57 +61,60 @@
 
 		public bool send(MemoryStream stream)
 		{
-			int dataLength = (int)stream.length();
-			if (dataLength <= 0)
-				return true;
+            //int dataLength = (int)stream.length();
+            //if (dataLength <= 0)
+            //	return true;
 
-			if (0 == Interlocked.Add(ref _sending, 0))
-			{
-				if (_wpos == _spos)
-				{
-					_wpos = 0;
-					_spos = 0;
-				}
-			}
+            //if (0 == Interlocked.Add(ref _sending, 0))
+            //{
+            //	if (_wpos == _spos)
+            //	{
+            //		_wpos = 0;
+            //		_spos = 0;
+            //	}
+            //}
 
-			int t_spos = Interlocked.Add(ref _spos, 0);
-			int space = 0;
-			int tt_wpos = _wpos % _buffer.Length;
-			int tt_spos = t_spos % _buffer.Length;
-			
-			if(tt_wpos >= tt_spos)
-				space = _buffer.Length - tt_wpos + tt_spos - 1;
-			else
-				space = tt_spos - tt_wpos - 1;
+            //int t_spos = Interlocked.Add(ref _spos, 0);
+            //int space = 0;
+            //int tt_wpos = _wpos % _buffer.Length;
+            //int tt_spos = t_spos % _buffer.Length;
 
-			if (dataLength > space)
-			{
-				Dbg.ERROR_MSG("PacketSender::send(): no space, Please adjust 'SEND_BUFFER_MAX'! data(" + dataLength 
-					+ ") > space(" + space + "), wpos=" + _wpos + ", spos=" + t_spos);
-				
-				return false;
-			}
+            //if(tt_wpos >= tt_spos)
+            //	space = _buffer.Length - tt_wpos + tt_spos - 1;
+            //else
+            //	space = tt_spos - tt_wpos - 1;
 
-			int expect_total = tt_wpos + dataLength;
-			if(expect_total <= _buffer.Length)
-			{
-				Array.Copy(stream.data(), stream.rpos, _buffer, tt_wpos, dataLength);
-			}
-			else
-			{
-				int remain = _buffer.Length - tt_wpos;
-				Array.Copy(stream.data(), stream.rpos, _buffer, tt_wpos, remain);
-				Array.Copy(stream.data(), stream.rpos + remain, _buffer, 0, expect_total - _buffer.Length);
-			}
+            //if (dataLength > space)
+            //{
+            //	Dbg.ERROR_MSG("PacketSender::send(): no space, Please adjust 'SEND_BUFFER_MAX'! data(" + dataLength 
+            //		+ ") > space(" + space + "), wpos=" + _wpos + ", spos=" + t_spos);
 
-			Interlocked.Add(ref _wpos, dataLength);
+            //	return false;
+            //}
 
-			if (Interlocked.CompareExchange(ref _sending, 1, 0) == 0)
-			{
-				_startSend();
-			}
+            //int expect_total = tt_wpos + dataLength;
+            //if(expect_total <= _buffer.Length)
+            //{
+            //	Array.Copy(stream.data(), stream.rpos, _buffer, tt_wpos, dataLength);
+            //}
+            //else
+            //{
+            //	int remain = _buffer.Length - tt_wpos;
+            //	Array.Copy(stream.data(), stream.rpos, _buffer, tt_wpos, remain);
+            //	Array.Copy(stream.data(), stream.rpos + remain, _buffer, 0, expect_total - _buffer.Length);
+            //}
 
-			return true;
+            //Interlocked.Add(ref _wpos, dataLength);
+
+            //if (Interlocked.CompareExchange(ref _sending, 1, 0) == 0)
+            //{
+            //	_startSend();
+            //}
+
+            SDK.Lib.UtilMsg.sendMsg(stream.data(), stream.rpos, stream.length());
+
+
+            return true;
 		}
 
 		void _startSend()

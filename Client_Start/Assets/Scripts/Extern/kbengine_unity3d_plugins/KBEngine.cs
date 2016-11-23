@@ -308,7 +308,7 @@
         // 添加消息数据
         public void pushBuffer(byte[] byteArr, uint len)
         {
-
+            _networkInterface.pushBuffer(byteArr, len);
         }
 
         /*
@@ -518,9 +518,11 @@
 			KBEngineApp.app.username = username;
 			KBEngineApp.app.password = password;
 			KBEngineApp.app._clientdatas = datas;
-			
-			KBEngineApp.app.login_loginapp(true);
-		}
+
+            //KBEngineApp.app.login_loginapp(true);
+            // TODO: 直接进入链接成功
+            this.onConnectTo_loginapp_callback("", 0, true, null);
+        }
 		
 		/*
 			登录到服务端(loginapp), 登录成功后还必须登录到网关(baseapp)登录流程才算完毕

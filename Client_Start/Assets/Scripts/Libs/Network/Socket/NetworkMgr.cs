@@ -143,11 +143,11 @@ namespace SDK.Lib
         }
 
         // 注意这个仅仅是放入缓冲区冲，真正发送在子线程中发送
-        public void send(bool bnet = true)
+        public void send(bool isSendToNet = true)
         {
             if (mCurClient != null)
             {
-                mCurClient.clientBuffer.send(bnet);
+                mCurClient.clientBuffer.send(isSendToNet);
                 if (!MacroDef.NET_MULTHREAD)
                 {
                     mCurClient.Send();

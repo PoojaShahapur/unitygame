@@ -88,7 +88,8 @@
 		
 		public virtual bool valid()
 		{
-			return ((_socket != null) && (_socket.Connected == true));
+            //return ((_socket != null) && (_socket.Connected == true));
+            return true;
 		}
 		
 		public void _onConnectStatus(ConnectState state)
@@ -232,6 +233,12 @@
 
             if (_packetReceiver != null)
                 _packetReceiver.process();
+        }
+
+        // 添加一个缓冲区
+        public void pushBuffer(byte[] byteArr, uint len)
+        {
+            _packetReceiver.process();
         }
     }
 }

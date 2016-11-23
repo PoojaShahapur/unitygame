@@ -9,7 +9,7 @@ namespace SDK.Lib
     public class UtilMsg
     {
         // 发送消息， bnet 如果 true 就直接发送到 socket ，否则直接进入输出消息队列
-        public static void sendMsg(stNullUserCmd msg, bool bnet = true)
+        public static void sendMsg(stNullUserCmd msg, bool isSendToNet = true)
         {
             Ctx.mInstance.mShareData.mTmpBA = Ctx.mInstance.mNetMgr.getSendBA();
             if (Ctx.mInstance.mShareData.mTmpBA != null)
@@ -20,13 +20,33 @@ namespace SDK.Lib
             {
                 Ctx.mInstance.mLogSys.log("socket buffer null");
             }
-            if (bnet)
+            if (isSendToNet)
             {
                 // 打印日志
                 Ctx.mInstance.mShareData.mTmpStr = string.Format("发送消息: byCmd = {0}, byParam = {1}", msg.byCmd, msg.byParam);
                 Ctx.mInstance.mLogSys.log(Ctx.mInstance.mShareData.mTmpStr);
             }
-            Ctx.mInstance.mNetMgr.send(bnet);
+            Ctx.mInstance.mNetMgr.send(isSendToNet);
+        }
+
+        public static void sendMsg(byte[] byteArr, int startIndex, uint length, bool isSendToNet = true)
+        {
+            Ctx.mInstance.mShareData.mTmpBA = Ctx.mInstance.mNetMgr.getSendBA();
+            if (Ctx.mInstance.mShareData.mTmpBA != null)
+            {
+                Ctx.mInstance.mShareData.mTmpBA.writeBytes(byteArr, (uint)startIndex, length);
+            }
+            else
+            {
+                Ctx.mInstance.mLogSys.log("socket buffer null");
+            }
+            if (isSendToNet)
+            {
+                // 打印日志
+                Ctx.mInstance.mShareData.mTmpStr = string.Format("发送消息");
+                Ctx.mInstance.mLogSys.log(Ctx.mInstance.mShareData.mTmpStr);
+            }
+            Ctx.mInstance.mNetMgr.send(isSendToNet);
         }
 
         //static public void sendMsg(ushort commandID, LuaStringBuffer buffer, bool bnet = true)
