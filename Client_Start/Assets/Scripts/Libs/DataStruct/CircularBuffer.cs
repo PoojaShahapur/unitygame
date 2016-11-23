@@ -6,7 +6,9 @@
 namespace SDK.Lib
 {
     /**
-     *@brief 浪费一个自己，这样判断也好判断，并且索引也不用减 1 ，因此浪费一个字节
+     * @brief 浪费一个自己，这样判断也好判断，并且索引也不用减 1 ，因此浪费一个字节
+     * @brief 判空: mFirst == mLast
+     * @brief 判满: mFirst == (mLast + 1) % len
      */
     public class CircularBuffer
     {

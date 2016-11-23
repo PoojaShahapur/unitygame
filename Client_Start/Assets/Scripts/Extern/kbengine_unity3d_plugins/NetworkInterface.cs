@@ -21,8 +21,9 @@
 	public class NetworkInterface
 	{
 		public delegate void AsyncConnectMethod(ConnectState state);
-		public const int TCP_PACKET_MAX = 1460;
-		public delegate void ConnectCallback(string ip, int port, bool success, object userData);
+        //public const int TCP_PACKET_MAX = 1460;
+        public const int TCP_PACKET_MAX = 64 * 1024;    // 使用两个字节，最大长度 64 K
+        public delegate void ConnectCallback(string ip, int port, bool success, object userData);
 
 		protected Socket _socket = null;
 		PacketReceiver _packetReceiver = null;
