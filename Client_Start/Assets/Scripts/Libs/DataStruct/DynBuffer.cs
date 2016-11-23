@@ -7,29 +7,29 @@ namespace SDK.Lib
      */
     public class DynBuffer<T>
     {
-        public uint m_iCapacity;         // 分配的内存空间大小，单位大小是字节
-        public uint m_iMaxCapacity;      // 最大允许分配的存储空间大小 
-        public uint m_size;              // 存储在当前缓冲区中的数量
-        public T[] m_buff;            // 当前环形缓冲区
+        public uint mCapacity;         // 分配的内存空间大小，单位大小是字节
+        public uint mMaxCapacity;      // 最大允许分配的存储空间大小 
+        public uint mSize;              // 存储在当前缓冲区中的数量
+        public T[] mBuffer;            // 当前环形缓冲区
 
         public DynBuffer(uint initCapacity = 1 * 1024/*DataCV.INIT_CAPACITY*/, uint maxCapacity = 8 * 1024 * 1024/*DataCV.MAX_CAPACITY*/)      // mono 模板类中使用常亮报错， vs 可以
         {
-            m_iMaxCapacity = maxCapacity;
-            m_iCapacity = initCapacity;
-            m_size = 0;
-            m_buff = new T[m_iCapacity];
+            mMaxCapacity = maxCapacity;
+            mCapacity = initCapacity;
+            mSize = 0;
+            mBuffer = new T[mCapacity];
         }
 
         public T[] buff
         {
             get
             {
-                return m_buff;
+                return mBuffer;
             }
             set
             {
-                m_buff = value;
-                m_iCapacity = (uint)m_buff.Length;
+                mBuffer = value;
+                mCapacity = (uint)mBuffer.Length;
             }
         }
 
@@ -37,11 +37,11 @@ namespace SDK.Lib
         {
             get
             {
-                return m_iMaxCapacity;
+                return mMaxCapacity;
             }
             set
             {
-                m_iMaxCapacity = value;
+                mMaxCapacity = value;
             }
         }
 
@@ -49,11 +49,11 @@ namespace SDK.Lib
         {
             get
             {
-                return m_iCapacity;
+                return mCapacity;
             }
             set
             {
-                if (value == m_iCapacity)
+                if (value == mCapacity)
                 {
                     return;
                 }
@@ -62,9 +62,9 @@ namespace SDK.Lib
                     return;
                 }
                 T[] tmpbuff = new T[value];   // 分配新的空间
-                Array.Copy(m_buff, 0, tmpbuff, 0, m_size);  // 这个地方是 m_size 还是应该是 m_iCapacity，如果是 CircleBuffer 好像应该是 m_iCapacity，如果是 ByteBuffer ，好像应该是 m_iCapacity。但是 DynBuffer 只有 ByteBuffer 才会使用这个函数，因此使用 m_size 就行了，但是如果使用 m_iCapacity 也没有问题
-                m_buff = tmpbuff;
-                m_iCapacity = value;
+                Array.Copy(mBuffer, 0, tmpbuff, 0, mSize);  // 这个地方是 mSize 还是应该是 mCapacity，如果是 CircleBuffer 好像应该是 mCapacity，如果是 ByteBuffer ，好像应该是 mCapacity。但是 DynBuffer 只有 ByteBuffer 才会使用这个函数，因此使用 mSize 就行了，但是如果使用 mCapacity 也没有问题
+                mBuffer = tmpbuff;
+                mCapacity = value;
             }
         }
 
@@ -72,7 +72,7 @@ namespace SDK.Lib
         {
             get
             {
-                return m_size;
+                return mSize;
             }
             set
             {
@@ -80,7 +80,7 @@ namespace SDK.Lib
                 {
                     extendDeltaCapicity(value - size);
                 }
-                m_size = value;
+                mSize = value;
             }
         }
 

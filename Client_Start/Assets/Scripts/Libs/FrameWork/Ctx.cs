@@ -334,7 +334,7 @@
         protected void initBasicCfg()
         {
             BasicConfig basicCfg = this.mLayerMgr.m_path2Go[NotDestroyPath.ND_CV_Root].GetComponent<BasicConfig>();
-            //mCfg.m_ip = basicCfg.getIp();
+            //mCfg.mIp = basicCfg.getIp();
             this.mCfg.mZone = basicCfg.getPort();
         }
 

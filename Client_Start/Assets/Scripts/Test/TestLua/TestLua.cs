@@ -80,7 +80,7 @@ namespace UnitTest
             path = string.Format("{0}/{1}", UtilApi.getDataPath(), "Resources/LuaScript/UtilDebug.lua");
             luaMgr.GetMainState().DoFile("Test/TestLua.lua");
 
-            //LuaFunction reflf = Ctx.mInstance.m_luaScriptMgr.lua.GetFunction("addVarArg");
+            //LuaFunction reflf = Ctx.mInstance.mLuaScriptMgr.lua.GetFunction("addVarArg");
             //object[] ret = reflf.Call(10, 30);
             //int aaa = 10;
         }

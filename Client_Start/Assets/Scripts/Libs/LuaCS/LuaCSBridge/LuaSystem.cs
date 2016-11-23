@@ -10,61 +10,61 @@ namespace SDK.Lib
      */
     public class LuaSystem
     {
-        protected LuaScriptMgr m_luaScriptMgr;
-        protected LuaCSBridgeClassLoader m_luaClassLoader;  // Lua 类文件加载器
-        protected LuaCSBridgeMalloc m_luaCSBridgeMalloc;
+        protected LuaScriptMgr mLuaScriptMgr;
+        protected LuaCSBridgeClassLoader mLuaClassLoader;  // Lua 类文件加载器
+        protected LuaCSBridgeMalloc mLuaCSBridgeMalloc;
 
         //protected LuaTable m_luaCtx;
         //protected LuaTable mProcessSys;
-        protected bool m_bNeedUpdate;           // 是否需要更新 Lua
+        protected bool mIsNeedUpdate;           // 是否需要更新 Lua
 
         public LuaSystem()
         {
-            m_luaScriptMgr = new LuaScriptMgr();
-            m_bNeedUpdate = true;
+            mLuaScriptMgr = new LuaScriptMgr();
+            mIsNeedUpdate = true;
         }
 
         public void init()
         {
-            this.m_luaScriptMgr.InitStart();
+            this.mLuaScriptMgr.InitStart();
             //m_luaCtx = DoFile("MyLua.Libs.FrameWork.GCtx")[0] as LuaTable;  // lua 入口
             this.doFile("MyLua.Module.Entry.MainEntry");        // 启动 Lua AppSys
-            this.m_luaClassLoader = new LuaCSBridgeClassLoader();
-            this.m_luaCSBridgeMalloc = new LuaCSBridgeMalloc("MyLua.Libs.Core.Malloc", "GlobalNS");
+            this.mLuaClassLoader = new LuaCSBridgeClassLoader();
+            this.mLuaCSBridgeMalloc = new LuaCSBridgeMalloc("MyLua.Libs.Core.Malloc", "GlobalNS");
             //mProcessSys = m_luaCtx["mProcessSys"] as LuaTable;
         }
 
         public LuaScriptMgr getLuaScriptMgr()
         {
-            return m_luaScriptMgr;
+            return mLuaScriptMgr;
         }
 
         public LuaState lua
         {
             get
             {
-                return m_luaScriptMgr.GetMainState();
+                return mLuaScriptMgr.GetMainState();
             }
         }
 
         public LuaCSBridgeClassLoader getLuaClassLoader()
         {
-            return m_luaClassLoader;
+            return mLuaClassLoader;
         }
 
         public void setNeedUpdate(bool value)
         {
-            m_bNeedUpdate = value;
+            mIsNeedUpdate = value;
         }
 
         public object[] callLuaFunction(string name, params object[] args)
         {
-            return m_luaScriptMgr.CallLuaFunction(name, args);
+            return mLuaScriptMgr.CallLuaFunction(name, args);
         }
 
         public LuaTable getLuaTable(string tableName)
         {
-            return m_luaScriptMgr.GetLuaTable(tableName);
+            return mLuaScriptMgr.GetLuaTable(tableName);
         }
 
         public object getLuaMember(string memberName_)
@@ -74,12 +74,12 @@ namespace SDK.Lib
 
         public object[] doFile(string fileName)
         {
-            return m_luaScriptMgr.DoFile(fileName);
+            return mLuaScriptMgr.DoFile(fileName);
         }
 
         public object[] doString(string str)
         {
-            return m_luaScriptMgr.DoFile(str);
+            return mLuaScriptMgr.DoFile(str);
         }
 
         // 从 Lua 中发送 pb 消息
@@ -106,13 +106,13 @@ namespace SDK.Lib
 
         //public void receiveToLua(ByteBuffer msg)
         //{
-        //    LuaStringBuffer buffer = new LuaStringBuffer(msg.dynBuff.m_buff);
+        //    LuaStringBuffer buffer = new LuaStringBuffer(msg.dynBuff.mBuffer);
         //    this.CallLuaFunction("GlobalNS.GlobalEventCmd.onReceiveToLua", 0, buffer);
         //}
 
         public void receiveToLua(ByteBuffer msg)
         {
-            LuaInterface.LuaByteBuffer buffer = new LuaInterface.LuaByteBuffer(msg.dynBuff.m_buff);
+            LuaInterface.LuaByteBuffer buffer = new LuaInterface.LuaByteBuffer(msg.dynBuff.mBuffer);
             this.callLuaFunction("GlobalNS.GlobalEventCmd.onReceiveToLua", 0, buffer);
         }
 
@@ -121,14 +121,14 @@ namespace SDK.Lib
             //msg.end();
             // 拷贝数据，因为 LuaStringBuffer 不支持偏移和长度
             byte[] cmdBuf = new byte[msg.length];
-            Array.Copy(msg.dynBuff.m_buff, 0, cmdBuf, 0, msg.length);
-            //LuaStringBuffer buffer = new LuaStringBuffer(msg.dynBuff.m_buff);
-            LuaInterface.LuaByteBuffer buffer = new LuaInterface.LuaByteBuffer(msg.dynBuff.m_buff);
+            Array.Copy(msg.dynBuff.mBuffer, 0, cmdBuf, 0, msg.length);
+            //LuaStringBuffer buffer = new LuaStringBuffer(msg.dynBuff.mBuffer);
+            LuaInterface.LuaByteBuffer buffer = new LuaInterface.LuaByteBuffer(msg.dynBuff.mBuffer);
 
             //LuaStringBuffer buffer = new LuaStringBuffer(cmdBuf);
             //MLuaStringBuffer buffer = new MLuaStringBuffer(cmdBuf);
             //MLuaStringBuffer buffer = new MLuaStringBuffer(cmdBuf, cmdBuf.Length);
-            //MLuaStringBuffer buffer = new MLuaStringBuffer(msg.dynBuff.m_buff, (int)msg.length);
+            //MLuaStringBuffer buffer = new MLuaStringBuffer(msg.dynBuff.mBuffer, (int)msg.length);
 
             this.callLuaFunction("GlobalNS.GlobalEventCmd.onReceiveToLuaRpc", buffer, msg.length);
         }
@@ -153,17 +153,17 @@ namespace SDK.Lib
 
         public LuaTable loadModule(string file)
         {
-            return m_luaClassLoader.loadModule(file);
+            return mLuaClassLoader.loadModule(file);
         }
 
         public LuaTable malloc(LuaTable table)
         {
-            return m_luaCSBridgeMalloc.malloc(table);
+            return mLuaCSBridgeMalloc.malloc(table);
         }
 
         public void advance(float delta)
         {
-            if (m_bNeedUpdate)
+            if (mIsNeedUpdate)
             {
                 this.callLuaFunction("GlobalNS.GlobalEventCmd.onAdvance", delta);
             }

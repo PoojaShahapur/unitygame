@@ -8,9 +8,9 @@ namespace SDK.Lib
      */
     public class InputMgr : ITickedObject, IDelayHandleItem
     {
-        Action<KeyCode> m_onKeyUp = null;
-        Action<KeyCode> m_onKeyDown = null;
-        Action<KeyCode> m_onKeyPress = null;
+        Action<KeyCode> mOnKeyUp = null;
+        Action<KeyCode> mOnKeyDown = null;
+        Action<KeyCode> mOnKeyPress = null;
         
         Action m_onMouseUp = null;
         Action m_onMouseDown = null;
@@ -25,7 +25,7 @@ namespace SDK.Lib
         public void postInit()
         {
             // 添加事件处理
-            Ctx.mInstance.mCamSys.m_uiCam = Ctx.mInstance.mLayerMgr.m_path2Go[NotDestroyPath.ND_CV_App].AddComponent<UICamera>();
+            Ctx.mInstance.mCamSys.mUiCam = Ctx.mInstance.mLayerMgr.m_path2Go[NotDestroyPath.ND_CV_App].AddComponent<UICamera>();
         }
 
         public void setClientDispose()
@@ -295,26 +295,26 @@ namespace SDK.Lib
                 return;
 
             _keyState[(int)keyCode] = true;
-            if (null != m_onKeyDown)
+            if (null != mOnKeyDown)
             {
-                m_onKeyDown(keyCode);
+                mOnKeyDown(keyCode);
             }
         }
 
         private void onKeyUp(KeyCode keyCode)
         {
 		    _keyState[(int)keyCode] = false;
-            if (null != m_onKeyUp)
+            if (null != mOnKeyUp)
             {
-                m_onKeyUp(keyCode);
+                mOnKeyUp(keyCode);
             }
         }
 
         private void onKeyPress(KeyCode keyCode)
         {
-            if (null != m_onKeyPress)
+            if (null != mOnKeyPress)
             {
-                m_onKeyPress(keyCode);
+                mOnKeyPress(keyCode);
             }
         }
 
@@ -338,15 +338,15 @@ namespace SDK.Lib
         {
             if (EventID.KEYUP_EVENT == evtID)
             {
-                m_onKeyUp += cb;
+                mOnKeyUp += cb;
             }
             else if (EventID.KEYDOWN_EVENT == evtID)
             {
-                m_onKeyDown += cb;
+                mOnKeyDown += cb;
             }
             else if (EventID.KEYPRESS_EVENT == evtID)
             {
-                m_onKeyPress += cb;
+                mOnKeyPress += cb;
             }
         }
 
@@ -354,15 +354,15 @@ namespace SDK.Lib
         {
             if (EventID.KEYUP_EVENT == evtID)
             {
-                m_onKeyUp -= cb;
+                mOnKeyUp -= cb;
             }
             else if (EventID.KEYDOWN_EVENT == evtID)
             {
-                m_onKeyDown -= cb;
+                mOnKeyDown -= cb;
             }
             else if (EventID.KEYPRESS_EVENT == evtID)
             {
-                m_onKeyPress -= cb;
+                mOnKeyPress -= cb;
             }
         }
 

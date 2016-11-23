@@ -5,18 +5,18 @@ namespace SDK.Lib
 {
     public class SceneNodeCfg
     {
-        protected Vector3 m_pos;
-        protected Quaternion m_rotate;
-        protected Vector3 m_scale;
-        protected string m_prefab;
+        protected Vector3 mPos;
+        protected Quaternion mRotate;
+        protected Vector3 mScale;
+        protected string mPrefab;
 
         public void parse(SecurityElement xe)
         {
-            m_pos = new Vector3();
-            m_rotate = new Quaternion();
-            m_scale = new Vector3();
+            mPos = new Vector3();
+            mRotate = new Quaternion();
+            mScale = new Vector3();
 
-            UtilXml.getXmlAttrStr(xe, "prefab", ref m_prefab);
+            UtilXml.getXmlAttrStr(xe, "prefab", ref mPrefab);
 
             string attr = "";
             UtilXml.getXmlAttrStr(xe, "pos", ref attr);
@@ -25,28 +25,28 @@ namespace SDK.Lib
             split[0] = ',';
             string[] strarr = attr.Split(split);
 
-            m_pos.x = float.Parse(strarr[0]);
-            m_pos.y = float.Parse(strarr[1]);
-            m_pos.z = float.Parse(strarr[2]);
+            mPos.x = float.Parse(strarr[0]);
+            mPos.y = float.Parse(strarr[1]);
+            mPos.z = float.Parse(strarr[2]);
 
             UtilXml.getXmlAttrStr(xe, "rotate", ref attr);
             attr = attr.Substring(1, attr.Length - 2);
             split[0] = ',';
             strarr = attr.Split(split);
 
-            m_rotate.x = float.Parse(strarr[0]);
-            m_rotate.y = float.Parse(strarr[1]);
-            m_rotate.z = float.Parse(strarr[2]);
-            m_rotate.w = float.Parse(strarr[3]);
+            mRotate.x = float.Parse(strarr[0]);
+            mRotate.y = float.Parse(strarr[1]);
+            mRotate.z = float.Parse(strarr[2]);
+            mRotate.w = float.Parse(strarr[3]);
 
             UtilXml.getXmlAttrStr(xe, "scale", ref attr);
             attr = attr.Substring(1, attr.Length - 2);
             split[0] = ',';
             strarr = attr.Split(split);
 
-            m_scale.x = float.Parse(strarr[0]);
-            m_scale.y = float.Parse(strarr[1]);
-            m_scale.z = float.Parse(strarr[2]);
+            mScale.x = float.Parse(strarr[0]);
+            mScale.y = float.Parse(strarr[1]);
+            mScale.z = float.Parse(strarr[2]);
         }
     }
 }

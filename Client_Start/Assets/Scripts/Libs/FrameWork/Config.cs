@@ -15,8 +15,8 @@ namespace SDK.Lib
         public static string StreamingAssets;
 
 #if KOKSERVER_TEST
-        public string m_ip = "222.73.30.21";
-        public int m_port = 7000;
+        public string mIp = "222.73.30.21";
+        public int mPort = 7000;
 #else
         public string mIp;
         public int mPort;

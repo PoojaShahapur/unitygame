@@ -7,98 +7,98 @@ namespace SDK.Lib
      */
     public class CameraMan
     {
-        protected GameObject m_targetGo;
-        protected Transform m_targetTrans;
-        protected CameraController m_cameraController;
-        protected Vector3 m_localPos;
-        protected Vector3 m_localRot;
+        protected GameObject mTargetGo;
+        protected Transform mTargetTrans;
+        protected CameraController mCameraController;
+        protected Vector3 mLocalPos;
+        protected Vector3 mLocalRot;
 
         public CameraMan(GameObject targetGo)
         {
-            m_localPos = Vector3.zero;
-            m_targetGo = targetGo;
-            if (m_targetGo == null)
+            mLocalPos = Vector3.zero;
+            mTargetGo = targetGo;
+            if (mTargetGo == null)
             {
-                m_targetGo = UtilApi.createGameObject("CameraGo");
+                mTargetGo = UtilApi.createGameObject("CameraGo");
             }
 
-            m_targetTrans = m_targetGo.transform;
+            mTargetTrans = mTargetGo.transform;
             Ctx.mInstance.mInputMgr.addKeyListener(EventID.KEYPRESS_EVENT, onKeyPress);
         }
 
         public void setActor(GameObject targetGo)
         {
-            m_targetGo = targetGo;
-            if (m_targetGo == null)
+            mTargetGo = targetGo;
+            if (mTargetGo == null)
             {
-                m_targetGo = UtilApi.createGameObject("CameraGo");
+                mTargetGo = UtilApi.createGameObject("CameraGo");
             }
         }
 
         public void setCameraController(CameraController controller)
         {
-            m_cameraController = controller;
+            mCameraController = controller;
         }
 
         virtual public void onKeyPress(KeyCode key)
         {
             if (KeyCode.W == key)
             {
-                //m_localRot = m_targetTrans.localEulerAngles;
-                //m_localRot.x = UtilApi.incEulerAngles(m_localRot.x, 1);
-                //m_targetTrans.localEulerAngles = m_localRot;
-                //m_cameraController.updateControl();
-                m_cameraController.incTheta(1);
+                //mLocalRot = mTargetTrans.localEulerAngles;
+                //mLocalRot.x = UtilApi.incEulerAngles(mLocalRot.x, 1);
+                //mTargetTrans.localEulerAngles = mLocalRot;
+                //mCameraController.updateControl();
+                mCameraController.incTheta(1);
             }
             else if (KeyCode.S == key)
             {
-                //m_localRot = m_targetTrans.localEulerAngles;
-                //m_localRot.x = UtilApi.decEulerAngles(m_localRot.x, 1);
-                //m_targetTrans.localEulerAngles = m_localRot;
-                //m_cameraController.updateControl();
-                m_cameraController.decTheta(1);
+                //mLocalRot = mTargetTrans.localEulerAngles;
+                //mLocalRot.x = UtilApi.decEulerAngles(mLocalRot.x, 1);
+                //mTargetTrans.localEulerAngles = mLocalRot;
+                //mCameraController.updateControl();
+                mCameraController.decTheta(1);
             }
             else if (KeyCode.A == key)
             {
-                m_localRot = m_targetTrans.localEulerAngles;
-                m_localRot.y = UtilApi.incEulerAngles(m_localRot.y, 1);
-                m_targetTrans.localEulerAngles = m_localRot;
-                m_cameraController.updateControl();
+                mLocalRot = mTargetTrans.localEulerAngles;
+                mLocalRot.y = UtilApi.incEulerAngles(mLocalRot.y, 1);
+                mTargetTrans.localEulerAngles = mLocalRot;
+                mCameraController.updateControl();
             }
             else if (KeyCode.D == key)
             {
-                m_localRot = m_targetTrans.localEulerAngles;
-                m_localRot.y = UtilApi.decEulerAngles(m_localRot.y, 1);
-                m_targetTrans.localEulerAngles = m_localRot;
-                m_cameraController.updateControl();
+                mLocalRot = mTargetTrans.localEulerAngles;
+                mLocalRot.y = UtilApi.decEulerAngles(mLocalRot.y, 1);
+                mTargetTrans.localEulerAngles = mLocalRot;
+                mCameraController.updateControl();
             }
             else if (KeyCode.UpArrow == key)
             {
-                m_localPos = m_targetTrans.localPosition;
-                m_localPos.z = m_localPos.z + 0.1f;
-                m_targetTrans.localPosition = m_localPos;
-                m_cameraController.updateControl();
+                mLocalPos = mTargetTrans.localPosition;
+                mLocalPos.z = mLocalPos.z + 0.1f;
+                mTargetTrans.localPosition = mLocalPos;
+                mCameraController.updateControl();
             }
             else if (KeyCode.DownArrow == key)
             {
-                m_localPos = m_targetTrans.localPosition;
-                m_localPos.z = m_localPos.z - 0.1f;
-                m_targetTrans.localPosition = m_localPos;
-                m_cameraController.updateControl();
+                mLocalPos = mTargetTrans.localPosition;
+                mLocalPos.z = mLocalPos.z - 0.1f;
+                mTargetTrans.localPosition = mLocalPos;
+                mCameraController.updateControl();
             }
             else if (KeyCode.RightArrow == key)
             {
-                m_localPos = m_targetTrans.localPosition;
-                m_localPos.x = m_localPos.x + 0.1f;
-                m_targetTrans.localPosition = m_localPos;
-                m_cameraController.updateControl();
+                mLocalPos = mTargetTrans.localPosition;
+                mLocalPos.x = mLocalPos.x + 0.1f;
+                mTargetTrans.localPosition = mLocalPos;
+                mCameraController.updateControl();
             }
             else if (KeyCode.LeftArrow == key)
             {
-                m_localPos = m_targetTrans.localPosition;
-                m_localPos.x = m_localPos.x - 0.1f;
-                m_targetTrans.localPosition = m_localPos;
-                m_cameraController.updateControl();
+                mLocalPos = mTargetTrans.localPosition;
+                mLocalPos.x = mLocalPos.x - 0.1f;
+                mTargetTrans.localPosition = mLocalPos;
+                mCameraController.updateControl();
             }
         }
     }

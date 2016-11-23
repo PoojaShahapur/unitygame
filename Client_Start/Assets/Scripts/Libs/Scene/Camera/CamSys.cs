@@ -4,43 +4,43 @@ namespace SDK.Lib
 {
     public class CamSys
     {
-        public UICamera m_uiCam;            // 这个不是 UI 相机，这个是场景相机
+        public UICamera mUiCam;            // 这个不是 UI 相机，这个是场景相机
 
-        protected MCamera m_localCamera;         // 这个是系统摄像机，主要进行裁剪使用的
+        protected MCamera mLocalCamera;         // 这个是系统摄像机，主要进行裁剪使用的
         protected Camera m_mainCamera;          // 主相机
-        protected Camera m_uguiCam;             // UGUI 相机
-        protected ThirdCameraController m_cameraController; // 摄像机控制器
-        protected CameraMan m_cameraMan;        // 摄像机玩家
-        protected bool m_bFirst;
+        protected Camera mUguiCam;             // UGUI 相机
+        protected ThirdCameraController mCameraController; // 摄像机控制器
+        protected CameraMan mCameraMan;        // 摄像机玩家
+        protected bool mIsFirst;
 
         public CamSys()
         {
-            m_bFirst = true;
+            mIsFirst = true;
         }
 
         public MCamera getLocalCamera()
         {
-            return m_localCamera;
+            return mLocalCamera;
         }
 
         public void setLocalCamera(Camera cam)
         {
-            //m_localCamera = new MCamera(cam.gameObject.transform);
-            m_localCamera = new MOctreeCamera("OctreeCamera", Ctx.mInstance.mSceneManager, cam.gameObject.transform);
+            //mLocalCamera = new MCamera(cam.gameObject.transform);
+            mLocalCamera = new MOctreeCamera("OctreeCamera", Ctx.mInstance.mSceneManager, cam.gameObject.transform);
             if (cam.orthographic)
             {
-                m_localCamera.setProjectionType(ProjectionType.PT_ORTHOGRAPHIC);
-                m_localCamera.setOrthoWindow(cam.orthographicSize * 2, cam.orthographicSize * 2);
+                mLocalCamera.setProjectionType(ProjectionType.PT_ORTHOGRAPHIC);
+                mLocalCamera.setOrthoWindow(cam.orthographicSize * 2, cam.orthographicSize * 2);
             }
             else
             {
-                m_localCamera.setProjectionType(ProjectionType.PT_PERSPECTIVE);
-                m_localCamera.setFOVy(new MRadian(UtilMath.DegreesToRadians(cam.fieldOfView)));
-                m_localCamera.setFarClipDistance(cam.farClipPlane);
-                m_localCamera.setNearClipDistance(cam.nearClipPlane);
-                m_localCamera.setAspectRatio(cam.aspect);
+                mLocalCamera.setProjectionType(ProjectionType.PT_PERSPECTIVE);
+                mLocalCamera.setFOVy(new MRadian(UtilMath.DegreesToRadians(cam.fieldOfView)));
+                mLocalCamera.setFarClipDistance(cam.farClipPlane);
+                mLocalCamera.setNearClipDistance(cam.nearClipPlane);
+                mLocalCamera.setAspectRatio(cam.aspect);
 
-                m_localCamera.testClipPlane();
+                mLocalCamera.testClipPlane();
                 testAABB();
             }
 
@@ -50,12 +50,12 @@ namespace SDK.Lib
 
         public void setSceneCamera2UICamera()
         {
-            m_uiCam.mCam = Ctx.mInstance.mLayerMgr.m_path2Go[NotDestroyPath.ND_CV_UICamera].GetComponent<Camera>();
+            mUiCam.mCam = Ctx.mInstance.mLayerMgr.m_path2Go[NotDestroyPath.ND_CV_UICamera].GetComponent<Camera>();
         }
 
         public void setSceneCamera2MainCamera()
         {
-            m_uiCam.mCam = null;
+            mUiCam.mCam = null;
         }
 
         public Camera getMainCamera()
@@ -70,49 +70,49 @@ namespace SDK.Lib
 
         public Camera getUGuiCamera()
         {
-            return m_uguiCam;
+            return mUguiCam;
         }
 
         public void setUGuiCamera(Camera camera)
         {
-            m_uguiCam = camera;
+            mUguiCam = camera;
         }
 
         // 设置摄像机 Man Actor
         public void setCameraActor(GameObject go)
         {
-            if (m_cameraController == null)
+            if (mCameraController == null)
             {
-                m_cameraController = new ThirdCameraController(m_mainCamera, go);
+                mCameraController = new ThirdCameraController(m_mainCamera, go);
             }
             else
             {
-                m_cameraController.setTarget(go);
+                mCameraController.setTarget(go);
             }
 
-            if (m_cameraMan == null)
+            if (mCameraMan == null)
             {
-                //m_cameraMan = new CameraMan(go);
-                m_cameraMan = new TerrainCameraMan(go);
-                m_cameraMan.setCameraController(m_cameraController);
+                //mCameraMan = new CameraMan(go);
+                mCameraMan = new TerrainCameraMan(go);
+                mCameraMan.setCameraController(mCameraController);
             }
             else
             {
-                m_cameraMan.setActor(go);
+                mCameraMan.setActor(go);
             }
         }
 
         public MPlane[] getFrustumPlanes()
         {
-            return m_localCamera.getFrustumPlanes();
+            return mLocalCamera.getFrustumPlanes();
         }
 
         public void invalidCamera()
         {
-            if (m_localCamera != null)
+            if (mLocalCamera != null)
             {
-                m_localCamera.invalid();
-                //m_localCamera.updateTmpPosOrient();
+                mLocalCamera.invalid();
+                //mLocalCamera.updateTmpPosOrient();
                 if (Ctx.mInstance.mTerrainGlobalOption.mNeedCull)
                 {
                     //Ctx.mInstance.mSceneManager.cullScene();
@@ -120,9 +120,9 @@ namespace SDK.Lib
                     //testFrustumDir();
 
                     // 如果是第一次， Tree 刚把 TreeNode 添加到场景管理器中，需要再次更新才能裁剪，才能显示，不是第一次就不用更新了，因为移动会很小，不会有太大问题
-                    if (m_bFirst)
+                    if (mIsFirst)
                     {
-                        m_bFirst = false;
+                        mIsFirst = false;
                         //Ctx.mInstance.mSceneManager.cullScene();
                         Ctx.mInstance.mSceneManager.runUpdateTask();
                     }
@@ -137,31 +137,31 @@ namespace SDK.Lib
             aabb.setMaximum(new MVector3(375, 10, 187.5f));
 
             FrustumPlane plane = FrustumPlane.FRUSTUM_PLANE_BOTTOM;
-            if (m_localCamera.isVisible(ref aabb, ref plane))
+            if (mLocalCamera.isVisible(ref aabb, ref plane))
             {
-                m_localCamera.isVisible(ref aabb, ref plane);
+                mLocalCamera.isVisible(ref aabb, ref plane);
             }
         }
 
         protected void testCameraCull()
         {
-            UtilApi.setPos(m_localCamera.getTrans(), new Vector3(780, 41, 620));
+            UtilApi.setPos(mLocalCamera.getTrans(), new Vector3(780, 41, 620));
 
             MAxisAlignedBox aabb = new MAxisAlignedBox(MAxisAlignedBox.Extent.EXTENT_FINITE);
             aabb.setMaximum(937.5f, -206.5529f, 1312.5f);
             aabb.setMinimum(750, -270.7412f, 1125);
             FrustumPlane plane = FrustumPlane.FRUSTUM_PLANE_BOTTOM;
-            m_localCamera.isVisible(ref aabb, ref plane);
+            mLocalCamera.isVisible(ref aabb, ref plane);
             Debug.Log("aaa");
         }
 
         public void testFrustumDir()
         {
-            Transform trans = m_localCamera.getTrans();
+            Transform trans = mLocalCamera.getTrans();
             GameObject cube = UtilApi.TransFindChildByPObjAndPath(trans.gameObject, "Cube");
             MVector3 pos = MVector3.fromNative(cube.transform.position);
             FrustumPlane plane = FrustumPlane.FRUSTUM_PLANE_BOTTOM;
-            if(!m_localCamera.isVisible(ref pos, ref plane))
+            if(!mLocalCamera.isVisible(ref pos, ref plane))
             {
                 Debug.Log("Error");
             }

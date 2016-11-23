@@ -6,15 +6,15 @@ namespace SDK.Lib
 {
     public class LogSys
     {
-        protected LockList<string> m_asyncLogList = new LockList<string>("Logger_asyncLogList");              // 这个是多线程访问的
-        protected LockList<string> m_asyncWarnList = new LockList<string>("Logger_asyncWarnList");            // 这个是多线程访问的
-        protected LockList<string> m_asyncErrorList = new LockList<string>("Logger_asyncErrorList");          // 这个是多线程访问的
+        protected LockList<string> mAsyncLogList = new LockList<string>("Logger_asyncLogList");              // 这个是多线程访问的
+        protected LockList<string> mAsyncWarnList = new LockList<string>("Logger_asyncWarnList");            // 这个是多线程访问的
+        protected LockList<string> mAsyncErrorList = new LockList<string>("Logger_asyncErrorList");          // 这个是多线程访问的
 
-        public string m_tmpStr;
-        public bool m_bOutLog = true;          // 是否输出日志
+        public string mTmpStr;
+        public bool mIsOutLog = true;          // 是否输出日志
 
-        protected MList<LogDeviceBase> m_logDeviceList = new MList<LogDeviceBase>();
-        protected MList<LogDeviceBase> m_fightLogDeviceList = new MList<LogDeviceBase>();
+        protected MList<LogDeviceBase> mLogDeviceList = new MList<LogDeviceBase>();
+        protected MList<LogDeviceBase> mFightLogDeviceList = new MList<LogDeviceBase>();
 
         protected MList<LogTypeId> mEnableLogTypeList;
         protected bool mEnableLog;      // 全局开关
@@ -51,16 +51,16 @@ namespace SDK.Lib
             {
                 logDevice = new WinLogDevice();
                 logDevice.initDevice();
-                m_logDeviceList.Add(logDevice);
-                m_fightLogDeviceList.Add(logDevice);
+                mLogDeviceList.Add(logDevice);
+                mFightLogDeviceList.Add(logDevice);
             }
 
             if (MacroDef.ENABLE_NETLOG)
             {
                 logDevice = new NetLogDevice();
                 logDevice.initDevice();
-                m_logDeviceList.Add(logDevice);
-                m_fightLogDeviceList.Add(logDevice);
+                mLogDeviceList.Add(logDevice);
+                mFightLogDeviceList.Add(logDevice);
             }
         }
 
@@ -76,24 +76,24 @@ namespace SDK.Lib
                 logDevice = new FileLogDevice();
                 (logDevice as FileLogDevice).fileSuffix = Ctx.mInstance.mDataPlayer.m_accountData.m_account;
                 logDevice.initDevice();
-                m_logDeviceList.Add(logDevice);
+                mLogDeviceList.Add(logDevice);
 
                 logDevice = new FileLogDevice();
                 (logDevice as FileLogDevice).fileSuffix = Ctx.mInstance.mDataPlayer.m_accountData.m_account;
                 (logDevice as FileLogDevice).filePrefix = "FightLog";   // 战斗日志
                 logDevice.initDevice();
-                m_fightLogDeviceList.Add(logDevice);
+                mFightLogDeviceList.Add(logDevice);
             }
         }
 
         protected void unRegisterFileLogDevice()
         {
-            foreach(var item in m_logDeviceList.list())
+            foreach(var item in mLogDeviceList.list())
             {
                 if(typeof(FileLogDevice) == item.GetType())
                 {
                     item.closeDevice();
-                    m_logDeviceList.Remove(item);
+                    mLogDeviceList.Remove(item);
                     break;
                 }
             }
@@ -103,21 +103,21 @@ namespace SDK.Lib
         public void debugLog_1(LangItemID idx, string str)
         {
             string textStr = Ctx.mInstance.mLangMgr.getText(LangTypeId.eDebug5, idx);
-            m_tmpStr = string.Format(textStr, str);
-            Ctx.mInstance.mLogSys.log(m_tmpStr);
+            mTmpStr = string.Format(textStr, str);
+            Ctx.mInstance.mLogSys.log(mTmpStr);
         }
 
         public void formatLog(LangTypeId type, LangItemID item, params string[] param)
         {
             if (param.Length == 0)
             {
-                m_tmpStr = Ctx.mInstance.mLangMgr.getText(type, item);
+                mTmpStr = Ctx.mInstance.mLangMgr.getText(type, item);
             }
             else if (param.Length == 1)
             {
-                m_tmpStr = string.Format(Ctx.mInstance.mLangMgr.getText(type, item), param[0], param[1]);
+                mTmpStr = string.Format(Ctx.mInstance.mLangMgr.getText(type, item), param[0], param[1]);
             }
-            Ctx.mInstance.mLogSys.log(m_tmpStr);
+            Ctx.mInstance.mLogSys.log(mTmpStr);
         }
 
         /**
@@ -134,7 +134,7 @@ namespace SDK.Lib
         {
             if (MThread.isMainThread())
             {
-                foreach (LogDeviceBase logDevice in m_fightLogDeviceList.list())
+                foreach (LogDeviceBase logDevice in mFightLogDeviceList.list())
                 {
                     logDevice.logout(message, LogColor.LOG);
                 }
@@ -231,7 +231,7 @@ namespace SDK.Lib
         // 多线程日志
         protected void asyncLog(string message)
         {
-            m_asyncLogList.Add(message);
+            mAsyncLogList.Add(message);
 
             //ThreadLogMR threadLog = new ThreadLogMR();
             //threadLog.mLogSys = message;
@@ -245,7 +245,7 @@ namespace SDK.Lib
             string traceStr = stackTrace.ToString();
             message = string.Format("{0}\n{1}", message, traceStr);
 
-            m_asyncWarnList.Add(message);
+            mAsyncWarnList.Add(message);
 
             //ThreadLogMR threadLog = new ThreadLogMR();
             //threadLog.mLogSys = message;
@@ -259,7 +259,7 @@ namespace SDK.Lib
             string traceStr = stackTrace.ToString();
             message = string.Format("{0}\n{1}", message, traceStr);
 
-            m_asyncErrorList.Add(message);
+            mAsyncErrorList.Add(message);
 
             //ThreadLogMR threadLog = new ThreadLogMR();
             //threadLog.mLogSys = message;
@@ -273,9 +273,9 @@ namespace SDK.Lib
                 MThread.needMainThread();
             }
 
-            if (m_bOutLog)
+            if (mIsOutLog)
             {
-                foreach (LogDeviceBase logDevice in m_logDeviceList.list())
+                foreach (LogDeviceBase logDevice in mLogDeviceList.list())
                 {
                     logDevice.logout(message, type);
                 }
@@ -289,19 +289,19 @@ namespace SDK.Lib
                 MThread.needMainThread();
             }
 
-            while ((m_tmpStr = m_asyncLogList.RemoveAt(0)) != default(string))
+            while ((mTmpStr = mAsyncLogList.RemoveAt(0)) != default(string))
             {
-                logout(m_tmpStr, LogColor.LOG);
+                logout(mTmpStr, LogColor.LOG);
             }
 
-            while ((m_tmpStr = m_asyncWarnList.RemoveAt(0)) != default(string))
+            while ((mTmpStr = mAsyncWarnList.RemoveAt(0)) != default(string))
             {
-                logout(m_tmpStr, LogColor.LOG);
+                logout(mTmpStr, LogColor.LOG);
             }
 
-            while ((m_tmpStr = m_asyncErrorList.RemoveAt(0)) != default(string))
+            while ((mTmpStr = mAsyncErrorList.RemoveAt(0)) != default(string))
             {
-                logout(m_tmpStr, LogColor.LOG);
+                logout(mTmpStr, LogColor.LOG);
             }
         }
 
@@ -340,7 +340,7 @@ namespace SDK.Lib
 
         public void closeDevice()
         {
-            foreach (LogDeviceBase logDevice in m_logDeviceList.list())
+            foreach (LogDeviceBase logDevice in mLogDeviceList.list())
             {
                 logDevice.closeDevice();
             }

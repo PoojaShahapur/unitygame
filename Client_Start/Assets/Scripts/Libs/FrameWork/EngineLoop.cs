@@ -7,9 +7,11 @@
     {
         public void MainLoop()
         {
+            // 每一帧处理
             // 处理 input
             //Ctx.mInstance.mInputMgr.handleKeyBoard();
 
+            // 处理客户端的各类消息
             // 处理客户端自己的消息机制
             MsgRouteBase routeMsg = null;
             while ((routeMsg = Ctx.mInstance.mSysMsgRoute.pop()) != null)
@@ -21,7 +23,8 @@
             if (!Ctx.mInstance.mNetCmdNotify.bStopNetHandle)
             {
                 ByteBuffer ret = null;
-                while ((ret = Ctx.mInstance.mNetMgr.getMsg()) != null)
+                //while ((ret = Ctx.mInstance.mNetMgr.getMsg()) != null)
+                while ((ret = Ctx.mInstance.mNetMgr.getMsg_KBE()) != null)
                 {
                     if (null != Ctx.mInstance.mNetCmdNotify)
                     {
@@ -32,8 +35,9 @@
                 }
             }
 
-            // 游戏逻辑处理
+            // 每一帧的游戏逻辑处理
             Ctx.mInstance.mProcessSys.ProcessNextFrame();
+            // 日志处理
             //Ctx.mInstance.mLogSys.updateLog();
         }
     }

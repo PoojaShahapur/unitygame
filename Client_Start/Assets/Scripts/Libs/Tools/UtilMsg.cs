@@ -11,10 +11,10 @@ namespace SDK.Lib
         // 发送消息， bnet 如果 true 就直接发送到 socket ，否则直接进入输出消息队列
         public static void sendMsg(stNullUserCmd msg, bool bnet = true)
         {
-            Ctx.mInstance.mShareData.m_tmpBA = Ctx.mInstance.mNetMgr.getSendBA();
-            if (Ctx.mInstance.mShareData.m_tmpBA != null)
+            Ctx.mInstance.mShareData.mTmpBA = Ctx.mInstance.mNetMgr.getSendBA();
+            if (Ctx.mInstance.mShareData.mTmpBA != null)
             {
-                msg.serialize(Ctx.mInstance.mShareData.m_tmpBA);
+                msg.serialize(Ctx.mInstance.mShareData.mTmpBA);
             }
             else
             {
@@ -23,8 +23,8 @@ namespace SDK.Lib
             if (bnet)
             {
                 // 打印日志
-                Ctx.mInstance.mShareData.m_tmpStr = string.Format("发送消息: byCmd = {0}, byParam = {1}", msg.byCmd, msg.byParam);
-                Ctx.mInstance.mLogSys.log(Ctx.mInstance.mShareData.m_tmpStr);
+                Ctx.mInstance.mShareData.mTmpStr = string.Format("发送消息: byCmd = {0}, byParam = {1}", msg.byCmd, msg.byParam);
+                Ctx.mInstance.mLogSys.log(Ctx.mInstance.mShareData.mTmpStr);
             }
             Ctx.mInstance.mNetMgr.send(bnet);
         }
@@ -32,10 +32,10 @@ namespace SDK.Lib
         //static public void sendMsg(ushort commandID, LuaStringBuffer buffer, bool bnet = true)
         static public void sendMsg(ushort commandID, LuaInterface.LuaByteBuffer buffer, bool bnet = true)
         {
-            Ctx.mInstance.mShareData.m_tmpBA = Ctx.mInstance.mNetMgr.getSendBA();
-            if (Ctx.mInstance.mShareData.m_tmpBA != null)
+            Ctx.mInstance.mShareData.mTmpBA = Ctx.mInstance.mNetMgr.getSendBA();
+            if (Ctx.mInstance.mShareData.mTmpBA != null)
             {
-                Ctx.mInstance.mShareData.m_tmpBA.writeBytes(buffer.buffer, 0, (uint)buffer.buffer.Length);
+                Ctx.mInstance.mShareData.mTmpBA.writeBytes(buffer.buffer, 0, (uint)buffer.buffer.Length);
                 Ctx.mInstance.mNetMgr.send(bnet);
             }
         }
@@ -48,14 +48,14 @@ namespace SDK.Lib
             //string service = UtilLua2CS.getTableAttrStr(luaTable, "service");
             //string method = UtilLua2CS.getTableAttrStr(luaTable, "method");
 
-            Ctx.mInstance.mShareData.m_tmpBA = Ctx.mInstance.mNetMgr.getSendBA();
-            if (Ctx.mInstance.mShareData.m_tmpBA != null)
+            Ctx.mInstance.mShareData.mTmpBA = Ctx.mInstance.mNetMgr.getSendBA();
+            if (Ctx.mInstance.mShareData.mTmpBA != null)
             {
-                //Ctx.mInstance.mShareData.m_tmpBA.writeUnsignedInt32(id);
-                //Ctx.mInstance.mShareData.m_tmpBA.writeMultiByte(service, Encoding.UTF8, 0);
-                //Ctx.mInstance.mShareData.m_tmpBA.writeMultiByte(method, Encoding.UTF8, 0);
+                //Ctx.mInstance.mShareData.mTmpBA.writeUnsignedInt32(id);
+                //Ctx.mInstance.mShareData.mTmpBA.writeMultiByte(service, Encoding.UTF8, 0);
+                //Ctx.mInstance.mShareData.mTmpBA.writeMultiByte(method, Encoding.UTF8, 0);
 
-                Ctx.mInstance.mShareData.m_tmpBA.writeBytes(buffer.buffer, 0, (uint)buffer.buffer.Length);
+                Ctx.mInstance.mShareData.mTmpBA.writeBytes(buffer.buffer, 0, (uint)buffer.buffer.Length);
                 Ctx.mInstance.mNetMgr.send(bnet);
             }
         }

@@ -9,7 +9,7 @@ namespace SDK.Lib
         protected WebSocket m_pWebSocket;
 
         public string m_host = "localhost";
-        public int m_port = 50000;
+        public int mPort = 50000;
 
         protected AutoResetEvent MessageReceiveEvent = new AutoResetEvent(false);
         protected AutoResetEvent DataReceiveEvent = new AutoResetEvent(false);
@@ -26,7 +26,7 @@ namespace SDK.Lib
         public WebSocket CreateClient(string ip, int port, WebSocketVersion version = WebSocketVersion.Rfc6455, bool autoConnect = true)
         {
             m_host = ip;
-            m_port = port;
+            mPort = port;
             m_Version = version;
 
             string endPoint = string.Format("ws://{0}:{1}", ip, port);

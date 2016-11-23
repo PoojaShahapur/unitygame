@@ -8,41 +8,41 @@ namespace SDK.Lib
     public class NetTCPClient
     {
         // 发送和接收的超时时间
-        public int m_connectTimeout = 5000;
+        public int mConnectTimeout = 5000;
         // 超时值（以毫秒为单位）。如果将该属性设置为 1 到 499 之间的值，该值将被更改为 500。默认值为 0，指示超时期限无限大。指定 -1 还会指示超时期限无限大。
         //public int m_sendTimeout = 5000;
         //public int m_revTimeout = 0;
 
-        public string m_ip;
-        public int m_port;
+        public string mIp;
+        public int mPort;
 
-        protected Socket m_socket = null;
-        protected ClientBuffer m_clientBuffer;
-        protected bool m_brecvThreadStart;      // 接收线程是否启动
-        protected bool m_isConnected;
+        protected Socket mSocket = null;
+        protected ClientBuffer mClientBuffer;
+        protected bool mIsRecvThreadStart;      // 接收线程是否启动
+        protected bool mIsConnected;
 
-        protected MEvent m_msgSendEndEvent;       // 当前所有的消息都发送出去了，通知等待线程
-        protected MMutex m_sendMutex;   // 读互斥
+        protected MEvent mMsgSendEndEvent;       // 当前所有的消息都发送出去了，通知等待线程
+        protected MMutex mSendMutex;   // 读互斥
 
         public NetTCPClient(string ip = "localhost", int port = 5000)
         {
-            m_brecvThreadStart = false;
-            m_isConnected = false;
-            m_msgSendEndEvent = new MEvent(false);
-            m_sendMutex = new MMutex(false, "NetTCPClient_SendMutex");
+            mIsRecvThreadStart = false;
+            mIsConnected = false;
+            mMsgSendEndEvent = new MEvent(false);
+            mSendMutex = new MMutex(false, "NetTCPClient_SendMutex");
 
-            m_ip = ip;
-            m_port = port;
+            mIp = ip;
+            mPort = port;
 
-            m_clientBuffer = new ClientBuffer();
-            m_clientBuffer.setEndian(SystemEndian.msServerEndian);     // 设置服务器字节序
+            mClientBuffer = new ClientBuffer();
+            mClientBuffer.setEndian(SystemEndian.msServerEndian);     // 设置服务器字节序
         }
 
         public ClientBuffer clientBuffer
         {
             get
             {
-                return m_clientBuffer;
+                return mClientBuffer;
             }
         }
 
@@ -50,11 +50,11 @@ namespace SDK.Lib
         {
             get
             {
-                return m_brecvThreadStart;
+                return mIsRecvThreadStart;
             }
             set
             {
-                m_brecvThreadStart = value;
+                mIsRecvThreadStart = value;
             }
         }
 
@@ -62,7 +62,7 @@ namespace SDK.Lib
         {
             get
             {
-                return m_isConnected;
+                return mIsConnected;
             }
         }
 
@@ -70,31 +70,36 @@ namespace SDK.Lib
         {
             get
             {
-                return m_msgSendEndEvent;
+                return mMsgSendEndEvent;
             }
             set
             {
-                m_msgSendEndEvent = value;
+                mMsgSendEndEvent = value;
             }
         }
 
         // 是否可以发送新的数据，上一次发送的数据是否发送完成，只有上次发送的数据全部发送完成，才能发送新的数据
         public bool canSendNewData()
         {
-            return (m_clientBuffer.sendBuffer.bytesAvailable == 0);
+            return (mClientBuffer.sendBuffer.bytesAvailable == 0);
         }
 
         // 设置接收缓冲区大小，和征途服务器对接，这个一定要和服务器大小一致，并且一定要是 8 的整数倍，否则在消息比较多，并且一个包发送过来的时候，会出错
         public void SetRevBufferSize(int size)
         {
-            m_socket.ReceiveBufferSize = size;      // ReceiveBufferSize 默认 8096 字节
-            m_clientBuffer.SetRevBufferSize(size);
+            mSocket.ReceiveBufferSize = size;      // ReceiveBufferSize 默认 8096 字节
+            mClientBuffer.SetRevBufferSize(size);
+        }
+
+        public void SetSendBufferSize(int size)
+        {
+            mSocket.SendBufferSize = size;      // SendBufferSize 默认 8096 字节
         }
 
         // 连接服务器
         public bool Connect(string address, int remotePort)
         {
-            if (m_socket != null && m_socket.Connected)
+            if (mSocket != null && mSocket.Connected)
             {
                 return true;
             }
@@ -104,11 +109,11 @@ namespace SDK.Lib
                 IPAddress remoteAdd = IPAddress.Parse(address);
                 IPEndPoint ipe = new IPEndPoint(remoteAdd, remotePort);
                 // 创建socket
-                m_socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                mSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 // 开始连接
-                IAsyncResult result = m_socket.BeginConnect(ipe, new System.AsyncCallback(ConnectionCallback), m_socket);
+                IAsyncResult result = mSocket.BeginConnect(ipe, new System.AsyncCallback(ConnectionCallback), mSocket);
                 // 这里做一个超时的监测，当连接超过5秒还没成功表示超时
-                bool success = result.AsyncWaitHandle.WaitOne(m_connectTimeout, true);
+                bool success = result.AsyncWaitHandle.WaitOne(mConnectTimeout, true);
                 if (!success)
                 {
                     //超时
@@ -118,14 +123,14 @@ namespace SDK.Lib
                 else
                 {
                     // 设置建立链接标识
-                    m_isConnected = true;
+                    mIsConnected = true;
                     // 打印端口信息
                     string ipPortStr;
 
-                    ipPortStr = string.Format("local IP: {0}, Port: {1}", ((IPEndPoint)m_socket.LocalEndPoint).Address.ToString(), ((IPEndPoint)m_socket.LocalEndPoint).Port.ToString());
+                    ipPortStr = string.Format("local IP: {0}, Port: {1}", ((IPEndPoint)mSocket.LocalEndPoint).Address.ToString(), ((IPEndPoint)mSocket.LocalEndPoint).Port.ToString());
                     Ctx.mInstance.mLogSys.log(ipPortStr);
 
-                    ipPortStr = string.Format("Remote IP: {0}, Port: {1}", ((IPEndPoint)m_socket.RemoteEndPoint).Address.ToString(), ((IPEndPoint)m_socket.RemoteEndPoint).Port.ToString());
+                    ipPortStr = string.Format("Remote IP: {0}, Port: {1}", ((IPEndPoint)mSocket.RemoteEndPoint).Address.ToString(), ((IPEndPoint)mSocket.RemoteEndPoint).Port.ToString());
                     Ctx.mInstance.mLogSys.log(ipPortStr);
                 }
             }
@@ -145,14 +150,14 @@ namespace SDK.Lib
             try
             {
                 // 与服务器取得连接
-                m_socket.EndConnect(ar);
-                m_isConnected = true;
+                mSocket.EndConnect(ar);
+                mIsConnected = true;
                 // 设置选项
-                m_socket.SetSocketOption(SocketOptionLevel.Tcp, SocketOptionName.NoDelay, true);
+                mSocket.SetSocketOption(SocketOptionLevel.Tcp, SocketOptionName.NoDelay, true);
                 SetRevBufferSize(8096);
                 // 设置 timeout
-                //m_socket.SendTimeout = m_sendTimeout;
-                //m_socket.ReceiveTimeout = m_revTimeout;
+                //mSocket.SendTimeout = m_sendTimeout;
+                //mSocket.ReceiveTimeout = m_revTimeout;
 
                 if (!MacroDef.NET_MULTHREAD)
                 {
@@ -185,6 +190,7 @@ namespace SDK.Lib
                     Ctx.mInstance.mLogSys.error(e.Message);
                 }
 
+                // 一旦建立失败
                 //Disconnect();
             }
         }
@@ -193,10 +199,10 @@ namespace SDK.Lib
         public void Receive()
         {
             // 只有 socket 连接的时候才继续接收数据
-            if (m_socket.Connected)
+            if (mSocket.Connected)
             {
                 // 接收从服务器返回的信息
-                IAsyncResult asyncSend = m_socket.BeginReceive(m_clientBuffer.dynBuff.buff, 0, (int)m_clientBuffer.dynBuff.capacity, SocketFlags.None, new System.AsyncCallback(ReceiveData), 0);
+                IAsyncResult asyncSend = mSocket.BeginReceive(mClientBuffer.dynBuff.buff, 0, (int)mClientBuffer.dynBuff.capacity, SocketFlags.None, new System.AsyncCallback(ReceiveData), 0);
 
                 //checkThread();
 
@@ -211,14 +217,14 @@ namespace SDK.Lib
         // 接收头消息
         void ReceiveData(System.IAsyncResult ar)
         {
-            if (!checkAndUpdateConnect())        // 如果连接完成后直接断开，这个时候如果再使用 m_socket.EndReceive 这个函数就会抛出异常
+            if (!checkAndUpdateConnect())        // 如果连接完成后直接断开，这个时候如果再使用 mSocket.EndReceive 这个函数就会抛出异常
             {
                 return;
             }
 
             //checkThread();
 
-            if (m_socket == null)        // SocketShutdown.Both 这样关闭，只有还会收到数据，因此判断一下
+            if (mSocket == null)        // SocketShutdown.Both 这样关闭，只有还会收到数据，因此判断一下
             {
                 return;
             }
@@ -226,19 +232,21 @@ namespace SDK.Lib
             int read = 0;
             try
             {
-                read = m_socket.EndReceive(ar);          // 获取读取的长度
+                read = mSocket.EndReceive(ar);          // 获取读取的长度
 
                 if (read > 0)
                 {
                     Ctx.mInstance.mLogSys.log("接收到数据 " + read.ToString());
-                    m_clientBuffer.dynBuff.size = (uint)read; // 设置读取大小
-                    m_clientBuffer.moveDyn2Raw();             // 将接收到的数据放到原始数据队列
-                    m_clientBuffer.moveRaw2Msg();             // 将完整的消息移动到消息缓冲区
+                    mClientBuffer.dynBuff.size = (uint)read; // 设置读取大小
+                    //mClientBuffer.moveDyn2Raw();             // 将接收到的数据放到原始数据队列
+                    //mClientBuffer.moveRaw2Msg();             // 将完整的消息移动到消息缓冲区
+                    mClientBuffer.moveDyn2Raw_KBE();
+                    mClientBuffer.moveRaw2Msg_KBE();
                     Receive();                  // 继续接收
                 }
                 else
                 {
-                    // 断开链接
+                    // Socket 已经断开或者异常，需要断开链接
                     Disconnect(0);
                 }
             }
@@ -255,7 +263,7 @@ namespace SDK.Lib
         // 发送消息
         public void Send()
         {
-            using (MLock mlock = new MLock(m_sendMutex))
+            using (MLock mlock = new MLock(mSendMutex))
             {
                 if (!checkAndUpdateConnect())
                 {
@@ -264,23 +272,23 @@ namespace SDK.Lib
 
                 //checkThread();
 
-                if (m_socket == null)
+                if (mSocket == null)
                 {
                     return;
                 }
 
-                if (m_clientBuffer.sendBuffer.bytesAvailable == 0)     // 如果发送缓冲区没有要发送的数据
+                if (mClientBuffer.sendBuffer.bytesAvailable == 0)     // 如果发送缓冲区没有要发送的数据
                 {
-                    if (m_clientBuffer.sendTmpBuffer.circularBuffer.size > 0)      // 如果发送临时缓冲区有数据要发
+                    if (mClientBuffer.sendTmpBuffer.circularBuffer.size > 0)      // 如果发送临时缓冲区有数据要发
                     {
-                        m_clientBuffer.getSocketSendData();
+                        mClientBuffer.getSocketSendData();
                     }
 
-                    if (m_clientBuffer.sendBuffer.bytesAvailable == 0)        // 如果发送缓冲区中确实没有数据
+                    if (mClientBuffer.sendBuffer.bytesAvailable == 0)        // 如果发送缓冲区中确实没有数据
                     {
                         if (MacroDef.NET_MULTHREAD)
                         {
-                            m_msgSendEndEvent.Set();        // 通知等待线程，所有数据都发送完成
+                            mMsgSendEndEvent.Set();        // 通知等待线程，所有数据都发送完成
                         }
                         return;
                     }
@@ -288,9 +296,9 @@ namespace SDK.Lib
 
                 try
                 {
-                    Ctx.mInstance.mLogSys.log(string.Format("开始发送字节数 {0} ", m_clientBuffer.sendBuffer.bytesAvailable));
+                    Ctx.mInstance.mLogSys.log(string.Format("开始发送字节数 {0} ", mClientBuffer.sendBuffer.bytesAvailable));
 
-                    IAsyncResult asyncSend = m_socket.BeginSend(m_clientBuffer.sendBuffer.dynBuff.buff, (int)m_clientBuffer.sendBuffer.position, (int)m_clientBuffer.sendBuffer.bytesAvailable, 0, new System.AsyncCallback(SendCallback), 0);
+                    IAsyncResult asyncSend = mSocket.BeginSend(mClientBuffer.sendBuffer.dynBuff.buff, (int)mClientBuffer.sendBuffer.position, (int)mClientBuffer.sendBuffer.bytesAvailable, 0, new System.AsyncCallback(SendCallback), 0);
                     //bool success = asyncSend.AsyncWaitHandle.WaitOne(m_sendTimeout, true);
                     //if (!success)
                     //{
@@ -301,7 +309,7 @@ namespace SDK.Lib
                 {
                     if (MacroDef.NET_MULTHREAD)
                     {
-                        m_msgSendEndEvent.Set();        // 发生异常，通知等待线程，所有数据都发送完成，防止等待线程不能解锁
+                        mMsgSendEndEvent.Set();        // 发生异常，通知等待线程，所有数据都发送完成，防止等待线程不能解锁
                     }
                     // 输出日志
                     Ctx.mInstance.mLogSys.error(e.Message);
@@ -314,7 +322,7 @@ namespace SDK.Lib
         //发送回调
         private void SendCallback(System.IAsyncResult ar)
         {
-            using (MLock mlock = new MLock(m_sendMutex))
+            using (MLock mlock = new MLock(mSendMutex))
             {
                 if (!checkAndUpdateConnect())
                 {
@@ -325,20 +333,20 @@ namespace SDK.Lib
 
                 try
                 {
-                    int bytesSent = m_socket.EndSend(ar);
+                    int bytesSent = mSocket.EndSend(ar);
                     Ctx.mInstance.mLogSys.log(string.Format("结束发送字节数 {0} ", bytesSent));
 
-                    if (m_clientBuffer.sendBuffer.length < m_clientBuffer.sendBuffer.position + (uint)bytesSent)
+                    if (mClientBuffer.sendBuffer.length < mClientBuffer.sendBuffer.position + (uint)bytesSent)
                     {
                         Ctx.mInstance.mLogSys.log(string.Format("结束发送字节数错误 {0}", bytesSent));
-                        m_clientBuffer.sendBuffer.setPos(m_clientBuffer.sendBuffer.length);
+                        mClientBuffer.sendBuffer.setPos(mClientBuffer.sendBuffer.length);
                     }
                     else
                     {
-                        m_clientBuffer.sendBuffer.setPos(m_clientBuffer.sendBuffer.position + (uint)bytesSent);
+                        mClientBuffer.sendBuffer.setPos(mClientBuffer.sendBuffer.position + (uint)bytesSent);
                     }
 
-                    if (m_clientBuffer.sendBuffer.bytesAvailable > 0)     // 如果上一次发送的数据还没发送完成，继续发送
+                    if (mClientBuffer.sendBuffer.bytesAvailable > 0)     // 如果上一次发送的数据还没发送完成，继续发送
                     {
                         Send();                 // 继续发送数据
                     }
@@ -355,44 +363,44 @@ namespace SDK.Lib
         // 关闭连接
         public void Disconnect(int timeout = 0)
         {
-            // 关闭之后 m_socket.Connected 设置成 false
-            if (m_socket != null)
+            // 关闭之后 mSocket.Connected 设置成 false
+            if (mSocket != null)
             {
-                if (m_socket.Connected)
+                if (mSocket.Connected)
                 {
-                    m_socket.Shutdown(SocketShutdown.Both);
-                    //m_socket.Close(timeout);  // timeout 不能是 0 ，是 0 含义未定义
+                    mSocket.Shutdown(SocketShutdown.Both);
+                    //mSocket.Close(timeout);  // timeout 不能是 0 ，是 0 含义未定义
                     if (timeout > 0)
                     {
-                        m_socket.Close(timeout);
+                        mSocket.Close(timeout);
                     }
                     else
                     {
-                        m_socket.Close();
+                        mSocket.Close();
                     }
                 }
                 else
                 {
-                    m_socket.Close();
+                    mSocket.Close();
                 }
 
-                m_socket = null;
+                mSocket = null;
             }
         }
         
         // 检查并且更新连接状态
         protected bool checkAndUpdateConnect()
         {
-            if (m_socket != null && !m_socket.Connected)
+            if (mSocket != null && !mSocket.Connected)
             {
-                if (m_isConnected)
+                if (mIsConnected)
                 {
                     Ctx.mInstance.mSysMsgRoute.push(new SocketCloseedMR());
                 }
-                m_isConnected = false;
+                mIsConnected = false;
             }
 
-            return m_isConnected;
+            return mIsConnected;
         }
 
         protected bool checkThread()
