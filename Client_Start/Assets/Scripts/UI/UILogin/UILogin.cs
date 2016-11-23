@@ -64,58 +64,22 @@ namespace Game.UI
                 AuxInputField lblName = new AuxInputField(m_guiWin.m_uiRoot, LoginComPath.PathLblName);
                 AuxInputField lblPassWord = new AuxInputField(m_guiWin.m_uiRoot, LoginComPath.PathLblPassWord);
 
-                if (validStr(lblName.text, lblPassWord.text))
-                {
-                    Ctx.mInstance.mSystemSetting.setString(SystemSetting.USERNAME, lblName.text);
-                    Ctx.mInstance.mSystemSetting.setString(SystemSetting.PASSWORD, lblPassWord.text);
+                Ctx.mInstance.mSystemSetting.setString(SystemSetting.USERNAME, lblName.text);
+                Ctx.mInstance.mSystemSetting.setString(SystemSetting.PASSWORD, lblPassWord.text);
 
-                    if (!MacroDef.DEBUG_NOTNET)
+                if (!MacroDef.DEBUG_NOTNET)
+                {
+                    if (Ctx.mInstance.mLoginSys.getLoginState() != LoginState.eLoginNone)        // 先关闭之前的 socket
                     {
-                        if (Ctx.mInstance.mLoginSys.getLoginState() != LoginState.eLoginNone)        // 先关闭之前的 socket
-                        {
-                            Ctx.mInstance.mNetMgr.closeSocket(Ctx.mInstance.mCfg.mIp, Ctx.mInstance.mCfg.mPort);
-                        }
-                        Ctx.mInstance.mLoginSys.connectLoginServer(lblName.text, lblPassWord.text);
+                        Ctx.mInstance.mNetMgr.closeSocket(Ctx.mInstance.mCfg.mIp, Ctx.mInstance.mCfg.mPort);
                     }
-                    else
-                    {
-                        Ctx.mInstance.mModuleSys.loadModule(ModuleID.GAMEMN);
-                    }
+                    Ctx.mInstance.mLoginSys.connectLoginServer(lblName.text, lblPassWord.text);
+                }
+                else
+                {
+                    Ctx.mInstance.mModuleSys.loadModule(ModuleID.GAMEMN);
                 }
             }
-        }
-
-        // 验证字符串
-        protected bool validStr(string name, string passwd)
-        {
-            if(name.Length == 0)
-            {
-                InfoBoxParam param = Ctx.mInstance.mPoolSys.newObject<InfoBoxParam>();
-                param.m_midDesc = Ctx.mInstance.mLangMgr.getText(LangTypeId.eLogin3, LangItemID.eItem2); ;
-                Ctx.mInstance.mLangMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem22);
-                return false;
-            }
-            else if (UtilLogic.IsIncludeChinese(name))
-            {
-                InfoBoxParam param = Ctx.mInstance.mPoolSys.newObject<InfoBoxParam>();
-                param.m_midDesc = Ctx.mInstance.mLangMgr.getText(LangTypeId.eLogin3, LangItemID.eItem0);
-                return false;
-            }
-
-            if (name.Length == 0)
-            {
-                InfoBoxParam param = Ctx.mInstance.mPoolSys.newObject<InfoBoxParam>();
-                param.m_midDesc = Ctx.mInstance.mLangMgr.getText(LangTypeId.eLogin3, LangItemID.eItem3);
-                return false;
-            }
-            else if (UtilLogic.IsIncludeChinese(passwd))
-            {
-                InfoBoxParam param = Ctx.mInstance.mPoolSys.newObject<InfoBoxParam>();
-                param.m_midDesc = Ctx.mInstance.mLangMgr.getText(LangTypeId.eLogin3, LangItemID.eItem1);
-                return false;
-            }
-
-            return true;
         }
 
         public void createAccount()

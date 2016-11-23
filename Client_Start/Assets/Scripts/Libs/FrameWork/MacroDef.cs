@@ -48,9 +48,6 @@
         // 单元测试，这个需要宏定义
         static public bool UNIT_TEST = true;
 
-        // 外网测试
-        static public bool KOKSERVER_TEST = true;
-
         // 不使用的代码
         static public bool DEPRECATE_CODE = false;
 

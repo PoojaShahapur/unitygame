@@ -14,14 +14,9 @@ namespace SDK.Lib
     {
         public static string StreamingAssets;
 
-#if KOKSERVER_TEST
-        public string mIp = "222.73.30.21";
-        public int mPort = 7000;
-#else
         public string mIp;
         public int mPort;
         public ushort mZone;
-#endif
 
         public string mWebIP;               // web 服务器
         public int mWebPort;
@@ -37,8 +32,8 @@ namespace SDK.Lib
         {
             StreamingAssets = "StreamingAssets/";
 
-            this.mIp = "192.168.122.253";
-            this.mPort = 10002;
+            this.mIp = "106.14.32.169";
+            this.mPort = 20513;
             this.mZone = 30;
 
             this.mWebIP = "http://127.0.0.1/UnityServer/";

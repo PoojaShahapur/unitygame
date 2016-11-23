@@ -33,7 +33,7 @@ namespace Game.Login
             Ctx.mInstance.mLoginSys.setLoginState(LoginState.eLoginingLoginServer);     // 设置登陆状态
 
             this.mName = name;
-            this.mPasswd = passwd;
+            this.mName = passwd;
             Ctx.mInstance.mDataPlayer.m_accountData.m_account = name;
             Ctx.mInstance.mLogSys.registerFileLogDevice();
 
@@ -49,6 +49,7 @@ namespace Game.Login
         {
             Ctx.mInstance.mLoginSys.setLoginState(LoginState.eLoginSuccessLoginServer);     // 设置登陆状态
             Ctx.mInstance.mLogSys.log(Ctx.mInstance.mLangMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem1));
+
             this.sendMsg1f();
         }
 
@@ -56,16 +57,7 @@ namespace Game.Login
         // 步骤 1 ，发送登陆消息
         public void sendMsg1f()
         {
-            Ctx.mInstance.mLogSys.log(Ctx.mInstance.mLangMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem2));
-
-            stUserVerifyVerCmd cmdVerify = new stUserVerifyVerCmd();
-#if KOKSERVER_TEST
-            cmdVerify.version = 2015031801;
-#endif
-            UtilMsg.sendMsg(cmdVerify);
-
-            stRequestClientIP cmdReqIP = new stRequestClientIP();
-            UtilMsg.sendMsg(cmdReqIP);
+            KBEngine.Event.fireIn("login", this.mName, this.mName, System.Text.Encoding.UTF8.GetBytes("kbengine_unity3d_demo"));
         }
 
         // 步骤 2 ，接收返回的消息
@@ -86,27 +78,13 @@ namespace Game.Login
         // 步骤 3 ，发送消息
         public void sendMsg3f()
         {
-            // 测试数据
-            //send.game = 10;
-            //send.zone = 30;
-            //zhanghao01---zhanghao09
             Ctx.mInstance.mLogSys.log(Ctx.mInstance.mLangMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem4));
 
             stUserRequestLoginCmd cmd = new stUserRequestLoginCmd();
-            //cmd.pstrName = "zhanghao01";
-            //cmd.pstrPassword = "1";
             cmd.pstrName = this.mName;
             cmd.pstrPassword = this.mPasswd;
-#if KOKSERVER_TEST
-            cmd.pstrName = "fayatudou615";
-            cmd.pstrPassword = "mjw0505";
-#endif
             cmd.game = 10;
-#if !KOKSERVER_TEST
             cmd.zone = Ctx.mInstance.mCfg.mZone;
-#else
-            cmd.zone = 31;
-#endif
             UtilMsg.sendMsg(cmd);
         }
 
@@ -163,9 +141,6 @@ namespace Game.Login
         public void sendMsg5f()
         {
             Ctx.mInstance.mLogSys.log(Ctx.mInstance.mLangMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem8));
-
-            //stUserVerifyVerCmd cmdVerify = new stUserVerifyVerCmd();
-            //UtilMsg.sendMsg(cmdVerify);
 
             stPasswdLogonUserCmd cmd = new stPasswdLogonUserCmd();
             cmd.dwUserID = this.mDwUserID;
