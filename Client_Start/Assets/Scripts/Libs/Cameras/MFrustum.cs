@@ -76,8 +76,8 @@ namespace SDK.Lib
         protected float INFINITE_FAR_PLANE_ADJUST = 0.00001f;
         new protected Transform mParentNode;
 
-        protected QuadMeshRender m_frustumRender;   // Frustum 渲染
-        protected bool m_bShowBoundBox;             // 是否显示
+        protected QuadMeshRender mFrustumRender;   // Frustum 渲染
+        protected bool mIsShowBoundBox;             // 是否显示
         protected MPlane[] mTestFrustumPlanes;      // 测试使用的裁剪面板
 
         protected MQuaternion mTmpDerivedOrient;
@@ -464,50 +464,50 @@ namespace SDK.Lib
 
         public void updateVertexData()
         {
-            if (m_bShowBoundBox)
+            if (mIsShowBoundBox)
             {
                 updateWorldSpaceCorners();
 
-                m_frustumRender.clear();
+                mFrustumRender.clear();
 
                 // 前面
-                m_frustumRender.addVertex(mWorldSpaceCorners[1].x, mWorldSpaceCorners[1].y, mWorldSpaceCorners[1].z);
-                m_frustumRender.addVertex(mWorldSpaceCorners[0].x, mWorldSpaceCorners[0].y, mWorldSpaceCorners[0].z);
-                m_frustumRender.addVertex(mWorldSpaceCorners[3].x, mWorldSpaceCorners[3].y, mWorldSpaceCorners[3].z);
-                m_frustumRender.addVertex(mWorldSpaceCorners[2].x, mWorldSpaceCorners[2].y, mWorldSpaceCorners[2].z);
+                mFrustumRender.addVertex(mWorldSpaceCorners[1].x, mWorldSpaceCorners[1].y, mWorldSpaceCorners[1].z);
+                mFrustumRender.addVertex(mWorldSpaceCorners[0].x, mWorldSpaceCorners[0].y, mWorldSpaceCorners[0].z);
+                mFrustumRender.addVertex(mWorldSpaceCorners[3].x, mWorldSpaceCorners[3].y, mWorldSpaceCorners[3].z);
+                mFrustumRender.addVertex(mWorldSpaceCorners[2].x, mWorldSpaceCorners[2].y, mWorldSpaceCorners[2].z);
 
                 // 后面
-                m_frustumRender.addVertex(mWorldSpaceCorners[4].x, mWorldSpaceCorners[4].y, mWorldSpaceCorners[4].z);
-                m_frustumRender.addVertex(mWorldSpaceCorners[5].x, mWorldSpaceCorners[5].y, mWorldSpaceCorners[5].z);
-                m_frustumRender.addVertex(mWorldSpaceCorners[6].x, mWorldSpaceCorners[6].y, mWorldSpaceCorners[6].z);
-                m_frustumRender.addVertex(mWorldSpaceCorners[7].x, mWorldSpaceCorners[7].y, mWorldSpaceCorners[7].z);
+                mFrustumRender.addVertex(mWorldSpaceCorners[4].x, mWorldSpaceCorners[4].y, mWorldSpaceCorners[4].z);
+                mFrustumRender.addVertex(mWorldSpaceCorners[5].x, mWorldSpaceCorners[5].y, mWorldSpaceCorners[5].z);
+                mFrustumRender.addVertex(mWorldSpaceCorners[6].x, mWorldSpaceCorners[6].y, mWorldSpaceCorners[6].z);
+                mFrustumRender.addVertex(mWorldSpaceCorners[7].x, mWorldSpaceCorners[7].y, mWorldSpaceCorners[7].z);
 
                 // 左面
-                m_frustumRender.addVertex(mWorldSpaceCorners[5].x, mWorldSpaceCorners[5].y, mWorldSpaceCorners[5].z);
-                m_frustumRender.addVertex(mWorldSpaceCorners[1].x, mWorldSpaceCorners[1].y, mWorldSpaceCorners[1].z);
-                m_frustumRender.addVertex(mWorldSpaceCorners[2].x, mWorldSpaceCorners[2].y, mWorldSpaceCorners[2].z);
-                m_frustumRender.addVertex(mWorldSpaceCorners[6].x, mWorldSpaceCorners[6].y, mWorldSpaceCorners[6].z);
+                mFrustumRender.addVertex(mWorldSpaceCorners[5].x, mWorldSpaceCorners[5].y, mWorldSpaceCorners[5].z);
+                mFrustumRender.addVertex(mWorldSpaceCorners[1].x, mWorldSpaceCorners[1].y, mWorldSpaceCorners[1].z);
+                mFrustumRender.addVertex(mWorldSpaceCorners[2].x, mWorldSpaceCorners[2].y, mWorldSpaceCorners[2].z);
+                mFrustumRender.addVertex(mWorldSpaceCorners[6].x, mWorldSpaceCorners[6].y, mWorldSpaceCorners[6].z);
 
                 // 右面
-                m_frustumRender.addVertex(mWorldSpaceCorners[0].x, mWorldSpaceCorners[0].y, mWorldSpaceCorners[0].z);
-                m_frustumRender.addVertex(mWorldSpaceCorners[4].x, mWorldSpaceCorners[4].y, mWorldSpaceCorners[4].z);
-                m_frustumRender.addVertex(mWorldSpaceCorners[7].x, mWorldSpaceCorners[7].y, mWorldSpaceCorners[7].z);
-                m_frustumRender.addVertex(mWorldSpaceCorners[3].x, mWorldSpaceCorners[3].y, mWorldSpaceCorners[3].z);
+                mFrustumRender.addVertex(mWorldSpaceCorners[0].x, mWorldSpaceCorners[0].y, mWorldSpaceCorners[0].z);
+                mFrustumRender.addVertex(mWorldSpaceCorners[4].x, mWorldSpaceCorners[4].y, mWorldSpaceCorners[4].z);
+                mFrustumRender.addVertex(mWorldSpaceCorners[7].x, mWorldSpaceCorners[7].y, mWorldSpaceCorners[7].z);
+                mFrustumRender.addVertex(mWorldSpaceCorners[3].x, mWorldSpaceCorners[3].y, mWorldSpaceCorners[3].z);
 
                 // 顶面
-                m_frustumRender.addVertex(mWorldSpaceCorners[1].x, mWorldSpaceCorners[1].y, mWorldSpaceCorners[1].z);
-                m_frustumRender.addVertex(mWorldSpaceCorners[5].x, mWorldSpaceCorners[5].y, mWorldSpaceCorners[5].z);
-                m_frustumRender.addVertex(mWorldSpaceCorners[4].x, mWorldSpaceCorners[4].y, mWorldSpaceCorners[4].z);
-                m_frustumRender.addVertex(mWorldSpaceCorners[0].x, mWorldSpaceCorners[0].y, mWorldSpaceCorners[0].z);
+                mFrustumRender.addVertex(mWorldSpaceCorners[1].x, mWorldSpaceCorners[1].y, mWorldSpaceCorners[1].z);
+                mFrustumRender.addVertex(mWorldSpaceCorners[5].x, mWorldSpaceCorners[5].y, mWorldSpaceCorners[5].z);
+                mFrustumRender.addVertex(mWorldSpaceCorners[4].x, mWorldSpaceCorners[4].y, mWorldSpaceCorners[4].z);
+                mFrustumRender.addVertex(mWorldSpaceCorners[0].x, mWorldSpaceCorners[0].y, mWorldSpaceCorners[0].z);
 
                 // 底面
-                m_frustumRender.addVertex(mWorldSpaceCorners[6].x, mWorldSpaceCorners[6].y, mWorldSpaceCorners[6].z);
-                m_frustumRender.addVertex(mWorldSpaceCorners[2].x, mWorldSpaceCorners[2].y, mWorldSpaceCorners[2].z);
-                m_frustumRender.addVertex(mWorldSpaceCorners[3].x, mWorldSpaceCorners[3].y, mWorldSpaceCorners[3].z);
-                m_frustumRender.addVertex(mWorldSpaceCorners[7].x, mWorldSpaceCorners[7].y, mWorldSpaceCorners[7].z);
+                mFrustumRender.addVertex(mWorldSpaceCorners[6].x, mWorldSpaceCorners[6].y, mWorldSpaceCorners[6].z);
+                mFrustumRender.addVertex(mWorldSpaceCorners[2].x, mWorldSpaceCorners[2].y, mWorldSpaceCorners[2].z);
+                mFrustumRender.addVertex(mWorldSpaceCorners[3].x, mWorldSpaceCorners[3].y, mWorldSpaceCorners[3].z);
+                mFrustumRender.addVertex(mWorldSpaceCorners[7].x, mWorldSpaceCorners[7].y, mWorldSpaceCorners[7].z);
 
-                m_frustumRender.buildIndexB();
-                m_frustumRender.uploadGeometry();
+                mFrustumRender.buildIndexB();
+                mFrustumRender.uploadGeometry();
             }
         }
 
@@ -895,8 +895,8 @@ namespace SDK.Lib
 
         virtual protected void preInit(Transform parentNode)
         {
-            m_bShowBoundBox = false;
-            m_frustumRender = new QuadMeshRender(24);
+            mIsShowBoundBox = false;
+            mFrustumRender = new QuadMeshRender(24);
             mParentNode = parentNode;
             mFrustumPlanes = new MPlane[6];
             mWorldSpaceCorners = new MVector3[8];

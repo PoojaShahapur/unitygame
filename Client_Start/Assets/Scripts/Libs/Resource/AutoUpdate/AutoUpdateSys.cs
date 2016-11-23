@@ -86,10 +86,10 @@ namespace SDK.Lib
             LoadParam param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
             param.setPath(path);
 
-            param.m_resLoadType = ResLoadType.eLoadWeb;
-            param.m_version = fileInfo.mFileMd5;
+            param.mResLoadType = ResLoadType.eLoadWeb;
+            param.mVersion = fileInfo.mFileMd5;
 
-            param.m_loadEventHandle = onLoadEventHandle;
+            param.mLoadEventHandle = onLoadEventHandle;
 
             Ctx.mInstance.mResLoadMgr.loadData(param);
             Ctx.mInstance.mPoolSys.deleteObj(param);

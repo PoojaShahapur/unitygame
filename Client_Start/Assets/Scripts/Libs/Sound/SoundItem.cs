@@ -21,7 +21,7 @@ namespace SDK.Lib
      */
     public class SoundItem
     {
-        public string m_path;           // 资源目录
+        public string mPath;           // 资源目录
         public SoundResType m_soundResType = SoundResType.eSRT_Prefab;
         protected SoundPlayState m_playState = SoundPlayState.eSS_None;      // 音乐音效播放状态
         public Transform m_trans;       // 位置信息
@@ -56,7 +56,7 @@ namespace SDK.Lib
         {
             m_trans = soundParam.m_trans;
             m_bLoop = soundParam.m_bLoop;
-            m_path = soundParam.m_path;
+            mPath = soundParam.mPath;
         }
 
         protected void updateParam()

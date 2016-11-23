@@ -80,7 +80,7 @@ namespace SDK.Lib
                 //requestWriter = new StreamWriter(webStream);
                 //try
                 //{
-                //    string postString = string.Format("v={0}", m_version);
+                //    string postString = string.Format("v={0}", mVersion);
                 //    requestWriter.Write(postString);
                 //}
                 //catch (Exception ex2)
@@ -239,7 +239,7 @@ namespace SDK.Lib
                 //requestWriter = new StreamWriter(webStream);
                 //try
                 //{
-                //    string postString = string.Format("v={0}", m_version);
+                //    string postString = string.Format("v={0}", mVersion);
                 //    requestWriter.Write(postString);
                 //}
                 //catch (Exception ex2)

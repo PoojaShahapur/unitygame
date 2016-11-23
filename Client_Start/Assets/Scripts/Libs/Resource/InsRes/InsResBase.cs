@@ -4,8 +4,8 @@
     {
         protected RefCountResLoadResultNotify m_refCountResLoadResultNotify;
         public string mLoadPath;
-        public string m_origPath;
-        public string m_prefabName;
+        public string mOrigPath;
+        public string mPrefabName;
         protected string mResUniqueId;
         protected string mLogicPath;
 
@@ -43,12 +43,12 @@
 
         public string getOrigPath()
         {
-            return m_origPath;
+            return mOrigPath;
         }
 
         public string getPrefabName()
         {
-            return m_prefabName;
+            return mPrefabName;
         }
 
         public void setResUniqueId(string value)
@@ -120,8 +120,8 @@
         {
             this.mLoadPath = param.mLoadPath;
             this.mResUniqueId = param.mResUniqueId;
-            this.m_origPath = param.m_origPath;
-            this.m_prefabName = param.prefabName;
+            this.mOrigPath = param.mOrigPath;
+            this.mPrefabName = param.prefabName;
             this.mLogicPath = param.mLogicPath;
         }
     }

@@ -204,7 +204,7 @@ namespace UnitTest
             {
                 foreach (var pVert in vertList)
                 {
-                    strStream += string.Format("Vert ID = {0} \n", pVert.m_id);
+                    strStream += string.Format("Vert ID = {0} \n", pVert.mId);
                 }
             }
             else

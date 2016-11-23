@@ -277,9 +277,9 @@ namespace SDK.Lib
         {
             LoadParam param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
             param.setPath(reaPath);
-            param.m_loadNeedCoroutine = false;
-            param.m_resNeedCoroutine = false;
-            param.m_loadEventHandle = onLoadEventHandle;
+            param.mLoadNeedCoroutine = false;
+            param.mResNeedCoroutine = false;
+            param.mLoadEventHandle = onLoadEventHandle;
             Ctx.mInstance.mPrefabMgr.load<PrefabRes>(param);
             Ctx.mInstance.mPoolSys.deleteObj(param);
         }

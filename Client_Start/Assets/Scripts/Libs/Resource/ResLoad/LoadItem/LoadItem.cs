@@ -5,16 +5,16 @@ namespace SDK.Lib
 {
     public class LoadItem : IDispatchObject
     {
-        protected ResPackType m_resPackType;    // 资源打包类型
-        protected ResLoadType m_resLoadType;    // 资源加载类型
+        protected ResPackType mResPackType;    // 资源打包类型
+        protected ResLoadType mResLoadType;    // 资源加载类型
 
-        protected string m_loadPath;            // 完整的目录
-        protected string m_origPath;            // 原始的资源目录
-        protected string m_extName;             // 扩展名字
+        protected string mLoadPath;            // 完整的目录
+        protected string mOrigPath;            // 原始的资源目录
+        protected string mExtName;             // 扩展名字
         protected string mLogicPath;
 
         protected WWW m_w3File;
-        protected bool m_loadNeedCoroutine;     // 加载是否需要协同程序
+        protected bool mLoadNeedCoroutine;     // 加载是否需要协同程序
 
         protected AssetBundle m_assetBundle;
 
@@ -32,11 +32,11 @@ namespace SDK.Lib
         {
             get
             {
-                return m_resPackType;
+                return mResPackType;
             }
             set
             {
-                m_resPackType = value;
+                mResPackType = value;
             }
         }
 
@@ -44,11 +44,11 @@ namespace SDK.Lib
         {
             get
             {
-                return m_loadPath;
+                return mLoadPath;
             }
             set
             {
-                m_loadPath = value;
+                mLoadPath = value;
             }
         }
 
@@ -56,11 +56,11 @@ namespace SDK.Lib
         {
             get
             {
-                return m_origPath;
+                return mOrigPath;
             }
             set
             {
-                m_origPath = value;
+                mOrigPath = value;
             }
         }
 
@@ -68,11 +68,11 @@ namespace SDK.Lib
         {
             get
             {
-                return m_extName;
+                return mExtName;
             }
             set
             {
-                m_extName = value;
+                mExtName = value;
             }
         }
 
@@ -88,11 +88,11 @@ namespace SDK.Lib
         {
             get
             {
-                return m_loadNeedCoroutine;
+                return mLoadNeedCoroutine;
             }
             set
             {
-                m_loadNeedCoroutine = value;
+                mLoadNeedCoroutine = value;
             }
         }
 
@@ -100,11 +100,11 @@ namespace SDK.Lib
         {
             get
             {
-                return m_resLoadType;
+                return mResLoadType;
             }
             set
             {
-                m_resLoadType = value;
+                mResLoadType = value;
             }
         }
 
@@ -175,21 +175,21 @@ namespace SDK.Lib
 
         virtual public void reset()
         {
-            m_loadPath = "";
+            mLoadPath = "";
             m_w3File = null;
-            m_loadNeedCoroutine = false;
+            mLoadNeedCoroutine = false;
         }
 
         virtual protected IEnumerator downloadAsset()
         {
             string path = "";
-            if (m_resLoadType == ResLoadType.eLoadStreamingAssets)
+            if (mResLoadType == ResLoadType.eLoadStreamingAssets)
             {
-                path = "file://" + Application.dataPath + "/" + m_loadPath;
+                path = "file://" + Application.dataPath + "/" + mLoadPath;
             }
-            else if (m_resLoadType == ResLoadType.eLoadWeb)
+            else if (mResLoadType == ResLoadType.eLoadWeb)
             {
-                path = Ctx.mInstance.mCfg.mWebIP + m_loadPath;
+                path = Ctx.mInstance.mCfg.mWebIP + mLoadPath;
             }
             deleteFromCache(path);
             m_w3File = WWW.LoadFromCacheOrDownload(path, 1);
@@ -239,12 +239,12 @@ namespace SDK.Lib
 
         public void setLoadParam(LoadParam param)
         {
-            this.resPackType = param.m_resPackType;
-            this.resLoadType = param.m_resLoadType;
+            this.resPackType = param.mResPackType;
+            this.resLoadType = param.mResLoadType;
             this.loadPath = param.mLoadPath;
-            this.origPath = param.m_origPath;
+            this.origPath = param.mOrigPath;
             this.extName = param.extName;
-            this.loadNeedCoroutine = param.m_loadNeedCoroutine;
+            this.loadNeedCoroutine = param.mLoadNeedCoroutine;
             this.setLoadAll(param.mIsLoadAll);
             this.setLogicPath(param.mLogicPath);
             this.setResUniqueId(param.mResUniqueId);

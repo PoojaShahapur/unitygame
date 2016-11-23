@@ -35,7 +35,7 @@
                 DownloadParam param = new DownloadParam();
 
                 param.setPath(origPath);
-                param.m_loadEventHandle = onDownloaded;
+                param.mLoadEventHandle = onDownloaded;
                 param.mFileLen = fileLen;
                 param.mIsWriteFile = isWriteFile;
                 param.mDownloadType = (DownloadType)downloadType;

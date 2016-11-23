@@ -37,7 +37,7 @@ namespace SDK.Lib
         {
             LoadParam param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
             param.setPath(FILE_LIST);
-            param.m_loadEventHandle = onLoadEventHandle;
+            param.mLoadEventHandle = onLoadEventHandle;
 
             Ctx.mInstance.mResLoadMgr.loadData(param);
             Ctx.mInstance.mPoolSys.deleteObj(param);
@@ -109,7 +109,7 @@ namespace SDK.Lib
 
                 if ("Module/AutoUpdate.prefab" == resPath)       // 自动更新模块更新还没有实现
                 {
-                    param.m_resLoadType = ResLoadType.eLoadStreamingAssets;
+                    param.mResLoadType = ResLoadType.eLoadStreamingAssets;
                 }
                 else
                 {
@@ -121,7 +121,7 @@ namespace SDK.Lib
 
                     if (param != null)
                     {
-                        retPath = MFileSys.getAbsPathByRelPath(ref retPath, ref param.m_resLoadType);
+                        retPath = MFileSys.getAbsPathByRelPath(ref retPath, ref param.mResLoadType);
                     }
                     else
                     {
@@ -135,7 +135,7 @@ namespace SDK.Lib
             {
                 if (param != null)
                 {
-                    param.m_resLoadType = ResLoadType.eLoadStreamingAssets;
+                    param.mResLoadType = ResLoadType.eLoadStreamingAssets;
                 }
                 return resPath;
             }

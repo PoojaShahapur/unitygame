@@ -30,11 +30,11 @@ namespace SDK.Lib
 
             // 如果是打包成 AssetBundle ，然后放在本地磁盘，要加载的话，需要 WWW 打开，AssetBundle.CreateFromFile 是不行的
             //string path;
-            //path = Application.dataPath + "/" + m_path;
+            //path = Application.dataPath + "/" + mPath;
             //AssetBundle asset = AssetBundle.CreateFromFile(path);
             //asset.LoadAll();
             //Object[] resArr = asset.LoadAllAssets();
-            if (m_resNeedCoroutine)
+            if (mResNeedCoroutine)
             {
                 Ctx.mInstance.mCoroutineMgr.StartCoroutine(initAssetByCoroutine());
             }
@@ -53,8 +53,8 @@ namespace SDK.Lib
         // Resources.Load就是从一个缺省打进程序包里的AssetBundle里加载资源，而一般AssetBundle文件需要你自己创建，运行时 动态加载，可以指定路径和来源的。
         protected void initAsset()
         {
-            //string path = Application.dataPath + "/" + m_path;
-            //string path = m_path;       // 注意这个是场景打包的时候场景的名字，不是目录，这个场景一定要 To add a level to the build settings use the menu File->Build Settings...
+            //string path = Application.dataPath + "/" + mPath;
+            //string path = mPath;       // 注意这个是场景打包的时候场景的名字，不是目录，这个场景一定要 To add a level to the build settings use the menu File->Build Settings...
 
             bool isSuccess = true;
 
@@ -88,13 +88,13 @@ namespace SDK.Lib
 
             if (isSuccess)
             {
-                Ctx.mInstance.mLogSys.log(string.Format("LevelResItem::initAsset, Success", m_origPath), LogTypeId.eLogResLoader);
+                Ctx.mInstance.mLogSys.log(string.Format("LevelResItem::initAsset, Success", mOrigPath), LogTypeId.eLogResLoader);
 
                 m_refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }
             else
             {
-                Ctx.mInstance.mLogSys.log(string.Format("LevelResItem::initAsset, Failed", m_origPath), LogTypeId.eLogResLoader);
+                Ctx.mInstance.mLogSys.log(string.Format("LevelResItem::initAsset, Failed", mOrigPath), LogTypeId.eLogResLoader);
 
                 m_refCountResLoadResultNotify.resLoadState.setFailed();
             }
@@ -119,7 +119,7 @@ namespace SDK.Lib
 
         protected IEnumerator initAssetByCoroutine()
         {
-            //string path = Application.dataPath + "/" + m_path;
+            //string path = Application.dataPath + "/" + mPath;
 #if UNITY_4 || UNITY_5_0 || UNITY_5_1 || UNITY_5_2
             AsyncOperation asyncOpt = Application.LoadLevelAsync(m_levelName);
 #else
@@ -139,13 +139,13 @@ namespace SDK.Lib
             // asyncOpt.progress == 1.0f
             if (null != asyncOpt && asyncOpt.isDone)
             {
-                Ctx.mInstance.mLogSys.log(string.Format("LevelResItem::initAssetByCoroutine, LoadScene Success, Path is", m_origPath), LogTypeId.eLogResLoader);
+                Ctx.mInstance.mLogSys.log(string.Format("LevelResItem::initAssetByCoroutine, LoadScene Success, Path is", mOrigPath), LogTypeId.eLogResLoader);
 
                 m_refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }
             else
             {
-                Ctx.mInstance.mLogSys.log(string.Format("LevelResItem::initAssetByCoroutine, LoadScene Fail, Path is", m_origPath), LogTypeId.eLogResLoader);
+                Ctx.mInstance.mLogSys.log(string.Format("LevelResItem::initAssetByCoroutine, LoadScene Fail, Path is", mOrigPath), LogTypeId.eLogResLoader);
 
                 m_refCountResLoadResultNotify.resLoadState.setFailed();
             }

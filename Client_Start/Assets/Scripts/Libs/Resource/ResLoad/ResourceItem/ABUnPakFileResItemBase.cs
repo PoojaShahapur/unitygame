@@ -15,12 +15,12 @@ namespace SDK.Lib
         public void initByBytes(byte[] bytes, string prefixPath)
         {
             m_bytes = bytes;
-            m_bundlePath = Path.Combine(prefixPath, m_loadPath);
+            m_bundlePath = Path.Combine(prefixPath, mLoadPath);
 
             // 检查是否资源打包成 unity3d 
-            if (Ctx.mInstance.mCfg.mPakExtNameList.IndexOf(m_extName) != -1)
+            if (Ctx.mInstance.mCfg.mPakExtNameList.IndexOf(mExtName) != -1)
             {
-                if (m_resNeedCoroutine)
+                if (mResNeedCoroutine)
                 {
                     Ctx.mInstance.mCoroutineMgr.StartCoroutine(initAssetByCoroutine());
                 }
@@ -54,7 +54,7 @@ namespace SDK.Lib
         {
             m_bytes = null;
 
-            if (Ctx.mInstance.mCfg.mPakExtNameList.IndexOf(m_extName) != -1)         // 打包成 unity3d 加载的
+            if (Ctx.mInstance.mCfg.mPakExtNameList.IndexOf(mExtName) != -1)         // 打包成 unity3d 加载的
             {
                 if (m_bundle != null)
                 {

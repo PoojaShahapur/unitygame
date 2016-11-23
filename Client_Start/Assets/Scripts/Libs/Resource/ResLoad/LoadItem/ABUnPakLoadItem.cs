@@ -20,21 +20,21 @@ namespace SDK.Lib
             string curExt = "";
 
             // 如果是打包的资源
-            if (Ctx.mInstance.mCfg.mPakExtNameList.IndexOf(m_extName) != -1)
+            if (Ctx.mInstance.mCfg.mPakExtNameList.IndexOf(mExtName) != -1)
             {
                 curExt = FileResItem.UNITY3D_EXT;
             }
-            else if(string.IsNullOrEmpty(m_extName))        // 材质 mat 源文件是没有扩展名字的，因为 3dmax 材质扩展名字也是 mat ，可能 unity 怕识别错误了吧
+            else if(string.IsNullOrEmpty(mExtName))        // 材质 mat 源文件是没有扩展名字的，因为 3dmax 材质扩展名字也是 mat ，可能 unity 怕识别错误了吧
             {
                 curExt = FileResItem.UNITY3D_EXT;
             }
             else
             {
-                curExt = m_extName;
+                curExt = mExtName;
             }
 
             string curPath;
-            curPath = Path.Combine(Application.streamingAssetsPath, m_loadPath);
+            curPath = Path.Combine(Application.streamingAssetsPath, mLoadPath);
             curPath = UtilLogic.getPakPathAndExt(curPath, curExt);
 
             if (UtilPath.existFile(curPath))

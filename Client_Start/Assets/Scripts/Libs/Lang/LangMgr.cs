@@ -75,10 +75,10 @@ namespace SDK.Lib
             {
                 m_isLoaded = true;
                 LoadParam param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
-                param.m_loadNeedCoroutine = false;
-                param.m_resNeedCoroutine = false;
+                param.mLoadNeedCoroutine = false;
+                param.mResNeedCoroutine = false;
                 param.setPath(m_ID2FileName[m_langID].m_filePath);
-                param.m_loadEventHandle = onLoadEventHandle;
+                param.mLoadEventHandle = onLoadEventHandle;
                 Ctx.mInstance.mResLoadMgr.loadAsset(param);
                 Ctx.mInstance.mPoolSys.deleteObj(param);
             }

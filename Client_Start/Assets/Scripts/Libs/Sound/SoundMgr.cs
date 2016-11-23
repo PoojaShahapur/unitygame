@@ -24,36 +24,36 @@ namespace SDK.Lib
                 addTimer();
             }
 
-            soundParam.m_path = Ctx.mInstance.mPakSys.getCurResPakPathByResPath(soundParam.m_path, null);
+            soundParam.mPath = Ctx.mInstance.mPakSys.getCurResPakPathByResPath(soundParam.mPath, null);
 
-            if (m_path2SoundDic.ContainsKey(soundParam.m_path))      // 如果已经有了直接返回
+            if (m_path2SoundDic.ContainsKey(soundParam.mPath))      // 如果已经有了直接返回
             {
-                if (!m_path2SoundDic[soundParam.m_path].bInCurState(SoundPlayState.eSS_Play))
+                if (!m_path2SoundDic[soundParam.mPath].bInCurState(SoundPlayState.eSS_Play))
                 {
-                    m_path2SoundDic[soundParam.m_path].Play();
+                    m_path2SoundDic[soundParam.mPath].Play();
                 }
             }
             else
             {
                 // 创建
-                if (isPrefab(soundParam.m_path))
+                if (isPrefab(soundParam.mPath))
                 {
-                    m_path2SoundDic[soundParam.m_path] = new SoundPrefabItem();
-                    m_path2SoundDic[soundParam.m_path].m_soundResType = SoundResType.eSRT_Prefab;
+                    m_path2SoundDic[soundParam.mPath] = new SoundPrefabItem();
+                    m_path2SoundDic[soundParam.mPath].m_soundResType = SoundResType.eSRT_Prefab;
                 }
                 else
                 {
-                    m_path2SoundDic[soundParam.m_path] = new SoundClipItem();
-                    m_path2SoundDic[soundParam.m_path].m_soundResType = SoundResType.eSRT_Clip;
+                    m_path2SoundDic[soundParam.mPath] = new SoundClipItem();
+                    m_path2SoundDic[soundParam.mPath].m_soundResType = SoundResType.eSRT_Clip;
                 }
-                m_audioList.Add(m_path2SoundDic[soundParam.m_path]);
-                m_path2SoundDic[soundParam.m_path].initParam(soundParam);
+                m_audioList.Add(m_path2SoundDic[soundParam.mPath]);
+                m_path2SoundDic[soundParam.mPath].initParam(soundParam);
 
                 LoadParam param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
-                param.setPath(soundParam.m_path);
-                param.m_loadEventHandle = onLoadEventHandle;
-                param.m_loadNeedCoroutine = false;
-                param.m_resNeedCoroutine = false;
+                param.setPath(soundParam.mPath);
+                param.mLoadEventHandle = onLoadEventHandle;
+                param.mLoadNeedCoroutine = false;
+                param.mResNeedCoroutine = false;
                 Ctx.mInstance.mResLoadMgr.loadAsset(param);
                 Ctx.mInstance.mPoolSys.deleteObj(param);
             }
@@ -69,7 +69,7 @@ namespace SDK.Lib
             else
             {
                 SoundParam param = Ctx.mInstance.mPoolSys.newObject<SoundParam>();
-                param.m_path = path;
+                param.mPath = path;
                 param.m_bLoop = loop_;
                 play(param);
                 Ctx.mInstance.mPoolSys.deleteObj(param);
@@ -124,7 +124,7 @@ namespace SDK.Lib
         // 不要遍历中使用这个函数
         protected void delSoundItem(SoundItem item)
         {
-            m_path2SoundDic.Remove(item.m_path);
+            m_path2SoundDic.Remove(item.mPath);
             m_audioList.Remove(item);
         }
 
@@ -147,7 +147,7 @@ namespace SDK.Lib
 
             foreach(SoundItem sound in m_clearList)
             {
-                unload(sound.m_path);
+                unload(sound.mPath);
             }
 
             m_clearList.Clear();

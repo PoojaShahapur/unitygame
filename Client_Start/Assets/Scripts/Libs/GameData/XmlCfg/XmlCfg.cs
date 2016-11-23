@@ -14,7 +14,7 @@ namespace SDK.Lib
 
     public class XmlCfgBase
     {
-        public string m_path;
+        public string mPath;
         internal SecurityParser m_xmlDoc = new SecurityParser();
         public List<XmlItemBase> m_list = new List<XmlItemBase>();
 

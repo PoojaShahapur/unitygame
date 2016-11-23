@@ -40,8 +40,8 @@ namespace SDK.Lib
         //public void loadSkinInfo()
         //{
         //    LoadParam param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
-        //    param.m_path = Ctx.mInstance.mCfg.m_pathLst[(int)ResPathType.ePathBeingPath] + "BonesList";
-        //    param.m_loadEventHandle = onSkinLoadEventHandle;
+        //    param.mPath = Ctx.mInstance.mCfg.m_pathLst[(int)ResPathType.ePathBeingPath] + "BonesList";
+        //    param.mLoadEventHandle = onSkinLoadEventHandle;
         //    Ctx.mInstance.mResLoadMgr.loadBundle(param);
         //    Ctx.mInstance.mPoolSys.deleteObj(param);
         //}

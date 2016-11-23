@@ -3,7 +3,7 @@
     public class ReswithDepItem : ResItem
     {
         protected ResAndDepItem mResAndDepItem;
-        protected bool m_loadNeedCoroutine;
+        protected bool mLoadNeedCoroutine;
         protected bool mIsCheckDep;
 
         public ReswithDepItem()
@@ -30,13 +30,13 @@
             base.reset();
 
             mResAndDepItem = null;
-            m_loadNeedCoroutine = false;
+            mLoadNeedCoroutine = false;
             mIsCheckDep = false;
         }
 
         protected bool hasDep()
         {
-            return Ctx.mInstance.mDepResMgr.hasDep(this.m_loadPath);
+            return Ctx.mInstance.mDepResMgr.hasDep(this.mLoadPath);
         }
 
         // 如果有依赖返回 true，没有就返回 false
@@ -49,9 +49,9 @@
             }
 
             mResAndDepItem.addEventHandle(onDepResLoaded);
-            mResAndDepItem.mLoadPath = this.m_loadPath;
-            mResAndDepItem.m_loadNeedCoroutine = this.m_loadNeedCoroutine;
-            mResAndDepItem.m_resNeedCoroutine = this.m_resNeedCoroutine;
+            mResAndDepItem.mLoadPath = this.mLoadPath;
+            mResAndDepItem.mLoadNeedCoroutine = this.mLoadNeedCoroutine;
+            mResAndDepItem.mResNeedCoroutine = this.mResNeedCoroutine;
             mResAndDepItem.loadDep();
         }
 
@@ -81,7 +81,7 @@
         {
             base.setLoadParam(param);
 
-            this.m_loadNeedCoroutine = param.m_loadNeedCoroutine;
+            this.mLoadNeedCoroutine = param.mLoadNeedCoroutine;
             this.mIsCheckDep = param.mIsCheckDep;
         }
     }

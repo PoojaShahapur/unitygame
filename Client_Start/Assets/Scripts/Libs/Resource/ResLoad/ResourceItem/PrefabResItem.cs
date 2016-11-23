@@ -36,14 +36,14 @@ namespace SDK.Lib
 
         public override string getPrefabName()         // 只有 Prefab 资源才实现这个函数
         {
-            return m_prefabName;
+            return mPrefabName;
         }
 
         public override void reset()
         {
             base.reset();
 
-            m_prefabName = null;
+            mPrefabName = null;
             mAllPrefabObj = null;
             m_retGO = null;
         }

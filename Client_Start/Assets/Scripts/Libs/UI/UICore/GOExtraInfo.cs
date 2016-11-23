@@ -2,6 +2,6 @@
 {
     public class GOExtraInfo
     {
-        public string m_path;
+        public string mPath;
     }
 }

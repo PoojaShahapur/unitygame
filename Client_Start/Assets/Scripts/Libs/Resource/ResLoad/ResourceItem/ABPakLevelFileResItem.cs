@@ -19,7 +19,7 @@
         {
             base.init(item);
             // 继续加载当前的关卡
-            //loadLevel(m_origPath);
+            //loadLevel(mOrigPath);
             m_refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
 

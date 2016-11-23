@@ -30,7 +30,7 @@ namespace SDK.Lib
             if (m_pArchiveHeader.readArchiveFileHeader(mDataStream.mFileStream, pMByteBuffer))		// 检查 magic
 			{
 				FileHeader pFileHeader;
-				for (uint idx = 0; idx < m_pArchiveHeader.m_fileCount; ++idx)
+				for (uint idx = 0; idx < m_pArchiveHeader.mFileCount; ++idx)
 				{
 					pFileHeader = new FileHeader();
 					m_pFileVec.Add(pFileHeader);

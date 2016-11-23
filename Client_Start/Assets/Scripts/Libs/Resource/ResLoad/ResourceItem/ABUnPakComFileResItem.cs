@@ -61,7 +61,7 @@ namespace SDK.Lib
         protected GameObject loadBundle(string resName)
         {
             // 目前只能同步加载
-            //if (m_resNeedCoroutine)
+            //if (mResNeedCoroutine)
             //{
             //    return loadBundleAsync(resName);
             //}
@@ -94,7 +94,7 @@ namespace SDK.Lib
                 req = m_bundle.LoadAssetAsync(m_bundlePath);
 #elif UNITY_4_6 || UNITY_4_5
                 // Unity4
-                req = m_bundle.LoadAsync(m_prefabName, typeof(GameObject));
+                req = m_bundle.LoadAsync(mPrefabName, typeof(GameObject));
 #endif
                 yield return req;
             }

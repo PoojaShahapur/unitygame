@@ -40,10 +40,10 @@ namespace SDK.Lib
 
                 LoadParam param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
                 param.setPath(path);
-                param.m_loadEventHandle = onLoadEventHandle;
+                param.mLoadEventHandle = onLoadEventHandle;
 
-                param.m_loadNeedCoroutine = false;
-                param.m_resNeedCoroutine = false;
+                param.mLoadNeedCoroutine = false;
+                param.mResNeedCoroutine = false;
 
                 Ctx.mInstance.mResLoadMgr.loadAsset(param, false);
                 Ctx.mInstance.mPoolSys.deleteObj(param);

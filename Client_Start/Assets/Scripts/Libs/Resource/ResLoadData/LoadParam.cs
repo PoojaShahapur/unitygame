@@ -4,29 +4,29 @@ namespace SDK.Lib
 {
     public class LoadParam : IRecycle
     {
-        public ResPackType m_resPackType;           // 加载资源的类型
-        public ResLoadType m_resLoadType;           // 资源加载类型
+        public ResPackType mResPackType;           // 加载资源的类型
+        public ResLoadType mResLoadType;           // 资源加载类型
 
         public string mLoadPath = "";               // 真正的资源加载目录
-        public string m_origPath = "";              // 原始资源加载目录，就是直接传递进来的目录
-        protected string m_prefabName = "";         // 预设的名字，就是在 AssetBundle 里面完整的资源目录和名字
-        protected string m_extName = "prefab";      // 加载的原始资源的扩展名字，不是 AssetBundles 的扩展名字
-        public string m_pathNoExt = "";             // mLoadPath 的没有扩展名字的路径
-        public string mLogicPath;                   // 逻辑传递进来的目录，这个目录可能是没有扩展名字的，而 m_origPath 就是有扩展名字的，如果 mLogicPath 有扩展名字，就是和 m_origPath 完全一样了
+        public string mOrigPath = "";              // 原始资源加载目录，就是直接传递进来的目录
+        protected string mPrefabName = "";         // 预设的名字，就是在 AssetBundle 里面完整的资源目录和名字
+        protected string mExtName = "prefab";      // 加载的原始资源的扩展名字，不是 AssetBundles 的扩展名字
+        public string mPathNoExt = "";             // mLoadPath 的没有扩展名字的路径
+        public string mLogicPath;                   // 逻辑传递进来的目录，这个目录可能是没有扩展名字的，而 mOrigPath 就是有扩展名字的，如果 mLogicPath 有扩展名字，就是和 mOrigPath 完全一样了
 
-        public string m_subPath = "";               // 子目录，可能一个包中有多个资源
-        public string m_pakPath = "";               // 打包的资源目录，如果打包， m_pakPath 应该就是 m_path
+        public string mSubPath = "";               // 子目录，可能一个包中有多个资源
+        public string mPakPath = "";               // 打包的资源目录，如果打包， mPakPath 应该就是 mPath
         public string mResUniqueId;                 // 资源唯一 Id，查找资源的索引
 
-        public string m_version = "";               // 加载的资源的版本号
-        protected string m_lvlName = "";            // 关卡名字
-        public MAction<IDispatchObject> m_loadEventHandle;    // 加载事件回调函数
+        public string mVersion = "";               // 加载的资源的版本号
+        protected string mLvlName = "";            // 关卡名字
+        public MAction<IDispatchObject> mLoadEventHandle;    // 加载事件回调函数
 
-        public bool m_resNeedCoroutine = true;      // 资源是否需要协同程序
-        public bool m_loadNeedCoroutine = true;     // 加载是否需要协同程序
+        public bool mResNeedCoroutine = true;      // 资源是否需要协同程序
+        public bool mLoadNeedCoroutine = true;     // 加载是否需要协同程序
 
-        public ResItem m_loadRes = null;
-        public InsResBase m_loadInsRes = null;
+        public ResItem mLoadRes = null;
+        public InsResBase mLoadInsRes = null;
         public LuaTable mLuaTable;
         public LuaFunction mLuaFunction;
         public bool mIsLoadAll;                 // 是否一次性加载所有的内容
@@ -42,7 +42,7 @@ namespace SDK.Lib
         {
             get
             {
-                return m_prefabName;
+                return mPrefabName;
             }
         }
 
@@ -50,7 +50,7 @@ namespace SDK.Lib
         {
             get
             {
-                return m_extName;
+                return mExtName;
             }
         }
 
@@ -58,19 +58,19 @@ namespace SDK.Lib
         {
             get
             {
-                return m_lvlName;
+                return mLvlName;
             }
         }
 
         public void resetDefault()          // 将数据清空，有时候上一次调用的时候的参数 m_loaded 还在，结果被认为是这一次的回调了
         {
-            m_loadEventHandle = null;
-            m_version = "";
-            m_extName = "prefab";
-            m_origPath = "";
+            mLoadEventHandle = null;
+            mVersion = "";
+            mExtName = "prefab";
+            mOrigPath = "";
 
-            m_loadRes = null;
-            m_loadInsRes = null;
+            mLoadRes = null;
+            mLoadInsRes = null;
         }
 
         // 解析目录
@@ -80,97 +80,97 @@ namespace SDK.Lib
 
             if (-1 == dotIdx)
             {
-                m_extName = "";
-                m_pathNoExt = mLoadPath;
+                mExtName = "";
+                mPathNoExt = mLoadPath;
             }
             else
             {
-                m_extName = mLoadPath.Substring(dotIdx + 1);
-                m_pathNoExt = mLoadPath.Substring(0, dotIdx);
+                mExtName = mLoadPath.Substring(dotIdx + 1);
+                mPathNoExt = mLoadPath.Substring(0, dotIdx);
             }
 
-            m_prefabName = mLoadPath;
+            mPrefabName = mLoadPath;
         }
 
         public void resolveLevel()
         {
             int slashIdx = 0;
-            if (string.IsNullOrEmpty(m_origPath))
+            if (string.IsNullOrEmpty(mOrigPath))
             {
-                slashIdx = m_pathNoExt.LastIndexOf("/");
+                slashIdx = mPathNoExt.LastIndexOf("/");
                 if (slashIdx != -1)
                 {
-                    m_lvlName = m_pathNoExt.Substring(slashIdx + 1);
+                    mLvlName = mPathNoExt.Substring(slashIdx + 1);
                 }
                 else
                 {
-                    m_lvlName = m_pathNoExt;
+                    mLvlName = mPathNoExt;
                 }
             }
             else        // 如果是打包，需要从原始加载目录获取关卡名字
             {
-                m_lvlName = UtilLogic.convScenePath2LevelName(m_origPath);
+                mLvlName = UtilLogic.convScenePath2LevelName(mOrigPath);
             }
         }
 
         public void copyFrom(LoadParam rhs)
         {
-            this.m_resPackType = rhs.m_resPackType;
-            this.m_resLoadType = rhs.m_resLoadType;
+            this.mResPackType = rhs.mResPackType;
+            this.mResLoadType = rhs.mResLoadType;
 
             this.mLoadPath = rhs.mLoadPath;
-            this.m_subPath = rhs.m_subPath;
-            this.m_pathNoExt = rhs.m_pathNoExt;
-            this.m_prefabName = rhs.m_prefabName;
-            this.m_extName = rhs.m_extName;
+            this.mSubPath = rhs.mSubPath;
+            this.mPathNoExt = rhs.mPathNoExt;
+            this.mPrefabName = rhs.mPrefabName;
+            this.mExtName = rhs.mExtName;
             this.mLogicPath = rhs.mLogicPath;
             this.mLogicPath = rhs.mLogicPath;
             this.mResUniqueId = rhs.mResUniqueId;
 
-            this.m_version = rhs.m_version;
-            this.m_lvlName = rhs.m_lvlName;
-            this.m_loadEventHandle = rhs.m_loadEventHandle;
+            this.mVersion = rhs.mVersion;
+            this.mLvlName = rhs.mLvlName;
+            this.mLoadEventHandle = rhs.mLoadEventHandle;
 
-            this.m_resNeedCoroutine = rhs.m_resNeedCoroutine;
-            this.m_loadNeedCoroutine = rhs.m_loadNeedCoroutine;
+            this.mResNeedCoroutine = rhs.mResNeedCoroutine;
+            this.mLoadNeedCoroutine = rhs.mLoadNeedCoroutine;
 
-            this.m_origPath = rhs.m_origPath;
-            this.m_pakPath = rhs.m_pakPath;
+            this.mOrigPath = rhs.mOrigPath;
+            this.mPakPath = rhs.mPakPath;
         }
 
         public void setPath(string path)
         {
             string fullPath = "";
-            m_origPath = path;
+            mOrigPath = path;
 
-            int dotIdx = m_origPath.IndexOf(".");
+            int dotIdx = mOrigPath.IndexOf(".");
             if (-1 == dotIdx)
             {
-                m_extName = "";
-                mLogicPath = m_origPath;
+                mExtName = "";
+                mLogicPath = mOrigPath;
             }
             else
             {
-                m_extName = m_origPath.Substring(dotIdx + 1);
-                //mLogicPath = m_origPath.Substring(0, dotIdx);     // mLogicPath 没有扩展名字
-                mLogicPath = m_origPath;        // mLogicPath 有扩展名字
+                mExtName = mOrigPath.Substring(dotIdx + 1);
+                //mLogicPath = mOrigPath.Substring(0, dotIdx);     // mLogicPath 没有扩展名字
+                mLogicPath = mOrigPath;        // mLogicPath 有扩展名字
             }
 
-            ResRedirectItem redirectItem = Ctx.mInstance.mResRedirect.getResRedirectItem(m_origPath);
+            ResRedirectItem redirectItem = Ctx.mInstance.mResRedirect.getResRedirectItem(mOrigPath);
             if(redirectItem != null && redirectItem.mFileVerInfo != null)
             {
                 mResUniqueId = redirectItem.mFileVerInfo.mResUniqueId;
                 mLoadPath = redirectItem.mFileVerInfo.mLoadPath;
-                m_resLoadType = redirectItem.mResLoadType;
+                mResLoadType = redirectItem.mResLoadType;
                 // 解析加载方式
                 setPackAndLoadType(redirectItem);
             }
             else
             {
                 // 如果没有就从 Resources 文件夹下加载
-                m_resLoadType = ResLoadType.eLoadResource;
-                m_resPackType = ResPackType.eResourcesType;
-                mResUniqueId = UtilPath.getFilePathNoExt(m_origPath);
+                mResLoadType = ResLoadType.eLoadResource;
+                mResPackType = ResPackType.eResourcesType;
+                mResUniqueId = UtilPath.getFilePathNoExt(mOrigPath);
                 mLoadPath = mResUniqueId;
             }
 
@@ -179,49 +179,49 @@ namespace SDK.Lib
             dotIdx = fullPath.IndexOf(".");
             if (-1 == dotIdx)
             {
-                m_pathNoExt = fullPath;
+                mPathNoExt = fullPath;
             }
             else
             {
-                m_pathNoExt = fullPath.Substring(0, dotIdx);
+                mPathNoExt = fullPath.Substring(0, dotIdx);
             }
 
-            if (m_extName != UtilApi.UNITY3D)
+            if (mExtName != UtilApi.UNITY3D)
             {
-                m_prefabName = m_pathNoExt + "." + m_extName;
+                mPrefabName = mPathNoExt + "." + mExtName;
             }
             else
             {
                 // 如果直接加载一个 .unity3d 文件，可能是一个仅仅被依赖的 AssetBundles ，也可能是一个其它被引用的 AssetBundles ，这个时候可能从 AssetBundles 里面获取任何东西，也可能不获取，因此 m_PrefabName 也需要设置对应的在 AssetBundles 中的路径。 所有依赖的 unity3d 这个文件不太一样，它在 AssetBundles 中的名字是  AssetBundleManifest ，不是 unity3d 的名字，这个需要注意
-                m_prefabName = m_pathNoExt + "." + m_extName;
+                mPrefabName = mPathNoExt + "." + mExtName;
             }
         }
 
         // 设置资源加载和打包类型
         protected void setPackAndLoadType(ResRedirectItem redirectItem)
         {
-            if (isLevelType(m_extName))
+            if (isLevelType(mExtName))
             {
-                m_resPackType = ResPackType.eLevelType;
+                mResPackType = ResPackType.eLevelType;
             }
-            else if (isPrefabType(m_extName))
+            else if (isPrefabType(mExtName))
             {
-                if (m_resLoadType == ResLoadType.eLoadResource)
+                if (mResLoadType == ResLoadType.eLoadResource)
                 {
-                    m_resPackType = ResPackType.eResourcesType;
+                    mResPackType = ResPackType.eResourcesType;
                 }
                 else
                 {
-                    m_resPackType = ResPackType.eBundleType;
+                    mResPackType = ResPackType.eBundleType;
                 }
             }
-            else if (isAssetBundleType(m_extName))
+            else if (isAssetBundleType(mExtName))
             {
-                m_resPackType = ResPackType.eBundleType;
+                mResPackType = ResPackType.eBundleType;
             }
             else
             {
-                m_resPackType = ResPackType.eDataType;
+                mResPackType = ResPackType.eDataType;
             }
         }
 

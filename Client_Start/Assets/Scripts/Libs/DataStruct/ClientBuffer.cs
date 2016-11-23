@@ -29,7 +29,7 @@
             //m_sendTmpBA = new ByteBuffer();
             m_sendTmpBuffer = new MsgBuffer();
             m_socketSendBA = new ByteBuffer();
-            //m_socketSendBA.m_id = 1000;
+            //m_socketSendBA.mId = 1000;
 
             //m_dynBuff = new DynamicBuffer<byte>(8096);
             m_unCompressHeaderBA = new ByteBuffer();

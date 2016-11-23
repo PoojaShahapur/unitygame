@@ -59,7 +59,7 @@ namespace SDK.Lib
                 req = m_bundle.LoadAssetAsync(m_bundlePath);
 #elif UNITY_4_6 || UNITY_4_5
                 // Unity4
-                req = m_bundle.LoadAsync(m_prefabName, typeof(GameObject));
+                req = m_bundle.LoadAsync(mPrefabName, typeof(GameObject));
 #endif
                 yield return req;
             }

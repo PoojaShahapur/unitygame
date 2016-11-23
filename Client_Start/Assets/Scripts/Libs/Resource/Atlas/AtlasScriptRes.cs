@@ -90,30 +90,30 @@ namespace SDK.Lib
         public void loadImage(LoadParam param)
         {
             ImageItem retImage = null;
-            if (!this.mPath2Image.ContainsKey(param.m_subPath))
+            if (!this.mPath2Image.ContainsKey(param.mSubPath))
             {
-                retImage = createImage(param.m_subPath, refCountResLoadResultNotify.resLoadState);
-                retImage.image = getSprite(param.m_subPath);
+                retImage = createImage(param.mSubPath, refCountResLoadResultNotify.resLoadState);
+                retImage.image = getSprite(param.mSubPath);
             }
             else
             {
-                retImage = this.mPath2Image[param.m_subPath];
+                retImage = this.mPath2Image[param.mSubPath];
             }
             retImage.refCountResLoadResultNotify.resLoadState.setLoading();
             retImage.refCountResLoadResultNotify.refCount.incRef();
 
             if (m_refCountResLoadResultNotify.resLoadState.hasLoaded())
             {
-                if (param.m_loadEventHandle != null)
+                if (param.mLoadEventHandle != null)
                 {
-                    param.m_loadEventHandle(retImage);
+                    param.mLoadEventHandle(retImage);
                 }
             }
             else if (m_refCountResLoadResultNotify.resLoadState.hasNotLoadOrLoading())
             {
-                if (param.m_loadEventHandle != null)
+                if (param.mLoadEventHandle != null)
                 {
-                    retImage.refCountResLoadResultNotify.loadResEventDispatch.addEventHandle(null, param.m_loadEventHandle);
+                    retImage.refCountResLoadResultNotify.loadResEventDispatch.addEventHandle(null, param.mLoadEventHandle);
                 }
             }
         }

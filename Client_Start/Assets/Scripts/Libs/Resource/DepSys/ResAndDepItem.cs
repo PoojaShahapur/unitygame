@@ -5,8 +5,8 @@ namespace SDK.Lib
     public class ResAndDepItem : IDispatchObject
     {
         public string mLoadPath;                // 加载参数
-        public bool m_loadNeedCoroutine;
-        public bool m_resNeedCoroutine;
+        public bool mLoadNeedCoroutine;
+        public bool mResNeedCoroutine;
         public string[] m_depNameArr;           // 依赖的名字数组
         public MList<string> mLoadedDepList;    // 加载成功的依赖列表
         public MList<string> mFailedDepList;    // 加载失败的依赖列表
@@ -57,9 +57,9 @@ namespace SDK.Lib
                 //{
                     LoadParam param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
                     param.setPath(m_depNameArr[i]);
-                    param.m_loadEventHandle = onLoadEventHandle;
-                    param.m_loadNeedCoroutine = m_loadNeedCoroutine;
-                    param.m_resNeedCoroutine = m_resNeedCoroutine;
+                    param.mLoadEventHandle = onLoadEventHandle;
+                    param.mLoadNeedCoroutine = mLoadNeedCoroutine;
+                    param.mResNeedCoroutine = mResNeedCoroutine;
                     Ctx.mInstance.mResLoadMgr.loadAsset(param);       // 依赖加载也需要检查依赖
                     Ctx.mInstance.mPoolSys.deleteObj(param);
                 //}

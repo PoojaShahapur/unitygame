@@ -13,10 +13,10 @@ namespace SDK.Lib
             m_id2CfgDic[id] = item;
 
             LoadParam param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
-            param.setPath(item.m_path);
-            param.m_loadEventHandle = onLoadEventHandle;
-            param.m_loadNeedCoroutine = false;
-            param.m_resNeedCoroutine = false;
+            param.setPath(item.mPath);
+            param.mLoadEventHandle = onLoadEventHandle;
+            param.mLoadNeedCoroutine = false;
+            param.mResNeedCoroutine = false;
             Ctx.mInstance.mResLoadMgr.loadAsset(param);
             Ctx.mInstance.mPoolSys.deleteObj(param);
         }
@@ -47,7 +47,7 @@ namespace SDK.Lib
         {
             foreach (KeyValuePair<XmlCfgID, XmlCfgBase> kv in m_id2CfgDic)
             {
-                if (kv.Value.m_path == path)
+                if (kv.Value.mPath == path)
                 {
                     return kv.Key;
                 }

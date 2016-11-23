@@ -24,7 +24,7 @@ namespace SDK.Lib
         protected TimerItemBase mOneAniEndTimer;       // 一个动画结束定时器
 
         protected bool mStartPlay;     // 是否直接播放
-        //protected AnimatorStateInfo m_state;
+        //protected AnimatorStateInfo mState;
         protected bool mIsIdleStateDetect;      // 是否在 Idle State 状态监测中
 
         public AnimatorControl()
@@ -79,7 +79,7 @@ namespace SDK.Lib
             set
             {
                 this.mAnimator = value;
-                //m_state = m_animator.GetCurrentAnimatorStateInfo(0);
+                //mState = m_animator.GetCurrentAnimatorStateInfo(0);
             }
         }
 
@@ -341,7 +341,7 @@ namespace SDK.Lib
 
         protected bool canStopNextFrameTimer()
         {
-            //return (m_state.length > 0);
+            //return (mState.length > 0);
             AnimatorStateInfo state = this.mAnimator.GetCurrentAnimatorStateInfo(0);
             Ctx.mInstance.mLogSys.log(string.Format("当前检测长度 {0}", state.length));
             //return (state.length > 0);

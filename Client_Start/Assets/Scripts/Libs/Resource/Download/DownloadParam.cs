@@ -18,10 +18,10 @@ namespace SDK.Lib
         public string mOrigPath;
         public string mLogicPath;
         public string mResUniqueId;
-        public string m_extName;
+        public string mExtName;
         public string mVersion = "";
 
-        public MAction<IDispatchObject> m_loadEventHandle;
+        public MAction<IDispatchObject> mLoadEventHandle;
         public DownloadType mDownloadType;
         public ResLoadType mResLoadType;
         public ResPackType mResPackType;
@@ -52,9 +52,9 @@ namespace SDK.Lib
             mResUniqueId = mOrigPath;
             mVersion = "4";
 
-            m_extName = UtilPath.getFileExt(mOrigPath);
+            mExtName = UtilPath.getFileExt(mOrigPath);
 
-            if(m_extName == UtilApi.UNITY3D)
+            if(mExtName == UtilApi.UNITY3D)
             {
                 mResPackType = ResPackType.eBundleType;
             }

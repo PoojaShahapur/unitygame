@@ -34,9 +34,9 @@
 
                 LoadParam param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
                 param.setPath(string.Format("{0}{1}", Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathScene], mPath));
-                param.m_loadEventHandle = onLevelLoaded;
-                param.m_resNeedCoroutine = false;
-                param.m_loadNeedCoroutine = false;
+                param.mLoadEventHandle = onLevelLoaded;
+                param.mResNeedCoroutine = false;
+                param.mLoadNeedCoroutine = false;
                 Ctx.mInstance.mResLoadMgr.loadAsset(param);
                 Ctx.mInstance.mPoolSys.deleteObj(param);
 
@@ -62,9 +62,9 @@
 
                 LoadParam param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
                 param.setPath(string.Format("{0}{1}", Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathScene], mPath));
-                param.m_loadEventHandle = onLevelLoaded;
-                param.m_resNeedCoroutine = true;
-                param.m_loadNeedCoroutine = true;
+                param.mLoadEventHandle = onLevelLoaded;
+                param.mResNeedCoroutine = true;
+                param.mLoadNeedCoroutine = true;
                 Ctx.mInstance.mResLoadMgr.loadAsset(param);
                 Ctx.mInstance.mPoolSys.deleteObj(param);
             }

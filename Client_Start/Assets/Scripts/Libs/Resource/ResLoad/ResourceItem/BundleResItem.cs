@@ -27,7 +27,7 @@ namespace SDK.Lib
         // 资源加载完成调用
         override protected void onResLoaded()
         {
-            if (m_resNeedCoroutine)
+            if (mResNeedCoroutine)
             {
                 Ctx.mInstance.mCoroutineMgr.StartCoroutine(initAssetByCoroutine());
             }
@@ -41,22 +41,22 @@ namespace SDK.Lib
         {
             // 加载完成获取资源，目前用到的时候再获取
             /*
-            if (!string.IsNullOrEmpty(m_prefabName) && m_bundle.Contains(m_prefabName))
+            if (!string.IsNullOrEmpty(mPrefabName) && m_bundle.Contains(mPrefabName))
             {
                 // Unity5
-                //GameObject.Instantiate(m_bundle.LoadAsset(m_prefabName));
+                //GameObject.Instantiate(m_bundle.LoadAsset(mPrefabName));
                 // Unity4
-                //GameObject.Instantiate(m_bundle.Load(m_prefabName));
+                //GameObject.Instantiate(m_bundle.Load(mPrefabName));
                 //m_bundle.Unload(false);
 
                 if(!mIsLoadAll)
                 {
 #if UNITY_5
                     // Unty5
-                    m_prefabObj = m_bundle.LoadAsset(m_prefabName);
+                    m_prefabObj = m_bundle.LoadAsset(mPrefabName);
 #elif UNITY_4_6
                     // Unity4
-                    m_prefabObj = m_bundle.Load(m_prefabName);
+                    m_prefabObj = m_bundle.Load(mPrefabName);
 #endif
                 }
                 else
@@ -76,7 +76,7 @@ namespace SDK.Lib
         {
             // 加载完成获取资源，目前用到的时候再获取
             /*
-            if (!string.IsNullOrEmpty(m_prefabName) && m_bundle.Contains(m_prefabName))
+            if (!string.IsNullOrEmpty(mPrefabName) && m_bundle.Contains(mPrefabName))
             {
                 // 加载 Prefab 资源
                 AssetBundleRequest req = null;
@@ -84,10 +84,10 @@ namespace SDK.Lib
                 {
 #if UNITY_5
                     // Unity5
-                    req = m_bundle.LoadAssetAsync(m_prefabName);
+                    req = m_bundle.LoadAssetAsync(mPrefabName);
 #elif UNITY_4_6 || UNITY_4_5
                     // Unity4
-                    req = m_bundle.LoadAsync(m_prefabName, typeof(GameObject));
+                    req = m_bundle.LoadAsync(mPrefabName, typeof(GameObject));
 #endif
                     yield return req;
 
@@ -184,7 +184,7 @@ namespace SDK.Lib
 
             //return m_bundle.Load(resName);
 
-            if (resName == m_prefabName && m_prefabObj != null)
+            if (resName == mPrefabName && m_prefabObj != null)
             {
                 return m_prefabObj;
             }

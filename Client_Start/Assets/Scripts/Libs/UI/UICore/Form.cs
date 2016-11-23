@@ -8,61 +8,61 @@ namespace SDK.Lib
 	 */
 	public class Form : Window
 	{
-        protected bool m_exitMode;               // 关闭退出模式
-		protected bool m_bHideOnCreate;         // 创建后是否隐藏
+        protected bool mExitMode;               // 关闭退出模式
+		protected bool mIsHideOnCreate;         // 创建后是否隐藏
         //protected bool m_bResLoaded;            // 资源加载进来
-        protected UIFormID m_id;
-        protected bool m_bLoadWidgetRes;                // 是否应该加载窗口资源
-        protected bool m_bReady;            // 是否准备就绪
+        protected UIFormID mId;
+        protected bool mIsLoadWidgetRes;                // 是否应该加载窗口资源
+        protected bool mIsReady;            // 是否准备就绪
 
-        protected bool m_bBlurBg;       // 是否模糊背景
-        protected bool m_bHandleExitBtn;       // 是否关联关闭按钮
+        protected bool mIsBlurBg;       // 是否模糊背景
+        protected bool mIsHandleExitBtn;       // 是否关联关闭按钮
 
-        protected LuaCSBridgeForm m_luaCSBridgeForm;
-        protected string m_formName;            // 这个是 Lua 中传的标识符，会传给 Lua 使用，客户端自己不用
-        protected Dictionary<GameObject, GOExtraInfo> m_go2Path;
+        protected LuaCSBridgeForm mLuaCSBridgeForm;
+        protected string mFormName;            // 这个是 Lua 中传的标识符，会传给 Lua 使用，客户端自己不用
+        protected Dictionary<GameObject, GOExtraInfo> mGo2Path;
 
 		public Form()
             : base()
 		{
-            m_exitMode = true;
-            m_bHideOnCreate = false;
-            m_bLoadWidgetRes = false;
-            m_bReady = false;
-            m_bBlurBg = false;
-            m_bHandleExitBtn = false;
+            mExitMode = true;
+            mIsHideOnCreate = false;
+            mIsLoadWidgetRes = false;
+            mIsReady = false;
+            mIsBlurBg = false;
+            mIsHandleExitBtn = false;
             m_alignVertial = (int)WindowAnchor.CENTER;
 			m_alignHorizontal = (int)WindowAnchor.CENTER;
 
-            m_go2Path = new Dictionary<GameObject, GOExtraInfo>();
+            mGo2Path = new Dictionary<GameObject, GOExtraInfo>();
 		}
 
         public UIFormID id
         {
             get
             {
-                return m_id;
+                return mId;
             }
             set
             {
-                m_id = value;
+                mId = value;
             }
         }
 
         public UIFormID getFormID()
         {
-            return m_id;
+            return mId;
         }
 		
 		public bool hideOnCreate
 		{
             get
             {
-                return m_bHideOnCreate;
+                return mIsHideOnCreate;
             }
             set
             {
-			    m_bHideOnCreate = value;
+			    mIsHideOnCreate = value;
             }
 		}
 
@@ -70,11 +70,11 @@ namespace SDK.Lib
         {
             get
             {
-                return m_exitMode;
+                return mExitMode;
             }
             set
             {
-                m_exitMode = value;
+                mExitMode = value;
             }
         }
 
@@ -82,11 +82,11 @@ namespace SDK.Lib
         {
             get
             {
-                return m_bLoadWidgetRes;
+                return mIsLoadWidgetRes;
             }
             set
             {
-                m_bLoadWidgetRes = true;
+                mIsLoadWidgetRes = true;
             }
         }
 
@@ -94,7 +94,7 @@ namespace SDK.Lib
         {
             get
             {
-                return m_bReady;
+                return mIsReady;
             }
         }
 
@@ -102,11 +102,11 @@ namespace SDK.Lib
         {
             get
             {
-                return m_formName;
+                return mFormName;
             }
             set
             {
-                m_formName = value;
+                mFormName = value;
             }
         }
 
@@ -114,11 +114,11 @@ namespace SDK.Lib
         {
             get
             {
-                return m_luaCSBridgeForm;
+                return mLuaCSBridgeForm;
             }
             set
             {
-                m_luaCSBridgeForm = value;
+                mLuaCSBridgeForm = value;
             }
         }
 
@@ -129,27 +129,27 @@ namespace SDK.Lib
 
         public void show()
         {
-            Ctx.mInstance.mUiMgr.showForm(m_id);
+            Ctx.mInstance.mUiMgr.showForm(mId);
         }
 
         //private void hide()
         //{
-        //    Ctx.mInstance.mUiMgr.hideForm(m_id);
+        //    Ctx.mInstance.mUiMgr.hideForm(mId);
         //}
 
         public void exit()
         {
-            Ctx.mInstance.mUiMgr.exitForm(m_id);
+            Ctx.mInstance.mUiMgr.exitForm(mId);
         }
 
         // 界面代码创建后就调用
         virtual public void onInit()
         {
-            if(m_luaCSBridgeForm != null)
+            if(mLuaCSBridgeForm != null)
             {
-                m_luaCSBridgeForm.callClassMethod("", LuaCSBridgeForm.ON_INIT);
+                mLuaCSBridgeForm.callClassMethod("", LuaCSBridgeForm.ON_INIT);
             }
-            //if (m_bLoadWidgetRes)
+            //if (mIsLoadWidgetRes)
             //{
                 // 默认会继续加载资源
                 Ctx.mInstance.mUiMgr.loadWidgetRes(this.id);
@@ -159,13 +159,13 @@ namespace SDK.Lib
         // 第一次显示之前会调用一次
         virtual public void onReady()
         {
-            if (m_luaCSBridgeForm != null)
+            if (mLuaCSBridgeForm != null)
             {
-                m_luaCSBridgeForm.callClassMethod("", LuaCSBridgeForm.ON_READY);
+                mLuaCSBridgeForm.callClassMethod("", LuaCSBridgeForm.ON_READY);
             }
 
-            m_bReady = true;
-            if (m_bHandleExitBtn)
+            mIsReady = true;
+            if (mIsHandleExitBtn)
             {
                 UtilApi.addEventHandle(m_guiWin.m_uiRoot, "BtnClose", onExitBtnClick); // 关闭事件
             }
@@ -174,12 +174,12 @@ namespace SDK.Lib
         // 每一次显示都会调用一次
         virtual public void onShow()
 		{
-            if (m_luaCSBridgeForm != null)
+            if (mLuaCSBridgeForm != null)
             {
-                m_luaCSBridgeForm.callClassMethod("", LuaCSBridgeForm.ON_SHOW);
+                mLuaCSBridgeForm.callClassMethod("", LuaCSBridgeForm.ON_SHOW);
             }
 
-            if (m_bBlurBg)
+            if (mIsBlurBg)
             {
                 //Ctx.mInstance.mUiMgr.showForm(UIFormID.eUIBlurBg);        // 显示模糊背景界面
             }
@@ -189,12 +189,12 @@ namespace SDK.Lib
         // 每一次隐藏都会调用一次
         virtual public void onHide()
 		{
-            if (m_luaCSBridgeForm != null)
+            if (mLuaCSBridgeForm != null)
             {
-                m_luaCSBridgeForm.callClassMethod("", LuaCSBridgeForm.ON_HIDE);
+                mLuaCSBridgeForm.callClassMethod("", LuaCSBridgeForm.ON_HIDE);
             }
 
-            if (m_bBlurBg)
+            if (mIsBlurBg)
             {
                 //Ctx.mInstance.mUiMgr.exitForm(UIFormID.eUIBlurBg);
             }
@@ -203,12 +203,12 @@ namespace SDK.Lib
         // 每一次关闭都会调用一次
         virtual public void onExit()
 		{
-            if (m_luaCSBridgeForm != null)
+            if (mLuaCSBridgeForm != null)
             {
-                m_luaCSBridgeForm.callClassMethod("", LuaCSBridgeForm.ON_EXIT);
+                mLuaCSBridgeForm.callClassMethod("", LuaCSBridgeForm.ON_EXIT);
             }
 
-            if (m_bBlurBg)
+            if (mIsBlurBg)
             {
                 //Ctx.mInstance.mUiMgr.exitForm(UIFormID.eUIBlurBg);
             }
@@ -297,11 +297,11 @@ namespace SDK.Lib
 
         protected void onBtnClk(GameObject go_)
         {
-            if(m_luaCSBridgeForm != null)
+            if(mLuaCSBridgeForm != null)
             {
-                if(m_go2Path.ContainsKey(go_))
+                if(mGo2Path.ContainsKey(go_))
                 {
-                    m_luaCSBridgeForm.handleUIEvent("onBtnClk", m_formName, m_go2Path[go_].m_path);
+                    mLuaCSBridgeForm.handleUIEvent("onBtnClk", mFormName, mGo2Path[go_].mPath);
                 }
             }
 
@@ -315,10 +315,10 @@ namespace SDK.Lib
             GameObject btnGo = UtilApi.TransFindChildByPObjAndPath(go, path);
             if(btnGo = null)
             {
-                if(!m_go2Path.ContainsKey(btnGo))
+                if(!mGo2Path.ContainsKey(btnGo))
                 {
-                    m_go2Path[btnGo] = new GOExtraInfo();
-                    m_go2Path[btnGo].m_path = path;
+                    mGo2Path[btnGo] = new GOExtraInfo();
+                    mGo2Path[btnGo].mPath = path;
                 }
             }
         }
@@ -329,9 +329,9 @@ namespace SDK.Lib
             GameObject btnGo = UtilApi.TransFindChildByPObjAndPath(go, path);
             if(btnGo != null)
             {
-                if(m_go2Path.ContainsKey(btnGo))
+                if(mGo2Path.ContainsKey(btnGo))
                 {
-                    m_go2Path.Remove(btnGo);
+                    mGo2Path.Remove(btnGo);
                 }
             }
         }

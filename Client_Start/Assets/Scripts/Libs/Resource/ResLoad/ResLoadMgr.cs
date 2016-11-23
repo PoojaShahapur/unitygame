@@ -51,8 +51,8 @@ namespace SDK.Lib
         // 重置加载设置
         protected void resetLoadParam(LoadParam loadParam)
         {
-            loadParam.m_loadNeedCoroutine = true;
-            loadParam.m_resNeedCoroutine = true;
+            loadParam.mLoadNeedCoroutine = true;
+            loadParam.mResNeedCoroutine = true;
         }
 
         // 资源是否已经加载，包括成功和失败
@@ -113,19 +113,19 @@ namespace SDK.Lib
             {
                 if (param.mLoadPath.IndexOf(PakSys.PAK_EXT) != -1)     // 如果加载的是打包文件
                 {
-                    param.m_resPackType = ResPackType.ePakType;
+                    param.mResPackType = ResPackType.ePakType;
                 }
                 else        // 加载的是非打包文件
                 {
-                    param.m_resPackType = ResPackType.eUnPakType;
+                    param.mResPackType = ResPackType.eUnPakType;
                 }
                 load(param);
             }
             else if (MacroDef.UNPKG_RES_LOAD)
             {
                 // 判断资源所在的目录，是在 StreamingAssets 目录还是在 persistentData 目录下，目前由于没有完成，只能从 StreamingAssets 目录下加载
-                param.m_resPackType = ResPackType.eUnPakType;
-                param.m_resLoadType = ResLoadType.eLoadStreamingAssets;
+                param.mResPackType = ResPackType.eUnPakType;
+                param.mResLoadType = ResLoadType.eLoadStreamingAssets;
                 load(param);
             }
             else
@@ -147,14 +147,14 @@ namespace SDK.Lib
 
             if (MacroDef.PKG_RES_LOAD)
             {
-                param.m_resPackType = ResPackType.ePakLevelType;
+                param.mResPackType = ResPackType.ePakLevelType;
                 param.resolvePath();
                 load(param);
             }
             else if (MacroDef.UNPKG_RES_LOAD)
             {
-                param.m_resPackType = ResPackType.eUnPakLevelType;
-                param.m_resLoadType = ResLoadType.eLoadStreamingAssets;
+                param.mResPackType = ResPackType.eUnPakLevelType;
+                param.mResLoadType = ResLoadType.eLoadStreamingAssets;
                 load(param);
             }
             else
@@ -166,19 +166,19 @@ namespace SDK.Lib
         // 加载资源，内部决定加载方式，可能从 Resources 下加载或者从 StreamingAssets 下加载，或者从 PersistentDataPath 下加载。isCheckDep 是否检查依赖， "AssetBundleManifest" 这个依赖文件是不需要检查依赖的
         public void loadAsset(LoadParam param, bool isCheckDep = true)
         {
-            if (param.m_resPackType == ResPackType.eResourcesType)
+            if (param.mResPackType == ResPackType.eResourcesType)
             {
-                param.m_resPackType = ResPackType.eResourcesType;
-                param.m_resLoadType = ResLoadType.eLoadResource;
+                param.mResPackType = ResPackType.eResourcesType;
+                param.mResLoadType = ResLoadType.eLoadResource;
 
                 loadResources(param);
             }
-            else if (param.m_resPackType == ResPackType.eBundleType)
+            else if (param.mResPackType == ResPackType.eBundleType)
             {
                 param.mIsCheckDep = isCheckDep;
                 loadBundle(param);
             }
-            else if (param.m_resPackType == ResPackType.eLevelType)
+            else if (param.mResPackType == ResPackType.eLevelType)
             {
                 loadLevel(param);
             }
@@ -190,8 +190,8 @@ namespace SDK.Lib
 
         public ResItem createResItem(LoadParam param)
         {
-            ResItem resItem = findResFormPool(param.m_resPackType);
-            if (ResPackType.eLevelType == param.m_resPackType)
+            ResItem resItem = findResFormPool(param.mResPackType);
+            if (ResPackType.eLevelType == param.mResPackType)
             {
                 if (resItem == null)
                 {
@@ -199,7 +199,7 @@ namespace SDK.Lib
                 }
                 (resItem as LevelResItem).levelName = param.lvlName;
             }
-            else if (ResPackType.eBundleType == param.m_resPackType)
+            else if (ResPackType.eBundleType == param.mResPackType)
             {
                 if (resItem == null)
                 {
@@ -208,7 +208,7 @@ namespace SDK.Lib
 
                 (resItem as BundleResItem).prefabName = param.prefabName;
             }
-            else if (ResPackType.eResourcesType == param.m_resPackType)
+            else if (ResPackType.eResourcesType == param.mResPackType)
             {
                 if (resItem == null)
                 {
@@ -217,21 +217,21 @@ namespace SDK.Lib
 
                 (resItem as PrefabResItem).prefabName = param.prefabName;
             }
-            else if (ResPackType.eDataType == param.m_resPackType)
+            else if (ResPackType.eDataType == param.mResPackType)
             {
                 if (resItem == null)
                 {
                     resItem = new DataResItem();
                 }
             }
-            else if (ResPackType.eUnPakType == param.m_resPackType)
+            else if (ResPackType.eUnPakType == param.mResPackType)
             {
                 if (resItem == null)
                 {
                     resItem = new ABUnPakComFileResItem();
                 }
             }
-            else if (ResPackType.eUnPakLevelType == param.m_resPackType)
+            else if (ResPackType.eUnPakLevelType == param.mResPackType)
             {
                 if (resItem == null)
                 {
@@ -239,14 +239,14 @@ namespace SDK.Lib
                 }
                 (resItem as ABUnPakLevelFileResItem).levelName = param.lvlName;
             }
-            else if (ResPackType.ePakType == param.m_resPackType)
+            else if (ResPackType.ePakType == param.mResPackType)
             {
                 if (resItem == null)
                 {
                     resItem = new ABPakComFileResItem();
                 }
             }
-            else if (ResPackType.ePakLevelType == param.m_resPackType)
+            else if (ResPackType.ePakLevelType == param.mResPackType)
             {
                 if (resItem == null)
                 {
@@ -254,14 +254,14 @@ namespace SDK.Lib
                 }
                 (resItem as ABPakLevelFileResItem).levelName = param.lvlName;
             }
-            //else if (ResPackType.ePakMemType == param.m_resPackType)
+            //else if (ResPackType.ePakMemType == param.mResPackType)
             //{
             //    if (resitem == null)
             //    {
             //        resitem = new ABMemUnPakComFileResItem();
             //    }
             //}
-            //else if (ResPackType.ePakMemLevelType == param.m_resPackType)
+            //else if (ResPackType.ePakMemLevelType == param.mResPackType)
             //{
             //    if (resitem == null)
             //    {
@@ -274,11 +274,11 @@ namespace SDK.Lib
             resItem.refCountResLoadResultNotify.refCount.incRef();
             resItem.setLoadParam(param);
 
-            if (param.m_loadEventHandle != null)
+            if (param.mLoadEventHandle != null)
             {
                 resItem.refCountResLoadResultNotify.loadResEventDispatch.addEventHandle(
                     null, 
-                    param.m_loadEventHandle
+                    param.mLoadEventHandle
                     );
             }
 
@@ -287,23 +287,23 @@ namespace SDK.Lib
 
         protected LoadItem createLoadItem(LoadParam param)
         {
-            LoadItem loadItem = findLoadItemFormPool(param.m_resPackType);
+            LoadItem loadItem = findLoadItemFormPool(param.mResPackType);
 
-            if (ResPackType.eResourcesType == param.m_resPackType)        // 默认 Bundle 中资源
+            if (ResPackType.eResourcesType == param.mResPackType)        // 默认 Bundle 中资源
             {
                 if (loadItem == null)
                 {
                     loadItem = new ResourceLoadItem();
                 }
             }
-            else if (ResPackType.eBundleType == param.m_resPackType)        // Bundle 打包模式
+            else if (ResPackType.eBundleType == param.mResPackType)        // Bundle 打包模式
             {
                 if (loadItem == null)
                 {
                     loadItem = new BundleLoadItem();
                 }
             }
-            else if (ResPackType.eLevelType == param.m_resPackType)
+            else if (ResPackType.eLevelType == param.mResPackType)
             {
                 if (loadItem == null)
                 {
@@ -312,21 +312,21 @@ namespace SDK.Lib
 
                 (loadItem as LevelLoadItem).levelName = param.lvlName;
             }
-            else if (ResPackType.eDataType == param.m_resPackType)
+            else if (ResPackType.eDataType == param.mResPackType)
             {
                 if (loadItem == null)
                 {
                     loadItem = new DataLoadItem();
                 }
             }
-            else if (ResPackType.eUnPakType == param.m_resPackType || ResPackType.eUnPakLevelType == param.m_resPackType)
+            else if (ResPackType.eUnPakType == param.mResPackType || ResPackType.eUnPakLevelType == param.mResPackType)
             {
                 if (loadItem == null)
                 {
                     loadItem = new ABUnPakLoadItem();
                 }
             }
-            else if (ResPackType.ePakType == param.m_resPackType || ResPackType.ePakLevelType == param.m_resPackType)
+            else if (ResPackType.ePakType == param.mResPackType || ResPackType.ePakLevelType == param.mResPackType)
             {
                 if (loadItem == null)
                 {
@@ -346,16 +346,16 @@ namespace SDK.Lib
             m_LoadData.m_path2Res[param.mResUniqueId].refCountResLoadResultNotify.refCount.incRef();
             if (m_LoadData.m_path2Res[param.mResUniqueId].refCountResLoadResultNotify.resLoadState.hasLoaded())
             {
-                if (param.m_loadEventHandle != null)
+                if (param.mLoadEventHandle != null)
                 {
-                    param.m_loadEventHandle(m_LoadData.m_path2Res[param.mResUniqueId]);
+                    param.mLoadEventHandle(m_LoadData.m_path2Res[param.mResUniqueId]);
                 }
             }
             else
             {
-                if (param.m_loadEventHandle != null)
+                if (param.mLoadEventHandle != null)
                 {
-                    m_LoadData.m_path2Res[param.mResUniqueId].refCountResLoadResultNotify.loadResEventDispatch.addEventHandle(null, param.m_loadEventHandle);
+                    m_LoadData.m_path2Res[param.mResUniqueId].refCountResLoadResultNotify.loadResEventDispatch.addEventHandle(null, param.mLoadEventHandle);
                 }
             }
 
@@ -404,7 +404,7 @@ namespace SDK.Lib
             {
                 loadWithResCreatedAndLoad(param);
             }
-            else if(param.m_loadRes != null)
+            else if(param.mLoadRes != null)
             {
                 loadWithResCreatedAndNotLoad(param, m_LoadData.m_path2Res[param.mResUniqueId]);
             }

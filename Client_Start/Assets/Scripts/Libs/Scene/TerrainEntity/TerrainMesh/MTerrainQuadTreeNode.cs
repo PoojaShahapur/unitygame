@@ -38,7 +38,7 @@ namespace SDK.Lib
         protected int mCurIndexBufferIndex;
         protected bool mIsVertexDataInit;
 
-        protected bool m_bShowBoundBox;         // 显示 BoundBox
+        protected bool mIsShowBoundBox;         // 显示 BoundBox
         protected MAABBMeshRender m_aabbMeshRender;
         protected MTreeNodeStateNotify mTreeNodeStateNotify;
         protected bool mIsSceneGraphVisible;
@@ -66,7 +66,7 @@ namespace SDK.Lib
             mAABB = new MAxisAlignedBox(MAxisAlignedBox.Extent.EXTENT_FINITE);
             mWorldAabb = new MAxisAlignedBox(MAxisAlignedBox.Extent.EXTENT_FINITE);
             mIsVertexDataInit = false;
-            m_bShowBoundBox = false;
+            mIsShowBoundBox = false;
             mTreeNodeStateNotify = new MTreeNodeStateNotify(this);
             mIsSceneGraphVisible = false;
 
@@ -559,7 +559,7 @@ namespace SDK.Lib
 
         protected void showBoundBox()
         {
-            if (m_bShowBoundBox)
+            if (mIsShowBoundBox)
             {
                 if (m_aabbMeshRender == null)
                 {
@@ -576,7 +576,7 @@ namespace SDK.Lib
 
         protected void hideBoundBox()
         {
-            if (m_bShowBoundBox)
+            if (mIsShowBoundBox)
             {
                 if (m_aabbMeshRender != null)
                 {

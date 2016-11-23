@@ -7,10 +7,10 @@ namespace SDK.Lib
      */
     public class ModuleHandleItem
     {
-        public MAction<IDispatchObject> m_loadEventHandle;
+        public MAction<IDispatchObject> mLoadEventHandle;
         public ModuleID m_moduleID;
         public string m_moduleLayerPath;            // 所在的 Layer 的目录
-        public string m_path;                       // 资源所在的目录
+        public string mPath;                       // 资源所在的目录
         public bool m_isLoaded;         // 指明模块是否加载过
     }
 }

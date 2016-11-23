@@ -10,7 +10,7 @@ namespace SDK.Lib
     {
         public MapXml()
         {
-            m_path = string.Format("{0}{1}", Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathXmlCfg], "battleconfig.xml");
+            mPath = string.Format("{0}{1}", Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathXmlCfg], "battleconfig.xml");
         }
 
         public override void parseXml(string str)

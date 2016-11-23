@@ -135,7 +135,7 @@ namespace SDK.Lib
             }
             loadItem.setLoadParam(param);
             loadItem.refCountResLoadResultNotify.loadResEventDispatch.addEventHandle(null, onLoadEventHandle);
-            loadItem.allLoadResEventDispatch.addEventHandle(null, param.m_loadEventHandle);
+            loadItem.allLoadResEventDispatch.addEventHandle(null, param.mLoadEventHandle);
 
             return loadItem;
         }
@@ -145,16 +145,16 @@ namespace SDK.Lib
             m_LoadData.m_path2LDItem[param.mResUniqueId].refCountResLoadResultNotify.refCount.incRef();
             if (m_LoadData.m_path2LDItem[param.mResUniqueId].refCountResLoadResultNotify.resLoadState.hasLoaded())
             {
-                if (param.m_loadEventHandle != null)
+                if (param.mLoadEventHandle != null)
                 {
-                    param.m_loadEventHandle(m_LoadData.m_path2LDItem[param.mResUniqueId]);
+                    param.mLoadEventHandle(m_LoadData.m_path2LDItem[param.mResUniqueId]);
                 }
             }
             else
             {
-                if (param.m_loadEventHandle != null)
+                if (param.mLoadEventHandle != null)
                 {
-                    m_LoadData.m_path2LDItem[param.mResUniqueId].allLoadResEventDispatch.addEventHandle(null, param.m_loadEventHandle);
+                    m_LoadData.m_path2LDItem[param.mResUniqueId].allLoadResEventDispatch.addEventHandle(null, param.mLoadEventHandle);
                 }
             }
 

@@ -291,7 +291,7 @@ namespace SDK.Lib
                     LoadParam param;
                     param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
                     param.setPath(path);
-                    param.m_loadEventHandle = onload;
+                    param.mLoadEventHandle = onload;
                     Ctx.mInstance.mModelMgr.load<ModelRes>(param);
                     Ctx.mInstance.mPoolSys.deleteObj(param);
                 }

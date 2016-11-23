@@ -28,48 +28,48 @@ namespace SDK.Lib
     // 顶点数据
     public class Vertex
     {
-        public int m_id;
-        public State m_state;
-        public Vertex m_nearestVert;
-        public float m_distance;
-        public bool m_bNeighborValid;      // 邻居数据是否有效，因为可能动态修改阻挡点
-        public List<int> m_vertsIdVec;          // 保存邻居顶点 Id，这个数值只有在使用的时候才会动态生成，初始化的时候并不生成
-        public MStopPoint m_pStopPoint;            // 阻挡点信息
+        public int mId;
+        public State mState;
+        public Vertex mNearestVert;
+        public float mDistance;
+        public bool mIsNeighborValid;      // 邻居数据是否有效，因为可能动态修改阻挡点
+        public List<int> mVertsIdVec;          // 保存邻居顶点 Id，这个数值只有在使用的时候才会动态生成，初始化的时候并不生成
+        public MStopPoint mStopPoint;            // 阻挡点信息
 
         public Vertex()
         {
-            m_vertsIdVec = new List<int>();
+            mVertsIdVec = new List<int>();
             reset();
         }
 
         public void dispose()
         {
-            if (m_pStopPoint != null)
+            if (mStopPoint != null)
             {
-                m_pStopPoint = null;
+                mStopPoint = null;
             }
         }
 
         public void reset()
         {
-            //m_id = 0;
-            m_state = State.Unknown;
-            m_nearestVert = null;
-            m_distance = float.MaxValue;
-            m_bNeighborValid = false;
-            m_pStopPoint = null;
-            m_vertsIdVec.Clear();
+            //mId = 0;
+            mState = State.Unknown;
+            mNearestVert = null;
+            mDistance = float.MaxValue;
+            mIsNeighborValid = false;
+            mStopPoint = null;
+            mVertsIdVec.Clear();
         }
 
         public void setNeighborVertsId(int[] neighborVertIdArr, int len = 8)
         {
-            m_vertsIdVec.Clear();
-            m_bNeighborValid = true;
+            mVertsIdVec.Clear();
+            mIsNeighborValid = true;
             for (int idx = 0; idx < len; ++idx)
             {
                 if (neighborVertIdArr[idx] != -1)
                 {
-                    m_vertsIdVec.Add(neighborVertIdArr[idx]);
+                    mVertsIdVec.Add(neighborVertIdArr[idx]);
                 }
             }
         }
@@ -164,7 +164,7 @@ namespace SDK.Lib
                 pVertex = new Vertex();
                 this.mVertsVec.Add(pVertex);
                 pVertex.reset();
-                pVertex.m_id = idx;
+                pVertex.mId = idx;
             }
         }
 
@@ -187,7 +187,7 @@ namespace SDK.Lib
                 && ny >= 0 && ny < this.mYCount)
             {
                 int index = ny * this.mXCount + nx;
-                if (this.mVertsVec[index].m_pStopPoint != null)         // 如果有阻挡点
+                if (this.mVertsVec[index].mStopPoint != null)         // 如果有阻挡点
                 {
                     return true;
                 }
@@ -263,7 +263,7 @@ namespace SDK.Lib
         public void addStopPoint(int nx, int ny, MStopPoint pStopPoint)
         {
             int vertId = convXYToVertId(nx, ny);
-            this.mVertsVec[vertId].m_pStopPoint = pStopPoint;
+            this.mVertsVec[vertId].mStopPoint = pStopPoint;
 
             setNeighborInvalidByVertId(vertId);
         }
@@ -416,15 +416,15 @@ namespace SDK.Lib
         protected void setNeighborInvalidByVertId(int vertId)
         {
             // 需要修改邻居是这个顶点的其它顶点的邻居
-            if (!this.mVertsVec[vertId].m_bNeighborValid)
+            if (!this.mVertsVec[vertId].mIsNeighborValid)
             {
                 findNeighborVertIdArr(vertId);
                 this.mVertsVec[vertId].setNeighborVertsId(this.mNeighborVertIdArr);
             }
 
-            for (int neighborIdx = 0; neighborIdx < this.mVertsVec[vertId].m_vertsIdVec.Count; ++neighborIdx)
+            for (int neighborIdx = 0; neighborIdx < this.mVertsVec[vertId].mVertsIdVec.Count; ++neighborIdx)
             {
-                this.mVertsVec[this.mVertsVec[vertId].m_vertsIdVec[neighborIdx]].m_bNeighborValid = false;
+                this.mVertsVec[this.mVertsVec[vertId].mVertsIdVec[neighborIdx]].mIsNeighborValid = false;
             }
         }
 

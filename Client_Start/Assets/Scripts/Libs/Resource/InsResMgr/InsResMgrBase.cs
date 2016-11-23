@@ -33,8 +33,8 @@ namespace SDK.Lib
             T ret = null;
             LoadParam param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
             param.setPath(path);
-            param.m_loadNeedCoroutine = true;
-            param.m_resNeedCoroutine = true;
+            param.mLoadNeedCoroutine = true;
+            param.mResNeedCoroutine = true;
             param.mLuaTable = luaTable;
             param.mLuaFunction = luaFunction;
             param.mIsLoadAll = isLoadAll;
@@ -49,9 +49,9 @@ namespace SDK.Lib
             T ret = null;
             LoadParam param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
             param.setPath(path);
-            param.m_loadNeedCoroutine = true;
-            param.m_resNeedCoroutine = true;
-            param.m_loadEventHandle = handle;
+            param.mLoadNeedCoroutine = true;
+            param.mResNeedCoroutine = true;
+            param.mLoadEventHandle = handle;
             param.mIsLoadAll = isLoadAll;
             ret = getAndLoad<T>(param);
             Ctx.mInstance.mPoolSys.deleteObj(param);
@@ -73,9 +73,9 @@ namespace SDK.Lib
             LoadParam param;
             param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
             param.setPath(path);
-            // param.m_loadEventHandle = onLoadEventHandle;        // 这个地方是同步加载，因此不需要回调，如果写了，就会形成死循环， InsResBase 中的 init 又会调用 onLoadEventHandle 这个函数，这个函数是外部回调的函数，由于同步加载，没有回调，因此不要设置这个 param.m_loadEventHandle = onLoadEventHandle ，内部会自动调用
-            param.m_loadNeedCoroutine = false;
-            param.m_resNeedCoroutine = false;
+            // param.mLoadEventHandle = onLoadEventHandle;        // 这个地方是同步加载，因此不需要回调，如果写了，就会形成死循环， InsResBase 中的 init 又会调用 onLoadEventHandle 这个函数，这个函数是外部回调的函数，由于同步加载，没有回调，因此不要设置这个 param.mLoadEventHandle = onLoadEventHandle ，内部会自动调用
+            param.mLoadNeedCoroutine = false;
+            param.mResNeedCoroutine = false;
             param.mIsLoadAll = isLoadAll;
             load<T>(param);
             Ctx.mInstance.mPoolSys.deleteObj(param);
@@ -87,7 +87,7 @@ namespace SDK.Lib
             ret.refCountResLoadResultNotify.refCount.incRef();
             ret.setLoadParam(param);
 
-            ret.refCountResLoadResultNotify.loadResEventDispatch.addEventHandle(null, param.m_loadEventHandle, param.mLuaTable, param.mLuaFunction);
+            ret.refCountResLoadResultNotify.loadResEventDispatch.addEventHandle(null, param.mLoadEventHandle, param.mLuaTable, param.mLuaFunction);
 
             return ret;
         }
@@ -97,9 +97,9 @@ namespace SDK.Lib
             m_path2ResDic[param.mResUniqueId].refCountResLoadResultNotify.refCount.incRef();
             if (m_path2ResDic[param.mResUniqueId].refCountResLoadResultNotify.resLoadState.hasLoaded())
             {
-                if (param.m_loadEventHandle != null)
+                if (param.mLoadEventHandle != null)
                 {
-                    param.m_loadEventHandle(m_path2ResDic[param.mResUniqueId]);        // 直接通知上层完成加载
+                    param.mLoadEventHandle(m_path2ResDic[param.mResUniqueId]);        // 直接通知上层完成加载
                 }
                 else if(null != param.mLuaTable && null != param.mLuaFunction)
                 {
@@ -112,9 +112,9 @@ namespace SDK.Lib
             }
             else
             {
-                if (param.m_loadEventHandle != null)
+                if (param.mLoadEventHandle != null)
                 {
-                    m_path2ResDic[param.mResUniqueId].refCountResLoadResultNotify.loadResEventDispatch.addEventHandle(null, param.m_loadEventHandle, param.mLuaTable, param.mLuaFunction);
+                    m_path2ResDic[param.mResUniqueId].refCountResLoadResultNotify.loadResEventDispatch.addEventHandle(null, param.mLoadEventHandle, param.mLuaTable, param.mLuaFunction);
                 }
             }
         }
@@ -123,7 +123,7 @@ namespace SDK.Lib
         {
             m_path2ResDic[param.mResUniqueId] = resItem;
             m_path2ResDic[param.mResUniqueId].refCountResLoadResultNotify.resLoadState.setLoading();
-            param.m_loadEventHandle = onLoadEventHandle;
+            param.mLoadEventHandle = onLoadEventHandle;
             Ctx.mInstance.mResLoadMgr.loadAsset(param);
         }
 
@@ -141,9 +141,9 @@ namespace SDK.Lib
             {
                 loadWithResCreatedAndLoad(param);
             }
-            else if(param.m_loadInsRes != null)
+            else if(param.mLoadInsRes != null)
             {
-                loadWithResCreatedAndNotLoad<T>(param, param.m_loadInsRes as T);
+                loadWithResCreatedAndNotLoad<T>(param, param.mLoadInsRes as T);
             }
             else
             {

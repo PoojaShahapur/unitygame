@@ -23,20 +23,20 @@ namespace SDK.Lib
             if (!m_path2ResDic.ContainsKey(param.mResUniqueId))
             {
                 // 保存加载事件处理，因为这个时候资源还没有加载，这次调用仅仅是想加载 AtlasScriptRes ，不想直接回调事件处理函数
-                MAction<IDispatchObject> tmpLoadEventHandle = param.m_loadEventHandle;
-                param.m_loadEventHandle = null;
+                MAction<IDispatchObject> tmpLoadEventHandle = param.mLoadEventHandle;
+                param.mLoadEventHandle = null;
 
                 AtlasScriptRes atlasRes = createResItem<AtlasScriptRes>(param);
 
-                param.m_loadEventHandle = tmpLoadEventHandle;
+                param.mLoadEventHandle = tmpLoadEventHandle;
                 tmpLoadEventHandle = null;
 
                 atlasRes.loadImage(param);
 
-                tmpLoadEventHandle = param.m_loadEventHandle;
-                param.m_loadEventHandle = null;
+                tmpLoadEventHandle = param.mLoadEventHandle;
+                param.mLoadEventHandle = null;
 
-                param.m_loadInsRes = atlasRes;
+                param.mLoadInsRes = atlasRes;
                 load<AtlasScriptRes>(param);
             }
             else
@@ -48,7 +48,7 @@ namespace SDK.Lib
         public ImageItem getAndLoadImage(LoadParam param)
         {
             loadImage(param);
-            return getImage(param.mResUniqueId, param.m_subPath);
+            return getImage(param.mResUniqueId, param.mSubPath);
         }
 
         public void syncLoadImage(string atlasName, string spriteName)
@@ -56,9 +56,9 @@ namespace SDK.Lib
             LoadParam param;
             param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
             param.setPath(atlasName);
-            param.m_subPath = spriteName;
-            param.m_loadNeedCoroutine = false;
-            param.m_resNeedCoroutine = false;
+            param.mSubPath = spriteName;
+            param.mLoadNeedCoroutine = false;
+            param.mResNeedCoroutine = false;
             loadImage(param);
             Ctx.mInstance.mPoolSys.deleteObj(param);
         }

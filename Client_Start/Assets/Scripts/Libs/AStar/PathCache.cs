@@ -4,12 +4,12 @@ namespace SDK.Lib
 {
     public class CacheItem
     {
-        public List<int> m_vertsIdVec = null;          // 顶点路径列表
+        public List<int> mVertsIdVec = null;          // 顶点路径列表
         public bool m_bValid;
 
         public CacheItem()
         {
-            m_vertsIdVec = new List<int>();
+            mVertsIdVec = new List<int>();
         }
     };
 
@@ -44,7 +44,7 @@ namespace SDK.Lib
                 m_rowCol2PathMap[startId][endId] = new CacheItem();
             }
 
-            m_rowCol2PathMap[startId][endId].m_vertsIdVec.Clear();
+            m_rowCol2PathMap[startId][endId].mVertsIdVec.Clear();
             m_rowCol2PathMap[startId][endId].m_bValid = true;
             return m_rowCol2PathMap[startId][endId];
         }

@@ -93,7 +93,7 @@ namespace SDK.Lib
                     LoadParam param;
                     param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
                     param.setPath(this.mTexPath);
-                    param.m_loadEventHandle = onTexLoadEventHandle;
+                    param.mLoadEventHandle = onTexLoadEventHandle;
                     Ctx.mInstance.mTexMgr.load<TextureRes>(param);
                     Ctx.mInstance.mPoolSys.deleteObj(param);
                 }

@@ -5,15 +5,15 @@ namespace SDK.Lib
 {
     public class ResItem : IDispatchObject
     {
-        protected ResPackType m_resPackType;    // 资源打包类型
-        protected ResLoadType m_resLoadType;    // 资源加载类型
+        protected ResPackType mResPackType;    // 资源打包类型
+        protected ResLoadType mResLoadType;    // 资源加载类型
 
-        protected string m_loadPath;            // 完整的目录
-        protected string m_origPath;            // 原始的资源目录
-        protected string m_extName;             // 扩展名字
-        protected string m_prefabName;          // 预制名字
+        protected string mLoadPath;            // 完整的目录
+        protected string mOrigPath;            // 原始的资源目录
+        protected string mExtName;             // 扩展名字
+        protected string mPrefabName;          // 预制名字
 
-        protected bool m_resNeedCoroutine;      // 资源是否需要协同程序
+        protected bool mResNeedCoroutine;      // 资源是否需要协同程序
         protected RefCountResLoadResultNotify m_refCountResLoadResultNotify;
         protected bool mIsLoadAll;               // 是否加载所有的内容
         protected string mResUniqueId;          // 资源唯一 Id，查找资源的索引
@@ -27,18 +27,18 @@ namespace SDK.Lib
 
         public ResPackType GetResPackType()
         {
-            return m_resPackType;
+            return mResPackType;
         }
 
         public ResPackType resPackType
         {
             get
             {
-                return m_resPackType;
+                return mResPackType;
             }
             set
             {
-                m_resPackType = value;
+                mResPackType = value;
             }
         }
 
@@ -46,11 +46,11 @@ namespace SDK.Lib
         {
             get
             {
-                return m_loadPath;
+                return mLoadPath;
             }
             set
             {
-                m_loadPath = value;
+                mLoadPath = value;
             }
         }
 
@@ -58,11 +58,11 @@ namespace SDK.Lib
         {
             get
             {
-                return m_origPath;
+                return mOrigPath;
             }
             set
             {
-                m_origPath = value;
+                mOrigPath = value;
             }
         }
 
@@ -70,11 +70,11 @@ namespace SDK.Lib
         {
             get
             {
-                return m_extName;
+                return mExtName;
             }
             set
             {
-                m_extName = value;
+                mExtName = value;
             }
         }
 
@@ -82,17 +82,17 @@ namespace SDK.Lib
         {
             get
             {
-                return m_prefabName;
+                return mPrefabName;
             }
             set
             {
-                m_prefabName = value;
+                mPrefabName = value;
             }
         }
 
         public string getLoadPath()
         {
-            return m_loadPath;
+            return mLoadPath;
         }
 
         public void setLogicPath(string value)
@@ -109,11 +109,11 @@ namespace SDK.Lib
         {
             get
             {
-                return m_resNeedCoroutine;
+                return mResNeedCoroutine;
             }
             set
             {
-                m_resNeedCoroutine = value;
+                mResNeedCoroutine = value;
             }
         }
 
@@ -121,11 +121,11 @@ namespace SDK.Lib
         {
             get
             {
-                return m_resLoadType;
+                return mResLoadType;
             }
             set
             {
-                m_resLoadType = value;
+                mResLoadType = value;
             }
         }
 
@@ -169,7 +169,7 @@ namespace SDK.Lib
 
         public virtual string getPrefabName()
         {
-            return m_prefabName;
+            return mPrefabName;
         }
 
         virtual public void init(LoadItem item)
@@ -185,7 +185,7 @@ namespace SDK.Lib
 
         virtual public void reset()
         {
-            m_loadPath = "";
+            mLoadPath = "";
             m_refCountResLoadResultNotify.resLoadState.reset();
             m_refCountResLoadResultNotify.refCount.refNum = 0;
         }
@@ -238,22 +238,22 @@ namespace SDK.Lib
 
         public void copyFrom(ResItem rhv)
         {
-            m_resPackType = rhv.m_resPackType;
-            m_resLoadType = rhv.m_resLoadType;
-            m_loadPath = rhv.m_loadPath;
-            m_origPath = rhv.m_origPath;
-            m_extName = rhv.m_extName;
-            m_resNeedCoroutine = rhv.m_resNeedCoroutine;
+            mResPackType = rhv.mResPackType;
+            mResLoadType = rhv.mResLoadType;
+            mLoadPath = rhv.mLoadPath;
+            mOrigPath = rhv.mOrigPath;
+            mExtName = rhv.mExtName;
+            mResNeedCoroutine = rhv.mResNeedCoroutine;
             m_refCountResLoadResultNotify.copyFrom(rhv.refCountResLoadResultNotify);
         }
 
         virtual public void setLoadParam(LoadParam param)
         {
-            this.resNeedCoroutine = param.m_resNeedCoroutine;
-            this.resPackType = param.m_resPackType;
-            this.resLoadType = param.m_resLoadType;
+            this.resNeedCoroutine = param.mResNeedCoroutine;
+            this.resPackType = param.mResPackType;
+            this.resLoadType = param.mResLoadType;
             this.loadPath = param.mLoadPath;
-            this.origPath = param.m_origPath;
+            this.origPath = param.mOrigPath;
             this.extName = param.extName;
             this.setLoadAll(param.mIsLoadAll);
             this.setResUniqueId(param.mResUniqueId);

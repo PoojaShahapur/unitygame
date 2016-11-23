@@ -61,7 +61,7 @@ namespace SDK.Lib
         {
             LoadParam param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
             param.setPath(Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathSceneXml] + filename);
-            param.m_loadEventHandle = onSceneCfgLoadded;
+            param.mLoadEventHandle = onSceneCfgLoadded;
             Ctx.mInstance.mResLoadMgr.loadBundle(param);
             Ctx.mInstance.mPoolSys.deleteObj(param);
         }

@@ -20,7 +20,7 @@ namespace UnitTest
             LoadParam param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
             string resPath = "Anim/boxcampush";
             param.setPath(resPath);
-            param.m_loadEventHandle = onLoadEventHandle;
+            param.mLoadEventHandle = onLoadEventHandle;
             Ctx.mInstance.mResLoadMgr.loadAsset(param);
             Ctx.mInstance.mPoolSys.deleteObj(param);
         }

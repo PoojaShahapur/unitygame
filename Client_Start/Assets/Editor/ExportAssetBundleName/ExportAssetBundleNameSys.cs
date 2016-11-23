@@ -5,11 +5,11 @@ namespace EditorTool
 {
     public class ExportAssetBundleNameSys
     {
-        protected AssetBundleNameXmlData m_abNameXmlData;
+        protected AssetBundleNameXmlData mAbNameXmlData;
 
         public ExportAssetBundleNameSys()
         {
-            m_abNameXmlData = new AssetBundleNameXmlData();
+            mAbNameXmlData = new AssetBundleNameXmlData();
         }
 
         public void init()
@@ -19,26 +19,26 @@ namespace EditorTool
 
         public void clear()
         {
-            m_abNameXmlData.clear();
+            mAbNameXmlData.clear();
         }
 
         public void parseXml()
         {
-            m_abNameXmlData.parseXml();
+            mAbNameXmlData.parseXml();
         }
 
         public void setAssetBundleName()
         {
-            m_abNameXmlData.setAssetBundleName();
+            mAbNameXmlData.setAssetBundleName();
         }
 
         // 导出 Res 目录 AB 资源名字映射
         public void exportResABKV()
         {
-            List<string> m_list = new List<string>();
-            m_abNameXmlData.exportResABKV(m_list);
+            List<string> list = new List<string>();
+            mAbNameXmlData.exportResABKV(list);
 
-            writeFile(UtilEditor.getWorkPath("AssetBundlePath.txt"), m_list);
+            writeFile(UtilEditor.getWorkPath("AssetBundlePath.txt"), list);
         }
 
         public void writeFile(string path, List<string> list)

@@ -64,8 +64,8 @@
                 param.setPath(this.mResPath);
 
                 // 这个需要立即加载
-                param.m_loadNeedCoroutine = false;
-                param.m_resNeedCoroutine = false;
+                param.mLoadNeedCoroutine = false;
+                param.mResNeedCoroutine = false;
 
                 this.mModelRes = Ctx.mInstance.mModelMgr.getAndLoad<ModelRes>(param);
                 Ctx.mInstance.mPoolSys.deleteObj(param);

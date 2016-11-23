@@ -8,7 +8,7 @@
         override public void initByPakRes()
         {
             base.initByPakRes();
-            initByBytes(m_resItem.getBytes(m_loadPath), PRE_PATH);
+            initByBytes(m_resItem.getBytes(mLoadPath), PRE_PATH);
         }
     }
 }

@@ -74,13 +74,13 @@ namespace Game.Game
         public void loadUI()
         {
             //LoadParam param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
-            //param.m_path = Ctx.mInstance.mCfg.m_pathLst[(int)ResPathType.ePathComUI] + "UIScrollForm.unity3d";
+            //param.mPath = Ctx.mInstance.mCfg.m_pathLst[(int)ResPathType.ePathComUI] + "UIScrollForm.unity3d";
             //param.m_type = ResPackType.eBundleType;
-            //param.m_resLoadType = ResLoadType.eLoadDicWeb;
-            //param.m_prefabName = "UIScrollForm";
+            //param.mResLoadType = ResLoadType.eLoadDicWeb;
+            //param.mPrefabName = "UIScrollForm";
             //param.m_loadedcb = onResLoad;
-            //param.m_resNeedCoroutine = false;
-            //param.m_loadNeedCoroutine = true;
+            //param.mResNeedCoroutine = false;
+            //param.mLoadNeedCoroutine = true;
             //Ctx.mInstance.mResLoadMgr.load(param);
 
             Ctx.mInstance.mUiMgr.loadForm(UIFormID.eUITest);

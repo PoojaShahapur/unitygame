@@ -10,12 +10,12 @@ namespace SDK.Lib
 		public byte[] m_magic;			// 幻数
 		public byte m_endian;			// 大小端
 		public uint m_headerSize;		// 头部大小
-		public uint m_version;			// 版本
-		public uint m_fileCount;		// 文件总共数量
+		public uint mVersion;			// 版本
+		public uint mFileCount;		// 文件总共数量
 
 		public ArchiveHeader()
 		{
-			m_version = ARCHIVETOOL_VERSION;
+			mVersion = ARCHIVETOOL_VERSION;
 
 			m_magic = new byte[4];
 			m_magic[0] = (byte)'a';
@@ -28,7 +28,7 @@ namespace SDK.Lib
 
 		public void clear()
 		{
-			m_fileCount = 0;
+			mFileCount = 0;
 			m_headerSize = 0;
 		}
 
@@ -56,9 +56,9 @@ namespace SDK.Lib
             pMByteBuffer.readUnsignedInt32(ref m_headerSize);
 
 			// 读取版本
-            pMByteBuffer.readUnsignedInt32(ref m_version);
+            pMByteBuffer.readUnsignedInt32(ref mVersion);
 			// 读取文件数量
-            pMByteBuffer.readUnsignedInt32(ref m_fileCount);
+            pMByteBuffer.readUnsignedInt32(ref mFileCount);
 
 			// 读取整个头
 			pMByteBuffer.clear ();

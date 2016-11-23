@@ -33,7 +33,7 @@ namespace UnitTest
             LoadParam param;
             param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
             param.setPath("Model/log.prefab");
-            param.m_loadEventHandle = onLoadEventHandle;
+            param.mLoadEventHandle = onLoadEventHandle;
             Ctx.mInstance.mModelMgr.load<ModelRes>(param);
             Ctx.mInstance.mPoolSys.deleteObj(param);
         }
@@ -61,8 +61,8 @@ namespace UnitTest
             LoadParam param;
             param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
             param.setPath(CVAtlasName.TuJianDyn);
-            param.m_subPath = "ka1_paizu";
-            param.m_loadEventHandle = onImageLoadEventHandle;
+            param.mSubPath = "ka1_paizu";
+            param.mLoadEventHandle = onImageLoadEventHandle;
             Ctx.mInstance.mAtlasMgr.getAndLoadImage(param);
             Ctx.mInstance.mPoolSys.deleteObj(param);
         }
@@ -88,7 +88,7 @@ namespace UnitTest
             LoadParam param;
             param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
             param.setPath("UI/UIChat/UIChat.prefab");
-            param.m_loadEventHandle = onUIPrefabLoadEventHandle;
+            param.mLoadEventHandle = onUIPrefabLoadEventHandle;
             PrefabRes aaa = Ctx.mInstance.mPrefabMgr.getAndLoad<PrefabRes>(param);
             Ctx.mInstance.mPoolSys.deleteObj(param);
 
@@ -96,7 +96,7 @@ namespace UnitTest
 
             param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
             param.setPath("UI/UIChat/UIChat.prefab");
-            param.m_loadEventHandle = onUIPrefabLoadEventHandle;
+            param.mLoadEventHandle = onUIPrefabLoadEventHandle;
             PrefabRes bbb = Ctx.mInstance.mPrefabMgr.getAndLoad<PrefabRes>(param);
             Ctx.mInstance.mPoolSys.deleteObj(param);
 
@@ -108,15 +108,15 @@ namespace UnitTest
             LoadParam param;
             param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
             param.setPath(CVAtlasName.TuJianDyn);
-            param.m_subPath = "ka1_paizu";
-            param.m_loadEventHandle = onImageLoadEventHandle;
+            param.mSubPath = "ka1_paizu";
+            param.mLoadEventHandle = onImageLoadEventHandle;
             ImageItem aaa = Ctx.mInstance.mAtlasMgr.getAndLoadImage(param);
             Ctx.mInstance.mPoolSys.deleteObj(param);
 
             param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
             param.setPath(CVAtlasName.TuJianDyn);
-            param.m_subPath = "ka1_paizu";
-            param.m_loadEventHandle = onImageLoadEventHandle;
+            param.mSubPath = "ka1_paizu";
+            param.mLoadEventHandle = onImageLoadEventHandle;
             ImageItem bbb = Ctx.mInstance.mAtlasMgr.getAndLoadImage(param);
             Ctx.mInstance.mPoolSys.deleteObj(param);
 
@@ -129,8 +129,8 @@ namespace UnitTest
             LoadParam param;
             param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
             param.setPath("Animation/Scene/CommonCard.controller");
-            param.m_loadNeedCoroutine = false;
-            param.m_resNeedCoroutine = false;
+            param.mLoadNeedCoroutine = false;
+            param.mResNeedCoroutine = false;
             ResItem bbb = Ctx.mInstance.mResLoadMgr.getAndLoad(param);
             System.Type type = bbb.getObject("").GetType();
             Ctx.mInstance.mLogSys.log(string.Format("类型名字 {0}", type.FullName));
@@ -146,8 +146,8 @@ namespace UnitTest
             LoadParam param;
             param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
             param.setPath("Animation/Scene/Control.prefab");
-            param.m_loadNeedCoroutine = false;
-            param.m_resNeedCoroutine = false;
+            param.mLoadNeedCoroutine = false;
+            param.mResNeedCoroutine = false;
             PrefabResItem bbb = Ctx.mInstance.mResLoadMgr.getAndLoad(param) as PrefabResItem;
             Ctx.mInstance.mPoolSys.deleteObj(param);
 
@@ -168,8 +168,8 @@ namespace UnitTest
             LoadParam param;
             param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
             param.setPath(path);
-            param.m_loadNeedCoroutine = false;
-            param.m_resNeedCoroutine = false;
+            param.mLoadNeedCoroutine = false;
+            param.mResNeedCoroutine = false;
             PrefabResItem bbb = Ctx.mInstance.mResLoadMgr.getAndLoad(param) as PrefabResItem;
             Ctx.mInstance.mPoolSys.deleteObj(param);
         }

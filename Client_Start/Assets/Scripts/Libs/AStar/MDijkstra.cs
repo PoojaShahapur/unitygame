@@ -11,7 +11,7 @@ namespace SDK.Lib
             while (vert != null)
             {
                 this.mPathList.Insert(0, vert);
-                vert = vert.m_nearestVert;
+                vert = vert.mNearestVert;
             }
             this.mPathList.Insert(0, this.mStartVert);      // 把最初的顶点放进去
         }
@@ -43,7 +43,7 @@ namespace SDK.Lib
                 throw new Exception("Failed to find the start/end node(s)!");
             }
 
-            this.mStartVert.m_distance = 0;
+            this.mStartVert.mDistance = 0;
         }
 
         protected void resetAllVerts(int startId)
@@ -53,13 +53,13 @@ namespace SDK.Lib
             for (int vertIdx = 0; vertIdx < this.mVertsCount; ++vertIdx)
             {
                 pVert = this.mVertsVec[vertIdx];
-                pVert.m_state = State.Unknown;    // 全部顶点初始化为未知对短路径状态
-                pVert.m_distance = adjacentCost(startId, vertIdx); //将与 startId 点有连线的顶点加上权值
-                pVert.m_nearestVert = null;    // 初始化路径的前一个顶点
+                pVert.mState = State.Unknown;    // 全部顶点初始化为未知对短路径状态
+                pVert.mDistance = adjacentCost(startId, vertIdx); //将与 startId 点有连线的顶点加上权值
+                pVert.mNearestVert = null;    // 初始化路径的前一个顶点
             }
 
-            this.mStartVert.m_distance = 0;    //  startId 至 startId 路径为0
-            this.mStartVert.m_state = State.Closed;    // m_startVert->m_state 表示 startId 至 startId 不需要求路径，已经添加到确认队列中了
+            this.mStartVert.mDistance = 0;    //  startId 至 startId 路径为0
+            this.mStartVert.mState = State.Closed;    // m_startVert->mState 表示 startId 至 startId 不需要求路径，已经添加到确认队列中了
         }
 
         protected bool findNextClosedVert(ref float minDist, ref int minIdx, List<int> closedVec)
@@ -73,19 +73,19 @@ namespace SDK.Lib
             // 只要遍历周围 8 个顶点就可以了，因为格子寻路只能是和自己周围的 8 个格子才有权重，和其它的格子是没有权重的
             for (closedIdx = 0; closedIdx < closedVec.Count; ++closedIdx)
             {
-                if (!this.mVertsVec[closedVec[closedIdx]].m_bNeighborValid)     // 如果邻居数据是无效的
+                if (!this.mVertsVec[closedVec[closedIdx]].mIsNeighborValid)     // 如果邻居数据是无效的
                 {
                     findNeighborVertIdArr(closedVec[closedIdx]);
                     this.mVertsVec[closedVec[closedIdx]].setNeighborVertsId(this.mNeighborVertIdArr);
                 }
 
-                for (neighborVertIdx = 0; neighborVertIdx < this.mVertsVec[closedVec[closedIdx]].m_vertsIdVec.Count; ++neighborVertIdx)
+                for (neighborVertIdx = 0; neighborVertIdx < this.mVertsVec[closedVec[closedIdx]].mVertsIdVec.Count; ++neighborVertIdx)
                 {
-                    pVert = this.mVertsVec[this.mVertsVec[closedVec[closedIdx]].m_vertsIdVec[neighborVertIdx]];
-                    if (pVert.m_state != State.Closed && pVert.m_distance < minDist)
+                    pVert = this.mVertsVec[this.mVertsVec[closedVec[closedIdx]].mVertsIdVec[neighborVertIdx]];
+                    if (pVert.mState != State.Closed && pVert.mDistance < minDist)
                     {
-                        minDist = pVert.m_distance; // w顶点离 startId 顶点更近
-                        minIdx = pVert.m_id;
+                        minDist = pVert.mDistance; // w顶点离 startId 顶点更近
+                        minIdx = pVert.mId;
                         bFindNextClosedVert = true;             // 说明查找到了
                     }
                 }
@@ -100,20 +100,20 @@ namespace SDK.Lib
             Vertex pVert = null;
 
             // 只需要遍历最新加入 closed 的顶点的邻居顶点
-            if (!this.mVertsVec[minIdx].m_bNeighborValid)       // 如果邻居数据是无效的
+            if (!this.mVertsVec[minIdx].mIsNeighborValid)       // 如果邻居数据是无效的
             {
                 findNeighborVertIdArr(minIdx);
                 this.mVertsVec[minIdx].setNeighborVertsId(this.mNeighborVertIdArr);
             }
-            for (neighborVertIdx = 0; neighborVertIdx < this.mVertsVec[minIdx].m_vertsIdVec.Count; ++neighborVertIdx) // 修正当前最短路径距离
+            for (neighborVertIdx = 0; neighborVertIdx < this.mVertsVec[minIdx].mVertsIdVec.Count; ++neighborVertIdx) // 修正当前最短路径距离
             {
-                pVert = this.mVertsVec[this.mVertsVec[minIdx].m_vertsIdVec[neighborVertIdx]];
+                pVert = this.mVertsVec[this.mVertsVec[minIdx].mVertsIdVec[neighborVertIdx]];
                 // 如果经过V顶点的路径比现在这条路径的长度短的话
-                if (pVert.m_state != State.Closed && (minDist + adjacentCost(minIdx, pVert.m_id) < pVert.m_distance))
+                if (pVert.mState != State.Closed && (minDist + adjacentCost(minIdx, pVert.mId) < pVert.mDistance))
                 {
                     // 说明找到了最短的路径，修改D[w] 和 p[w]
-                    pVert.m_distance = minDist + adjacentCost(minIdx, pVert.m_id); // 修改当前路径长度
-                    pVert.m_nearestVert = this.mVertsVec[minIdx];
+                    pVert.mDistance = minDist + adjacentCost(minIdx, pVert.mId); // 修改当前路径长度
+                    pVert.mNearestVert = this.mVertsVec[minIdx];
                 }
             }
         }
@@ -146,9 +146,9 @@ namespace SDK.Lib
                 // 要遍历 m_closedVec 中的点，不能只遍历 minIdx 附近的点，可能有些路径开始权重比较小，后面权重比较大，但是有些路径开始权重比较大，后期权重比较小
                 if (findNextClosedVert(ref minDist, ref minIdx, this.mClosedVec))   // 如果查找到了下一个最短的未确认的索引
                 {
-                    // 注意起始顶点和第二个顶点之间是没有 m_nearestVert ，因此需要手工将第一个顶点放到路径列表中去
+                    // 注意起始顶点和第二个顶点之间是没有 mNearestVert ，因此需要手工将第一个顶点放到路径列表中去
                     pVert = this.mVertsVec[minIdx];
-                    pVert.m_state = State.Closed; // 将目前找到的最近的顶点置为 State::Closed 
+                    pVert.mState = State.Closed; // 将目前找到的最近的顶点置为 State::Closed 
                     this.mClosedVec.Add(minIdx);
 
                     modifyVertsDist(ref minDist, ref minIdx);
@@ -170,7 +170,7 @@ namespace SDK.Lib
             {
                 buildPath(this.mEndVert);   // 生成路径列表
                 smoothPath();
-                convVertList2VertIdVec(this.mPathCache.getAndAddPathCache(startId, endId).m_vertsIdVec);        // 缓存目录
+                convVertList2VertIdVec(this.mPathCache.getAndAddPathCache(startId, endId).mVertsIdVec);        // 缓存目录
             }
         }
 
@@ -197,7 +197,7 @@ namespace SDK.Lib
         {
             foreach (var vert in this.mPathList)
             {
-                vertsIdVec.Add(vert.m_id);
+                vertsIdVec.Add(vert.mId);
             }
         }
 
@@ -210,7 +210,7 @@ namespace SDK.Lib
         {
             if (isPathCacheValid(startId, endId))
             {
-                convVertIdVec2VertList(this.mPathCache.getPathCache(startId, endId).m_vertsIdVec);
+                convVertIdVec2VertList(this.mPathCache.getPathCache(startId, endId).mVertsIdVec);
             }
             else
             {
@@ -229,10 +229,10 @@ namespace SDK.Lib
         {
             foreach (var vert in this.mVertsVec)
             {
-                if (vert.m_pStopPoint != null)      // 可能通过 m_id2StopPtMap[idx] 导致添加数据，因此这里判断
+                if (vert.mStopPoint != null)      // 可能通过 m_id2StopPtMap[idx] 导致添加数据，因此这里判断
                 {
-                    setNeighborInvalidByVertId(vert.m_id);
-                    vert.m_pStopPoint = null;
+                    setNeighborInvalidByVertId(vert.mId);
+                    vert.mStopPoint = null;
                 }
             }
         }
@@ -298,8 +298,8 @@ namespace SDK.Lib
 
             int curId = 0;
 
-            convVertIdToXY(startVert.m_id, ref startX, ref startY);
-            convVertIdToXY(endVert.m_id, ref endX, ref endY);
+            convVertIdToXY(startVert.mId, ref startX, ref startY);
+            convVertIdToXY(endVert.mId, ref endX, ref endY);
 
             minX = Math.Min(startX, endX);
             minY = Math.Min(startY, endY);
@@ -311,7 +311,7 @@ namespace SDK.Lib
                 for (int xIdx = minX; xIdx <= maxX; ++xIdx)
                 {
                     curId = convXYToVertId(xIdx, yIdx);
-                    if (this.mVertsVec[curId].m_pStopPoint != null)
+                    if (this.mVertsVec[curId].mStopPoint != null)
                     {
                         return false;
                     }
