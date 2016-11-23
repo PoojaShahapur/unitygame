@@ -76,6 +76,16 @@
 			}
 		}
 
+        public void processNew()
+        {
+            if (_rpos < _wpos)
+            {
+                messageReader.process(_buffer, 0, (uint)_wpos);
+                Interlocked.Exchange(ref _rpos, 0);
+                Interlocked.Exchange(ref _wpos, 0);
+            }
+        }
+
         public void pushBuffer(byte[] byteArr, uint len)
         {
             Interlocked.Add(ref _rpos, 0);

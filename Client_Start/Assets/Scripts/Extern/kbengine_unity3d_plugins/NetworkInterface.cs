@@ -232,7 +232,7 @@
             //    return;
 
             if (_packetReceiver != null)
-                _packetReceiver.process();
+                _packetReceiver.processNew();
         }
 
         // 添加一个缓冲区
