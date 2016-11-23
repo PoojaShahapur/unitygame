@@ -520,6 +520,8 @@
 			KBEngineApp.app._clientdatas = datas;
 
             //KBEngineApp.app.login_loginapp(true);
+            // 设置链接成功
+            _networkInterface.set_onConnectStatus(null);
             // TODO: 直接进入链接成功
             this.onConnectTo_loginapp_callback("", 0, true, null);
         }

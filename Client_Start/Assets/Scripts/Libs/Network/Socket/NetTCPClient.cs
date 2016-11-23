@@ -145,7 +145,7 @@ namespace SDK.Lib
         }
 
         // 异步连接回调
-        void ConnectionCallback(System.IAsyncResult ar)
+        private void ConnectionCallback(System.IAsyncResult ar)
         {
             try
             {
@@ -195,7 +195,7 @@ namespace SDK.Lib
             }
         }
 
-        // 接受数据
+        // 接收数据
         public void Receive()
         {
             // 只有 socket 连接的时候才继续接收数据
@@ -215,7 +215,7 @@ namespace SDK.Lib
         }
 
         // 接收头消息
-        void ReceiveData(System.IAsyncResult ar)
+        private void ReceiveData(System.IAsyncResult ar)
         {
             if (!checkAndUpdateConnect())        // 如果连接完成后直接断开，这个时候如果再使用 mSocket.EndReceive 这个函数就会抛出异常
             {
@@ -236,7 +236,7 @@ namespace SDK.Lib
 
                 if (read > 0)
                 {
-                    Ctx.mInstance.mLogSys.log("接收到数据 " + read.ToString());
+                    Ctx.mInstance.mLogSys.log("Receive data " + read.ToString());
                     mClientBuffer.dynBuffer.size = (uint)read; // 设置读取大小
                     //mClientBuffer.moveDyn2Raw();             // 将接收到的数据放到原始数据队列
                     //mClientBuffer.moveRaw2Msg();             // 将完整的消息移动到消息缓冲区
@@ -254,7 +254,7 @@ namespace SDK.Lib
             {
                 // 输出日志
                 Ctx.mInstance.mLogSys.error(e.Message);
-                Ctx.mInstance.mLogSys.error("接收数据出错");
+                Ctx.mInstance.mLogSys.error("Receive data error");
                 // 断开链接
                 Disconnect(0);
             }
@@ -281,7 +281,8 @@ namespace SDK.Lib
                 {
                     if (mClientBuffer.sendTmpBuffer.circularBuffer.size > 0)      // 如果发送临时缓冲区有数据要发
                     {
-                        mClientBuffer.getSocketSendData();
+                        //mClientBuffer.getSocketSendData();
+                        mClientBuffer.getSocketSendData_KBE();
                     }
 
                     if (mClientBuffer.sendBuffer.bytesAvailable == 0)        // 如果发送缓冲区中确实没有数据
@@ -334,11 +335,11 @@ namespace SDK.Lib
                 try
                 {
                     int bytesSent = mSocket.EndSend(ar);
-                    Ctx.mInstance.mLogSys.log(string.Format("结束发送字节数 {0} ", bytesSent));
+                    Ctx.mInstance.mLogSys.log(string.Format("End send bytes num {0} ", bytesSent));
 
                     if (mClientBuffer.sendBuffer.length < mClientBuffer.sendBuffer.position + (uint)bytesSent)
                     {
-                        Ctx.mInstance.mLogSys.log(string.Format("结束发送字节数错误 {0}", bytesSent));
+                        Ctx.mInstance.mLogSys.log(string.Format("End send bytes error {0}", bytesSent));
                         mClientBuffer.sendBuffer.setPos(mClientBuffer.sendBuffer.length);
                     }
                     else
@@ -348,7 +349,7 @@ namespace SDK.Lib
 
                     if (mClientBuffer.sendBuffer.bytesAvailable > 0)     // 如果上一次发送的数据还没发送完成，继续发送
                     {
-                        Send();                 // 继续发送数据
+                        this.Send();                 // 继续发送数据
                     }
                 }
                 catch (System.Exception e)

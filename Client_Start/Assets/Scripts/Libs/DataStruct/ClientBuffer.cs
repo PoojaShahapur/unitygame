@@ -239,7 +239,7 @@
         {
             using (MLock mlock = new MLock(mReadMutex))
             {
-                if (mMsgBuffer.popFront_KBE())
+                if (mMsgBuffer.popFrontAll())
                 {
                     return mMsgBuffer.msgBodyBA;
                 }
@@ -276,6 +276,23 @@
                 // CompressAndEncryptAllInOne();
             }
             mSocketSendBA.position = 0;        // 设置指针 pos
+        }
+
+        // TODO: KBEngine 获取发送数据
+        public void getSocketSendData_KBE()
+        {
+            mSocketSendBA.clear();
+
+            // 获取完数据，就解锁
+            using (MLock mlock = new MLock(mWriteMutex))
+            {
+                if (mSendTmpBuffer.popFrontAll())
+                {
+                    mSocketSendBA.writeBytes(mSendTmpBuffer.msgBodyBA.dynBuffer.buffer, 0, mSendTmpBuffer.msgBodyBA.length);             // 写入消息体
+                }
+            }
+
+            mSocketSendBA.setPos(0);        // 设置指针 pos
         }
 
         // 压缩加密每一个包

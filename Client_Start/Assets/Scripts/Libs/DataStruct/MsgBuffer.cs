@@ -108,7 +108,7 @@
         /**
          * @brief KBEngine 引擎消息处理
          */
-        public bool popFront_KBE()
+        public bool popFrontAll()
         {
             bool ret = false;
 

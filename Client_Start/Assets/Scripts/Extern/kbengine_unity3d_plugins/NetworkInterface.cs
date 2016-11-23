@@ -88,8 +88,7 @@
 		
 		public virtual bool valid()
 		{
-            //return ((_socket != null) && (_socket.Connected == true));
-            return true;
+            return ((_socket != null) && (_socket.Connected == true));
 		}
 		
 		public void _onConnectStatus(ConnectState state)
@@ -205,10 +204,10 @@
 
 		public bool send(MemoryStream stream)
 		{
-			if (!valid())
-			{
-				throw new ArgumentException("invalid socket!");
-			}
+			//if (!valid())
+			//{
+			//	throw new ArgumentException("invalid socket!");
+			//}
 
 			if (_packetSender == null)
 				_packetSender = new PacketSender(this);
@@ -238,7 +237,24 @@
         // 添加一个缓冲区
         public void pushBuffer(byte[] byteArr, uint len)
         {
-            _packetReceiver.process();
+            _packetReceiver.pushBuffer(byteArr, len);
+        }
+
+        public void set_onConnectStatus(ConnectState state)
+        {
+            KBEngine.Event.deregisterIn(this);
+
+            bool success = true;
+            if (success)
+            {
+                _packetReceiver = new PacketReceiver(this);
+            }
+            else
+            {
+                Dbg.ERROR_MSG("NetworkInterface::_onConnectStatus(), connect is error! ip");
+            }
+
+            Event.fireAll("onConnectStatus", new object[] { success });
         }
     }
 }

@@ -78,18 +78,18 @@
 		{
 			fini(true);
 			
-			if(networkInterface.valid())
-			{
+			//if(networkInterface.valid())
+			//{
 				for(int i=0; i<streamList.Count; i++)
 				{
 					stream = streamList[i];
 					networkInterface.send(stream);
 				}
-			}
-			else
-			{
-				Dbg.ERROR_MSG("Bundle::send: networkInterface invalid!");  
-			}
+			//}
+			//else
+			//{
+			//	Dbg.ERROR_MSG("Bundle::send: networkInterface invalid!");  
+			//}
 
 			// 把不用的MemoryStream放回缓冲池，以减少垃圾回收的消耗
 			for (int i = 0; i < streamList.Count; ++i)
