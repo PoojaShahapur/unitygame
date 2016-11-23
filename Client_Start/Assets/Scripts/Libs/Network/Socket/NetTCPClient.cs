@@ -236,13 +236,19 @@ namespace SDK.Lib
                     m_clientBuffer.moveRaw2Msg();             // 将完整的消息移动到消息缓冲区
                     Receive();                  // 继续接收
                 }
+                else
+                {
+                    // 断开链接
+                    Disconnect(0);
+                }
             }
             catch (System.Exception e)
             {
                 // 输出日志
                 Ctx.mInstance.mLogSys.error(e.Message);
                 Ctx.mInstance.mLogSys.error("接收数据出错");
-                //Disconnect(0);
+                // 断开链接
+                Disconnect(0);
             }
         }
 
@@ -299,7 +305,8 @@ namespace SDK.Lib
                     }
                     // 输出日志
                     Ctx.mInstance.mLogSys.error(e.Message);
-                    //Disconnect(0);
+                    // 断开链接
+                    Disconnect(0);
                 }
             }
         }
@@ -340,7 +347,7 @@ namespace SDK.Lib
                 {
                     // 输出日志
                     Ctx.mInstance.mLogSys.error(e.Message);
-                    //Disconnect(0);
+                    Disconnect(0);
                 }
             }
         }
