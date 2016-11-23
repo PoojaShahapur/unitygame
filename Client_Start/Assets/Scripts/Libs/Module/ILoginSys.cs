@@ -5,8 +5,8 @@
     */
     public interface ILoginSys
     {
-        LoginState get_LoginState();
-        void set_LoginState(LoginState state);
+        LoginState getLoginState();
+        void setLoginState(LoginState state);
         void connectLoginServer(string name, string passwd);
         void unload();
         uint getUserID();

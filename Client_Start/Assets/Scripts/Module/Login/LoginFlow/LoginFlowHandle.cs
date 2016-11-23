@@ -30,7 +30,7 @@ namespace Game.Login
 
         public void connectLoginServer(string name, string passwd)
         {
-            Ctx.mInstance.mLoginSys.set_LoginState(LoginState.eLoginingLoginServer);     // 设置登陆状态
+            Ctx.mInstance.mLoginSys.setLoginState(LoginState.eLoginingLoginServer);     // 设置登陆状态
 
             this.mName = name;
             this.mPasswd = passwd;
@@ -47,7 +47,7 @@ namespace Game.Login
         // socket 打开
         public void onLoginServerSocketOpened()
         {
-            Ctx.mInstance.mLoginSys.set_LoginState(LoginState.eLoginSuccessLoginServer);     // 设置登陆状态
+            Ctx.mInstance.mLoginSys.setLoginState(LoginState.eLoginSuccessLoginServer);     // 设置登陆状态
             Ctx.mInstance.mLogSys.log(Ctx.mInstance.mLangMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem1));
             this.sendMsg1f();
         }
@@ -140,14 +140,14 @@ namespace Game.Login
         // 登陆网关服务器
         public void connectGateServer()
         {
-            Ctx.mInstance.mLoginSys.set_LoginState(LoginState.eLoginingGateServer);     // 设置登陆状态
+            Ctx.mInstance.mLoginSys.setLoginState(LoginState.eLoginingGateServer);     // 设置登陆状态
             Ctx.mInstance.mLogSys.log(Ctx.mInstance.mLangMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem6));
             Ctx.mInstance.mNetMgr.openSocket(this.mGateIP, this.mGatePort);
         }
 
         public void onGateServerSocketOpened()
         {
-            Ctx.mInstance.mLoginSys.set_LoginState(LoginState.eLoginSuccessGateServer);     // 设置登陆状态
+            Ctx.mInstance.mLoginSys.setLoginState(LoginState.eLoginSuccessGateServer);     // 设置登陆状态
 
             // 登陆成功开始加密解密数据包
             if (MacroDef.MSG_ENCRIPT)
@@ -201,48 +201,48 @@ namespace Game.Login
             {
                 Ctx.mInstance.mLogSys.log(Ctx.mInstance.mLangMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem13));
                 // 重新登陆
-                Ctx.mInstance.mLoginSys.set_LoginState(LoginState.eLoginInfoError);
+                Ctx.mInstance.mLoginSys.setLoginState(LoginState.eLoginInfoError);
             }
             else if ((byte)ERetResult.LOGIN_RETURN_PASSWORDERROR == cmd.byReturnCode)   // 用户名或者密码错误
             {
-                Ctx.mInstance.mLoginSys.set_LoginState(LoginState.eLoginInfoError);
+                Ctx.mInstance.mLoginSys.setLoginState(LoginState.eLoginInfoError);
                 InfoBoxParam param = Ctx.mInstance.mPoolSys.newObject<InfoBoxParam>();
                 param.m_midDesc = Ctx.mInstance.mLangMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem16);
             }
             else if ((byte)ERetResult.LOGIN_RETURN_VERSIONERROR == cmd.byReturnCode)        // 版本错误，重新登陆
             {
-                Ctx.mInstance.mLoginSys.set_LoginState(LoginState.eLoginInfoError);
+                Ctx.mInstance.mLoginSys.setLoginState(LoginState.eLoginInfoError);
                 InfoBoxParam param = Ctx.mInstance.mPoolSys.newObject<InfoBoxParam>();
                 param.m_midDesc = Ctx.mInstance.mLangMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem17);
             }
             else if ((byte)ERetResult.LOGIN_RETURN_CHARNAMEREPEAT == cmd.byReturnCode)       // 建立角色名字重复
             {
-                Ctx.mInstance.mLoginSys.set_LoginState(LoginState.eLoginNewCharError);
+                Ctx.mInstance.mLoginSys.setLoginState(LoginState.eLoginNewCharError);
                 Ctx.mInstance.mLogSys.log(Ctx.mInstance.mLangMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem14));
                 InfoBoxParam param = Ctx.mInstance.mPoolSys.newObject<InfoBoxParam>();
                 param.m_midDesc = Ctx.mInstance.mLangMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem14);
             }
             else if((byte)ERetResult.LOGIN_RETURN_CHARNAME_FORBID == cmd.byReturnCode)  // 用户名字不符合要求
             {
-                Ctx.mInstance.mLoginSys.set_LoginState(LoginState.eLoginNewCharError);
+                Ctx.mInstance.mLoginSys.setLoginState(LoginState.eLoginNewCharError);
                 InfoBoxParam param = Ctx.mInstance.mPoolSys.newObject<InfoBoxParam>();
                 param.m_midDesc = Ctx.mInstance.mLangMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem19);
             }
             else if((byte)ERetResult.LOGIN_RETURN_CHARNAME_FORBID == cmd.byReturnCode)  // 用户满，从登陆服务器开始登陆
             {
-                Ctx.mInstance.mLoginSys.set_LoginState(LoginState.eLoginFailedGateServer);
+                Ctx.mInstance.mLoginSys.setLoginState(LoginState.eLoginFailedGateServer);
                 InfoBoxParam param = Ctx.mInstance.mPoolSys.newObject<InfoBoxParam>();
                 param.m_midDesc = Ctx.mInstance.mLangMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem20);
             }
             else if((byte)ERetResult.LOGIN_RETURN_CHARNAME_FORBID == cmd.byReturnCode)  // 网关未开，这个不用登了，服务器就没有启动
             {
-                Ctx.mInstance.mLoginSys.set_LoginState(LoginState.eLoginFailedGateServer);
+                Ctx.mInstance.mLoginSys.setLoginState(LoginState.eLoginFailedGateServer);
                 InfoBoxParam param = Ctx.mInstance.mPoolSys.newObject<InfoBoxParam>();
                 param.m_midDesc = Ctx.mInstance.mLangMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem21);
             }
             else if((byte)ERetResult.LOGIN_RETURN_USERMAX == cmd.byReturnCode)
             {
-                Ctx.mInstance.mLoginSys.set_LoginState(LoginState.eLoginFailedGateServer);
+                Ctx.mInstance.mLoginSys.setLoginState(LoginState.eLoginFailedGateServer);
                 InfoBoxParam param = Ctx.mInstance.mPoolSys.newObject<InfoBoxParam>();
                 param.m_midDesc = Ctx.mInstance.mLangMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem23);
             }
@@ -250,7 +250,7 @@ namespace Game.Login
             {
                 Ctx.mInstance.mLogSys.log(Ctx.mInstance.mLangMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem18));
                 // 重新登陆
-                Ctx.mInstance.mLoginSys.set_LoginState(LoginState.eLoginInfoError);
+                Ctx.mInstance.mLoginSys.setLoginState(LoginState.eLoginInfoError);
             }
         }
 

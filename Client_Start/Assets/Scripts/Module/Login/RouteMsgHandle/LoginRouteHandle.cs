@@ -13,11 +13,11 @@ namespace Game.Login
         protected void handleSocketOpened(IDispatchObject dispObj)
         {
             MsgRouteBase msg = dispObj as MsgRouteBase;
-            if (Ctx.mInstance.mLoginSys.get_LoginState() == LoginState.eLoginingLoginServer)
+            if (Ctx.mInstance.mLoginSys.getLoginState() == LoginState.eLoginingLoginServer)
             {
                 (Ctx.mInstance.mLoginSys as LoginSys).mLoginFlowHandle.onLoginServerSocketOpened();
             }
-            else if(Ctx.mInstance.mLoginSys.get_LoginState() == LoginState.eLoginingGateServer)
+            else if(Ctx.mInstance.mLoginSys.getLoginState() == LoginState.eLoginingGateServer)
             {
                 (Ctx.mInstance.mLoginSys as LoginSys).mLoginFlowHandle.onGateServerSocketOpened();
             }
