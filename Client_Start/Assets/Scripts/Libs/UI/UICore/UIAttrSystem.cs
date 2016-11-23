@@ -18,18 +18,25 @@ namespace SDK.Lib
             // ****************** 第二层结束 ***********************
 
             // ****************** 第四层开始 ***********************
-            
+
             // ****************** 第四层结束 ***********************
             // ****************** Canvas_50 结束 **********************
 
             // ****************** Canvas_100 开始 **********************
             // ****************** 第二层开始 ***********************
+            m_id2AttrDic[UIFormID.eUILogin] = new UIAttrItem();
+            m_id2AttrDic[UIFormID.eUILogin].m_canvasID = UICanvasID.eSecondCanvas;
+            m_id2AttrDic[UIFormID.eUILogin].m_LayerID = UILayerID.eSecondLayer;
+            m_id2AttrDic[UIFormID.eUILogin].addUISceneType(UISceneType.eUIScene_Game);
+            m_id2AttrDic[UIFormID.eUILogin].m_widgetPath = string.Format("{0}{1}/{2}{3}", Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathComUI], "UILogin", "UILogin", ".prefab");
+            m_id2AttrDic[UIFormID.eUILogin].m_scriptTypeName = "Game.UI.UILogin";
+
             m_id2AttrDic[UIFormID.eUITest] = new UIAttrItem();
             m_id2AttrDic[UIFormID.eUITest].m_canvasID = UICanvasID.eSecondCanvas;
             m_id2AttrDic[UIFormID.eUITest].m_LayerID = UILayerID.eTopLayer;
             m_id2AttrDic[UIFormID.eUITest].addUISceneType(UISceneType.eUIScene_Game);
-            m_id2AttrDic[UIFormID.eUITest].m_widgetPath = string.Format("{0}{1}/{2}{3}", Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathComUI], "UITest", "UITest", ".prefab");
-            m_id2AttrDic[UIFormID.eUITest].m_scriptTypeName = "Game.UI.UITest";
+            m_id2AttrDic[UIFormID.eUITest].m_widgetPath = string.Format("{0}{1}/{2}{3}", Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathComUI], "UILogin", "UILogin", ".prefab");
+            m_id2AttrDic[UIFormID.eUITest].m_scriptTypeName = "Game.UI.UILogin";
 
 
             m_id2AttrDic[UIFormID.eUITerrainEdit] = new UIAttrItem();

@@ -6,8 +6,9 @@ namespace SDK.Lib
 	public enum UIFormID
 	{
         // 第二层
-        eUITest,             // 测试界面
+        eUITest,            // 测试界面
         eUITerrainEdit,     // 地形编辑器窗口
+        eUILogin,           // 登陆窗口
 	}
 
     public enum WinIDCnt

@@ -20,18 +20,26 @@
             }
 
             // 处理网络
+            //if (!Ctx.mInstance.mNetCmdNotify.isStopNetHandle)
+            //{
+            //    ByteBuffer ret = null;
+            //    while ((ret = Ctx.mInstance.mNetMgr.getMsg()) != null)
+            //    {
+            //        if (null != Ctx.mInstance.mNetCmdNotify)
+            //        {
+            //            Ctx.mInstance.mNetCmdNotify.addOneHandleMsg();
+            //            Ctx.mInstance.mNetCmdNotify.handleMsg(ret);       // CS 中处理
+            //            Ctx.mInstance.mLuaSystem.receiveToLuaRpc(ret);    // Lua 中处理
+            //        }
+            //    }
+            //}
+
             if (!Ctx.mInstance.mNetCmdNotify.isStopNetHandle)
             {
                 ByteBuffer ret = null;
-                //while ((ret = Ctx.mInstance.mNetMgr.getMsg()) != null)
                 while ((ret = Ctx.mInstance.mNetMgr.getMsg_KBE()) != null)
                 {
-                    if (null != Ctx.mInstance.mNetCmdNotify)
-                    {
-                        Ctx.mInstance.mNetCmdNotify.addOneHandleMsg();
-                        Ctx.mInstance.mNetCmdNotify.handleMsg(ret);       // CS 中处理
-                        Ctx.mInstance.mLuaSystem.receiveToLuaRpc(ret);    // Lua 中处理
-                    }
+                    Ctx.mInstance.mLogSys.log("aaaa");
                 }
             }
 

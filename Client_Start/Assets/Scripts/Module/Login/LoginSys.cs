@@ -1,4 +1,5 @@
-﻿using SDK.Lib;
+﻿using Game.UI;
+using SDK.Lib;
 
 namespace Game.Login
 {
@@ -32,8 +33,7 @@ namespace Game.Login
             this.mLoginRouteCB = new LoginRouteCB();
             Ctx.mInstance.mMsgRouteNotify.addOneDisp(this.mLoginRouteCB);
 
-            // TODO:测试 Socket
-            Ctx.mInstance.mNetMgr.openSocket("106.14.32.169", 20013);
+            Ctx.mInstance.mUiMgr.loadAndShow(UIFormID.eUILogin);
         }
 
         // 加载登陆常见
@@ -78,7 +78,7 @@ namespace Game.Login
 
         protected void registerScriptType()
         {
-
+            Ctx.mInstance.mScriptDynLoad.registerScriptType("Game.UI.UILogin", typeof(UILogin));
         }
     }
 }

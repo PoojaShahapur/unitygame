@@ -10,7 +10,12 @@
 
         public System.Object getScriptObject(string path)
         {
-            return (m_path2ResDic[path] as ScriptRes).createInstance();
+            System.Object ret = null;
+            if(m_path2ResDic.ContainsKey(path))
+            {
+                ret = (m_path2ResDic[path] as ScriptRes).createInstance();
+            }
+            return ret;
         }
     }
 }
