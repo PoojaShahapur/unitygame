@@ -290,11 +290,31 @@
 			// 向服务端发送心跳以及同步角色信息到服务端
 			sendTick();
 		}
-		
-		/*
+
+        // TODO:KBEngine 内部循环
+        public virtual void processNew()
+        {
+            // 处理网络
+            if (_networkInterface != null)
+                _networkInterface.processNew();
+
+            // 处理外层抛入的事件
+            Event.processInEvents();
+
+            // 向服务端发送心跳以及同步角色信息到服务端
+            //sendTick();
+        }
+
+        // 添加消息数据
+        public void pushBuffer(byte[] byteArr, uint len)
+        {
+
+        }
+
+        /*
 			当前玩家entity
 		*/
-		public Entity player()
+        public Entity player()
 		{
 			Entity e;
 			if(entities.TryGetValue(entity_id, out e))
@@ -2723,5 +2743,5 @@
 
 			base.destroy();
 		}
-	}
+    }
 } 

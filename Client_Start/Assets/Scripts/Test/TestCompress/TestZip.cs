@@ -69,7 +69,7 @@ namespace UnitTest
             pByteBuffer.clear();
             pUnitTestCmd.serialize(pByteBuffer);
 
-            Compress.CompressData(pByteBuffer.dynBuff.buff, 0, pByteBuffer.length, ref outBytes, ref outSize);
+            Compress.CompressData(pByteBuffer.dynBuffer.buffer, 0, pByteBuffer.length, ref outBytes, ref outSize);
             Compress.DecompressData(outBytes, 0, outSize, ref inBytes, ref inSize);
 
             pByteBuffer.clear();

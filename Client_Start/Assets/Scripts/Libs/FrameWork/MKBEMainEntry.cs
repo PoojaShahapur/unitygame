@@ -95,7 +95,7 @@ namespace SDK.Lib
         {
             // 单线程模式必须自己调用
             if (!isMultiThreads)
-                gameapp.process();
+                gameapp.processNew();
 
             KBEngine.Event.processOutEvents();
         }

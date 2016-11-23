@@ -16,7 +16,7 @@ namespace SDK.Lib
         public byte[] mReadFloatBytes = null;
         public byte[] mReadDoubleBytes = null;
 
-        protected DynBuffer<byte> mDynBuff;
+        protected DynBuffer<byte> mDynBuffer;
         protected uint mPos;          // 当前可以读取的位置索引
         protected EEndian mEndian;          // 大端小端
 
@@ -27,17 +27,17 @@ namespace SDK.Lib
         public ByteBuffer(uint initCapacity = BufferCV.INIT_CAPACITY, uint maxCapacity = BufferCV.MAX_CAPACITY, EEndian endian = EEndian.eLITTLE_ENDIAN)
         {
             mEndian = endian;        // 缓冲区默认是小端的数据，因为服务器是 linux 的
-            mDynBuff = new DynBuffer<byte>(initCapacity, maxCapacity);
+            mDynBuffer = new DynBuffer<byte>(initCapacity, maxCapacity);
             
             mReadFloatBytes = new byte[sizeof(float)];
             mReadDoubleBytes = new byte[sizeof(double)];
     }
 
-        public DynBuffer<byte> dynBuff
+        public DynBuffer<byte> dynBuffer
         {
             get
             {
-                return mDynBuff;
+                return mDynBuffer;
             }
         }
 
@@ -45,7 +45,7 @@ namespace SDK.Lib
         {
             get
             {
-                return (mDynBuff.size - mPos);
+                return (mDynBuffer.size - mPos);
             }
         }
 
@@ -70,11 +70,11 @@ namespace SDK.Lib
         {
             get
             {
-                return mDynBuff.size;
+                return mDynBuffer.size;
             }
             set
             {
-                mDynBuff.size = value;
+                mDynBuffer.size = value;
             }
         }
 
@@ -115,13 +115,13 @@ namespace SDK.Lib
 		public void clear ()
         {
             mPos = 0;
-            mDynBuff.size = 0;
+            mDynBuffer.size = 0;
         }
 
         // 检查是否有足够的大小可以扩展
         protected bool canWrite(uint delta)
         {
-            if(mDynBuff.size + delta > mDynBuff.capacity)
+            if(mDynBuffer.size + delta > mDynBuffer.capacity)
             {
                 return false;
             }
@@ -132,7 +132,7 @@ namespace SDK.Lib
         // 读取检查
         protected bool canRead(uint delta)
         {
-            if (mPos + delta > mDynBuff.size)
+            if (mPos + delta > mDynBuffer.size)
             {
                 return false;
             }
@@ -142,7 +142,7 @@ namespace SDK.Lib
 
         protected void extendDeltaCapicity(uint delta)
         {
-            mDynBuff.extendDeltaCapicity(delta);
+            mDynBuffer.extendDeltaCapicity(delta);
         }
 
         protected void advPos(uint num)
@@ -170,7 +170,7 @@ namespace SDK.Lib
         {
             if (canRead(sizeof(char)))
             {
-                tmpByte = mDynBuff.buff[(int)mPos];
+                tmpByte = mDynBuffer.buffer[(int)mPos];
                 advPos(sizeof(char));
             }
 
@@ -181,7 +181,7 @@ namespace SDK.Lib
         {
             if (canRead(sizeof(byte)))
             {
-                tmpByte = mDynBuff.buff[(int)mPos];
+                tmpByte = mDynBuffer.buffer[(int)mPos];
                 advPos(sizeof(byte));
             }
 
@@ -192,7 +192,7 @@ namespace SDK.Lib
         {
             if (canRead(sizeof(short)))
             {
-                tmpShort = MBitConverter.ToInt16(mDynBuff.buff, (int)mPos, mEndian);
+                tmpShort = MBitConverter.ToInt16(mDynBuffer.buffer, (int)mPos, mEndian);
 
                 advPos(sizeof(short));
             }
@@ -204,7 +204,7 @@ namespace SDK.Lib
         {
             if (canRead(sizeof(ushort)))
             {
-                tmpUshort = MBitConverter.ToUInt16(mDynBuff.buff, (int)mPos, mEndian);
+                tmpUshort = MBitConverter.ToUInt16(mDynBuffer.buffer, (int)mPos, mEndian);
 
                 advPos(sizeof(ushort));
             }
@@ -216,7 +216,7 @@ namespace SDK.Lib
         {
             if (canRead(sizeof(int)))
             {
-                tmpInt = MBitConverter.ToInt32(mDynBuff.buff, (int)mPos, mEndian);
+                tmpInt = MBitConverter.ToInt32(mDynBuffer.buffer, (int)mPos, mEndian);
 
                 advPos(sizeof(int));
             }
@@ -229,7 +229,7 @@ namespace SDK.Lib
             if (canRead(sizeof(uint)))
             {
                 // 如果字节序和本地字节序不同，需要转换
-                tmpUint = MBitConverter.ToUInt32(mDynBuff.buff, (int)mPos, mEndian);
+                tmpUint = MBitConverter.ToUInt32(mDynBuffer.buffer, (int)mPos, mEndian);
 
                 advPos(sizeof(uint));
             }
@@ -241,7 +241,7 @@ namespace SDK.Lib
         {
             if (canRead(sizeof(long)))
             {
-                tmpLong = MBitConverter.ToInt64(mDynBuff.buff, (int)mPos, mEndian);
+                tmpLong = MBitConverter.ToInt64(mDynBuffer.buffer, (int)mPos, mEndian);
 
                 advPos(sizeof(long));
             }
@@ -253,7 +253,7 @@ namespace SDK.Lib
         {
             if (canRead(sizeof(ulong)))
             {
-                tmpUlong = MBitConverter.ToUInt64(mDynBuff.buff, (int)mPos, mEndian);
+                tmpUlong = MBitConverter.ToUInt64(mDynBuffer.buffer, (int)mPos, mEndian);
 
                 advPos(sizeof(ulong));
             }
@@ -267,13 +267,13 @@ namespace SDK.Lib
             {
                 if (mEndian != SystemEndian.msLocalEndian)
                 {
-                    Array.Copy(mDynBuff.buff, (int)mPos, mReadFloatBytes, 0, sizeof(float));
+                    Array.Copy(mDynBuffer.buffer, (int)mPos, mReadFloatBytes, 0, sizeof(float));
                     Array.Reverse(mReadFloatBytes, 0, sizeof(float));
                     tmpFloat = System.BitConverter.ToSingle(mReadFloatBytes, (int)mPos);
                 }
                 else
                 {
-                    tmpFloat = System.BitConverter.ToSingle(mDynBuff.buff, (int)mPos);
+                    tmpFloat = System.BitConverter.ToSingle(mDynBuffer.buffer, (int)mPos);
                 }
 
                 advPos(sizeof(float));
@@ -288,13 +288,13 @@ namespace SDK.Lib
             {
                 if (mEndian != SystemEndian.msLocalEndian)
                 {
-                    Array.Copy(mDynBuff.buff, (int)mPos, mReadDoubleBytes, 0, sizeof(double));
+                    Array.Copy(mDynBuffer.buffer, (int)mPos, mReadDoubleBytes, 0, sizeof(double));
                     Array.Reverse(mReadDoubleBytes, 0, sizeof(double));
                     tmpDouble = System.BitConverter.ToDouble(mReadDoubleBytes, (int)mPos);
                 }
                 else
                 {
-                    tmpDouble = System.BitConverter.ToDouble(mDynBuff.buff, (int)mPos);
+                    tmpDouble = System.BitConverter.ToDouble(mDynBuffer.buffer, (int)mPos);
                 }
 
                 advPos(sizeof(double));
@@ -311,7 +311,7 @@ namespace SDK.Lib
             // 如果是 unicode ，需要大小端判断
             if (canRead(len))
             {
-                tmpStr = charSet.GetString(mDynBuff.buff, (int)mPos, (int)len);
+                tmpStr = charSet.GetString(mDynBuffer.buffer, (int)mPos, (int)len);
                 advPos(len);
             }
 
@@ -323,7 +323,7 @@ namespace SDK.Lib
         {
             if (canRead(len))
             {
-                Array.Copy(mDynBuff.buff, (int)mPos, tmpBytes, 0, (int)len);
+                Array.Copy(mDynBuffer.buffer, (int)mPos, tmpBytes, 0, (int)len);
                 advPos(len);
             }
 
@@ -337,7 +337,7 @@ namespace SDK.Lib
             {
                 extendDeltaCapicity(sizeof(char));
             }
-            mDynBuff.buff[mPos] = (byte)value;
+            mDynBuffer.buffer[mPos] = (byte)value;
             advPosAndLen(sizeof(char));
         }
 
@@ -347,7 +347,7 @@ namespace SDK.Lib
             {
                 extendDeltaCapicity(sizeof(byte));
             }
-            mDynBuff.buff[mPos] = value;
+            mDynBuffer.buffer[mPos] = value;
             advPosAndLen(sizeof(byte));
         }
 
@@ -358,7 +358,7 @@ namespace SDK.Lib
                 extendDeltaCapicity(sizeof(short));
             }
             
-            MBitConverter.GetBytes(value, mDynBuff.buff, (int)mPos, mEndian);
+            MBitConverter.GetBytes(value, mDynBuffer.buffer, (int)mPos, mEndian);
 
             advPosAndLen(sizeof(short));
         }
@@ -370,7 +370,7 @@ namespace SDK.Lib
                 extendDeltaCapicity(sizeof(ushort));
             }
 
-            MBitConverter.GetBytes(value, mDynBuff.buff, (int)mPos, mEndian);
+            MBitConverter.GetBytes(value, mDynBuffer.buffer, (int)mPos, mEndian);
 
             advPosAndLen(sizeof(ushort));
         }
@@ -382,7 +382,7 @@ namespace SDK.Lib
                 extendDeltaCapicity(sizeof(int));
             }
 
-            MBitConverter.GetBytes(value, mDynBuff.buff, (int)mPos, mEndian);
+            MBitConverter.GetBytes(value, mDynBuffer.buffer, (int)mPos, mEndian);
 
             advPosAndLen(sizeof(int));
         }
@@ -394,7 +394,7 @@ namespace SDK.Lib
                 extendDeltaCapicity(sizeof(uint));
             }
 
-            MBitConverter.GetBytes(value, mDynBuff.buff, (int)mPos, mEndian);
+            MBitConverter.GetBytes(value, mDynBuffer.buffer, (int)mPos, mEndian);
 
             if (bchangeLen)
             {
@@ -413,7 +413,7 @@ namespace SDK.Lib
                 extendDeltaCapicity(sizeof(long));
             }
 
-            MBitConverter.GetBytes(value, mDynBuff.buff, (int)mPos, mEndian);
+            MBitConverter.GetBytes(value, mDynBuffer.buffer, (int)mPos, mEndian);
 
             advPosAndLen(sizeof(long));
         }
@@ -425,7 +425,7 @@ namespace SDK.Lib
                 extendDeltaCapicity(sizeof(ulong));
             }
 
-            MBitConverter.GetBytes(value, mDynBuff.buff, (int)mPos, mEndian);
+            MBitConverter.GetBytes(value, mDynBuffer.buffer, (int)mPos, mEndian);
 
             advPosAndLen(sizeof(ulong));
         }
@@ -442,7 +442,7 @@ namespace SDK.Lib
             {
                 Array.Reverse(mWriteFloatBytes);
             }
-            Array.Copy(mWriteFloatBytes, 0, mDynBuff.buff, mPos, sizeof(float));
+            Array.Copy(mWriteFloatBytes, 0, mDynBuffer.buffer, mPos, sizeof(float));
 
             advPosAndLen(sizeof(float));
         }
@@ -459,7 +459,7 @@ namespace SDK.Lib
             {
                 Array.Reverse(mWriteDoubleBytes);
             }
-            Array.Copy(mWriteDoubleBytes, 0, mDynBuff.buff, mPos, sizeof(double));
+            Array.Copy(mWriteDoubleBytes, 0, mDynBuffer.buffer, mPos, sizeof(double));
 
             advPosAndLen(sizeof(double));
         }
@@ -473,7 +473,7 @@ namespace SDK.Lib
                 {
                     extendDeltaCapicity(len);
                 }
-                Array.Copy(value, start, mDynBuff.buff, mPos, len);
+                Array.Copy(value, start, mDynBuffer.buffer, mPos, len);
                 if (bchangeLen)
                 {
                     advPosAndLen(len);
@@ -509,13 +509,13 @@ namespace SDK.Lib
 
                 if (num < len)
                 {
-                    Array.Copy(charSet.GetBytes(value), 0, mDynBuff.buff, mPos, num);
+                    Array.Copy(charSet.GetBytes(value), 0, mDynBuffer.buffer, mPos, num);
                     // 后面补齐 0 
-                    Array.Clear(mDynBuff.buff, (int)(mPos + num), len - num);
+                    Array.Clear(mDynBuffer.buffer, (int)(mPos + num), len - num);
                 }
                 else
                 {
-                    Array.Copy(charSet.GetBytes(value), 0, mDynBuff.buff, mPos, len);
+                    Array.Copy(charSet.GetBytes(value), 0, mDynBuffer.buffer, mPos, len);
                 }
                 advPosAndLen((uint)len);
             }
@@ -539,7 +539,7 @@ namespace SDK.Lib
             position = destStartPos + srclen_;
             if (lastLeft > 0)
             {
-                writeBytes(mDynBuff.buff, destStartPos + destlen_, lastLeft, false);          // 这个地方自己区域覆盖自己区域，可以保证自己不覆盖自己区域
+                writeBytes(mDynBuffer.buffer, destStartPos + destlen_, lastLeft, false);          // 这个地方自己区域覆盖自己区域，可以保证自己不覆盖自己区域
             }
 
             position = destStartPos;
@@ -562,7 +562,7 @@ namespace SDK.Lib
         // 写入 EOF 结束符
         public void end()
         {
-            mDynBuff.buff[this.length] = 0;
+            mDynBuffer.buffer[this.length] = 0;
         }
 
         public void writeVector2(Vector2 vec)
@@ -629,7 +629,7 @@ namespace SDK.Lib
 
             byte[] retByte = null;
             uint retSize = 0;
-            Compress.CompressData(mDynBuff.buff, position, len_, ref retByte, ref retSize, algorithm);
+            Compress.CompressData(mDynBuffer.buffer, position, len_, ref retByte, ref retSize, algorithm);
 
             replace(retByte, 0, retSize, position, len_);
 
@@ -643,7 +643,7 @@ namespace SDK.Lib
 
             byte[] retByte = null;
             uint retSize = 0;
-            Compress.DecompressData(mDynBuff.buff, position, len_, ref retByte, ref retSize, algorithm);
+            Compress.DecompressData(mDynBuffer.buffer, position, len_, ref retByte, ref retSize, algorithm);
 
             replace(retByte, 0, retSize, position, len_);
 
@@ -663,7 +663,7 @@ namespace SDK.Lib
 
             if (len_ >= 8)
             {
-                Crypt.encryptData(mDynBuff.buff, position, len_ - leftCnt, ref retByte, cryptKey);
+                Crypt.encryptData(mDynBuffer.buff, position, len_ - leftCnt, ref retByte, cryptKey);
                 writeBytes(retByte, 0, (uint)retByte.Length, false);
                 cryptCnt += (uint)retByte.Length;
             }
@@ -686,8 +686,8 @@ namespace SDK.Lib
                 }
 
                 // 保存数据，然后补 0
-                Array.Copy(mDynBuff.buff, position + len_, mPadBytes, 0, leftLen_);
-                Array.Clear(mDynBuff.buff, (int)(position + len_), (int)leftLen_);
+                Array.Copy(mDynBuffer.buffer, position + len_, mPadBytes, 0, leftLen_);
+                Array.Clear(mDynBuffer.buffer, (int)(position + len_), (int)leftLen_);
             }
 
             if (len_ == 0)      // 修正之后还等于 0 
@@ -695,15 +695,15 @@ namespace SDK.Lib
                 return 0;
             }
 
-            if (alignLen_ > mDynBuff.capacity)   // 如果最后加密(由于补齐)的长度大于原始长度
+            if (alignLen_ > mDynBuffer.capacity)   // 如果最后加密(由于补齐)的长度大于原始长度
             {
                 length = alignLen_;
             }
 
             byte[] retByte = null;
 
-            Crypt.encryptData(mDynBuff.buff, position, alignLen_, ref retByte, cryptContext);  // 注意补齐不一定是 0 
-            Array.Copy(mPadBytes, 0, mDynBuff.buff, position + len_, leftLen_);       // 拷贝回去
+            Crypt.encryptData(mDynBuffer.buffer, position, alignLen_, ref retByte, cryptContext);  // 注意补齐不一定是 0 
+            Array.Copy(mPadBytes, 0, mDynBuffer.buffer, position + len_, leftLen_);       // 拷贝回去
             replace(retByte, 0, alignLen_, position, len_);
 
             return alignLen_;
@@ -721,7 +721,7 @@ namespace SDK.Lib
                 return;
             }
 
-            Crypt.decryptData(mDynBuff.buff, position, len_, ref retByte, cryptContext);
+            Crypt.decryptData(mDynBuffer.buffer, position, len_, ref retByte, cryptContext);
             writeBytes(retByte, 0, (uint)retByte.Length, false);
         }
 
@@ -729,7 +729,7 @@ namespace SDK.Lib
         {
             if (canRead(sizeof(bool)))
             {
-                tmpBool = System.BitConverter.ToBoolean(mDynBuff.buff, (int)mPos);
+                tmpBool = System.BitConverter.ToBoolean(mDynBuffer.buffer, (int)mPos);
                 advPos(sizeof(bool));
             }
 

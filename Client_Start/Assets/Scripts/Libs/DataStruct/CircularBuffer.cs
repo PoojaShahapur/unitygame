@@ -200,8 +200,8 @@ namespace SDK.Lib
 
         public void pushBackBA(ByteBuffer bu)
         {
-            //pushBack(bu.dynBuff.buff, bu.position, bu.bytesAvailable);
-            pushBackArr(bu.dynBuff.buff, 0, bu.length);
+            //pushBack(bu.dynBuff.buffer, bu.position, bu.bytesAvailable);
+            pushBackArr(bu.dynBuffer.buffer, 0, bu.length);
         }
 
         /**

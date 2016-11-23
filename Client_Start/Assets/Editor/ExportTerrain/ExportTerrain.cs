@@ -258,7 +258,7 @@ public class ExportTerrain : EditorWindow
             }
         }
 
-        UtilPath.saveByte2File(fileName, buffer.dynBuff.buff);
+        UtilPath.saveByte2File(fileName, buffer.dynBuffer.buffer);
     }
 
     // µ¼³ö AlphaMap

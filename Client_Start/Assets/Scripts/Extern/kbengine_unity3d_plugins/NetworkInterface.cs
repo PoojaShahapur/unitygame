@@ -223,5 +223,15 @@
 			if (_packetReceiver != null)
 				_packetReceiver.process();
 		}
-	}
+
+        // TODO:新的处理函数
+        public void processNew()
+        {
+            //if (!valid())
+            //    return;
+
+            if (_packetReceiver != null)
+                _packetReceiver.process();
+        }
+    }
 }

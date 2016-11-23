@@ -11,7 +11,7 @@
         protected MsgBuffer mSendTmpBuffer;  // 发送临时缓冲区，发送的数据都暂时放在这里
         protected ByteBuffer mSocketSendBA;       // 真正发送缓冲区
 
-        protected DynBuffer<byte> mDynBuff;        // 接收到的临时数据，将要放到 mRawBuffer 中去
+        protected DynBuffer<byte> mDynBuffer;        // 接收到的临时数据，将要放到 mRawBuffer 中去
         protected ByteBuffer mUnCompressHeaderBA;  // 存放解压后的头的长度
         protected ByteBuffer mSendData;            // 存放将要发送的数据，将要放到 m_sendBuffer 中去
         protected ByteBuffer mTmpData;             // 临时需要转换的数据放在这里
@@ -31,7 +31,7 @@
             mSocketSendBA = new ByteBuffer();
             //mSocketSendBA.mId = 1000;
 
-            //mDynBuff = new DynamicBuffer<byte>(8096);
+            //mDynBuffer = new DynamicBuffer<byte>(8096);
             mUnCompressHeaderBA = new ByteBuffer();
             mSendData = new ByteBuffer();
             mTmpData = new ByteBuffer(4);
@@ -46,11 +46,11 @@
             }
         }
 
-        public DynBuffer<byte> dynBuff
+        public DynBuffer<byte> dynBuffer
         {
             get
             {
-                return mDynBuff;
+                return mDynBuffer;
             }
         }
 
@@ -126,13 +126,13 @@
 
         public void SetRevBufferSize(int size)
         {
-            mDynBuff = new DynBuffer<byte>((uint)size);
+            mDynBuffer = new DynBuffer<byte>((uint)size);
         }
 
         public void moveDyn2Raw()
         {
-            Ctx.mInstance.mLogSys.log(string.Format("移动动态数据消息数据到原始数据队列，消息长度　{0}", mDynBuff.size));
-            UtilMsg.formatBytes2Array(mDynBuff.buff, mDynBuff.size);
+            Ctx.mInstance.mLogSys.log(string.Format("移动动态数据消息数据到原始数据队列，消息长度　{0}", mDynBuffer.size));
+            UtilMsg.formatBytes2Array(mDynBuffer.buffer, mDynBuffer.size);
 
             if (MacroDef.MSG_ENCRIPT)
             {
@@ -140,15 +140,15 @@
             }
             // 接收到一个socket数据，就被认为是一个数据包，这个地方可能会有问题，服务器是这么发送的，只能这么处理，自己写入包的长度
             mTmp1fData.clear();
-            mTmp1fData.writeUnsignedInt32(mDynBuff.size);      // 填充长度
+            mTmp1fData.writeUnsignedInt32(mDynBuffer.size);      // 填充长度
             mRawBuffer.circularBuffer.pushBackBA(mTmp1fData);
             // 写入包的数据
-            mRawBuffer.circularBuffer.pushBackArr(mDynBuff.buff, 0, mDynBuff.size);
+            mRawBuffer.circularBuffer.pushBackArr(mDynBuffer.buffer, 0, mDynBuffer.size);
         }
 
         public void moveDyn2Raw_KBE()
         {
-            Ctx.mInstance.mLogSys.log(string.Format("移动动态数据消息数据到原始数据队列，消息长度　{0}", mDynBuff.size));
+            Ctx.mInstance.mLogSys.log(string.Format("移动动态数据消息数据到原始数据队列，消息长度　{0}", mDynBuffer.size));
 
             if (MacroDef.MSG_ENCRIPT)
             {
@@ -156,7 +156,7 @@
             }
 
             // 写入包的数据
-            mRawBuffer.circularBuffer.pushBackArr(mDynBuff.buff, 0, mDynBuff.size);
+            mRawBuffer.circularBuffer.pushBackArr(mDynBuffer.buffer, 0, mDynBuffer.size);
         }
 
         // 自己的消息逻辑
@@ -246,8 +246,8 @@
                 // 一次仅仅获取一个消息发送出去，因为每一个消息的长度要填写加密补位后的长度
                 if (mSendTmpBuffer.popFront())     // 弹出一个消息，如果只有一个消息，内部会重置变量
                 {
-                    mSocketSendBA.writeBytes(mSendTmpBuffer.headerBA.dynBuff.buff, 0, mSendTmpBuffer.headerBA.length);       // 写入头
-                    mSocketSendBA.writeBytes(mSendTmpBuffer.msgBodyBA.dynBuff.buff, 0, mSendTmpBuffer.msgBodyBA.length);             // 写入消息体
+                    mSocketSendBA.writeBytes(mSendTmpBuffer.headerBA.dynBuffer.buffer, 0, mSendTmpBuffer.headerBA.length);       // 写入头
+                    mSocketSendBA.writeBytes(mSendTmpBuffer.msgBodyBA.dynBuffer.buffer, 0, mSendTmpBuffer.msgBodyBA.length);             // 写入消息体
                 }
             }
 
@@ -437,7 +437,7 @@
                 using (MLock mlock = new MLock(mReadMutex))
                 {
                     mMsgBuffer.circularBuffer.pushBackBA(mUnCompressHeaderBA);             // 保存消息大小字段
-                    mMsgBuffer.circularBuffer.pushBackArr(mRawBuffer.msgBodyBA.dynBuff.buff, mRawBuffer.msgBodyBA.position - msglen, msglen);      // 保存消息大小字段
+                    mMsgBuffer.circularBuffer.pushBackArr(mRawBuffer.msgBodyBA.dynBuffer.buffer, mRawBuffer.msgBodyBA.position - msglen, msglen);      // 保存消息大小字段
                 }
 
                 Ctx.mInstance.mLogSys.log(string.Format("解压解密后消息起始索引 {0}, 消息长度　{1}, 消息 position 位置 {2}, 消息 size {3}", mRawBuffer.msgBodyBA.position - msglen, msglen, mRawBuffer.msgBodyBA.position, mRawBuffer.msgBodyBA.length));

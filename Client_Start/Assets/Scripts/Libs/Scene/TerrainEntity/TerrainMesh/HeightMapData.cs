@@ -293,7 +293,7 @@ namespace SDK.Lib
             if(mByteBuffer == null)
             {
                 mByteBuffer = new ByteBuffer();
-                mByteBuffer.dynBuff.maxCapacity = 1000 * 1024 * 1024;
+                mByteBuffer.dynBuffer.maxCapacity = 1000 * 1024 * 1024;
                 mBytesRes = Ctx.mInstance.mBytesResMgr.getAndSyncLoadRes(mHeightDataPath);
             }
 

@@ -126,8 +126,8 @@ namespace UnitTest
             {
                 pDataBuffer.setCryptKey(key);
             }
-            pDataBuffer.dynBuff.size = (uint)hexMsg.Length;
-            Array.Copy(hexMsg, 0, pDataBuffer.dynBuff.buff, 0, hexMsg.Length);
+            pDataBuffer.dynBuffer.size = (uint)hexMsg.Length;
+            Array.Copy(hexMsg, 0, pDataBuffer.dynBuffer.buffer, 0, hexMsg.Length);
             pDataBuffer.moveDyn2Raw();
             pDataBuffer.moveRaw2Msg();
 

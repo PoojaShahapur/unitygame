@@ -202,7 +202,7 @@ namespace SDK.Lib
             if (mSocket.Connected)
             {
                 // 接收从服务器返回的信息
-                IAsyncResult asyncSend = mSocket.BeginReceive(mClientBuffer.dynBuff.buff, 0, (int)mClientBuffer.dynBuff.capacity, SocketFlags.None, new System.AsyncCallback(ReceiveData), 0);
+                IAsyncResult asyncSend = mSocket.BeginReceive(mClientBuffer.dynBuffer.buffer, 0, (int)mClientBuffer.dynBuffer.capacity, SocketFlags.None, new System.AsyncCallback(ReceiveData), 0);
 
                 //checkThread();
 
@@ -237,7 +237,7 @@ namespace SDK.Lib
                 if (read > 0)
                 {
                     Ctx.mInstance.mLogSys.log("接收到数据 " + read.ToString());
-                    mClientBuffer.dynBuff.size = (uint)read; // 设置读取大小
+                    mClientBuffer.dynBuffer.size = (uint)read; // 设置读取大小
                     //mClientBuffer.moveDyn2Raw();             // 将接收到的数据放到原始数据队列
                     //mClientBuffer.moveRaw2Msg();             // 将完整的消息移动到消息缓冲区
                     mClientBuffer.moveDyn2Raw_KBE();
@@ -298,7 +298,7 @@ namespace SDK.Lib
                 {
                     Ctx.mInstance.mLogSys.log(string.Format("开始发送字节数 {0} ", mClientBuffer.sendBuffer.bytesAvailable));
 
-                    IAsyncResult asyncSend = mSocket.BeginSend(mClientBuffer.sendBuffer.dynBuff.buff, (int)mClientBuffer.sendBuffer.position, (int)mClientBuffer.sendBuffer.bytesAvailable, 0, new System.AsyncCallback(SendCallback), 0);
+                    IAsyncResult asyncSend = mSocket.BeginSend(mClientBuffer.sendBuffer.dynBuffer.buffer, (int)mClientBuffer.sendBuffer.position, (int)mClientBuffer.sendBuffer.bytesAvailable, 0, new System.AsyncCallback(SendCallback), 0);
                     //bool success = asyncSend.AsyncWaitHandle.WaitOne(m_sendTimeout, true);
                     //if (!success)
                     //{

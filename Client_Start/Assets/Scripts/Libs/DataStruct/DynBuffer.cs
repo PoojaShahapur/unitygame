@@ -20,7 +20,7 @@ namespace SDK.Lib
             mBuffer = new T[mCapacity];
         }
 
-        public T[] buff
+        public T[] buffer
         {
             get
             {

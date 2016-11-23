@@ -135,8 +135,8 @@ namespace SDK.Lib
             // 每一个头部一个 UniqueId， 一个偏移
             mSerializeData.setHeaderSize(((mSize - 1) / (mMaxBatchSize - 1)) * ((mSize - 1) / (mMaxBatchSize - 1)));     // 计算总共的 Node 的个数
             mSerializeData.calcHeaderSize();
-            headerBuffer.dynBuff.maxCapacity = 1000 * 1024 * 1024;
-            vertexBuffer.dynBuff.maxCapacity = 1000 * 1024 * 1024;
+            headerBuffer.dynBuffer.maxCapacity = 1000 * 1024 * 1024;
+            vertexBuffer.dynBuffer.maxCapacity = 1000 * 1024 * 1024;
 
             mQuadTree.serialize(headerBuffer, vertexBuffer);
             mSerializeData.save(mImportData.mTerrainId, headerBuffer, vertexBuffer);

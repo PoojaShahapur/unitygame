@@ -35,7 +35,7 @@ namespace SDK.Lib
 		public bool readArchiveFileHeader(FileStream fileHandle, ByteBuffer pMByteBuffer)
 		{
 			pMByteBuffer.clear ();
-			fileHandle.Read(pMByteBuffer.dynBuff.buff, 0, 4);
+			fileHandle.Read(pMByteBuffer.dynBuffer.buffer, 0, 4);
 			pMByteBuffer.length = 4;
             string magic = "";
             //pMByteBuffer.readMultiByte(ref magic, 4, Encoding.UTF8);
@@ -46,7 +46,7 @@ namespace SDK.Lib
 			}
 
 			pMByteBuffer.clear ();
-			fileHandle.Read(pMByteBuffer.dynBuff.buff, 0, (int)calcArchiveHeaderSizeNoFileHeader() - 4);
+			fileHandle.Read(pMByteBuffer.dynBuffer.buffer, 0, (int)calcArchiveHeaderSizeNoFileHeader() - 4);
 			pMByteBuffer.length = calcArchiveHeaderSizeNoFileHeader() - 4;
 			// 读取 endian 
             pMByteBuffer.readUnsignedInt8(ref mEndian);
@@ -62,7 +62,7 @@ namespace SDK.Lib
 
 			// 读取整个头
 			pMByteBuffer.clear ();
-			fileHandle.Read(pMByteBuffer.dynBuff.buff, 0, (int)(mHeaderSize - calcArchiveHeaderSizeNoFileHeader()));
+			fileHandle.Read(pMByteBuffer.dynBuffer.buffer, 0, (int)(mHeaderSize - calcArchiveHeaderSizeNoFileHeader()));
 			pMByteBuffer.length = mHeaderSize - calcArchiveHeaderSizeNoFileHeader ();
 
 			return true;

@@ -15,7 +15,7 @@
         public void handleMsg(ByteBuffer bu, byte byCmd, byte byParam)
         {
             //LuaStringBuffer luaBuffer = new LuaStringBuffer(bu.dynBuff.buff);
-            LuaInterface.LuaByteBuffer luaBuffer = new LuaInterface.LuaByteBuffer(bu.dynBuff.buff);
+            LuaInterface.LuaByteBuffer luaBuffer = new LuaInterface.LuaByteBuffer(bu.dynBuffer.buffer);
             callClassMethod("", "handleMsg", byCmd, byParam, luaBuffer);    // 回调 Lua 函数
         }
     }

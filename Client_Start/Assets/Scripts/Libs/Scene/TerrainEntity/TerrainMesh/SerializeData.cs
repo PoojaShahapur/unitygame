@@ -144,7 +144,7 @@ namespace SDK.Lib
             if (mByteBuffer == null)
             {
                 mByteBuffer = new ByteBuffer();
-                mByteBuffer.dynBuff.maxCapacity = 1000 * 1024 * 1024;
+                mByteBuffer.dynBuffer.maxCapacity = 1000 * 1024 * 1024;
                 string path = string.Format("TerrainData/{0}_{1}.bytes", "Map", mTerrainId);
                 m_byteRes = Ctx.mInstance.mBytesResMgr.getAndSyncLoadRes(path);
             }
@@ -201,8 +201,8 @@ namespace SDK.Lib
                 }
 
                 fileStream = new FileStream(path, FileMode.Create);
-                fileStream.Write(headerBuffer.dynBuff.buff, 0, (int)headerBuffer.length);
-                fileStream.Write(vertexBuffer.dynBuff.buff, 0, (int)vertexBuffer.length);
+                fileStream.Write(headerBuffer.dynBuffer.buffer, 0, (int)headerBuffer.length);
+                fileStream.Write(vertexBuffer.dynBuffer.buffer, 0, (int)vertexBuffer.length);
                 fileStream.Close();
                 fileStream.Dispose();
             }
