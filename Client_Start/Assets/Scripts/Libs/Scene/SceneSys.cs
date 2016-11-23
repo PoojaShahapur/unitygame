@@ -76,7 +76,7 @@ namespace SDK.Lib
 
         public void loadSceneRes(string filename)
         {
-            Ctx.mInstance.mNetCmdNotify.bStopNetHandle = true;        // 加载场景需要停止处理消息，因为很多资源都要等到场景加载完成才初始化
+            Ctx.mInstance.mNetCmdNotify.isStopNetHandle = true;        // 加载场景需要停止处理消息，因为很多资源都要等到场景加载完成才初始化
 
             mAuxLevelLoader.asyncLoad(filename, onSceneResLoadded);
         }
@@ -86,7 +86,7 @@ namespace SDK.Lib
             //ResItem res = dispObj as ResItem;
             mOnSceneLoadedDisp.dispatchEvent(m_scene);
 
-            Ctx.mInstance.mNetCmdNotify.bStopNetHandle = false;        // 加载场景完成需要处理处理消息
+            Ctx.mInstance.mNetCmdNotify.isStopNetHandle = false;        // 加载场景完成需要处理处理消息
 
             mAuxLevelLoader.unload();
         }

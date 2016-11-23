@@ -20,7 +20,7 @@
             }
 
             // 处理网络
-            if (!Ctx.mInstance.mNetCmdNotify.bStopNetHandle)
+            if (!Ctx.mInstance.mNetCmdNotify.isStopNetHandle)
             {
                 ByteBuffer ret = null;
                 //while ((ret = Ctx.mInstance.mNetMgr.getMsg()) != null)

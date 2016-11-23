@@ -26,7 +26,7 @@ namespace Game.Game
             Ctx.mInstance.mNetCmdNotify.addOneDisp(mGameNetHandleCB);
             this.mGameRouteCB = new GameRouteCB();
             Ctx.mInstance.mMsgRouteNotify.addOneDisp(mGameRouteCB);
-            Ctx.mInstance.mNetCmdNotify.bStopNetHandle = false;     // 停止网络消息处理
+            Ctx.mInstance.mNetCmdNotify.isStopNetHandle = false;     // 停止网络消息处理
             Ctx.mInstance.mSceneEventCB = new GameSceneEventCB();
             Ctx.mInstance.mSceneLogic = new GameSceneLogic();
 

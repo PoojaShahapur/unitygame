@@ -275,7 +275,7 @@ namespace Game.Login
             stLoginSelectSuccessUserCmd cmd = new stLoginSelectSuccessUserCmd();
             cmd.derialize(byteBuffer);
 
-            Ctx.mInstance.mNetCmdNotify.bStopNetHandle = true;     // 停止网络消息处理
+            Ctx.mInstance.mNetCmdNotify.isStopNetHandle = true;     // 停止网络消息处理
             // 进入场景
             Ctx.mInstance.mModuleSys.loadModule(ModuleID.GAMEMN);
         }

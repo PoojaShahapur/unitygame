@@ -4,53 +4,53 @@ namespace SDK.Lib
 {
     public class NetCmdNotify
     {
-        protected int m_revMsgCnt;      // 接收到消息的数量
-        protected int m_handleMsgCnt;   // 处理的消息的数量
+        protected int mRevMsgCnt;      // 接收到消息的数量
+        protected int mHandleMsgCnt;   // 处理的消息的数量
 
-        protected List<NetModuleDispHandle> m_netModuleDispList;
-        protected bool m_bStopNetHandle;       // 是否停止网络消息处理
+        protected List<NetModuleDispHandle> mNetModuleDispList;
+        protected bool mIsStopNetHandle;       // 是否停止网络消息处理
         protected CmdDispInfo mCmdDispInfo;
 
         public NetCmdNotify()
         {
-            m_revMsgCnt = 0;
-            m_handleMsgCnt = 0;
-            m_netModuleDispList = new List<NetModuleDispHandle>();
-            m_bStopNetHandle = false;
+            mRevMsgCnt = 0;
+            mHandleMsgCnt = 0;
+            mNetModuleDispList = new List<NetModuleDispHandle>();
+            mIsStopNetHandle = false;
             mCmdDispInfo = new CmdDispInfo();
         }
 
-        public bool bStopNetHandle
+        public bool isStopNetHandle
         {
             get
             {
-                return m_bStopNetHandle;
+                return mIsStopNetHandle;
             }
             set
             {
-                m_bStopNetHandle = value;
+                mIsStopNetHandle = value;
             }
         }
 
         public void addOneDisp(NetModuleDispHandle disp)
         {
-            if (m_netModuleDispList.IndexOf(disp) == -1)
+            if (mNetModuleDispList.IndexOf(disp) == -1)
             {
-                m_netModuleDispList.Add(disp);
+                mNetModuleDispList.Add(disp);
             }
         }
 
         public void removeOneDisp(NetModuleDispHandle disp)
         {
-            if (m_netModuleDispList.IndexOf(disp) != -1)
+            if (mNetModuleDispList.IndexOf(disp) != -1)
             {
-                m_netModuleDispList.Remove(disp);
+                mNetModuleDispList.Remove(disp);
             }
         }
 
         public void handleMsg(ByteBuffer msg)
         {
-            //if (false == m_bStopNetHandle)  // 如果没有停止网络处理
+            //if (false == mIsStopNetHandle)  // 如果没有停止网络处理
             //{
             byte byCmd = 0;
             msg.readUnsignedInt8(ref byCmd);
@@ -62,7 +62,7 @@ namespace SDK.Lib
             mCmdDispInfo.byCmd = byCmd;
             mCmdDispInfo.byParam = byParam;
 
-            foreach (var item in m_netModuleDispList)
+            foreach (var item in mNetModuleDispList)
             {
                 item.handleMsg(mCmdDispInfo);
             }
@@ -71,27 +71,27 @@ namespace SDK.Lib
 
         public void addOneRevMsg()
         {
-            ++m_revMsgCnt;
+            ++mRevMsgCnt;
 
-            Ctx.mInstance.mLogSys.log(string.Format("接收到消息数量 {0}", m_revMsgCnt));
+            Ctx.mInstance.mLogSys.log(string.Format("接收到消息数量 {0}", mRevMsgCnt));
         }
 
         public void addOneHandleMsg()
         {
-            ++m_handleMsgCnt;
+            ++mHandleMsgCnt;
 
-            Ctx.mInstance.mLogSys.log(string.Format("处理消息数量 {0}", m_handleMsgCnt));
+            Ctx.mInstance.mLogSys.log(string.Format("处理消息数量 {0}", mHandleMsgCnt));
         }
 
         public void clearOneRevMsg()
         {
-            m_revMsgCnt = 0;
+            mRevMsgCnt = 0;
             Ctx.mInstance.mLogSys.log("清理接收消息数量");
         }
 
         public void clearOneHandleMsg()
         {
-            m_handleMsgCnt = 0;
+            mHandleMsgCnt = 0;
             Ctx.mInstance.mLogSys.log("清理处理消息数量");
         }
     }
