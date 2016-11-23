@@ -593,11 +593,13 @@
 			if(noconnect)
 			{
 				Event.fireOut("onLoginBaseapp", new object[]{});
-				
-				_networkInterface.reset();
-				_networkInterface = new NetworkInterface();
-				_networkInterface.connectTo(baseappIP, baseappPort, onConnectTo_baseapp_callback, null);
-			}
+
+                //_networkInterface.reset();
+                //_networkInterface = new NetworkInterface();
+                //_networkInterface.connectTo(baseappIP, baseappPort, onConnectTo_baseapp_callback, null);
+                // TODO: 链接网关
+                (SDK.Lib.Ctx.mInstance.mLoginSys as Game.Login.LoginSys).mLoginFlowHandle.connectGateServer_KBE(baseappIP, baseappPort, onConnectTo_baseapp_callback);
+            }
 			else
 			{
 				Bundle bundle = Bundle.createObject();

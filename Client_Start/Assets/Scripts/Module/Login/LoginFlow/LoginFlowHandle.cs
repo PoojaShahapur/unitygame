@@ -17,6 +17,7 @@ namespace Game.Login
         public string mName;
         public string mPasswd;
         protected byte[] m_cryptKey;
+        protected MAction4<string, int, bool, object> mGateWayAction;
 
         public LoginFlowHandle()
         {
@@ -123,6 +124,19 @@ namespace Game.Login
             Ctx.mInstance.mNetMgr.openSocket(this.mGateIP, this.mGatePort);
         }
 
+        public void connectGateServer_KBE(string ip, ushort port, MAction4<string, int, bool, object> action)
+        {
+            Ctx.mInstance.mNetMgr.closeSocket(Ctx.mInstance.mCfg.mIp, Ctx.mInstance.mCfg.mPort);            // 关闭之前的 socket
+
+            this.mGateIP = ip;
+            this.mGatePort = port;
+            this.mGateWayAction = action;
+
+            Ctx.mInstance.mLoginSys.setLoginState(LoginState.eLoginingGateServer);     // 设置登陆状态
+            Ctx.mInstance.mLogSys.log(Ctx.mInstance.mLangMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem6));
+            Ctx.mInstance.mNetMgr.openSocket(this.mGateIP, this.mGatePort);
+        }
+
         public void onGateServerSocketOpened()
         {
             Ctx.mInstance.mLoginSys.setLoginState(LoginState.eLoginSuccessGateServer);     // 设置登陆状态
@@ -140,12 +154,7 @@ namespace Game.Login
         // 步骤 5 ，发送消息
         public void sendMsg5f()
         {
-            Ctx.mInstance.mLogSys.log(Ctx.mInstance.mLangMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem8));
-
-            stPasswdLogonUserCmd cmd = new stPasswdLogonUserCmd();
-            cmd.dwUserID = this.mDwUserID;
-            cmd.loginTempID = Ctx.mInstance.mTimerMsgHandle.m_loginTempID;
-            UtilMsg.sendMsg(cmd);
+            this.mGateWayAction(this.mGateIP, this.mGatePort, true, null);
         }
 
         // 步骤 6 ，接收消息
