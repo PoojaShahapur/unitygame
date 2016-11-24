@@ -519,11 +519,7 @@
 			KBEngineApp.app.password = password;
 			KBEngineApp.app._clientdatas = datas;
 
-            //KBEngineApp.app.login_loginapp(true);
-            // 设置链接成功
-            _networkInterface.set_onConnectStatus(null);
-            // TODO: 直接进入链接成功
-            this.onConnectTo_loginapp_callback("", 0, true, null);
+            KBEngineApp.app.login_loginapp(true);
         }
 		
 		/*
@@ -534,8 +530,12 @@
 			if(noconnect)
 			{
 				reset();
-				_networkInterface.connectTo(_args.ip, _args.port, onConnectTo_loginapp_callback, null);
-			}
+                //_networkInterface.connectTo(_args.ip, _args.port, onConnectTo_loginapp_callback, null);
+                // 设置链接成功
+                //_networkInterface.set_onConnectStatus(null);
+                // TODO: 直接进入链接成功
+                this.onConnectTo_loginapp_callback(_args.ip, _args.port, true, null);
+            }
 			else
 			{
 				Dbg.DEBUG_MSG("KBEngine::login_loginapp(): send login! username=" + username);
