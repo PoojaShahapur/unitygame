@@ -114,7 +114,28 @@
 				state.connectCB(state.connectIP, state.connectPort, success, state.userData);
 		}
 
-		private static void connectCB(IAsyncResult ar)
+
+        public void set_onConnectStatus(ConnectState state)
+        {
+            KBEngine.Event.deregisterIn(this);
+
+            bool success = true;
+            if (success)
+            {
+                _packetReceiver = new PacketReceiver(this);
+            }
+            else
+            {
+                Dbg.ERROR_MSG("NetworkInterface::_onConnectStatus(), connect is error! ip");
+            }
+
+            Event.fireAll("onConnectStatus", new object[] { success });
+
+            if (state.connectCB != null)
+                state.connectCB(state.connectIP, state.connectPort, success, state.userData);
+        }
+
+        private static void connectCB(IAsyncResult ar)
 		{
 			ConnectState state = null;
 			
@@ -179,12 +200,12 @@
 				ip = ipHost.AddressList[0].ToString();
 			}
 
-			// Security.PrefetchSocketPolicy(ip, 843);
-			_socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-			_socket.SetSocketOption(System.Net.Sockets.SocketOptionLevel.Socket, SocketOptionName.ReceiveBuffer, KBEngineApp.app.getInitArgs().getRecvBufferSize() * 2);
-			_socket.SetSocketOption(System.Net.Sockets.SocketOptionLevel.Socket, SocketOptionName.SendBuffer, KBEngineApp.app.getInitArgs().getSendBufferSize() * 2);
-			_socket.NoDelay = true;
-			//_socket.Blocking = false;
+			//// Security.PrefetchSocketPolicy(ip, 843);
+			//_socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+			//_socket.SetSocketOption(System.Net.Sockets.SocketOptionLevel.Socket, SocketOptionName.ReceiveBuffer, KBEngineApp.app.getInitArgs().getRecvBufferSize() * 2);
+			//_socket.SetSocketOption(System.Net.Sockets.SocketOptionLevel.Socket, SocketOptionName.SendBuffer, KBEngineApp.app.getInitArgs().getSendBufferSize() * 2);
+			//_socket.NoDelay = true;
+			////_socket.Blocking = false;
 
 			ConnectState state = new ConnectState();
 			state.connectIP = ip;
@@ -199,9 +220,10 @@
 			// 先注册一个事件回调，该事件在当前线程触发
 			Event.registerIn("_onConnectStatus", this, "_onConnectStatus");
 
-			var v = new AsyncConnectMethod(this._asyncConnect);
-			v.BeginInvoke(state, new AsyncCallback(this._asyncConnectCB), state);
-		}
+            //var v = new AsyncConnectMethod(this._asyncConnect);
+            //v.BeginInvoke(state, new AsyncCallback(this._asyncConnectCB), state);
+            set_onConnectStatus(state);
+        }
 
 		public bool send(MemoryStream stream)
 		{
@@ -239,23 +261,6 @@
         public void pushBuffer(byte[] byteArr, uint len)
         {
             _packetReceiver.pushBuffer(byteArr, len);
-        }
-
-        public void set_onConnectStatus(ConnectState state)
-        {
-            KBEngine.Event.deregisterIn(this);
-
-            bool success = true;
-            if (success)
-            {
-                _packetReceiver = new PacketReceiver(this);
-            }
-            else
-            {
-                Dbg.ERROR_MSG("NetworkInterface::_onConnectStatus(), connect is error! ip");
-            }
-
-            Event.fireAll("onConnectStatus", new object[] { success });
         }
     }
 }

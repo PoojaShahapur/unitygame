@@ -34,7 +34,7 @@ namespace Game.Login
             Ctx.mInstance.mLoginSys.setLoginState(LoginState.eLoginingLoginServer);     // 设置登陆状态
 
             this.mName = name;
-            this.mName = passwd;
+            this.mPassword = passwd;
             this.mSelectEnterMode = selectEnterMode;
             Ctx.mInstance.mDataPlayer.m_accountData.m_account = name;
             Ctx.mInstance.mLogSys.registerFileLogDevice();

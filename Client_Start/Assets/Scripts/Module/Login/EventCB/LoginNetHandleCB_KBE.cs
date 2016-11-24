@@ -10,7 +10,7 @@ namespace Game.Login
     /**
      * @brief KBEngine 登陆网络处理
      */
-    public class KBELoginNetHandleCB_KBE
+    public class LoginNetHandleCB_KBE
     {
         public int ui_state = 0;
         private string stringAccount = "";
@@ -26,9 +26,14 @@ namespace Game.Login
         private UInt64 selAvatarDBID = 0;
         public bool showReliveGUI = false;
 
-        public KBELoginNetHandleCB_KBE()
+        public LoginNetHandleCB_KBE()
         {
             
+        }
+
+        public void init()
+        {
+            this.installEvents();
         }
 
         void installEvents()

@@ -8,6 +8,7 @@ namespace Game.Login
         public LoginFlowHandle mLoginFlowHandle;       // 整个登陆流程处理
         public LoginState mLoginState;                 // 登陆状态
         public LoginRouteCB mLoginRouteCB;
+        public LoginNetHandleCB_KBE mLoginNetHandleCB_KBE;    // KBEngine 引擎对接
         public LoginNetHandleCB mLoginNetHandleCB;
 
         public LoginSys()
@@ -33,6 +34,8 @@ namespace Game.Login
             this.mLoginRouteCB = new LoginRouteCB();
             Ctx.mInstance.mMsgRouteNotify.addOneDisp(this.mLoginRouteCB);
 
+            this.mLoginNetHandleCB_KBE = new LoginNetHandleCB_KBE();
+            this.mLoginNetHandleCB_KBE.init();
             Ctx.mInstance.mUiMgr.loadAndShow(UIFormID.eUILogin);
         }
 
