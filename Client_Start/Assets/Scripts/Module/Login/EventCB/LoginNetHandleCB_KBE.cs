@@ -174,7 +174,7 @@ namespace Game.Login
         public void onKicked(UInt16 failedcode)
         {
             err("kick, disconnect!, reason=" + KBEngineApp.app.serverErr(failedcode));
-            Application.LoadLevel("login");
+            //Application.LoadLevel("login");
 
             ui_state = 0;
             Ctx.mInstance.mUiMgr.loadAndShow(UIFormID.eUILogin);
