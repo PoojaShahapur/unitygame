@@ -37,6 +37,8 @@ namespace SDK.Lib
         public const string CR_LF = "\n";       // 回车换行， Mac 下面即使写入 "\r\n"，读取出来后，也只有 "\n"，因此这里 Windows 下也只写入 "\n"，而不是 "\r\n"
         public const string SEPARATOR = "=";    // 分隔符
 
+        public const string TEXT_IN_BTN = "Text";   // Button 组件中 Text GameObject 的名字
+
         public static GameObject[] FindGameObjectsWithTag(string tag)
         {
             return GameObject.FindGameObjectsWithTag(tag);
@@ -172,7 +174,7 @@ namespace SDK.Lib
             AuxUserData userData = btn.gameObject.GetComponent<AuxUserData>();
             if (userData != null)
             {
-                AuxBasicButton auxBtn = userData.getButtonData();
+                AuxButton auxBtn = userData.getButtonData();
                 if (auxBtn != null)
                 {
                     auxBtn.addEventHandle(null, handle, null, null);
@@ -190,7 +192,7 @@ namespace SDK.Lib
             AuxUserData userData = btn.gameObject.GetComponent<AuxUserData>();
             if (userData != null)
             {
-                AuxBasicButton auxBtn = userData.getButtonData();
+                AuxButton auxBtn = userData.getButtonData();
                 if (auxBtn != null)
                 {
                     auxBtn.addEventHandle(null, handle, null, null);
@@ -274,7 +276,7 @@ namespace SDK.Lib
                     }
                     if (userData != null)
                     {
-                        AuxBasicButton auxBtn = userData.getButtonData();
+                        AuxButton auxBtn = userData.getButtonData();
                         if(auxBtn == null)
                         {
                             auxBtn = userData.addButtonData();
@@ -1203,6 +1205,18 @@ namespace SDK.Lib
             }
 
             return retEncode;
+        }
+
+        // 设置 Text 颜色
+        static public void setLabelColor(Text label, Color color)
+        {
+            label.color = color;
+        }
+
+        // 设置 InputField 颜色
+        static public void setInputFieldColor(InputField inputField, Color color)
+        {
+            inputField.textComponent.color = color;
         }
     }
 }

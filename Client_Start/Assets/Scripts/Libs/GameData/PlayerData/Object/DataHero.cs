@@ -10,7 +10,7 @@ namespace SDK.Lib
         protected bool m_canReqAllHero = false;
 
         public List<HeroItem> m_heroList = new List<HeroItem>();
-        public Dictionary<uint, HeroItem> m_id2HeroDic = new Dictionary<uint, HeroItem>();
+        public Dictionary<uint, HeroItem> mId2HeroDic = new Dictionary<uint, HeroItem>();
 
         public void reqAllHero()
         {
@@ -21,7 +21,7 @@ namespace SDK.Lib
         public void psstRetAllHeroInfoUserCmd(List<t_hero> infoList)
         {
             m_heroList.Clear();
-            m_id2HeroDic.Clear();
+            mId2HeroDic.Clear();
 
             HeroItem clientItem;
             foreach (t_hero item in infoList)
@@ -29,24 +29,24 @@ namespace SDK.Lib
                 clientItem = new HeroItem();
                 clientItem.m_svrHero = item;
                 m_heroList.Add(clientItem);
-                m_id2HeroDic[clientItem.m_svrHero.occupation] = clientItem;
+                mId2HeroDic[clientItem.m_svrHero.occupation] = clientItem;
             }
         }
 
         public void psstRetOneHeroInfoUserCmd(t_hero info)
         {
             HeroItem clientItem;
-            if (!m_id2HeroDic.ContainsKey(info.occupation))
+            if (!mId2HeroDic.ContainsKey(info.occupation))
             {
                 clientItem = new HeroItem();
                 clientItem.m_svrHero = info;
                 m_heroList.Add(clientItem);
-                m_id2HeroDic[clientItem.m_svrHero.occupation] = clientItem;
+                mId2HeroDic[clientItem.m_svrHero.occupation] = clientItem;
             }
             else
             {
                 // 直接拷贝
-                m_id2HeroDic[info.occupation].m_svrHero.copyFrom(info);
+                mId2HeroDic[info.occupation].m_svrHero.copyFrom(info);
             }
         }
 

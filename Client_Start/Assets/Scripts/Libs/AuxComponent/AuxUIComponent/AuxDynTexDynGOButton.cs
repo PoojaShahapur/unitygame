@@ -1,6 +1,6 @@
 ﻿namespace SDK.Lib
 {
-    public class AuxDynTexDynGOButton : AuxBasicButton
+    public class AuxDynTexDynGOButton : AuxButton
     {
         protected AuxDynTexDynGOImage mAuxDynTexDynGOImage;        // 这个图片和 Prefab
 

@@ -93,8 +93,8 @@ namespace SDK.Lib
                 string key = ip + "&" + port;
 
                 // 关闭 socket 之前要等待所有的数据都发送完成
-                //m_id2SocketDic[key].msgSendEndEvent.Reset();        // 重置信号
-                //m_id2SocketDic[key].msgSendEndEvent.WaitOne();      // 阻塞等待数据全部发送完成
+                //mId2SocketDic[key].msgSendEndEvent.Reset();        // 重置信号
+                //mId2SocketDic[key].msgSendEndEvent.WaitOne();      // 阻塞等待数据全部发送完成
 
                 if (mId2ClientDic.ContainsKey(key))
                 {

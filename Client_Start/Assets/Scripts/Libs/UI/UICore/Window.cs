@@ -7,7 +7,7 @@ namespace SDK.Lib
      */
     public class Window
     {
-        public GUIWin m_guiWin;      // 控件数据
+        public GuiWin m_guiWin;      // 控件数据
 		protected bool m_draggable;
 
 		protected int m_hitYMax;	// 可点击范围 Y 的最大值
@@ -26,7 +26,7 @@ namespace SDK.Lib
 
         public Window()
         {
-            m_guiWin = new GUIWin();
+            m_guiWin = new GuiWin();
             m_draggable = true;
             m_hitYMax = 30;
             m_alignVertial = 0;
@@ -87,7 +87,7 @@ namespace SDK.Lib
             }
         }
 
-        public GUIWin GUIWin()
+        public GuiWin guiWin()
         {
             return m_guiWin;
         }

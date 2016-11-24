@@ -32,10 +32,10 @@ namespace SDK.Lib
 
         public AuxLabel(LabelStyleID styleId = LabelStyleID.eLSID_None)
         {
-            
+            this.mSelfGo = null;
         }
 
-        // 后期修改
+        // 修改组件
         public void setSelfGo(GameObject pntNode, string path)
         {
             this.mSelfGo = UtilApi.TransFindChildByPObjAndPath(pntNode, path);
@@ -59,6 +59,33 @@ namespace SDK.Lib
                     this.mText.text = value;
                 }
             }
+        }
+
+        public void setText(string value)
+        {
+            if (this.mText != null)
+            {
+                this.mText.text = value;
+            }
+        }
+
+        public string getText()
+        {
+            if (this.mText != null)
+            {
+                return this.mText.text;
+            }
+            return "";
+        }
+
+        public void setColor(Color color)
+        {
+            this.mText.color = color;
+        }
+
+        public Color getColor()
+        {
+            return this.mText.color;
         }
 
         public void changeSize()

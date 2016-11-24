@@ -21,19 +21,19 @@ namespace SDK.Lib
             return mData;
         }
 
-        public AuxBasicButton getButtonData()
+        public AuxButton getButtonData()
         {
-            return this.getUserData<AuxBasicButton>();
+            return this.getUserData<AuxButton>();
         }
 
-        public AuxBasicButton addButtonData()
+        public AuxButton addButtonData()
         {
             if (mData == null)
             {
-                mData = new AuxBasicButton(this.gameObject);
+                mData = new AuxButton(this.gameObject);
             }
 
-            return mData as AuxBasicButton;
+            return mData as AuxButton;
         }
 
         protected T getUserData<T>() where T : class

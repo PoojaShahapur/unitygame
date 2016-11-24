@@ -1,6 +1,5 @@
 ﻿using SDK.Lib;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Game.UI
 {
@@ -9,8 +8,14 @@ namespace Game.UI
      */
     public class UILogin : Form, IUILogin
     {
-        protected SpriteAni m_spriteAni;        //登陆界面中间的动画
-        protected GameObject m_imageEffect;
+        protected AuxLabel mInfoLabel;
+
+        public override void onInit()
+        {
+            base.onInit();
+
+            this.mInfoLabel = new AuxLabel();
+        }
 
         override public void onShow()
         {
@@ -48,43 +53,71 @@ namespace Game.UI
             {
                 lblPassWord.text = Ctx.mInstance.mSystemSetting.getString(SystemSetting.PASSWORD);
             }
+
+            this.mInfoLabel.setSelfGo(m_guiWin.m_uiRoot, LoginComPath.PathLabelInfo);
         }
 
         protected void addEventHandle()
         {
-            UtilApi.addEventHandle(m_guiWin.m_uiRoot, LoginComPath.PathBtnLogin, onBtnClkLogin);
-            UtilApi.addEventHandle(m_guiWin.m_uiRoot, LoginComPath.ButtonRegister, createAccount);
+            UtilApi.addEventHandle(m_guiWin.m_uiRoot, LoginComPath.PathBtnLogin, onLoginBtnClk);
+            UtilApi.addEventHandle(m_guiWin.m_uiRoot, LoginComPath.ButtonRegister, onCreateAccountBtnClk);
         }
 
         // 点击登陆处理
-        protected void onBtnClkLogin()
+        protected void onLoginBtnClk()
+        {
+            this.loginOrCreateAccount(SelectEnterMode.eLoginAccount);
+        }
+
+        public void onCreateAccountBtnClk()
+        {
+            this.loginOrCreateAccount(SelectEnterMode.eCreateAccount);
+        }
+
+        protected void loginOrCreateAccount(SelectEnterMode selectEnterMode)
         {
             if (Ctx.mInstance.mLoginSys.getLoginState() != LoginState.eLoginingLoginServer && Ctx.mInstance.mLoginSys.getLoginState() != LoginState.eLoginingGateServer)    // 如果没有正在登陆登陆服务器和网关服务器
             {
                 AuxInputField lblName = new AuxInputField(m_guiWin.m_uiRoot, LoginComPath.PathLblName);
                 AuxInputField lblPassWord = new AuxInputField(m_guiWin.m_uiRoot, LoginComPath.PathLblPassWord);
 
+                Ctx.mInstance.mLogSys.log(string.Format("UserName is {0}, Password is {1}", lblName.text, lblPassWord.text), LogTypeId.eLogCommon);
+
                 Ctx.mInstance.mSystemSetting.setString(SystemSetting.USERNAME, lblName.text);
                 Ctx.mInstance.mSystemSetting.setString(SystemSetting.PASSWORD, lblPassWord.text);
 
-                if (!MacroDef.DEBUG_NOTNET)
+                if (lblName.text.Length > 0 && lblPassWord.text.Length > 5)
                 {
-                    if (Ctx.mInstance.mLoginSys.getLoginState() != LoginState.eLoginNone)        // 先关闭之前的 socket
+                    if (!MacroDef.DEBUG_NOTNET)
                     {
-                        Ctx.mInstance.mNetMgr.closeSocket(Ctx.mInstance.mCfg.mIp, Ctx.mInstance.mCfg.mPort);
+                        if (Ctx.mInstance.mLoginSys.getLoginState() != LoginState.eLoginNone)        // 先关闭之前的 socket
+                        {
+                            Ctx.mInstance.mNetMgr.closeSocket(Ctx.mInstance.mCfg.mIp, Ctx.mInstance.mCfg.mPort);
+                        }
+                        Ctx.mInstance.mLoginSys.connectLoginServer(lblName.text, lblPassWord.text, selectEnterMode);
                     }
-                    Ctx.mInstance.mLoginSys.connectLoginServer(lblName.text, lblPassWord.text);
+                    else
+                    {
+                        Ctx.mInstance.mModuleSys.loadModule(ModuleID.GAMEMN);
+                    }
                 }
                 else
                 {
-                    Ctx.mInstance.mModuleSys.loadModule(ModuleID.GAMEMN);
+                    err("account or password is error, length < 6!(账号或者密码错误，长度必须大于5!)");
                 }
             }
         }
 
-        public void createAccount()
+        public void err(string s)
         {
+            this.mInfoLabel.setColor(Color.red);
+            this.mInfoLabel.setText(s);
+        }
 
+        public void info(string s)
+        {
+            this.mInfoLabel.setColor(Color.green);
+            this.mInfoLabel.setText(s);
         }
     }
 }

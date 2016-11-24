@@ -9,7 +9,7 @@ namespace SDK.Lib
     public class DataPack
     {
         public List<DataItemObjectBase> m_objList = new List<DataItemObjectBase>();             // 道具列表
-        public Dictionary<uint, DataItemObjectBase> m_id2ObjDic = new Dictionary<uint, DataItemObjectBase>();       // 道具 thidid到 Obj 字典，加快查找
+        public Dictionary<uint, DataItemObjectBase> mId2ObjDic = new Dictionary<uint, DataItemObjectBase>();       // 道具 thidid到 Obj 字典，加快查找
 
         // 添加测试数据
         public void postConstruct()
@@ -23,7 +23,7 @@ namespace SDK.Lib
         {
             DataItemObjectBase item = new DataItemObjectBase();
             m_objList.Add(item);
-            m_id2ObjDic[tableid] = item;
+            mId2ObjDic[tableid] = item;
 
             item.m_tableItemObject = Ctx.mInstance.mTableSys.getItem(TableID.TABLE_OBJECT, tableid) as TableItemBase;
         }
@@ -42,7 +42,7 @@ namespace SDK.Lib
                 item.m_srvItemObject = obj;
                 item.m_tableItemObject = Ctx.mInstance.mTableSys.getItem(TableID.TABLE_OBJECT, item.m_srvItemObject.dwObjectID) as TableItemBase;
                 m_objList.Add(item);
-                m_id2ObjDic[item.m_srvItemObject.dwThisID] = item;
+                mId2ObjDic[item.m_srvItemObject.dwThisID] = item;
             }
         }
 
@@ -52,26 +52,26 @@ namespace SDK.Lib
             item.m_srvItemObject = obj;
             item.m_tableItemObject = Ctx.mInstance.mTableSys.getItem(TableID.TABLE_OBJECT, item.m_srvItemObject.dwObjectID) as TableItemBase;
             m_objList.Add(item);
-            m_id2ObjDic[item.m_srvItemObject.dwThisID] = item;
+            mId2ObjDic[item.m_srvItemObject.dwThisID] = item;
         }
 
         // 删除一个道具
         public void psstRemoveObjectPropertyUserCmd(uint qwThisID)
         {
-            m_objList.Remove(m_id2ObjDic[qwThisID]);
-            m_id2ObjDic.Remove(qwThisID);
+            m_objList.Remove(mId2ObjDic[qwThisID]);
+            mId2ObjDic.Remove(qwThisID);
         }
 
         // 修改道具数量
         public void psstRefCountObjectPropertyUserCmd(uint qwThisID, uint dwNum, byte type)
         {
-            m_id2ObjDic[qwThisID].m_srvItemObject.dwNum = dwNum;
+            mId2ObjDic[qwThisID].m_srvItemObject.dwNum = dwNum;
         }
 
         protected void clearPack()
         {
             m_objList.Clear();
-            m_id2ObjDic.Clear();
+            mId2ObjDic.Clear();
         }
     }
 }

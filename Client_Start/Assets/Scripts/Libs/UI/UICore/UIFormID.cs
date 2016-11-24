@@ -9,7 +9,8 @@ namespace SDK.Lib
         eUITest,            // 测试界面
         eUITerrainEdit,     // 地形编辑器窗口
         eUILogin,           // 登陆窗口
-	}
+        eUISelectRole,      // 选择角色窗口
+    }
 
     public enum WinIDCnt
     {

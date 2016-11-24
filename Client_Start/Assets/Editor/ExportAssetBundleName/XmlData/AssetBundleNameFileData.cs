@@ -12,7 +12,7 @@ namespace EditorTool
         protected AssetBundleNameDirData m_dirData;
 
         protected string[] m_pathArr;
-        protected string m_resPath;     // 就是放在 Resources 中的目录
+        protected string mResPath;     // 就是放在 Resources 中的目录
         protected string m_abPath;      // 就是打包进 AB 中的目录
         protected string m_abSetPath;   // 就是给 AssetBundle 设置的目录
 
@@ -36,12 +36,12 @@ namespace EditorTool
             int resIndex = m_fullPath.IndexOf(UtilEditor.RESOURCES);
             if (resIndex != -1)
             {
-                m_resPath = m_fullPath.Substring(resIndex + UtilEditor.RESOURCES.Length + 1);
+                mResPath = m_fullPath.Substring(resIndex + UtilEditor.RESOURCES.Length + 1);
 
-                dotIdx = m_resPath.IndexOf(".");
+                dotIdx = mResPath.IndexOf(".");
                 if(dotIdx != -1)
                 {
-                    m_resPath = m_resPath.Substring(0, dotIdx);
+                    mResPath = mResPath.Substring(0, dotIdx);
                 }
             }
 
@@ -71,10 +71,10 @@ namespace EditorTool
 
         public void exportResABKV(List<string> list)
         {
-            // 如果 m_resPath 不为空，就说明资源是在 Resources 目录下的，这种资源代码会主动加载，不在 Resources 目录下的资源，都是依赖资源，代码不会主动加载的，因此也不用导出对应的名字映射
-            if (m_resPath != null)
+            // 如果 mResPath 不为空，就说明资源是在 Resources 目录下的，这种资源代码会主动加载，不在 Resources 目录下的资源，都是依赖资源，代码不会主动加载的，因此也不用导出对应的名字映射
+            if (mResPath != null)
             {
-                string str = m_resPath + "=" + m_abSetPath + "=" + m_abPath;
+                string str = mResPath + "=" + m_abSetPath + "=" + m_abPath;
                 list.Add(str);
             }
         }

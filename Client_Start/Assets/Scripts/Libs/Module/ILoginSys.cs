@@ -7,7 +7,7 @@
     {
         LoginState getLoginState();
         void setLoginState(LoginState state);
-        void connectLoginServer(string name, string passwd);
+        void connectLoginServer(string name, string passwd, SelectEnterMode selectEnterMode);
         void unload();
         uint getUserID();
     }

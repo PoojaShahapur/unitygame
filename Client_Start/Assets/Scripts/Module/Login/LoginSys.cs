@@ -49,9 +49,9 @@ namespace Game.Login
             Ctx.mInstance.mLogSys.log("Login Scene is loaded");
         }
 
-        public void connectLoginServer(string name, string passwd)
+        public void connectLoginServer(string name, string passwd, SelectEnterMode selectEnterMode)
         {
-            this.mLoginFlowHandle.connectLoginServer(name, passwd);
+            this.mLoginFlowHandle.connectLoginServer(name, passwd, selectEnterMode);
         }
 
         public LoginState getLoginState()

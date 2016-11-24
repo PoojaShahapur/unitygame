@@ -5,40 +5,40 @@ namespace SDK.Lib
 {
     public class NetModuleDispHandle
     {
-        protected Dictionary<int, AddOnceEventDispatch> m_id2DispDic;
+        protected Dictionary<int, AddOnceEventDispatch> mId2DispDic;
         protected LuaCSBridgeNetDispHandle m_luaCSBridgeNetDispHandle;     // Lua 网络事件处理器
 
         public NetModuleDispHandle()
         {
-            m_id2DispDic = new Dictionary<int, AddOnceEventDispatch>();
+            mId2DispDic = new Dictionary<int, AddOnceEventDispatch>();
         }
 
         public void addCmdHandle(int cmdId, NetCmdDispHandle callee, MAction<IDispatchObject> handle)
         {
-            if (!m_id2DispDic.ContainsKey(cmdId))
+            if (!mId2DispDic.ContainsKey(cmdId))
             {
-                m_id2DispDic[cmdId] = new AddOnceEventDispatch();
+                mId2DispDic[cmdId] = new AddOnceEventDispatch();
             }
 
-            m_id2DispDic[cmdId].addEventHandle(callee, handle);
+            mId2DispDic[cmdId].addEventHandle(callee, handle);
         }
 
         public void removeCmdHandle(int cmdId, NetCmdDispHandle calleeObj = null)
         {
-            if(!m_id2DispDic.ContainsKey(cmdId))
+            if(!mId2DispDic.ContainsKey(cmdId))
             {
                 Ctx.mInstance.mLogSys.log("Cmd Handle Not Register");
             }
 
-            m_id2DispDic[cmdId].removeEventHandle(calleeObj, null);
+            mId2DispDic[cmdId].removeEventHandle(calleeObj, null);
         }
 
         public virtual void handleMsg(CmdDispInfo cmdDispInfo)
         {
-            if(m_id2DispDic.ContainsKey(cmdDispInfo.byCmd))
+            if(mId2DispDic.ContainsKey(cmdDispInfo.byCmd))
             {
                 Ctx.mInstance.mLogSys.log(string.Format("Handle msg: byCmd = {0},  byParam = {1}", cmdDispInfo.byCmd, cmdDispInfo.byParam));
-                m_id2DispDic[cmdDispInfo.byCmd].dispatchEvent(cmdDispInfo);
+                mId2DispDic[cmdDispInfo.byCmd].dispatchEvent(cmdDispInfo);
             }
             else
             {

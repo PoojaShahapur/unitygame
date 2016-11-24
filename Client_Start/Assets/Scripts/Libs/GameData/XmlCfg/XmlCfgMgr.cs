@@ -4,13 +4,13 @@ namespace SDK.Lib
 {
     public class XmlCfgMgr
     {
-        public Dictionary<XmlCfgID, XmlCfgBase> m_id2CfgDic = new Dictionary<XmlCfgID,XmlCfgBase>();        // 商城
+        public Dictionary<XmlCfgID, XmlCfgBase> mId2CfgDic = new Dictionary<XmlCfgID,XmlCfgBase>();        // 商城
         private ResItem m_res;
 
         protected void loadCfg<T>(XmlCfgID id) where T : XmlCfgBase, new()
         {
             T item = new T();
-            m_id2CfgDic[id] = item;
+            mId2CfgDic[id] = item;
 
             LoadParam param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
             param.setPath(item.mPath);
@@ -32,7 +32,7 @@ namespace SDK.Lib
                 string text = m_res.getText("");
                 if (text != null)
                 {
-                    m_id2CfgDic[getXmlCfgIDByPath(m_res.getLogicPath())].parseXml(text);
+                    mId2CfgDic[getXmlCfgIDByPath(m_res.getLogicPath())].parseXml(text);
                 }
             }
             else if (m_res.refCountResLoadResultNotify.resLoadState.hasFailed())
@@ -45,7 +45,7 @@ namespace SDK.Lib
 
         protected XmlCfgID getXmlCfgIDByPath(string path)
         {
-            foreach (KeyValuePair<XmlCfgID, XmlCfgBase> kv in m_id2CfgDic)
+            foreach (KeyValuePair<XmlCfgID, XmlCfgBase> kv in mId2CfgDic)
             {
                 if (kv.Value.mPath == path)
                 {
@@ -58,12 +58,12 @@ namespace SDK.Lib
 
         public T getXmlCfg<T>(XmlCfgID id) where T : XmlCfgBase, new()
         {
-            if (!m_id2CfgDic.ContainsKey(id))
+            if (!mId2CfgDic.ContainsKey(id))
             {
                 loadCfg<T>(id);
             }
 
-            return m_id2CfgDic[id] as T;
+            return mId2CfgDic[id] as T;
         }
     }
 }

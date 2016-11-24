@@ -34,7 +34,7 @@ namespace SDK.Lib
             //    id = Convert.ToInt32(value);
             //    //id = Convert.ToInt32(idList[key]);
             //    attrItem = new UIAttrItem();
-            //    m_uiAttrs.m_id2AttrDic[(UIFormID)id] = attrItem;
+            //    m_uiAttrs.mId2AttrDic[(UIFormID)id] = attrItem;
             //    luaAttrsItemTable = luaAttrsTable[id] as LuaTable;
             //    //luaAttrsItemTable = luaAttrsTable[key] as LuaTable;
 
@@ -56,7 +56,7 @@ namespace SDK.Lib
             {
                 id = Convert.ToInt32(idList.Current.Value);
                 attrItem = new UIAttrItem();
-                m_uiAttrs.m_id2AttrDic[(UIFormID)id] = attrItem;
+                m_uiAttrs.mId2AttrDic[(UIFormID)id] = attrItem;
                 luaAttrsItemTable = luaAttrsTable[id] as LuaTable;
 
                 attrItem.m_bNeedLua = true;
@@ -93,7 +93,7 @@ namespace SDK.Lib
                 if (luaAttrsItemTable != null)
                 {
                     attrItem = new UIAttrItem();
-                    m_uiAttrs.m_id2AttrDic[(UIFormID)id] = attrItem;
+                    m_uiAttrs.mId2AttrDic[(UIFormID)id] = attrItem;
 
                     attrItem.m_bNeedLua = true;
                     attrItem.m_widgetPath = luaAttrsItemTable["m_widgetPath"] as string;

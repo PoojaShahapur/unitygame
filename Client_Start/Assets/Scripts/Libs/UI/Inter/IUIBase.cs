@@ -4,6 +4,6 @@
     {
         bool isVisible();
         void exit();
-        GUIWin GUIWin();
+        GuiWin guiWin();
     }
 }

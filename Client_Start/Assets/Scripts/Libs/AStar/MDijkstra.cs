@@ -229,7 +229,7 @@ namespace SDK.Lib
         {
             foreach (var vert in this.mVertsVec)
             {
-                if (vert.mStopPoint != null)      // 可能通过 m_id2StopPtMap[idx] 导致添加数据，因此这里判断
+                if (vert.mStopPoint != null)      // 可能通过 mId2StopPtMap[idx] 导致添加数据，因此这里判断
                 {
                     setNeighborInvalidByVertId(vert.mId);
                     vert.mStopPoint = null;

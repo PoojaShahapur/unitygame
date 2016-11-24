@@ -5,32 +5,32 @@ namespace SDK.Lib
 {
     public class NetCmdDispHandle : ICalleeObject
     {
-        protected Dictionary<int, AddOnceEventDispatch> m_id2HandleDic;
+        protected Dictionary<int, AddOnceEventDispatch> mId2HandleDic;
 
         public NetCmdDispHandle()
         {
-            m_id2HandleDic = new Dictionary<int, AddOnceEventDispatch>();
+            mId2HandleDic = new Dictionary<int, AddOnceEventDispatch>();
         }
 
         public void addParamHandle(int paramId, MAction<IDispatchObject> handle)
         {
-            if(!m_id2HandleDic.ContainsKey(paramId))
+            if(!mId2HandleDic.ContainsKey(paramId))
             {
-                m_id2HandleDic[paramId] = new AddOnceEventDispatch();   
+                mId2HandleDic[paramId] = new AddOnceEventDispatch();   
             }
             else
             {
                 Ctx.mInstance.mLogSys.log("Msg Id Already Register");
             }
 
-            m_id2HandleDic[paramId].addEventHandle(null, handle);
+            mId2HandleDic[paramId].addEventHandle(null, handle);
         }
 
         public void removeParamHandle(int paramId, MAction<IDispatchObject> handle)
         {
-            if(m_id2HandleDic.ContainsKey(paramId))
+            if(mId2HandleDic.ContainsKey(paramId))
             {
-                m_id2HandleDic[paramId].removeEventHandle(null, handle);
+                mId2HandleDic[paramId].removeEventHandle(null, handle);
             }
             else
             {
@@ -45,9 +45,9 @@ namespace SDK.Lib
 
         public virtual void handleMsg(CmdDispInfo cmd)
         {
-            if(m_id2HandleDic.ContainsKey(cmd.byParam))
+            if(mId2HandleDic.ContainsKey(cmd.byParam))
             {
-                m_id2HandleDic[cmd.byParam].dispatchEvent(cmd.bu);
+                mId2HandleDic[cmd.byParam].dispatchEvent(cmd.bu);
             }
             else
             {

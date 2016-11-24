@@ -12,5 +12,8 @@
         // InputField
         public const string PathLblName = "InputFieldName";             // 用户名
         public const string PathLblPassWord = "InputFieldPassword";     // 密码
+
+        // Text
+        public const string PathLabelInfo = "TextInfo";                 // 信息提示
     }
 }

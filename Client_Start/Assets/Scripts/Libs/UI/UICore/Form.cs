@@ -78,7 +78,7 @@ namespace SDK.Lib
             }
         }
 
-        public bool bLoadWidgetRes
+        public bool isLoadWidgetRes
         {
             get
             {
@@ -152,7 +152,7 @@ namespace SDK.Lib
             //if (mIsLoadWidgetRes)
             //{
                 // 默认会继续加载资源
-                Ctx.mInstance.mUiMgr.loadWidgetRes(this.id);
+                //Ctx.mInstance.mUiMgr.loadWidgetRes(this.id);
             //}
         }
         

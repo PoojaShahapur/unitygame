@@ -9,7 +9,7 @@ namespace SDK.Lib
     {
         protected LangID m_langID = LangID.zh_CN;           // 当前语言，默认简体中文
         protected ArrayList m_nodeList = null;                   // 整个的 xml 中 <t> 列表
-        protected Dictionary<LangID, LangAttrItem> m_ID2FileName = new Dictionary<LangID, LangAttrItem>();  // 语言到文件名字的映射
+        protected Dictionary<LangID, LangAttrItem> mId2FileName = new Dictionary<LangID, LangAttrItem>();  // 语言到文件名字的映射
         protected ArrayList m_tmpEleList;         // 临时的元素列表
         protected SecurityElement m_tmpEle;              // 临时的元素
         protected bool m_isLoaded = false;                  // 语言文件是否加载
@@ -20,8 +20,8 @@ namespace SDK.Lib
 
         public LangMgr()
         {
-            m_ID2FileName[LangID.zh_CN] = new LangAttrItem();
-            m_ID2FileName[LangID.zh_CN].m_filePath = Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathLangXml] + "zh_CN.xml";
+            mId2FileName[LangID.zh_CN] = new LangAttrItem();
+            mId2FileName[LangID.zh_CN].m_filePath = Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathLangXml] + "zh_CN.xml";
         }
 
         public string getText(LangTypeId typeId, LangItemID itemIdx)
@@ -77,7 +77,7 @@ namespace SDK.Lib
                 LoadParam param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
                 param.mLoadNeedCoroutine = false;
                 param.mResNeedCoroutine = false;
-                param.setPath(m_ID2FileName[m_langID].m_filePath);
+                param.setPath(mId2FileName[m_langID].m_filePath);
                 param.mLoadEventHandle = onLoadEventHandle;
                 Ctx.mInstance.mResLoadMgr.loadAsset(param);
                 Ctx.mInstance.mPoolSys.deleteObj(param);
@@ -91,7 +91,7 @@ namespace SDK.Lib
             //Ctx.mInstance.mLogSys.debugLog_1(LangItemID.eItem0, res.GetPath());    // 这行执行的时候 m_isLoaded 设置加载标志，但是 m_nodeList 还没有初始化
             Ctx.mInstance.mLogSys.log("local xml loaded");
 
-            string text = res.getText(m_ID2FileName[m_langID].m_filePath);
+            string text = res.getText(mId2FileName[m_langID].m_filePath);
             if (text != null)
             {
                 SecurityParser SP = new SecurityParser();

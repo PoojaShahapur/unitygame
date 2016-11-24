@@ -1,5 +1,4 @@
 ﻿using Game.Msg;
-using Game.UI;
 using SDK.Lib;
 
 namespace Game.Login
@@ -15,9 +14,10 @@ namespace Game.Login
         protected uint mDwUserID;
 
         public string mName;
-        public string mPasswd;
+        public string mPassword;
         protected byte[] m_cryptKey;
         protected MAction4<string, int, bool, object> mGateWayAction;
+        protected SelectEnterMode mSelectEnterMode;
 
         public LoginFlowHandle()
         {
@@ -29,12 +29,13 @@ namespace Game.Login
             return mDwUserID;
         }
 
-        public void connectLoginServer(string name, string passwd)
+        public void connectLoginServer(string name, string passwd, SelectEnterMode selectEnterMode)
         {
             Ctx.mInstance.mLoginSys.setLoginState(LoginState.eLoginingLoginServer);     // 设置登陆状态
 
             this.mName = name;
             this.mName = passwd;
+            this.mSelectEnterMode = selectEnterMode;
             Ctx.mInstance.mDataPlayer.m_accountData.m_account = name;
             Ctx.mInstance.mLogSys.registerFileLogDevice();
 
@@ -58,7 +59,14 @@ namespace Game.Login
         // 步骤 1 ，发送登陆消息
         public void sendMsg1f()
         {
-            KBEngine.Event.fireIn("login", this.mName, this.mName, System.Text.Encoding.UTF8.GetBytes("kbengine_unity3d_demo"));
+            if (SelectEnterMode.eCreateAccount == mSelectEnterMode)
+            {
+                KBEngine.Event.fireIn("login", this.mName, this.mPassword, System.Text.Encoding.UTF8.GetBytes("kbengine_unity3d_demo"));
+            }
+            else
+            {
+                KBEngine.Event.fireIn("createAccount", this.mName, this.mPassword, System.Text.Encoding.UTF8.GetBytes("kbengine_unity3d_demo"));
+            }
         }
 
         // 步骤 2 ，接收返回的消息
@@ -83,7 +91,7 @@ namespace Game.Login
 
             stUserRequestLoginCmd cmd = new stUserRequestLoginCmd();
             cmd.pstrName = this.mName;
-            cmd.pstrPassword = this.mPasswd;
+            cmd.pstrPassword = this.mPassword;
             cmd.game = 10;
             cmd.zone = Ctx.mInstance.mCfg.mZone;
             UtilMsg.sendMsg(cmd);

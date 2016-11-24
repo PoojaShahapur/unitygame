@@ -2,7 +2,7 @@
 
 namespace SDK.Lib
 {
-    public class GUIWin
+    public class GuiWin
     {
         public GameObject m_uiRoot;      // ui 根节点
     }

@@ -11,4 +11,11 @@
         eLoginInfoError,          // 信息错误，如账号密码错误、版本错误，需要重新连接登陆服务器
         eLoginNewCharError,       // 建立角色错误
     }
+
+    // 选择进入方式
+    public enum SelectEnterMode
+    {
+        eLoginAccount,       // 登陆账号
+        eCreateAccount,      // 创建账号
+    }
 }

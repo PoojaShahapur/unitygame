@@ -2,7 +2,7 @@
 
 namespace SDK.Lib
 {
-    public class AuxDynImageStaticGoButton : AuxBasicButton
+    public class AuxDynImageStaticGoButton : AuxButton
     {
         protected AuxDynImageStaticGOImage mAuxDynImageStaticGOImage;        // 这个图片和 Prefab
 
