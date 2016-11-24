@@ -46,7 +46,7 @@ namespace SDK.Lib
             }
             else
             {
-                Ctx.mInstance.mLogSys.log(string.Format("{0} 文件不存在", curPath));
+                Ctx.mInstance.mLogSys.log(string.Format("{0} file not exist", curPath));
             }
 
             if (m_bytes != null)

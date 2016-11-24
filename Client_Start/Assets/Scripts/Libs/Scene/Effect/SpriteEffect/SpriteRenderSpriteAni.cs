@@ -55,7 +55,7 @@ namespace SDK.Lib
             }
             else
             {
-                Ctx.mInstance.mLogSys.log("spriteRender 释放的时候已经为空值");
+                Ctx.mInstance.mLogSys.log("spriteRender delete is already null");
             }
         }
 

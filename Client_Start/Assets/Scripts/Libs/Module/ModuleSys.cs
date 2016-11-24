@@ -63,7 +63,7 @@ namespace SDK.Lib
             }
             else
             {
-                Ctx.mInstance.mLogSys.log("模块重复加载");
+                Ctx.mInstance.mLogSys.log("Module Repeat load");
             }
         }
 
@@ -89,7 +89,7 @@ namespace SDK.Lib
             }
             else
             {
-                Ctx.mInstance.mLogSys.log("没有找到卸载的模块的 object");
+                Ctx.mInstance.mLogSys.log("Cannot find unload module object");
             }
             Ctx.mInstance.mLayerMgr.m_path2Go.Remove(m_type2ItemDic[moduleID].m_moduleLayerPath);
             UtilApi.UnloadUnusedAssets();

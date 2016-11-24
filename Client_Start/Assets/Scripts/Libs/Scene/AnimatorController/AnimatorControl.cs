@@ -288,7 +288,7 @@ namespace SDK.Lib
 
             AnimatorStateInfo state = this.mAnimator.GetCurrentAnimatorStateInfo(0);
             // 这个地方立马获取数据是获取不到的，需要等待下一帧才能获取到正确的数据
-            Ctx.mInstance.mLogSys.log(string.Format("当前长度 {0}", state.length));
+            Ctx.mInstance.mLogSys.log(string.Format("Current length {0}", state.length));
             this.mOneAniEndTimer.mInternal = state.length;
             this.mOneAniEndTimer.mTotalTime = mOneAniEndTimer.mInternal;
 
@@ -298,7 +298,7 @@ namespace SDK.Lib
         // 默认状态监测处理器
         public void onIdleStateFrameHandle(FrameTimerItem timer)
         {
-            Ctx.mInstance.mLogSys.log(string.Format("Idle 当前帧 {0}", timer.mCurFrame));
+            Ctx.mInstance.mLogSys.log(string.Format("Idle current frame {0}", timer.mCurFrame));
             if (canStopIdleFrameTimer())
             {
                 this.mIsIdleStateDetect = false;
@@ -316,7 +316,7 @@ namespace SDK.Lib
 
         public void onNextFrameHandle(FrameTimerItem timer)
         {
-            Ctx.mInstance.mLogSys.log(string.Format("当前帧 {0}", timer.mCurFrame));
+            Ctx.mInstance.mLogSys.log(string.Format("Current frame {0}", timer.mCurFrame));
             if (canStopNextFrameTimer())
             {
                 timer.mDisposed = true;
@@ -334,7 +334,7 @@ namespace SDK.Lib
         protected bool canStopIdleFrameTimer()
         {
             AnimatorStateInfo state = this.mAnimator.GetCurrentAnimatorStateInfo(0);
-            Ctx.mInstance.mLogSys.log(string.Format("Idle 当前检测长度 {0}", state.length));
+            Ctx.mInstance.mLogSys.log(string.Format("Idle current check length {0}", state.length));
             //return (state.length == 0);
             return state.normalizedTime >= 1.0f;    // Unity4 使用这个判断动画是否结束， Unity5 可以和 UE4 一样，使用事件
         }
@@ -343,7 +343,7 @@ namespace SDK.Lib
         {
             //return (mState.length > 0);
             AnimatorStateInfo state = this.mAnimator.GetCurrentAnimatorStateInfo(0);
-            Ctx.mInstance.mLogSys.log(string.Format("当前检测长度 {0}", state.length));
+            Ctx.mInstance.mLogSys.log(string.Format("Current check length {0}", state.length));
             //return (state.length > 0);
             return state.normalizedTime >= 1.0f;
         }

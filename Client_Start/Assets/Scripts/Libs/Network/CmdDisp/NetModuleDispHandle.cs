@@ -37,12 +37,12 @@ namespace SDK.Lib
         {
             if(m_id2DispDic.ContainsKey(cmdDispInfo.byCmd))
             {
-                Ctx.mInstance.mLogSys.log(string.Format("处理消息: byCmd = {0},  byParam = {1}", cmdDispInfo.byCmd, cmdDispInfo.byParam));
+                Ctx.mInstance.mLogSys.log(string.Format("Handle msg: byCmd = {0},  byParam = {1}", cmdDispInfo.byCmd, cmdDispInfo.byParam));
                 m_id2DispDic[cmdDispInfo.byCmd].dispatchEvent(cmdDispInfo);
             }
             else
             {
-                Ctx.mInstance.mLogSys.log(string.Format("消息没有处理: byCmd = {0},  byParam = {1}", cmdDispInfo.byCmd, cmdDispInfo.byParam));
+                Ctx.mInstance.mLogSys.log(string.Format("Msg not handle: byCmd = {0},  byParam = {1}", cmdDispInfo.byCmd, cmdDispInfo.byParam));
             }
 
             if(m_luaCSBridgeNetDispHandle != null)

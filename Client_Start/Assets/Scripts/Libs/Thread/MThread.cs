@@ -102,7 +102,7 @@ namespace SDK.Lib
         {
             if (!isMainThread())
             {
-                Ctx.mInstance.mLogSys.error("error: log 输出在另外一个线程");
+                Ctx.mInstance.mLogSys.error("error: log out in other thread");
                 throw new Exception("cannot call function in thread");
             }
         }

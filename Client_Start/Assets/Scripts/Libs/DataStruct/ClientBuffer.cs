@@ -131,7 +131,7 @@
 
         public void moveDyn2Raw()
         {
-            Ctx.mInstance.mLogSys.log(string.Format("移动动态数据消息数据到原始数据队列，消息长度　{0}", mDynBuffer.size));
+            Ctx.mInstance.mLogSys.log(string.Format("Move dynmaic data msg data to raw data queue，msg length　{0}", mDynBuffer.size));
             UtilMsg.formatBytes2Array(mDynBuffer.buffer, mDynBuffer.size);
 
             if (MacroDef.MSG_ENCRIPT)
@@ -148,7 +148,7 @@
 
         public void moveDyn2Raw_KBE()
         {
-            Ctx.mInstance.mLogSys.log(string.Format("移动动态数据消息数据到原始数据队列，消息长度　{0}", mDynBuffer.size));
+            Ctx.mInstance.mLogSys.log(string.Format("Move dynmaic data msg data to raw data queue，msg length　{0}", mDynBuffer.size));
 
             if (MacroDef.MSG_ENCRIPT)
             {
@@ -455,13 +455,13 @@
                 if ((msglen & MsgCV.PACKET_ZIP) > 0 && MacroDef.MSG_COMPRESS)
                 {
                     msglen &= (~MsgCV.PACKET_ZIP);         // 去掉压缩标志位
-                    Ctx.mInstance.mLogSys.log(string.Format("消息需要解压缩，消息未解压长度　{0}", msglen));
+                    Ctx.mInstance.mLogSys.log(string.Format("Msg need uncompress, msg compress length {0}", msglen));
                     msglen = mRawBuffer.msgBodyBA.uncompress(msglen);
-                    Ctx.mInstance.mLogSys.log(string.Format("消息需要解压缩，消息解压后长度　{0}", msglen));
+                    Ctx.mInstance.mLogSys.log(string.Format("Msg need uncompress, msg uncompress length　{0}", msglen));
                 }
                 else
                 {
-                    Ctx.mInstance.mLogSys.log(string.Format("消息不需要解压缩，消息原始长度　{0}", msglen));
+                    Ctx.mInstance.mLogSys.log(string.Format("Msg need not uncompress, msg original length　{0}", msglen));
                     mRawBuffer.msgBodyBA.position += msglen;
                 }
 
@@ -475,14 +475,14 @@
                     mMsgBuffer.circularBuffer.pushBackArr(mRawBuffer.msgBodyBA.dynBuffer.buffer, mRawBuffer.msgBodyBA.position - msglen, msglen);      // 保存消息大小字段
                 }
 
-                Ctx.mInstance.mLogSys.log(string.Format("解压解密后消息起始索引 {0}, 消息长度　{1}, 消息 position 位置 {2}, 消息 size {3}", mRawBuffer.msgBodyBA.position - msglen, msglen, mRawBuffer.msgBodyBA.position, mRawBuffer.msgBodyBA.length));
+                Ctx.mInstance.mLogSys.log(string.Format("Uncompress Uncrypt msg start index {0}, msg length　{1}, msg position is {2}, msg size {3}", mRawBuffer.msgBodyBA.position - msglen, msglen, mRawBuffer.msgBodyBA.position, mRawBuffer.msgBodyBA.length));
                 Ctx.mInstance.mNetCmdNotify.addOneRevMsg();
 
                 // Test 读取消息头
                 // ByteBuffer buff = getMsg();
                 // stNullUserCmd cmd = new stNullUserCmd();
                 // cmd.derialize(buff);
-                // Ctx.mInstance.mLogSys.log(string.Format("测试打印消息: byCmd = {0}, byParam = {1}", cmd.byCmd, cmd.byParam));
+                // Ctx.mInstance.mLogSys.log(string.Format("Test print msg: byCmd = {0}, byParam = {1}", cmd.byCmd, cmd.byParam));
             }
         }
 

@@ -73,26 +73,26 @@ namespace SDK.Lib
         {
             ++mRevMsgCnt;
 
-            Ctx.mInstance.mLogSys.log(string.Format("接收到消息数量 {0}", mRevMsgCnt));
+            Ctx.mInstance.mLogSys.log(string.Format("Receive msg num {0}", mRevMsgCnt));
         }
 
         public void addOneHandleMsg()
         {
             ++mHandleMsgCnt;
 
-            Ctx.mInstance.mLogSys.log(string.Format("处理消息数量 {0}", mHandleMsgCnt));
+            Ctx.mInstance.mLogSys.log(string.Format("Handle msg num {0}", mHandleMsgCnt));
         }
 
         public void clearOneRevMsg()
         {
             mRevMsgCnt = 0;
-            Ctx.mInstance.mLogSys.log("清理接收消息数量");
+            Ctx.mInstance.mLogSys.log("Clear receive msg num");
         }
 
         public void clearOneHandleMsg()
         {
             mHandleMsgCnt = 0;
-            Ctx.mInstance.mLogSys.log("清理处理消息数量");
+            Ctx.mInstance.mLogSys.log("Clear handle msg num");
         }
     }
 }

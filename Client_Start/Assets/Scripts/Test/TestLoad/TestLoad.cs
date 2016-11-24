@@ -133,7 +133,7 @@ namespace UnitTest
             param.mResNeedCoroutine = false;
             ResItem bbb = Ctx.mInstance.mResLoadMgr.getAndLoad(param);
             System.Type type = bbb.getObject("").GetType();
-            Ctx.mInstance.mLogSys.log(string.Format("类型名字 {0}", type.FullName));
+            Ctx.mInstance.mLogSys.log(string.Format("Type name {0}", type.FullName));
             Ctx.mInstance.mPoolSys.deleteObj(param);
 
             //GameObject _go = UtilApi.createGameObject("AnimatorController");

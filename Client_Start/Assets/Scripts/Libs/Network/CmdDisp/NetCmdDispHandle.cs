@@ -51,7 +51,7 @@ namespace SDK.Lib
             }
             else
             {
-                Ctx.mInstance.mLogSys.log(string.Format("消息没有处理: byCmd = {0},  byParam = {1}", cmd.byCmd, cmd.byParam));
+                Ctx.mInstance.mLogSys.log(string.Format("Msg not handle: byCmd = {0},  byParam = {1}", cmd.byCmd, cmd.byParam));
             }
         }
     }

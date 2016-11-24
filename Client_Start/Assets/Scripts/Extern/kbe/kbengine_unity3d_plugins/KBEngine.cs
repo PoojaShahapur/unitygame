@@ -532,7 +532,7 @@
 				reset();
                 //_networkInterface.connectTo(_args.ip, _args.port, onConnectTo_loginapp_callback, null);
                 // 设置链接成功
-                //_networkInterface.set_onConnectStatus(null);
+                _networkInterface.set_onConnectStatus(null);
                 // TODO: 直接进入链接成功
                 this.onConnectTo_loginapp_callback(_args.ip, _args.port, true, null);
             }

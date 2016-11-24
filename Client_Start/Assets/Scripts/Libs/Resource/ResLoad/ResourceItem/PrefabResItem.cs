@@ -138,7 +138,7 @@ namespace SDK.Lib
                 m_retGO = GameObject.Instantiate(m_prefabObj) as GameObject;
                 if (null == m_retGO)
                 {
-                    Ctx.mInstance.mLogSys.log("不能实例化数据");
+                    Ctx.mInstance.mLogSys.log("Cannot instance data");
                 }
             }
 
@@ -151,14 +151,14 @@ namespace SDK.Lib
 
             if (null == m_prefabObj)
             {
-                Ctx.mInstance.mLogSys.log("prefab 为 null");
+                Ctx.mInstance.mLogSys.log("prefab is null");
             }
             else
             {
                 retGO = GameObject.Instantiate(m_prefabObj) as GameObject;
                 if (null == retGO)
                 {
-                    Ctx.mInstance.mLogSys.log("不能实例化数据");
+                    Ctx.mInstance.mLogSys.log("Cannot instance data");
                 }
             }
 

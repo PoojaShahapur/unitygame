@@ -507,7 +507,7 @@ namespace SDK.Lib
             }
             else
             {
-                Ctx.mInstance.mLogSys.log(string.Format("路径不能查找到 {0}", resUniqueId));
+                Ctx.mInstance.mLogSys.log(string.Format("Cannot find path {0}", resUniqueId));
             }
         }
 

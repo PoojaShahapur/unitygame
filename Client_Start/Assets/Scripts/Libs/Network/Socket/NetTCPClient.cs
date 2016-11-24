@@ -297,7 +297,7 @@ namespace SDK.Lib
 
                 try
                 {
-                    Ctx.mInstance.mLogSys.log(string.Format("开始发送字节数 {0} ", mClientBuffer.sendBuffer.bytesAvailable));
+                    Ctx.mInstance.mLogSys.log(string.Format("Start send byte num {0} ", mClientBuffer.sendBuffer.bytesAvailable));
 
                     IAsyncResult asyncSend = mSocket.BeginSend(mClientBuffer.sendBuffer.dynBuffer.buffer, (int)mClientBuffer.sendBuffer.position, (int)mClientBuffer.sendBuffer.bytesAvailable, 0, new System.AsyncCallback(SendCallback), 0);
                     //bool success = asyncSend.AsyncWaitHandle.WaitOne(m_sendTimeout, true);

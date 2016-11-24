@@ -63,7 +63,7 @@ namespace SDK.Lib
                 }
                 else
                 {
-                    Ctx.mInstance.mLogSys.log("unity3d 资源卸载的时候 AssetBundle 加载失败");
+                    Ctx.mInstance.mLogSys.log("When unity3d unload resource, AssetBundle load failed");
                 }
             }
         }

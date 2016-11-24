@@ -142,11 +142,11 @@ namespace SDK.Lib
             }
             else
             {
-                Ctx.mInstance.mLogSys.log(string.Format("地图集 {0} 中的图片 {0} 不能加载", this.mAtlasPath, spriteName));
-                Ctx.mInstance.mLogSys.log("输出地图集中的图片列表");
+                Ctx.mInstance.mLogSys.log(string.Format("Atlas is {0}, picture is {0}, cannot load", this.mAtlasPath, spriteName));
+                Ctx.mInstance.mLogSys.log("Out picture list of atlas");
                 foreach (var key in this.mPath2Image.Keys)
                 {
-                    Ctx.mInstance.mLogSys.log(string.Format("地图集 {0} 中的图片 {0}", this.mAtlasPath, key));
+                    Ctx.mInstance.mLogSys.log(string.Format("Atlas is {0}, picture is {0}", this.mAtlasPath, key));
                 }
                 return null;
             }

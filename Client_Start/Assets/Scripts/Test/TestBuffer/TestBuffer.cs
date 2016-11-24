@@ -107,7 +107,7 @@ namespace UnitTest
 
             for (int idx = 0; idx < 500; ++idx)
             {
-                Ctx.mInstance.mLogSys.log(string.Format("发送缓冲区测试索引 {0}", idx));
+                Ctx.mInstance.mLogSys.log(string.Format("Send buffer test index {0}", idx));
                 pDataBuffer.sendData.clear();
                 pCmd.serialize(pDataBuffer.sendData);
                 pDataBuffer.send();

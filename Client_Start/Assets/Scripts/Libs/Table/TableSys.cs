@@ -58,7 +58,7 @@ namespace SDK.Lib
 
             if (null == ret)
             {
-                Ctx.mInstance.mLogSys.log(string.Format("table name: {0}, table Item {1} 加载失败", (int)tableID, itemID));
+                Ctx.mInstance.mLogSys.log(string.Format("table name: {0}, table Item {1} load failed", (int)tableID, itemID));
             }
 
 			return ret;
