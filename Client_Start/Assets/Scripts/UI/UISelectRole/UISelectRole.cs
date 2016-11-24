@@ -74,6 +74,9 @@ namespace Game.UI
             UtilApi.addEventHandle(m_guiWin.m_uiRoot, SelectRoleComPath.PathBtnEnter, onEnterBtnClk);
             UtilApi.addEventHandle(m_guiWin.m_uiRoot, SelectRoleComPath.PathBtnCreateRole, onCreateRoleBtnClk);
             UtilApi.addEventHandle(m_guiWin.m_uiRoot, SelectRoleComPath.PathBtnDeleteRole, onDeleteRoleBtnClk);
+
+            UtilApi.addEventHandle(m_guiWin.m_uiRoot, SelectRoleComPath.PathBtnRoleOne, onSelectRoleBtnClick);
+            UtilApi.addEventHandle(m_guiWin.m_uiRoot, SelectRoleComPath.PathBtnCreateOk, onCreateOkBtnClk);
         }
 
         public void onEnterBtnClk()
@@ -89,7 +92,7 @@ namespace Game.UI
                     info("Please wait...(请稍后...)");
 
                     KBEngine.Event.fireIn("selectAvatarGame", selAvatarDBID);
-                    Application.LoadLevel("world");
+                    //Application.LoadLevel("world");
                 }
             }
         }
@@ -124,6 +127,8 @@ namespace Game.UI
         {
             if (startCreateAvatar)
             {
+                stringAvatarName = this.mNameInputField.getText();
+
                 if (stringAvatarName.Length > 1)
                 {
                     this.toggleCreateRole();
@@ -133,14 +138,12 @@ namespace Game.UI
                 {
                     err("avatar name is null(角色名称为空)!");
                 }
-
-                stringAvatarName = GUI.TextField(new Rect(Screen.width / 2 - 100, Screen.height - 75, 200, 30), stringAvatarName, 20);
             }
         }
 
         public void onSelectRoleBtnClick()
         {
-            Ctx.mInstance.mLogSys.log(string.Format("selAvatar: {10}", this.mPlayerBtn.getText()));
+            Ctx.mInstance.mLogSys.log(string.Format("selAvatar: {0}", this.mPlayerBtn.getText()));
             //selAvatarDBID = idbid;
         }
 
