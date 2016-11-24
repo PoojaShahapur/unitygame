@@ -80,7 +80,7 @@ namespace Game.Login
             UISelectRole uiSelectRole = Ctx.mInstance.mUiMgr.getForm(UIFormID.eUISelectRole) as UISelectRole;
             if(null != uiSelectRole)
             {
-                uiLogin.err(s);
+                uiSelectRole.err(s);
             }
         }
 
@@ -98,7 +98,7 @@ namespace Game.Login
             UISelectRole uiSelectRole = Ctx.mInstance.mUiMgr.getForm(UIFormID.eUISelectRole) as UISelectRole;
             if (null != uiSelectRole)
             {
-                uiLogin.info(s);
+                uiSelectRole.info(s);
             }
         }
 
@@ -168,13 +168,13 @@ namespace Game.Login
             Ctx.mInstance.mUiMgr.loadAndShow(UIFormID.eUISelectRole);
 
             ui_state = 1;
-            Application.LoadLevel("selavatars");
+            //Application.LoadLevel("selavatars");
         }
 
         public void onKicked(UInt16 failedcode)
         {
             err("kick, disconnect!, reason=" + KBEngineApp.app.serverErr(failedcode));
-            Application.LoadLevel("login");
+            //Application.LoadLevel("login");
 
             ui_state = 0;
             Ctx.mInstance.mUiMgr.loadAndShow(UIFormID.eUILogin);
@@ -198,6 +198,12 @@ namespace Game.Login
         public void onReqAvatarList(Dictionary<UInt64, Dictionary<string, object>> avatarList)
         {
             ui_avatarList = avatarList;
+
+            UISelectRole uiSelectRole = Ctx.mInstance.mUiMgr.getForm(UIFormID.eUISelectRole) as UISelectRole;
+            if (null != uiSelectRole)
+            {
+                uiSelectRole.setAvatarList(ui_avatarList);
+            }
         }
 
         public void onCreateAvatarResult(Byte retcode, object info, Dictionary<UInt64, Dictionary<string, object>> avatarList)

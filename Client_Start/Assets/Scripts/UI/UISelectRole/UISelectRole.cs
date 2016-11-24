@@ -211,5 +211,11 @@ namespace Game.UI
                 }
             }
         }
+
+        public void setAvatarList(Dictionary<UInt64, Dictionary<string, object>> avatarList)
+        {
+            this.ui_avatarList = avatarList;
+            this.updateRoleList();
+        }
     }
 }
