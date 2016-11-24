@@ -25,33 +25,33 @@ namespace SDK.Lib
             // ****************** Canvas_100 开始 **********************
             // ****************** 第二层开始 ***********************
             mId2AttrDic[UIFormID.eUILogin] = new UIAttrItem();
-            mId2AttrDic[UIFormID.eUILogin].m_canvasID = UICanvasID.eSecondCanvas;
-            mId2AttrDic[UIFormID.eUILogin].m_LayerID = UILayerID.eSecondLayer;
+            mId2AttrDic[UIFormID.eUILogin].mCanvasID = UICanvasID.eSecondCanvas;
+            mId2AttrDic[UIFormID.eUILogin].mLayerID = UILayerID.eSecondLayer;
             mId2AttrDic[UIFormID.eUILogin].addUISceneType(UISceneType.eUIScene_Game);
-            mId2AttrDic[UIFormID.eUILogin].m_widgetPath = string.Format("{0}{1}/{2}{3}", Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathComUI], "UILogin", "UILogin", ".prefab");
-            mId2AttrDic[UIFormID.eUILogin].m_scriptTypeName = "Game.UI.UILogin";
+            mId2AttrDic[UIFormID.eUILogin].mWidgetPath = string.Format("{0}{1}/{2}{3}", Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathComUI], "UILogin", "UILogin", ".prefab");
+            mId2AttrDic[UIFormID.eUILogin].mScriptTypeName = "Game.UI.UILogin";
 
             mId2AttrDic[UIFormID.eUISelectRole] = new UIAttrItem();
-            mId2AttrDic[UIFormID.eUISelectRole].m_canvasID = UICanvasID.eSecondCanvas;
-            mId2AttrDic[UIFormID.eUISelectRole].m_LayerID = UILayerID.eSecondLayer;
+            mId2AttrDic[UIFormID.eUISelectRole].mCanvasID = UICanvasID.eSecondCanvas;
+            mId2AttrDic[UIFormID.eUISelectRole].mLayerID = UILayerID.eSecondLayer;
             mId2AttrDic[UIFormID.eUISelectRole].addUISceneType(UISceneType.eUIScene_Game);
-            mId2AttrDic[UIFormID.eUISelectRole].m_widgetPath = string.Format("{0}{1}/{2}{3}", Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathComUI], "UISelectRole", "UISelectRole", ".prefab");
-            mId2AttrDic[UIFormID.eUISelectRole].m_scriptTypeName = "Game.UI.UISelectRole";
+            mId2AttrDic[UIFormID.eUISelectRole].mWidgetPath = string.Format("{0}{1}/{2}{3}", Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathComUI], "UISelectRole", "UISelectRole", ".prefab");
+            mId2AttrDic[UIFormID.eUISelectRole].mScriptTypeName = "Game.UI.UISelectRole";
 
             mId2AttrDic[UIFormID.eUITest] = new UIAttrItem();
-            mId2AttrDic[UIFormID.eUITest].m_canvasID = UICanvasID.eSecondCanvas;
-            mId2AttrDic[UIFormID.eUITest].m_LayerID = UILayerID.eTopLayer;
+            mId2AttrDic[UIFormID.eUITest].mCanvasID = UICanvasID.eSecondCanvas;
+            mId2AttrDic[UIFormID.eUITest].mLayerID = UILayerID.eTopLayer;
             mId2AttrDic[UIFormID.eUITest].addUISceneType(UISceneType.eUIScene_Game);
-            mId2AttrDic[UIFormID.eUITest].m_widgetPath = string.Format("{0}{1}/{2}{3}", Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathComUI], "UILogin", "UILogin", ".prefab");
-            mId2AttrDic[UIFormID.eUITest].m_scriptTypeName = "Game.UI.UILogin";
+            mId2AttrDic[UIFormID.eUITest].mWidgetPath = string.Format("{0}{1}/{2}{3}", Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathComUI], "UILogin", "UILogin", ".prefab");
+            mId2AttrDic[UIFormID.eUITest].mScriptTypeName = "Game.UI.UILogin";
 
 
             mId2AttrDic[UIFormID.eUITerrainEdit] = new UIAttrItem();
-            mId2AttrDic[UIFormID.eUITerrainEdit].m_canvasID = UICanvasID.eSecondCanvas;
-            mId2AttrDic[UIFormID.eUITerrainEdit].m_LayerID = UILayerID.eSecondLayer;
+            mId2AttrDic[UIFormID.eUITerrainEdit].mCanvasID = UICanvasID.eSecondCanvas;
+            mId2AttrDic[UIFormID.eUITerrainEdit].mLayerID = UILayerID.eSecondLayer;
             mId2AttrDic[UIFormID.eUITerrainEdit].addUISceneType(UISceneType.eUIScene_Game);
-            mId2AttrDic[UIFormID.eUITerrainEdit].m_widgetPath = string.Format("{0}{1}/{2}{3}", Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathComUI], "UITerrainEdit", "UITerrainEdit", ".prefab");
-            mId2AttrDic[UIFormID.eUITerrainEdit].m_scriptTypeName = "Game.UI.UITerrainEdit";
+            mId2AttrDic[UIFormID.eUITerrainEdit].mWidgetPath = string.Format("{0}{1}/{2}{3}", Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathComUI], "UITerrainEdit", "UITerrainEdit", ".prefab");
+            mId2AttrDic[UIFormID.eUITerrainEdit].mScriptTypeName = "Game.UI.UITerrainEdit";
 
             // ****************** 第二层结束 ***********************
 
@@ -76,7 +76,7 @@ namespace SDK.Lib
         {
             if (mId2AttrDic.ContainsKey(id))
             {
-                return mId2AttrDic[id].m_widgetPath;
+                return mId2AttrDic[id].mWidgetPath;
                 //ret = Ctx.mInstance.mCfg.m_pathLst[(int)ResPathType.ePathComUI] + ret;
                 //return ret;
             }
@@ -91,14 +91,14 @@ namespace SDK.Lib
             {
                 if (ResPathType.ePathComUI == pathType)
                 {
-                    if (mId2AttrDic[id].m_widgetPath == resPath)
+                    if (mId2AttrDic[id].mWidgetPath == resPath)
                     {
                         return id;
                     }
                 }
                 else if (ResPathType.ePathCodePath == pathType)
                 {
-                    if (mId2AttrDic[id].m_codePath == resPath)
+                    if (mId2AttrDic[id].mCodePath == resPath)
                     {
                         return id;
                     }

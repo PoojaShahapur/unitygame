@@ -29,7 +29,7 @@ namespace SDK.Lib
         protected LuaTable m_luaInsTable;      // Lua 中的 Form 实例表
 
         public LuaCSBridgeForm(UIAttrItem attrItem, Form form_)
-            : base(attrItem.m_luaScriptPath, attrItem.m_luaScriptTableName)
+            : base(attrItem.mLuaScriptPath, attrItem.mLuaScriptTableName)
         {
             m_attrItem = attrItem;
             m_form = form_;

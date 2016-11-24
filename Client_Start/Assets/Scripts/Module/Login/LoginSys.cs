@@ -36,7 +36,9 @@ namespace Game.Login
 
             this.mLoginNetHandleCB_KBE = new LoginNetHandleCB_KBE();
             this.mLoginNetHandleCB_KBE.init();
+
             Ctx.mInstance.mUiMgr.loadAndShow(UIFormID.eUILogin);
+            //Ctx.mInstance.mUiMgr.loadAndShow(UIFormID.eUISelectRole);
         }
 
         // 加载登陆常见
@@ -82,6 +84,7 @@ namespace Game.Login
         protected void registerScriptType()
         {
             Ctx.mInstance.mScriptDynLoad.registerScriptType("Game.UI.UILogin", typeof(UILogin));
+            Ctx.mInstance.mScriptDynLoad.registerScriptType("Game.UI.UISelectRole", typeof(UISelectRole));
         }
     }
 }

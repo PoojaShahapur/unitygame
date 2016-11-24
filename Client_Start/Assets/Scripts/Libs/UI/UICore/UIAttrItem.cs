@@ -2,28 +2,28 @@
 {
     public class UIAttrItem
     {
-        public string m_codePath;               // 逻辑代码 path
-        public string m_widgetPath;             // 拖放的控件 path
-        public string m_scriptTypeName;         // 脚本代码的名字空间和名字
+        public string mCodePath;               // 逻辑代码 path
+        public string mWidgetPath;             // 拖放的控件 path
+        public string mScriptTypeName;         // 脚本代码的名字空间和名字
 
-        public UICanvasID m_canvasID;           // 在哪个 Canvas
-        public UILayerID m_LayerID;             // 所在的 Layer
-        public byte m_uiSceneType;              // 场景类型列表
+        public UICanvasID mCanvasID;           // 在哪个 Canvas
+        public UILayerID mLayerID;             // 所在的 Layer
+        public byte mUiSceneType;              // 场景类型列表
 
-        public bool m_bNeedLua;
-        public string m_luaScriptPath;
-        public string m_luaScriptTableName;
+        public bool mIsNeedLua;
+        public string mLuaScriptPath;
+        public string mLuaScriptTableName;
 
         public void addUISceneType(UISceneType sceneType)
         {
-            UtilMath.setState((int)sceneType, ref m_uiSceneType);
+            UtilMath.setState((int)sceneType, ref mUiSceneType);
         }
 
         public bool canUnloadUIBySceneType(UISceneType unloadSceneType, UISceneType loadSceneTpe)
         {
             // 在卸载 UI 场景类型中，但是不在加载场景类型中
-            if (UtilMath.checkState((int)unloadSceneType, m_uiSceneType) &&
-               !UtilMath.checkState((int)loadSceneTpe, m_uiSceneType))
+            if (UtilMath.checkState((int)unloadSceneType, mUiSceneType) &&
+               !UtilMath.checkState((int)loadSceneTpe, mUiSceneType))
             {
                 return true;
             }

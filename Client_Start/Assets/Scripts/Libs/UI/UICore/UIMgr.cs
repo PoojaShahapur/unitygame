@@ -179,7 +179,7 @@ namespace SDK.Lib
         // 内部接口
         private void addFormNoReady(Form form)
         {
-            UILayer layer = getLayer(m_UIAttrs.mId2AttrDic[form.id].m_canvasID, m_UIAttrs.mId2AttrDic[form.id].m_LayerID);
+            UILayer layer = getLayer(m_UIAttrs.mId2AttrDic[form.id].mCanvasID, m_UIAttrs.mId2AttrDic[form.id].mLayerID);
             form.uiLayer = layer;
             layer.addForm(form);
 
@@ -226,19 +226,19 @@ namespace SDK.Lib
             {
                 // 创建窗口
                 Form form = null;
-                if (attrItem.m_bNeedLua)
+                if (attrItem.mIsNeedLua)
                 {
                     form = new Form();
                 }
                 else
                 {
-                    form = Ctx.mInstance.mScriptDynLoad.getScriptObject(attrItem.m_scriptTypeName) as Form;
+                    form = Ctx.mInstance.mScriptDynLoad.getScriptObject(attrItem.mScriptTypeName) as Form;
                 }
                 
                 if (form != null)                   // 如果代码已经在本地
                 {
                     (form as Form).id = formId;
-                    if (attrItem.m_bNeedLua)
+                    if (attrItem.mIsNeedLua)
                     {
                         form.luaCSBridgeForm = new LuaCSBridgeForm(attrItem, form);
                         form.luaCSBridgeForm.init();
@@ -260,7 +260,7 @@ namespace SDK.Lib
                     mId2CodeLoadingItemDic[formId] = new UILoadingItem();
                     mId2CodeLoadingItemDic[formId].mId = formId;
 
-                    loadFromFile(attrItem.m_codePath, onCodeLoadEventHandle);
+                    loadFromFile(attrItem.mCodePath, onCodeLoadEventHandle);
                 }
             }
         }
@@ -274,7 +274,7 @@ namespace SDK.Lib
                 mId2WidgetLoadingItemDic[formId] = new UILoadingItem();
                 mId2WidgetLoadingItemDic[formId].mId = formId;
 
-                loadFromFile(attrItem.m_widgetPath, onWidgetLoadEventHandle);
+                loadFromFile(attrItem.mWidgetPath, onWidgetLoadEventHandle);
             }
         }
 
@@ -348,15 +348,15 @@ namespace SDK.Lib
 
             UIAttrItem attrItem = m_UIAttrs.mId2AttrDic[formId];
             mId2FormDic[formId].isLoadWidgetRes = true;
-            mId2FormDic[formId].m_guiWin.m_uiRoot = res.InstantiateObject(attrItem.m_widgetPath);
-            if (attrItem.m_bNeedLua)
+            mId2FormDic[formId].m_guiWin.m_uiRoot = res.InstantiateObject(attrItem.mWidgetPath);
+            if (attrItem.mIsNeedLua)
             {
                 mId2FormDic[formId].luaCSBridgeForm.gameObject = mId2FormDic[formId].m_guiWin.m_uiRoot;
                 mId2FormDic[formId].luaCSBridgeForm.postInit();
             }
 
             // 设置位置
-            UtilApi.SetParent(mId2FormDic[formId].m_guiWin.m_uiRoot.transform, m_canvasList[(int)attrItem.m_canvasID].layerList[(int)attrItem.m_LayerID].layerTrans, false);
+            UtilApi.SetParent(mId2FormDic[formId].m_guiWin.m_uiRoot.transform, m_canvasList[(int)attrItem.mCanvasID].layerList[(int)attrItem.mLayerID].layerTrans, false);
 
             // 先设置再设置缩放，否则无效
             mId2FormDic[formId].m_guiWin.m_uiRoot.transform.SetAsLastSibling();               // 放在最后

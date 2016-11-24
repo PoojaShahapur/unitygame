@@ -6,13 +6,13 @@
     public class SelectRoleComPath
     {
         // Button
-        public const string PathBtnEnter = "PanelMain/ButtonEnter";           // 进入游戏
-        public const string PathBtnCreateRole = "PanelMain/ButtonCreateRole"; // 创建角色
-        public const string PathBtnDeleteRole = "PanelMain/ButtonDeleteRole"; // 删除角色
+        public const string PathBtnEnter = "GroupMain/ButtonEnter";           // 进入游戏
+        public const string PathBtnCreateRole = "GroupMain/ButtonCreateRole"; // 创建角色
+        public const string PathBtnDeleteRole = "GroupMain/ButtonDeleteRole"; // 删除角色
 
         public const string PathBtnRoleOne = "ButtonRoleName";                  // 创建的角色的名字
-        public const string PathBtnCreateOk = "PanelCreateOK/ButtonCreateOk";   // 点击创建角色
-        public const string PathBtnInputFieldName = "PanelCreateOK/InputFieldName"; // 输入角色的名字
+        public const string PathBtnCreateOk = "GroupCreateOK/ButtonCreateOk";   // 点击创建角色
+        public const string PathBtnInputFieldName = "GroupCreateOK/InputFieldName"; // 输入角色的名字
 
         // Text
         public const string PathLabelInfo = "TextInfo";         // 信息提示

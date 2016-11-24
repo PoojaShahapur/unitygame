@@ -16,12 +16,12 @@ namespace SDK.Lib
     public class UICanvas
     {
         protected string m_goName;              // GameObject 的名字
-        protected UICanvasID m_canvasID;        // CanvasID
+        protected UICanvasID mCanvasID;        // CanvasID
         protected List<UILayer> m_layerList;     // Canvas 中的 Layer
 
         public UICanvas(UICanvasID canvasID)
         {
-            m_canvasID = canvasID;
+            mCanvasID = canvasID;
 
             m_layerList = new List<UILayer>();
 
@@ -31,7 +31,7 @@ namespace SDK.Lib
                 m_layerList.Add(new UILayer((UILayerID)idx));
             }
 
-            if (UICanvasID.eFirstCanvas == m_canvasID)
+            if (UICanvasID.eFirstCanvas == mCanvasID)
             {
                 m_layerList[(int)UILayerID.eBtmLayer].goName = NotDestroyPath.ND_CV_UIBtmLayer_FirstCanvas;
                 m_layerList[(int)UILayerID.eFirstLayer].goName = NotDestroyPath.ND_CV_UIFirstLayer_FirstCanvas;
@@ -40,7 +40,7 @@ namespace SDK.Lib
                 m_layerList[(int)UILayerID.eForthLayer].goName = NotDestroyPath.ND_CV_UIForthLayer_FirstCanvas;
                 m_layerList[(int)UILayerID.eTopLayer].goName = NotDestroyPath.ND_CV_UITopLayer_FirstCanvas;
             }
-            else if(UICanvasID.eSecondCanvas == m_canvasID)
+            else if(UICanvasID.eSecondCanvas == mCanvasID)
             {
                 m_layerList[(int)UILayerID.eBtmLayer].goName = NotDestroyPath.ND_CV_UIBtmLayer_SecondCanvas;
                 m_layerList[(int)UILayerID.eFirstLayer].goName = NotDestroyPath.ND_CV_UIFirstLayer_SecondCanvas;

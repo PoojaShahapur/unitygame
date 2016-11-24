@@ -44,6 +44,8 @@ namespace Game.UI
             base.onReady();
             findWidget();
             addEventHandle();
+
+            this.updateRoleList();
         }
 
         override public void onExit()
@@ -58,8 +60,11 @@ namespace Game.UI
             this.mMainGroup.setSelfGo(m_guiWin.m_uiRoot, SelectRoleComPath.PathMainGroup);
             this.mCreateGroup.setSelfGo(m_guiWin.m_uiRoot, SelectRoleComPath.PathCreateGroup);
 
-            this.mPlayerBtn.setSelfGo(m_guiWin.m_uiRoot, SelectRoleComPath.PathCreateGroup);
-            this.mNameInputField.setSelfGo(m_guiWin.m_uiRoot, SelectRoleComPath.PathCreateGroup);
+            this.mPlayerBtn.setSelfGo(m_guiWin.m_uiRoot, SelectRoleComPath.PathBtnRoleOne);
+            this.mNameInputField.setSelfGo(
+                m_guiWin.m_uiRoot, 
+                SelectRoleComPath.PathBtnInputFieldName
+                );
 
             this.mCreateGroup.setVisible(false);
         }

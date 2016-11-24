@@ -38,10 +38,10 @@ namespace SDK.Lib
             //    luaAttrsItemTable = luaAttrsTable[id] as LuaTable;
             //    //luaAttrsItemTable = luaAttrsTable[key] as LuaTable;
 
-            //    attrItem.m_bNeedLua = true;
-            //    attrItem.m_widgetPath = luaAttrsItemTable["m_widgetPath"] as string;
-            //    attrItem.m_luaScriptPath = luaAttrsItemTable["m_luaScriptPath"] as string;
-            //    attrItem.m_luaScriptTableName = luaAttrsItemTable["m_luaScriptTableName"] as string;
+            //    attrItem.mIsNeedLua = true;
+            //    attrItem.mWidgetPath = luaAttrsItemTable["mWidgetPath"] as string;
+            //    attrItem.mLuaScriptPath = luaAttrsItemTable["mLuaScriptPath"] as string;
+            //    attrItem.mLuaScriptTableName = luaAttrsItemTable["mLuaScriptTableName"] as string;
             //}
 
             // 新版本
@@ -59,10 +59,10 @@ namespace SDK.Lib
                 m_uiAttrs.mId2AttrDic[(UIFormID)id] = attrItem;
                 luaAttrsItemTable = luaAttrsTable[id] as LuaTable;
 
-                attrItem.m_bNeedLua = true;
-                attrItem.m_widgetPath = luaAttrsItemTable["m_widgetPath"] as string;
-                attrItem.m_luaScriptPath = luaAttrsItemTable["m_luaScriptPath"] as string;
-                attrItem.m_luaScriptTableName = luaAttrsItemTable["m_luaScriptTableName"] as string;
+                attrItem.mIsNeedLua = true;
+                attrItem.mWidgetPath = luaAttrsItemTable["mWidgetPath"] as string;
+                attrItem.mLuaScriptPath = luaAttrsItemTable["mLuaScriptPath"] as string;
+                attrItem.mLuaScriptTableName = luaAttrsItemTable["mLuaScriptTableName"] as string;
             }
 
             idList.Dispose();
@@ -95,10 +95,10 @@ namespace SDK.Lib
                     attrItem = new UIAttrItem();
                     m_uiAttrs.mId2AttrDic[(UIFormID)id] = attrItem;
 
-                    attrItem.m_bNeedLua = true;
-                    attrItem.m_widgetPath = luaAttrsItemTable["m_widgetPath"] as string;
-                    attrItem.m_luaScriptPath = luaAttrsItemTable["m_luaScriptPath"] as string;
-                    attrItem.m_luaScriptTableName = luaAttrsItemTable["m_luaScriptTableName"] as string;
+                    attrItem.mIsNeedLua = true;
+                    attrItem.mWidgetPath = luaAttrsItemTable["mWidgetPath"] as string;
+                    attrItem.mLuaScriptPath = luaAttrsItemTable["mLuaScriptPath"] as string;
+                    attrItem.mLuaScriptTableName = luaAttrsItemTable["mLuaScriptTableName"] as string;
                 }
             }
         }
