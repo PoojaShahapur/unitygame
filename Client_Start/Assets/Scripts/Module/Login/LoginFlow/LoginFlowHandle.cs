@@ -59,7 +59,7 @@ namespace Game.Login
         // 步骤 1 ，发送登陆消息
         public void sendMsg1f()
         {
-            if (SelectEnterMode.eCreateAccount == mSelectEnterMode)
+            if (SelectEnterMode.eLoginAccount == mSelectEnterMode)
             {
                 KBEngine.Event.fireIn("login", this.mName, this.mPassword, System.Text.Encoding.UTF8.GetBytes("kbengine_unity3d_demo"));
             }

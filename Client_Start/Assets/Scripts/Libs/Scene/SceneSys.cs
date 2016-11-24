@@ -1,7 +1,4 @@
-﻿using System;
-using UnityEngine;
-
-namespace SDK.Lib
+﻿namespace SDK.Lib
 {
     /**
      * @brief 同一时刻只能有一个场景存在

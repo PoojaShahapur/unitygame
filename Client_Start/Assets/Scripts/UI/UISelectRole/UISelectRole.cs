@@ -92,7 +92,10 @@ namespace Game.UI
                     info("Please wait...(请稍后...)");
 
                     KBEngine.Event.fireIn("selectAvatarGame", selAvatarDBID);
-                    //Application.LoadLevel("world");
+                    Application.LoadLevel("world");
+
+                    Ctx.mInstance.mUiMgr.exitForm(UIFormID.eUILogin);
+                    Ctx.mInstance.mUiMgr.exitForm(UIFormID.eUISelectRole);
                 }
             }
         }

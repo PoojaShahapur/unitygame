@@ -26,16 +26,15 @@ namespace SDK.Lib
         public bool useAliasEntityID = true;
         public bool isOnInitCallPropertysSetMethods = true;
 
-        public void Awake()
-        {
-            
-        }
+        public MWorld_KBE mMWorld_KBE;  // 场景
 
-        // Use this for initialization
         public void Start()
         {
             installEvents();
             initKBEngine();
+
+            mMWorld_KBE = new MWorld_KBE();
+            mMWorld_KBE.Start();
         }
 
         public virtual void installEvents()

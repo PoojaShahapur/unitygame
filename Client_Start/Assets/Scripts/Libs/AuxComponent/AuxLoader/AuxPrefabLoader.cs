@@ -13,13 +13,15 @@ namespace SDK.Lib
         protected ResInsEventDispatch mResInsEventDispatch; // 实例化的时候使用的分发器
         protected bool mIsInsNeedCoroutine; // 实例化是否需要协程
         protected bool mIsDestroySelf;      // 是否释放自己
+        protected bool mIsNeedInsPrefab;      // 是否需要实例化预制
 
-        public AuxPrefabLoader(string path = "", bool isInsNeedCoroutine = true)
+        public AuxPrefabLoader(string path = "", bool isInsNeedCoroutine = true, bool isNeedInsPrefab = true)
             : base(path)
         {
             this.mTypeId = "AuxPrefabLoader";
             mIsInsNeedCoroutine = isInsNeedCoroutine;
             mIsDestroySelf = true;
+            mIsNeedInsPrefab = isNeedInsPrefab;
         }
 
         override public void dispose()
@@ -122,15 +124,22 @@ namespace SDK.Lib
             if(mPrefabRes.hasSuccessLoaded())
             {
                 mIsSuccess = true;
-                if (mIsInsNeedCoroutine)
+                if (mIsNeedInsPrefab)
                 {
-                    mResInsEventDispatch = new ResInsEventDispatch();
-                    mResInsEventDispatch.addEventHandle(null, onPrefabIns);
-                    mPrefabRes.InstantiateObject(mPrefabRes.getPrefabName(), mResInsEventDispatch);
+                    if (mIsInsNeedCoroutine)
+                    {
+                        mResInsEventDispatch = new ResInsEventDispatch();
+                        mResInsEventDispatch.addEventHandle(null, onPrefabIns);
+                        mPrefabRes.InstantiateObject(mPrefabRes.getPrefabName(), mResInsEventDispatch);
+                    }
+                    else
+                    {
+                        this.selfGo = mPrefabRes.InstantiateObject(mPrefabRes.getPrefabName());
+                        onAllFinish();
+                    }
                 }
                 else
                 {
-                    this.selfGo = mPrefabRes.InstantiateObject(mPrefabRes.getPrefabName());
                     onAllFinish();
                 }
             }
@@ -157,13 +166,27 @@ namespace SDK.Lib
         // 所有的资源都加载完成
         public void onAllFinish()
         {
-            if (this.selfGo != null)
+            if (this.mIsNeedInsPrefab)
             {
-                mIsSuccess = true;
+                if (this.selfGo != null)
+                {
+                    mIsSuccess = true;
+                }
+                else
+                {
+                    mIsSuccess = false;
+                }
             }
             else
             {
-                mIsSuccess = false;
+                if(null != mPrefabRes && mPrefabRes.hasSuccessLoaded())
+                {
+                    mIsSuccess = true;
+                }
+                else
+                {
+                    mIsSuccess = false;
+                }
             }
 
             if (mEvtHandle != null)
@@ -196,6 +219,17 @@ namespace SDK.Lib
         public GameObject getGameObject()
         {
             return this.mSelfGo;
+        }
+
+        // 获取预制模板
+        public GameObject getPrefabTmpl()
+        {
+            GameObject ret = null;
+            if(null != this.mPrefabRes)
+            {
+                ret = this.mPrefabRes.getObject();
+            }
+            return ret;
         }
 
         public void setClientDispose()
