@@ -9,20 +9,20 @@ namespace SDK.Lib
      */
     public class ABUnPakComFileResItem : ABMemUnPakFileResItemBase
     {
-        protected Object m_object;
-        protected GameObject m_retGO;       // 方便调试的临时对象
+        protected Object mObject;
+        protected GameObject mRetGO;       // 方便调试的临时对象
 
         override public void init(LoadItem item)
         {
             base.init(item);
-            initByBytes((item as ABUnPakLoadItem).m_bytes, PRE_PATH);
+            initByBytes((item as ABUnPakLoadItem).mBytes, PRE_PATH);
         }
 
         override protected void initAsset()
         {
             base.initAsset();
 
-            if (m_bundle != null)
+            if (mBundle != null)
             {
                 m_refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }
@@ -36,15 +36,15 @@ namespace SDK.Lib
         override protected IEnumerator initAssetByCoroutine()
         {
 #if UNITY_5_0 || UNITY_5_1 || UNITY_5_2
-            AssetBundleCreateRequest createReq = AssetBundle.CreateFromMemory(m_bytes);
+            AssetBundleCreateRequest createReq = AssetBundle.CreateFromMemory(mBytes);
 #else
-            AssetBundleCreateRequest createReq = AssetBundle.LoadFromMemoryAsync(m_bytes);
+            AssetBundleCreateRequest createReq = AssetBundle.LoadFromMemoryAsync(mBytes);
 #endif
             yield return createReq;
 
-            m_bundle = createReq.assetBundle;
+            mBundle = createReq.assetBundle;
 
-            if (m_bundle != null)
+            if (mBundle != null)
             {
                 m_refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }
@@ -73,8 +73,8 @@ namespace SDK.Lib
 
         protected GameObject loadBundleSync(string resName)
         {
-            m_object = m_bundle.LoadAsset<Object>(m_bundlePath);
-            return m_object as GameObject;
+            mObject = mBundle.LoadAsset<Object>(m_bundlePath);
+            return mObject as GameObject;
         }
 
         protected GameObject loadBundleAsync(string resName)
@@ -87,21 +87,21 @@ namespace SDK.Lib
         {
             AssetBundleRequest req = null;
 
-            if (m_bundle != null)
+            if (mBundle != null)
             {
 #if UNITY_5
                 // Unity5
-                req = m_bundle.LoadAssetAsync(m_bundlePath);
+                req = mBundle.LoadAssetAsync(m_bundlePath);
 #elif UNITY_4_6 || UNITY_4_5
                 // Unity4
-                req = m_bundle.LoadAsync(mPrefabName, typeof(GameObject));
+                req = mBundle.LoadAsync(mPrefabName, typeof(GameObject));
 #endif
                 yield return req;
             }
 
             if (req != null && req.isDone)
             {
-                m_object = req.asset;
+                mObject = req.asset;
 
                 m_refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }
@@ -118,25 +118,25 @@ namespace SDK.Lib
             // 不能直接将 LoadAsync 加载出来的 GameObject 添加到场景中去
             m_bundlePath = Path.Combine(PRE_PATH, resName);
             loadBundle(m_bundlePath);
-            m_retGO = null;
+            mRetGO = null;
 
-            if (m_object != null)
+            if (mObject != null)
             {
-                m_retGO = GameObject.Instantiate(m_object) as GameObject;
-                if (null == m_retGO)
+                mRetGO = GameObject.Instantiate(mObject) as GameObject;
+                if (null == mRetGO)
                 {
                     Ctx.mInstance.mLogSys.log("Cannot instance data");
                 }
             }
 
-            return m_retGO;
+            return mRetGO;
         }
 
         override public UnityEngine.Object getObject(string resName)
         {
-            if(m_object != null)
+            if(mObject != null)
             {
-                return m_object;
+                return mObject;
             }
 
             return null;
@@ -144,9 +144,9 @@ namespace SDK.Lib
 
         override public byte[] getBytes(string resName)            // 获取字节数据
         {
-            if (m_bytes != null)
+            if (mBytes != null)
             {
-                return m_bytes;
+                return mBytes;
             }
 
             return null;
@@ -154,9 +154,9 @@ namespace SDK.Lib
 
         override public string getText(string resName)
         {
-            if (m_bytes != null)
+            if (mBytes != null)
             {
-                return System.Text.Encoding.UTF8.GetString(m_bytes);
+                return System.Text.Encoding.UTF8.GetString(mBytes);
             }
 
             return null;
@@ -164,13 +164,13 @@ namespace SDK.Lib
 
         override public void unload(bool unloadAllLoadedObjects = true)
         {
-            //UtilApi.Destroy(m_object);      // LoadAssetAsync 加载出来的 GameObject 是不能 Destroy 的，只能有 Unload(true) 或者 Resources.UnloadUnusedAssets 卸载
-            //m_bytes = null;
-            //m_retGO = null;
-            //m_bundle.Unload(true);
-            //m_bundle.Unload(false);
+            //UtilApi.Destroy(mObject);      // LoadAssetAsync 加载出来的 GameObject 是不能 Destroy 的，只能有 Unload(true) 或者 Resources.UnloadUnusedAssets 卸载
+            //mBytes = null;
+            //mRetGO = null;
+            //mBundle.Unload(true);
+            //mBundle.Unload(false);
 
-            m_retGO = null;
+            mRetGO = null;
 
             base.unload(unloadAllLoadedObjects);
         }

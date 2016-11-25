@@ -2,74 +2,74 @@ namespace UnitTest
 {
     public class TestMain
     {
-        protected UnitTestBuffer m_pUnitTestBuffer;
-        protected TestZip m_pTestZip;
-        protected TestEncrypt m_pTestEncrypt;
-        protected FilterTest m_filterTest;
-        protected TestVersion m_testVersion;
-        protected ThreadTest m_pThreadTest;
-        protected TestFile m_pTestFile;
-        protected TestAutoUpdate m_pTestAutoUpdate;
+        protected UnitTestBuffer mUnitTestBuffer;
+        protected TestZip mTestZip;
+        protected TestEncrypt mTestEncrypt;
+        protected FilterTest mFilterTest;
+        protected TestVersion mTestVersion;
+        protected ThreadTest mThreadTest;
+        protected TestFile mTestFile;
+        protected TestAutoUpdate mTestAutoUpdate;
 
-        protected TestAssetBundles m_pTestAssetBundles;
-        protected TestDataStruct m_pTestDataStruct;
-        protected TestTable m_pTestTable;
-        protected TestXml m_pTestXml;
-        protected TestResources m_pTestResources;
-        protected TestLoad m_pTestLoad;
-        protected TestNet m_pTestNet;
-        protected TestAni m_pTestAni;
-        protected TestLogic m_pTestLogic;
-        protected TestLua m_pTestLua;
-        protected TestNavMesh m_pTestNavMesh;
-        protected TestAStar m_pTestAStar;
-        protected TestProtoBuf m_pTestProtoBuf;
-        protected TestDraw m_pTestDraw;
+        protected TestAssetBundles mTestAssetBundles;
+        protected TestDataStruct mTestDataStruct;
+        protected TestTable mTestTable;
+        protected TestXml mTestXml;
+        protected TestResources mTestResources;
+        protected TestLoad mTestLoad;
+        protected TestNet mTestNet;
+        protected TestAni mTestAni;
+        protected TestLogic mTestLogic;
+        protected TestLua mTestLua;
+        protected TestNavMesh mTestNavMesh;
+        protected TestAStar mTestAStar;
+        protected TestProtoBuf mTestProtoBuf;
+        protected TestDraw mTestDraw;
 
-        protected TestHeightMap m_testHeightMap;
-        protected TestCoordinateConv m_testCoordinateConv;
-        protected TestTime m_testTime;
+        protected TestHeightMap mTestHeightMap;
+        protected TestCoordinateConv mTestCoordinateConv;
+        protected TestTime mTestTime;
 
-        protected TestCameraMan m_testCameraMan;
-        protected TestIOControl m_testIOControl;
-        protected TestIsometric m_testIsometric;
+        protected TestCameraMan mTestCameraMan;
+        protected TestIOControl mTestIOControl;
+        protected TestIsometric mTestIsometric;
         protected TestCoroutinePrefabIns mTestCoroutinePrefabIns;
         protected TestCoroutineTask mTestCoroutineTask;
         protected TestDataStream mTestDataStream;
 
         public TestMain()
         {
-            m_pUnitTestBuffer = new UnitTestBuffer();
-            m_pTestZip = new TestZip();
-            m_pTestEncrypt = new TestEncrypt();
-            m_filterTest = new FilterTest();
-            m_testVersion = new TestVersion();
-            m_pThreadTest = new ThreadTest();
-            m_pTestFile = new TestFile();
-            m_pTestAutoUpdate = new TestAutoUpdate();
+            mUnitTestBuffer = new UnitTestBuffer();
+            mTestZip = new TestZip();
+            mTestEncrypt = new TestEncrypt();
+            mFilterTest = new FilterTest();
+            mTestVersion = new TestVersion();
+            mThreadTest = new ThreadTest();
+            mTestFile = new TestFile();
+            mTestAutoUpdate = new TestAutoUpdate();
 
-            m_pTestAssetBundles = new TestAssetBundles();
-            m_pTestDataStruct = new TestDataStruct();
-            m_pTestTable = new TestTable();
-            m_pTestXml = new TestXml();
-            m_pTestResources = new TestResources();
-            m_pTestLoad = new TestLoad();
-            m_pTestNet = new TestNet();
-            m_pTestAni = new TestAni();
-            m_pTestLogic = new TestLogic();
-            m_pTestLua = new TestLua();
-            m_pTestNavMesh = new TestNavMesh();
-            m_pTestAStar = new TestAStar();
-            m_pTestProtoBuf = new TestProtoBuf();
-            m_pTestDraw = new TestDraw();
+            mTestAssetBundles = new TestAssetBundles();
+            mTestDataStruct = new TestDataStruct();
+            mTestTable = new TestTable();
+            mTestXml = new TestXml();
+            mTestResources = new TestResources();
+            mTestLoad = new TestLoad();
+            mTestNet = new TestNet();
+            mTestAni = new TestAni();
+            mTestLogic = new TestLogic();
+            mTestLua = new TestLua();
+            mTestNavMesh = new TestNavMesh();
+            mTestAStar = new TestAStar();
+            mTestProtoBuf = new TestProtoBuf();
+            mTestDraw = new TestDraw();
 
-            m_testHeightMap = new TestHeightMap();
-            m_testCoordinateConv = new TestCoordinateConv();
-            m_testTime = new TestTime();
+            mTestHeightMap = new TestHeightMap();
+            mTestCoordinateConv = new TestCoordinateConv();
+            mTestTime = new TestTime();
 
-            m_testCameraMan = new TestCameraMan();
-            m_testIOControl = new TestIOControl();
-            m_testIsometric = new TestIsometric();
+            mTestCameraMan = new TestCameraMan();
+            mTestIOControl = new TestIOControl();
+            mTestIsometric = new TestIsometric();
             mTestCoroutinePrefabIns = new TestCoroutinePrefabIns();
             mTestCoroutineTask = new TestCoroutineTask();
             mTestDataStream = new TestDataStream();
@@ -77,37 +77,37 @@ namespace UnitTest
 
         public void run()
         {
-            //m_pTestFile.run();
-            //m_pThreadTest.run();
-            //m_pUnitTestBuffer.run();
-            //m_pTestZip.run();
-            //m_pTestEncrypt.run();
-            //m_filterTest.run();
-            //m_testVersion.run();
-            //m_pTestAutoUpdate.run();
-            //m_pTestAssetBundles.run();
+            //mTestFile.run();
+            //mThreadTest.run();
+            //mUnitTestBuffer.run();
+            //mTestZip.run();
+            //mTestEncrypt.run();
+            //mFilterTest.run();
+            //mTestVersion.run();
+            //mTestAutoUpdate.run();
+            //mTestAssetBundles.run();
 
-            //m_pTestDataStruct.run();
-            //m_pTestTable.run();
-            //m_pTestXml.run();
-            //m_pTestResources.run();
-            m_pTestLoad.run();
-            //m_pTestNet.run();
-            //m_pTestAni.run();
+            //mTestDataStruct.run();
+            //mTestTable.run();
+            //mTestXml.run();
+            //mTestResources.run();
+            mTestLoad.run();
+            //mTestNet.run();
+            //mTestAni.run();
 
-            //m_pTestLogic.run();
-            //m_pTestLua.run();
-            //m_pTestNavMesh.run();
-            //m_pTestAStar.run();
-            //m_pTestProtoBuf.run();
+            //mTestLogic.run();
+            //mTestLua.run();
+            //mTestNavMesh.run();
+            //mTestAStar.run();
+            //mTestProtoBuf.run();
 
-            //m_pTestDraw.run();
-            //m_testHeightMap.run();
-            //m_testCoordinateConv.run();
-            //m_testTime.run();
-            //m_testCameraMan.run();
-            //m_testIOControl.run();
-            //m_testIsometric.run();
+            //mTestDraw.run();
+            //mTestHeightMap.run();
+            //mTestCoordinateConv.run();
+            //mTestTime.run();
+            //mTestCameraMan.run();
+            //mTestIOControl.run();
+            //mTestIsometric.run();
             //mTestCoroutinePrefabIns.run();
             //mTestCoroutineTask.run();
             //mTestDataStream.run();

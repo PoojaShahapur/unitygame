@@ -9,12 +9,12 @@ namespace SDK.Lib
      */
     public class ABUnPakFileResItemBase : FileResItem
     {
-        public byte[] m_bytes = null;
-        protected AssetBundle m_bundle = null;
+        public byte[] mBytes = null;
+        protected AssetBundle mBundle = null;
 
         public void initByBytes(byte[] bytes, string prefixPath)
         {
-            m_bytes = bytes;
+            mBytes = bytes;
             m_bundlePath = Path.Combine(prefixPath, mLoadPath);
 
             // 检查是否资源打包成 unity3d 
@@ -39,9 +39,9 @@ namespace SDK.Lib
         virtual protected void initAsset()
         {
 #if UNITY_5_0 || UNITY_5_1 || UNITY_5_2
-            m_bundle = AssetBundle.CreateFromMemoryImmediate(m_bytes);
+            mBundle = AssetBundle.CreateFromMemoryImmediate(mBytes);
 #else
-            m_bundle = AssetBundle.LoadFromMemory(m_bytes);
+            mBundle = AssetBundle.LoadFromMemory(mBytes);
 #endif
         }
 
@@ -52,14 +52,14 @@ namespace SDK.Lib
 
         override public void unload(bool unloadAllLoadedObjects = true)
         {
-            m_bytes = null;
+            mBytes = null;
 
             if (Ctx.mInstance.mCfg.mPakExtNameList.IndexOf(mExtName) != -1)         // 打包成 unity3d 加载的
             {
-                if (m_bundle != null)
+                if (mBundle != null)
                 {
-                    m_bundle.Unload(false);
-                    m_bundle = null;
+                    mBundle.Unload(false);
+                    mBundle = null;
                 }
                 else
                 {

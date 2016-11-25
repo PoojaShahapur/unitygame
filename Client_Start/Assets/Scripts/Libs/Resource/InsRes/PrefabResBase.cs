@@ -5,8 +5,8 @@ namespace SDK.Lib
 {
     public class PrefabResBase : InsResBase
     {
-        public GameObject m_go;
-        public GameObject m_retGO;
+        public GameObject mGo;
+        public GameObject mRetGO;
 
         public PrefabResBase()
         {
@@ -15,28 +15,28 @@ namespace SDK.Lib
 
         override protected void initImpl(ResItem res)
         {
-            m_go = res.getObject(res.getPrefabName()) as GameObject;
+            mGo = res.getObject(res.getPrefabName()) as GameObject;
             base.initImpl(res);
         }
 
         public GameObject InstantiateObject(string resName)
         {
-            m_retGO = null;
+            mRetGO = null;
 
-            if (null == m_go)
+            if (null == mGo)
             {
                 Ctx.mInstance.mLogSys.log("prefab 为 null");
             }
             else
             {
-                m_retGO = GameObject.Instantiate(m_go) as GameObject;
-                if (null == m_retGO)
+                mRetGO = GameObject.Instantiate(mGo) as GameObject;
+                if (null == mRetGO)
                 {
                     Ctx.mInstance.mLogSys.log("Cannot instance data");
                 }
             }
 
-            return m_retGO;
+            return mRetGO;
         }
 
         public void InstantiateObject(string resName, ResInsEventDispatch evtHandle)
@@ -48,13 +48,13 @@ namespace SDK.Lib
         {
             GameObject retGO = null;
 
-            if (null == m_go)
+            if (null == mGo)
             {
                 Ctx.mInstance.mLogSys.log("Prefab is null");
             }
             else
             {
-                retGO = GameObject.Instantiate(m_go) as GameObject;
+                retGO = GameObject.Instantiate(mGo) as GameObject;
                 if (null == retGO)
                 {
                     Ctx.mInstance.mLogSys.log("Cannot instance data");
@@ -69,24 +69,24 @@ namespace SDK.Lib
 
         public GameObject getObject()
         {
-            return m_go;
+            return mGo;
         }
 
         public override void unload()
         {
-            if (m_go != null)
+            if (mGo != null)
             {
                 // 一定要先设置 null，然后再调用 UnloadUnusedAssets ，否则删除不了 Resources 管理器中的 Asset-Object 资源
-                m_go = null;
+                mGo = null;
 
                 UtilApi.UnloadUnusedAssets();
 
-                //UtilApi.UnloadAsset(m_go);      // 强制卸载资源数据
-                //UtilApi.DestroyImmediate(m_go, true); // 这个会删除磁盘上的资源
+                //UtilApi.UnloadAsset(mGo);      // 强制卸载资源数据
+                //UtilApi.DestroyImmediate(mGo, true); // 这个会删除磁盘上的资源
                 //UtilApi.UnloadUnusedAssets();   // 卸载的时候， AssetBundles 完全卸载掉 AssetBundles 资源，因为现在使用 AssetBundles::Unload(true); 一次性卸载所有的资源，这次这里就不再调用 UnloadUnusedAssets 这个资源了 
             }
 
-            m_retGO = null;
+            mRetGO = null;
 
             base.unload();
         }

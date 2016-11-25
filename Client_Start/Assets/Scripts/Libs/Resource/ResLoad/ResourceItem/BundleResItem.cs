@@ -8,8 +8,8 @@ namespace SDK.Lib
      */
     public class BundleResItem : ReswithDepItem
     {
-        protected AssetBundle m_bundle;
-        protected UnityEngine.Object m_prefabObj;       // 加载完成的 Prefab 对象
+        protected AssetBundle mBundle;
+        protected UnityEngine.Object mPrefabObj;       // 加载完成的 Prefab 对象
         protected UnityEngine.Object[] mAllPrefabObj;   // 所有的 Prefab 对象
 
         public BundleResItem()
@@ -19,7 +19,7 @@ namespace SDK.Lib
 
         override public void init(LoadItem item)
         {
-            m_bundle = item.assetBundle;
+            mBundle = item.assetBundle;
 
             base.init(item);
         }
@@ -41,28 +41,28 @@ namespace SDK.Lib
         {
             // 加载完成获取资源，目前用到的时候再获取
             /*
-            if (!string.IsNullOrEmpty(mPrefabName) && m_bundle.Contains(mPrefabName))
+            if (!string.IsNullOrEmpty(mPrefabName) && mBundle.Contains(mPrefabName))
             {
                 // Unity5
-                //GameObject.Instantiate(m_bundle.LoadAsset(mPrefabName));
+                //GameObject.Instantiate(mBundle.LoadAsset(mPrefabName));
                 // Unity4
-                //GameObject.Instantiate(m_bundle.Load(mPrefabName));
-                //m_bundle.Unload(false);
+                //GameObject.Instantiate(mBundle.Load(mPrefabName));
+                //mBundle.Unload(false);
 
                 if(!mIsLoadAll)
                 {
 #if UNITY_5
                     // Unty5
-                    m_prefabObj = m_bundle.LoadAsset(mPrefabName);
+                    mPrefabObj = mBundle.LoadAsset(mPrefabName);
 #elif UNITY_4_6
                     // Unity4
-                    m_prefabObj = m_bundle.Load(mPrefabName);
+                    mPrefabObj = mBundle.Load(mPrefabName);
 #endif
                 }
                 else
                 {
 #if UNITY_5
-                    mAllPrefabObj = m_bundle.LoadAllAssets<UnityEngine.Object>();
+                    mAllPrefabObj = mBundle.LoadAllAssets<UnityEngine.Object>();
 #endif
                 }
             }
@@ -76,7 +76,7 @@ namespace SDK.Lib
         {
             // 加载完成获取资源，目前用到的时候再获取
             /*
-            if (!string.IsNullOrEmpty(mPrefabName) && m_bundle.Contains(mPrefabName))
+            if (!string.IsNullOrEmpty(mPrefabName) && mBundle.Contains(mPrefabName))
             {
                 // 加载 Prefab 资源
                 AssetBundleRequest req = null;
@@ -84,23 +84,23 @@ namespace SDK.Lib
                 {
 #if UNITY_5
                     // Unity5
-                    req = m_bundle.LoadAssetAsync(mPrefabName);
+                    req = mBundle.LoadAssetAsync(mPrefabName);
 #elif UNITY_4_6 || UNITY_4_5
                     // Unity4
-                    req = m_bundle.LoadAsync(mPrefabName, typeof(GameObject));
+                    req = mBundle.LoadAsync(mPrefabName, typeof(GameObject));
 #endif
                     yield return req;
 
-                    m_prefabObj = req.asset;
+                    mPrefabObj = req.asset;
                 }
                 else
                 {
 #if UNITY_5
                     // Unity5
-                    req = m_bundle.LoadAllAssetsAsync<UnityEngine.Object>();
+                    req = mBundle.LoadAllAssetsAsync<UnityEngine.Object>();
 #elif UNITY_4_6 || UNITY_4_5
                     // Unity4
-                    req = m_bundle.LoadAllAsync<UnityEngine.Object>();
+                    req = mBundle.LoadAllAsync<UnityEngine.Object>();
 #endif
                     yield return req;
 
@@ -108,7 +108,7 @@ namespace SDK.Lib
                 }
 
                 //GameObject.Instantiate(req.asset);
-                //m_bundle.Unload(false);
+                //mBundle.Unload(false);
             }
             */
 
@@ -121,7 +121,7 @@ namespace SDK.Lib
 
         override public void unrefAssetObject()
         {
-            m_prefabObj = null;
+            mPrefabObj = null;
             mAllPrefabObj = null;
 
             base.unrefAssetObject();
@@ -131,46 +131,46 @@ namespace SDK.Lib
         {
             base.reset();
 
-            m_bundle = null;
-            m_prefabObj = null;
+            mBundle = null;
+            mPrefabObj = null;
             mAllPrefabObj = null;
         }
 
         override public GameObject InstantiateObject(string resName)
         {
             // Test 查看包内部资源
-            //UnityEngine.Object[] test = m_bundle.LoadAllAssets();
+            //UnityEngine.Object[] test = mBundle.LoadAllAssets();
             // Unity5
-            //string[] allName = m_bundle.AllAssetNames();
-            //return GameObject.Instantiate(m_bundle.Load(resName)) as GameObject;
+            //string[] allName = mBundle.AllAssetNames();
+            //return GameObject.Instantiate(mBundle.Load(resName)) as GameObject;
             GameObject insObj = null;
-            if (m_bundle.Contains(resName))
+            if (mBundle.Contains(resName))
             {
 #if UNITY_5
                 // Unity5
-                UnityEngine.Object assets = m_bundle.LoadAsset(resName);
+                UnityEngine.Object assets = mBundle.LoadAsset(resName);
 #elif UNITY_4_6 || UNITY_4_5
                 // Unity4
-                UnityEngine.Object assets = m_bundle.Load(resName);
+                UnityEngine.Object assets = mBundle.Load(resName);
 #endif
                 if (assets != null)
                 {
 #if UNITY_5
                     // Unity5
-                    insObj = GameObject.Instantiate(m_bundle.LoadAsset(resName)) as GameObject;
+                    insObj = GameObject.Instantiate(mBundle.LoadAsset(resName)) as GameObject;
 #elif UNITY_4_6
                     // Unity4
-                    insObj = GameObject.Instantiate(m_bundle.Load(resName)) as GameObject;
+                    insObj = GameObject.Instantiate(mBundle.Load(resName)) as GameObject;
 #endif
                 }
                 else
                 {
                     // Unity5
 #if UNITY_5
-                    //assets = m_bundle.LoadAsset("DefaultAvatar");
+                    //assets = mBundle.LoadAsset("DefaultAvatar");
 #elif UNITY_4_6 || UNITY_4_5
                     // Unity4
-                    assets = m_bundle.Load("DefaultAvatar");
+                    assets = mBundle.Load("DefaultAvatar");
 #endif
                 }
             }
@@ -180,25 +180,25 @@ namespace SDK.Lib
         override public UnityEngine.Object getObject(string resName)
         {
             // Unity5
-            //string[] allName = m_bundle.AllAssetNames();
+            //string[] allName = mBundle.AllAssetNames();
 
-            //return m_bundle.Load(resName);
+            //return mBundle.Load(resName);
 
-            if (resName == mPrefabName && m_prefabObj != null)
+            if (resName == mPrefabName && mPrefabObj != null)
             {
-                return m_prefabObj;
+                return mPrefabObj;
             }
             else
             {
                 UnityEngine.Object assets = null;
-                if (m_bundle.Contains(resName))
+                if (mBundle.Contains(resName))
                 {
 #if UNITY_5
                     // Unty5
-                    assets = m_bundle.LoadAsset(resName);
+                    assets = mBundle.LoadAsset(resName);
 #elif UNITY_4_6
                 // Unity4
-                assets = m_bundle.Load(resName);
+                assets = mBundle.Load(resName);
 #endif
                 }
                 return assets;
@@ -210,7 +210,7 @@ namespace SDK.Lib
         {
             if (mAllPrefabObj == null)
             {
-                mAllPrefabObj = m_bundle.LoadAllAssets<UnityEngine.Object>();
+                mAllPrefabObj = mBundle.LoadAllAssets<UnityEngine.Object>();
             }
 
             return mAllPrefabObj;
@@ -218,7 +218,7 @@ namespace SDK.Lib
 
         override public T[] loadAllAssets<T>()
         {
-            //T[] ret = m_bundle.LoadAllAssets<T>();
+            //T[] ret = mBundle.LoadAllAssets<T>();
             //return ret;
 
             if(mAllPrefabObj == null)
@@ -245,16 +245,16 @@ namespace SDK.Lib
         override public void unload(bool unloadAllLoadedObjects = true)
         {
             // 如果是用了 Unload(true) ，就不用 Resources.UnloadUnusedAssets() ，如果使用了 Unload(false) ，就需要使用 Resources.UnloadUnusedAssets()
-            //m_bundle.Unload(true);
+            //mBundle.Unload(true);
             //Resources.UnloadUnusedAssets();
             //GC.Collect();
-            //m_bundle.Unload(false);
+            //mBundle.Unload(false);
 
-            if (m_bundle != null)
+            if (mBundle != null)
             {
-                UtilApi.UnloadAssetBundles(m_bundle, unloadAllLoadedObjects);
-                //UtilApi.UnloadAssetBundles(m_bundle, unloadAllLoadedObjects);
-                m_bundle = null;
+                UtilApi.UnloadAssetBundles(mBundle, unloadAllLoadedObjects);
+                //UtilApi.UnloadAssetBundles(mBundle, unloadAllLoadedObjects);
+                mBundle = null;
             }
 
             base.unload(unloadAllLoadedObjects);

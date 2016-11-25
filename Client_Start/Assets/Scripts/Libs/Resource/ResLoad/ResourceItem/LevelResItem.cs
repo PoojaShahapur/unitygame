@@ -5,7 +5,7 @@ namespace SDK.Lib
 {
     public class LevelResItem : ResItem
     {
-        protected string m_levelName;
+        protected string mLevelName;
 
         public LevelResItem()
         {
@@ -16,11 +16,11 @@ namespace SDK.Lib
         {
             get
             {
-                return m_levelName;
+                return mLevelName;
             }
             set
             {
-                m_levelName = value;
+                mLevelName = value;
             }
         }
 
@@ -59,20 +59,20 @@ namespace SDK.Lib
             bool isSuccess = true;
 
 #if UNITY_4 || UNITY_5_0 || UNITY_5_1 || UNITY_5_2
-            if (Application.CanStreamedLevelBeLoaded(m_levelName))
+            if (Application.CanStreamedLevelBeLoaded(mLevelName))
             {
                 isSuccess = true;
-                Application.LoadLevel(m_levelName);
+                Application.LoadLevel(mLevelName);
             }
             else
             {
                 isSuccess = false;
             }
 #else
-            if (Application.CanStreamedLevelBeLoaded(m_levelName))
+            if (Application.CanStreamedLevelBeLoaded(mLevelName))
             {
                 isSuccess = true;
-                UnityEngine.SceneManagement.SceneManager.LoadScene(m_levelName);
+                UnityEngine.SceneManagement.SceneManager.LoadScene(mLevelName);
             }
             else
             {
@@ -81,7 +81,7 @@ namespace SDK.Lib
 #endif
 
             // Level 加载完成后 Application.loadedLevelName 记录的仍然是加载 Level 之前的场景的名字，不能使用这个字段进行判断
-            // if (Application.loadedLevelName == m_levelName)
+            // if (Application.loadedLevelName == mLevelName)
             //{
             //    Debug.Log("aaa");
             //}
@@ -106,9 +106,9 @@ namespace SDK.Lib
         protected IEnumerator initAssetNextFrame()
         {
 #if UNITY_4 || UNITY_5_0 || UNITY_5_1 || UNITY_5_2
-            Application.LoadLevel(m_levelName);
+            Application.LoadLevel(mLevelName);
 #else
-            UnityEngine.SceneManagement.SceneManager.LoadScene(m_levelName);
+            UnityEngine.SceneManagement.SceneManager.LoadScene(mLevelName);
 #endif
 
             yield return new WaitForEndOfFrame();
@@ -121,9 +121,9 @@ namespace SDK.Lib
         {
             //string path = Application.dataPath + "/" + mPath;
 #if UNITY_4 || UNITY_5_0 || UNITY_5_1 || UNITY_5_2
-            AsyncOperation asyncOpt = Application.LoadLevelAsync(m_levelName);
+            AsyncOperation asyncOpt = Application.LoadLevelAsync(mLevelName);
 #else
-            AsyncOperation asyncOpt = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(m_levelName);
+            AsyncOperation asyncOpt = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(mLevelName);
 #endif
 
             yield return asyncOpt;

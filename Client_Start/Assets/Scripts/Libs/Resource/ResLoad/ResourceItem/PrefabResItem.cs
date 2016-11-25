@@ -8,9 +8,9 @@ namespace SDK.Lib
      */
     public class PrefabResItem : ResItem
     {
-        protected UnityEngine.Object m_prefabObj;       // 加载完成的 Prefab 对象
+        protected UnityEngine.Object mPrefabObj;       // 加载完成的 Prefab 对象
         protected UnityEngine.Object[] mAllPrefabObj;   // 所有的 Prefab 对象
-        protected GameObject m_retGO;       // 方便调试的临时对象
+        protected GameObject mRetGO;       // 方便调试的临时对象
 
         override public void init(LoadItem item)
         {
@@ -18,7 +18,7 @@ namespace SDK.Lib
 
             if (!mIsLoadAll)
             {
-                m_prefabObj = (item as ResourceLoadItem).prefabObj;
+                mPrefabObj = (item as ResourceLoadItem).prefabObj;
             }
             else
             {
@@ -31,7 +31,7 @@ namespace SDK.Lib
 
         public UnityEngine.Object prefabObj()
         {
-            return m_prefabObj;
+            return mPrefabObj;
         }
 
         public override string getPrefabName()         // 只有 Prefab 资源才实现这个函数
@@ -45,43 +45,43 @@ namespace SDK.Lib
 
             mPrefabName = null;
             mAllPrefabObj = null;
-            m_retGO = null;
+            mRetGO = null;
         }
 
         override public void unrefAssetObject()
         {
-            m_prefabObj = null;
+            mPrefabObj = null;
             mAllPrefabObj = null;
-            m_retGO = null;
+            mRetGO = null;
 
             base.unrefAssetObject();
         }
 
         override public void unload(bool unloadAllLoadedObjects = true)
         {
-            //if(m_prefabObj is GameObject)
+            //if(mPrefabObj is GameObject)
             //{
-            //    UtilApi.Destroy(m_prefabObj);
+            //    UtilApi.Destroy(mPrefabObj);
             //}
             //else
             //{
-            //    UtilApi.UnloadAsset(m_prefabObj);
+            //    UtilApi.UnloadAsset(mPrefabObj);
             //}
             // 如果你用个全局变量保存你 Load 的 Assets，又没有显式的设为 null，那 在这个变量失效前你无论如何 UnloadUnusedAssets 也释放不了那些Assets的。如果你这些Assets又不是从磁盘加载的，那除了 UnloadUnusedAssets 或者加载新场景以外没有其他方式可以卸载之。
-            if (m_prefabObj != null)
+            if (mPrefabObj != null)
             {
-                // m_prefabObj = null;
+                // mPrefabObj = null;
 
                 // Asset-Object 无法被Destroy销毁，Asset-Objec t由 Resources 系统管理，需要手工调用Resources.UnloadUnusedAssets()或者其他类似接口才能删除。
-                if (m_prefabObj is GameObject)
+                if (mPrefabObj is GameObject)
                 {
-                    m_prefabObj = null;
+                    mPrefabObj = null;
                     UtilApi.UnloadUnusedAssets();   // UnloadUnusedAssets 可以卸载没有引用的资源，一定要先设置 null ，然后再调用 UnloadUnusedAssets
                 }
                 else
                 {
-                    UtilApi.UnloadAsset(m_prefabObj);    // 只能卸载组件类型的资源，比如 Textture、 Material、TextAsset 之类的资源，不能卸载容器之类的资源，例如 GameObject，因为组件是添加到 GameObject 上面去的
-                    m_prefabObj = null;
+                    UtilApi.UnloadAsset(mPrefabObj);    // 只能卸载组件类型的资源，比如 Textture、 Material、TextAsset 之类的资源，不能卸载容器之类的资源，例如 GameObject，因为组件是添加到 GameObject 上面去的
+                    mPrefabObj = null;
                 }
             }
 
@@ -127,35 +127,35 @@ namespace SDK.Lib
 
         override public GameObject InstantiateObject(string resName)
         {
-            m_retGO = null;
+            mRetGO = null;
 
-            if (null == m_prefabObj)
+            if (null == mPrefabObj)
             {
                 Ctx.mInstance.mLogSys.log("prefab 为 null");
             }
             else
             {
-                m_retGO = GameObject.Instantiate(m_prefabObj) as GameObject;
-                if (null == m_retGO)
+                mRetGO = GameObject.Instantiate(mPrefabObj) as GameObject;
+                if (null == mRetGO)
                 {
                     Ctx.mInstance.mLogSys.log("Cannot instance data");
                 }
             }
 
-            return m_retGO;
+            return mRetGO;
         }
 
         override public IEnumerator asyncInstantiateObject(string resName, ResInsEventDispatch evtHandle)
         {
             GameObject retGO = null;
 
-            if (null == m_prefabObj)
+            if (null == mPrefabObj)
             {
                 Ctx.mInstance.mLogSys.log("prefab is null");
             }
             else
             {
-                retGO = GameObject.Instantiate(m_prefabObj) as GameObject;
+                retGO = GameObject.Instantiate(mPrefabObj) as GameObject;
                 if (null == retGO)
                 {
                     Ctx.mInstance.mLogSys.log("Cannot instance data");
@@ -170,7 +170,7 @@ namespace SDK.Lib
 
         override public UnityEngine.Object getObject(string resName)
         {
-            return m_prefabObj;
+            return mPrefabObj;
         }
 
         override public UnityEngine.Object[] getAllObject()
@@ -214,9 +214,9 @@ namespace SDK.Lib
 
         override public byte[] getBytes(string resName)            // 获取字节数据
         {
-            if(m_prefabObj != null && (m_prefabObj as TextAsset) != null)
+            if(mPrefabObj != null && (mPrefabObj as TextAsset) != null)
             {
-                return (m_prefabObj as TextAsset).bytes;
+                return (mPrefabObj as TextAsset).bytes;
             }
 
             return null;
@@ -224,9 +224,9 @@ namespace SDK.Lib
 
         override public string getText(string resName)
         {
-            if (m_prefabObj != null && (m_prefabObj as TextAsset) != null)
+            if (mPrefabObj != null && (mPrefabObj as TextAsset) != null)
             {
-                return (m_prefabObj as TextAsset).text;
+                return (mPrefabObj as TextAsset).text;
             }
 
             return null;

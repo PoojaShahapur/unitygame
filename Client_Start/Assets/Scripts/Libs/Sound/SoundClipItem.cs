@@ -7,24 +7,24 @@ namespace SDK.Lib
      */
     public class SoundClipItem : SoundItem
     {
-        public AudioClip m_clip;            // 声音资源放在 prefab 中国
+        public AudioClip mClip;            // 声音资源放在 prefab 中国
 
         public override void setResObj(UnityEngine.Object go_)
         {
-            m_clip = go_ as AudioClip;
-            m_go = UtilApi.createGameObject("SoundGO");
+            mClip = go_ as AudioClip;
+            mGo = UtilApi.createGameObject("SoundGO");
 
-            if (m_clip == null)
+            if (mClip == null)
             {
                 return;
             }
 
-            m_audio = m_go.GetComponent<AudioSource>();
-            if (m_audio == null)
+            mAudio = mGo.GetComponent<AudioSource>();
+            if (mAudio == null)
             {
-                m_audio = (AudioSource)m_go.AddComponent<AudioSource>();
+                mAudio = (AudioSource)mGo.AddComponent<AudioSource>();
             }
-            m_audio.clip = m_clip;
+            mAudio.clip = mClip;
 
             updateParam();
         }
@@ -36,10 +36,10 @@ namespace SDK.Lib
                 Stop();
             }
 
-            if (m_go != null)
+            if (mGo != null)
             {
-                //m_clip.UnloadAudioData();
-                UtilApi.Destroy(m_go);
+                //mClip.UnloadAudioData();
+                UtilApi.Destroy(mGo);
                 //UtilApi.UnloadUnusedAssets();
             }
         }

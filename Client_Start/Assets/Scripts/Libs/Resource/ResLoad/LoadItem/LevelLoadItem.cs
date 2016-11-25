@@ -8,17 +8,17 @@ namespace SDK.Lib
      */
     public class LevelLoadItem : LoadItem
     {
-        protected string m_levelName;
+        protected string mLevelName;
 
         public string levelName
         {
             get
             {
-                return m_levelName;
+                return mLevelName;
             }
             set
             {
-                m_levelName = value;
+                mLevelName = value;
             }
         }
 

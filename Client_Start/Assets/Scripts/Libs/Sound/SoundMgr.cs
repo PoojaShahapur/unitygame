@@ -19,7 +19,7 @@ namespace SDK.Lib
 
         public void play(SoundParam soundParam)
         {
-            if (!soundParam.m_bLoop)
+            if (!soundParam.mIsLoop)
             {
                 addTimer();
             }
@@ -39,12 +39,12 @@ namespace SDK.Lib
                 if (isPrefab(soundParam.mPath))
                 {
                     m_path2SoundDic[soundParam.mPath] = new SoundPrefabItem();
-                    m_path2SoundDic[soundParam.mPath].m_soundResType = SoundResType.eSRT_Prefab;
+                    m_path2SoundDic[soundParam.mPath].mSoundResType = SoundResType.eSRT_Prefab;
                 }
                 else
                 {
                     m_path2SoundDic[soundParam.mPath] = new SoundClipItem();
-                    m_path2SoundDic[soundParam.mPath].m_soundResType = SoundResType.eSRT_Clip;
+                    m_path2SoundDic[soundParam.mPath].mSoundResType = SoundResType.eSRT_Clip;
                 }
                 m_audioList.Add(m_path2SoundDic[soundParam.mPath]);
                 m_path2SoundDic[soundParam.mPath].initParam(soundParam);
@@ -63,14 +63,14 @@ namespace SDK.Lib
         {
             if (m_path2SoundDic.ContainsKey(path))
             {
-                //m_path2SoundDic[path].m_bLoop = loop_;
+                //m_path2SoundDic[path].mIsLoop = loop_;
                 m_path2SoundDic[path].Play();
             }
             else
             {
                 SoundParam param = Ctx.mInstance.mPoolSys.newObject<SoundParam>();
                 param.mPath = path;
-                param.m_bLoop = loop_;
+                param.mIsLoop = loop_;
                 play(param);
                 Ctx.mInstance.mPoolSys.deleteObj(param);
             }
@@ -91,7 +91,7 @@ namespace SDK.Lib
 
                 if (m_path2SoundDic.ContainsKey(res.getResUniqueId()))      // 如果有，说明还没被停止
                 {
-                    if (m_path2SoundDic[res.getResUniqueId()].m_soundResType == SoundResType.eSRT_Prefab)
+                    if (m_path2SoundDic[res.getResUniqueId()].mSoundResType == SoundResType.eSRT_Prefab)
                     {
                         m_path2SoundDic[res.getResUniqueId()].setResObj(res.InstantiateObject(res.getPrefabName()));
                     }
@@ -139,7 +139,7 @@ namespace SDK.Lib
                 {
                     m_clearList.Add(sound);
                 }
-                else if (!sound.m_bLoop)
+                else if (!sound.mIsLoop)
                 {
                     hasNoLoop = true;
                 }

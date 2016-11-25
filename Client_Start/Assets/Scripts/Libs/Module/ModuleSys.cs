@@ -45,9 +45,9 @@ namespace SDK.Lib
         // 加载游戏模块
         public void loadModule(ModuleID moduleID)
         {
-            if (!m_type2ItemDic[moduleID].m_isLoaded)
+            if (!m_type2ItemDic[moduleID].mIsLoaded)
             {
-                m_type2ItemDic[moduleID].m_isLoaded = true;
+                m_type2ItemDic[moduleID].mIsLoaded = true;
 
                 if (ModuleID.LOGINMN == moduleID)
                 {

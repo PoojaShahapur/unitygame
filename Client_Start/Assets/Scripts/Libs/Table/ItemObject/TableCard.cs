@@ -24,7 +24,7 @@
      */
     public class TableCardItemBody : TableItemBodyBase
     {
-        public string m_name;        // 名称
+        public string mName;        // 名称
         public int m_type;           // 类型
         public int m_career;         // 职业
         public int m_race;           // 种族
@@ -58,7 +58,7 @@
         override public void parseBodyByteBuffer(ByteBuffer bytes, uint offset)
         {
             bytes.setPos(offset);
-            UtilTable.readString(bytes, ref m_name);
+            UtilTable.readString(bytes, ref mName);
 
             bytes.readInt32(ref m_type);
             bytes.readInt32(ref m_career);

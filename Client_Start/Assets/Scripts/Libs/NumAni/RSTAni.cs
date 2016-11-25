@@ -9,9 +9,9 @@ namespace SDK.Lib
     public class RSTAni : ITweenAniBase
     {
         // 目标信息
-        protected Vector3 m_destPos;       // 最终位置
+        protected Vector3 mDestPos;       // 最终位置
         protected Vector3 m_destRot;       // 最终旋转
-        protected Vector3 m_destScale;     // 最终缩放
+        protected Vector3 mDestScale;     // 最终缩放
 
         public RSTAni()
         {
@@ -22,11 +22,11 @@ namespace SDK.Lib
         {
             get
             {
-                return m_destPos;
+                return mDestPos;
             }
             set
             {
-                m_destPos = value;
+                mDestPos = value;
             }
         }
 
@@ -42,7 +42,7 @@ namespace SDK.Lib
         {
             set
             {
-                m_destScale = value;
+                mDestScale = value;
             }
         }
 
@@ -58,7 +58,7 @@ namespace SDK.Lib
             args = new Hashtable();
             base.buildAniBasicParam(args);
 
-            args["position"] = m_destPos;
+            args["position"] = mDestPos;
             args["time"] = m_time;
             args["islocal"] = true;
 
@@ -67,7 +67,7 @@ namespace SDK.Lib
             //args["method"] = "to";
             //args["type"] = "color";
             incItweenCount();
-            iTween.MoveTo(m_go, args);
+            iTween.MoveTo(mGo, args);
 
             args = new Hashtable();
             base.buildAniBasicParam(args);
@@ -77,16 +77,16 @@ namespace SDK.Lib
             args["easetype"] = m_easeType;
             args["looptype"] = m_loopType;
             incItweenCount();
-            iTween.RotateTo(m_go, args);
+            iTween.RotateTo(mGo, args);
 
             args = new Hashtable();
             base.buildAniBasicParam(args);
-            args["scale"] = m_destScale;
+            args["scale"] = mDestScale;
             args["time"] = m_time;
             args["easetype"] = m_easeType;
             args["looptype"] = m_loopType;
             incItweenCount();
-            iTween.ScaleTo(m_go, args);
+            iTween.ScaleTo(mGo, args);
         }
     }
 }

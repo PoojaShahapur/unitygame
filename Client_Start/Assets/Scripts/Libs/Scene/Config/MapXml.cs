@@ -56,7 +56,7 @@ namespace SDK.Lib
     {
         public uint m_sceneId;
         public string m_sceneName;
-        public string m_levelName;
+        public string mLevelName;
 
         public override void parseXml(SecurityElement xmlelem)
         {
@@ -64,7 +64,7 @@ namespace SDK.Lib
             UtilXml.getXmlChild(xmlelem, "item", ref itemXml);
             UtilXml.getXmlAttrUInt(itemXml, "id", ref m_sceneId);
             UtilXml.getXmlAttrStr(itemXml, "name", ref m_sceneName);
-            UtilXml.getXmlAttrStr(itemXml, "res", ref m_levelName);
+            UtilXml.getXmlAttrStr(itemXml, "res", ref mLevelName);
         }
     }
 }

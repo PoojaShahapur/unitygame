@@ -24,7 +24,7 @@ namespace SDK.Lib
         protected int m_xTile;      // Tile 的 X 位置，调试使用
         protected int m_zTile;      // Tile 的 Z 位置，调试使用
 
-        protected string m_name;
+        protected string mName;
 
         public MAABBMeshRender()
         {
@@ -43,7 +43,7 @@ namespace SDK.Lib
 
         public void setName(string value)
         {
-            m_name = value;
+            mName = value;
         }
 
         public void moveToPos(float xPos, float zPos)

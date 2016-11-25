@@ -9,7 +9,7 @@ namespace SDK.Lib
      */
     public abstract class NumAniBase
     {
-        protected GameObject m_go;
+        protected GameObject mGo;
         protected Action<NumAniBase> m_aniEndDisp;  // 外部回调逻辑
         protected bool m_bPlaying = false;
 
@@ -25,7 +25,7 @@ namespace SDK.Lib
 
         virtual public void setGO(GameObject go)
         {
-            m_go = go;
+            mGo = go;
         }
 
         public void setAniEndDisp(Action<NumAniBase> disp)

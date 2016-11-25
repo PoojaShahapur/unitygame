@@ -5,12 +5,12 @@ namespace SDK.Lib
 {
     public class ABUnPakLoadItem : LoadItem
     {
-        public byte[] m_bytes;
+        public byte[] mBytes;
 
         override public void reset()
         {
             base.reset();
-            m_bytes = null;
+            mBytes = null;
         }
 
         override public void load()
@@ -40,7 +40,7 @@ namespace SDK.Lib
             if (UtilPath.existFile(curPath))
             {
                 MDataStream mDataStream = new MDataStream(curPath);
-                m_bytes = mDataStream.readByte();
+                mBytes = mDataStream.readByte();
                 mDataStream.dispose();
                 mDataStream = null;
             }
@@ -49,7 +49,7 @@ namespace SDK.Lib
                 Ctx.mInstance.mLogSys.log(string.Format("{0} file not exist", curPath));
             }
 
-            if (m_bytes != null)
+            if (mBytes != null)
             {
                 m_nonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }

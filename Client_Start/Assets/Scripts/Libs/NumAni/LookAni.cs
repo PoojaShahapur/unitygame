@@ -73,7 +73,7 @@ namespace SDK.Lib
             //args["speed"] = "speed";
 
             incItweenCount();
-            iTween.MoveTo(m_go, args);
+            iTween.MoveTo(mGo, args);
         }
     }
 }

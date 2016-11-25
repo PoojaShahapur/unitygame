@@ -9,7 +9,7 @@ namespace SDK.Lib
     {
         public override void setResObj(UnityEngine.Object go_)
         {
-            m_go = go_ as GameObject;
+            mGo = go_ as GameObject;
             updateParam();
         }
 
@@ -21,9 +21,9 @@ namespace SDK.Lib
                 Stop();
             }
 
-            if (m_go != null)
+            if (mGo != null)
             {
-                UtilApi.Destroy(m_go);
+                UtilApi.Destroy(mGo);
                 //UtilApi.UnloadUnusedAssets();
             }
         }

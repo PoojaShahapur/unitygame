@@ -11,6 +11,6 @@ namespace SDK.Lib
         public ModuleID m_moduleID;
         public string m_moduleLayerPath;            // 所在的 Layer 的目录
         public string mPath;                       // 资源所在的目录
-        public bool m_isLoaded;         // 指明模块是否加载过
+        public bool mIsLoaded;         // 指明模块是否加载过
     }
 }

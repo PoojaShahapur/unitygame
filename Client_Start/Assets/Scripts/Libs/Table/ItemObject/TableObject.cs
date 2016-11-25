@@ -34,7 +34,7 @@
         //    m_field4 = UtilTable.readString(bytes);
         //}
 
-        public string m_name;
+        public string mName;
         public int m_maxNum;
         public int m_type;
         public int m_color;
@@ -43,7 +43,7 @@
         override public void parseBodyByteBuffer(ByteBuffer bytes, uint offset)
         {
             bytes.setPos(offset);  // 从偏移处继续读取真正的内容
-            UtilTable.readString(bytes, ref m_name);
+            UtilTable.readString(bytes, ref mName);
             bytes.readInt32(ref m_maxNum);
             bytes.readInt32(ref m_type);
             bytes.readInt32(ref m_color);

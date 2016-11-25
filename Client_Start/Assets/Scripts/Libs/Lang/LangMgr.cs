@@ -7,53 +7,56 @@ namespace SDK.Lib
 {
     public class LangMgr
     {
-        protected LangID m_langID = LangID.zh_CN;           // 当前语言，默认简体中文
-        protected ArrayList m_nodeList = null;                   // 整个的 xml 中 <t> 列表
-        protected Dictionary<LangID, LangAttrItem> mId2FileName = new Dictionary<LangID, LangAttrItem>();  // 语言到文件名字的映射
-        protected ArrayList m_tmpEleList;         // 临时的元素列表
-        protected SecurityElement m_tmpEle;              // 临时的元素
-        protected bool m_isLoaded = false;                  // 语言文件是否加载
-        protected bool m_hasItem = false;
+        protected LangID mLangID = LangID.zh_CN;                    // 当前语言，默认简体中文
+        protected ArrayList mNodeList = null;                       // 整个的 xml 中 <t> 列表
+        protected Dictionary<LangID, LangAttrItem> mId2FileName;    // 语言到文件名字的映射
+        protected ArrayList mTmpEleList;                            // 临时的元素列表
+        protected SecurityElement mTmpEle;                         // 临时的元素
+        protected bool mIsLoaded = false;                          // 语言文件是否加载
+        protected bool mHasItem = false;
 
         // 多线程访问
-        protected MMutex m_loadMutex = new MMutex(false, "LangMgr_Mutex");
+        protected MMutex mLoadMutex;
 
         public LangMgr()
         {
+            mId2FileName = new Dictionary<LangID, LangAttrItem>();
+            mLoadMutex = new MMutex(false, "LangMgr_Mutex");
+
             mId2FileName[LangID.zh_CN] = new LangAttrItem();
             mId2FileName[LangID.zh_CN].m_filePath = Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathLangXml] + "zh_CN.xml";
         }
 
         public string getText(LangTypeId typeId, LangItemID itemIdx)
         {
-            if (!m_isLoaded)
+            if (!mIsLoaded)
             {
                 // 多线程访问可能会有问题
-                using (MLock mlock = new MLock(m_loadMutex))
+                using (MLock mlock = new MLock(mLoadMutex))
                 {
                     loadXml();
                 }
             }
 
             string textStr = "";
-            m_hasItem = false;
+            mHasItem = false;
 
-            if(null != m_nodeList)
+            if(null != mNodeList)
             {
-                if ((int)typeId < m_nodeList.Count)
+                if ((int)typeId < mNodeList.Count)
                 {
-                    m_tmpEleList = (m_nodeList[(int)typeId] as SecurityElement).Children;
-                    if((int)itemIdx < m_tmpEleList.Count)
+                    mTmpEleList = (mNodeList[(int)typeId] as SecurityElement).Children;
+                    if((int)itemIdx < mTmpEleList.Count)
                     {
-                        m_hasItem = true;
-                        m_tmpEle = m_tmpEleList[(int)itemIdx] as SecurityElement;
-                        //Ctx.mInstance.mShareData.m_retLangStr = m_tmpEle.InnerText;
-                        textStr = m_tmpEle.Text;
+                        mHasItem = true;
+                        mTmpEle = mTmpEleList[(int)itemIdx] as SecurityElement;
+                        //Ctx.mInstance.mShareData.m_retLangStr = mTmpEle.InnerText;
+                        textStr = mTmpEle.Text;
                     }
                 }
             }
 
-            if (!m_hasItem)
+            if (!mHasItem)
             {
                 //Ctx.mInstance.mShareData.m_retLangStr = "default string";
                 textStr = "default string";
@@ -71,13 +74,13 @@ namespace SDK.Lib
         //</msg>
         public void loadXml()
         {
-            if(!m_isLoaded)
+            if(!mIsLoaded)
             {
-                m_isLoaded = true;
+                mIsLoaded = true;
                 LoadParam param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
                 param.mLoadNeedCoroutine = false;
                 param.mResNeedCoroutine = false;
-                param.setPath(mId2FileName[m_langID].m_filePath);
+                param.setPath(mId2FileName[mLangID].m_filePath);
                 param.mLoadEventHandle = onLoadEventHandle;
                 Ctx.mInstance.mResLoadMgr.loadAsset(param);
                 Ctx.mInstance.mPoolSys.deleteObj(param);
@@ -88,16 +91,16 @@ namespace SDK.Lib
         public void onLoadEventHandle(IDispatchObject dispObj)
         {
             ResItem res = dispObj as ResItem;
-            //Ctx.mInstance.mLogSys.debugLog_1(LangItemID.eItem0, res.GetPath());    // 这行执行的时候 m_isLoaded 设置加载标志，但是 m_nodeList 还没有初始化
+            //Ctx.mInstance.mLogSys.debugLog_1(LangItemID.eItem0, res.GetPath());    // 这行执行的时候 mIsLoaded 设置加载标志，但是 mNodeList 还没有初始化
             Ctx.mInstance.mLogSys.log("local xml loaded");
 
-            string text = res.getText(mId2FileName[m_langID].m_filePath);
+            string text = res.getText(mId2FileName[mLangID].m_filePath);
             if (text != null)
             {
                 SecurityParser SP = new SecurityParser();
                 SP.LoadXml(text);
                 SecurityElement SE = SP.ToXml();
-                m_nodeList = SE.Children;
+                mNodeList = SE.Children;
             }
 
             // 卸载资源

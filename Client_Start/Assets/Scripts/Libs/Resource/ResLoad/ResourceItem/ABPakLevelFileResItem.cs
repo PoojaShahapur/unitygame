@@ -5,13 +5,13 @@
      */
     public class ABPakLevelFileResItem : ABPakFileResItemBase
     {
-        protected string m_levelName = "";
+        protected string mLevelName = "";
 
         public string levelName
         {
             set
             {
-                m_levelName = value;
+                mLevelName = value;
             }
         }
 

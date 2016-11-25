@@ -9,8 +9,8 @@ namespace SDK.Lib
      */
     public class AtlasGoRes : InsResBase
     {
-        public GameObject m_go;
-        protected GameObject m_subGo;
+        public GameObject mGo;
+        protected GameObject mSubGo;
 
         protected Dictionary<string, ImageItem> m_path2Image = new Dictionary<string,ImageItem>();
 
@@ -21,15 +21,15 @@ namespace SDK.Lib
 
         public override void unload()
         {
-            m_go = null;
+            mGo = null;
         }
 
         public ImageItem getImage(string spriteName)
         {
             if(!m_path2Image.ContainsKey(spriteName))
             {
-                m_subGo = UtilApi.TransFindChildByPObjAndPath(m_go, spriteName);
-                Image image = UtilApi.getComByP<Image>(m_subGo);
+                mSubGo = UtilApi.TransFindChildByPObjAndPath(mGo, spriteName);
+                Image image = UtilApi.getComByP<Image>(mSubGo);
                 ImageItem item = new ImageItem();
                 item.image = image.sprite;
                 m_path2Image[spriteName] = item;

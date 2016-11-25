@@ -9,9 +9,10 @@ namespace Game.UI
     {
         public override void onInit()
         {
+            base.onInit();
+
             exitMode = false;         // 直接隐藏
             hideOnCreate = true;
-            base.onInit();
         }
 
         // 初始化控件

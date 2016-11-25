@@ -4,8 +4,13 @@ namespace SDK.Lib
 {
     public class XmlCfgMgr
     {
-        public Dictionary<XmlCfgID, XmlCfgBase> mId2CfgDic = new Dictionary<XmlCfgID,XmlCfgBase>();        // 商城
-        private ResItem m_res;
+        public Dictionary<XmlCfgID, XmlCfgBase> mId2CfgDic;        // 商城
+        private ResItem mRes;
+
+        public XmlCfgMgr()
+        {
+            mId2CfgDic = new Dictionary<XmlCfgID, XmlCfgBase>();
+        }
 
         protected void loadCfg<T>(XmlCfgID id) where T : XmlCfgBase, new()
         {
@@ -24,23 +29,23 @@ namespace SDK.Lib
         // 加载一个表完成
         public void onLoadEventHandle(IDispatchObject dispObj)
         {
-            m_res = dispObj as ResItem;
-            if (m_res.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
+            mRes = dispObj as ResItem;
+            if (mRes.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
             {
-                Ctx.mInstance.mLogSys.debugLog_1(LangItemID.eItem0, m_res.getLoadPath());
+                Ctx.mInstance.mLogSys.debugLog_1(LangItemID.eItem0, mRes.getLoadPath());
 
-                string text = m_res.getText("");
+                string text = mRes.getText("");
                 if (text != null)
                 {
-                    mId2CfgDic[getXmlCfgIDByPath(m_res.getLogicPath())].parseXml(text);
+                    mId2CfgDic[getXmlCfgIDByPath(mRes.getLogicPath())].parseXml(text);
                 }
             }
-            else if (m_res.refCountResLoadResultNotify.resLoadState.hasFailed())
+            else if (mRes.refCountResLoadResultNotify.resLoadState.hasFailed())
             {
-                Ctx.mInstance.mLogSys.debugLog_1(LangItemID.eItem1, m_res.getLoadPath());
+                Ctx.mInstance.mLogSys.debugLog_1(LangItemID.eItem1, mRes.getLoadPath());
             }
 
-            Ctx.mInstance.mResLoadMgr.unload(m_res.getResUniqueId(), onLoadEventHandle);
+            Ctx.mInstance.mResLoadMgr.unload(mRes.getResUniqueId(), onLoadEventHandle);
         }
 
         protected XmlCfgID getXmlCfgIDByPath(string path)

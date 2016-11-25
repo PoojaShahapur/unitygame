@@ -6,7 +6,7 @@ namespace SDK.Lib
 {
     public class NumAniSeqBase
     {
-        protected GameObject m_go;
+        protected GameObject mGo;
         protected List<NumAniBase> m_numAniList = new List<NumAniBase>();
         protected Action<NumAniSeqBase> m_aniSeqEndDisp;          // 动画结束分发
 
@@ -14,10 +14,10 @@ namespace SDK.Lib
         {
             m_numAniList.Clear();
             m_aniSeqEndDisp = null;
-            m_go.transform.parent = null;
-            UtilApi.Destroy(m_go);
+            mGo.transform.parent = null;
+            UtilApi.Destroy(mGo);
 
-            m_go = null;
+            mGo = null;
         }
 
         public void stop()
@@ -36,7 +36,7 @@ namespace SDK.Lib
 
             if (ani is ITweenAniBase)   // 如果是补间动画
             {
-                ani.setDispGo(m_go);
+                ani.setDispGo(mGo);
                 ani.setMethodName("onAniEnd");
             }
             else if(ani is DopeSheetAni)

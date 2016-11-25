@@ -2,14 +2,14 @@
 {
     public class DataResItem : ResItem
     {
-        protected byte[] m_bytes;
-        protected string m_localPath;
+        protected byte[] mBytes;
+        protected string mLocalPath;
 
         override public void init(LoadItem item)
         {
             base.init(item);
 
-            m_bytes = (item as DataLoadItem).mBytes;
+            mBytes = (item as DataLoadItem).mBytes;
 
             m_refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             m_refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
@@ -17,7 +17,7 @@
 
         override public byte[] getBytes(string resName)
         {
-            return m_bytes;
+            return mBytes;
         }
 
         override public string getText(string resName)
@@ -25,9 +25,9 @@
             string text = "";
             System.Text.Encoding encode = UtilApi.convGkEncode2EncodingEncoding(GkEncode.eUTF8);
 
-            if(m_bytes != null)
+            if(mBytes != null)
             {
-                text = encode.GetString(m_bytes);
+                text = encode.GetString(mBytes);
             }
 
             return text;

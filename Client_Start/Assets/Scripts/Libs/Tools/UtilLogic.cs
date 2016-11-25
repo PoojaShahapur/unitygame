@@ -253,7 +253,7 @@ namespace SDK.Lib
         {
             AuxLabel text;
             text = new AuxLabel(gameObject, "UIRoot/NameText");         // 名字
-            text.text = cardTableItem.m_name;
+            text.text = cardTableItem.mName;
             text.setSelfGo(gameObject, "UIRoot/DescText");  // 描述
             text.text = cardTableItem.m_cardDesc;
         }

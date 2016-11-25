@@ -14,7 +14,7 @@ namespace SDK.Lib
         protected Texture m_texture;           // 使用的纹理
         protected Shader m_shader;             // 动态材质使用的纹理
 
-        protected Transform m_trans;           // 渲染位置信息
+        protected Transform mTrans;           // 渲染位置信息
         protected Mesh m_mesh;                 // mesh 信息
         protected MeshFilter m_filter;         // 绘制使用的 MeshFilter
         protected MeshRenderer m_renderer;     // mesh 渲染使用的 Render
@@ -136,11 +136,11 @@ namespace SDK.Lib
         {
             get
             {
-                if (m_trans == null)
+                if (mTrans == null)
                 {
-                    m_trans = this.mSelfGo.transform;
+                    mTrans = this.mSelfGo.transform;
                 }
-                return m_trans;
+                return mTrans;
             }
         }
 

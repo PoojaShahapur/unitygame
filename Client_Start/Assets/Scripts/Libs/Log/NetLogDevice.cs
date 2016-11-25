@@ -84,7 +84,7 @@ namespace SDK.Lib
             Dictionary<string, string> dic = new Dictionary<string, string>();
             dic.Add("id", "1000");
             dic.Add("charid", Ctx.mInstance.mDataPlayer.m_dataMain.m_dwUserTempID.ToString());
-            dic.Add("name", Ctx.mInstance.mDataPlayer.m_dataMain.m_name);
+            dic.Add("name", Ctx.mInstance.mDataPlayer.m_dataMain.mName);
             dic.Add("type", "1000");
             dic.Add("platform", "1000");
             dic.Add("version", "1000");

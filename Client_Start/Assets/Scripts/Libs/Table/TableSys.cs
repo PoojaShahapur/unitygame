@@ -12,30 +12,30 @@ namespace SDK.Lib
      */
     public class TableSys
 	{
-        private Dictionary<TableID, TableBase> m_dicTable;
-		private ResItem m_res;
-        private ByteBuffer m_byteArray;
+        private Dictionary<TableID, TableBase> mDicTable;
+		private ResItem mRes;
+        private ByteBuffer mByteArray;
 
 		public TableSys()
 		{
-			m_dicTable = new Dictionary<TableID, TableBase>();
-            m_dicTable[TableID.TABLE_OBJECT] = new TableBase("ObjectBase_client.bytes", "ObjectBase_client");
-            m_dicTable[TableID.TABLE_CARD] = new TableBase("CardBase_client.bytes", "CardBase_client");
-            m_dicTable[TableID.TABLE_SKILL] = new TableBase("SkillBase_client.bytes", "SkillBase_client");    // 添加一个表的步骤三
-            m_dicTable[TableID.TABLE_JOB] = new TableBase("proBase_client.bytes", "proBase_client");
-            m_dicTable[TableID.TABLE_SPRITEANI] = new TableBase("FrameAni_client.bytes", "FrameAni_client");
-            m_dicTable[TableID.TABLE_RACE] = new TableBase("RaceBase_client.bytes", "RaceBase_client");
-            m_dicTable[TableID.TABLE_STATE] = new TableBase("StateBase_client.bytes", "StateBase_client");
+			mDicTable = new Dictionary<TableID, TableBase>();
+            mDicTable[TableID.TABLE_OBJECT] = new TableBase("ObjectBase_client.bytes", "ObjectBase_client");
+            mDicTable[TableID.TABLE_CARD] = new TableBase("CardBase_client.bytes", "CardBase_client");
+            mDicTable[TableID.TABLE_SKILL] = new TableBase("SkillBase_client.bytes", "SkillBase_client");    // 添加一个表的步骤三
+            mDicTable[TableID.TABLE_JOB] = new TableBase("proBase_client.bytes", "proBase_client");
+            mDicTable[TableID.TABLE_SPRITEANI] = new TableBase("FrameAni_client.bytes", "FrameAni_client");
+            mDicTable[TableID.TABLE_RACE] = new TableBase("RaceBase_client.bytes", "RaceBase_client");
+            mDicTable[TableID.TABLE_STATE] = new TableBase("StateBase_client.bytes", "StateBase_client");
 		}
 
         // 返回一个表
         public List<TableItemBase> getTable(TableID tableID)
 		{
-			TableBase table = m_dicTable[tableID];
+			TableBase table = mDicTable[tableID];
 			if (null == table)
 			{
 				loadOneTable(tableID);
-				table = m_dicTable[tableID];
+				table = mDicTable[tableID];
 			}
 			return table.m_List;
 		}
@@ -43,11 +43,11 @@ namespace SDK.Lib
         // 返回一个表中一项，返回的时候表中数据全部加载到 Item 中
         public TableItemBase getItem(TableID tableID, uint itemID)
 		{
-            TableBase table = m_dicTable[tableID];
+            TableBase table = mDicTable[tableID];
             if (null == table.m_byteBuffer)
 			{
 				loadOneTable(tableID);
-				table = m_dicTable[tableID];
+				table = mDicTable[tableID];
 			}
             TableItemBase ret = TableSys.findDataItem(table, itemID);
 
@@ -67,7 +67,7 @@ namespace SDK.Lib
         // 加载一个表
 		public void loadOneTable(TableID tableID)
 		{
-			TableBase table = m_dicTable[tableID];
+			TableBase table = mDicTable[tableID];
 
             LoadParam param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
             param.setPath(Path.Combine(Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathTablePath], table.m_resName));
@@ -81,34 +81,34 @@ namespace SDK.Lib
         // 加载一个表完成
         public void onLoadEventHandle(IDispatchObject dispObj)
         {
-            m_res = dispObj as ResItem;
-            if (m_res.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
+            mRes = dispObj as ResItem;
+            if (mRes.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
             {
-                Ctx.mInstance.mLogSys.debugLog_1(LangItemID.eItem0, m_res.getLoadPath());
+                Ctx.mInstance.mLogSys.debugLog_1(LangItemID.eItem0, mRes.getLoadPath());
 
-                byte[] bytes = m_res.getBytes("");
+                byte[] bytes = mRes.getBytes("");
                 if (bytes != null)
                 {
-                    m_byteArray = Ctx.mInstance.mFactoryBuild.buildByteBuffer();
-                    m_byteArray.clear();
-                    m_byteArray.writeBytes(bytes, 0, (uint)bytes.Length);
-                    m_byteArray.setPos(0);
-                    readTable(getTableIDByPath(m_res.getLogicPath()), m_byteArray);
+                    mByteArray = Ctx.mInstance.mFactoryBuild.buildByteBuffer();
+                    mByteArray.clear();
+                    mByteArray.writeBytes(bytes, 0, (uint)bytes.Length);
+                    mByteArray.setPos(0);
+                    readTable(getTableIDByPath(mRes.getLogicPath()), mByteArray);
                 }
             }
-            else if (m_res.refCountResLoadResultNotify.resLoadState.hasFailed())
+            else if (mRes.refCountResLoadResultNotify.resLoadState.hasFailed())
             {
-                Ctx.mInstance.mLogSys.debugLog_1(LangItemID.eItem1, m_res.getLoadPath());
+                Ctx.mInstance.mLogSys.debugLog_1(LangItemID.eItem1, mRes.getLoadPath());
             }
 
             // 卸载资源
-            Ctx.mInstance.mResLoadMgr.unload(m_res.getResUniqueId(), onLoadEventHandle);
+            Ctx.mInstance.mResLoadMgr.unload(mRes.getResUniqueId(), onLoadEventHandle);
         }
 
         // 根据路径查找表的 ID
         protected TableID getTableIDByPath(string path)
         {
-            foreach (KeyValuePair<TableID, TableBase> kv in m_dicTable)
+            foreach (KeyValuePair<TableID, TableBase> kv in mDicTable)
             {
                 if (Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathTablePath] + kv.Value.m_resName == path)
                 {
@@ -155,7 +155,7 @@ namespace SDK.Lib
         // 获取一个表的名字
 		public string getTableName(TableID tableID)
 		{
-			TableBase table = m_dicTable[tableID];
+			TableBase table = mDicTable[tableID];
 			if (null != table)
 			{
 				return table.m_tableName;
@@ -166,7 +166,7 @@ namespace SDK.Lib
         // 读取一个表，仅仅读取表头
         private void readTable(TableID tableID, ByteBuffer bytes)
         {
-            TableBase table = m_dicTable[tableID];
+            TableBase table = mDicTable[tableID];
             table.m_byteBuffer = bytes;
 
             bytes.setEndian(EEndian.eLITTLE_ENDIAN);

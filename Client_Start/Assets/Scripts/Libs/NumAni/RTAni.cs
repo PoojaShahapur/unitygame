@@ -9,7 +9,7 @@ namespace SDK.Lib
     public class RTAni : ITweenAniBase
     {
         // 目标信息
-        protected Vector3 m_destPos;       // 最终位置
+        protected Vector3 mDestPos;       // 最终位置
         protected Vector3 m_destRot;       // 最终旋转
 
         public RTAni()
@@ -21,11 +21,11 @@ namespace SDK.Lib
         {
             get
             {
-                return m_destPos;
+                return mDestPos;
             }
             set
             {
-                m_destPos = value;
+                mDestPos = value;
             }
         }
 
@@ -49,7 +49,7 @@ namespace SDK.Lib
             args = new Hashtable();
             base.buildAniBasicParam(args);
 
-            args["position"] = m_destPos;
+            args["position"] = mDestPos;
             args["time"] = m_time;
             args["islocal"] = true;
 
@@ -58,7 +58,7 @@ namespace SDK.Lib
             //args["method"] = "to";
             //args["type"] = "color";
             incItweenCount();
-            iTween.MoveTo(m_go, args);
+            iTween.MoveTo(mGo, args);
 
             args = new Hashtable();
             base.buildAniBasicParam(args);
@@ -68,7 +68,7 @@ namespace SDK.Lib
             args["easetype"] = m_easeType;
             args["looptype"] = m_loopType;
             incItweenCount();
-            iTween.RotateTo(m_go, args);
+            iTween.RotateTo(mGo, args);
         }
     }
 }

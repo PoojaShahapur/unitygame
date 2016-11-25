@@ -59,7 +59,7 @@ namespace SDK.Lib
 
                 // 不是使用 mResLoadMgr.load 接口加载的资源，不要使用 mResLoadMgr.unload 去卸载资源
                 // 卸载资源
-                //Ctx.mInstance.mResLoadMgr.unload(m_res.GetPath());
+                //Ctx.mInstance.mResLoadMgr.unload(mRes.GetPath());
             }
             else if (this.mRes.refCountResLoadResultNotify.resLoadState.hasFailed())
             {
@@ -67,7 +67,7 @@ namespace SDK.Lib
                 Ctx.mInstance.mLogSys.debugLog_1(LangItemID.eItem1, this.mRes.getLoadPath());
 
                 // 卸载资源
-                //Ctx.mInstance.mResLoadMgr.unload(m_res.GetPath());
+                //Ctx.mInstance.mResLoadMgr.unload(mRes.GetPath());
             }
         }
 

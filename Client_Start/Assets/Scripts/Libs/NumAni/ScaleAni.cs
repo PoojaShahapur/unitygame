@@ -6,7 +6,7 @@ namespace SDK.Lib
     public class ScaleAni : ITweenAniBase
     {
         // 目标信息
-        protected Vector3 m_destScale;     // 最终缩放
+        protected Vector3 mDestScale;     // 最终缩放
 
         public ScaleAni()
         {
@@ -17,7 +17,7 @@ namespace SDK.Lib
         {
             set
             {
-                m_destScale = value;
+                mDestScale = value;
             }
         }
 
@@ -33,12 +33,12 @@ namespace SDK.Lib
             args = new Hashtable();
             base.buildAniBasicParam(args);
 
-            args["scale"] = m_destScale;
+            args["scale"] = mDestScale;
             args["time"] = m_time;
             args["easetype"] = m_easeType;
             args["looptype"] = m_loopType;
             incItweenCount();
-            iTween.ScaleTo(m_go, args);
+            iTween.ScaleTo(mGo, args);
         }
     }
 }

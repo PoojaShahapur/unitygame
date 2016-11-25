@@ -6,17 +6,17 @@ namespace SDK.Lib
     public class PosAni : ITweenAniBase
     {
         // 目标信息
-        protected Vector3 m_destPos;       // 最终位置
+        protected Vector3 mDestPos;       // 最终位置
 
         public Vector3 destPos
         {
             get
             {
-                return m_destPos;
+                return mDestPos;
             }
             set
             {
-                m_destPos = value;
+                mDestPos = value;
             }
         }
 
@@ -32,14 +32,14 @@ namespace SDK.Lib
             args = new Hashtable();
             base.buildAniBasicParam(args);
 
-            args["position"] = m_destPos;
+            args["position"] = mDestPos;
             args["time"] = m_time;
             args["islocal"] = true;
 
             args["easetype"] = m_easeType;
             args["looptype"] = m_loopType;
             incItweenCount();
-            iTween.MoveTo(m_go, args);
+            iTween.MoveTo(mGo, args);
         }
     }
 }

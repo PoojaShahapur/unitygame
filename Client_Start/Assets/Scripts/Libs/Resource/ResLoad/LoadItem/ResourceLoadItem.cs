@@ -8,18 +8,18 @@ namespace SDK.Lib
      */
     public class ResourceLoadItem : LoadItem
     {
-        protected UnityEngine.Object m_prefabObj;
+        protected UnityEngine.Object mPrefabObj;
         protected UnityEngine.Object[] mAllPrefabObj;
 
         public UnityEngine.Object prefabObj
         {
             get
             {
-                return m_prefabObj;
+                return mPrefabObj;
             }
             set
             {
-                m_prefabObj = value;
+                mPrefabObj = value;
             }
         }
 
@@ -30,7 +30,7 @@ namespace SDK.Lib
 
         public override void reset()
         {
-            m_prefabObj = null;
+            mPrefabObj = null;
             mAllPrefabObj = null;
 
             base.reset();
@@ -52,11 +52,11 @@ namespace SDK.Lib
         // 这个是卸载，因为有时候资源加载进来可能已经不用了，需要直接卸载掉
         override public void unload()
         {
-            if (m_prefabObj != null)
+            if (mPrefabObj != null)
             {
-                //UtilApi.DestroyImmediate(m_prefabObj, true);
+                //UtilApi.DestroyImmediate(mPrefabObj, true);
                 // 如果你用个全局变量保存你 Load 的 Assets，又没有显式的设为 null，那 在这个变量失效前你无论如何 UnloadUnusedAssets 也释放不了那些Assets的。如果你这些Assets又不是从磁盘加载的，那除了 UnloadUnusedAssets 或者加载新场景以外没有其他方式可以卸载之。
-                m_prefabObj = null;
+                mPrefabObj = null;
 
                 // Asset-Object 无法被Destroy销毁，Asset-Objec t由 Resources 系统管理，需要手工调用Resources.UnloadUnusedAssets()或者其他类似接口才能删除。
                 UtilApi.UnloadUnusedAssets();
@@ -78,8 +78,8 @@ namespace SDK.Lib
             if(!mIsLoadAll)
             {
                 // Table/ObjectBase_client 可以加载， 而 Table//ObjectBase_client 加载失败
-                m_prefabObj = Resources.Load<Object>(mLoadPath);
-                if (m_prefabObj != null)
+                mPrefabObj = Resources.Load<Object>(mLoadPath);
+                if (mPrefabObj != null)
                 {
                     isSuccess = true;
                 }
@@ -120,7 +120,7 @@ namespace SDK.Lib
                 {
                     Ctx.mInstance.mLogSys.log(string.Format("ResourceLoadItem::loadFromDefaultAssetBundleByCoroutine, Success, ResLoadType is {0}, ResPackType is {1}, Load Not Need Coroutine, mOrigPath is {2}", "LoadResource", "Prefab", mOrigPath), LogTypeId.eLogResLoader);
 
-                    m_prefabObj = req.asset;
+                    mPrefabObj = req.asset;
                     m_nonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
                 }
                 else

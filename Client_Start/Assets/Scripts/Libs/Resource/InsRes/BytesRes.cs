@@ -5,7 +5,7 @@
      */
     public class BytesRes : InsResBase
     {
-        protected byte[] m_bytes;
+        protected byte[] mBytes;
 
         public BytesRes()
         {
@@ -15,20 +15,20 @@
         override protected void initImpl(ResItem res)
         {
             // 获取资源单独保存
-            m_bytes = res.getBytes(res.getPrefabName());
+            mBytes = res.getBytes(res.getPrefabName());
             base.initImpl(res);
         }
 
         override public void unload()
         {
-            m_bytes = null;
+            mBytes = null;
 
             base.unload();
         }
 
         public byte[] getBytes(string name)
         {
-            return m_bytes;
+            return mBytes;
         }
     }
 }

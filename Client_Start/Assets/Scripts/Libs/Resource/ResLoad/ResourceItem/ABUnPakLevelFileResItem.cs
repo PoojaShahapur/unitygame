@@ -8,28 +8,28 @@ namespace SDK.Lib
      */
     public class ABUnPakLevelFileResItem : ABMemUnPakFileResItemBase
     {
-        protected string m_levelName;
+        protected string mLevelName;
 
         public string levelName
         {
             set
             {
-                m_levelName = value;
+                mLevelName = value;
             }
         }
 
         override public void init(LoadItem item)
         {
-            initByBytes((item as ABUnPakLoadItem).m_bytes, SCENE_PRE_PATH);
+            initByBytes((item as ABUnPakLoadItem).mBytes, SCENE_PRE_PATH);
         }
 
         override protected void initAsset()
         {
             base.initAsset();
-            if (m_bundle != null)
+            if (mBundle != null)
             {
-                m_bundle.LoadAsset<GameObject>(m_bundlePath);
-                Application.LoadLevel(m_levelName);
+                mBundle.LoadAsset<GameObject>(m_bundlePath);
+                Application.LoadLevel(mLevelName);
                 m_refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }
             else
@@ -42,29 +42,29 @@ namespace SDK.Lib
         override protected IEnumerator initAssetByCoroutine()
         {
 #if UNITY_5_0 || UNITY_5_1 || UNITY_5_2
-            AssetBundleCreateRequest createReq = AssetBundle.CreateFromMemory(m_bytes);
+            AssetBundleCreateRequest createReq = AssetBundle.CreateFromMemory(mBytes);
 #else
-            AssetBundleCreateRequest createReq = AssetBundle.LoadFromMemoryAsync(m_bytes);
+            AssetBundleCreateRequest createReq = AssetBundle.LoadFromMemoryAsync(mBytes);
 #endif
             yield return createReq;
 
-            m_bundle = createReq.assetBundle;
+            mBundle = createReq.assetBundle;
 
             AssetBundleRequest req = null;
 
-            if (m_bundle != null)
+            if (mBundle != null)
             {
 #if UNITY_5
                 // Unity5
-                req = m_bundle.LoadAssetAsync(m_bundlePath);
+                req = mBundle.LoadAssetAsync(m_bundlePath);
 #elif UNITY_4_6 || UNITY_4_5
                 // Unity4
-                req = m_bundle.LoadAsync(mPrefabName, typeof(GameObject));
+                req = mBundle.LoadAsync(mPrefabName, typeof(GameObject));
 #endif
                 yield return req;
             }
 
-            AsyncOperation asyncOpt = Application.LoadLevelAsync(m_levelName);
+            AsyncOperation asyncOpt = Application.LoadLevelAsync(mLevelName);
             yield return asyncOpt;
 
             if (null != asyncOpt && asyncOpt.isDone)

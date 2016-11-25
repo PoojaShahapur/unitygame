@@ -8,12 +8,12 @@ namespace SDK.Lib
      */
     public class CanvasMatch
     {
-        protected int m_refWidth;
-        protected int m_refHeight;
-        protected CanvasScaler m_canvasScaler;
-        protected int m_screenWidth = 0;
-        protected int m_screenHeight = 0;
-        protected GameObject m_go;
+        protected int mRefWidth;
+        protected int mRefHeight;
+        protected CanvasScaler mCanvasScaler;
+        protected int mScreenWidth = 0;
+        protected int mScreenHeight = 0;
+        protected GameObject mGo;
 
         public CanvasMatch()
         {
@@ -22,7 +22,7 @@ namespace SDK.Lib
 
         public void init()
         {
-            m_canvasScaler = m_go.GetComponent<CanvasScaler>();
+            mCanvasScaler = mGo.GetComponent<CanvasScaler>();
             updateScaleMatch();
         }
 
@@ -36,12 +36,12 @@ namespace SDK.Lib
 
         public void updateScaleMatch()
         {
-            m_screenWidth = Screen.width;
-            m_screenHeight = Screen.height;
+            mScreenWidth = Screen.width;
+            mScreenHeight = Screen.height;
 
-            float refRate = ((float)m_refWidth / m_refHeight);
-            float screenRate = ((float)m_screenWidth / m_screenHeight);
-            m_canvasScaler.matchWidthOrHeight = screenRate >= refRate ? 1 : 0;
+            float refRate = ((float)mRefWidth / mRefHeight);
+            float screenRate = ((float)mScreenWidth / mScreenHeight);
+            mCanvasScaler.matchWidthOrHeight = screenRate >= refRate ? 1 : 0;
         }
     }
 }

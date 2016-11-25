@@ -22,20 +22,20 @@ namespace SDK.Lib
     public class SoundItem
     {
         public string mPath;           // 资源目录
-        public SoundResType m_soundResType = SoundResType.eSRT_Prefab;
-        protected SoundPlayState m_playState = SoundPlayState.eSS_None;      // 音乐音效播放状态
-        public Transform m_trans;       // 位置信息
-        public GameObject m_go;         // audio 组件 GameObject 对象
-        public AudioSource m_audio;             // 音源
-        public bool m_playOnStart = true;
+        public SoundResType mSoundResType = SoundResType.eSRT_Prefab;
+        protected SoundPlayState mPlayState = SoundPlayState.eSS_None;      // 音乐音效播放状态
+        public Transform mTrans;       // 位置信息
+        public GameObject mGo;         // audio 组件 GameObject 对象
+        public AudioSource mAudio;             // 音源
+        public bool mPlayOnStart = true;
 
-        public ulong m_delay = 0;
-        public bool m_bypassEffects = false;        // 是否开启音频特效
-        public bool m_mute = false;         // 是否静音
-        public bool m_bLoop = false;        // 是否循环播放
-        public float m_volume = 1.0f;
-        public float m_pitch = 1.0f;
-        public bool m_ScaleOutputVolume = true;
+        public ulong mDelay = 0;
+        public bool mBypassEffects = false;        // 是否开启音频特效
+        public bool mMute = false;         // 是否静音
+        public bool mIsLoop = false;        // 是否循环播放
+        public float mVolume = 1.0f;
+        public float mPitch = 1.0f;
+        public bool mScaleOutputVolume = true;
 
         public SoundItem()
         {
@@ -44,7 +44,7 @@ namespace SDK.Lib
 
         public bool bInCurState(SoundPlayState state)
         {
-            return m_playState == state;
+            return mPlayState == state;
         }
 
         public virtual void setResObj(UnityEngine.Object go_)
@@ -54,45 +54,45 @@ namespace SDK.Lib
 
         public void initParam(SoundParam soundParam)
         {
-            m_trans = soundParam.m_trans;
-            m_bLoop = soundParam.m_bLoop;
+            mTrans = soundParam.mTrans;
+            mIsLoop = soundParam.mIsLoop;
             mPath = soundParam.mPath;
         }
 
         protected void updateParam()
         {
-            if (m_trans != null)
+            if (mTrans != null)
             {
-                m_go.transform.position = m_trans.position;
+                mGo.transform.position = mTrans.position;
             }
-            m_audio = m_go.GetComponent<AudioSource>();
-            //m_audio.rolloffMode = AudioRolloffMode.Logarithmic;
-            m_audio.loop = m_bLoop;
-            //m_audio.dopplerLevel = 0f;
-            //m_audio.spatialBlend = 0f;
-            volume = m_volume;
+            mAudio = mGo.GetComponent<AudioSource>();
+            //mAudio.rolloffMode = AudioRolloffMode.Logarithmic;
+            mAudio.loop = mIsLoop;
+            //mAudio.dopplerLevel = 0f;
+            //mAudio.spatialBlend = 0f;
+            volume = mVolume;
 
-            //m_audio.minDistance = 1.0f;
-            //m_audio.maxDistance = 50;
+            //mAudio.minDistance = 1.0f;
+            //mAudio.maxDistance = 50;
         }
 
         public float volume
         {
             get 
             { 
-                return m_volume; 
+                return mVolume; 
             }
             set
             {
-                if (m_ScaleOutputVolume)
+                if (mScaleOutputVolume)
                 {
-                    m_audio.volume = ScaleVolume(value);
+                    mAudio.volume = ScaleVolume(value);
                 }
                 else
                 {
-                    m_audio.volume = value;
+                    mAudio.volume = value;
                 }
-                m_volume = value;
+                mVolume = value;
             }
         }
 
@@ -100,18 +100,18 @@ namespace SDK.Lib
         {
             get 
             {
-                return m_pitch; 
+                return mPitch; 
             }
             set
             {
-                m_audio.pitch = value;
-                m_pitch = value;
+                mAudio.pitch = value;
+                mPitch = value;
             }
         }
 
         void Start()
         {
-            if (m_playOnStart)
+            if (mPlayOnStart)
             {
                 Play();
             }
@@ -119,28 +119,28 @@ namespace SDK.Lib
 
         public void Pause()
         {
-            m_playState = SoundPlayState.eSS_Pause;
-            m_audio.Pause();
+            mPlayState = SoundPlayState.eSS_Pause;
+            mAudio.Pause();
         }
 
         public void Play()
         {
-            if (SoundPlayState.eSS_Pause == m_playState)
+            if (SoundPlayState.eSS_Pause == mPlayState)
             {
-                m_audio.UnPause();
+                mAudio.UnPause();
             }
             else
             {
-                m_audio.Play(m_delay);
+                mAudio.Play(mDelay);
             }
 
-            m_playState = SoundPlayState.eSS_Play;
+            mPlayState = SoundPlayState.eSS_Play;
         }
 
         public void Stop()
         {
-            m_playState = SoundPlayState.eSS_Stop;
-            m_audio.Stop();
+            mPlayState = SoundPlayState.eSS_Stop;
+            mAudio.Stop();
         }
 
         public void SetPitch(float p)
@@ -167,9 +167,9 @@ namespace SDK.Lib
 
         public bool isEnd()
         {
-            if (SoundPlayState.eSS_Play == m_playState)     // 如果处于播放状态的
+            if (SoundPlayState.eSS_Play == mPlayState)     // 如果处于播放状态的
             {
-                return !m_audio.isPlaying;
+                return !mAudio.isPlaying;
             }
 
             return false;

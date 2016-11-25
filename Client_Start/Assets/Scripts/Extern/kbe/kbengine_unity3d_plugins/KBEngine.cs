@@ -302,7 +302,7 @@
             Event.processInEvents();
 
             // 向服务端发送心跳以及同步角色信息到服务端
-            //sendTick();
+            sendTick();
         }
 
         // 添加消息数据
@@ -333,8 +333,8 @@
 		*/
 		public void sendTick()
 		{
-			if(_networkInterface == null || !_networkInterface.valid())
-				return;
+			//if(_networkInterface == null || !_networkInterface.valid())
+			//	return;
 
 			if(!loginappMessageImported_ && !baseappMessageImported_)
 				return;

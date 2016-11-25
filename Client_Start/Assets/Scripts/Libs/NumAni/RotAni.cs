@@ -39,7 +39,7 @@ namespace SDK.Lib
             args["easetype"] = m_easeType;
             args["looptype"] = m_loopType;
             incItweenCount();
-            iTween.RotateTo(m_go, args);
+            iTween.RotateTo(mGo, args);
         }
     }
 }

@@ -8,23 +8,23 @@ namespace SDK.Lib
      */
     public class MoveEffect : EffectBase
     {
-        protected EffectMoveControl m_moveControl;
-        protected Vector3 m_destPos;                // 终点
-        protected EventDispatch m_moveDestEventDispatch;         // 移动到目标事件分发，注意不是
-        protected float m_effectMoveTime;
+        protected EffectMoveControl mMoveControl;
+        protected Vector3 mDestPos;                // 终点
+        protected EventDispatch mMoveDestEventDispatch;         // 移动到目标事件分发，注意不是
+        protected float mEffectMoveTime;
 
         public MoveEffect(EffectRenderType renderType) :
             base(renderType)
         {
-            m_moveControl = new EffectMoveControl(this);
-            m_moveDestEventDispatch = new AddOnceAndCallOnceEventDispatch();
+            mMoveControl = new EffectMoveControl(this);
+            mMoveDestEventDispatch = new AddOnceAndCallOnceEventDispatch();
         }
 
         public EventDispatch moveDestEventDispatch
         {
             get
             {
-                return m_moveDestEventDispatch;
+                return mMoveDestEventDispatch;
             }
         }
 
@@ -44,11 +44,11 @@ namespace SDK.Lib
         {
             get
             {
-                return m_destPos;
+                return mDestPos;
             }
             set
             {
-                m_destPos = value;
+                mDestPos = value;
             }
         }
 
@@ -56,11 +56,11 @@ namespace SDK.Lib
         {
             get
             {
-                return m_effectMoveTime;
+                return mEffectMoveTime;
             }
             set
             {
-                m_effectMoveTime = value;
+                mEffectMoveTime = value;
             }
         }
 
@@ -77,7 +77,7 @@ namespace SDK.Lib
 
         override public void play()
         {
-            m_moveControl.moveToDest(this.gameObject().transform.localPosition, m_destPos, m_effectMoveTime, onMoveToDest);
+            mMoveControl.moveToDest(this.gameObject().transform.localPosition, mDestPos, mEffectMoveTime, onMoveToDest);
             base.play();
         }
 
@@ -88,8 +88,8 @@ namespace SDK.Lib
 
         public override void dispose()
         {
-            m_moveDestEventDispatch.clearEventHandle();
-            m_moveDestEventDispatch = null;
+            mMoveDestEventDispatch.clearEventHandle();
+            mMoveDestEventDispatch = null;
 
             base.dispose();
         }
@@ -97,12 +97,12 @@ namespace SDK.Lib
         // 特效移动到终点
         protected void onMoveToDest(NumAniBase ani)
         {
-            m_moveDestEventDispatch.dispatchEvent(this);
+            mMoveDestEventDispatch.dispatchEvent(this);
         }
 
         override public void addMoveDestEventHandle(MAction<IDispatchObject> dispObj)
         {
-            m_moveDestEventDispatch.addEventHandle(null, dispObj);
+            mMoveDestEventDispatch.addEventHandle(null, dispObj);
         }
     }
 }

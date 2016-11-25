@@ -6,32 +6,32 @@
      */
     public class TableSkillItemBody : TableItemBodyBase
     {
-        public string m_name;               // 名称
-        public string m_effect;             // 效果
-        public uint m_skillAttackEffect;    // 技能攻击特效
-        public float m_effectMoveTime;      // 移动
-        public int m_bNeedMove;             // 是否弹道特效, 0 不需要 1 需要
+        public string mName;               // 名称
+        public string mEffect;             // 效果
+        public uint mSkillAttackEffect;    // 技能攻击特效
+        public float mEffectMoveTime;      // 移动
+        public int mIsNeedMove;             // 是否弹道特效, 0 不需要 1 需要
 
         override public void parseBodyByteBuffer(ByteBuffer bytes, uint offset)
         {
             bytes.setPos(offset);
-            UtilTable.readString(bytes, ref m_name);
-            UtilTable.readString(bytes, ref m_effect);
-            bytes.readUnsignedInt32(ref m_skillAttackEffect);
-            bytes.readInt32(ref m_bNeedMove);
+            UtilTable.readString(bytes, ref mName);
+            UtilTable.readString(bytes, ref mEffect);
+            bytes.readUnsignedInt32(ref mSkillAttackEffect);
+            bytes.readInt32(ref mIsNeedMove);
 
             initDefaultValue();
         }
 
         protected void initDefaultValue()
         {
-            if (m_skillAttackEffect == 0)
+            if (mSkillAttackEffect == 0)
             {
-                m_skillAttackEffect = 8;
+                mSkillAttackEffect = 8;
             }
 
-            m_effectMoveTime = 1;
-            //m_bNeedMove = 1;
+            mEffectMoveTime = 1;
+            //mIsNeedMove = 1;
         }
     }
 }
