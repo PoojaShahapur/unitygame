@@ -85,9 +85,15 @@ namespace SDK.Lib
             MonoBehaviour.print("clientapp::OnDestroy(): end");
         }
 
+
+
         public void FixedUpdate()
         {
             KBEUpdate();
+            if(null != this.mMWorld_KBE)
+            {
+                this.mMWorld_KBE.Update();
+            }
         }
 
         public virtual void KBEUpdate()

@@ -32,8 +32,8 @@ namespace SDK.Lib
         {
             StreamingAssets = "StreamingAssets/";
 
-            this.mIp = "106.14.32.169";
-            this.mPort = 20513;
+            this.mIp = "192.168.96.14";
+            this.mPort = 20013;
             this.mZone = 30;
 
             this.mWebIP = "http://127.0.0.1/UnityServer/";

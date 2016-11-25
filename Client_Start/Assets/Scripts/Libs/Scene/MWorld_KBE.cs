@@ -68,8 +68,7 @@ public class MWorld_KBE
         KBEngine.Event.deregisterOut(this);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Update()
     {
         createPlayer();
         if (Input.GetKeyUp(KeyCode.Space))
