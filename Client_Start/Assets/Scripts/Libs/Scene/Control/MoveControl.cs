@@ -22,7 +22,7 @@ namespace SDK.Lib
 
             SimpleCurveAni curveAni = new SimpleCurveAni();
             m_numAniSeq.addOneNumAni(curveAni);
-            curveAni.setGO(m_entity.gameObject());
+            curveAni.setGO(mEntity.gameObject());
             curveAni.setTime(time);
             curveAni.setPlotCount(3);
             curveAni.addPlotPt(0, srcPos);

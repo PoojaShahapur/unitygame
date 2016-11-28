@@ -7,5 +7,6 @@ namespace SDK.Lib
      */
     public class BeingBehaviour : MonoBehaviour
     {
+
     }
 }

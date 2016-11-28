@@ -4,20 +4,20 @@ namespace SDK.Lib
 {
     public class Scene : IDispatchObject
     {
-        protected SceneCfg m_sceneCfg;
-        protected string m_file;
-        protected MTerrain m_terrain;            // 地形
+        protected SceneCfg mSceneCfg;
+        protected string mFile;
+        protected MTerrain mTerrain;            // 地形
 
         public Scene()
         {
-            m_sceneCfg = new SceneCfg();
+            mSceneCfg = new SceneCfg();
         }
 
         public SceneCfg sceneCfg
         {
             get
             {
-                return m_sceneCfg;
+                return mSceneCfg;
             }
         }
 
@@ -25,22 +25,22 @@ namespace SDK.Lib
         {
             get
             {
-                return m_file;
+                return mFile;
             }
             set
             {
-                m_file = value;
+                mFile = value;
             }
         }
 
         public void createTerrain()
         {
-            //m_terrain = new MTerrainMulti();
-            //m_terrain.buildPage();        // 生成地形
-            //m_terrain.buildQuadTree();    // 生成四叉树
+            //mTerrain = new MTerrainMulti();
+            //mTerrain.buildPage();        // 生成地形
+            //mTerrain.buildQuadTree();    // 生成四叉树
 
             //Ctx.mInstance.mCamSys.setMCamera(Camera.main);
-            //m_terrain.updateClip();
+            //mTerrain.updateClip();
             Ctx.mInstance.mSceneNodeGraph.init();
             Ctx.mInstance.mSceneManager.addUpdateTask();
             Ctx.mInstance.mTerrainBufferSys.loadSceneCfg("S1000");
@@ -93,9 +93,9 @@ namespace SDK.Lib
 
         public float getHeightAt(float x, float z)
         {
-            if (m_terrain != null)
+            if (mTerrain != null)
             {
-                return m_terrain.getHeightAtWorldPosition(x, 0, z);
+                return mTerrain.getHeightAtWorldPosition(x, 0, z);
             }
 
             return 0;

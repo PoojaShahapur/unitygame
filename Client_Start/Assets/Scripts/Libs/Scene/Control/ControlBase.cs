@@ -2,11 +2,11 @@
 {
     public class ControlBase
     {
-        protected SceneEntityBase m_entity;
+        protected SceneEntityBase mEntity;
 
         public ControlBase(SceneEntityBase entity)
         {
-            m_entity = entity;
+            mEntity = entity;
         }
 
         virtual public void init()

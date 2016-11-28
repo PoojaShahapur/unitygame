@@ -35,7 +35,28 @@ namespace SDK.Lib
 
         virtual public void init()
         {
+            
+        }
 
+        virtual public void onInit()
+        {
+
+        }
+
+        // 释放接口
+        virtual public void dispose()
+        {
+            
+        }
+
+        // 释放的时候回调的接口
+        virtual public void onDestroy()
+        {
+            if (m_render != null)
+            {
+                m_render.dispose();
+                m_render = null;
+            }
         }
 
         virtual public void show()
@@ -62,22 +83,6 @@ namespace SDK.Lib
             }
 
             return true;
-        }
-
-        // 释放接口
-        virtual public void dispose()
-        {
-            
-        }
-
-        // 释放的时候回调的接口
-        virtual public void onDestroy()
-        {
-            if (m_render != null)
-            {
-                m_render.dispose();
-                m_render = null;
-            }
         }
 
         virtual public void setClientDispose()

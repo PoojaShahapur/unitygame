@@ -12,7 +12,7 @@ namespace SDK.Lib
         public EffectSpriteRender(SceneEntityBase entity_) :
             base(entity_)
         {
-            m_spriteRender = new SpriteRenderSpriteAni(m_entity);
+            m_spriteRender = new SpriteRenderSpriteAni(mEntity);
         }
 
         public SpriteRenderSpriteAni spriteRender

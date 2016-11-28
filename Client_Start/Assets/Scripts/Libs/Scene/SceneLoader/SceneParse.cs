@@ -6,17 +6,17 @@ namespace SDK.Lib
 {
     public class SceneParse
     {
-        protected SceneCfg m_sceneCfg;
+        protected SceneCfg mSceneCfg;
 
         public SceneCfg sceneCfg
         {
             get
             {
-                return m_sceneCfg;
+                return mSceneCfg;
             }
             set
             {
-                m_sceneCfg = value;
+                mSceneCfg = value;
             }
         }
 
@@ -33,13 +33,13 @@ namespace SDK.Lib
 
                 if (xe.Tag == "Terrain")
                 {
-                    m_sceneCfg.terrainCfg.parse(xe);
+                    mSceneCfg.terrainCfg.parse(xe);
                 }
                 else
                 {
                     node = new SceneNodeCfg();
                     node.parse(xe);
-                    m_sceneCfg.addSceneNode(node);
+                    mSceneCfg.addSceneNode(node);
                 }
             }
         }

@@ -12,7 +12,7 @@
         {
             get
             {
-                return m_entity as BeingEntity;
+                return mEntity as BeingEntity;
             }
         }
     }

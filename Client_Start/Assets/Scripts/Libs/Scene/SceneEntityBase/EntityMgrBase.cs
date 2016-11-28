@@ -47,12 +47,17 @@ namespace SDK.Lib
         virtual public void addEntity(SceneEntityBase entity)
         {
             this.addObject(entity);
+            entity.onInit();
         }
 
-        public void removeEntity(SceneEntityBase entity)
+        public void removeEntity(SceneEntityBase entity, bool isDispose = true)
         {
             this.removeObject(entity);
             this.mBufferPool.Add(entity);
+            if(isDispose)
+            {
+                entity.onDestroy();
+            }
         }
 
         virtual public void onTick(float delta)

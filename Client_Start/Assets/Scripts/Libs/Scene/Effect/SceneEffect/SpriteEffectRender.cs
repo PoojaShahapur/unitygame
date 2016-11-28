@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace SDK.Lib
 {
@@ -13,7 +12,7 @@ namespace SDK.Lib
         public SpriteEffectRender(SceneEntityBase entity_) :
             base(entity_)
         {
-            m_spriteRender = new SpriteRenderSpriteAni(m_entity);
+            m_spriteRender = new SpriteRenderSpriteAni(mEntity);
         }
 
         public SpriteRenderSpriteAni spriteRender

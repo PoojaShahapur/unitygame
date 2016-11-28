@@ -5,13 +5,13 @@ namespace SDK.Lib
     /**
      * @brief 基本的渲染器，所有与显示有关的接口都在这里
      */
-    public class EntityRenderBase
+    public class EntityRenderBase : AuxComponent
     {
-        protected SceneEntityBase m_entity;
+        protected SceneEntityBase mEntity;  // Entity 数据
 
         public EntityRenderBase(SceneEntityBase entity_)
         {
-            m_entity = entity_;
+            mEntity = entity_;
         }
 
         virtual public void setClientDispose()
@@ -21,17 +21,7 @@ namespace SDK.Lib
 
         virtual public bool getClientDispose()
         {
-            return m_entity.getClientDispose();
-        }
-
-        virtual public GameObject gameObject()
-        {
-            return null;
-        }
-
-        virtual public void setGameObject(GameObject rhv)
-        {
-
+            return mEntity.getClientDispose();
         }
 
         virtual public Transform transform()
@@ -44,37 +34,36 @@ namespace SDK.Lib
             
         }
 
-        virtual public void show()
+        // 初始化
+        override public void init()
         {
 
         }
 
-        virtual public void hide()
+        // 初始化事件
+        //virtual public void onInit()
+        //{
+
+        //}
+
+        // 销毁
+        override public void dispose()
+        {
+            
+        }
+
+        // 资源释放事件
+        //virtual public void onDestroy()
+        //{
+
+        //}
+
+        override public void setPntGo(GameObject pntGO_)
         {
 
         }
 
-        virtual public bool IsVisible()
-        {
-            return true;
-        }
-
-        virtual public void dispose()
-        {
-            onDestroy();
-        }
-
-        virtual public void onDestroy()
-        {
-
-        }
-
-        virtual public void setPnt(GameObject pntGO_)
-        {
-
-        }
-
-        virtual public GameObject getPnt()
+        virtual public GameObject getPntGo()
         {
             return null;
         }

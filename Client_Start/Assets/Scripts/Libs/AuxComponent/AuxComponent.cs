@@ -19,6 +19,19 @@ namespace SDK.Lib
             this.mIsNeedPlaceHolderGo = false;
         }
 
+        virtual public void init()
+        {
+
+        }
+
+        virtual public void dispose()
+        {
+            if (this.mIsNeedPlaceHolderGo && this.mPlaceHolderGo != null)
+            {
+                UtilApi.Destroy(this.mPlaceHolderGo);
+            }
+        }
+
         public void setSelfName(string name_)
         {
             this.selfGo.name = name_;
@@ -32,9 +45,9 @@ namespace SDK.Lib
             }
             set
             {
-                bool bPntChange = bChange(this.mSelfGo, value);
+                bool isPntChange = isChange(this.mSelfGo, value);
                 this.mSelfGo = value;
-                if (bPntChange)
+                if (isPntChange)
                 {
                     onSelfChanged();
                 }
@@ -49,9 +62,9 @@ namespace SDK.Lib
             }
             set
             {
-                bool bPntChange = bChange(this.mPntGo, value);
+                bool isPntChange = isChange(this.mPntGo, value);
                 this.mPntGo = value;
-                if (bPntChange)
+                if (isPntChange)
                 {
                     onPntChanged();
                 }
@@ -99,15 +112,7 @@ namespace SDK.Lib
             return this.mSelfGo != null;
         }
 
-        virtual public void dispose()
-        {
-            if (this.mIsNeedPlaceHolderGo && this.mPlaceHolderGo != null)
-            {
-                UtilApi.Destroy(this.mPlaceHolderGo);
-            }
-        }
-
-        protected bool bChange(GameObject srcGO, GameObject destGO)
+        protected bool isChange(GameObject srcGO, GameObject destGO)
         {
             if (srcGO == null || !srcGO.Equals(destGO))
             {
