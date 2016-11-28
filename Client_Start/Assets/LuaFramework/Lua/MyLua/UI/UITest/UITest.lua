@@ -15,7 +15,7 @@ GlobalNS.TestNS[M.clsName] = M;
 function M:ctor()
     --print("M:ctor()");
     --print(tostring(self));
-	self.m_id = GlobalNS.UIFormID.eUITest;
+	self.mId = GlobalNS.UIFormID.eUITest;
 	self.mData = GlobalNS.new(GlobalNS.TestNS.TestData);
 end
 
@@ -38,8 +38,8 @@ function M:onReady()
     --print("M:onReady()");
     --GlobalNS.CSImportToLua.UtilApi.addEventHandle(self.gameObject, self.onBtnClk);
 	--SDK.Lib.UtilApi.addEventHandle(self.gameObject, "Button", self.onBtnClk);
-	--GlobalNS.UtilApi.addEventHandleByPath(self.m_guiWin, GlobalNS.TestNS.TestPath.BtnTest, self, self.onBtnClk);
-	self.mTestBtn:setSelfGo(GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.m_guiWin, GlobalNS.TestNS.TestPath.BtnTest));
+	--GlobalNS.UtilApi.addEventHandleByPath(self.mGuiWin, GlobalNS.TestNS.TestPath.BtnTest, self, self.onBtnClk);
+	self.mTestBtn:setSelfGo(GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.mGuiWin, GlobalNS.TestNS.TestPath.BtnTest));
 end
 
 function M:onShow()

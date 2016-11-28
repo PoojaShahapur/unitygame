@@ -13,7 +13,7 @@ M.clsName = "UIStartGame";
 GlobalNS.StartGameNS[M.clsName] = M;
 
 function M:ctor()
-	self.m_id = GlobalNS.UIFormID.eUIStartGame;
+	self.mId = GlobalNS.UIFormID.eUIStartGame;
 	self.mData = GlobalNS.new(GlobalNS.StartGameNS.StartGameData);
 end
 
@@ -31,7 +31,7 @@ end
 function M:onReady()
     M.super.onReady(self);
 	self.mStartGameBtn:setSelfGo(GlobalNS.UtilApi.TransFindChildByPObjAndPath(
-			self.m_guiWin, 
+			self.mGuiWin, 
 			GlobalNS.StartGameNS.StartGamePath.BtnStartGame)
 		);
 end
