@@ -15,8 +15,9 @@ function M.dtor()
 end
 
 function M.preInit()
+	--主要执行构造
     this.mConfig = GlobalNS.new(GlobalNS.Config);
-    this.mTimerIdGentor = GlobalNS.new(GlobalNS.UniqueIdGentor);
+    this.mTimerIdGentor = GlobalNS.new(GlobalNS.UniqueNumIdGen);
     this.mProcessSys = GlobalNS.new(GlobalNS.ProcessSys);
     this.mTimerMgr = GlobalNS.new(GlobalNS.TimerMgr);
     this.mNetMgr = GlobalNS.NetMgr;     -- Net 使用原始的表
@@ -29,6 +30,7 @@ function M.preInit()
 end
 
 function M.interInit()
+	--主要执行 init 初始化
     GlobalNS.CSSystem.init();
     this.mNetMgr:init();
 	GlobalNS.NoDestroyGo.init();
@@ -36,6 +38,7 @@ function M.interInit()
 end
 
 function M.postInit()
+	--主要处理真正的逻辑
     -- 加载逻辑处理
     GlobalNS.ClassLoader.loadClass("MyLua.Libs.FrameWork.GlobalEventCmd");
 end

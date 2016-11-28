@@ -72,14 +72,21 @@ namespace SDK.Lib
             return lua[memberName_];
         }
 
+        // 轻易不要使用这个接口，因为这个接口最终使用的是 luaL_loadbuffer，不是 require，require 不会重复加载文件，loadfile 和 dofile 都会重复加载文件，不会进行检查，可能会覆盖之前表中的内容
         public object[] doFile(string fileName)
         {
             return mLuaScriptMgr.DoFile(fileName);
         }
 
+        // 轻易不要使用这个接口，这个接口也会重复执行，可能会覆盖之前表中的内容
         public object[] doString(string str)
         {
             return mLuaScriptMgr.DoFile(str);
+        }
+
+        public object[] requireFile(string filePath)
+        {
+            return this.callLuaFunction("GlobalNS.GlobalEventCmd.requireFile", filePath);
         }
 
         // 从 Lua 中发送 pb 消息
@@ -231,11 +238,16 @@ namespace SDK.Lib
         public bool isSystemAttr(string attrName)
         {
             // 这些属性是自己添加到 Lua 表中的，因此遍历的时候，如果有这些属性就不处理了
-            if ("ctor" == attrName ||
-               "super" == attrName ||
-               "dataType" == attrName ||
-               "clsCode" == attrName ||
-               "clsName" == attrName)
+            if (
+                "super" == attrName ||
+                "dataType" == attrName ||
+                "clsCode" == attrName ||
+                "clsName" == attrName ||
+                "init" == attrName ||
+                "dispose" == attrName ||
+                "ctor" == attrName ||
+                "dtor" == attrName
+                )
             {
                 return true;
             }

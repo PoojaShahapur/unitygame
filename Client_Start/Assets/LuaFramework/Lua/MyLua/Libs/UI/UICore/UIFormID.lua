@@ -1,18 +1,22 @@
-local UIFormID = 
-{
-    
-}
+MLoader("MyLua.Libs.Core.GlobalNS");
+MLoader("MyLua.Libs.Core.StaticClass");
 
-GlobalNS['UIFormID'] = UIFormID;
+local M = GlobalNS.StaticClass();
+local this = M;
+M.clsName = "UIFormID";
+GlobalNS[M.clsName] = M;
 
-GlobalNS['FormUIDBase'] = 1;
-
-local addFormId = function(curId)
-    GlobalNS.UIFormID[curId] = GlobalNS['FormUIDBase'];
-    GlobalNS['FormUIDBase'] = GlobalNS['FormUIDBase'] + 1;
+function M.ctor()
+	
 end
 
-addFormId('eUITest');
-addFormId('eUIStartGame');
+function M.init()
+	this.eUITest = GCtx.mUiMgr.mUniqueNumIdGen:genNewId();
+	this.eUIStartGame = GCtx.mUiMgr.mUniqueNumIdGen:genNewId();
+	this.eUICount = GCtx.mUiMgr.mUniqueNumIdGen:genNewId();
+end
 
-addFormId('eUICount');
+--静态表直接构造就行了，不会使用 new 操作符
+M.ctor();
+
+return M;

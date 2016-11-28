@@ -68,7 +68,10 @@ namespace SDK.Lib
         public void init()
         {
             m_luaCSBridgeUICore = new LuaCSBridgeUICore(this);
-            Ctx.mInstance.mLuaSystem.doFile("MyLua/Libs/UI/UICore/UIAttrSystem.lua");
+            // doFile 会重复执行文件中的内容，可能会覆盖之前表中的内容
+            //Ctx.mInstance.mLuaSystem.doFile("MyLua/Libs/UI/UICore/UIAttrSystem.lua");
+            //Ctx.mInstance.mLuaSystem.requireFile("MyLua.Libs.UI.UICore.UIAttrSystem");
+            //Ctx.mInstance.mLuaSystem.requireFile("MyLua/Libs/UI/UICore/UIAttrSystem.lua");
             m_luaCSBridgeUICore.loadLuaCfg();
         }
 

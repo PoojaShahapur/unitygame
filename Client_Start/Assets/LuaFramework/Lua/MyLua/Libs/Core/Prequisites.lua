@@ -7,6 +7,7 @@ MLoader("MyLua.Libs.Core.StaticClass");
 MLoader("MyLua.Libs.Core.GObject");
 MLoader("MyLua.Libs.Core.ClassLoader");
 MLoader("MyLua.Libs.Core.Malloc");
+MLoader("MyLua.Libs.Core.UniqueNumIdGen");
 --MLoader("MyLua.Libs.Core.CSImportToLua");
 
 --MLoader("MyLua.Libs.FrameWork.MacroDef");
@@ -50,6 +51,7 @@ MLoader("MyLua.Libs.FrameHandle.TickMgr");
 MLoader("MyLua.Libs.FrameHandle.TimerFunctionObject");
 
 -- UI
+MLoader("MyLua.Libs.UI.UICore.FormMode");
 MLoader("MyLua.Libs.UI.UICore.UIFormID");
 MLoader("MyLua.Libs.UI.UICore.UILayer");
 MLoader("MyLua.Libs.UI.UICore.UICanvas");
@@ -81,7 +83,6 @@ MLoader("MyLua.Libs.AuxComponent.AuxLoader.AuxBytesLoader");
 MLoader("MyLua.Libs.FrameWork.ProcessSys");
 MLoader("MyLua.Libs.FrameWork.CSSystem");
 MLoader("MyLua.Libs.FrameWork.Config");
-MLoader("MyLua.Libs.FrameWork.UniqueIdGentor");
 MLoader("MyLua.Libs.FrameWork.NoDestroyGo");
 
 -- 工具

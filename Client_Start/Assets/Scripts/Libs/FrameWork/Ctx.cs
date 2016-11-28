@@ -247,7 +247,7 @@
 
         protected void interInit()
         {
-
+            this.mLogSys.init();
         }
 
         public void postInit()

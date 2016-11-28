@@ -42,4 +42,8 @@ function M.openForm(formId)
 	GCtx.mUiMgr:loadAndShow(formId);
 end
 
+function M.requireFile(filePath)
+	return MLoader(filePath);
+end
+
 return M;

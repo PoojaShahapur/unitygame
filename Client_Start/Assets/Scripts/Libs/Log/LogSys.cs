@@ -19,6 +19,7 @@ namespace SDK.Lib
         protected MList<LogTypeId> mEnableLogTypeList;
         protected bool mEnableLog;      // 全局开关
 
+        // 构造函数仅仅是初始化变量，不涉及逻辑
         public LogSys()
         {
 #if UNITY_5
@@ -35,8 +36,13 @@ namespace SDK.Lib
             mEnableLogTypeList.Add(LogTypeId.eLogTestRL);
 
             mEnableLog = true;
-            registerDevice();
-            registerFileLogDevice();
+        }
+
+        // 初始化逻辑处理
+        public void init()
+        {
+            this.registerDevice();
+            this.registerFileLogDevice();
         }
 
         public void setEnableLog(bool value)

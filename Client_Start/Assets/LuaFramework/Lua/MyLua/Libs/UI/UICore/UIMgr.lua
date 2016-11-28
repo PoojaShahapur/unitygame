@@ -4,6 +4,7 @@ MLoader("MyLua.Libs.Core.GObject");
 MLoader("MyLua.Libs.Core.ClassLoader");
 MLoader("MyLua.Libs.DataStruct.MStack");
 MLoader("MyLua.Libs.DataStruct.MDictionary");
+MLoader("MyLua.Libs.UI.UICore.UIFormID");
 MLoader("MyLua.Libs.UI.UICore.UICanvas");
 MLoader("MyLua.Libs.AuxComponent.AuxLoader.AuxUIPrefabLoader");
 
@@ -16,6 +17,8 @@ function M:ctor()
     self.m_curFormIndex = -1;
     self.m_formIdStack = GlobalNS.new(GlobalNS.MStack);
 	self.mFormId2LoadItemDic = GlobalNS.new(GlobalNS.MDictionary);
+	
+	self.mUniqueNumIdGen = GlobalNS.new(GlobalNS.UniqueNumIdGen, 1); 	-- FormId 唯一 Id 生成
 end
 
 function M:dtor()
@@ -23,6 +26,10 @@ function M:dtor()
 end
 
 function M:init()
+	-- UIFormID 初始化构造操作
+	GlobalNS.UIFormID.init();
+	-- 属性系统初始化
+	GlobalNS.UIAttrSystem.init();
 	self:initCanvas();
 end
 
