@@ -106,12 +106,12 @@ namespace SDK.Lib
 
         virtual public GameObject gameObject()
         {
-            return m_render.gameObject();
+            return m_render.selfGo;
         }
 
         virtual public void setGameObject(GameObject rhv)
         {
-            m_render.setGameObject(rhv);
+            m_render.selfGo = rhv;
         }
 
         virtual public Transform transform()
@@ -126,7 +126,7 @@ namespace SDK.Lib
 
         virtual public GameObject getPnt()
         {
-            return m_render.getPnt();
+            return m_render.getPntGo();
         }
 
         virtual public bool checkRender()

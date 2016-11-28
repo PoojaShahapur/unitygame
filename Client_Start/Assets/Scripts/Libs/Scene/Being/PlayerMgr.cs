@@ -179,10 +179,15 @@ namespace SDK.Lib
 
         public void OnCreatePlayer()
         {
-            float x = Random.Range(xlimit_min, xlimit_max);
-            float z = Random.Range(zlimit_min, zlimit_max);
+            //float x = Random.Range(xlimit_min, xlimit_max);
+            float x = UtilApi.rangRandom(xlimit_min, xlimit_max);
+            //float z = Random.Range(zlimit_min, zlimit_max);
+            float z = UtilApi.rangRandom(zlimit_min, zlimit_max);
 
-            player = Instantiate(PlayrPrefab, new Vector3(x, y_height, z), Quaternion.identity) as GameObject;
+            //player = Instantiate(PlayrPrefab, new Vector3(x, y_height, z), Quaternion.identity) as GameObject;
+            m_hero = new PlayerMain();
+            m_hero.init();
+            m_hero.
 
             if (player != null)
             {

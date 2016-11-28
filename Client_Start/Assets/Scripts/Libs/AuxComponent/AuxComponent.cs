@@ -11,12 +11,18 @@ namespace SDK.Lib
         protected GameObject mPntGo;       // 指向父节点
         protected GameObject mPlaceHolderGo;      // 自己节点，资源挂在 m_placeHolderGo 上， m_placeHolderGo 挂在 m_pntGo 上
         protected bool mIsNeedPlaceHolderGo;    // 是否需要占位 GameObject
+        protected Vector3 mOriginal;        // SelfGo 的位置信息
+        protected bool mIsPosDirty;         // 位置信息是否需要重新设置
+        protected Quaternion mRotation;     // SelfGo 的方向信息
+        protected bool mIsRotDirty;         // 旋转信息是否需要重新设置
         protected LuaCSBridge mLuaCSBridge;
 
         public AuxComponent(LuaCSBridge luaCSBridge_ = null)
         {
             this.mLuaCSBridge = luaCSBridge_;
             this.mIsNeedPlaceHolderGo = false;
+            this.mIsPosDirty = false;
+            this.mIsRotDirty = false;
         }
 
         virtual public void init()
@@ -74,6 +80,11 @@ namespace SDK.Lib
         public virtual void setPntGo(GameObject go)
         {
             this.mPntGo = go;
+        }
+
+        public virtual GameObject getPntGo()
+        {
+            return this.mPntGo;
         }
 
         public bool bNeedPlaceHolderGo
@@ -148,6 +159,14 @@ namespace SDK.Lib
             if (this.mSelfGo != null && this.mPntGo != null)   // 现在可能还没有创建
             {
                 UtilApi.SetParent(this.mSelfGo, mPntGo, false);
+                if(this.mIsPosDirty)
+                {
+                    UtilApi.setPos(this.mSelfGo.transform, this.mOriginal);
+                }
+                if (this.mIsRotDirty)
+                {
+                    UtilApi.setRot(this.mSelfGo.transform, this.mRotation);
+                }
             }
         }
 
@@ -170,6 +189,23 @@ namespace SDK.Lib
         public bool IsVisible()
         {
             return UtilApi.IsActive(this.mSelfGo);
+        }
+
+        virtual public Transform transform()
+        {
+            return null;
+        }
+
+        public void setOriginal(Vector3 original)
+        {
+            this.mIsPosDirty = true;
+            this.mOriginal = original;
+        }
+
+        public void setRotation(Quaternion rotation)
+        {
+            this.mIsRotDirty = true;
+            this.mRotation = rotation;
         }
     }
 }

@@ -20,7 +20,7 @@
         }
 
         // 资源加载
-        virtual public void load()
+        override public void load()
         {
             if(null == this.mAuxPrefabLoader)
             {
@@ -29,6 +29,8 @@
 
             this.mAuxPrefabLoader.syncLoad(mResPath);
             this.selfGo = this.mAuxPrefabLoader.getGameObject();
+
+            this.onSelfChanged();
         }
     }
 }

@@ -34,6 +34,7 @@ namespace SDK.Lib
 
             m_render = new PlayerRender(this);
             m_render.init();
+            m_render.load();
         }
 
         override public void dispose()
