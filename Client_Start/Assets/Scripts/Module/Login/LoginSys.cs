@@ -37,8 +37,9 @@ namespace Game.Login
             this.mLoginNetHandleCB_KBE = new LoginNetHandleCB_KBE();
             this.mLoginNetHandleCB_KBE.init();
 
-            Ctx.mInstance.mUiMgr.loadAndShow(UIFormID.eUILogin);
+            //Ctx.mInstance.mUiMgr.loadAndShow(UIFormID.eUILogin);
             //Ctx.mInstance.mUiMgr.loadAndShow(UIFormID.eUISelectRole);
+            Ctx.mInstance.mLuaSystem.openForm(2);
         }
 
         // 加载登陆常见

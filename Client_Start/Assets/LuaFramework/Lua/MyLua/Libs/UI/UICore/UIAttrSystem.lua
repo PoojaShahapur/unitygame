@@ -41,6 +41,15 @@ function M.ctor()
 			m_preFormModeWhenOpen = GlobalNS.PreFormModeWhenOpen.eNONE,
 			m_preFormModeWhenClose = GlobalNS.PreFormModeWhenClose.eNONE,
         };
+	M[GlobalNS.UIFormID.eUIStartGame] = {
+            m_widgetPath = "UI/UIStartGame/UIStartGame.prefab",
+            m_luaScriptPath = "MyLua.UI.UIStartGame.UIStartGame",
+			m_luaScriptTableName = "GlobalNS.UILua",
+			m_canvasId = GlobalNS.UICanvasID.eUIFirstCanvas,
+			m_layerId = GlobalNS.UILayerID.eUISecondLayer,
+			m_preFormModeWhenOpen = GlobalNS.PreFormModeWhenOpen.eNONE,
+			m_preFormModeWhenClose = GlobalNS.PreFormModeWhenClose.eNONE,
+        };
 end
 
 M.ctor();

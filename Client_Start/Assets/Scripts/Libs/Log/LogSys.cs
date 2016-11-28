@@ -29,6 +29,7 @@ namespace SDK.Lib
             Application.RegisterLogCallbackThreaded(onDebugLogCallbackThreadHandler);
 #endif
             mEnableLogTypeList = new MList<LogTypeId>();
+            mEnableLogTypeList.Add(LogTypeId.eLogCommon);
             mEnableLogTypeList.Add(LogTypeId.eLogResLoader);
             mEnableLogTypeList.Add(LogTypeId.eLogLocalFile);
             mEnableLogTypeList.Add(LogTypeId.eLogTestRL);

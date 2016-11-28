@@ -66,7 +66,16 @@ namespace SDK.Lib
         // 从 Parent 获取一个组件
         static public T getComByP<T>(GameObject go, string path) where T : Component
         {
-            return go.transform.Find(path).GetComponent<T>();
+            T ret = null;
+            Transform transform = null;
+
+            transform = go.transform.Find(path);
+            if (null != transform)
+            {
+                ret = transform.GetComponent<T>();
+            }
+
+            return ret;
         }
 
         // 从 Parent 获取一个组件

@@ -38,4 +38,8 @@ function M.onAdvance(delta)
 	GCtx.mProcessSys:advance(delta);
 end
 
+function M.openForm(formId)
+	GCtx.mUiMgr:loadAndShow(formId);
+end
+
 return M;

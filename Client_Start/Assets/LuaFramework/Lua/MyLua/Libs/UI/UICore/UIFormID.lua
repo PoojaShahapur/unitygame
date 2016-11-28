@@ -13,5 +13,6 @@ local addFormId = function(curId)
 end
 
 addFormId('eUITest');
+addFormId('eUIStartGame');
 
 addFormId('eUICount');
