@@ -207,5 +207,15 @@ namespace SDK.Lib
             this.mIsRotDirty = true;
             this.mRotation = rotation;
         }
+
+        public Bounds getBounds()
+        {
+            return this.selfGo.GetComponent<MeshFilter>().mesh.bounds;
+        }
+
+        public void AddRelativeForce(Vector3 force, ForceMode mode)
+        {
+            this.selfGo.GetComponent<Rigidbody>().AddRelativeForce(force, mode);
+        }
     }
 }

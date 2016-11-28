@@ -176,39 +176,39 @@ namespace SDK.Lib
 
         public bool IsOnGround()
         {
-            return entity.m_isOnGround;
+            return this.m_isOnGround;
         }
 
         public bool amIRobot()
         {
-            return entity.m_isRobot;
+            return this.m_isRobot;
         }
 
         public void SetIsRobot(bool isrobot)
         {
-            entity.m_isRobot = isrobot;
+            this.m_isRobot = isrobot;
         }
 
         public void setMyNumber(uint number)
         {
-            entity.m_charid = number;
+            this.m_charid = number;
         }
 
         public void setMyName(string name)
         {
-            entity.m_name = name;
+            this.m_name = name;
         }
 
         public void setEntity(GameObject obj)
         {
-            entity.m_object = obj;
+            this.m_object = obj;
         }
 
         void OnCollisionEnter(Collision collision)
         {
             if (collision.collider.CompareTag("Ground"))
             {
-                entity.m_isOnGround = true;
+                //entity.m_isOnGround = true;
             }
         }
 
@@ -216,7 +216,7 @@ namespace SDK.Lib
         {
             if (collision.collider.CompareTag("Ground"))
             {
-                entity.m_isOnGround = true;
+                //entity.m_isOnGround = true;
             }
         }
 
@@ -226,33 +226,33 @@ namespace SDK.Lib
             //log.logHelper.DebugLog (entity.m_name +  "和" + collision.gameObject.name + "退出碰撞" + ",isground=" + isGround.ToString());
             if (collision.collider.CompareTag("Ground"))
             {
-                entity.m_isOnGround = false;
+                //entity.m_isOnGround = false;
             }
         }
 
-        void Start()
-        {
-            SceneEntity.sCanEatRate = canEatRate;
-            SceneEntity.sAutoRiseRate = autoriseRate;
-            SceneEntity.sMaxVelocity = max_velocity;
-            entity.m_object = this.gameObject;
-            //log.logHelper.DebugLog(entity.m_name + " Start();");
-            entity.Start();
-        }
+        //void Start()
+        //{
+            //SceneEntity.sCanEatRate = canEatRate;
+            //SceneEntity.sAutoRiseRate = autoriseRate;
+            //SceneEntity.sMaxVelocity = max_velocity;
+            //entity.m_object = this.gameObject;
+            ////log.logHelper.DebugLog(entity.m_name + " Start();");
+            //entity.Start();
+        //}
 
-        void FixedUpdate()
-        {
-            entity.onLoop();
-        }
+        //void FixedUpdate()
+        //{
+            //entity.onLoop();
+        //}
 
         // 将该 GameObject 从排行榜中移除
-        void OnDestroy()
-        {
-            entity.OnDestroy();
-            if (CreateRobot.Instance != null && amIRobot())
-            {
-                CreateRobot.Instance.subFoodsNum(entity.m_name, entity.m_charid);
-            }
-        }
+        //void OnDestroy()
+        //{
+        //    entity.OnDestroy();
+        //    if (CreateRobot.Instance != null && amIRobot())
+        //    {
+        //        CreateRobot.Instance.subFoodsNum(entity.m_name, entity.m_charid);
+        //    }
+        //}
     }
 }

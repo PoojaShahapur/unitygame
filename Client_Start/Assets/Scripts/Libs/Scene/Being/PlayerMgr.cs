@@ -127,7 +127,7 @@ namespace SDK.Lib
         void Update()
         {
             ShowReliveTime();
-            RefreshChildrenPosition();
+            //RefreshChildrenPosition();
         }
 
         //void RefreshChildrenPosition()
@@ -157,7 +157,8 @@ namespace SDK.Lib
         {
             if (!is_niubi) return;
             //累加每帧消耗时间
-            totalTime += Time.deltaTime;
+            //totalTime += Time.deltaTime;
+            totalTime += Ctx.mInstance.mSystemTimeData.deltaSec;
             if (totalTime >= 1)//每过1秒执行一次
             {
                 cur_auto_relive_seconds--;
@@ -187,75 +188,83 @@ namespace SDK.Lib
             //player = Instantiate(PlayrPrefab, new Vector3(x, y_height, z), Quaternion.identity) as GameObject;
             m_hero = new PlayerMain();
             m_hero.init();
-            m_hero.
+            m_hero.setOriginal(new UnityEngine.Vector3(x, y_height, z));
+            m_hero.setRotation(UnityEngine.Quaternion.identity);
 
-            if (player != null)
+            //if (player != null)
+            if (m_hero != null)
             {
                 SetIsJustCreate(true);
                 ++create_times;
                 cur_auto_relive_seconds = auto_relive_seconds;
 
                 string tempName = "";
-                tempName = PlayerPrefs.GetString("myname");
+                //tempName = PlayerPrefs.GetString("myname");
+                tempName = Ctx.mInstance.mSystemSetting.getString("myname");
                 if (tempName == "")
                 {
                     tempName = playerName;
                 }
 
-                player.GetComponent<Food>().SetIsRobot(false);
-                player.name = tempName;
-                player.GetComponent<Food>().entity.m_charid = 0;//自己的charid为0
-                player.GetComponent<Food>().entity.m_canEatRate = player.GetComponent<Food>().canEatRate;
-                player.GetComponent<Food>().setMyName(player.name);
-                player.GetComponent<Food>().setEntity(player);
+                //player.GetComponent<Food>().SetIsRobot(false);
+                m_hero.SetIsRobot(false);
+                //player.name = tempName;
+                m_hero.setSelfName(tempName);
+                //player.GetComponent<Food>().entity.m_charid = 0;//自己的charid为0
+                m_hero.m_charid = 0;//自己的charid为0
+                //player.GetComponent<Food>().entity.m_canEatRate = player.GetComponent<Food>().canEatRate;
+                //player.GetComponent<Food>().setMyName(player.name);
+                m_hero.setMyName(tempName);
+                //player.GetComponent<Food>().setEntity(player);
+                //player.GetComponent<Food>().setEntity(player);
 
-                GameObjectManager.getInstance().setEntityByRadius(player.GetComponent<Transform>().localScale.x, player.GetComponent<Food>().entity);
+                //GameObjectManager.getInstance().setEntityByRadius(player.GetComponent<Transform>().localScale.x, player.GetComponent<Food>().entity);
             }
         }
 
-        public Vector3 GetCenterPosition()
-        {
-            Vector3 center = new Vector3(0.0f, 0.0f, 0.0f);
-            float x_min = float.MaxValue, x_max = float.MinValue, z_min = float.MaxValue, z_max = float.MinValue;
-            foreach (var obj in childrenList)
-            {
-                if (obj.childrenObj.GetComponent<Transform>().position.x < x_min) x_min = obj.childrenObj.GetComponent<Transform>().position.x;
-                if (obj.childrenObj.GetComponent<Transform>().position.x > x_max) x_max = obj.childrenObj.GetComponent<Transform>().position.x;
-                if (obj.childrenObj.GetComponent<Transform>().position.z < z_min) z_min = obj.childrenObj.GetComponent<Transform>().position.z;
-                if (obj.childrenObj.GetComponent<Transform>().position.z > z_max) z_max = obj.childrenObj.GetComponent<Transform>().position.z;
-            }
-            if (player.GetComponent<Transform>().position.x < x_min) x_min = player.GetComponent<Transform>().position.x;
-            if (player.GetComponent<Transform>().position.x > x_max) x_max = player.GetComponent<Transform>().position.x;
-            if (player.GetComponent<Transform>().position.z < z_min) z_min = player.GetComponent<Transform>().position.z;
-            if (player.GetComponent<Transform>().position.z > z_max) z_max = player.GetComponent<Transform>().position.z;
+        //public Vector3 GetCenterPosition()
+        //{
+        //    Vector3 center = new Vector3(0.0f, 0.0f, 0.0f);
+        //    float x_min = float.MaxValue, x_max = float.MinValue, z_min = float.MaxValue, z_max = float.MinValue;
+        //    foreach (var obj in childrenList)
+        //    {
+        //        if (obj.childrenObj.GetComponent<Transform>().position.x < x_min) x_min = obj.childrenObj.GetComponent<Transform>().position.x;
+        //        if (obj.childrenObj.GetComponent<Transform>().position.x > x_max) x_max = obj.childrenObj.GetComponent<Transform>().position.x;
+        //        if (obj.childrenObj.GetComponent<Transform>().position.z < z_min) z_min = obj.childrenObj.GetComponent<Transform>().position.z;
+        //        if (obj.childrenObj.GetComponent<Transform>().position.z > z_max) z_max = obj.childrenObj.GetComponent<Transform>().position.z;
+        //    }
+        //    if (player.GetComponent<Transform>().position.x < x_min) x_min = player.GetComponent<Transform>().position.x;
+        //    if (player.GetComponent<Transform>().position.x > x_max) x_max = player.GetComponent<Transform>().position.x;
+        //    if (player.GetComponent<Transform>().position.z < z_min) z_min = player.GetComponent<Transform>().position.z;
+        //    if (player.GetComponent<Transform>().position.z > z_max) z_max = player.GetComponent<Transform>().position.z;
 
-            center.x = (x_max + x_min) / 2;
-            center.z = (z_max + z_min) / 2;
+        //    center.x = (x_max + x_min) / 2;
+        //    center.z = (z_max + z_min) / 2;
 
-            return center;
-        }
+        //    return center;
+        //}
 
-        public float GetScaleDistance(Vector3 center)
-        {
-            float distance = 0.0f;
-            float x_2 = MathToolManager.getSquare(player.GetComponent<Transform>().position.x - center.x);
-            float z_2 = MathToolManager.getSquare(player.GetComponent<Transform>().position.z - center.z);
-            float curRadius = player.GetComponent<Transform>().localScale.x;
-            float radius = player.gameObject.GetComponent<MeshFilter>().mesh.bounds.size.x * curRadius;
-            distance = Mathf.Sqrt(x_2 + z_2) + radius;
+        //public float GetScaleDistance(Vector3 center)
+        //{
+        //    float distance = 0.0f;
+        //    float x_2 = MathToolManager.getSquare(player.GetComponent<Transform>().position.x - center.x);
+        //    float z_2 = MathToolManager.getSquare(player.GetComponent<Transform>().position.z - center.z);
+        //    float curRadius = player.GetComponent<Transform>().localScale.x;
+        //    float radius = player.gameObject.GetComponent<MeshFilter>().mesh.bounds.size.x * curRadius;
+        //    distance = Mathf.Sqrt(x_2 + z_2) + radius;
 
-            foreach (var obj in childrenList)
-            {
-                x_2 = MathToolManager.getSquare(obj.childrenObj.GetComponent<Transform>().position.x - center.x);
-                z_2 = MathToolManager.getSquare(obj.childrenObj.GetComponent<Transform>().position.z - center.z);
-                curRadius = obj.childrenObj.GetComponent<Transform>().localScale.x;
-                radius = obj.childrenObj.gameObject.GetComponent<MeshFilter>().mesh.bounds.size.x * curRadius;
-                float _distance = Mathf.Sqrt(x_2 + z_2) + radius;
-                if (_distance > distance)
-                    distance = _distance;
-            }
+        //    foreach (var obj in childrenList)
+        //    {
+        //        x_2 = MathToolManager.getSquare(obj.childrenObj.GetComponent<Transform>().position.x - center.x);
+        //        z_2 = MathToolManager.getSquare(obj.childrenObj.GetComponent<Transform>().position.z - center.z);
+        //        curRadius = obj.childrenObj.GetComponent<Transform>().localScale.x;
+        //        radius = obj.childrenObj.gameObject.GetComponent<MeshFilter>().mesh.bounds.size.x * curRadius;
+        //        float _distance = Mathf.Sqrt(x_2 + z_2) + radius;
+        //        if (_distance > distance)
+        //            distance = _distance;
+        //    }
 
-            return distance;
-        }
+        //    return distance;
+        //}
     }
 }

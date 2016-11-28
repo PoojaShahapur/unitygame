@@ -5,10 +5,9 @@ namespace SDK.Lib
 	 */
 	public class Player : BeingEntity
 	{
-        protected MList<Player> mChildrenList;    // 保存分裂的 Child
+        protected MList<PlayerChild> mChildrenList;    // 保存分裂的 Child
 
         public Player()
-            : base()
 		{
             //m_skinAniModel.m_modelList = new SkinSubModel[(int)ePlayerModelType.eModelTotal];
             //int idx = 0;
@@ -17,7 +16,7 @@ namespace SDK.Lib
             //    m_skinAniModel.m_modelList[idx] = new SkinSubModel();
             //    ++idx;
             //}
-            mChildrenList = new MList<Player>();
+            mChildrenList = new MList<PlayerChild>();
         }
 
         override public void init()

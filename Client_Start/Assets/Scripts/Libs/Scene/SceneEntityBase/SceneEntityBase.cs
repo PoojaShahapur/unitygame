@@ -3,7 +3,7 @@
 namespace SDK.Lib
 {
     /**
-     * @brief 场景中的实体，没有什么功能，就是基本循环
+     * @brief 场景中的实体，定义接口，默认的一些实现放在 BeingEntity 里面
      */
     public class SceneEntityBase : GObject, IDelayHandleItem, IDispatchObject
     {
@@ -121,7 +121,7 @@ namespace SDK.Lib
 
         virtual public void setPnt(GameObject pntGO_)
         {
-
+            m_render.setPntGo(pntGO_);
         }
 
         virtual public GameObject getPnt()
@@ -167,6 +167,50 @@ namespace SDK.Lib
         public bool getInSceneGraph()
         {
             return mIsInSceneGraph;
+        }
+
+        public void setOriginal(Vector3 original)
+        {
+            if (null != m_render)
+            {
+                m_render.setOriginal(original);
+            }
+        }
+
+        public void setRotation(Quaternion rotation)
+        {
+            if (null != m_render)
+            {
+                m_render.setRotation(rotation);
+            }
+        }
+
+        public void setSelfName(string name)
+        {
+            if (null != m_render)
+            {
+                m_render.setSelfName(name);
+            }
+        }
+
+        public Bounds getBounds()
+        {
+            Bounds retBounds = new Bounds(Vector3.zero, Vector3.zero);
+
+            if (null != m_render)
+            {
+                retBounds = m_render.getBounds();
+            }
+
+            return retBounds;
+        }
+
+        public void AddRelativeForce(Vector3 force, ForceMode mode)
+        {
+            if (null != m_render)
+            {
+                m_render.AddRelativeForce(force, mode);
+            }
         }
     }
 }

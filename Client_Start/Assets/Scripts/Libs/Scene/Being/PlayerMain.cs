@@ -80,15 +80,23 @@ namespace SDK.Lib
         // 刷新 Child 的位置
         void RefreshChildrenPosition()
         {
-            foreach (var child in childrenList)
+            foreach (var child in this.mChildrenList.list())
             {
-                float player_radius = player.gameObject.GetComponent<MeshFilter>().mesh.bounds.size.x * player.GetComponent<Transform>().localScale.x;
-                float child_radius = child.childrenObj.GetComponent<MeshFilter>().mesh.bounds.size.x * child.childrenObj.GetComponent<Transform>().localScale.x;
-                float x = player.GetComponent<Transform>().position.x + player_radius + child_radius + child.startX;
-                float z = player.GetComponent<Transform>().position.z + player_radius + child_radius + child.startZ;
+                //float player_radius = player.gameObject.GetComponent<MeshFilter>().mesh.bounds.size.x * player.GetComponent<Transform>().localScale.x;
+                //float child_radius = child.childrenObj.GetComponent<MeshFilter>().mesh.bounds.size.x * child.childrenObj.GetComponent<Transform>().localScale.x;
+                //float x = player.GetComponent<Transform>().position.x + player_radius + child_radius + child.startX;
+                //float z = player.GetComponent<Transform>().position.z + player_radius + child_radius + child.startZ;
 
-                float y = child.childrenObj.GetComponent<Transform>().position.y;
-                child.childrenObj.GetComponent<Transform>().position = new Vector3(x, y, z);
+                //float y = child.childrenObj.GetComponent<Transform>().position.y;
+                //child.childrenObj.GetComponent<Transform>().position = new Vector3(x, y, z);
+
+                float player_radius = this.getBounds().size.x * this.transform().localScale.x;
+                float child_radius = child.getBounds().size.x * child.transform().localScale.x;
+                float x = this.transform().position.x + player_radius + child_radius + child.startX;
+                float z = this.transform().position.z + player_radius + child_radius + child.startZ;
+
+                float y = child.transform().position.y;
+                child.transform().position = new Vector3(x, y, z);
             }
         }
 
@@ -97,7 +105,7 @@ namespace SDK.Lib
         {
             foreach (var child in this.mChildrenList.list())
             {
-                child.childrenObj.GetComponent<Transform>().eulerAngles = eulerangles;
+                child.transform().eulerAngles = eulerangles;
             }
         }
 
@@ -119,22 +127,25 @@ namespace SDK.Lib
         // Use this for initialization
         void Start()
         {
-            double _speed = MoveSpeed_k / Mathf.Sqrt(this.GetComponent<Transform>().localScale.x) + MoveSpeed_b;
+            double _speed = MoveSpeed_k / Mathf.Sqrt(this.transform().localScale.x) + MoveSpeed_b;
             MoveSpeed = (float)System.Math.Round(_speed, 3);
 
-            player1 = transform.FindChild("Player1").gameObject;
+            //player1 = transform.FindChild("Player1").gameObject;
             cmr = GameObject.FindGameObjectWithTag("MainCamera").gameObject;
 
-            this.GetComponent<Food>().entity.m_isOnGround = true;
-            this.GetComponent<Food>().entity.m_isRobot = false;
-            this.GetComponent<Food>().entity.m_canEatRate = this.GetComponent<Food>().canEatRate;
+            //this.GetComponent<Food>().entity.m_isOnGround = true;
+            //this.GetComponent<Food>().entity.m_isRobot = false;
+            //this.GetComponent<Food>().entity.m_canEatRate = this.GetComponent<Food>().canEatRate;
+
+            this.m_isOnGround = true;
+            this.m_isRobot = false;
         }
 
         // Update is called once per frame
         void FixedUpdate()
         {
             //Edit -> Project Setting -> Input 里面定义以下数值
-            if (!this.GetComponent<Food>().IsOnGround())
+            if (!this.IsOnGround())
             {
                 //log.logHelper.DebugLog("玩家不在地上,不加力");
                 return;
@@ -156,7 +167,7 @@ namespace SDK.Lib
                 //if (horizontal_move != 0 || vertical_move != 0)
                 //    log.logHelper.DebugLog(this.name + "   Mass: " + this.GetComponent<Rigidbody>().mass + "   半径： " + this.GetComponent<Transform>().localScale.x + "   速度: " + this.GetComponent<Rigidbody>().velocity.magnitude + "   施加力: " + MoveSpeed);
 
-                this.GetComponent<Rigidbody>().AddRelativeForce(new Vector3(horizontal_move, 0, vertical_move) * MoveSpeed, ForceMode.Impulse);
+                this.AddRelativeForce(new Vector3(horizontal_move, 0, vertical_move) * MoveSpeed, ForceMode.Impulse);
 
                 if (vertical_move == 0 && horizontal_move == 0)
                 {
@@ -191,10 +202,10 @@ namespace SDK.Lib
 
                 log.logHelper.DebugLog(CreatePlayer._Instace.GetForwardForce().ToString());
                 Vector3 force = new Vector3(vertical_move, 0, horizontal_move);
-                var transform = this.GetComponent<Transform>();
+                //var transform = this.GetComponent<Transform>();
 
                 //添加力
-                this.GetComponent<Rigidbody>().AddRelativeForce(force * MoveSpeed, ForceMode.Impulse);
+                this.AddRelativeForce(force * MoveSpeed, ForceMode.Impulse);
                 if (vertical_move == 0 && horizontal_move == 0)
                 {
 
@@ -205,8 +216,54 @@ namespace SDK.Lib
                 }
             }
 
-            double _speed = MoveSpeed_k / Mathf.Sqrt(this.GetComponent<Transform>().localScale.x) + MoveSpeed_b;
+            double _speed = MoveSpeed_k / Mathf.Sqrt(this.transform().localScale.x) + MoveSpeed_b;
             MoveSpeed = (float)System.Math.Round(_speed, 3);
+        }
+
+
+        public Vector3 GetCenterPosition()
+        {
+            Vector3 center = new Vector3(0.0f, 0.0f, 0.0f);
+            float x_min = float.MaxValue, x_max = float.MinValue, z_min = float.MaxValue, z_max = float.MinValue;
+            foreach (var obj in this.mChildrenList.list())
+            {
+                if (obj.transform().position.x < x_min) x_min = obj.transform().position.x;
+                if (obj.transform().position.x > x_max) x_max = obj.transform().position.x;
+                if (obj.transform().position.z < z_min) z_min = obj.transform().position.z;
+                if (obj.transform().position.z > z_max) z_max = obj.transform().position.z;
+            }
+            if (this.transform().position.x < x_min) x_min = this.transform().position.x;
+            if (this.transform().position.x > x_max) x_max = this.transform().position.x;
+            if (this.transform().position.z < z_min) z_min = this.transform().position.z;
+            if (this.transform().position.z > z_max) z_max = this.transform().position.z;
+
+            center.x = (x_max + x_min) / 2;
+            center.z = (z_max + z_min) / 2;
+
+            return center;
+        }
+
+        public float GetScaleDistance(UnityEngine.Vector3 center)
+        {
+            float distance = 0.0f;
+            float x_2 = UtilLogic.getSquare(this.transform().position.x - center.x);
+            float z_2 = UtilLogic.getSquare(this.transform().position.z - center.z);
+            float curRadius = this.transform().localScale.x;
+            float radius = this.getBounds().size.x * curRadius;
+            distance = Mathf.Sqrt(x_2 + z_2) + radius;
+
+            foreach (var obj in this.mChildrenList.list())
+            {
+                x_2 = UtilLogic.getSquare(obj.transform().position.x - center.x);
+                z_2 = UtilLogic.getSquare(obj.transform().position.z - center.z);
+                curRadius = obj.transform().localScale.x;
+                radius = obj.getBounds().size.x * curRadius;
+                float _distance = Mathf.Sqrt(x_2 + z_2) + radius;
+                if (_distance > distance)
+                    distance = _distance;
+            }
+
+            return distance;
         }
     }
 }
