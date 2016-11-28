@@ -71,7 +71,7 @@ MLoader("MyLua.Libs.UI.UICore.ComponentStyle.WidgetStyleMgr");
 -- Aux 组件
 MLoader("MyLua.Libs.AuxComponent.AuxComponent");
 MLoader("MyLua.Libs.AuxComponent.AuxUIComponent.AuxWindow");
-MLoader("MyLua.Libs.AuxComponent.AuxUIComponent.AuxBasicButton");
+MLoader("MyLua.Libs.AuxComponent.AuxUIComponent.AuxButton");
 MLoader("MyLua.Libs.AuxComponent.AuxUIComponent.AuxInputField");
 MLoader("MyLua.Libs.AuxComponent.AuxUIComponent.AuxLabel");
 MLoader("MyLua.Libs.AuxComponent.AuxLoader.AuxLoaderBase");

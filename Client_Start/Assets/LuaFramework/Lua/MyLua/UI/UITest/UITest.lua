@@ -2,7 +2,7 @@ MLoader("MyLua.Libs.Core.GlobalNS");
 MLoader("MyLua.Libs.Core.Class");
 MLoader("MyLua.Libs.UI.UICore.Form");
 
-MLoader("MyLua.Libs.AuxComponent.AuxUIComponent.AuxBasicButton");
+MLoader("MyLua.Libs.AuxComponent.AuxUIComponent.AuxButton");
 
 MLoader("MyLua.UI.UITest.TestNS");
 MLoader("MyLua.UI.UITest.TestData");
@@ -27,7 +27,7 @@ function M:onInit()
     M.super.onInit(self);
     --print("M:onInit()");
 	
-	self.mTestBtn = GlobalNS.new(GlobalNS.AuxBasicButton);
+	self.mTestBtn = GlobalNS.new(GlobalNS.AuxButton);
 	self.mTestBtn:addEventHandle(self, self.onBtnClk);
 end
 

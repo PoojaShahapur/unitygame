@@ -39,7 +39,7 @@ namespace Game.Login
 
             //Ctx.mInstance.mUiMgr.loadAndShow(UIFormID.eUILogin);
             //Ctx.mInstance.mUiMgr.loadAndShow(UIFormID.eUISelectRole);
-            Ctx.mInstance.mLuaSystem.openForm(2);
+            Ctx.mInstance.mLuaSystem.openForm(10001);
         }
 
         // 加载登陆常见

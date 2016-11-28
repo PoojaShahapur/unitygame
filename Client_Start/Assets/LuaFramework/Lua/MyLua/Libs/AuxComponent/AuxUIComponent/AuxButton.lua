@@ -5,11 +5,11 @@ MLoader("MyLua.Libs.AuxComponent.AuxUIComponent.AuxWindow");
 MLoader("MyLua.Libs.AuxComponent.AuxUIComponent.AuxUITypeId");
 
 local M = GlobalNS.Class(GlobalNS.AuxWindow);
-M.clsName = "AuxBasicButton";
+M.clsName = "AuxButton";
 GlobalNS[M.clsName] = M;
 
 function M:ctor(...)
-    self:AuxBasicButton_1(...);
+    self:AuxButton_1(...);
 end
 
 function M:dtor()
@@ -23,7 +23,7 @@ function M:dispose()
     M.super.dispose(self);
 end
 
-function M:AuxBasicButton_1(...)
+function M:AuxButton_1(...)
     local pntNode, path, styleId = ...;
     if(path == nil) then
         path = '';

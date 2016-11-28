@@ -2,7 +2,7 @@ MLoader("MyLua.Libs.Core.GlobalNS");
 MLoader("MyLua.Libs.Core.Class");
 MLoader("MyLua.Libs.UI.UICore.Form");
 
-MLoader("MyLua.Libs.AuxComponent.AuxUIComponent.AuxBasicButton");
+MLoader("MyLua.Libs.AuxComponent.AuxUIComponent.AuxButton");
 
 MLoader("MyLua.UI.UIStartGame.StartGameNS");
 MLoader("MyLua.UI.UIStartGame.StartGameData");
@@ -24,7 +24,7 @@ end
 function M:onInit()
     M.super.onInit(self);
 	
-	self.mStartGameBtn = GlobalNS.new(GlobalNS.AuxBasicButton);
+	self.mStartGameBtn = GlobalNS.new(GlobalNS.AuxButton);
 	self.mStartGameBtn:addEventHandle(self, self.onBtnClk);
 end
 

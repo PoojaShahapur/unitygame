@@ -18,7 +18,8 @@ function M:ctor()
     self.mFormIdStack = GlobalNS.new(GlobalNS.MStack);
 	self.mFormId2LoadItemDic = GlobalNS.new(GlobalNS.MDictionary);
 	
-	self.mUniqueNumIdGen = GlobalNS.new(GlobalNS.UniqueNumIdGen, 1); 	-- FormId 唯一 Id 生成
+	self.mFormBaseI = 10000;		-- Form Base 起始的 Id,需要与 CS 中 Form Id 不一样，否则会覆盖 CS 中的设置
+	self.mUniqueNumIdGen = GlobalNS.new(GlobalNS.UniqueNumIdGen, self.mFormBaseI); 	-- FormId 唯一 Id 生成
 end
 
 function M:dtor()
