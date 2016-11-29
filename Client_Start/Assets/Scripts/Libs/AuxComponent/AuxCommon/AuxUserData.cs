@@ -2,53 +2,42 @@
 
 namespace SDK.Lib
 {
+    /**
+     * @brief 定义 UserData 基本接口
+     */
     public class AuxUserData : MonoBehaviour
     {
-        protected object mData = null;
+        //protected object mData;
 
-        public bool isValid()
+        virtual public bool isValid()
         {
-            return mData != null;
+            //return mData != null;
+            return false;
         }
 
-        public void setData(object value)
-        {
-            mData = value;
-        }
+        //public void setData(object value)
+        //{
+        //    mData = value;
+        //}
 
-        public object getData()
-        {
-            return mData;
-        }
+        //public object getData()
+        //{
+        //    return mData;
+        //}
 
-        public AuxButton getButtonData()
-        {
-            return this.getUserData<AuxButton>();
-        }
+        //protected T getUserData<T>() where T : class
+        //{
+        //    return mData as T;
+        //}
 
-        public AuxButton addButtonData()
-        {
-            if (mData == null)
-            {
-                mData = new AuxButton(this.gameObject);
-            }
+        //protected T AddUserData<T>() where T : class, new()
+        //{
+        //    if (mData == null)
+        //    {
+        //        mData = new T();
+        //    }
 
-            return mData as AuxButton;
-        }
-
-        protected T getUserData<T>() where T : class
-        {
-            return mData as T;
-        }
-
-        protected T AddUserData<T>() where T : class, new()
-        {
-            if (mData == null)
-            {
-                mData = new T();
-            }
-
-            return mData as T;
-        }
+        //    return mData as T;
+        //}
     }
 }

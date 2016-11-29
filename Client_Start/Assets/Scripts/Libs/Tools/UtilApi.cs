@@ -186,10 +186,10 @@ namespace SDK.Lib
 
         public static void addEventHandle(Button btn, MAction<IDispatchObject> handle)
         {
-            AuxUserData userData = btn.gameObject.GetComponent<AuxUserData>();
+            AuxButtonUserData userData = btn.gameObject.GetComponent<AuxButtonUserData>();
             if (userData != null)
             {
-                AuxButton auxBtn = userData.getButtonData();
+                AuxButton auxBtn = userData.getUserData();
                 if (auxBtn != null)
                 {
                     auxBtn.addEventHandle(null, handle, null, null);
@@ -204,10 +204,10 @@ namespace SDK.Lib
 
         public static void RemoveListener(Button btn, MAction<IDispatchObject> handle)
         {
-            AuxUserData userData = btn.gameObject.GetComponent<AuxUserData>();
+            AuxButtonUserData userData = btn.gameObject.GetComponent<AuxButtonUserData>();
             if (userData != null)
             {
-                AuxButton auxBtn = userData.getButtonData();
+                AuxButton auxBtn = userData.getUserData();
                 if (auxBtn != null)
                 {
                     auxBtn.addEventHandle(null, handle, null, null);
@@ -284,17 +284,17 @@ namespace SDK.Lib
                 }
                 else
                 {
-                    AuxUserData userData = go.GetComponent<AuxUserData>();
+                    AuxButtonUserData userData = go.GetComponent<AuxButtonUserData>();
                     if(userData == null)
                     {
-                        userData = UtilApi.AddComponent<AuxUserData>(go);
+                        userData = UtilApi.AddComponent<AuxButtonUserData>(go);
                     }
                     if (userData != null)
                     {
-                        AuxButton auxBtn = userData.getButtonData();
+                        AuxButton auxBtn = userData.getUserData();
                         if(auxBtn == null)
                         {
-                            auxBtn = userData.addButtonData();
+                            auxBtn = userData.addUserData();
                         }
                         if (auxBtn != null)
                         {
