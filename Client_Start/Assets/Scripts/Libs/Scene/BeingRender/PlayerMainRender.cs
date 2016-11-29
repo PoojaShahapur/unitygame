@@ -15,7 +15,7 @@ namespace SDK.Lib
 
         override public void onInit()
         {
-            this.mResPath = "World/Model/Player.prefab";
+            this.mResPath = "World/Model/PlayerTest.prefab";
         }
 
         override protected void onSelfChanged()

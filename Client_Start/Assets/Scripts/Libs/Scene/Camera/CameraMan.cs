@@ -23,7 +23,7 @@ namespace SDK.Lib
             }
 
             mTargetTrans = mTargetGo.transform;
-            Ctx.mInstance.mInputMgr.addKeyListener(EventID.KEYPRESS_EVENT, onKeyPress);
+            //Ctx.mInstance.mInputMgr.addKeyListener(EventID.KEYPRESS_EVENT, onKeyPress);
         }
 
         public void setActor(GameObject targetGo)

@@ -44,7 +44,10 @@ namespace SDK.Lib
 
         virtual public void updateControl()
         {
-            mCoord.updateCoord();
+            if (null != mCoord)
+            {
+                mCoord.updateCoord();
+            }
             Ctx.mInstance.mCamSys.invalidCamera();
         }
     }
