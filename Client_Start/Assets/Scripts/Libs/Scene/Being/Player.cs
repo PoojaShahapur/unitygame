@@ -24,16 +24,16 @@ namespace SDK.Lib
             base.init();
 
             Ctx.mInstance.mPlayerMgr.addEntity(this);
+
+            m_render = new PlayerRender(this);
+            m_render.init();
+            m_render.load();
         }
 
         // 构造完成 Player 后，在初始化 PlayerRender
         public override void onInit()
         {
             base.onInit();
-
-            m_render = new PlayerRender(this);
-            m_render.init();
-            m_render.load();
         }
 
         override public void dispose()

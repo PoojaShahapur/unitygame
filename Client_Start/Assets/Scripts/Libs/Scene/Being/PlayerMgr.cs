@@ -35,88 +35,88 @@ namespace SDK.Lib
 
         //--------------------------------
         //public GameObject PlayrPrefab;
-        public float xlimit_min = 100;
-        public float xlimit_max = 900;
-        public float zlimit_min = 100;
-        public float zlimit_max = 900;
-        public float y_height = 1.0f;
+        //public float xlimit_min = 100;
+        //public float xlimit_max = 900;
+        //public float zlimit_min = 100;
+        //public float zlimit_max = 900;
+        //public float y_height = 1.0f;
 
-        public string playerName = "雪球";
+        //public string playerName = "雪球";
 
-        public static CreatePlayer _Instace;
+        //public static CreatePlayer _Instace;
         //public GameObject player;
         //public List<ChildrenItemInfo> childrenList = new List<ChildrenItemInfo>();
 
-        private uint create_times = 0;//生成次数
-        private bool is_niubi = true;//x秒无敌真男人时间
-        private bool is_dontmove = false;//重生禁止移动状态
-        private bool is_justcreate = false;//是否新生成
+        //private uint create_times = 0;//生成次数
+        //private bool is_niubi = true;//x秒无敌真男人时间
+        //private bool is_dontmove = false;//重生禁止移动状态
+        //private bool is_justcreate = false;//是否新生成
 
-        public int auto_relive_seconds = 5;//总无敌时间
-        private int cur_auto_relive_seconds = 5;//当前剩余无敌时间
+        //public int auto_relive_seconds = 5;//总无敌时间
+        //private int cur_auto_relive_seconds = 5;//当前剩余无敌时间
 
-        private bool is_press_forward_force_btn = false;//是否长按了前进的按钮
-        private float forward_force = 0;//向前力的大小
+        //private bool is_press_forward_force_btn = false;//是否长按了前进的按钮
+        //private float forward_force = 0;//向前力的大小
 
-        public uint GetTimes()
-        {
-            return create_times;
-        }
+        //public uint GetTimes()
+        //{
+        //    return create_times;
+        //}
 
-        public bool IsRelive()
-        {
-            return create_times > 1;
-        }
+        //public bool IsRelive()
+        //{
+        //    return create_times > 1;
+        //}
 
-        public bool GetIsNiuBi()
-        {
-            return is_niubi;
-        }
+        //public bool GetIsNiuBi()
+        //{
+        //    return is_niubi;
+        //}
 
-        public void SetIsNiuBi(bool _niubi)
-        {
-            is_niubi = _niubi;
-        }
+        //public void SetIsNiuBi(bool _niubi)
+        //{
+        //    is_niubi = _niubi;
+        //}
 
-        public bool GetIsDontMove()
-        {
-            return is_dontmove;
-        }
+        //public bool GetIsDontMove()
+        //{
+        //    return is_dontmove;
+        //}
 
-        public void SetIsDontMove(bool _dontmove)
-        {
-            is_dontmove = _dontmove;
-        }
+        //public void SetIsDontMove(bool _dontmove)
+        //{
+        //    is_dontmove = _dontmove;
+        //}
 
-        public bool GetIsJustCreate()
-        {
-            return is_justcreate;
-        }
+        //public bool GetIsJustCreate()
+        //{
+        //    return is_justcreate;
+        //}
 
-        public void SetIsJustCreate(bool _justcreate)
-        {
-            is_justcreate = _justcreate;
-        }
+        //public void SetIsJustCreate(bool _justcreate)
+        //{
+        //    is_justcreate = _justcreate;
+        //}
 
-        public bool GetIsPressForwardForceBtn()
-        {
-            return is_press_forward_force_btn;
-        }
+        //public bool GetIsPressForwardForceBtn()
+        //{
+        //    return is_press_forward_force_btn;
+        //}
 
-        public void SetIsPressForwardForceBtn(bool _press)
-        {
-            is_press_forward_force_btn = _press;
-        }
+        //public void SetIsPressForwardForceBtn(bool _press)
+        //{
+        //    is_press_forward_force_btn = _press;
+        //}
 
-        public float GetForwardForce()
-        {
-            return forward_force;
-        }
+        //public float GetForwardForce()
+        //{
+        //    return forward_force;
+        //}
 
-        public void SetForwardForce(float _forward_force)
-        {
-            forward_force = _forward_force;
-        }
+        //public void SetForwardForce(float _forward_force)
+        //{
+        //    forward_force = _forward_force;
+        //}
 
         public void init()
         {
@@ -124,11 +124,11 @@ namespace SDK.Lib
         }
 
         // Update is called once per frame
-        void Update()
-        {
-            ShowReliveTime();
-            //RefreshChildrenPosition();
-        }
+        //void Update()
+        //{
+        //    ShowReliveTime();
+        //    RefreshChildrenPosition();
+        //}
 
         //void RefreshChildrenPosition()
         //{
@@ -152,58 +152,58 @@ namespace SDK.Lib
         //    }
         //}
 
-        private float totalTime = 0;
-        private void ShowReliveTime()//复活倒计时
-        {
-            if (!is_niubi) return;
-            //累加每帧消耗时间
-            //totalTime += Time.deltaTime;
-            totalTime += Ctx.mInstance.mSystemTimeData.deltaSec;
-            if (totalTime >= 1)//每过1秒执行一次
-            {
-                cur_auto_relive_seconds--;
-                totalTime = 0;
-            }
+        //private float totalTime = 0;
+        //private void ShowReliveTime()//复活倒计时
+        //{
+        //    if (!is_niubi) return;
+        //    //累加每帧消耗时间
+        //    //totalTime += Time.deltaTime;
+        //    totalTime += Ctx.mInstance.mSystemTimeData.deltaSec;
+        //    if (totalTime >= 1)//每过1秒执行一次
+        //    {
+        //        cur_auto_relive_seconds--;
+        //        totalTime = 0;
+        //    }
 
-            //真男人时间结束
-            if (0 == cur_auto_relive_seconds)
-            {
-                SetIsNiuBi(false);
-            }
-        }
+        //    //真男人时间结束
+        //    if (0 == cur_auto_relive_seconds)
+        //    {
+        //        SetIsNiuBi(false);
+        //    }
+        //}
 
-        //还剩余liftseconds可以牛逼一下
-        public void SetLeftSeconds(int liftseconds)
-        {
-            cur_auto_relive_seconds = liftseconds;
-        }
+        ////还剩余liftseconds可以牛逼一下
+        //public void SetLeftSeconds(int liftseconds)
+        //{
+        //    cur_auto_relive_seconds = liftseconds;
+        //}
 
         public void OnCreatePlayer()
         {
             //float x = Random.Range(xlimit_min, xlimit_max);
-            float x = UtilApi.rangRandom(xlimit_min, xlimit_max);
+            float x = UtilApi.rangRandom(PlayerMain.xlimit_min, PlayerMain.xlimit_max);
             //float z = Random.Range(zlimit_min, zlimit_max);
-            float z = UtilApi.rangRandom(zlimit_min, zlimit_max);
+            float z = UtilApi.rangRandom(PlayerMain.zlimit_min, PlayerMain.zlimit_max);
 
             //player = Instantiate(PlayrPrefab, new Vector3(x, y_height, z), Quaternion.identity) as GameObject;
             m_hero = new PlayerMain();
             m_hero.init();
-            m_hero.setOriginal(new UnityEngine.Vector3(x, y_height, z));
+            m_hero.setOriginal(new UnityEngine.Vector3(x, PlayerMain.y_height, z));
             m_hero.setRotation(UnityEngine.Quaternion.identity);
 
             //if (player != null)
             if (m_hero != null)
             {
-                SetIsJustCreate(true);
-                ++create_times;
-                cur_auto_relive_seconds = auto_relive_seconds;
+                m_hero.SetIsJustCreate(true);
+                ++m_hero.create_times;
+                m_hero.cur_auto_relive_seconds = m_hero.auto_relive_seconds;
 
                 string tempName = "";
                 //tempName = PlayerPrefs.GetString("myname");
                 tempName = Ctx.mInstance.mSystemSetting.getString("myname");
                 if (tempName == "")
                 {
-                    tempName = playerName;
+                    tempName = m_hero.playerName;
                 }
 
                 //player.GetComponent<Food>().SetIsRobot(false);

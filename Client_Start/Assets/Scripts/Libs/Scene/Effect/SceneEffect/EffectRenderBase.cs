@@ -46,7 +46,7 @@ namespace SDK.Lib
             
         }
 
-        override public void setPnt(GameObject pntGO_)
+        override public void setPntGo(GameObject pntGO_)
         {
             
         }

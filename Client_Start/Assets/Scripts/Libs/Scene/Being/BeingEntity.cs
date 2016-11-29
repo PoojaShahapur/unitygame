@@ -129,7 +129,7 @@ namespace SDK.Lib
         // 将物件从排序管理器中移除
         public void OnDestroy()
         {
-            GameObjectManager.getInstance().removeEntityByCharID(m_charid);
+            //GameObjectManager.getInstance().removeEntityByCharID(m_charid);
         }
 
         // 将物件添加到排序管理器
@@ -137,7 +137,7 @@ namespace SDK.Lib
         {
             curPos = m_object.GetComponent<Transform>().position;
             lastPos = curPos;
-            GameObjectManager.getInstance().setEntityByRadius(m_object.GetComponent<UnityEngine.Transform>().localScale.x, this);
+            //GameObjectManager.getInstance().setEntityByRadius(m_object.GetComponent<UnityEngine.Transform>().localScale.x, this);
         }
 
         // 目前主要是增长重量的逻辑
@@ -161,7 +161,7 @@ namespace SDK.Lib
                 float cur_rise_rate = sAutoRiseRate * x;
                 //雪球自动增长
                 m_object.GetComponent<Transform>().localScale += new Vector3(cur_rise_rate, cur_rise_rate, cur_rise_rate);
-                GameObjectManager.getInstance().setEntityByRadius(m_object.GetComponent<Transform>().localScale.x, this);
+                //GameObjectManager.getInstance().setEntityByRadius(m_object.GetComponent<Transform>().localScale.x, this);
             }
             else
             {

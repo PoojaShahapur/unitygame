@@ -7,7 +7,5 @@
         {
 
         }
-
-        virtual public 
     }
 }

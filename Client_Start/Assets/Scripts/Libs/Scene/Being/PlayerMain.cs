@@ -77,6 +77,97 @@ namespace SDK.Lib
             //(aiController.vehicle.Steerings[0] as SteerForWander).MaxLatitudeUp = 100;
         }
 
+        //-------------------------------------------------------------
+        //public GameObject PlayrPrefab;
+        static public float xlimit_min = 100;
+        static public float xlimit_max = 900;
+        static public float zlimit_min = 100;
+        static public float zlimit_max = 900;
+        static public float y_height = 1.0f;
+
+        public string playerName = "雪球";
+
+        public static CreatePlayer _Instace;
+        //public GameObject player;
+        //public List<ChildrenItemInfo> childrenList = new List<ChildrenItemInfo>();
+
+        public uint create_times = 0;//生成次数
+        private bool is_niubi = true;//x秒无敌真男人时间
+        private bool is_dontmove = false;//重生禁止移动状态
+        private bool is_justcreate = false;//是否新生成
+
+        public int auto_relive_seconds = 5;//总无敌时间
+        public int cur_auto_relive_seconds = 5;//当前剩余无敌时间
+
+        private bool is_press_forward_force_btn = false;//是否长按了前进的按钮
+        private float forward_force = 0;//向前力的大小
+
+        public uint GetTimes()
+        {
+            return create_times;
+        }
+
+        public bool IsRelive()
+        {
+            return create_times > 1;
+        }
+
+        public bool GetIsNiuBi()
+        {
+            return is_niubi;
+        }
+
+        public void SetIsNiuBi(bool _niubi)
+        {
+            is_niubi = _niubi;
+        }
+
+        public bool GetIsDontMove()
+        {
+            return is_dontmove;
+        }
+
+        public void SetIsDontMove(bool _dontmove)
+        {
+            is_dontmove = _dontmove;
+        }
+
+        public bool GetIsJustCreate()
+        {
+            return is_justcreate;
+        }
+
+        public void SetIsJustCreate(bool _justcreate)
+        {
+            is_justcreate = _justcreate;
+        }
+
+        public bool GetIsPressForwardForceBtn()
+        {
+            return is_press_forward_force_btn;
+        }
+
+        public void SetIsPressForwardForceBtn(bool _press)
+        {
+            is_press_forward_force_btn = _press;
+        }
+
+        public float GetForwardForce()
+        {
+            return forward_force;
+        }
+
+        public void SetForwardForce(float _forward_force)
+        {
+            forward_force = _forward_force;
+        }
+
+        void Update()
+        {
+            ShowReliveTime();
+            RefreshChildrenPosition();
+        }
+
         // 刷新 Child 的位置
         void RefreshChildrenPosition()
         {
@@ -109,13 +200,39 @@ namespace SDK.Lib
             }
         }
 
-        //--------------------
-        public ControlType controlType = ControlType.GravitytouchControl;
-        private float horizontal_move = 0.0f;
-        private float vertical_move = 0.0f;
+        private float totalTime = 0;
+        private void ShowReliveTime()//复活倒计时
+        {
+            if (!is_niubi) return;
+            //累加每帧消耗时间
+            //totalTime += Time.deltaTime;
+            totalTime += Ctx.mInstance.mSystemTimeData.deltaSec;
+            if (totalTime >= 1)//每过1秒执行一次
+            {
+                cur_auto_relive_seconds--;
+                totalTime = 0;
+            }
 
-        private GameObject player1;//该子物体用于添加表现雪球旋转
-        private GameObject cmr;
+            //真男人时间结束
+            if (0 == cur_auto_relive_seconds)
+            {
+                SetIsNiuBi(false);
+            }
+        }
+
+        //还剩余liftseconds可以牛逼一下
+        public void SetLeftSeconds(int liftseconds)
+        {
+            cur_auto_relive_seconds = liftseconds;
+        }
+
+        //----------------------------------------------------------
+        public ControlType controlType = ControlType.GravitytouchControl;
+        public float horizontal_move = 0.0f;
+        public float vertical_move = 0.0f;
+
+        //private GameObject player1;//该子物体用于添加表现雪球旋转
+        //private GameObject cmr;
 
         //V = k * m + b //速度与质量关系式
         public float MoveSpeed_k = 10.0f;//k = 10 / r
@@ -131,7 +248,7 @@ namespace SDK.Lib
             MoveSpeed = (float)System.Math.Round(_speed, 3);
 
             //player1 = transform.FindChild("Player1").gameObject;
-            cmr = GameObject.FindGameObjectWithTag("MainCamera").gameObject;
+            //cmr = GameObject.FindGameObjectWithTag("MainCamera").gameObject;
 
             //this.GetComponent<Food>().entity.m_isOnGround = true;
             //this.GetComponent<Food>().entity.m_isRobot = false;
@@ -151,7 +268,8 @@ namespace SDK.Lib
                 return;
             }
 
-            if (CreatePlayer._Instace.GetIsDontMove()) return;
+            //if (CreatePlayer._Instace.GetIsDontMove()) return;
+            if (this.GetIsDontMove()) return;
 
             //电脑方向键控制
             if (controlType == ControlType.KeyBoardControl)
@@ -178,7 +296,8 @@ namespace SDK.Lib
                     //Vector3 startRotation = player1.transform.rotation.eulerAngles;
                     //Vector3 endRotation = new Vector3(0, (Mathf.Atan2(-vertical_move, horizontal_move) * Mathf.Rad2Deg) + cmr.transform.rotation.eulerAngles.y + 90, 0);
                     //player1.transform.rotation = Quaternion.FromToRotation(startRotation, endRotation);
-                    player1.transform.rotation = Quaternion.Euler(0, (Mathf.Atan2(-vertical_move, horizontal_move) * Mathf.Rad2Deg) + cmr.transform.rotation.eulerAngles.y + 90, 0);
+                    //player1.transform.rotation = Quaternion.Euler(0, (Mathf.Atan2(-vertical_move, horizontal_move) * Mathf.Rad2Deg) + cmr.transform.rotation.eulerAngles.y + 90, 0);
+                    (m_render as PlayerMainRender).updatePlayer1Pos();
                 }
             }
 
@@ -212,7 +331,8 @@ namespace SDK.Lib
                 }
                 else
                 {
-                    player1.transform.rotation = Quaternion.Euler(0, (Mathf.Atan2(-horizontal_move, vertical_move) * Mathf.Rad2Deg) + cmr.transform.rotation.eulerAngles.y + 90, 0);
+                    //player1.transform.rotation = Quaternion.Euler(0, (Mathf.Atan2(-horizontal_move, vertical_move) * Mathf.Rad2Deg) + cmr.transform.rotation.eulerAngles.y + 90, 0);
+                    (m_render as PlayerMainRender).updatePlayer1Pos();
                 }
             }
 

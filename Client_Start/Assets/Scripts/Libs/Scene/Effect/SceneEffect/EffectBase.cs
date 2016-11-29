@@ -118,7 +118,7 @@ namespace SDK.Lib
 
         override public void setPnt(GameObject pntGO_)
         {
-            effectRender.setPnt(pntGO_);
+            effectRender.setPntGo(pntGO_);
         }
 
         public bool bPlay()

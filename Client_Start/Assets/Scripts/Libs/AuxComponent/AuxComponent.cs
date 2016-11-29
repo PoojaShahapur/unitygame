@@ -60,6 +60,16 @@ namespace SDK.Lib
             }
         }
 
+        virtual public void setGameObject(GameObject rhv)
+        {
+            this.selfGo = rhv;
+        }
+
+        virtual public GameObject gameObject()
+        {
+            return this.selfGo;
+        }
+
         public GameObject pntGo
         {
             get
