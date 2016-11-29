@@ -45,6 +45,10 @@ function M:getSelfGo()
 	return self.mSelfGo;
 end
 
+function M:getPrefabTmpl()
+	return self.mNativePrefabLoader:getPrefabTmpl();
+end
+
 function M:asyncLoad(path, pThis, handle)
     self.mEvtHandle = GlobalNS.new(GlobalNS.ResEventDispatch);
     self.mEvtHandle:addEventHandle(pThis, handle);
