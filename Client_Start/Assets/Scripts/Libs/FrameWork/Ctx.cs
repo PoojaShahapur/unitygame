@@ -136,7 +136,7 @@
             mInstance = null;
         }
 
-        protected void preInit()
+        protected void constructInit()
         {
             MFileSys.init();            // 初始化本地文件系统的一些数据
             PlatformDefine.init();      // 初始化平台相关的定义
@@ -245,19 +245,16 @@
             mMKBEMainEntry = new MKBEMainEntry();
         }
 
-        protected void interInit()
+        public void logicInit()
         {
             this.mLogSys.init();
-        }
 
-        public void postInit()
-        {
             this.mResizeMgr.addResizeObject(this.mUiMgr as IResizeObject);
             this.mTickMgr.addTick(this.mInputMgr as ITickedObject);
-            this.mInputMgr.postInit();
+            this.mInputMgr.init();
             //mTickMgr.addTick(mPlayerMgr as ITickedObject);
             //mTickMgr.addTick(mMonsterMgr as ITickedObject);
-            //mTickMgr.addTick(m_fObjectMgr as ITickedObject);
+            //mTickMgr.addTick(mFObjectMgr as ITickedObject);
             //mTickMgr.addTick(mNpcMgr as ITickedObject);
             this.mTickMgr.addTick(this.mSpriteAniMgr as ITickedObject);
             this.mTickMgr.addTick(this.mSceneEffectMgr as ITickedObject);
@@ -267,33 +264,31 @@
             this.mDataPlayer.m_dataPack.postConstruct();
 
             // 初始化重定向
-            this.mResRedirect.postInit();
-            this.mResLoadMgr.postInit();
-            this.mDownloadMgr.postInit();
+            this.mResRedirect.init();
+            this.mResLoadMgr.init();
+            this.mDownloadMgr.init();
 
             this.mTaskQueue.m_pTaskThreadPool = this.mTaskThreadPool;
             this.mTaskThreadPool.initThreadPool(2, this.mTaskQueue);
 
             this.mVersionSys.loadLocalVer();    // 加载版本文件
             this.mDepResMgr.init();             // 加载依赖文件
-            this.mCoroutineTaskMgr.start();
+            this.mCoroutineTaskMgr.init();
 
             this.mLuaSystem.init();
             this.mUiMgr.init();
 
-            mMKBEMainEntry.Start();
+            mMKBEMainEntry.init();
         }
 
         public void init()
         {
-            preInit();
-            interInit();
-
+            // 构造初始化
+            constructInit();
             // 设置不释放 GameObject
             setNoDestroyObject();
-
-            postInit();
-            // 交叉引用的对象初始化
+            // 逻辑初始化，交叉引用的对象初始化
+            logicInit();
             // Unity 编辑器设置的基本数据
             initBasicCfg();
         }

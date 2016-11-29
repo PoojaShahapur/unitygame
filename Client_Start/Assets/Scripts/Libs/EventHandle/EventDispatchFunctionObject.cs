@@ -132,7 +132,7 @@ namespace SDK.Lib
             this.mIsClientDispose = true;
         }
 
-        public bool getClientDispose()
+        public bool isClientDispose()
         {
             return this.mIsClientDispose;
         }

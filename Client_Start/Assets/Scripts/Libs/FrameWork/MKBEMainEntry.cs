@@ -28,13 +28,18 @@ namespace SDK.Lib
 
         public MWorld_KBE mMWorld_KBE;  // 场景
 
-        public void Start()
+        public void init()
         {
             installEvents();
             initKBEngine();
 
             mMWorld_KBE = new MWorld_KBE();
             mMWorld_KBE.Start();
+        }
+
+        public void dispose()
+        {
+
         }
 
         public virtual void installEvents()

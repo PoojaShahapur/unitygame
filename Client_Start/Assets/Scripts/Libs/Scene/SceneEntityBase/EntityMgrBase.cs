@@ -73,7 +73,7 @@ namespace SDK.Lib
         {
             foreach (SceneEntityBase entity in m_sceneEntityList.list())
             {
-                if (!entity.getClientDispose())
+                if (!entity.isClientDispose())
                 {
                     entity.onTick(delta);
                 }
@@ -85,7 +85,7 @@ namespace SDK.Lib
 
         }
 
-        public bool getClientDispose()
+        public bool isClientDispose()
         {
             return false;
         }

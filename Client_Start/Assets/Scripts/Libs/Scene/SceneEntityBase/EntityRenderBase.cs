@@ -17,9 +17,9 @@
 
         }
 
-        virtual public bool getClientDispose()
+        virtual public bool isClientDispose()
         {
-            return mEntity.getClientDispose();
+            return mEntity.isClientDispose();
         }
 
         virtual public void onTick(float delta)

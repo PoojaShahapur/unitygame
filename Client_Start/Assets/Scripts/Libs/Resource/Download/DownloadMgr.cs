@@ -26,11 +26,16 @@ namespace SDK.Lib
             this.addMsgRouteHandle(MsgRouteID.eMRIDLoadedWebRes, onMsgRouteResLoad);
         }
 
-        public void postInit()
+        public void init()
         {
             // 游戏逻辑处理
             m_resMsgRouteCB = new ResMsgRouteCB();
             Ctx.mInstance.mMsgRouteNotify.addOneDisp(m_resMsgRouteCB);
+        }
+
+        public void dispose()
+        {
+
         }
 
         protected void resetLoadParam(DownloadParam loadParam)

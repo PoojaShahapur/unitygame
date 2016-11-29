@@ -84,7 +84,7 @@ namespace SDK.Lib
 
             foreach (TimerItemBase timerItem in this.mTimerList.list())
             {
-                if (!timerItem.getClientDispose())
+                if (!timerItem.isClientDispose())
                 {
                     timerItem.OnTimer(delta);
                 }

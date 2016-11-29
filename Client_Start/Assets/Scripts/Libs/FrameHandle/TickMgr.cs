@@ -92,7 +92,7 @@ namespace SDK.Lib
 
             foreach (TickProcessObject tk in this.mTickLst.list())
             {
-                if (!(tk.mTickObject as IDelayHandleItem).getClientDispose())
+                if (!(tk.mTickObject as IDelayHandleItem).isClientDispose())
                 {
                     (tk.mTickObject as ITickedObject).onTick(delta);
                 }

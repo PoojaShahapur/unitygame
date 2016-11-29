@@ -145,7 +145,7 @@
             this.mIsClientDispose = true;
         }
 
-        virtual public bool getClientDispose()
+        virtual public bool isClientDispose()
         {
             return this.mIsClientDispose;
         }

@@ -34,13 +34,18 @@ namespace SDK.Lib
             return mCoroutineTaskList.length() == 0;
         }
 
-        public void start()
+        public void init()
         {
             if (!isRuning())
             {
                 mState = eCoroutineTaskState.eRunning;
                 Ctx.mInstance.mCoroutineMgr.StartCoroutine(run());
             }
+        }
+
+        public void dispose()
+        {
+
         }
 
         public void pause()

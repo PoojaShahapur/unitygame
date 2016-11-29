@@ -61,7 +61,7 @@ namespace SDK.Lib
         {
             foreach (ImageSpriteAni entity in m_sceneEntityList)
             {
-                if (!(entity as ImageSpriteAni).getClientDispose())
+                if (!(entity as ImageSpriteAni).isClientDispose())
                 {
                     (entity as ImageSpriteAni).onTick(delta);
                 }
@@ -88,7 +88,7 @@ namespace SDK.Lib
 
         }
 
-        public bool getClientDispose()
+        public bool isClientDispose()
         {
             return false;
         }

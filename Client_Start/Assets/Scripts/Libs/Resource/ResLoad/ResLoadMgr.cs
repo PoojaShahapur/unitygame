@@ -21,7 +21,12 @@ namespace SDK.Lib
             m_loadingDepth = 0;
         }
 
-        public void postInit()
+        public void init()
+        {
+
+        }
+
+        public void dispose()
         {
 
         }

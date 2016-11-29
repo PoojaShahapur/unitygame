@@ -80,7 +80,7 @@ namespace SDK.Lib
 
         }
 
-        public bool getClientDispose()
+        public bool isClientDispose()
         {
             return false;
         }

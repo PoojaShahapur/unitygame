@@ -94,7 +94,7 @@ namespace SDK.Lib
             }
         }
 
-        virtual public bool getClientDispose()
+        virtual public bool isClientDispose()
         {
             return m_bClientDispose;
         }

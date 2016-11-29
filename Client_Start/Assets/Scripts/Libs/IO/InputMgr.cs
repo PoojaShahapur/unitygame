@@ -22,10 +22,15 @@ namespace SDK.Lib
         private bool[] _justPressed = new bool[(int)KeyCode.Joystick8Button19 + 1];  // An array of keys that were just pressed within the last tick.
         private bool[] _justReleased = new bool[(int)KeyCode.Joystick8Button19 + 1]; // An array of keys that were just released within the last tick.
 
-        public void postInit()
+        public void init()
         {
             // 添加事件处理
             Ctx.mInstance.mCamSys.mUiCam = Ctx.mInstance.mLayerMgr.m_path2Go[NotDestroyPath.ND_CV_App].AddComponent<UICamera>();
+        }
+
+        public void dispose()
+        {
+
         }
 
         public void setClientDispose()
@@ -33,7 +38,7 @@ namespace SDK.Lib
 
         }
 
-        public bool getClientDispose()
+        public bool isClientDispose()
         {
             return false;
         }

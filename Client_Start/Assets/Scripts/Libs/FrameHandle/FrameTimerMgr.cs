@@ -70,7 +70,7 @@ namespace SDK.Lib
 
             foreach (FrameTimerItem timerItem in this.mTimerLists)
             {
-                if (!timerItem.getClientDispose())
+                if (!timerItem.isClientDispose())
                 {
                     timerItem.OnFrameTimer();
                 }

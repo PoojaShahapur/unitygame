@@ -51,9 +51,14 @@ namespace SDK.Lib
             mOrigPath2ItemDic = new Dictionary<string, ResRedirectItem>();
         }
 
-        public void postInit()
+        public void init()
         {
             
+        }
+
+        public void dispose()
+        {
+
         }
 
         public ResRedirectItem getResRedirectItem(string origPath)
