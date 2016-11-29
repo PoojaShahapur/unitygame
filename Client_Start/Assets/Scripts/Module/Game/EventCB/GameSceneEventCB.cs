@@ -2,6 +2,7 @@
 
 #if UNIT_TEST
 using UnitTest;
+using UnityEngine;
 #endif
 
 namespace Game.Game
@@ -12,7 +13,11 @@ namespace Game.Game
         public void onLevelLoaded()
         {
             Ctx.mInstance.mLuaSystem.onSceneLoaded();
-
+            // 关联相机
+            GameObject cam = UtilApi.GoFindChildByName("MainCamera").gameObject;
+            Ctx.mInstance.mCamSys.setMainCamera(cam.GetComponent<Camera>());
+            // 创建主角
+            Ctx.mInstance.mPlayerMgr.createPlayer();
             runTest();
         }
 

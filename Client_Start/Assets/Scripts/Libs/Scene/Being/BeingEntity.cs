@@ -108,6 +108,18 @@ namespace SDK.Lib
 
         }
 
+        override public void init()
+        {
+            // 基类初始化
+            base.init();
+            // 自动处理，例如添加到管理器
+            this.autoHandle();
+            // 初始化渲染器
+            this.initRender();
+            // 加载渲染器资源
+            this.loadRenderRes();
+        }
+
         //--------------------------------------
         public bool m_isRobot;//是否为机器人
         public float m_canEatRate;//可以吃的比率

@@ -77,6 +77,12 @@ namespace SDK.Lib
             //(aiController.vehicle.Steerings[0] as SteerForWander).MaxLatitudeUp = 100;
         }
 
+        override public void initRender()
+        {
+            m_render = new PlayerMainRender(this);
+            m_render.init();
+        }
+
         //-------------------------------------------------------------
         //public GameObject PlayrPrefab;
         static public float xlimit_min = 100;
@@ -339,7 +345,6 @@ namespace SDK.Lib
             double _speed = MoveSpeed_k / Mathf.Sqrt(this.transform().localScale.x) + MoveSpeed_b;
             MoveSpeed = (float)System.Math.Round(_speed, 3);
         }
-
 
         public Vector3 GetCenterPosition()
         {

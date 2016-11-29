@@ -15,7 +15,7 @@ namespace SDK.Lib
 
         override public void onInit()
         {
-            this.mResPath = "World/Model/Player";
+            this.mResPath = "World/Model/Player.prefab";
         }
 
         override protected void onSelfChanged()
@@ -24,6 +24,8 @@ namespace SDK.Lib
 
             player1 = this.transform().FindChild("Player1").gameObject;
             cmr = GameObject.FindGameObjectWithTag("MainCamera").gameObject;
+
+            Ctx.mInstance.mCamSys.setCameraActor(this.selfGo);
         }
 
         public void updatePlayer1Pos()

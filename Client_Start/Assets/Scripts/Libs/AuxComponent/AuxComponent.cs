@@ -203,6 +203,11 @@ namespace SDK.Lib
 
         virtual public Transform transform()
         {
+            if (null != this.mSelfGo)
+            {
+                return this.mSelfGo.GetComponent<Transform>();
+            }
+
             return null;
         }
 

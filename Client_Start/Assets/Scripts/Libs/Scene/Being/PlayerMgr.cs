@@ -120,7 +120,7 @@ namespace SDK.Lib
 
         public void init()
         {
-            OnCreatePlayer();
+            //OnCreatePlayer();
         }
 
         // Update is called once per frame
@@ -178,7 +178,7 @@ namespace SDK.Lib
         //    cur_auto_relive_seconds = liftseconds;
         //}
 
-        public void OnCreatePlayer()
+        public void createPlayer()
         {
             //float x = Random.Range(xlimit_min, xlimit_max);
             float x = UtilApi.rangRandom(PlayerMain.xlimit_min, PlayerMain.xlimit_max);

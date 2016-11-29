@@ -22,12 +22,6 @@ namespace SDK.Lib
         override public void init()
         {
             base.init();
-
-            Ctx.mInstance.mPlayerMgr.addEntity(this);
-
-            m_render = new PlayerRender(this);
-            m_render.init();
-            m_render.load();
         }
 
         // 构造完成 Player 后，在初始化 PlayerRender
@@ -40,6 +34,24 @@ namespace SDK.Lib
         {
             base.dispose();
             Ctx.mInstance.mPlayerMgr.removeEntity(this);
+        }
+
+        override public void autoHandle()
+        {
+            base.autoHandle();
+
+            Ctx.mInstance.mPlayerMgr.addEntity(this);
+        }
+
+        override public void initRender()
+        {
+            m_render = new PlayerRender(this);
+            m_render.init();
+        }
+
+        override public void loadRenderRes()
+        {
+            m_render.load();
         }
     }
 }

@@ -44,6 +44,12 @@ namespace SDK.Lib
             return GameObject.FindGameObjectsWithTag(tag);
         }
 
+        // 这个会根据标签查找，知道查找到第一个为止，但是不一定准确
+        public static GameObject FindGameObjectWithTag(string tag)
+        {
+            return GameObject.FindGameObjectWithTag(tag);
+        }
+
         // 仅仅根据名字查找 GameObject ，注意如果 GameObject 设置 SetActive 为 false ，就会查找不到，如果有相同名字的 GameObject ，不保证查找到正确的。
         static public GameObject GoFindChildByName(string name)
         {

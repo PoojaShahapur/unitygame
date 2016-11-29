@@ -38,30 +38,33 @@ namespace Game.Game
 
         private void onMouseUp()
         {
-            //定义一条从主相机射向鼠标位置的一条射向
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            //判断射线是否发生碰撞               
-            if (Physics.Raycast(ray, out hit, 100))
+            if (null != Camera.main)
             {
-                if(hit.collider.gameObject.GetComponent<UIEventListener>() != null)        // 如果挂着 UIEventListener ，也说明是场景事件
+                //定义一条从主相机射向鼠标位置的一条射向
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+                //判断射线是否发生碰撞               
+                if (Physics.Raycast(ray, out hit, 100))
                 {
-                    // 直接分发
-                    hit.collider.gameObject.SendMessage("OnClick", hit.collider.gameObject);
-                }
-                //else if (isBtnName(hit.collider.gameObject.name))
-                //{
-                //    onClkBtn(hit);
-                //}
-                //判断碰撞物体是否为 Card
-                else if (hit.collider.gameObject.name.Length >= 4 && hit.collider.gameObject.name.Substring(0, 4) == SceneEntityName.CARD)
-                {
-                    //打印出碰撞点的坐标
-                    //Debug.Log(hit.point);
-                }
-                else if (hit.collider.gameObject.name.Length >= 6 && hit.collider.gameObject.name.Substring(0, 6) == SceneEntityName.PLAYER)
-                {
+                    if (hit.collider.gameObject.GetComponent<UIEventListener>() != null)        // 如果挂着 UIEventListener ，也说明是场景事件
+                    {
+                        // 直接分发
+                        hit.collider.gameObject.SendMessage("OnClick", hit.collider.gameObject);
+                    }
+                    //else if (isBtnName(hit.collider.gameObject.name))
+                    //{
+                    //    onClkBtn(hit);
+                    //}
+                    //判断碰撞物体是否为 Card
+                    else if (hit.collider.gameObject.name.Length >= 4 && hit.collider.gameObject.name.Substring(0, 4) == SceneEntityName.CARD)
+                    {
+                        //打印出碰撞点的坐标
+                        //Debug.Log(hit.point);
+                    }
+                    else if (hit.collider.gameObject.name.Length >= 6 && hit.collider.gameObject.name.Substring(0, 6) == SceneEntityName.PLAYER)
+                    {
 
+                    }
                 }
             }
         }

@@ -19,7 +19,7 @@
          */
         override public void init()
         {
-            
+            base.init();
         }
 
         /**
@@ -27,7 +27,7 @@
          */
         override public void dispose()
         {
-
+            base.dispose();
         }
     }
 }

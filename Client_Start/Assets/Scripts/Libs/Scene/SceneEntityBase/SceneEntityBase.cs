@@ -212,5 +212,22 @@ namespace SDK.Lib
                 m_render.AddRelativeForce(force, mode);
             }
         }
+
+        // 自动管理
+        virtual public void autoHandle()
+        {
+
+        }
+
+        // 初始化渲染器
+        virtual public void initRender()
+        {
+
+        }
+
+        virtual public void loadRenderRes()
+        {
+
+        }
     }
 }

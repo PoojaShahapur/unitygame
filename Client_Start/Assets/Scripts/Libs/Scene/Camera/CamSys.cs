@@ -9,7 +9,8 @@ namespace SDK.Lib
         protected MCamera mLocalCamera;         // 这个是系统摄像机，主要进行裁剪使用的
         protected Camera mMainCamera;          // 主相机
         protected Camera mUguiCam;             // UGUI 相机
-        protected ThirdCameraController mCameraController; // 摄像机控制器
+        //protected ThirdCameraController mCameraController; // 摄像机控制器
+        protected RoateCameraController mCameraController;
         protected CameraMan mCameraMan;        // 摄像机玩家
         protected bool mIsFirst;
 
@@ -83,7 +84,8 @@ namespace SDK.Lib
         {
             if (mCameraController == null)
             {
-                mCameraController = new ThirdCameraController(mMainCamera, go);
+                //mCameraController = new ThirdCameraController(mMainCamera, go);
+                mCameraController = new RoateCameraController(mMainCamera, go);
             }
             else
             {

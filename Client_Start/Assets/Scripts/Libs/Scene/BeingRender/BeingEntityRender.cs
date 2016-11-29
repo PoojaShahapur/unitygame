@@ -24,7 +24,7 @@
         {
             if(null == this.mAuxPrefabLoader)
             {
-                this.mAuxPrefabLoader = new AuxPrefabLoader();
+                this.mAuxPrefabLoader = new AuxPrefabLoader("", true, false);
             }
 
             this.mAuxPrefabLoader.syncLoad(mResPath);

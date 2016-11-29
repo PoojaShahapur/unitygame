@@ -36,7 +36,7 @@ namespace Game.Game
         public void loadGameScene()
         {
             //this.mGotoScene.loadScene("TestScene.unity");
-            this.mGotoScene.loadScene("NewWorld.unity");
+            this.mGotoScene.loadScene("NewWorldTest.unity");
         }
 
         protected void registerScriptType()
