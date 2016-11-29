@@ -261,7 +261,6 @@
             //mTickMgr.addTick(mNpcMgr as ITickedObject);
             this.mTickMgr.addTick(this.mSpriteAniMgr as ITickedObject);
             this.mTickMgr.addTick(this.mSceneEffectMgr as ITickedObject);
-            //mTickMgr.addTick(m_sceneCardMgr as ITickedObject);
             //mTickMgr.addTick(m_aiSystem.aiControllerMgr as ITickedObject);
 
             this.mUiMgr.findCanvasGO();

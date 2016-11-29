@@ -45,6 +45,12 @@ namespace SDK.Lib
             this.registerFileLogDevice();
         }
 
+        // 析构
+        public void dispose()
+        {
+
+        }
+
         public void setEnableLog(bool value)
         {
             mEnableLog = value;

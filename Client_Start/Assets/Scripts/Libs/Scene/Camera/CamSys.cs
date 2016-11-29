@@ -19,6 +19,18 @@ namespace SDK.Lib
             mIsFirst = true;
         }
 
+        // 初始化
+        public void init()
+        {
+            
+        }
+
+        // 析构
+        public void dispose()
+        {
+
+        }
+
         public MCamera getLocalCamera()
         {
             return mLocalCamera;
@@ -86,6 +98,7 @@ namespace SDK.Lib
             {
                 //mCameraController = new ThirdCameraController(mMainCamera, go);
                 mCameraController = new RoateCameraController(mMainCamera, go);
+                mCameraController.init();
             }
             else
             {

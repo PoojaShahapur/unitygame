@@ -5,7 +5,7 @@ namespace SDK.Lib
     /**
      * @brief 旋转相机控制器
      */
-    public class RoateCameraController : CameraController
+    public class RoateCameraController : CameraController, ITickedObject, IDelayHandleItem
     {
         public float distance_Z = 10.0f;//主相机与目标物体之间的水平距离
         public float distance_Y = 0.5f;//主相机与目标物体之间的垂直距离   
@@ -47,6 +47,8 @@ namespace SDK.Lib
 
         public void init()
         {
+            Ctx.mInstance.mTickMgr.addTick(this, TickPriority.eTPCamController);
+
             Vector3 eulerAngles = this.transform.eulerAngles;//当前物体的欧拉角  
             this.eulerAngles_x = eulerAngles.y;
             this.eulerAngles_y = eulerAngles.x;
@@ -66,6 +68,26 @@ namespace SDK.Lib
             //fward_force_Op_x_max = corners[2].x;
             //fward_force_Op_y_min = corners[0].y;
             //fward_force_Op_y_max = corners[2].y;
+        }
+
+        public void dispose()
+        {
+
+        }
+
+        public void setClientDispose()
+        {
+
+        }
+
+        public bool getClientDispose()
+        {
+            return false;
+        }
+
+        public void onTick(float delta)
+        {
+            this.Update();
         }
 
         public void Update()
@@ -89,10 +111,13 @@ namespace SDK.Lib
         {
             //if (CreatePlayer._Instace.player != null && CreatePlayer._Instace.player.GetComponent<Player>().controlType == ControlType.KeyBoardControl)
             {
-                if (CreatePlayer._Instace.GetIsJustCreate())
+                PlayerMain playerMain = Ctx.mInstance.mPlayerMgr.getHero();
+                //if (CreatePlayer._Instace.GetIsJustCreate())
+                if (null != playerMain && playerMain.GetIsJustCreate())
                 {
                     ResetDefaultValue();
-                    CreatePlayer._Instace.SetIsJustCreate(false);
+                    //CreatePlayer._Instace.SetIsJustCreate(false);
+                    playerMain.SetIsJustCreate(false);
                 }
                 SetCameraPosition();
             }
@@ -106,14 +131,18 @@ namespace SDK.Lib
 
         private void SetCameraPosition()
         {
-            if (CreatePlayer._Instace.player.GetComponent<Transform>() != null)
+            //if (CreatePlayer._Instace.player.GetComponent<Transform>() != null)
+            PlayerMain playerMain = Ctx.mInstance.mPlayerMgr.getHero();
+            if(null != playerMain)
             {
                 this.eulerAngles_y = ClampAngle(this.eulerAngles_y, (float)this.yMinLimit, (float)this.yMaxLimit);
                 Quaternion quaternion = Quaternion.Euler(this.eulerAngles_y, this.eulerAngles_x, (float)0);
                 //中心位置
-                Vector3 centerPos = CreatePlayer._Instace.GetCenterPosition();
+                //Vector3 centerPos = CreatePlayer._Instace.GetCenterPosition();
+                Vector3 centerPos = playerMain.GetCenterPosition();
                 //缩放参照距离
-                float radius = CreatePlayer._Instace.GetScaleDistance(centerPos);
+                //float radius = CreatePlayer._Instace.GetScaleDistance(centerPos);
+                float radius = playerMain.GetScaleDistance(centerPos);
                 //等比缩放相机位置
                 float cur_distance_Z = this.distance_Z * radius;
 
@@ -149,8 +178,10 @@ namespace SDK.Lib
                 //player.GetComponent<Transform>().rotation = (this.transform.rotation);
                 Vector3 eulerAngles_cam = this.transform.rotation.eulerAngles;
                 Vector3 eulerAngles = new Vector3(0, eulerAngles_cam.y, eulerAngles_cam.z);
-                CreatePlayer._Instace.player.GetComponent<Transform>().eulerAngles = eulerAngles;
-                CreatePlayer._Instace.RefreshChildrensRotation(eulerAngles);
+                //CreatePlayer._Instace.player.GetComponent<Transform>().eulerAngles = eulerAngles;
+                //CreatePlayer._Instace.RefreshChildrensRotation(eulerAngles);
+                playerMain.transform().eulerAngles = eulerAngles;
+                playerMain.RefreshChildrensRotation(eulerAngles);
             }
         }
 
