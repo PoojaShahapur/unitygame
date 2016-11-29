@@ -45,7 +45,7 @@
             }
 
             // KBEngine 引擎逻辑处理
-            Ctx.mInstance.mMKBEMainEntry.FixedUpdate();
+            //Ctx.mInstance.mMKBEMainEntry.FixedUpdate();
 
             // 每一帧的游戏逻辑处理
             Ctx.mInstance.mProcessSys.ProcessNextFrame();

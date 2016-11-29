@@ -25,5 +25,10 @@ namespace Game.Game
 #endif
             //Ctx.mInstance.mNetMgr.openSocket("106.14.32.169", 20013);
         }
+
+        protected void init()
+        {
+
+        }
     }
 }

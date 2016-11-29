@@ -42,8 +42,8 @@ namespace SDK.Lib
             mId2AttrDic[UIFormID.eUITest].mCanvasID = UICanvasID.eSecondCanvas;
             mId2AttrDic[UIFormID.eUITest].mLayerID = UILayerID.eTopLayer;
             mId2AttrDic[UIFormID.eUITest].addUISceneType(UISceneType.eUIScene_Game);
-            mId2AttrDic[UIFormID.eUITest].mWidgetPath = string.Format("{0}{1}/{2}{3}", Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathComUI], "UILogin", "UILogin", ".prefab");
-            mId2AttrDic[UIFormID.eUITest].mScriptTypeName = "Game.UI.UILogin";
+            mId2AttrDic[UIFormID.eUITest].mWidgetPath = string.Format("{0}{1}/{2}{3}", Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathComUI], "UITest", "UITest", ".prefab");
+            mId2AttrDic[UIFormID.eUITest].mScriptTypeName = "Game.UI.UITest";
 
 
             mId2AttrDic[UIFormID.eUITerrainEdit] = new UIAttrItem();

@@ -53,7 +53,9 @@ namespace Game.UI
 
         protected void onBtnClkTest()
         {
-            
+            Ctx.mInstance.mUiMgr.exitForm(UIFormID.eUITest);
+            Ctx.mInstance.mModuleSys.unloadModule(ModuleID.LOGINMN);
+            Ctx.mInstance.mModuleSys.loadModule(ModuleID.GAMEMN);
         }
     }
 }

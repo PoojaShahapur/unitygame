@@ -7,7 +7,7 @@ namespace SDK.Lib
         public UICamera mUiCam;            // 这个不是 UI 相机，这个是场景相机
 
         protected MCamera mLocalCamera;         // 这个是系统摄像机，主要进行裁剪使用的
-        protected Camera m_mainCamera;          // 主相机
+        protected Camera mMainCamera;          // 主相机
         protected Camera mUguiCam;             // UGUI 相机
         protected ThirdCameraController mCameraController; // 摄像机控制器
         protected CameraMan mCameraMan;        // 摄像机玩家
@@ -60,12 +60,12 @@ namespace SDK.Lib
 
         public Camera getMainCamera()
         {
-            return m_mainCamera;
+            return mMainCamera;
         }
 
         public void setMainCamera(Camera camera)
         {
-            m_mainCamera = camera;
+            mMainCamera = camera;
         }
 
         public Camera getUGuiCamera()
@@ -83,7 +83,7 @@ namespace SDK.Lib
         {
             if (mCameraController == null)
             {
-                mCameraController = new ThirdCameraController(m_mainCamera, go);
+                mCameraController = new ThirdCameraController(mMainCamera, go);
             }
             else
             {

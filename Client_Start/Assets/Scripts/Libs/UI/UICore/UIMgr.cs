@@ -4,7 +4,7 @@ namespace SDK.Lib
 {
     /**
      * @brief 所有 UI 管理
-     * 1. 对于新创建的Form对象，其所属的层是由其ID决定的
+     * 1. 对于新创建的Form对象，其所属的层是由其 FormId 决定的
      * 2. UI 设计原则，主要界面是资源创建完成才运行逻辑，小的共享界面是逻辑和资源同时运行，因为 MVC 结构实在是要写很多代码，因此主要界面不适用 MVC 结构
      * 
      * UIMgr 中并没在某个地方缓存 AssetBundle.LoadAsset 加载的 Object ，如果要重复使用 AssetBundle.LoadAsset 加载的 Object ，不要重复使用 ResLoadMgr.load ，要自己找到对应的 Form ，然后获取 Object ，然后再次实例化，因为这种情况使用很少，目前暂时这样使用，如果需要大量重复实例化共享对象，再修改
@@ -60,16 +60,16 @@ namespace SDK.Lib
             }
         }
 
-        //public void loadAndShow<T>(UIFormID ID) where T : Form, new()
-        public void loadAndShow(UIFormID ID)
+        //public void loadAndShow<T>(UIFormID formId) where T : Form, new()
+        public void loadAndShow(UIFormID formId)
         {
-            if (hasForm(ID))
+            if (hasForm(formId))
             {
-                showFormInternal(ID);
+                showFormInternal(formId);
             }
             else
             {
-                loadForm(ID);
+                loadForm(formId);
             }
         }
 
@@ -255,8 +255,8 @@ namespace SDK.Lib
                     onCodeLoadedByForm(form);
                 }
 
-                // 这个地方应该抛出异常
-                if(null == form)    // 本地没有代码
+                // 这个地方应该抛出异常， registerScriptType 没有注册对应的类型
+                if (null == form)    // 本地没有代码
                 {
                     mId2CodeLoadingItemDic[formId] = new UILoadingItem();
                     mId2CodeLoadingItemDic[formId].mId = formId;
