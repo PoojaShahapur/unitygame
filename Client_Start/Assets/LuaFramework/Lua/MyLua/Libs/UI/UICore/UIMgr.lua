@@ -111,7 +111,7 @@ function M:loadForm(formId, param)
     end
     
     if(not self:hasLoadItem(formId)) then
-		local uiPrefabLoader = GlobalNS.new(GlobalNS.AuxUIPrefabLoader);
+		local uiPrefabLoader = GlobalNS.new(GlobalNS.AuxUIPrefabLoader, "", true, true);
 		self.mFormId2LoadItemDic:Add(formId, uiPrefabLoader);
 		uiPrefabLoader:setFormId(formId);
 		uiPrefabLoader:asyncLoad(GlobalNS.UIAttrSystem[formId].m_widgetPath, self, self.onFormPrefabLoaded);
