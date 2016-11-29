@@ -7,9 +7,21 @@ local M = GlobalNS.Class(GlobalNS.AuxLoaderBase);
 M.clsName = "AuxPrefabLoader";
 GlobalNS[M.clsName] = M;
 
-function M:ctor()
+function M:ctor(path, isNeedInsPrefab, isInsNeedCoroutine)
     self.mSelfGo = nil;
 	self.mNativePrefabLoader = nil;
+
+	if(GlobalNS.UtilApi.isTrue(isNeedInsPrefab)) then
+		self.mIsNeedInsPrefab = isNeedInsPrefab;
+	else
+		self.mIsNeedInsPrefab = false;
+	end
+	
+	if(GlobalNS.UtilApi.isTrue(isNeedInsPrefab)) then
+		self.mIsInsNeedCoroutine = isInsNeedCoroutine;
+	else
+		self.mIsInsNeedCoroutine = false;
+	end
 end
 
 function M:dtor()
@@ -36,7 +48,7 @@ end
 function M:asyncLoad(path, pThis, handle)
     self.mEvtHandle = GlobalNS.new(GlobalNS.ResEventDispatch);
     self.mEvtHandle:addEventHandle(pThis, handle);
-    self.mNativePrefabLoader = GlobalNS.CSSystem.AuxPrefabLoader.New("", false, true);
+    self.mNativePrefabLoader = GlobalNS.CSSystem.AuxPrefabLoader.New("", self.mIsNeedInsPrefab, self.mIsInsNeedCoroutine);
     self.mNativePrefabLoader:asyncLoad(path, self, self.onPrefabLoaded);
 end
 

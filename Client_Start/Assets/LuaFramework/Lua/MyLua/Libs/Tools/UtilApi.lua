@@ -340,6 +340,19 @@ function getStrLen(str)
 	return string.len(str);
 end
 
+function M.isTrue(value)
+	return not M.isFalse(value);
+end
+
+function M.isFalse(value)
+	return (nil == value or 0 == value or false == value);
+end
+
+--判断字符串是否是 nil 或者 ""
+function M.IsNullOrEmpty(value)
+	return (nil == value or "" == value);
+end
+
 M.ctor()        -- 构造
 
 return M;
