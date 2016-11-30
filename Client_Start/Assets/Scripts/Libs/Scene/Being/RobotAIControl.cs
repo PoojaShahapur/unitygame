@@ -2,7 +2,7 @@
 
 namespace SDK.Lib
 {
-    public class RobotAIControl
+    public class RobotAIControl : ITickedObject
     {
         //V = k * m + b //速度与质量关系式
         private float MoveSpeed_k = 10.0f;//k = 10 / r
@@ -35,6 +35,11 @@ namespace SDK.Lib
         }
 
         public void unPossess()
+        {
+
+        }
+
+        public void onTick(float delta)
         {
 
         }

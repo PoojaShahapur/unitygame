@@ -2,10 +2,21 @@
 {
     public class Robot : Player
     {
+        protected RobotAIControl mAIControl;
+
         public Robot()
         {
             mTypeId = "Robot";
             this.mEntityType = EntityType.eRobot;
+
+            this.mAIControl = new RobotAIControl(this);
+        }
+
+        override public void onTick(float delta)
+        {
+            base.onTick(delta);
+
+            mAIControl.onTick(delta);
         }
 
         override public void dispose()

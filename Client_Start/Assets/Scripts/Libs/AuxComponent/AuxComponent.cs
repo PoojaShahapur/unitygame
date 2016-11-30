@@ -245,5 +245,10 @@ namespace SDK.Lib
                 }
             }
         }
+
+        public Rigidbody getRigidbody()
+        {
+            return this.selfGo.GetComponent<Rigidbody>();
+        }
     }
 }

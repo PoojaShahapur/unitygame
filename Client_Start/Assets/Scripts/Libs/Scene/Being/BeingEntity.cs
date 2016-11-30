@@ -33,7 +33,8 @@ namespace SDK.Lib
 
         override public void onTick(float delta)
         {
-            
+            base.onTick(delta);
+            this.onLoop();
         }
 
         // 骨骼设置，骨骼不能更换
@@ -118,6 +119,8 @@ namespace SDK.Lib
             this.initRender();
             // 加载渲染器资源
             this.loadRenderRes();
+
+            this.Start();
         }
 
         //--------------------------------------
@@ -129,7 +132,7 @@ namespace SDK.Lib
         public uint m_swallownum = 0;//吞食数量
         public bool m_isOnGround;//=true代表在地上
 
-        public UnityEngine.GameObject m_object;
+        //public UnityEngine.GameObject m_object;
         public static float sAutoRiseRate;//最大滚动增长率,必须滚动才增长,静止不增长
                                           //雪球滚动增长率，速度小于sMaxVelocity时线性关系增长，超过后按照sAutoRiseRate增长
         public static float sMaxVelocity;
@@ -147,7 +150,8 @@ namespace SDK.Lib
         // 将物件添加到排序管理器
         public void Start()
         {
-            curPos = m_object.GetComponent<Transform>().position;
+            //curPos = m_object.GetComponent<Transform>().position;
+            curPos = this.transform().position;
             lastPos = curPos;
             //GameObjectManager.getInstance().setEntityByRadius(m_object.GetComponent<UnityEngine.Transform>().localScale.x, this);
         }
@@ -155,10 +159,13 @@ namespace SDK.Lib
         // 目前主要是增长重量的逻辑
         public void onLoop()
         {
-            m_radius = m_object.GetComponent<Transform>().localScale.x;
+            //m_radius = m_object.GetComponent<Transform>().localScale.x;
+            m_radius = this.transform().localScale.x;
 
-            float x_velocity = m_object.GetComponent<Rigidbody>().velocity.x;
-            float z_velocity = m_object.GetComponent<Rigidbody>().velocity.z;
+            //float x_velocity = m_object.GetComponent<Rigidbody>().velocity.x;
+            float x_velocity = this.getRigidbody().velocity.x;
+            //float z_velocity = m_object.GetComponent<Rigidbody>().velocity.z;
+            float z_velocity = this.getRigidbody().velocity.z;
 
             //if (!m_isRobot && (x_velocity != 0 || z_velocity != 0))
             //    log.logHelper.DebugLog(m_object.name + "  玩家xz平面速度     " + x_velocity + "    : " + z_velocity);
@@ -172,7 +179,7 @@ namespace SDK.Lib
                 if (x > 1) x = 1;
                 float cur_rise_rate = sAutoRiseRate * x;
                 //雪球自动增长
-                m_object.GetComponent<Transform>().localScale += new Vector3(cur_rise_rate, cur_rise_rate, cur_rise_rate);
+                this.transform().localScale += new Vector3(cur_rise_rate, cur_rise_rate, cur_rise_rate);
                 //GameObjectManager.getInstance().setEntityByRadius(m_object.GetComponent<Transform>().localScale.x, this);
             }
             else
@@ -211,36 +218,36 @@ namespace SDK.Lib
             this.m_name = name;
         }
 
-        public void setEntity(GameObject obj)
-        {
-            this.m_object = obj;
-        }
+        //public void setEntity(GameObject obj)
+        //{
+        //    //this.m_object = obj;
+        //}
 
-        void OnCollisionEnter(Collision collision)
-        {
-            if (collision.collider.CompareTag("Ground"))
-            {
-                //entity.m_isOnGround = true;
-            }
-        }
+        //void OnCollisionEnter(Collision collision)
+        //{
+        //    if (collision.collider.CompareTag("Ground"))
+        //    {
+        //        //entity.m_isOnGround = true;
+        //    }
+        //}
 
-        void OnCollisionStay(Collision collision)
-        {
-            if (collision.collider.CompareTag("Ground"))
-            {
-                //entity.m_isOnGround = true;
-            }
-        }
+        //void OnCollisionStay(Collision collision)
+        //{
+        //    if (collision.collider.CompareTag("Ground"))
+        //    {
+        //        //entity.m_isOnGround = true;
+        //    }
+        //}
 
-        void OnCollisionExit(Collision collision)
-        {
-            bool isGround = collision.collider.CompareTag("Ground");
-            //log.logHelper.DebugLog (entity.m_name +  "和" + collision.gameObject.name + "退出碰撞" + ",isground=" + isGround.ToString());
-            if (collision.collider.CompareTag("Ground"))
-            {
-                //entity.m_isOnGround = false;
-            }
-        }
+        //void OnCollisionExit(Collision collision)
+        //{
+        //    bool isGround = collision.collider.CompareTag("Ground");
+        //    //log.logHelper.DebugLog (entity.m_name +  "和" + collision.gameObject.name + "退出碰撞" + ",isground=" + isGround.ToString());
+        //    if (collision.collider.CompareTag("Ground"))
+        //    {
+        //        //entity.m_isOnGround = false;
+        //    }
+        //}
 
         //void Start()
         //{

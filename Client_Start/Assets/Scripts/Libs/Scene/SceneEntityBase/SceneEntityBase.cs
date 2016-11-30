@@ -3,7 +3,7 @@
 namespace SDK.Lib
 {
     /**
-     * @brief 场景中的实体，定义接口，默认的一些实现放在 BeingEntity 里面
+     * @brief 场景中的实体，定义接口，逻辑相关的一些实现放在 BeingEntity 里面
      */
     public class SceneEntityBase : GObject, IDelayHandleItem, IDispatchObject
     {
@@ -242,6 +242,16 @@ namespace SDK.Lib
         public EntityType getEntityType()
         {
             return this.mEntityType;
+        }
+
+        public UnityEngine.Rigidbody getRigidbody()
+        {
+            if (null != this.mRender)
+            {
+                return this.mRender.getRigidbody();
+            }
+
+            return null;
         }
     }
 }
