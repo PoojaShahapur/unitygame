@@ -208,6 +208,8 @@ namespace SDK.Lib
         {
             this.mIsPosDirty = true;
             this.mOriginal = original;
+
+            this.updateLocalTransform();
         }
 
         public void setRotation(Quaternion rotation)
@@ -237,10 +239,12 @@ namespace SDK.Lib
             {
                 if (this.mIsPosDirty)
                 {
+                    this.mIsPosDirty = false;
                     UtilApi.setPos(this.mSelfGo.transform, this.mOriginal);
                 }
                 if (this.mIsRotDirty)
                 {
+                    this.mIsRotDirty = false;
                     UtilApi.setRot(this.mSelfGo.transform, this.mRotation);
                 }
             }

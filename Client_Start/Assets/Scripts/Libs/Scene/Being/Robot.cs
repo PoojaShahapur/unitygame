@@ -12,6 +12,12 @@
             this.mAIControl = new RobotAIControl(this);
         }
 
+        override public void init()
+        {
+            base.init();
+            this.mAIControl.init();
+        }
+
         override public void onTick(float delta)
         {
             base.onTick(delta);

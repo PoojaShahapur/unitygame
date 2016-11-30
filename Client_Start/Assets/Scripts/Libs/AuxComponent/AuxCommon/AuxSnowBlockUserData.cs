@@ -22,12 +22,14 @@ namespace SDK.Lib
             BeingEntity bBeingEntity = bUserData.getUserData();
 
             //if (other.gameObject.CompareTag("SnowBall"))
-            if (bBeingEntity.getEntityType() == EntityType.eSnowBlock)
+            if (bBeingEntity.getEntityType() == EntityType.ePlayerMain ||
+                bBeingEntity.getEntityType() == EntityType.eRobot ||
+                bBeingEntity.getEntityType() == EntityType.eRobot)
             {
                 EatState state = EatState.Nothing_Happen;
 
                 //Food colSnow = other.gameObject.GetComponent<Food>() as Food;
-                SnowBlock colSnow = bBeingEntity as SnowBlock;
+                Player colSnow = bBeingEntity as Player;
                 //if (colSnow == null)//碰到的是机器人，机器人的碰撞是子物体检测，Food是挂载在父物体上的
                 //{
                 //    colSnow = other.gameObject.GetComponent<TriggerEnterEvent>().fatherObj.GetComponent<Food>() as Food;

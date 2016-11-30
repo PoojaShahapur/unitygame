@@ -17,19 +17,21 @@ namespace SDK.Lib
         void OnTriggerEnter(Collider other)
         {
             AuxSceneEntityUserData aUserData = this.GetComponent<AuxSceneEntityUserData>();
-            BeingEntity aBeingEntity = aUserData.getUserData();
+            Player aBeingEntity = aUserData.getUserData() as Player;
 
             //if (other.gameObject.CompareTag("SnowBall"))
             AuxSceneEntityUserData bUserData = other.gameObject.GetComponent<AuxSceneEntityUserData>();
             BeingEntity bBeingEntity = bUserData.getUserData();
             if (null != bBeingEntity)
             {
-                if (bBeingEntity.getEntityType() == EntityType.eSnowBlock)
+                if (bBeingEntity.getEntityType() == EntityType.ePlayerMain || 
+                    bBeingEntity.getEntityType() == EntityType.eRobot ||
+                    bBeingEntity.getEntityType() == EntityType.eSnowBlock)
                 {
                     EatState state = EatState.Nothing_Happen;
 
                     //Food colSnow = other.gameObject.GetComponent<Food>() as Food;
-                    SnowBlock colSnow = bBeingEntity as SnowBlock;
+                    Player colSnow = bBeingEntity as Player;
                     //if (colSnow == null)//碰到的是机器人，机器人的碰撞是子物体检测，Food是挂载在父物体上的
                     //{
                     //    colSnow = other.gameObject.GetComponent<TriggerEnterEvent>().fatherObj.GetComponent<Food>() as Food;
@@ -68,7 +70,8 @@ namespace SDK.Lib
                             aBeingEntity.transform().FindChild("Sphere").localScale = new Vector3(1f, 1f, 1f);
                             //GameObjectManager.getInstance().setEntityByRadius(newBallRadius, fatherObj.GetComponent<Food>().entity);
                             //log.logHelper.DebugLog("吃球,state=" + state + ",对方是否为机器人" + otherisRobot.ToString() + ",摧毁" + other.gameObject.name);
-                            GameObject.Destroy(other.gameObject);
+                            //GameObject.Destroy(other.gameObject);
+                            bBeingEntity.dispose();
                         }
                         else
                         {
@@ -106,7 +109,7 @@ namespace SDK.Lib
                         else
                         {
                             //++other.gameObject.GetComponent<Food>().entity.m_swallownum;
-                            ++bBeingEntity.m_swallownum;
+                            ++(bBeingEntity as Player).m_swallownum;
                             //GameObjectManager.getInstance().setEntityByRadius(newBallRadius, other.gameObject.GetComponent<Food>().entity);
                             //other.GetComponent<Transform>().localScale = new Vector3(newBallRadius, newBallRadius, newBallRadius);
                             bBeingEntity.transform().localScale = new Vector3(newBallRadius, newBallRadius, newBallRadius);
@@ -134,7 +137,7 @@ namespace SDK.Lib
         void OnCollisionStay(Collision collision)
         {
             AuxSceneEntityUserData aUserData = this.GetComponent<AuxSceneEntityUserData>();
-            BeingEntity aBeingEntity = aUserData.getUserData();
+            Player aBeingEntity = aUserData.getUserData() as Player;
 
             AuxSceneEntityUserData bUserData = collision.gameObject.GetComponent<AuxSceneEntityUserData>();
             //if (collision.collider.CompareTag("Ground"))
@@ -147,7 +150,7 @@ namespace SDK.Lib
         void OnCollisionExit(Collision collision)
         {
             AuxSceneEntityUserData aUserData = this.GetComponent<AuxSceneEntityUserData>();
-            BeingEntity aBeingEntity = aUserData.getUserData();
+            Player aBeingEntity = aUserData.getUserData() as Player;
 
             AuxSceneEntityUserData bUserData = collision.gameObject.GetComponent<AuxSceneEntityUserData>();
             //bool isGround = collision.collider.CompareTag("Ground");

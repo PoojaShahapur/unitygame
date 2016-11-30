@@ -37,6 +37,11 @@ namespace SDK.Lib
         override public void init()
         {
             //StartCoroutine(CreateSnowFood());
+            //Ctx.mInstance.mCoroutineMgr.StartCoroutine(CreateSnowFood());
+        }
+
+        public void createAllSnowFood()
+        {
             Ctx.mInstance.mCoroutineMgr.StartCoroutine(CreateSnowFood());
         }
 
@@ -46,6 +51,7 @@ namespace SDK.Lib
             while (_num < blockNum)
             {
                 CreateASnowBlock();
+                yield return 1;
                 ++_num;
             }
 

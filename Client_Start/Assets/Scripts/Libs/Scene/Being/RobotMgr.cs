@@ -53,6 +53,10 @@ namespace SDK.Lib
         {
             // 冒泡得到所有2个字的名字 11 * 10 = 110
             //InvokeRepeating("CreateSnowFood", startTime, createTime);
+        }
+
+        public void createAllRobot()
+        {
             // 启动定时器
             mStartTimer = new TimerItemBase();
             mStartTimer.mInternal = startTime;
