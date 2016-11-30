@@ -221,9 +221,14 @@ namespace SDK.Lib
             return this.selfGo.GetComponent<MeshFilter>().mesh.bounds;
         }
 
-        public void AddRelativeForce(Vector3 force, ForceMode mode)
+        public void AddRelativeForce(Vector3 force, ForceMode mode = ForceMode.Force)
         {
             this.selfGo.GetComponent<Rigidbody>().AddRelativeForce(force, mode);
+        }
+
+        public void AddForce(Vector3 force, ForceMode mode = ForceMode.Force)
+        {
+            this.selfGo.GetComponent<Rigidbody>().AddForce(force, mode);
         }
 
         public void updateLocalTransform()

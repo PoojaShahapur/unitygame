@@ -28,7 +28,7 @@
         override public void setTableID(int tableId)
         {
             base.setTableID(tableId);
-            //UtilApi.adjustEffectRST((m_render as EffectSpriteRender).spriteRender.selfGo.transform);
+            //UtilApi.adjustEffectRST((mRender as EffectSpriteRender).spriteRender.selfGo.transform);
         }
     }
 }

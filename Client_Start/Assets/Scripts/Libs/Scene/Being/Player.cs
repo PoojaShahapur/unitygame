@@ -45,13 +45,13 @@ namespace SDK.Lib
 
         override public void initRender()
         {
-            m_render = new PlayerRender(this);
-            m_render.init();
+            mRender = new PlayerRender(this);
+            mRender.init();
         }
 
         override public void loadRenderRes()
         {
-            m_render.load();
+            mRender.load();
         }
     }
 }

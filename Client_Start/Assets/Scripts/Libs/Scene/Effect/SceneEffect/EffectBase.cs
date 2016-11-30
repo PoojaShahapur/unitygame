@@ -12,15 +12,15 @@ namespace SDK.Lib
         {
             if (EffectRenderType.eSpriteEffectRender == renderType)
             {
-                m_render = new SpriteEffectRender(this);
+                mRender = new SpriteEffectRender(this);
             }
             else if (EffectRenderType.eShurikenEffectRender == renderType)
             {
-                m_render = new ShurikenEffectRender(this);
+                mRender = new ShurikenEffectRender(this);
             }
             else if (EffectRenderType.eFxEffectRender == renderType)
             {
-                m_render = new FxEffectRender(this);
+                mRender = new FxEffectRender(this);
             }
 
             m_playEndEventDispatch = new AddOnceAndCallOnceEventDispatch();
@@ -55,7 +55,7 @@ namespace SDK.Lib
         {
             get
             {
-                return m_render as EffectRenderBase;
+                return mRender as EffectRenderBase;
             }
         }
 
@@ -102,7 +102,7 @@ namespace SDK.Lib
 
         override public void onTick(float delta)
         {
-            m_render.onTick(delta);
+            mRender.onTick(delta);
         }
 
         // 添加特效播放结束处理

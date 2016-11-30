@@ -24,8 +24,8 @@
 
         override public void initRender()
         {
-            m_render = new RobotRender(this);
-            m_render.init();
+            mRender = new RobotRender(this);
+            mRender.init();
         }
     }
 }

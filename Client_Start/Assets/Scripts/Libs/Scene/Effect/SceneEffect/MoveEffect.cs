@@ -72,7 +72,7 @@ namespace SDK.Lib
         override public void setTableID(int tableId)
         {
             base.setTableID(tableId);
-            //UtilApi.adjustEffectRST((m_render as EffectSpriteRender).spriteRender.selfGo.transform);
+            //UtilApi.adjustEffectRST((mRender as EffectSpriteRender).spriteRender.selfGo.transform);
         }
 
         override public void play()
@@ -83,7 +83,7 @@ namespace SDK.Lib
 
         public void syncUpdate()        // 加载资源
         {
-            (m_render as SpriteEffectRender).spriteRender.syncUpdateCom();
+            (mRender as SpriteEffectRender).spriteRender.syncUpdateCom();
         }
 
         public override void dispose()

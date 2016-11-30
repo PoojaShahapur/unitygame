@@ -7,7 +7,7 @@ namespace SDK.Lib
      */
     public class SceneEntityBase : GObject, IDelayHandleItem, IDispatchObject
     {
-        protected EntityRenderBase m_render;
+        protected EntityRenderBase mRender;
         protected bool mIsClientDispose;        // 客户端已经释放这个对象，但是由于在遍历中，等着遍历结束再删除，所有多这个对象的操作都是无效的
         protected MVector3 mWorldPos;   // 世界空间
         protected uint mId;             // 唯一 Id
@@ -26,11 +26,11 @@ namespace SDK.Lib
         //{
         //    get
         //    {
-        //        return m_render;
+        //        return mRender;
         //    }
         //    set
         //    {
-        //        m_render = value;
+        //        mRender = value;
         //    }
         //}
 
@@ -53,34 +53,34 @@ namespace SDK.Lib
         // 释放的时候回调的接口
         virtual public void onDestroy()
         {
-            if (m_render != null)
+            if (mRender != null)
             {
-                m_render.dispose();
-                m_render = null;
+                mRender.dispose();
+                mRender = null;
             }
         }
 
         virtual public void show()
         {
-            if (m_render != null)
+            if (mRender != null)
             {
-                m_render.show();
+                mRender.show();
             }
         }
 
         virtual public void hide()
         {
-            if (m_render != null)
+            if (mRender != null)
             {
-                m_render.hide();
+                mRender.hide();
             }
         }
 
         virtual public bool IsVisible()
         {
-            if (m_render != null)
+            if (mRender != null)
             {
-                return m_render.IsVisible();
+                return mRender.IsVisible();
             }
 
             return true;
@@ -89,9 +89,9 @@ namespace SDK.Lib
         virtual public void setClientDispose()
         {
             mIsClientDispose = true;
-            if(m_render != null)
+            if(mRender != null)
             {
-                m_render.setClientDispose();
+                mRender.setClientDispose();
             }
         }
 
@@ -107,32 +107,32 @@ namespace SDK.Lib
 
         virtual public GameObject gameObject()
         {
-            return m_render.selfGo;
+            return mRender.selfGo;
         }
 
         virtual public void setGameObject(GameObject rhv)
         {
-            m_render.selfGo = rhv;
+            mRender.selfGo = rhv;
         }
 
         virtual public Transform transform()
         {
-            return m_render.transform();
+            return mRender.transform();
         }
 
         virtual public void setPnt(GameObject pntGO_)
         {
-            m_render.setPntGo(pntGO_);
+            mRender.setPntGo(pntGO_);
         }
 
         virtual public GameObject getPnt()
         {
-            return m_render.getPntGo();
+            return mRender.getPntGo();
         }
 
         virtual public bool checkRender()
         {
-            return m_render.checkRender();
+            return mRender.checkRender();
         }
 
         virtual public float getWorldPosX()
@@ -172,25 +172,25 @@ namespace SDK.Lib
 
         public void setOriginal(Vector3 original)
         {
-            if (null != m_render)
+            if (null != mRender)
             {
-                m_render.setOriginal(original);
+                mRender.setOriginal(original);
             }
         }
 
         public void setRotation(Quaternion rotation)
         {
-            if (null != m_render)
+            if (null != mRender)
             {
-                m_render.setRotation(rotation);
+                mRender.setRotation(rotation);
             }
         }
 
         public void setSelfName(string name)
         {
-            if (null != m_render)
+            if (null != mRender)
             {
-                m_render.setSelfName(name);
+                mRender.setSelfName(name);
             }
         }
 
@@ -198,19 +198,27 @@ namespace SDK.Lib
         {
             Bounds retBounds = new Bounds(Vector3.zero, Vector3.zero);
 
-            if (null != m_render)
+            if (null != mRender)
             {
-                retBounds = m_render.getBounds();
+                retBounds = mRender.getBounds();
             }
 
             return retBounds;
         }
 
-        public void AddRelativeForce(Vector3 force, ForceMode mode)
+        public void AddRelativeForce(Vector3 force, ForceMode mode = ForceMode.Force)
         {
-            if (null != m_render)
+            if (null != mRender)
             {
-                m_render.AddRelativeForce(force, mode);
+                mRender.AddRelativeForce(force, mode);
+            }
+        }
+
+        virtual public void AddForce(Vector3 force, ForceMode mode = ForceMode.Force)
+        {
+            if (null != this.mRender)
+            {
+                this.mRender.AddForce(force, mode);
             }
         }
 

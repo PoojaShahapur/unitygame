@@ -24,8 +24,8 @@
 
         override public void initRender()
         {
-            m_render = new SnowBlockRender(this);
-            m_render.init();
+            mRender = new SnowBlockRender(this);
+            mRender.init();
         }
     }
 }
