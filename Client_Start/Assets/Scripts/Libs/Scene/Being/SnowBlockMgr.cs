@@ -25,7 +25,7 @@ namespace SDK.Lib
         public float refreshTime = 3.0f;
         public float blockMass = 100.0f;//雪块质量
 
-        public static CreateSnowBlock Instance;
+        //public static CreateSnowBlock Instance;
         protected TimerItemBase mStartTimer;
 
         //void Awake()

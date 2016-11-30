@@ -42,13 +42,13 @@
         // 销毁流程
         override public void dispose()
         {
-            this.onDestroy();
+            base.dispose();
         }
 
         // 资源释放事件，仅仅是释放基本的资源，不修改销毁流程
-        virtual public void onDestroy()
+        override public void onDestroy()
         {
-
+            base.onDestroy();
         }
 
         virtual public bool checkRender()

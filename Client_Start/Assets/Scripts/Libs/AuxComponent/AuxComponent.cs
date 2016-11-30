@@ -32,9 +32,21 @@ namespace SDK.Lib
 
         virtual public void dispose()
         {
+            this.onDestroy();
+        }
+
+        virtual public void onDestroy()
+        {
             if (this.mIsNeedPlaceHolderGo && this.mPlaceHolderGo != null)
             {
                 UtilApi.Destroy(this.mPlaceHolderGo);
+                this.mPlaceHolderGo = null;
+            }
+
+            if(null != this.selfGo)
+            {
+                UtilApi.Destroy(this.mSelfGo);
+                this.mSelfGo = null;
             }
         }
 
@@ -53,7 +65,7 @@ namespace SDK.Lib
             {
                 bool isPntChange = isChange(this.mSelfGo, value);
                 this.mSelfGo = value;
-                if (isPntChange)
+                if (isPntChange && null != this.mSelfGo)
                 {
                     onSelfChanged();
                 }

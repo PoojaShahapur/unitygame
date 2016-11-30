@@ -29,7 +29,7 @@ namespace SDK.Lib
                     //if (other.gameObject.CompareTag("SnowBall"))
                     if (bBeingEntity.getEntityType() == EntityType.ePlayerMain ||
                         bBeingEntity.getEntityType() == EntityType.eRobot ||
-                        bBeingEntity.getEntityType() == EntityType.eRobot)
+                        bBeingEntity.getEntityType() == EntityType.eSnowBlock)
                     {
                         EatState state = EatState.Nothing_Happen;
 
@@ -53,7 +53,7 @@ namespace SDK.Lib
 
                         //计算缩放比率
                         //float newBallRadius = UtilLogic.getRadiusByMass(UtilLogic.getMassByRadius(colSnow.gameObject.GetComponent<Transform>().localScale.x) + CreateSnowBlock.Instance.blockMass);
-                        float newBallRadius = UtilLogic.getRadiusByMass(UtilLogic.getMassByRadius(colSnow.transform().localScale.x) + CreateSnowBlock.Instance.blockMass);
+                        float newBallRadius = UtilLogic.getRadiusByMass(UtilLogic.getMassByRadius(colSnow.transform().localScale.x) + Ctx.mInstance.mSnowBlockMgr.blockMass);
                         bool otherisRobot = colSnow.amIRobot();//对方是否机器人
 
                         if (EatState.Eaten_ByOther == state)//被吃掉
