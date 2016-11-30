@@ -84,6 +84,20 @@ namespace SDK.Lib
             mRender.init();
         }
 
+        public override void init()
+        {
+            base.init();
+
+            this.Start_layerMain();
+        }
+
+        public override void onTick(float delta)
+        {
+            base.onTick(delta);
+
+            this.FixedUpdate();
+        }
+
         //-------------------------------------------------------------
         //public GameObject PlayrPrefab;
         static public float xlimit_min = 100;
@@ -234,7 +248,8 @@ namespace SDK.Lib
         }
 
         //----------------------------------------------------------
-        public ControlType controlType = ControlType.GravitytouchControl;
+        //public ControlType controlType = ControlType.GravitytouchControl;
+        public ControlType controlType = ControlType.KeyBoardControl;
         public float horizontal_move = 0.0f;
         public float vertical_move = 0.0f;
 
@@ -249,7 +264,7 @@ namespace SDK.Lib
         public float forceSensitivity = 1.0f;//加速倾斜效果，使得倾斜分量迅速增加或减少
 
         // Use this for initialization
-        void Start()
+        protected void Start_layerMain()
         {
             double _speed = MoveSpeed_k / Mathf.Sqrt(this.transform().localScale.x) + MoveSpeed_b;
             MoveSpeed = (float)System.Math.Round(_speed, 3);
@@ -266,7 +281,7 @@ namespace SDK.Lib
         }
 
         // Update is called once per frame
-        void FixedUpdate()
+        protected void FixedUpdate()
         {
             //Edit -> Project Setting -> Input 里面定义以下数值
             if (!this.IsOnGround())
@@ -284,10 +299,10 @@ namespace SDK.Lib
                 horizontal_move = Input.GetAxis("Horizontal");
                 vertical_move = Input.GetAxis("Vertical");
                 //按住前向按钮
-                if (CreatePlayer._Instace.GetIsPressForwardForceBtn())
-                {
-                    vertical_move = -CreatePlayer._Instace.GetForwardForce();
-                }
+                //if (CreatePlayer._Instace.GetIsPressForwardForceBtn())
+                //{
+                //    vertical_move = -CreatePlayer._Instace.GetForwardForce();
+                //}
 
                 //if (horizontal_move != 0 || vertical_move != 0)
                 //    log.logHelper.DebugLog(this.name + "   Mass: " + this.GetComponent<Rigidbody>().mass + "   半径： " + this.GetComponent<Transform>().localScale.x + "   速度: " + this.GetComponent<Rigidbody>().velocity.magnitude + "   施加力: " + MoveSpeed);
@@ -321,10 +336,11 @@ namespace SDK.Lib
                 if (vertical_move > 1) vertical_move = 1;
 
                 //按住前向按钮，施加一个向前最大的力
-                if (CreatePlayer._Instace.GetIsPressForwardForceBtn())
-                {
-                    horizontal_move = CreatePlayer._Instace.GetForwardForce();
-                }
+                //if (CreatePlayer._Instace.GetIsPressForwardForceBtn())
+                //if (CreatePlayer._Instace.GetIsPressForwardForceBtn())
+                //{
+                //    horizontal_move = CreatePlayer._Instace.GetForwardForce();
+                //}
 
                 log.logHelper.DebugLog(CreatePlayer._Instace.GetForwardForce().ToString());
                 Vector3 force = new Vector3(vertical_move, 0, horizontal_move);

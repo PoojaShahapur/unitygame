@@ -25,7 +25,7 @@ namespace SDK.Lib
         {
             base.init();
 
-            this.Start();
+            this.Start_Player();
         }
 
         // 构造完成 Player 后，在初始化 PlayerRender
@@ -85,7 +85,7 @@ namespace SDK.Lib
         }
 
         // 将物件添加到排序管理器
-        public void Start()
+        public void Start_Player()
         {
             //curPos = m_object.GetComponent<Transform>().position;
             curPos = this.transform().position;

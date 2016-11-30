@@ -12,5 +12,13 @@
         {
             this.mResPath = "World/Model/SnowBlockTest.prefab";
         }
+
+        override protected void onSelfChanged()
+        {
+            base.onSelfChanged();
+
+            AuxSnowBlockUserData auxData = this.selfGo.AddComponent<AuxSnowBlockUserData>();
+            auxData.setUserData(this.mEntity);
+        }
     }
 }

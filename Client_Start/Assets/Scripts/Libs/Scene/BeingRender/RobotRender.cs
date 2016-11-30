@@ -12,5 +12,13 @@
         {
             this.mResPath = "World/Model/FoodTest.prefab";
         }
+
+        override protected void onSelfChanged()
+        {
+            base.onSelfChanged();
+
+            AuxRobotUserData auxData = this.selfGo.AddComponent<AuxRobotUserData>();
+            auxData.setUserData(this.mEntity);
+        }
     }
 }

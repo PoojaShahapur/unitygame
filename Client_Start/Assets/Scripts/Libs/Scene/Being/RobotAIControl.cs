@@ -41,7 +41,7 @@ namespace SDK.Lib
 
         public void onTick(float delta)
         {
-
+            this.Update();
         }
 
         // Update is called once per frame

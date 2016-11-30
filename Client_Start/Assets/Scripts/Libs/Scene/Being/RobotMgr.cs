@@ -73,8 +73,8 @@ namespace SDK.Lib
         protected void onStartTimerEnd(TimerItemBase timer)
         {
             mRepeatTimer = new TimerItemBase();
-            mRepeatTimer.mInternal = startTime;
-            mRepeatTimer.mTotalTime = startTime;
+            mRepeatTimer.mInternal = createTime;
+            mRepeatTimer.mIsInfineLoop = true;
             mRepeatTimer.mTimerDisp.setFuncObject(onRepeatTimerTick);
             Ctx.mInstance.mTimerMgr.addTimer(mRepeatTimer);
         }
@@ -128,6 +128,8 @@ namespace SDK.Lib
                 robot.transform().localScale = new UnityEngine.Vector3(scaleRate, scaleRate, scaleRate);//缩放
                 robot.SetIsRobot(true);
                 //robot.GetComponent<AI>().SetPlayer(CreatePlayer._Instace.player);
+                PlayerMain playerMain = Ctx.mInstance.mPlayerMgr.getHero();
+                robot.SetPlayer(playerMain);
                 robot.setSelfName(allNameArray[(int)foodsNum]);
                 //log.logHelper.DebugLog("CreateSnowFood" + food.name);
                 robot.m_charid = foodsNum + 1;
@@ -169,6 +171,8 @@ namespace SDK.Lib
                 robot.transform().localScale = new Vector3(scaleRate, scaleRate, scaleRate);//缩放
                 robot.SetIsRobot(true);
                 //robot.GetComponent<AI>().SetPlayer(CreatePlayer._Instace.player);
+                PlayerMain playerMain = Ctx.mInstance.mPlayerMgr.getHero();
+                robot.SetPlayer(playerMain);
                 robot.setSelfName(name);
                 //log.logHelper.DebugLog("创建物件名" + name);
                 robot.m_charid = charid;

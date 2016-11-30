@@ -3,7 +3,7 @@ using UnityEngine;
 namespace SDK.Lib
 {
 	/**
-	 * @brief 生物 
+	 * @brief 生物 Entity，有感知，可以交互的
 	 */
     public class BeingEntity : SceneEntityBase
     {

@@ -44,5 +44,13 @@
             mRender = new RobotRender(this);
             mRender.init();
         }
+
+        public void SetPlayer(PlayerMain player)
+        {
+            if(null != this.mAIControl)
+            {
+                this.mAIControl.SetPlayer(player);
+            }
+        }
     }
 }

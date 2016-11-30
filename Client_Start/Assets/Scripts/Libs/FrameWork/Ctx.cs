@@ -286,9 +286,9 @@
             //this.mTickMgr.addTick(this.mSceneEffectMgr as ITickedObject);
             //this.mTickMgr.addTick(m_aiSystem.aiControllerMgr as ITickedObject);
 
-            //mTickMgr.addTick(this.mPlayerMgr as ITickedObject, TickPriority.eTPPlayerMgr);
-            //mTickMgr.addTick(this.mSnowBlockMgr as ITickedObject, TickPriority.eTPSnowBlockMgr);
-            //mTickMgr.addTick(this.mRobotMgr as ITickedObject, TickPriority.eTPRobotMgr);
+            mTickMgr.addTick(this.mPlayerMgr as ITickedObject, TickPriority.eTPPlayerMgr);
+            mTickMgr.addTick(this.mSnowBlockMgr as ITickedObject, TickPriority.eTPSnowBlockMgr);
+            mTickMgr.addTick(this.mRobotMgr as ITickedObject, TickPriority.eTPRobotMgr);
         }
 
         public void init()
