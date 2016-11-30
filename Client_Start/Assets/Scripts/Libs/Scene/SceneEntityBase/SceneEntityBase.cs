@@ -8,16 +8,17 @@ namespace SDK.Lib
     public class SceneEntityBase : GObject, IDelayHandleItem, IDispatchObject
     {
         protected EntityRenderBase m_render;
-        protected bool m_bClientDispose;        // 客户端已经释放这个对象，但是由于在遍历中，等着遍历结束再删除，所有多这个对象的操作都是无效的
+        protected bool mIsClientDispose;        // 客户端已经释放这个对象，但是由于在遍历中，等着遍历结束再删除，所有多这个对象的操作都是无效的
         protected MVector3 mWorldPos;   // 世界空间
         protected uint mId;             // 唯一 Id
         protected Area mArea;           // 服务器区域
         protected MDistrict mDistrict;  // 裁剪区域
         protected bool mIsInSceneGraph; // 是否在场景图中，如果不在场景图中，肯定不可见，不管是否在可视范围内
+        protected EntityType mEntityType;   // Entity 类型
 
         public SceneEntityBase()
         {
-            m_bClientDispose = false;
+            mIsClientDispose = false;
             mIsInSceneGraph = true;
         }
 
@@ -87,7 +88,7 @@ namespace SDK.Lib
 
         virtual public void setClientDispose()
         {
-            m_bClientDispose = true;
+            mIsClientDispose = true;
             if(m_render != null)
             {
                 m_render.setClientDispose();
@@ -96,7 +97,7 @@ namespace SDK.Lib
 
         virtual public bool isClientDispose()
         {
-            return m_bClientDispose;
+            return mIsClientDispose;
         }
 
         virtual public void onTick(float delta)
@@ -228,6 +229,11 @@ namespace SDK.Lib
         virtual public void loadRenderRes()
         {
 
+        }
+
+        public EntityType getEntityType()
+        {
+            return this.mEntityType;
         }
     }
 }

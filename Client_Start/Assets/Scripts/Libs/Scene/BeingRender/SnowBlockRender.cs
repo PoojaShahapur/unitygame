@@ -7,5 +7,10 @@
         {
 
         }
+
+        override public void onInit()
+        {
+            this.mResPath = "World/Model/SnowBlockTest.prefab";
+        }
     }
 }

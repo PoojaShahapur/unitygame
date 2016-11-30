@@ -34,7 +34,7 @@ namespace SDK.Lib
         //}
 
         // Use this for initialization
-        void Start()
+        override public void init()
         {
             //StartCoroutine(CreateSnowFood());
             Ctx.mInstance.mCoroutineMgr.StartCoroutine(CreateSnowFood());

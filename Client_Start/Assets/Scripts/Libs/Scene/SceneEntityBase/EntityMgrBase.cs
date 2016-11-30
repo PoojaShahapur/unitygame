@@ -14,6 +14,16 @@ namespace SDK.Lib
             mBufferPool = new MList<SceneEntityBase>();
         }
 
+        virtual public void init()
+        {
+
+        }
+
+        virtual public void dispose()
+        {
+
+        }
+
         override protected void addObject(IDelayHandleItem entity, float priority = 0.0f)
         {
             if (bInDepth())

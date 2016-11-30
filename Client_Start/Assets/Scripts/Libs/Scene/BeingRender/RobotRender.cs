@@ -7,5 +7,10 @@
         {
 
         }
+
+        override public void onInit()
+        {
+            this.mResPath = "World/Model/FoodTest.prefab";
+        }
     }
 }

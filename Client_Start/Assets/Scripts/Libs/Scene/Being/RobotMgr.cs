@@ -49,7 +49,7 @@ namespace SDK.Lib
         //}
 
         // Use this for initialization
-        void Start()
+        override public void init()
         {
             // 冒泡得到所有2个字的名字 11 * 10 = 110
             //InvokeRepeating("CreateSnowFood", startTime, createTime);

@@ -152,7 +152,8 @@ namespace SDK.Lib
         // 自己发生改变
         virtual protected void onSelfChanged()
         {
-            linkSelf2Parent();
+            this.linkSelf2Parent();
+            this.updateLocalTransform();
         }
 
         public void linkPlaceHolder2Parent()
@@ -169,14 +170,6 @@ namespace SDK.Lib
             if (this.mSelfGo != null && this.mPntGo != null)   // 现在可能还没有创建
             {
                 UtilApi.SetParent(this.mSelfGo, mPntGo, false);
-                if(this.mIsPosDirty)
-                {
-                    UtilApi.setPos(this.mSelfGo.transform, this.mOriginal);
-                }
-                if (this.mIsRotDirty)
-                {
-                    UtilApi.setRot(this.mSelfGo.transform, this.mRotation);
-                }
             }
         }
 
@@ -231,6 +224,21 @@ namespace SDK.Lib
         public void AddRelativeForce(Vector3 force, ForceMode mode)
         {
             this.selfGo.GetComponent<Rigidbody>().AddRelativeForce(force, mode);
+        }
+
+        public void updateLocalTransform()
+        {
+            if (null != this.mSelfGo)
+            {
+                if (this.mIsPosDirty)
+                {
+                    UtilApi.setPos(this.mSelfGo.transform, this.mOriginal);
+                }
+                if (this.mIsRotDirty)
+                {
+                    UtilApi.setRot(this.mSelfGo.transform, this.mRotation);
+                }
+            }
         }
     }
 }

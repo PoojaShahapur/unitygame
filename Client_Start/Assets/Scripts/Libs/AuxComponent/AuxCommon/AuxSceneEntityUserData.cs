@@ -5,6 +5,16 @@
      */
     public class AuxSceneEntityUserData : AuxUserData
     {
+        private BeingEntity mUserData;
 
+        public BeingEntity getUserData()
+        {
+            return mUserData;
+        }
+
+        public void setUserData(BeingEntity value)
+        {
+            mUserData = value;
+        }
     }
 }

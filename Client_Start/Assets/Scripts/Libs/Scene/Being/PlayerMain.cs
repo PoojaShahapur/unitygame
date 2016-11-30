@@ -10,6 +10,7 @@ namespace SDK.Lib
 		public PlayerMain()
 		{
             mTypeId = "PlayerMain";
+            this.mEntityType = EntityType.ePlayerMain;
         }
 
         public override void onSkeletonLoaded()

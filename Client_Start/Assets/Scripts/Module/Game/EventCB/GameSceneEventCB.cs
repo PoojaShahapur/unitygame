@@ -18,6 +18,11 @@ namespace Game.Game
             Ctx.mInstance.mCamSys.setMainCamera(cam.GetComponent<Camera>());
             // 创建主角
             Ctx.mInstance.mPlayerMgr.createPlayer();
+            // 创建机器人
+            //Ctx.mInstance.mRobotMgr.CreateSnowFood();
+            // 创建 SnowBall
+            Ctx.mInstance.mSnowBlockMgr.CreateASnowBlock();
+
             runTest();
         }
 
