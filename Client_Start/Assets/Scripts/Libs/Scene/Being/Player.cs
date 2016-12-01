@@ -44,7 +44,7 @@ namespace SDK.Lib
         {
             base.autoHandle();
 
-            Ctx.mInstance.mPlayerMgr.addEntity(this);
+            //Ctx.mInstance.mPlayerMgr.addEntity(this);
         }
 
         override public void initRender()

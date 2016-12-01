@@ -19,18 +19,27 @@
             this.mResPath = path;
         }
 
+        override public void onDestroy()
+        {
+            if(null != this.mAuxPrefabLoader)
+            {
+                mAuxPrefabLoader.dispose();
+            }
+
+            base.onDestroy();
+        }
+
         // 资源加载
         override public void load()
         {
             if(null == this.mAuxPrefabLoader)
             {
                 this.mAuxPrefabLoader = new AuxPrefabLoader("", true, false);
+                this.mAuxPrefabLoader.setDestroySelf(false); // 自己释放 GmmeObject
             }
 
             this.mAuxPrefabLoader.syncLoad(mResPath);
             this.selfGo = this.mAuxPrefabLoader.getGameObject();
-
-            this.onSelfChanged();
         }
     }
 }

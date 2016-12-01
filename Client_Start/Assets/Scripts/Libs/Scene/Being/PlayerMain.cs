@@ -99,6 +99,13 @@ namespace SDK.Lib
             Ctx.mInstance.mPlayerMgr.removeEntity(this);
         }
 
+        override public void autoHandle()
+        {
+            base.autoHandle();
+
+            Ctx.mInstance.mPlayerMgr.addEntity(this);
+        }
+
         public override void onTick(float delta)
         {
             base.onTick(delta);

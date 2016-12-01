@@ -25,7 +25,7 @@ namespace SDK.Lib
         public float small_Min_Radius = 0.5f;
         public float small_Max_Radius = 1.5f;
 
-        public int big_Max_Num = 0;
+        public int big_Max_Num = 2;
         public float big_Min_Radius = 3.0f;
         public float big_Max_Radius = 5.0f;
 
