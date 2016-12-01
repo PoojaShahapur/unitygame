@@ -2,15 +2,24 @@ using UnityEngine;
 
 namespace SDK.Lib
 {
-	/**
+    //操作方式
+    public enum ControlType
+    {
+        KeyBoardControl,
+        GravitytouchControl,
+    }
+
+    /**
 	 * @brief 主角
 	 */
     public class PlayerMain : Player
 	{
 		public PlayerMain()
 		{
-            mTypeId = "PlayerMain";
+            this.mTypeId = "PlayerMain";
             this.mEntityType = EntityType.ePlayerMain;
+            this.mEntityUniqueId = Ctx.mInstance.mPlayerMgr.genNewStrId();
+
             m_canEatRate = 10.0f;
         }
 
@@ -123,7 +132,7 @@ namespace SDK.Lib
 
         public string playerName = "雪球";
 
-        public static CreatePlayer _Instace;
+        //public static CreatePlayer _Instace;
         //public GameObject player;
         //public List<ChildrenItemInfo> childrenList = new List<ChildrenItemInfo>();
 
@@ -357,7 +366,7 @@ namespace SDK.Lib
                 //    horizontal_move = CreatePlayer._Instace.GetForwardForce();
                 //}
 
-                log.logHelper.DebugLog(CreatePlayer._Instace.GetForwardForce().ToString());
+                Ctx.mInstance.mLogSys.log(this.GetForwardForce().ToString());
                 Vector3 force = new Vector3(vertical_move, 0, horizontal_move);
                 //var transform = this.GetComponent<Transform>();
 

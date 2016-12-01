@@ -111,6 +111,7 @@
         public MKBEMainEntry mMKBEMainEntry;        // KBEngine 相关处理
         public SnowBlockMgr mSnowBlockMgr;
         public RobotMgr mRobotMgr;
+        public FrameCollideMgr mFrameCollideMgr;
 
         public Ctx()
         {
@@ -237,16 +238,17 @@
             this.mSceneEffectMgr = new SceneEffectMgr();
 
             this.mSceneManager = new MOctreeSceneManager("DummyScene");
-            mCoroutineTaskMgr = new CoroutineTaskMgr();
-            mSceneNodeGraph = new SceneNodeGraph();
-            mTerrainEntityMgr = new TerrainEntityMgr();
+            this.mCoroutineTaskMgr = new CoroutineTaskMgr();
+            this.mSceneNodeGraph = new SceneNodeGraph();
+            this.mTerrainEntityMgr = new TerrainEntityMgr();
 
-            mResRedirect = new ResRedirect();
-            mDownloadMgr = new DownloadMgr();
+            this.mResRedirect = new ResRedirect();
+            this.mDownloadMgr = new DownloadMgr();
 
-            mMKBEMainEntry = new MKBEMainEntry();
-            mSnowBlockMgr = new SnowBlockMgr();
-            mRobotMgr = new RobotMgr();
+            this.mMKBEMainEntry = new MKBEMainEntry();
+            this.mSnowBlockMgr = new SnowBlockMgr();
+            this.mRobotMgr = new RobotMgr();
+            this.mFrameCollideMgr = new FrameCollideMgr();
         }
 
         public void logicInit()
@@ -279,6 +281,8 @@
             this.mSnowBlockMgr.init();
             this.mRobotMgr.init();
 
+            this.mFrameCollideMgr.init();
+
             //this.mTickMgr.addTick(mMonsterMgr as ITickedObject);
             //this.mTickMgr.addTick(mFObjectMgr as ITickedObject);
             //this.mTickMgr.addTick(mNpcMgr as ITickedObject);
@@ -286,9 +290,9 @@
             //this.mTickMgr.addTick(this.mSceneEffectMgr as ITickedObject);
             //this.mTickMgr.addTick(m_aiSystem.aiControllerMgr as ITickedObject);
 
-            mTickMgr.addTick(this.mPlayerMgr as ITickedObject, TickPriority.eTPPlayerMgr);
-            mTickMgr.addTick(this.mSnowBlockMgr as ITickedObject, TickPriority.eTPSnowBlockMgr);
-            mTickMgr.addTick(this.mRobotMgr as ITickedObject, TickPriority.eTPRobotMgr);
+            this.mTickMgr.addTick(this.mPlayerMgr as ITickedObject, TickPriority.eTPPlayerMgr);
+            this.mTickMgr.addTick(this.mSnowBlockMgr as ITickedObject, TickPriority.eTPSnowBlockMgr);
+            this.mTickMgr.addTick(this.mRobotMgr as ITickedObject, TickPriority.eTPRobotMgr);
         }
 
         public void init()

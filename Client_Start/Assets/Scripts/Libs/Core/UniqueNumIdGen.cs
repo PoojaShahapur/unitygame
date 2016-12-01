@@ -5,7 +5,7 @@
         protected uint mPreIdx;
         protected uint mCurId;
 
-        public UniqueNumIdGen(uint uniqueId)
+        public UniqueNumIdGen(uint baseUniqueId)
         {
             mCurId = 0;
         }

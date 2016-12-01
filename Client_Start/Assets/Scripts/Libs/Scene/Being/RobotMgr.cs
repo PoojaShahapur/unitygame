@@ -2,11 +2,38 @@
 
 namespace SDK.Lib
 {
+    static class RandomExtensions
+    {
+        public static void Shuffle<T>(this System.Random rng, T[] array)
+        {
+            int n = array.Length;
+            while (n > 1)
+            {
+                int k = rng.Next(n--);
+                T temp = array[n];
+                array[n] = array[k];
+                array[k] = temp;
+            }
+        }
+    }
+
+    public class CreateParam
+    {
+        public string name;
+        public uint charid;
+
+        public CreateParam(string n, uint i)
+        {
+            name = n;
+            charid = i;
+        }
+    }
+
     public class RobotMgr : EntityMgrBase
     {
         public RobotMgr()
         {
-
+            mUniqueStrIdGen = new UniqueStrIdGen("RT", 0);
         }
 
         override protected void onTickExec(float delta)
@@ -34,7 +61,7 @@ namespace SDK.Lib
         public float startTime = 1.0f;//开始startTime时长后开始产生
         public float createTime = 1.0f;//雪球产生间隔
 
-        public static CreateRobot Instance;
+        //public static CreateRobot Instance;
         private bool createFinish = false;
         public MList<CreateParam> toBeCreateNames = new MList<CreateParam>();
         //public GameObject player;//玩家
@@ -203,8 +230,8 @@ namespace SDK.Lib
             for (int i = 0; i < this.toBeCreateNames.Count(); ++i)
             {
                 this.CreateSnowFoodWithNameCharID(
-                    CreateRobot.Instance.toBeCreateNames[i].name
-                    , CreateRobot.Instance.toBeCreateNames[i].charid);
+                    this.toBeCreateNames[i].name
+                    , this.toBeCreateNames[i].charid);
             }
             this.toBeCreateNames.Clear();
         }

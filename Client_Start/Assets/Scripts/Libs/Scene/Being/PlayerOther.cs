@@ -8,6 +8,8 @@ namespace SDK.Lib
 		public PlayerOther()
 		{
             mTypeId = "PlayerOther";
+            this.mEntityType = EntityType.ePlayerOther;
+            this.mEntityUniqueId = Ctx.mInstance.mPlayerMgr.genNewStrId();
         }
 	}
 }

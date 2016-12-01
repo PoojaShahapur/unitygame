@@ -7,6 +7,7 @@ namespace SDK.Lib
         protected MList<SceneEntityBase> m_sceneEntityList;
         protected Dictionary<uint, SceneEntityBase> mId2EntityDic;
         protected MList<SceneEntityBase> mBufferPool;
+        protected UniqueStrIdGen mUniqueStrIdGen;
 
         public EntityMgrBase()
         {
@@ -119,6 +120,11 @@ namespace SDK.Lib
             }
 
             return entity;
+        }
+
+        public string genNewStrId()
+        {
+            return mUniqueStrIdGen.genNewStrId();
         }
     }
 }

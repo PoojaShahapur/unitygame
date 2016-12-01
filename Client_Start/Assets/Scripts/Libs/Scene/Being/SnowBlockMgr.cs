@@ -6,7 +6,7 @@ namespace SDK.Lib
     {
         public SnowBlockMgr()
         {
-
+            mUniqueStrIdGen = new UniqueStrIdGen("SM", 0);
         }
 
         override protected void onTickExec(float delta)

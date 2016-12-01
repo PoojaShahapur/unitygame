@@ -15,6 +15,7 @@ namespace SDK.Lib
         protected MDistrict mDistrict;  // 裁剪区域
         protected bool mIsInSceneGraph; // 是否在场景图中，如果不在场景图中，肯定不可见，不管是否在可视范围内
         protected EntityType mEntityType;   // Entity 类型
+        protected string mEntityUniqueId;   // Entity 唯一 Id
 
         public SceneEntityBase()
         {
@@ -257,6 +258,11 @@ namespace SDK.Lib
             }
 
             return null;
+        }
+
+        public string getEntityUniqueId()
+        {
+            return this.mEntityUniqueId;
         }
     }
 }

@@ -9,8 +9,8 @@ namespace SDK.Lib
 
         public PlayerMgr()
 		{
-
-		}
+            mUniqueStrIdGen = new UniqueStrIdGen("PL", 0);
+        }
 
         override protected void onTickExec(float delta)
         {

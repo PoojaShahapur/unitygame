@@ -8,6 +8,7 @@
         {
             mTypeId = "Robot";
             this.mEntityType = EntityType.eRobot;
+            this.mEntityUniqueId = Ctx.mInstance.mRobotMgr.genNewStrId();
 
             this.mAIControl = new RobotAIControl(this);
         }

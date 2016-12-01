@@ -160,7 +160,7 @@ namespace SDK.Lib
 
                 float cur_distance_Y = this.distance_Y * radius;
 
-                log.logHelper.DebugLog("radius: " + radius + "      Z: " + cur_distance_Z + "       Y: " + cur_distance_Y + "   lim1: " + limit_radius_value);
+                Ctx.mInstance.mLogSys.log("radius: " + radius + "      Z: " + cur_distance_Z + "       Y: " + cur_distance_Y + "   lim1: " + limit_radius_value);
                 //从目标物体处，到当前脚本所依附的对象（主相机）发射一个射线，如果中间有物体阻隔，则更改this.distance（这样做的目的是为了不被挡住）  
                 /*RaycastHit hitInfo = new RaycastHit();
                 if (Physics.Linecast(this.target.position, this.transform.position, out hitInfo, this.CollisionLayerMask))

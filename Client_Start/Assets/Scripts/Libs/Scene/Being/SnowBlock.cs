@@ -6,6 +6,7 @@
         {
             mTypeId = "SnowBlock";
             this.mEntityType = EntityType.eSnowBlock;
+            this.mEntityUniqueId = Ctx.mInstance.mSnowBlockMgr.genNewStrId();
         }
 
         override public void dispose()
