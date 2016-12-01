@@ -2,15 +2,39 @@
 
 namespace SDK.Lib
 {
-    public class Scene : IDispatchObject
+    public class Scene : IDispatchObject, ITickedObject
     {
         protected SceneCfg mSceneCfg;
         protected string mFile;
         protected MTerrain mTerrain;            // 地形
+        protected MWorld_KBE mWorld_KBE;
 
         public Scene()
         {
             mSceneCfg = new SceneCfg();
+            mWorld_KBE = new MWorld_KBE();
+        }
+
+        public void init()
+        {
+            this.mWorld_KBE.init();
+        }
+
+        public void dispose()
+        {
+            if(null != this.mWorld_KBE)
+            {
+                this.mWorld_KBE.dispose();
+                this.mWorld_KBE = null;
+            }
+        }
+
+        public void onTick(float delta)
+        {
+            if (null != this.mWorld_KBE)
+            {
+                this.mWorld_KBE.onTick(delta);
+            }
         }
 
         public SceneCfg sceneCfg

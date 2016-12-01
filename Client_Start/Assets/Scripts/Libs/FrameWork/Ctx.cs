@@ -108,7 +108,7 @@
 
         public ResRedirect mResRedirect;            // 重定向
         public DownloadMgr mDownloadMgr;            // 下载管理器
-        public MKBEMainEntry mMKBEMainEntry;        // KBEngine 相关处理
+        public clientapp mClientApp;        // KBEngine 相关处理
         public SnowBlockMgr mSnowBlockMgr;
         public RobotMgr mRobotMgr;
         public FrameCollideMgr mFrameCollideMgr;
@@ -245,7 +245,6 @@
             this.mResRedirect = new ResRedirect();
             this.mDownloadMgr = new DownloadMgr();
 
-            this.mMKBEMainEntry = new MKBEMainEntry();
             this.mSnowBlockMgr = new SnowBlockMgr();
             this.mRobotMgr = new RobotMgr();
             this.mFrameCollideMgr = new FrameCollideMgr();
@@ -277,11 +276,11 @@
             this.mLuaSystem.init();
             this.mUiMgr.init();
 
-            this.mMKBEMainEntry.init();
             this.mSnowBlockMgr.init();
             this.mRobotMgr.init();
 
             this.mFrameCollideMgr.init();
+            this.mSceneSys.init();
 
             //this.mTickMgr.addTick(mMonsterMgr as ITickedObject);
             //this.mTickMgr.addTick(mFObjectMgr as ITickedObject);
@@ -293,6 +292,7 @@
             this.mTickMgr.addTick(this.mPlayerMgr as ITickedObject, TickPriority.eTPPlayerMgr);
             this.mTickMgr.addTick(this.mSnowBlockMgr as ITickedObject, TickPriority.eTPSnowBlockMgr);
             this.mTickMgr.addTick(this.mRobotMgr as ITickedObject, TickPriority.eTPRobotMgr);
+            this.mTickMgr.addTick(this.mSceneSys as ITickedObject, TickPriority.eTPSceneSys);
         }
 
         public void init()
@@ -305,6 +305,8 @@
             logicInit();
             // Unity 编辑器设置的基本数据
             initBasicCfg();
+            // 添加 KBEngine组件
+            this.mClientApp = this.mLayerMgr.m_path2Go[NotDestroyPath.ND_CV_Root].AddComponent<clientapp>();
         }
 
         public void setNoDestroyObject()

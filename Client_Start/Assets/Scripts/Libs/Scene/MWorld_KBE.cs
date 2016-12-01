@@ -16,23 +16,36 @@ public class MWorld_KBE
     protected AuxPrefabLoader mAuxEntityLoader;
     protected AuxPrefabLoader mAuxAvatarLoader;
 
-    public void Start()
+    public MWorld_KBE()
+    {
+
+    }
+
+    public void init()
     {
         this.loadPrefab();
         installEvents();
     }
 
+    public void onTick(float delta)
+    {
+        this.Update();
+    }
+
     protected void loadPrefab()
     {
         mAuxTerrainLoader = new AuxPrefabLoader("", false, false);
+        mAuxTerrainLoader.setDestroySelf(false);
         mAuxTerrainLoader.syncLoad("terrain.prefab");
         this.terrainPerfab = mAuxTerrainLoader.getPrefabTmpl();
 
         mAuxEntityLoader = new AuxPrefabLoader("", false, false);
+        mAuxEntityLoader.setDestroySelf(false);
         mAuxEntityLoader.syncLoad("entity.prefab");
         this.entityPerfab = mAuxEntityLoader.getPrefabTmpl();
 
         mAuxAvatarLoader = new AuxPrefabLoader("", false, false);
+        mAuxAvatarLoader.setDestroySelf(false);
         mAuxAvatarLoader.syncLoad("player.prefab");
         this.avatarPerfab = mAuxAvatarLoader.getPrefabTmpl();
     }
@@ -63,9 +76,27 @@ public class MWorld_KBE
         KBEngine.Event.registerOut("onAddSkill", this, "onAddSkill");
     }
 
-    void dispose()
+    public void dispose()
     {
         KBEngine.Event.deregisterOut(this);
+
+        if(null != this.mAuxTerrainLoader)
+        {
+            this.mAuxTerrainLoader.dispose();
+            this.mAuxTerrainLoader = null;
+        }
+
+        if (null != this.mAuxEntityLoader)
+        {
+            this.mAuxEntityLoader.dispose();
+            this.mAuxEntityLoader = null;
+        }
+
+        if (null != this.mAuxAvatarLoader)
+        {
+            this.mAuxAvatarLoader.dispose();
+            this.mAuxAvatarLoader = null;
+        }
     }
 
     public void Update()

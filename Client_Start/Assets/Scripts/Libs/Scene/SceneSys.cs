@@ -3,30 +3,58 @@
     /**
      * @brief 同一时刻只能有一个场景存在
      */
-    public class SceneSys
+    public class SceneSys : ITickedObject, IDelayHandleItem
     {
         protected AddOnceAndCallOnceEventDispatch mOnSceneLoadedDisp;
 
-        protected SceneParse m_sceneParse;
-        protected Scene m_scene;
+        protected SceneParse mSceneParse;
+        protected Scene mScene;
         protected AuxLevelLoader mAuxLevelLoader;
 
         public SceneSys()
         {
-            m_sceneParse = new SceneParse();
+            mSceneParse = new SceneParse();
             mOnSceneLoadedDisp = new AddOnceAndCallOnceEventDispatch();
             mAuxLevelLoader = new AuxLevelLoader();
+        }
+
+        public void init()
+        {
+
+        }
+
+        public void dispose()
+        {
+
+        }
+
+        public void onTick(float delta)
+        {
+            if(null != this.mScene)
+            {
+                this.mScene.onTick(delta);
+            }
+        }
+
+        public void setClientDispose()
+        {
+
+        }
+
+        public bool isClientDispose()
+        {
+            return false;
         }
 
         public Scene scene
         {
             get
             {
-                return m_scene;
+                return mScene;
             }
             set
             {
-                m_scene = value;
+                mScene = value;
             }
         }
 
@@ -36,8 +64,8 @@
             unloadScene();
 
             // 加载新的场景
-            m_scene = new Scene();
-            m_scene.file = Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathScene] + filename;
+            mScene = new Scene();
+            mScene.file = Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathScene] + filename;
             if(func != null)
             {
                 mOnSceneLoadedDisp.addEventHandle(null, func);
@@ -48,9 +76,15 @@
 
         protected void unloadScene()
         {
-            if(null != m_scene)
+            if(null != mScene)
+            {
+                mScene.dispose();
+                mScene = null;
+            }
+            if(null != mAuxLevelLoader)
             {
                 mAuxLevelLoader.unload();
+                mAuxLevelLoader = null;
             }
         }
 
@@ -66,9 +100,9 @@
         protected void onSceneCfgLoadded(IDispatchObject dispObj)
         {
             ResItem res = dispObj as ResItem;
-            m_sceneParse.sceneCfg = m_scene.sceneCfg;
-            string text = res.getText(m_scene.file);
-            m_sceneParse.parse(text);
+            mSceneParse.sceneCfg = mScene.sceneCfg;
+            string text = res.getText(mScene.file);
+            mSceneParse.parse(text);
         }
 
         public void loadSceneRes(string filename)
@@ -81,11 +115,13 @@
         public void onSceneResLoadded(IDispatchObject dispObj)
         {
             //ResItem res = dispObj as ResItem;
-            mOnSceneLoadedDisp.dispatchEvent(m_scene);
+            mOnSceneLoadedDisp.dispatchEvent(mScene);
 
             Ctx.mInstance.mNetCmdNotify.isStopNetHandle = false;        // 加载场景完成需要处理处理消息
 
             mAuxLevelLoader.unload();
+
+            mScene.init();
         }
 
         // 卸载多有的场景
@@ -97,22 +133,22 @@
         // 创建当前场景对应的地图
         public void createTerrain()
         {
-            if(m_scene != null)
+            if(mScene != null)
             {
-                m_scene.createTerrain();
+                mScene.createTerrain();
             }
         }
 
         public void updateClip()
         {
-            m_scene.updateClip();
+            mScene.updateClip();
         }
 
         public float getHeightAt(float x, float z)
         {
-            if (m_scene != null)
+            if (mScene != null)
             {
-                return m_scene.getHeightAt(x, z);
+                return mScene.getHeightAt(x, z);
             }
 
             return 0;

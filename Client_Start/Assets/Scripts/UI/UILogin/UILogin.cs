@@ -1,4 +1,5 @@
-﻿using SDK.Lib;
+﻿using Game.Login;
+using SDK.Lib;
 using UnityEngine;
 
 namespace Game.UI
@@ -90,11 +91,22 @@ namespace Game.UI
                 {
                     if (!MacroDef.DEBUG_NOTNET)
                     {
-                        if (Ctx.mInstance.mLoginSys.getLoginState() != LoginState.eLoginNone)        // 先关闭之前的 socket
+                        //if (Ctx.mInstance.mLoginSys.getLoginState() != LoginState.eLoginNone)        // 先关闭之前的 socket
+                        //{
+                        //    Ctx.mInstance.mNetMgr.closeSocket(Ctx.mInstance.mCfg.mIp, Ctx.mInstance.mCfg.mPort);
+                        //}
+                        //Ctx.mInstance.mLoginSys.connectLoginServer(lblName.text, lblPassWord.text, selectEnterMode);
+
+                        (Ctx.mInstance.mLoginSys as LoginSys).mLoginNetHandleCB_KBE.setAccountAndPasswd(lblName.text, lblPassWord.text);
+
+                        if (SelectEnterMode.eLoginAccount == selectEnterMode)
                         {
-                            Ctx.mInstance.mNetMgr.closeSocket(Ctx.mInstance.mCfg.mIp, Ctx.mInstance.mCfg.mPort);
+                            (Ctx.mInstance.mLoginSys as LoginSys).mLoginNetHandleCB_KBE.login();
                         }
-                        Ctx.mInstance.mLoginSys.connectLoginServer(lblName.text, lblPassWord.text, selectEnterMode);
+                        else if(SelectEnterMode.eCreateAccount == selectEnterMode)
+                        {
+                            (Ctx.mInstance.mLoginSys as LoginSys).mLoginNetHandleCB_KBE.createAccount();
+                        }
                     }
                     else
                     {

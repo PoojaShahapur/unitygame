@@ -35,14 +35,14 @@
             //}
 
             // 填充数据到 KBEngine ，使用 KBEngine 引擎的逻辑解析
-            if (!Ctx.mInstance.mNetCmdNotify.isStopNetHandle)
-            {
-                ByteBuffer ret = null;
-                while ((ret = Ctx.mInstance.mNetMgr.getMsg_KBE()) != null)
-                {
-                    Ctx.mInstance.mMKBEMainEntry.gameapp.pushBuffer(ret.dynBuffer.buffer, ret.dynBuffer.size);
-                }
-            }
+            //if (!Ctx.mInstance.mNetCmdNotify.isStopNetHandle)
+            //{
+            //    ByteBuffer ret = null;
+            //    while ((ret = Ctx.mInstance.mNetMgr.getMsg_KBE()) != null)
+            //    {
+            //        Ctx.mInstance.mMKBEMainEntry.gameapp.pushBuffer(ret.dynBuffer.buffer, ret.dynBuffer.size);
+            //    }
+            //}
 
             // KBEngine 引擎逻辑处理
             //Ctx.mInstance.mMKBEMainEntry.FixedUpdate();
