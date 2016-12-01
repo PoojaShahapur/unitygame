@@ -117,7 +117,12 @@ namespace SDK.Lib
 
         virtual public Transform transform()
         {
-            return mRender.transform();
+            if (null != mRender)
+            {
+                return mRender.transform();
+            }
+
+            return null;
         }
 
         virtual public void setPnt(GameObject pntGO_)

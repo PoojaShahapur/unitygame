@@ -17,7 +17,12 @@
         {
             base.onSelfChanged();
 
-            AuxRobotUserData auxData = this.selfGo.AddComponent<AuxRobotUserData>();
+            UnityEngine.GameObject sphere = UtilApi.TransFindChildByPObjAndPath(this.selfGo, "Sphere");
+            AuxRobotUserData auxData = sphere.GetComponent<AuxRobotUserData>();
+            if (null == auxData)
+            {
+                auxData = sphere.AddComponent<AuxRobotUserData>();
+            }
             auxData.setUserData(this.mEntity);
         }
     }

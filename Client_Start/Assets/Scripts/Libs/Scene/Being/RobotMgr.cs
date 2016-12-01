@@ -25,14 +25,14 @@ namespace SDK.Lib
         public float small_Min_Radius = 0.5f;
         public float small_Max_Radius = 1.5f;
 
-        public int big_Max_Num = 2;
+        public int big_Max_Num = 0;
         public float big_Min_Radius = 3.0f;
         public float big_Max_Radius = 5.0f;
 
         private uint foodsNum = 0;
 
         public float startTime = 1.0f;//开始startTime时长后开始产生
-        public float createTime = 6.0f;//雪球产生间隔
+        public float createTime = 1.0f;//雪球产生间隔
 
         public static CreateRobot Instance;
         private bool createFinish = false;

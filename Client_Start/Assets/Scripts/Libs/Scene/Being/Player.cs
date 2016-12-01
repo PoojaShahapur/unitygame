@@ -37,7 +37,7 @@ namespace SDK.Lib
         override public void dispose()
         {
             base.dispose();
-            Ctx.mInstance.mPlayerMgr.removeEntity(this);
+            //Ctx.mInstance.mPlayerMgr.removeEntity(this);
         }
 
         override public void autoHandle()
@@ -62,7 +62,7 @@ namespace SDK.Lib
 
         //--------------------------------------
         public bool m_isRobot;//是否为机器人
-        public float m_canEatRate;//可以吃的比率
+        public float m_canEatRate = 0.85f;//可以吃的比率
         public uint m_charid = 0;//物件ID，为0的是玩家        
         public string m_name;//物件名
         public float m_radius;//半径
@@ -70,10 +70,10 @@ namespace SDK.Lib
         public bool m_isOnGround;//=true代表在地上
 
         //public UnityEngine.GameObject m_object;
-        public static float sAutoRiseRate;//最大滚动增长率,必须滚动才增长,静止不增长
+        public static float sAutoRiseRate = 0.001f;//最大滚动增长率,必须滚动才增长,静止不增长
                                           //雪球滚动增长率，速度小于sMaxVelocity时线性关系增长，超过后按照sAutoRiseRate增长
-        public static float sMaxVelocity;
-        public static float sCanEatRate;//可以吞食的比例     
+        public static float sMaxVelocity = 200.0f;
+        public static float sCanEatRate = 0.85f;//可以吞食的比例     
 
         private Vector3 curPos;//这2个位置用于判断球是否在移动,判断是判断x1==x2,z1==z2
         private Vector3 lastPos;
@@ -126,9 +126,9 @@ namespace SDK.Lib
         }
 
         //----------------------
-        public float canEatRate = 0.85f;//半径比率小于canEatRate的雪球可吞食    
-        public float autoriseRate = 0.001f;//雪球滚动增长率，速度小于max_velocity时线性关系增长，超过后按照autoriseRate增长
-        public float max_velocity = 200.0f;
+        //public float canEatRate = 0.85f;//半径比率小于canEatRate的雪球可吞食    
+        //public float autoriseRate = 0.001f;//雪球滚动增长率，速度小于max_velocity时线性关系增长，超过后按照autoriseRate增长
+        //public float max_velocity = 200.0f;
 
         public bool IsOnGround()
         {

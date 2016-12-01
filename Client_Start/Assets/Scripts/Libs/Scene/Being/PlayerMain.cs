@@ -11,6 +11,7 @@ namespace SDK.Lib
 		{
             mTypeId = "PlayerMain";
             this.mEntityType = EntityType.ePlayerMain;
+            m_canEatRate = 10.0f;
         }
 
         public override void onSkeletonLoaded()
@@ -89,6 +90,13 @@ namespace SDK.Lib
             base.init();
 
             this.Start_layerMain();
+        }
+
+        override public void dispose()
+        {
+            base.dispose();
+
+            Ctx.mInstance.mPlayerMgr.removeEntity(this);
         }
 
         public override void onTick(float delta)
@@ -257,7 +265,7 @@ namespace SDK.Lib
         //private GameObject cmr;
 
         //V = k * m + b //速度与质量关系式
-        public float MoveSpeed_k = 10.0f;//k = 10 / r
+        public float MoveSpeed_k = 1.0f;//k = 10 / r
         public float MoveSpeed_b = 2.0f;
         private float MoveSpeed = 10.0f;
 

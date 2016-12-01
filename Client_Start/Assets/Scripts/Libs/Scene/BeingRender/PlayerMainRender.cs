@@ -22,7 +22,11 @@ namespace SDK.Lib
         {
             base.onSelfChanged();
 
-            AuxPlayerMainUserData auxData = this.selfGo.AddComponent<AuxPlayerMainUserData>();
+            AuxPlayerMainUserData auxData = this.selfGo.GetComponent<AuxPlayerMainUserData>();
+            if(null == auxData)
+            {
+                auxData = this.selfGo.AddComponent<AuxPlayerMainUserData>();
+            }
             auxData.setUserData(this.mEntity);
 
             player1 = this.transform().FindChild("Player1").gameObject;
