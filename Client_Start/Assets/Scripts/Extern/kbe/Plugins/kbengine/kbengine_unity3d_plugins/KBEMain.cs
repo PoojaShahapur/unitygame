@@ -15,7 +15,7 @@ public class KBEMain : MonoBehaviour
 	// 在unity3d界面中可见选项
 	public DEBUGLEVEL debugLevel = DEBUGLEVEL.DEBUG;
 	public bool isMultiThreads = true;
-	public string ip = "127.0.0.1";
+	public string ip = "192.168.96.14";
 	public int port = 20013;
 	public KBEngineApp.CLIENT_TYPE clientType = KBEngineApp.CLIENT_TYPE.CLIENT_TYPE_MINI;
 	public string persistentDataPath = "Application.persistentDataPath";
