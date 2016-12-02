@@ -24,8 +24,8 @@ namespace SDK.Lib
 
         public void addHero(PlayerMain hero)
         {
-            m_hero = hero as PlayerMain;
-            addEntity(m_hero);
+            this.m_hero = hero as PlayerMain;
+            this.addEntity(this.m_hero);
         }
 
         public PlayerMain getHero()
@@ -118,7 +118,7 @@ namespace SDK.Lib
         //    forward_force = _forward_force;
         //}
 
-        public void init()
+        override public void init()
         {
             //OnCreatePlayer();
         }

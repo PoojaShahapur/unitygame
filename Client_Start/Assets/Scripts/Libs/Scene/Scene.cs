@@ -8,16 +8,19 @@ namespace SDK.Lib
         protected string mFile;
         protected MTerrain mTerrain;            // 地形
         protected MWorld_KBE mWorld_KBE;
+        protected bool mIsSceneLoaded;          // 场景是否加载完成
 
         public Scene()
         {
             mSceneCfg = new SceneCfg();
             mWorld_KBE = new MWorld_KBE();
+            mIsSceneLoaded = false;
         }
 
         public void init()
         {
             this.mWorld_KBE.init();
+            mIsSceneLoaded = true;
         }
 
         public void dispose()
@@ -27,6 +30,11 @@ namespace SDK.Lib
                 this.mWorld_KBE.dispose();
                 this.mWorld_KBE = null;
             }
+        }
+
+        public bool isSceneLoaded()
+        {
+            return this.mIsSceneLoaded;
         }
 
         public void onTick(float delta)

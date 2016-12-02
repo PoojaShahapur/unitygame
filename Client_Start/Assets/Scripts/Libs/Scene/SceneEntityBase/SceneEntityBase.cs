@@ -17,6 +17,8 @@ namespace SDK.Lib
         protected EntityType mEntityType;   // Entity 类型
         protected string mEntityUniqueId;   // Entity 唯一 Id
 
+        protected KBEngine.Entity mEntity_KBE;  // KBE 引擎的实体
+
         public SceneEntityBase()
         {
             mIsClientDispose = false;
@@ -263,6 +265,20 @@ namespace SDK.Lib
         public string getEntityUniqueId()
         {
             return this.mEntityUniqueId;
+        }
+
+        public void setEntity_KBE(KBEngine.Entity entity)
+        {
+            mEntity_KBE = entity;
+        }
+
+        public void updateTransform()
+        {
+            if (null != this.mEntity_KBE)
+            {
+                this.setOriginal(new Vector3(mEntity_KBE.position.x, 1.3f, mEntity_KBE.position.z));
+                this.setRotation(Quaternion.Euler(new Vector3(mEntity_KBE.direction.y, mEntity_KBE.direction.z, mEntity_KBE.direction.x)));
+            }
         }
     }
 }

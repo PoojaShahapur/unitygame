@@ -362,5 +362,17 @@
             // 场景卸载
             this.mSceneSys.unloadAll();
         }
+
+        protected System.UInt64 selAvatarDBID = 0;
+
+        public void sendSelRole()
+        {
+            KBEngine.Event.fireIn("selectAvatarGame", selAvatarDBID);
+        }
+
+        public void setSelAvatarDBID(System.UInt64 id)
+        {
+            selAvatarDBID = id;
+        }
     }
 }

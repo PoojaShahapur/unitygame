@@ -7,5 +7,15 @@
         {
 
         }
+
+        override public void onInit()
+        {
+            this.mResPath = "World/Model/PlayerTest.prefab";
+        }
+
+        override protected void onSelfChanged()
+        {
+            base.onSelfChanged();
+        }
     }
 }

@@ -12,12 +12,15 @@ namespace Game.Game
         // 场景加载完成处理事件
         public void onLevelLoaded()
         {
+            Ctx.mInstance.sendSelRole();
+
             Ctx.mInstance.mLuaSystem.onSceneLoaded();
+
             // 关联相机
             GameObject cam = UtilApi.GoFindChildByName("MainCamera").gameObject;
             Ctx.mInstance.mCamSys.setMainCamera(cam.GetComponent<Camera>());
             // 创建主角
-            Ctx.mInstance.mPlayerMgr.createPlayer();
+            //Ctx.mInstance.mPlayerMgr.createPlayer();
             // 创建机器人
             //Ctx.mInstance.mRobotMgr.CreateSnowFood();
             // 创建 SnowBall

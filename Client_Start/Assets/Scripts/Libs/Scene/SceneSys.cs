@@ -58,6 +58,16 @@
             }
         }
 
+        public bool isSceneLoaded()
+        {
+            if (null != this.mScene)
+            {
+                return this.mScene.isSceneLoaded();
+            }
+
+            return false;
+        }
+
         public void loadScene(string filename, MAction<IDispatchObject> func)
         {
             // 卸载之前的场景
@@ -108,6 +118,11 @@
         public void loadSceneRes(string filename)
         {
             Ctx.mInstance.mNetCmdNotify.isStopNetHandle = true;        // 加载场景需要停止处理消息，因为很多资源都要等到场景加载完成才初始化
+
+            if (null == this.mAuxLevelLoader)
+            {
+                this.mAuxLevelLoader = new AuxLevelLoader();
+            }
 
             mAuxLevelLoader.asyncLoad(filename, onSceneResLoadded);
         }

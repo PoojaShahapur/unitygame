@@ -5,16 +5,16 @@ using SDK.Lib;
 
 public class MWorld_KBE
 {
-    private UnityEngine.GameObject terrain = null;
-    public UnityEngine.GameObject terrainPerfab;
+    //private UnityEngine.GameObject terrain = null;
+    //public UnityEngine.GameObject terrainPerfab;
 
-    private UnityEngine.GameObject player = null;
-    public UnityEngine.GameObject entityPerfab;
-    public UnityEngine.GameObject avatarPerfab;
+    //private UnityEngine.GameObject player = null;
+    //public UnityEngine.GameObject entityPerfab;
+    //public UnityEngine.GameObject avatarPerfab;
 
-    protected AuxPrefabLoader mAuxTerrainLoader;
-    protected AuxPrefabLoader mAuxEntityLoader;
-    protected AuxPrefabLoader mAuxAvatarLoader;
+    //protected AuxPrefabLoader mAuxTerrainLoader;
+    //protected AuxPrefabLoader mAuxEntityLoader;
+    //protected AuxPrefabLoader mAuxAvatarLoader;
 
     public MWorld_KBE()
     {
@@ -34,20 +34,20 @@ public class MWorld_KBE
 
     protected void loadPrefab()
     {
-        mAuxTerrainLoader = new AuxPrefabLoader("", false, false);
-        mAuxTerrainLoader.setDestroySelf(false);
-        mAuxTerrainLoader.syncLoad("terrain.prefab");
-        this.terrainPerfab = mAuxTerrainLoader.getPrefabTmpl();
+        //mAuxTerrainLoader = new AuxPrefabLoader("", false, false);
+        //mAuxTerrainLoader.setDestroySelf(false);
+        //mAuxTerrainLoader.syncLoad("terrain.prefab");
+        //this.terrainPerfab = mAuxTerrainLoader.getPrefabTmpl();
 
-        mAuxEntityLoader = new AuxPrefabLoader("", false, false);
-        mAuxEntityLoader.setDestroySelf(false);
-        mAuxEntityLoader.syncLoad("entity.prefab");
-        this.entityPerfab = mAuxEntityLoader.getPrefabTmpl();
+        //mAuxEntityLoader = new AuxPrefabLoader("", false, false);
+        //mAuxEntityLoader.setDestroySelf(false);
+        //mAuxEntityLoader.syncLoad("entity.prefab");
+        //this.entityPerfab = mAuxEntityLoader.getPrefabTmpl();
 
-        mAuxAvatarLoader = new AuxPrefabLoader("", false, false);
-        mAuxAvatarLoader.setDestroySelf(false);
-        mAuxAvatarLoader.syncLoad("player.prefab");
-        this.avatarPerfab = mAuxAvatarLoader.getPrefabTmpl();
+        //mAuxAvatarLoader = new AuxPrefabLoader("", false, false);
+        //mAuxAvatarLoader.setDestroySelf(false);
+        //mAuxAvatarLoader.syncLoad("player.prefab");
+        //this.avatarPerfab = mAuxAvatarLoader.getPrefabTmpl();
     }
 
     void installEvents()
@@ -80,28 +80,28 @@ public class MWorld_KBE
     {
         KBEngine.Event.deregisterOut(this);
 
-        if(null != this.mAuxTerrainLoader)
-        {
-            this.mAuxTerrainLoader.dispose();
-            this.mAuxTerrainLoader = null;
-        }
+        //if(null != this.mAuxTerrainLoader)
+        //{
+        //    this.mAuxTerrainLoader.dispose();
+        //    this.mAuxTerrainLoader = null;
+        //}
 
-        if (null != this.mAuxEntityLoader)
-        {
-            this.mAuxEntityLoader.dispose();
-            this.mAuxEntityLoader = null;
-        }
+        //if (null != this.mAuxEntityLoader)
+        //{
+        //    this.mAuxEntityLoader.dispose();
+        //    this.mAuxEntityLoader = null;
+        //}
 
-        if (null != this.mAuxAvatarLoader)
-        {
-            this.mAuxAvatarLoader.dispose();
-            this.mAuxAvatarLoader = null;
-        }
+        //if (null != this.mAuxAvatarLoader)
+        //{
+        //    this.mAuxAvatarLoader.dispose();
+        //    this.mAuxAvatarLoader = null;
+        //}
     }
 
     public void Update()
     {
-        createPlayer();
+        //createPlayer();
         if (Input.GetKeyUp(KeyCode.Space))
         {
             Debug.Log("KeyCode.Space");
@@ -119,7 +119,10 @@ public class MWorld_KBE
                 {
                     Debug.DrawLine(ray.origin, hit.point);
                     UnityEngine.GameObject gameObj = hit.collider.gameObject;
-                    if (gameObj.name.IndexOf("terrain") == -1)
+                    if (gameObj.name.IndexOf("terrain") == -1 ||
+                        gameObj.name.IndexOf("Quad") == -1 ||
+                        gameObj.name.IndexOf("Cube") == -1 ||
+                        gameObj.name.IndexOf("Cube (1)") == -1)
                     {
                         string[] s = gameObj.name.Split(new char[] { '_' });
 
@@ -138,11 +141,20 @@ public class MWorld_KBE
     {
         Debug.Log("loading scene(" + respath + ")...");
         Ctx.mInstance.mLogSys.log("scene(" + respath + "), spaceID=" + KBEngineApp.app.spaceID);
-        if (terrain == null)
-            terrain = UtilApi.Instantiate(terrainPerfab) as UnityEngine.GameObject;
+        //if (terrain == null)
+        //    terrain = UtilApi.Instantiate(terrainPerfab) as UnityEngine.GameObject;
 
-        if (player)
-            player.GetComponent<GameEntity>().entityEnable();
+        //if (player)
+        //    player.GetComponent<GameEntity>().entityEnable();
+
+        if(Ctx.mInstance.mSceneSys.isSceneLoaded())
+        {
+            PlayerMain playerMain = Ctx.mInstance.mPlayerMgr.getHero();
+            if (null != playerMain)
+            {
+                playerMain.entityEnable();
+            }
+        }
     }
 
     public void onAvatarEnterWorld(UInt64 rndUUID, Int32 eid, KBEngine.Avatar avatar)
@@ -153,15 +165,25 @@ public class MWorld_KBE
         }
 
         Ctx.mInstance.mLogSys.log("loading scene...(加载场景中...)");
-        Debug.Log("loading scene...");
     }
 
+    // 创建主角，只要删除显示，立刻重新创建
     public void createPlayer()
     {
+        //if (player != null)
+        //{
+        //    if (terrain != null)
+        //        player.GetComponent<GameEntity>().entityEnable();
+        //    return;
+        //}
+
+        PlayerMain player = Ctx.mInstance.mPlayerMgr.getHero();
         if (player != null)
         {
-            if (terrain != null)
-                player.GetComponent<GameEntity>().entityEnable();
+            if (Ctx.mInstance.mSceneSys.isSceneLoaded())
+            {
+                player.entityEnable();
+            }
             return;
         }
 
@@ -181,12 +203,17 @@ public class MWorld_KBE
         if (avatar.isOnGround)
             y = 1.3f;
 
-        player = UtilApi.Instantiate(avatarPerfab, new Vector3(avatar.position.x, y, avatar.position.z),
-                             Quaternion.Euler(new Vector3(avatar.direction.y, avatar.direction.z, avatar.direction.x))) as UnityEngine.GameObject;
+        //player = UtilApi.Instantiate(avatarPerfab, new Vector3(avatar.position.x, y, avatar.position.z),
+        //                     Quaternion.Euler(new Vector3(avatar.direction.y, avatar.direction.z, avatar.direction.x))) as UnityEngine.GameObject;
 
-        player.GetComponent<GameEntity>().entityDisable();
-        avatar.renderObj = player;
-        ((UnityEngine.GameObject)avatar.renderObj).GetComponent<GameEntity>().isPlayer = true;
+        //player.GetComponent<GameEntity>().entityDisable();
+
+        player.setOriginal(new Vector3(avatar.position.x, y, avatar.position.z));
+        player.setRotation(Quaternion.Euler(new Vector3(avatar.direction.y, avatar.direction.z, avatar.direction.x)));
+
+        //avatar.renderObj = player;
+        avatar.renderObj = player.gameObject();
+        //((UnityEngine.GameObject)avatar.renderObj).GetComponent<GameEntity>().isPlayer = true;
 
         // 有必要设置一下，由于该接口由Update异步调用，有可能set_position等初始化信息已经先触发了
         // 那么如果不设置renderObj的位置和方向将为0，人物会陷入地下
@@ -199,6 +226,7 @@ public class MWorld_KBE
         Debug.Log("onAddSkill");
     }
 
+    // 创建其它玩家
     public void onEnterWorld(KBEngine.Entity entity)
     {
         if (entity.isPlayer())
@@ -208,10 +236,12 @@ public class MWorld_KBE
         if (entity.isOnGround)
             y = 1.3f;
 
-        entity.renderObj = UtilApi.Instantiate(entityPerfab, new Vector3(entity.position.x, y, entity.position.z),
-            Quaternion.Euler(new Vector3(entity.direction.y, entity.direction.z, entity.direction.x))) as UnityEngine.GameObject;
+        //entity.renderObj = UtilApi.Instantiate(entityPerfab, new Vector3(entity.position.x, y, entity.position.z),
+        //    Quaternion.Euler(new Vector3(entity.direction.y, entity.direction.z, entity.direction.x))) as UnityEngine.GameObject;
 
-        ((UnityEngine.GameObject)entity.renderObj).name = entity.className + "_" + entity.id;
+        //((UnityEngine.GameObject)entity.renderObj).name = entity.className + "_" + entity.id;
+
+        // 其它玩家
     }
 
     public void onLeaveWorld(KBEngine.Entity entity)
@@ -225,39 +255,65 @@ public class MWorld_KBE
 
     public void set_position(KBEngine.Entity entity)
     {
-        if (entity.renderObj == null)
+        //if (entity.renderObj == null)
+        //    return;
+
+        //((UnityEngine.GameObject)entity.renderObj).GetComponent<GameEntity>().destPosition = entity.position;
+        //((UnityEngine.GameObject)entity.renderObj).GetComponent<GameEntity>().position = entity.position;
+
+        Player player = entity.getEntity_SDK() as Player;
+        if (player == null)
             return;
 
-        ((UnityEngine.GameObject)entity.renderObj).GetComponent<GameEntity>().destPosition = entity.position;
-        ((UnityEngine.GameObject)entity.renderObj).GetComponent<GameEntity>().position = entity.position;
+        player.destPosition = entity.position;
+        player.position = entity.position;
     }
 
     public void updatePosition(KBEngine.Entity entity)
     {
-        if (entity.renderObj == null)
+        //if (entity.renderObj == null)
+        //    return;
+
+        //GameEntity gameEntity = ((UnityEngine.GameObject)entity.renderObj).GetComponent<GameEntity>();
+        //gameEntity.destPosition = entity.position;
+        //gameEntity.isOnGround = entity.isOnGround;
+
+        Player player = entity.getEntity_SDK() as Player;
+        if (player == null)
             return;
 
-        GameEntity gameEntity = ((UnityEngine.GameObject)entity.renderObj).GetComponent<GameEntity>();
-        gameEntity.destPosition = entity.position;
-        gameEntity.isOnGround = entity.isOnGround;
+        player.destPosition = entity.position;
+        player.isOnGround = entity.isOnGround;
     }
 
     public void onControlled(KBEngine.Entity entity, bool isControlled)
     {
-        if (entity.renderObj == null)
+        //if (entity.renderObj == null)
+        //    return;
+
+        //GameEntity gameEntity = ((UnityEngine.GameObject)entity.renderObj).GetComponent<GameEntity>();
+        //gameEntity.isControlled = isControlled;
+
+        Player player = entity.getEntity_SDK() as Player;
+        if (player == null)
             return;
 
-        GameEntity gameEntity = ((UnityEngine.GameObject)entity.renderObj).GetComponent<GameEntity>();
-        gameEntity.isControlled = isControlled;
+        player.isControlled = isControlled;
     }
 
     public void set_direction(KBEngine.Entity entity)
     {
-        if (entity.renderObj == null)
+        //if (entity.renderObj == null)
+        //    return;
+
+        //((UnityEngine.GameObject)entity.renderObj).GetComponent<GameEntity>().destDirection =
+        //    new Vector3(entity.direction.y, entity.direction.z, entity.direction.x);
+
+        Player player = entity.getEntity_SDK() as Player;
+        if (player == null)
             return;
 
-        ((UnityEngine.GameObject)entity.renderObj).GetComponent<GameEntity>().destDirection =
-            new Vector3(entity.direction.y, entity.direction.z, entity.direction.x);
+        player.destDirection = new Vector3(entity.direction.y, entity.direction.z, entity.direction.x);
     }
 
     public void set_HP(KBEngine.Entity entity, object v)
@@ -320,10 +376,16 @@ public class MWorld_KBE
     {
         float fspeed = ((float)(Byte)v) / 10f;
 
-        if (entity.renderObj != null)
-        {
-            ((UnityEngine.GameObject)entity.renderObj).GetComponent<GameEntity>().speed = fspeed;
-        }
+        //if (entity.renderObj != null)
+        //{
+        //    ((UnityEngine.GameObject)entity.renderObj).GetComponent<GameEntity>().speed = fspeed;
+        //}
+
+        Player player = entity.getEntity_SDK() as Player;
+        if (player == null)
+            return;
+
+        player.speed = fspeed;
     }
 
     public void set_modelScale(KBEngine.Entity entity, object v)

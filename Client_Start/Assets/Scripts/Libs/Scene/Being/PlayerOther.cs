@@ -11,5 +11,25 @@ namespace SDK.Lib
             this.mEntityType = EntityType.ePlayerOther;
             this.mEntityUniqueId = Ctx.mInstance.mPlayerMgr.genNewStrId();
         }
-	}
+
+        override public void initRender()
+        {
+            mRender = new PlayerOtherRender(this);
+            mRender.init();
+        }
+
+        override public void dispose()
+        {
+            base.dispose();
+
+            Ctx.mInstance.mPlayerMgr.removeEntity(this);
+        }
+
+        override public void autoHandle()
+        {
+            base.autoHandle();
+
+            Ctx.mInstance.mPlayerMgr.addEntity(this);
+        }
+    }
 }

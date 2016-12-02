@@ -21,7 +21,7 @@ namespace SDK.Lib
         public float zlimit_max = 820;
         public float y_height = 0.9f;
 
-        public uint blockNum = 80;
+        public uint blockNum = 1;
         public float refreshTime = 3.0f;
         public float blockMass = 100.0f;//雪块质量
 

@@ -9,7 +9,7 @@ namespace SDK.Lib
     {
         protected SkinModelSkelAnim m_skinAniModel;      // 模型数据
 
-        protected float speed = 0;
+        //protected float speed = 0;
         protected float direction = 0;
 
         public BeingEntity()
@@ -113,11 +113,276 @@ namespace SDK.Lib
             this.initRender();
             // 加载渲染器资源
             this.loadRenderRes();
+            // 更新位置
+            this.updateTransform();
         }
 
         override public void loadRenderRes()
         {
             mRender.load();
+        }
+
+        override public void onTick(float delta)
+        {
+            base.onTick(delta);
+            this.Update();
+            this.FixedUpdate();
+        }
+
+        //-----------------------------------------------------------
+        //-------------- KBEngine -----------------
+        public bool isPlayer = false;
+
+        private Vector3 _position = Vector3.zero;
+        private Vector3 _eulerAngles = Vector3.zero;
+        private Vector3 _scale = Vector3.zero;
+
+        public Vector3 destPosition = Vector3.zero;
+        public Vector3 destDirection = Vector3.zero;
+
+        private float _speed = 0f;
+        private byte jumpState = 0;
+        private float currY = 1.0f;
+
+        private Camera playerCamera = null;
+
+        public string entity_name;
+
+        public string hp = "100/100";
+
+        float npcHeight = 2.0f;
+
+        //public CharacterController characterController;
+
+        public bool isOnGround = true;
+
+        public bool isControlled = false;
+
+        public bool entityEnabled = true;
+
+        //void Start()
+        //{
+        //    characterController = ((UnityEngine.GameObject)this.gameObject()).GetComponent<CharacterController>();
+        //}
+
+        public Vector3 position
+        {
+            get
+            {
+                return _position;
+            }
+
+            set
+            {
+                _position = value;
+
+                if (this.gameObject() != null)
+                    this.gameObject().transform.position = _position;
+            }
+        }
+
+        public Vector3 eulerAngles
+        {
+            get
+            {
+                return _eulerAngles;
+            }
+
+            set
+            {
+                _eulerAngles = value;
+
+                if (this.gameObject() != null)
+                {
+                    this.gameObject().transform.eulerAngles = _eulerAngles;
+                }
+            }
+        }
+
+        public Quaternion rotation
+        {
+            get
+            {
+                return Quaternion.Euler(_eulerAngles);
+            }
+
+            set
+            {
+                eulerAngles = value.eulerAngles;
+            }
+        }
+
+        public Vector3 scale
+        {
+            get
+            {
+                return _scale;
+            }
+
+            set
+            {
+                _scale = value;
+
+                if (this.gameObject() != null)
+                    this.gameObject().transform.localScale = _scale;
+            }
+        }
+
+        public float speed
+        {
+            get
+            {
+                return _speed;
+            }
+
+            set
+            {
+                _speed = value;
+            }
+        }
+
+        public void entityEnable()
+        {
+            entityEnabled = true;
+        }
+
+        public void entityDisable()
+        {
+            entityEnabled = false;
+        }
+
+        public void set_state(sbyte v)
+        {
+            //if (v == 3)
+            //{
+            //    if (isPlayer)
+            //        this.gameObject().transform.FindChild("Graphics").GetComponent<MeshRenderer>().material.color = Color.green;
+            //    else
+            //        this.gameObject().transform.FindChild("Graphics").GetComponent<MeshRenderer>().material.color = Color.red;
+            //}
+            //else if (v == 0)
+            //{
+            //    if (isPlayer)
+            //        this.gameObject().transform.FindChild("Graphics").GetComponent<MeshRenderer>().material.color = Color.blue;
+            //    else
+            //        this.gameObject().transform.FindChild("Graphics").GetComponent<MeshRenderer>().material.color = Color.white;
+            //}
+            //else if (v == 1)
+            //{
+            //    gameObject.transform.FindChild("Graphics").GetComponent<MeshRenderer>().material.color = Color.black;
+            //}
+        }
+
+        void FixedUpdate()
+        {
+            if (!entityEnabled || KBEngine.KBEngineApp.app == null)
+                return;
+
+            if (isPlayer == isControlled)
+                return;
+
+            KBEngine.Event.fireIn("updatePlayer", this.gameObject().transform.position.x,
+                this.gameObject().transform.position.y, this.gameObject().transform.position.z, this.gameObject().transform.rotation.eulerAngles.y);
+        }
+
+        void Update()
+        {
+            if (!entityEnabled)
+            {
+                position = destPosition;
+                return;
+            }
+
+            float deltaSpeed = (speed * Time.deltaTime);
+
+            if (isPlayer == true && isControlled == false)
+            {
+                (this.mRender as BeingEntityRender).characterController.stepOffset = deltaSpeed;
+
+                if (isOnGround != (this.mRender as BeingEntityRender).characterController.isGrounded)
+                {
+                    KBEngine.Entity player = KBEngine.KBEngineApp.app.player();
+                    player.isOnGround = (this.mRender as BeingEntityRender).characterController.isGrounded;
+                    isOnGround = (this.mRender as BeingEntityRender).characterController.isGrounded;
+                }
+
+                return;
+            }
+
+            if (Vector3.Distance(eulerAngles, destDirection) > 0.0004f)
+            {
+                rotation = Quaternion.Slerp(rotation, Quaternion.Euler(destDirection), 8f * Time.deltaTime);
+            }
+
+            float dist = 0.0f;
+
+            if (isOnGround)
+            {
+                dist = Vector3.Distance(new Vector3(destPosition.x, 0f, destPosition.z),
+                    new Vector3(position.x, 0f, position.z));
+            }
+            else
+            {
+                dist = Vector3.Distance(destPosition, position);
+            }
+
+            if (jumpState > 0)
+            {
+                if (jumpState == 1)
+                {
+                    currY += 0.05f;
+
+                    if (currY > 2.0f)
+                        jumpState = 2;
+                }
+                else
+                {
+                    currY -= 0.05f;
+                    if (currY < 1.0f)
+                    {
+                        jumpState = 0;
+                        currY = 1.0f;
+                    }
+                }
+
+                Vector3 pos = position;
+                pos.y = currY;
+                position = pos;
+            }
+
+            if (dist > 0.01f)
+            {
+                Vector3 pos = position;
+
+                Vector3 movement = destPosition - pos;
+                movement.y = 0f;
+                movement.Normalize();
+
+                movement *= deltaSpeed;
+
+                if (dist > deltaSpeed || movement.magnitude > deltaSpeed)
+                    pos += movement;
+                else
+                    pos = destPosition;
+
+                if (isOnGround)
+                    pos.y = currY;
+
+                position = pos;
+            }
+            else
+            {
+            }
+        }
+
+        public void OnJump()
+        {
+            Debug.Log("jumpState: " + jumpState);
+
+            if (jumpState != 0)
+                return;
+
+            jumpState = 1;
         }
     }
 }

@@ -91,11 +91,16 @@ namespace Game.UI
                 {
                     info("Please wait...(请稍后...)");
 
-                    KBEngine.Event.fireIn("selectAvatarGame", selAvatarDBID);
-                    Application.LoadLevel("world");
+                    // 先进场景，再发送选择具体角色的消息
+                    //KBEngine.Event.fireIn("selectAvatarGame", selAvatarDBID);
+                    //Application.LoadLevel("world");
+                    Ctx.mInstance.setSelAvatarDBID(selAvatarDBID);
 
                     Ctx.mInstance.mUiMgr.exitForm(UIFormID.eUILogin);
                     Ctx.mInstance.mUiMgr.exitForm(UIFormID.eUISelectRole);
+
+                    Ctx.mInstance.mModuleSys.unloadModule(ModuleID.LOGINMN);
+                    Ctx.mInstance.mModuleSys.loadModule(ModuleID.GAMEMN);
                 }
             }
         }

@@ -112,7 +112,7 @@ namespace SDK.Lib
         {
             base.autoHandle();
 
-            Ctx.mInstance.mPlayerMgr.addEntity(this);
+            Ctx.mInstance.mPlayerMgr.addHero(this);
         }
 
         public override void onTick(float delta)

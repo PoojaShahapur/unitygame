@@ -48,7 +48,9 @@
 		private Dictionary<UInt16, Property> iddefpropertys_ = 
 			new Dictionary<UInt16, Property>();
 
-		public static void clear()
+        protected SDK.Lib.SceneEntityBase mEntity_SDK;  // SDK 中的实体
+
+        public static void clear()
 		{
 		}
 
@@ -393,6 +395,11 @@
 		{
 		
 		}
+
+        public SDK.Lib.SceneEntityBase getEntity_SDK()
+        {
+            return this.mEntity_SDK;
+        }
     }
     
 }

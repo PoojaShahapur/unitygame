@@ -4,6 +4,7 @@
     {
         protected string mResPath;  // 资源目录
         protected AuxPrefabLoader mAuxPrefabLoader;
+        public UnityEngine.CharacterController characterController;
 
         /**
          * @brief 资源加载之类的基本操作写在这里
@@ -40,6 +41,17 @@
 
             this.mAuxPrefabLoader.syncLoad(mResPath);
             this.selfGo = this.mAuxPrefabLoader.getGameObject();
+        }
+
+        override protected void onSelfChanged()
+        {
+            base.onSelfChanged();
+
+            characterController = ((UnityEngine.GameObject)this.gameObject()).GetComponent<UnityEngine.CharacterController>();
+            if (null == characterController)
+            {
+                characterController = ((UnityEngine.GameObject)this.gameObject()).AddComponent<UnityEngine.CharacterController>();
+            }
         }
     }
 }
