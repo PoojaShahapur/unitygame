@@ -1233,5 +1233,11 @@ namespace SDK.Lib
         {
             inputField.textComponent.color = color;
         }
+
+        // 从 Euler 转换到 Quaternion
+        public static Quaternion convQuatFromEuler(Vector3 euler)
+        {
+            return Quaternion.Euler(euler);
+        }
     }
 }

@@ -19,6 +19,9 @@ namespace SDK.Lib
 
         protected KBEngine.Entity mEntity_KBE;  // KBE 引擎的实体
 
+        protected UnityEngine.Vector3 mPos;         // 当前位置信息
+        protected UnityEngine.Quaternion mRotate;   // 当前方向信息
+
         public SceneEntityBase()
         {
             mIsClientDispose = false;
@@ -186,12 +189,22 @@ namespace SDK.Lib
             }
         }
 
+        public UnityEngine.Vector3 getPos()
+        {
+            return this.mPos;
+        }
+
         public void setRotation(Quaternion rotation)
         {
             if (null != mRender)
             {
                 mRender.setRotation(rotation);
             }
+        }
+
+        public UnityEngine.Quaternion getRotate()
+        {
+            return this.mRotate;
         }
 
         public void setSelfName(string name)
