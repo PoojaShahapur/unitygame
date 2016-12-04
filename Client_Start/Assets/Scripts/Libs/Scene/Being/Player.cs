@@ -100,9 +100,11 @@ namespace SDK.Lib
             m_radius = this.transform().localScale.x;
 
             //float x_velocity = m_object.GetComponent<Rigidbody>().velocity.x;
-            float x_velocity = this.getRigidbody().velocity.x;
+            //float x_velocity = this.getRigidbody().velocity.x;
+            float x_velocity = 1;
             //float z_velocity = m_object.GetComponent<Rigidbody>().velocity.z;
-            float z_velocity = this.getRigidbody().velocity.z;
+            //float z_velocity = this.getRigidbody().velocity.z;
+            float z_velocity = 1;
 
             //if (!m_isRobot && (x_velocity != 0 || z_velocity != 0))
             //    log.logHelper.DebugLog(m_object.name + "  玩家xz平面速度     " + x_velocity + "    : " + z_velocity);

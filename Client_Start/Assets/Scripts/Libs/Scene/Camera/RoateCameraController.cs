@@ -180,7 +180,7 @@ namespace SDK.Lib
                 Vector3 eulerAngles = new Vector3(0, eulerAngles_cam.y, eulerAngles_cam.z);
                 //CreatePlayer._Instace.player.GetComponent<Transform>().eulerAngles = eulerAngles;
                 //CreatePlayer._Instace.RefreshChildrensRotation(eulerAngles);
-                playerMain.transform().eulerAngles = eulerAngles;
+                //playerMain.transform().eulerAngles = eulerAngles;
                 playerMain.RefreshChildrensRotation(eulerAngles);
             }
         }

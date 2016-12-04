@@ -21,6 +21,7 @@ namespace SDK.Lib
 
         protected UnityEngine.Vector3 mPos;         // 当前位置信息
         protected UnityEngine.Quaternion mRotate;   // 当前方向信息
+        protected SceneEntityMovement mMovement;    // 移动组件
 
         public SceneEntityBase()
         {
@@ -183,6 +184,8 @@ namespace SDK.Lib
 
         public void setOriginal(Vector3 original)
         {
+            this.mPos = original;
+
             if (null != mRender)
             {
                 mRender.setOriginal(original);
@@ -196,6 +199,8 @@ namespace SDK.Lib
 
         public void setRotation(Quaternion rotation)
         {
+            this.mRotate = rotation;
+
             if (null != mRender)
             {
                 mRender.setRotation(rotation);

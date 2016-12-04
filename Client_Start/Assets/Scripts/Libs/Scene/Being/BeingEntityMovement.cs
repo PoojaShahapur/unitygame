@@ -15,20 +15,18 @@
             : base(entity)
         {
             mMoveSpeed = 1;
-            mRotateSpeed = 1;
+            mRotateSpeed = 10;
         }
 
         override public void onTick(float delta)
         {
             base.onTick(delta);
-
-
         }
 
         // 局部空间移动位置
         public void addActorLocalOffset(UnityEngine.Vector3 DeltaLocation)
         {
-            UnityEngine.Vector3 localOffset = mEntity.getRotate() * mEntity.getPos();
+            UnityEngine.Vector3 localOffset = mEntity.getRotate() * DeltaLocation;
             mEntity.setOriginal(mEntity.getPos() + localOffset);
         }
 
@@ -59,15 +57,27 @@
         {
             float delta = Ctx.mInstance.mSystemTimeData.deltaSec;
             UnityEngine.Vector3 deltaRotation = new UnityEngine.Vector3(0.0f, mRotateSpeed * delta, 0.0f);
-            this.addActorLocalOffset(deltaRotation);
+            this.addLocalRotation(deltaRotation);
         }
 
         // 向右旋转
         public void rotateRight()
         {
             float delta = Ctx.mInstance.mSystemTimeData.deltaSec;
-            UnityEngine.Vector3 deltaRotation = new UnityEngine.Vector3(0.0f,- mRotateSpeed * delta, 0.0f);
-            this.addActorLocalOffset(deltaRotation);
+            UnityEngine.Vector3 deltaRotation = new UnityEngine.Vector3(0.0f, -mRotateSpeed * delta, 0.0f);
+            this.addLocalRotation(deltaRotation);
+        }
+
+        // 移动到最终地点
+        public void moveToPos()
+        {
+
+        }
+
+        // 直接到
+        public void gotoPos()
+        {
+
         }
     }
 }

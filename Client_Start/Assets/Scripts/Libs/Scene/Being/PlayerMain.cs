@@ -19,6 +19,7 @@ namespace SDK.Lib
             this.mTypeId = "PlayerMain";
             this.mEntityType = EntityType.ePlayerMain;
             this.mEntityUniqueId = Ctx.mInstance.mPlayerMgr.genNewStrId();
+            this.mMovement = new PlayerMainMovement(this);
 
             m_canEatRate = 10.0f;
         }
@@ -120,6 +121,8 @@ namespace SDK.Lib
             base.onTick(delta);
 
             this.FixedUpdate();
+
+            this.mMovement.onTick(delta);
         }
 
         //-------------------------------------------------------------
@@ -331,7 +334,7 @@ namespace SDK.Lib
                 //if (horizontal_move != 0 || vertical_move != 0)
                 //    log.logHelper.DebugLog(this.name + "   Mass: " + this.GetComponent<Rigidbody>().mass + "   半径： " + this.GetComponent<Transform>().localScale.x + "   速度: " + this.GetComponent<Rigidbody>().velocity.magnitude + "   施加力: " + MoveSpeed);
 
-                this.AddRelativeForce(new Vector3(horizontal_move, 0, vertical_move) * MoveSpeed, ForceMode.Impulse);
+                //this.AddRelativeForce(new Vector3(horizontal_move, 0, vertical_move) * MoveSpeed, ForceMode.Impulse);
 
                 if (vertical_move == 0 && horizontal_move == 0)
                 {
@@ -371,7 +374,7 @@ namespace SDK.Lib
                 //var transform = this.GetComponent<Transform>();
 
                 //添加力
-                this.AddRelativeForce(force * MoveSpeed, ForceMode.Impulse);
+                //this.AddRelativeForce(force * MoveSpeed, ForceMode.Impulse);
                 if (vertical_move == 0 && horizontal_move == 0)
                 {
 

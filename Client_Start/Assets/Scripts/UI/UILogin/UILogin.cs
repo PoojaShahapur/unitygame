@@ -68,6 +68,10 @@ namespace Game.UI
         protected void onLoginBtnClk()
         {
             this.loginOrCreateAccount(SelectEnterMode.eLoginAccount);
+
+            //Ctx.mInstance.mUiMgr.exitForm(UIFormID.eUILogin);
+            //Ctx.mInstance.mModuleSys.unloadModule(ModuleID.LOGINMN);
+            //Ctx.mInstance.mModuleSys.loadModule(ModuleID.GAMEMN);
         }
 
         public void onCreateAccountBtnClk()

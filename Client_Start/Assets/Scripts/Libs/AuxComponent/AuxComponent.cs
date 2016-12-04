@@ -228,6 +228,8 @@ namespace SDK.Lib
         {
             this.mIsRotDirty = true;
             this.mRotation = rotation;
+
+            this.updateLocalTransform();
         }
 
         public Bounds getBounds()

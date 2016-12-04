@@ -7,5 +7,30 @@
         {
 
         }
+
+        override public void onTick(float delta)
+        {
+            base.onTick(delta);
+
+            float horizontal = UnityEngine.Input.GetAxis("Horizontal");
+            if (horizontal > 0.0f)
+            {
+                this.rotateLeft();
+            }
+            else if (horizontal < 0.0f)
+            {
+                this.rotateRight();
+            }
+
+            float vertical = UnityEngine.Input.GetAxis("Vertical");
+            if (vertical > 0.0f)
+            {
+                this.moveForward();
+            }
+            else if(vertical < 0.0f)
+            {
+                this.moveBack();
+            }
+        }
     }
 }

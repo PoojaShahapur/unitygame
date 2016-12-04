@@ -119,9 +119,9 @@ public class MWorld_KBE
                 {
                     Debug.DrawLine(ray.origin, hit.point);
                     UnityEngine.GameObject gameObj = hit.collider.gameObject;
-                    if (gameObj.name.IndexOf("terrain") == -1 ||
-                        gameObj.name.IndexOf("Quad") == -1 ||
-                        gameObj.name.IndexOf("Cube") == -1 ||
+                    if (gameObj.name.IndexOf("terrain") == -1 &&
+                        gameObj.name.IndexOf("Quad") == -1 &&
+                        gameObj.name.IndexOf("Cube") == -1 &&
                         gameObj.name.IndexOf("Cube (1)") == -1)
                     {
                         string[] s = gameObj.name.Split(new char[] { '_' });
