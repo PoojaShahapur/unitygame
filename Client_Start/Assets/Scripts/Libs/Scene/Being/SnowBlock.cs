@@ -28,5 +28,11 @@
             mRender = new SnowBlockRender(this);
             mRender.init();
         }
+
+        // 雪块不能吃，只能被吃
+        override public bool canEatOther(BeingEntity other)
+        {
+            return false;
+        }
     }
 }

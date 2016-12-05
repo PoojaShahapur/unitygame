@@ -150,6 +150,8 @@ namespace SDK.Lib
         public void setEatSize(float size)
         {
             this.mEatSize = size;
+
+            this.setScale(new Vector3(this.mEatSize, this.mEatSize, this.mEatSize));
         }
 
         public float getEatSize()
@@ -201,7 +203,7 @@ namespace SDK.Lib
             }
         }
 
-        public bool canEatOther(BeingEntity other)
+        virtual public bool canEatOther(BeingEntity other)
         {
             bool ret = false;
 

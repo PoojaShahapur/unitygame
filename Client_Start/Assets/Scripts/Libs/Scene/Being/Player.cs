@@ -60,6 +60,22 @@ namespace SDK.Lib
             this.onLoop();
         }
 
+        override public bool canEatOther(BeingEntity other)
+        {
+            bool ret = false;
+            // 雪快必然可以被吃掉
+            if(other.getEntityType() == EntityType.eSnowBlock)
+            {
+                ret = true;
+            }
+            else
+            {
+                ret = base.canEatOther(other);
+            }
+
+            return ret;
+        }
+
         //--------------------------------------
         public bool m_isRobot;//是否为机器人
 
@@ -127,11 +143,6 @@ namespace SDK.Lib
             }
         }
 
-        //----------------------
-        //public float canEatRate = 0.85f;//半径比率小于canEatRate的雪球可吞食    
-        //public float autoriseRate = 0.001f;//雪球滚动增长率，速度小于max_velocity时线性关系增长，超过后按照autoriseRate增长
-        //public float max_velocity = 200.0f;
-
         public bool IsOnGround()
         {
             return this.m_isOnGround;
@@ -156,61 +167,5 @@ namespace SDK.Lib
         {
             this.m_name = name;
         }
-
-        //public void setEntity(GameObject obj)
-        //{
-        //    //this.m_object = obj;
-        //}
-
-        //void OnCollisionEnter(Collision collision)
-        //{
-        //    if (collision.collider.CompareTag("Ground"))
-        //    {
-        //        //entity.m_isOnGround = true;
-        //    }
-        //}
-
-        //void OnCollisionStay(Collision collision)
-        //{
-        //    if (collision.collider.CompareTag("Ground"))
-        //    {
-        //        //entity.m_isOnGround = true;
-        //    }
-        //}
-
-        //void OnCollisionExit(Collision collision)
-        //{
-        //    bool isGround = collision.collider.CompareTag("Ground");
-        //    //log.logHelper.DebugLog (entity.m_name +  "和" + collision.gameObject.name + "退出碰撞" + ",isground=" + isGround.ToString());
-        //    if (collision.collider.CompareTag("Ground"))
-        //    {
-        //        //entity.m_isOnGround = false;
-        //    }
-        //}
-
-        //void Start()
-        //{
-        //SceneEntity.sCanEatRate = canEatRate;
-        //SceneEntity.sAutoRiseRate = autoriseRate;
-        //SceneEntity.sMaxVelocity = max_velocity;
-        //entity.m_object = this.gameObject;
-        ////log.logHelper.DebugLog(entity.m_name + " Start();");
-        //entity.Start();
-        //}
-
-        //void FixedUpdate()
-        //{
-        //entity.onLoop();
-        //}
-
-        // 将该 GameObject 从排行榜中移除
-        //void OnDestroy()
-        //{
-        //    entity.OnDestroy();
-        //    if (CreateRobot.Instance != null && amIRobot())
-        //    {
-        //        CreateRobot.Instance.subFoodsNum(entity.m_name, entity.m_charid);
-        //    }
-        //}
     }
 }
