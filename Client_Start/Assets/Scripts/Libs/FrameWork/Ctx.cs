@@ -112,6 +112,7 @@
         public SnowBlockMgr mSnowBlockMgr;
         public RobotMgr mRobotMgr;
         public FrameCollideMgr mFrameCollideMgr;
+        public SnowBallCfg mSnowBallCfg;
 
         public Ctx()
         {
@@ -248,6 +249,7 @@
             this.mSnowBlockMgr = new SnowBlockMgr();
             this.mRobotMgr = new RobotMgr();
             this.mFrameCollideMgr = new FrameCollideMgr();
+            this.mSnowBallCfg = new SnowBallCfg();
         }
 
         public void logicInit()
@@ -281,6 +283,7 @@
 
             this.mFrameCollideMgr.init();
             this.mSceneSys.init();
+            this.mSnowBallCfg.init();
 
             //this.mTickMgr.addTick(mMonsterMgr as ITickedObject);
             //this.mTickMgr.addTick(mFObjectMgr as ITickedObject);

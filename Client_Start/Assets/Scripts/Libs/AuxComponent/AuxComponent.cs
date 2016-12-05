@@ -237,7 +237,7 @@ namespace SDK.Lib
 
         }
 
-        public Bounds getBounds()
+        virtual public Bounds getBounds()
         {
             return this.selfGo.GetComponent<MeshFilter>().mesh.bounds;
         }

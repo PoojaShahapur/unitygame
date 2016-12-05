@@ -62,7 +62,7 @@ namespace SDK.Lib
 
         //--------------------------------------
         public bool m_isRobot;//是否为机器人
-        public float m_canEatRate = 0.85f;//可以吃的比率
+
         public uint m_charid = 0;//物件ID，为0的是玩家        
         public string m_name;//物件名
         public float m_radius;//半径

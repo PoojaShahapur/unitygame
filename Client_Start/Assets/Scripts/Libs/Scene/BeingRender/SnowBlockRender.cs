@@ -1,4 +1,6 @@
-﻿namespace SDK.Lib
+﻿using UnityEngine;
+
+namespace SDK.Lib
 {
     public class SnowBlockRender : BeingEntityRender
     {
@@ -17,7 +19,9 @@
         {
             base.onSelfChanged();
 
-            AuxSnowBlockUserData auxData = this.selfGo.AddComponent<AuxSnowBlockUserData>();
+            GameObject collide = UtilApi.TransFindChildByPObjAndPath(this.selfGo, UtilApi.COLLIDE_NAME);
+            AuxSnowBlockUserData auxData = UtilApi.AddComponent<AuxSnowBlockUserData>(collide);
+
             auxData.setUserData(this.mEntity);
         }
     }

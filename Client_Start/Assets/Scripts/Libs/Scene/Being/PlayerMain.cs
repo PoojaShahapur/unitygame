@@ -21,8 +21,6 @@ namespace SDK.Lib
             this.mEntityUniqueId = Ctx.mInstance.mPlayerMgr.genNewStrId();
             this.mMovement = new PlayerMainMovement(this);
             this.mAttack = new PlayerMainAttack(this);
-
-            m_canEatRate = 10.0f;
         }
 
         public override void onSkeletonLoaded()

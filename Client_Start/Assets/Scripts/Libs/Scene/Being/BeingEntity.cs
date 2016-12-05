@@ -13,6 +13,7 @@ namespace SDK.Lib
         public float mRotateSpeed;   // 旋转速度
         public float mScaleSpeed;    // 缩放速度
 
+        protected float mEatSize;    // 吃的大小，使用这个字段判断是否可以吃，以及吃后的大小
         protected BeingEntityAttack mAttack;
 
         public BeingEntity()
@@ -20,9 +21,11 @@ namespace SDK.Lib
             //m_skinAniModel = new SkinModelSkelAnim();
             //m_skinAniModel.handleCB = onSkeletonLoaded;
 
-            mMoveSpeed = 1;
-            mRotateSpeed = 10;
-            mScaleSpeed = 1;
+            this.mMoveSpeed = 10;
+            this.mRotateSpeed = 50;
+            this.mScaleSpeed = 1;
+
+            this.mEatSize = 1;
         }
 
         public SkinModelSkelAnim skinAniModel
@@ -144,6 +147,16 @@ namespace SDK.Lib
             }
         }
 
+        public void setEatSize(float size)
+        {
+            this.mEatSize = size;
+        }
+
+        public float getEatSize()
+        {
+            return this.mEatSize;
+        }
+
         override public void init()
         {
             // 基类初始化
@@ -186,6 +199,33 @@ namespace SDK.Lib
             {
                 this.mAttack.onTick(delta);
             }
+        }
+
+        public bool canEatOther(BeingEntity other)
+        {
+            bool ret = false;
+
+            if(this.mEatSize > other.getEatSize())
+            {
+                if (this.mEatSize >= other.getEatSize() * Ctx.mInstance.mSnowBallCfg.mCanEatRate)
+                {
+                    ret = true;
+                }
+            }
+            else if(this.mEatSize < other.getEatSize())
+            {
+                if (this.mEatSize * Ctx.mInstance.mSnowBallCfg.mCanEatRate <= other.getEatSize())
+                {
+                    ret = true;
+                }
+            }
+
+            return ret;
+        }
+
+        public void overlapTo(BeingEntity bBeingEntity)
+        {
+            this.mAttack.overlapTo(bBeingEntity);
         }
     }
 }

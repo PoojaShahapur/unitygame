@@ -38,6 +38,8 @@ namespace SDK.Lib
         public const string SEPARATOR = "=";    // 分隔符
 
         public const string TEXT_IN_BTN = "Text";   // Button 组件中 Text GameObject 的名字
+        public const string MODEL_NAME = "Model";   // 模型 GameObject 的 name
+        public const string COLLIDE_NAME = "Collide"; // 模型 GameObject 的 name
 
         public static GameObject[] FindGameObjectsWithTag(string tag)
         {

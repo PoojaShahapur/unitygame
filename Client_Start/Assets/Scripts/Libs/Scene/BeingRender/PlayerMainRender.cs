@@ -22,11 +22,8 @@ namespace SDK.Lib
         {
             base.onSelfChanged();
 
-            AuxPlayerMainUserData auxData = this.selfGo.GetComponent<AuxPlayerMainUserData>();
-            if(null == auxData)
-            {
-                auxData = this.selfGo.AddComponent<AuxPlayerMainUserData>();
-            }
+            GameObject collide = UtilApi.TransFindChildByPObjAndPath(this.selfGo, UtilApi.COLLIDE_NAME);
+            AuxPlayerMainUserData auxData = UtilApi.AddComponent<AuxPlayerMainUserData>(collide);
             auxData.setUserData(this.mEntity);
 
             //player1 = this.transform().FindChild("Player1").gameObject;

@@ -1,4 +1,6 @@
-﻿namespace SDK.Lib
+﻿using UnityEngine;
+
+namespace SDK.Lib
 {
     public class PlayerOtherRender : PlayerRender
     {
@@ -16,6 +18,10 @@
         override protected void onSelfChanged()
         {
             base.onSelfChanged();
+
+            GameObject collide = UtilApi.TransFindChildByPObjAndPath(this.selfGo, UtilApi.COLLIDE_NAME);
+            AuxPlayerOtherUserData auxData = UtilApi.AddComponent<AuxPlayerOtherUserData>(collide);
+            auxData.setUserData(this.mEntity);
         }
     }
 }

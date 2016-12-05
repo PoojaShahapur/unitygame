@@ -1,10 +1,13 @@
-﻿namespace SDK.Lib
+﻿using UnityEngine;
+
+namespace SDK.Lib
 {
     public class BeingEntityRender : EntityRenderBase
     {
         protected string mResPath;  // 资源目录
         protected AuxPrefabLoader mAuxPrefabLoader;
-        public UnityEngine.CharacterController characterController;
+        //public UnityEngine.CharacterController characterController;
+        protected GameObject mModel;    // Model 节点
 
         /**
          * @brief 资源加载之类的基本操作写在这里
@@ -47,11 +50,21 @@
         {
             base.onSelfChanged();
 
-            characterController = ((UnityEngine.GameObject)this.gameObject()).GetComponent<UnityEngine.CharacterController>();
-            if (null == characterController)
+            //characterController = ((UnityEngine.GameObject)this.gameObject()).GetComponent<UnityEngine.CharacterController>();
+            //if (null == characterController)
+            //{
+            //    characterController = ((UnityEngine.GameObject)this.gameObject()).AddComponent<UnityEngine.CharacterController>();
+            //}
+        }
+
+        override public Bounds getBounds()
+        {
+            if (null == this.mModel)
             {
-                characterController = ((UnityEngine.GameObject)this.gameObject()).AddComponent<UnityEngine.CharacterController>();
+                this.mModel = UtilApi.TransFindChildByPObjAndPath(this.selfGo, UtilApi.MODEL_NAME);
             }
+
+            return UtilApi.getComByP<MeshFilter>(this.mModel).mesh.bounds;
         }
     }
 }

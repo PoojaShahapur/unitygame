@@ -16,5 +16,10 @@
         {
 
         }
+
+        virtual public void overlapTo(BeingEntity bBeingEntity)
+        {
+
+        }
     }
 }
