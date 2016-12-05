@@ -44,12 +44,16 @@
         {
             UnityEngine.Vector3 localOffset = mEntity.getRotate() * DeltaLocation;
             mEntity.setOriginal(mEntity.getPos() + localOffset);
+
+            this.sendMoveMsg();
         }
 
         // 局部空间旋转
         public void addLocalRotation(UnityEngine.Vector3 DeltaRotation)
         {
             mEntity.setRotation(mEntity.getRotate() * UtilApi.convQuatFromEuler(DeltaRotation));
+
+            this.sendMoveMsg();
         }
 
         // 向前移动
@@ -132,8 +136,9 @@
                 }
 
                 mEntity.setOriginal(pos);
+                this.sendMoveMsg();
 
-                if(isArrived)
+                if (isArrived)
                 {
                     // 移动到终点
                     this.onArriveDestPos();
@@ -234,6 +239,8 @@
                 this.mDestRotate = UnityEngine.Quaternion.FromToRotation(UnityEngine.Vector3.forward, this.mDestPos);
                 this.mEntity.setRotation(this.mDestRotate);
                 this.mEntity.setOriginal(this.mDestPos);
+
+                this.sendMoveMsg();
             }
         }
 
@@ -258,6 +265,18 @@
             {
                 this.mIsScaleToDest = false;
             }
+        }
+
+        public void sendMoveMsg()
+        {
+            // 移动后，更新 KBE 中的 Avatar 数据
+            KBEngine.Event.fireIn(
+                "updatePlayer", 
+                mEntity.getPos().x, 
+                mEntity.getPos().y, 
+                mEntity.getPos().z, 
+                mEntity.getRotateEulerAngle().y
+                );
         }
     }
 }

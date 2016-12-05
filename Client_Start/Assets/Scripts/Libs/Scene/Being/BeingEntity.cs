@@ -130,7 +130,15 @@ namespace SDK.Lib
         {
             if (null != mMovement)
             {
-                (mMovement as BeingEntityMovement).moveToPos(pos);
+                (mMovement as BeingEntityMovement).setDestRotate(pos);
+            }
+        }
+
+        public void setDestScale(float scale)
+        {
+            if (null != mMovement)
+            {
+                (mMovement as BeingEntityMovement).setDestScale(scale);
             }
         }
 
