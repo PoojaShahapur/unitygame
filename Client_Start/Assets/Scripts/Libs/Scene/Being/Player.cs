@@ -53,9 +53,9 @@ namespace SDK.Lib
             mRender.init();
         }
 
-        public override void onTick(float delta)
+        public override void onPreTick(float delta)
         {
-            base.onTick(delta);
+            base.onPreTick(delta);
 
             this.onLoop();
         }

@@ -157,5 +157,20 @@ namespace SDK.Lib
         {
             base.onTick(delta);
         }
+
+        // Tick 第一阶段执行
+        override public void onPreTick(float delta)
+        {
+            base.onPreTick(delta);
+        }
+
+        // Tick 第二阶段执行
+        override public void onPostTick(float delta)
+        {
+            if (null != this.mMovement)
+            {
+                this.mMovement.onTick(delta);
+            }
+        }
     }
 }

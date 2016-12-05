@@ -116,13 +116,11 @@ namespace SDK.Lib
             Ctx.mInstance.mPlayerMgr.addHero(this);
         }
 
-        public override void onTick(float delta)
+        public override void onPreTick(float delta)
         {
-            base.onTick(delta);
+            base.onPreTick(delta);
 
             this.FixedUpdate();
-
-            this.mMovement.onTick(delta);
         }
 
         //-------------------------------------------------------------

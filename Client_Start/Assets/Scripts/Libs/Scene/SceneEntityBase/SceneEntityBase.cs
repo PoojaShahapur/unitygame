@@ -108,7 +108,21 @@ namespace SDK.Lib
             return mIsClientDispose;
         }
 
+        // 每一帧执行
         virtual public void onTick(float delta)
+        {
+            this.onPreTick(delta);
+            this.onPostTick(delta);
+        }
+
+        // Tick 第一阶段执行
+        virtual public void onPreTick(float delta)
+        {
+
+        }
+
+        // Tick 第二阶段执行
+        virtual public void onPostTick(float delta)
         {
 
         }
