@@ -652,5 +652,55 @@ namespace SDK.Lib
         {
             return Mathf.FloorToInt(f);
         }
+
+        static public bool isEqualVec3(UnityEngine.Vector3 a, UnityEngine.Vector3 b)
+        {
+            if (UtilMath.Abs(a.x - b.x) > UtilMath.EPSILON)
+            {
+                return false;
+            }
+
+            if (UtilMath.Abs(a.y - b.y) > UtilMath.EPSILON)
+            {
+                return false;
+            }
+
+            if (UtilMath.Abs(a.z - b.z) > UtilMath.EPSILON)
+            {
+                return false;
+            }
+
+            return false;
+        }
+
+        static public bool isEqualQuat(UnityEngine.Quaternion a, UnityEngine.Quaternion b)
+        {
+            if (UtilMath.Abs(a.x - b.x) > UtilMath.EPSILON)
+            {
+                return false;
+            }
+
+            if (UtilMath.Abs(a.y - b.y) > UtilMath.EPSILON)
+            {
+                return false;
+            }
+
+            if (UtilMath.Abs(a.z - b.z) > UtilMath.EPSILON)
+            {
+                return false;
+            }
+
+            if (UtilMath.Abs(a.w - b.w) > UtilMath.EPSILON)
+            {
+                return false;
+            }
+
+            return false;
+        }
+
+        public static float Distance(Vector3 a, Vector3 b)
+        {
+            return UnityEngine.Vector3.Distance(a, b);
+        }
     }
 }

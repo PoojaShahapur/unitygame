@@ -152,7 +152,7 @@ public class MWorld_KBE
             PlayerMain playerMain = Ctx.mInstance.mPlayerMgr.getHero();
             if (null != playerMain)
             {
-                playerMain.entityEnable();
+                //playerMain.entityEnable();
             }
         }
     }
@@ -182,7 +182,7 @@ public class MWorld_KBE
         {
             if (Ctx.mInstance.mSceneSys.isSceneLoaded())
             {
-                player.entityEnable();
+                //player.entityEnable();
             }
             return;
         }
@@ -265,8 +265,8 @@ public class MWorld_KBE
         if (player == null)
             return;
 
-        player.destPosition = entity.position;
-        player.position = entity.position;
+        player.setDestPos(entity.position);
+        player.setOriginal(entity.position);
     }
 
     public void updatePosition(KBEngine.Entity entity)
@@ -282,8 +282,8 @@ public class MWorld_KBE
         if (player == null)
             return;
 
-        player.destPosition = entity.position;
-        player.isOnGround = entity.isOnGround;
+        player.setDestPos(entity.position);
+        //player.isOnGround = entity.isOnGround;
     }
 
     public void onControlled(KBEngine.Entity entity, bool isControlled)
@@ -298,7 +298,7 @@ public class MWorld_KBE
         if (player == null)
             return;
 
-        player.isControlled = isControlled;
+        //player.isControlled = isControlled;
     }
 
     public void set_direction(KBEngine.Entity entity)
@@ -313,7 +313,7 @@ public class MWorld_KBE
         if (player == null)
             return;
 
-        player.destDirection = new Vector3(entity.direction.y, entity.direction.z, entity.direction.x);
+        player.setDestRotate(new Vector3(entity.direction.y, entity.direction.z, entity.direction.x));
     }
 
     public void set_HP(KBEngine.Entity entity, object v)
@@ -385,7 +385,7 @@ public class MWorld_KBE
         if (player == null)
             return;
 
-        player.speed = fspeed;
+        player.setMoveSpeed(fspeed);
     }
 
     public void set_modelScale(KBEngine.Entity entity, object v)

@@ -232,6 +232,11 @@ namespace SDK.Lib
             this.updateLocalTransform();
         }
 
+        public void setScale(Vector3 value)
+        {
+
+        }
+
         public Bounds getBounds()
         {
             return this.selfGo.GetComponent<MeshFilter>().mesh.bounds;

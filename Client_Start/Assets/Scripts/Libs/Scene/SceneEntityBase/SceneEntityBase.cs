@@ -21,6 +21,7 @@ namespace SDK.Lib
 
         protected UnityEngine.Vector3 mPos;         // 当前位置信息
         protected UnityEngine.Quaternion mRotate;   // 当前方向信息
+        protected UnityEngine.Vector3 mScale;         // 当前缩放信息
         protected SceneEntityMovement mMovement;    // 移动组件
 
         public SceneEntityBase()
@@ -207,9 +208,39 @@ namespace SDK.Lib
             }
         }
 
+        public void setRotateEulerAngle(UnityEngine.Vector3 rotation)
+        {
+            this.mRotate = Quaternion.Euler(rotation);
+
+            if (null != mRender)
+            {
+                mRender.setRotation(this.mRotate);
+            }
+        }
+
         public UnityEngine.Quaternion getRotate()
         {
             return this.mRotate;
+        }
+
+        public UnityEngine.Vector3 getRotateEulerAngle()
+        {
+            return this.mRotate.eulerAngles;
+        }
+
+        public Vector3 getScale()
+        {
+            return mScale;
+        }
+
+        public void setScale(UnityEngine.Vector3 value)
+        {
+            this.mScale = value;
+
+            if (null != mRender)
+            {
+                mRender.setScale(this.mScale);
+            }
         }
 
         public void setSelfName(string name)
