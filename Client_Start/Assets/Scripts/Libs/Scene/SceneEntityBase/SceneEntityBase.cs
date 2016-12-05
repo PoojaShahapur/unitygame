@@ -28,6 +28,7 @@ namespace SDK.Lib
         {
             mIsClientDispose = false;
             mIsInSceneGraph = true;
+            this.mScale = Vector3.one;
         }
 
         //public EntityRenderBase render

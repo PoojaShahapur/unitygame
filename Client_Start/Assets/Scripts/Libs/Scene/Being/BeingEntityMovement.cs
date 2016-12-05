@@ -164,7 +164,7 @@
         public void scaleToDest(float delta)
         {
             float dist = 0.0f;
-            dist = UnityEngine.Vector3.Distance(mDestPos, mEntity.getPos());
+            dist = UnityEngine.Vector3.Distance(this.mDestScale, this.mEntity.getScale());
 
             float deltaSpeed = (mEntity as BeingEntity).mScaleSpeed * delta;
 

@@ -11,10 +11,10 @@ namespace SDK.Lib
         protected GameObject mPntGo;       // 指向父节点
         protected GameObject mPlaceHolderGo;      // 自己节点，资源挂在 m_placeHolderGo 上， m_placeHolderGo 挂在 m_pntGo 上
         protected bool mIsNeedPlaceHolderGo;    // 是否需要占位 GameObject
-        protected Vector3 mOriginal;        // SelfGo 的位置信息
+
         protected bool mIsPosDirty;         // 位置信息是否需要重新设置
-        protected Quaternion mRotation;     // SelfGo 的方向信息
         protected bool mIsRotDirty;         // 旋转信息是否需要重新设置
+        protected bool mIsScaleDirty;         // 缩放信息是否需要重新设置
         protected LuaCSBridge mLuaCSBridge;
 
         public AuxComponent(LuaCSBridge luaCSBridge_ = null)
@@ -219,7 +219,6 @@ namespace SDK.Lib
         public void setOriginal(Vector3 original)
         {
             this.mIsPosDirty = true;
-            this.mOriginal = original;
 
             this.updateLocalTransform();
         }
@@ -227,14 +226,15 @@ namespace SDK.Lib
         public void setRotation(Quaternion rotation)
         {
             this.mIsRotDirty = true;
-            this.mRotation = rotation;
 
             this.updateLocalTransform();
         }
 
         public void setScale(Vector3 value)
         {
+            this.mIsScaleDirty = true;
 
+            this.updateLocalTransform();
         }
 
         virtual public Bounds getBounds()
@@ -252,21 +252,9 @@ namespace SDK.Lib
             this.selfGo.GetComponent<Rigidbody>().AddForce(force, mode);
         }
 
-        public void updateLocalTransform()
+        virtual public void updateLocalTransform()
         {
-            if (null != this.mSelfGo)
-            {
-                if (this.mIsPosDirty)
-                {
-                    this.mIsPosDirty = false;
-                    UtilApi.setPos(this.mSelfGo.transform, this.mOriginal);
-                }
-                if (this.mIsRotDirty)
-                {
-                    this.mIsRotDirty = false;
-                    UtilApi.setRot(this.mSelfGo.transform, this.mRotation);
-                }
-            }
+            
         }
 
         public Rigidbody getRigidbody()

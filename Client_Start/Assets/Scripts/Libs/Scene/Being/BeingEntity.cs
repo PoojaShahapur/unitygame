@@ -151,7 +151,7 @@ namespace SDK.Lib
         {
             this.mEatSize = size;
 
-            this.setScale(new Vector3(this.mEatSize, this.mEatSize, this.mEatSize));
+            this.setDestScale(size);
         }
 
         public float getEatSize()

@@ -60,5 +60,27 @@
         {
 
         }
+
+        override public void updateLocalTransform()
+        {
+            if (null != this.mSelfGo)
+            {
+                if (this.mIsPosDirty)
+                {
+                    this.mIsPosDirty = false;
+                    UtilApi.setPos(this.mSelfGo.transform, this.mEntity.getPos());
+                }
+                if (this.mIsRotDirty)
+                {
+                    this.mIsRotDirty = false;
+                    UtilApi.setRot(this.mSelfGo.transform, this.mEntity.getRotate());
+                }
+                if (this.mIsScaleDirty)
+                {
+                    this.mIsScaleDirty = false;
+                    UtilApi.setScale(this.mSelfGo.transform, this.mEntity.getScale());
+                }
+            }
+        }
     }
 }
