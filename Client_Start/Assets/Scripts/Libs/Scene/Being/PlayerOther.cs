@@ -11,6 +11,7 @@ namespace SDK.Lib
             this.mEntityType = EntityType.ePlayerOther;
             this.mEntityUniqueId = Ctx.mInstance.mPlayerMgr.genNewStrId();
             this.mMovement = new PlayerOtherMovement(this);
+            this.mAttack = new PlayerOtherAttack(this);
         }
 
         override public void initRender()

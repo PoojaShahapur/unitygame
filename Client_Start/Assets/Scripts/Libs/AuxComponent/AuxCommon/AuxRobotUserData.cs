@@ -67,7 +67,7 @@ namespace SDK.Lib
                                 //计算缩放比率            
                                 float newBallRadius = UtilLogic.getRadiusByMass(UtilLogic.getMassByRadius(colSnow.transform().localScale.x) + UtilLogic.getMassByRadius(aBeingEntity.transform().localScale.x));
                                 bool otherisRobot = colSnow.amIRobot();//对方是否机器人
-                                                                       //log.logHelper.DebugLog("吃球,state=" + state + colSnow.gameObject.name +  "是否为机器人" + otherisRobot.ToString());
+                                //log.logHelper.DebugLog("吃球,state=" + state + colSnow.gameObject.name +  "是否为机器人" + otherisRobot.ToString());
 
                                 if (state == EatState.Eat_Other)//吃掉对方
                                 {

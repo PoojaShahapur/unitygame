@@ -13,6 +13,8 @@ namespace SDK.Lib
         public float mRotateSpeed;   // 旋转速度
         public float mScaleSpeed;    // 缩放速度
 
+        protected BeingEntityAttack mAttack;
+
         public BeingEntity()
         {
             //m_skinAniModel = new SkinModelSkelAnim();
@@ -178,6 +180,11 @@ namespace SDK.Lib
             if (null != this.mMovement)
             {
                 this.mMovement.onTick(delta);
+            }
+
+            if(null != this.mAttack)
+            {
+                this.mAttack.onTick(delta);
             }
         }
     }

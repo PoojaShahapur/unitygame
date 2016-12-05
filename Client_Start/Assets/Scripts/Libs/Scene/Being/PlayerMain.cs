@@ -20,6 +20,7 @@ namespace SDK.Lib
             this.mEntityType = EntityType.ePlayerMain;
             this.mEntityUniqueId = Ctx.mInstance.mPlayerMgr.genNewStrId();
             this.mMovement = new PlayerMainMovement(this);
+            this.mAttack = new PlayerMainAttack(this);
 
             m_canEatRate = 10.0f;
         }
@@ -133,10 +134,6 @@ namespace SDK.Lib
 
         public string playerName = "雪球";
 
-        //public static CreatePlayer _Instace;
-        //public GameObject player;
-        //public List<ChildrenItemInfo> childrenList = new List<ChildrenItemInfo>();
-
         public uint create_times = 0;//生成次数
         private bool is_niubi = true;//x秒无敌真男人时间
         private bool is_dontmove = false;//重生禁止移动状态
@@ -219,14 +216,6 @@ namespace SDK.Lib
         {
             foreach (var child in this.mChildrenList.list())
             {
-                //float player_radius = player.gameObject.GetComponent<MeshFilter>().mesh.bounds.size.x * player.GetComponent<Transform>().localScale.x;
-                //float child_radius = child.childrenObj.GetComponent<MeshFilter>().mesh.bounds.size.x * child.childrenObj.GetComponent<Transform>().localScale.x;
-                //float x = player.GetComponent<Transform>().position.x + player_radius + child_radius + child.startX;
-                //float z = player.GetComponent<Transform>().position.z + player_radius + child_radius + child.startZ;
-
-                //float y = child.childrenObj.GetComponent<Transform>().position.y;
-                //child.childrenObj.GetComponent<Transform>().position = new Vector3(x, y, z);
-
                 float player_radius = this.getBounds().size.x * this.transform().localScale.x;
                 float child_radius = child.getBounds().size.x * child.transform().localScale.x;
                 float x = this.transform().position.x + player_radius + child_radius + child.startX;
