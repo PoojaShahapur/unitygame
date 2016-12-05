@@ -327,11 +327,7 @@ namespace SDK.Lib
                 }
                 else
                 {
-                    //Vector3 startRotation = player1.transform.rotation.eulerAngles;
-                    //Vector3 endRotation = new Vector3(0, (Mathf.Atan2(-vertical_move, horizontal_move) * Mathf.Rad2Deg) + cmr.transform.rotation.eulerAngles.y + 90, 0);
-                    //player1.transform.rotation = Quaternion.FromToRotation(startRotation, endRotation);
-                    //player1.transform.rotation = Quaternion.Euler(0, (Mathf.Atan2(-vertical_move, horizontal_move) * Mathf.Rad2Deg) + cmr.transform.rotation.eulerAngles.y + 90, 0);
-                    (mRender as PlayerMainRender).updatePlayer1Pos();
+                    
                 }
             }
 
@@ -366,8 +362,7 @@ namespace SDK.Lib
                 }
                 else
                 {
-                    //player1.transform.rotation = Quaternion.Euler(0, (Mathf.Atan2(-horizontal_move, vertical_move) * Mathf.Rad2Deg) + cmr.transform.rotation.eulerAngles.y + 90, 0);
-                    (mRender as PlayerMainRender).updatePlayer1Pos();
+
                 }
             }
 

@@ -13,6 +13,8 @@
         protected bool mIsRatateToDest; // 是否需要旋转到目标方向
         protected bool mIsScaleToDest;  // 是否需要缩放到目标大小
 
+        protected float mAcceleration;  // 线性加速度
+
         public BeingEntityMovement(SceneEntityBase entity)
             : base(entity)
         {
