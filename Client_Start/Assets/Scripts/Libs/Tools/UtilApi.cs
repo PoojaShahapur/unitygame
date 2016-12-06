@@ -521,6 +521,7 @@ namespace SDK.Lib
             target.SetActive(bshow);
         }
 
+        // 设置不可见，这个其实是移动对象位置到不可见的位置，因为 GameObject::SetActive 如果有 Animator 组件的时候，如果调用 GameObject::SetActive(true) 会非常耗时，相反，如果仅仅是把 GameObject 移动到很远的位置，然后再调用 Animator 组件的 enabled ，就不会有这个问题
         public static void fakeSetActive(GameObject target, bool bshow)
         {
             if(!bshow)
@@ -537,6 +538,12 @@ namespace SDK.Lib
             }
 
             return false;
+        }
+
+        // 通过查看位置检查是否可见
+        public static bool fakeIsActive(GameObject target)
+        {
+            return target.transform.position == UtilApi.FAKE_POS;
         }
 
         public static UnityEngine.Object Instantiate(UnityEngine.Object original)
@@ -623,8 +630,8 @@ namespace SDK.Lib
         // 卸载内部 Resources 管理的共享的那块资源，注意这个是异步事件
         public static AsyncOperation UnloadUnusedAssets(bool needGC = false)
         {
-            // 卸载从 AssetBundles 加载的 由 Resources 管理的 Asset-Object，或者直接使用 Resource.Load 加载的由 Resources 管理的 Asset-Object 资源
-            AsyncOperation opt = Resources.UnloadUnusedAssets();
+            // 卸载从 AssetBundles 加载的 由 Resources 管理的 Asset-Object，或者直接使用 Resource.Load 加载的由 Resources 管理的 Asset-Object 资源，其实这个没有必要自己调用，每一次切换场景的时候，系统会调用一次 GC.Collect();
+            AsyncOperation opt = Resources.UnloadUnusedAssets();    // 每一次切场景的时候会调用，如果自己调用尽量间隔 20 分钟左右
             if (needGC)
             {
                 GC.Collect();
@@ -632,14 +639,14 @@ namespace SDK.Lib
             return opt;
         }
 
-        // 立即垃圾回收
+        // 立即垃圾回收，这个函数会遍历，因此很耗时，每一次卸载资源的时候，使用 Resources.UnloadAsset 卸载资源，会减少 Resources.UnloadUnusedAssets 遍历的数量，
         public static void ImmeUnloadUnusedAssets(bool needGC = false)
         {
             // 用于释放所有没有引用的Asset对象
             Resources.UnloadUnusedAssets();     // 这个卸载好像很卡，使用的时候要小心使用，好像是遍历整个资源 Tree
             if (needGC)
             {
-                // 强制垃圾收集器立即释放内存 Unity的GC功能不算好，没把握的时候就强制调用一下
+                // 强制垃圾收集器立即释放内存 Unity的GC功能不算好，没把握的时候就强制调用一下，其实这个没有必要自己调用，每一次切换场景的时候，系统会调用一次 GC.Collect();
                 GC.Collect();
             }
         }
