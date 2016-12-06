@@ -15,11 +15,11 @@
             float horizontal = UnityEngine.Input.GetAxis("Horizontal");
             if (horizontal > 0.0f)
             {
-                this.rotateRight();
+                this.rotateLeft();
             }
             else if (horizontal < 0.0f)
             {
-                this.rotateLeft();
+                this.rotateRight();
             }
 
             float vertical = UnityEngine.Input.GetAxis("Vertical");
