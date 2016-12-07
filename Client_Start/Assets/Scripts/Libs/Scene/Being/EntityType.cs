@@ -3,9 +3,10 @@
     public enum EntityType
     {
         ePlayerMain = 0,
-        ePlayerOther = 0,
-        eRobot = 1,
-        eSnowBlock = 2,
-        eCount = 3,
+        ePlayerOther = 1,
+        ePlayerChild = 2,
+        eRobot = 3,
+        eSnowBlock = 4,
+        eCount = 5,
     }
 }

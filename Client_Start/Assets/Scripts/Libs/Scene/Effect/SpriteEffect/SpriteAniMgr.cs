@@ -7,11 +7,11 @@ namespace SDK.Lib
      */
     public class SpriteAniMgr : DelayHandleMgrBase, ITickedObject, IDelayHandleItem
     {
-        protected List<ImageSpriteAni> m_sceneEntityList;
+        protected List<ImageSpriteAni> mSceneEntityList;
 
         public SpriteAniMgr()
         {
-            m_sceneEntityList = new List<ImageSpriteAni>();
+            mSceneEntityList = new List<ImageSpriteAni>();
         }
 
         public void add2List(ImageSpriteAni entity)
@@ -27,7 +27,7 @@ namespace SDK.Lib
             }
             else
             {
-                m_sceneEntityList.Add(delayObject as ImageSpriteAni);
+                mSceneEntityList.Add(delayObject as ImageSpriteAni);
             }
         }
 
@@ -44,7 +44,7 @@ namespace SDK.Lib
             }
             else
             {
-                m_sceneEntityList.Remove(delayObject as ImageSpriteAni);
+                mSceneEntityList.Remove(delayObject as ImageSpriteAni);
             }
         }
 
@@ -59,7 +59,7 @@ namespace SDK.Lib
 
         virtual protected void onTickExec(float delta)
         {
-            foreach (ImageSpriteAni entity in m_sceneEntityList)
+            foreach (ImageSpriteAni entity in mSceneEntityList)
             {
                 if (!(entity as ImageSpriteAni).isClientDispose())
                 {

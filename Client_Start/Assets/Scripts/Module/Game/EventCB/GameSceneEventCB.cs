@@ -26,7 +26,7 @@ namespace Game.Game
             // 创建 SnowBall
             //Ctx.mInstance.mSnowBlockMgr.CreateASnowBlock();
             // 创建所有的雪球
-            Ctx.mInstance.mSnowBlockMgr.createAllSnowFood();
+            //Ctx.mInstance.mSnowBlockMgr.createAllSnowFood();
             // 创建所有的 Robot
             //Ctx.mInstance.mRobotMgr.createAllRobot();
 

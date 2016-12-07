@@ -1,0 +1,54 @@
+﻿namespace SDK.Lib
+{
+    /**
+	 * @brief 玩家的 Child 管理器
+	 */
+    public class PlayerChildMgr : EntityMgrBase
+    {
+        protected Player mParentPlayer;     // 最初分裂者
+
+        public PlayerChildMgr()
+        {
+            
+        }
+
+        override protected void onTickExec(float delta)
+        {
+            base.onTickExec(delta);
+        }
+
+        override public void init()
+        {
+            base.init();
+        }
+
+        public override void dispose()
+        {
+            base.dispose();
+
+            this.mParentPlayer = null;
+        }
+
+        public void setParentPlayer(Player parentPlayer)
+        {
+            this.mParentPlayer = parentPlayer;
+        }
+
+        // 创建 Child
+        public void createChild(Player splitParentPlayer)
+        {
+            Player child;
+            if (EntityType.ePlayerMain == mParentPlayer.getEntityType())
+            {
+                child = new PlayerMainChild(this.mParentPlayer);
+            }
+            else
+            {
+                child = new PlayerMainChild(this.mParentPlayer);
+            }
+
+            child.init();
+            child.setOriginal(splitParentPlayer.getPos());
+        }
+    }
+}

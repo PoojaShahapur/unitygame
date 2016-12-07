@@ -153,14 +153,14 @@ namespace SDK.Lib
                 robot.setRotation(Quaternion.identity);
 
                 robot.transform().localScale = new UnityEngine.Vector3(scaleRate, scaleRate, scaleRate);//缩放
-                robot.SetIsRobot(true);
+                //robot.SetIsRobot(true);
                 //robot.GetComponent<AI>().SetPlayer(CreatePlayer._Instace.player);
                 PlayerMain playerMain = Ctx.mInstance.mPlayerMgr.getHero();
                 robot.SetPlayer(playerMain);
                 robot.setSelfName(allNameArray[(int)foodsNum]);
                 //log.logHelper.DebugLog("CreateSnowFood" + food.name);
-                robot.m_charid = foodsNum + 1;
-                robot.setMyName(allNameArray[(int)foodsNum]);
+                //robot.m_charid = foodsNum + 1;
+                //robot.setMyName(allNameArray[(int)foodsNum]);
                 //Debug.Log(food.name + "y位置：" + food.transform.position.y + "   半径：" + scaleRate);
 
                 ++foodsNum;
@@ -196,14 +196,14 @@ namespace SDK.Lib
                 robot.setRotation(Quaternion.identity);
 
                 robot.transform().localScale = new Vector3(scaleRate, scaleRate, scaleRate);//缩放
-                robot.SetIsRobot(true);
+                //robot.SetIsRobot(true);
                 //robot.GetComponent<AI>().SetPlayer(CreatePlayer._Instace.player);
                 PlayerMain playerMain = Ctx.mInstance.mPlayerMgr.getHero();
                 robot.SetPlayer(playerMain);
                 robot.setSelfName(name);
                 //log.logHelper.DebugLog("创建物件名" + name);
-                robot.m_charid = charid;
-                robot.setMyName(name);
+                //robot.m_charid = charid;
+                //robot.setMyName(name);
                 //Debug.Log(food.name + "y位置：" + food.transform.position.y + "   半径：" + scaleRate);
 
                 ++foodsNum;

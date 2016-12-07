@@ -10,7 +10,7 @@
         protected UnityEngine.Vector3 mDestScale;         // 目标缩放大小
 
         protected bool mIsMoveToDest;   // 是否需要移动到目标点
-        protected bool mIsRatateToDest; // 是否需要旋转到目标方向
+        protected bool mIsRotateToDest; // 是否需要旋转到目标方向
         protected bool mIsScaleToDest;  // 是否需要缩放到目标大小
 
         protected float mAcceleration;  // 线性加速度
@@ -19,8 +19,23 @@
             : base(entity)
         {
             this.mIsMoveToDest = false;
-            this.mIsMoveToDest = false;
+            this.mIsRotateToDest = false;
             this.mIsScaleToDest = false;
+        }
+
+        public bool isMoveToDest()
+        {
+            return this.mIsMoveToDest;
+        }
+
+        public void setIsMoveToDest(bool isMove)
+        {
+            this.mIsMoveToDest = isMove;
+        }
+
+        public bool isRotateToDest()
+        {
+            return this.mIsRotateToDest;
         }
 
         override public void onTick(float delta)
@@ -31,7 +46,7 @@
             {
                 this.moveToDest(delta);
             }
-            if(this.mIsMoveToDest)
+            if(this.mIsRotateToDest)
             {
                 this.rotateToDest(delta);
             }
@@ -51,7 +66,7 @@
         }
 
         // 局部空间旋转
-        public void addLocalRotation(UnityEngine.Vector3 DeltaRotation)
+        virtual public void addLocalRotation(UnityEngine.Vector3 DeltaRotation)
         {
             mEntity.setRotation(mEntity.getRotate() * UtilApi.convQuatFromEuler(DeltaRotation));
 
@@ -61,6 +76,8 @@
         // 向前移动
         public void moveForward()
         {
+            (this.mEntity as BeingEntity).setBeingState(BeingState.BSWalk);
+
             float delta = Ctx.mInstance.mSystemTimeData.deltaSec;
             UnityEngine.Vector3 localMove = new UnityEngine.Vector3(0.0f, 0.0f, (mEntity as BeingEntity).mMoveSpeed * delta);
             this.addActorLocalOffset(localMove);
@@ -69,6 +86,8 @@
         // 向后移动
         public void moveBack()
         {
+            (this.mEntity as BeingEntity).setBeingState(BeingState.BSWalk);
+
             float delta = Ctx.mInstance.mSystemTimeData.deltaSec;
             UnityEngine.Vector3 localMove = new UnityEngine.Vector3(0.0f, 0.0f, -(mEntity as BeingEntity).mMoveSpeed * delta);
             this.addActorLocalOffset(localMove);
@@ -77,6 +96,8 @@
         // 向左旋转
         public void rotateLeft()
         {
+            (this.mEntity as BeingEntity).setBeingState(BeingState.BSWalk);
+
             float delta = Ctx.mInstance.mSystemTimeData.deltaSec;
             UnityEngine.Vector3 deltaRotation = new UnityEngine.Vector3(0.0f, (mEntity as BeingEntity).mRotateSpeed * delta, 0.0f);
             this.addLocalRotation(deltaRotation);
@@ -85,9 +106,17 @@
         // 向右旋转
         public void rotateRight()
         {
+            (this.mEntity as BeingEntity).setBeingState(BeingState.BSWalk);
+
             float delta = Ctx.mInstance.mSystemTimeData.deltaSec;
             UnityEngine.Vector3 deltaRotation = new UnityEngine.Vector3(0.0f, -(mEntity as BeingEntity).mRotateSpeed * delta, 0.0f);
             this.addLocalRotation(deltaRotation);
+        }
+
+        // 停止移动
+        public void stopMove()
+        {
+            (this.mEntity as BeingEntity).setBeingState(BeingState.BSIdle);
         }
 
         // 根据目标点信息移动
@@ -195,12 +224,13 @@
         public void onArriveDestPos()
         {
             this.mIsMoveToDest = false;
+            (this.mEntity as BeingEntity).setBeingState(BeingState.BSIdle);
         }
 
         // 旋转到目标方向
         public void onArriveDesRatate()
         {
-            this.mIsMoveToDest = false;
+            this.mIsRotateToDest = false;
         }
 
         // 缩放到目标带你
@@ -218,6 +248,7 @@
             if (dist > UtilMath.EPSILON)
             {
                 this.mIsMoveToDest = true;
+                (this.mEntity as BeingEntity).setBeingState(BeingState.BSWalk);
 
                 // 计算最终方向
                 this.mDestRotate = UnityEngine.Quaternion.FromToRotation(UnityEngine.Vector3.forward, this.mDestPos);
@@ -246,11 +277,18 @@
             }
         }
 
-        public void setDestRotate(UnityEngine.Vector3 destRotate)
+        virtual public void setDestRotate(UnityEngine.Vector3 destRotate)
         {
             this.mDestRotate = UnityEngine.Quaternion.Euler(destRotate);
 
-            this.mIsMoveToDest = false;
+            if (UnityEngine.Vector3.Distance(mEntity.getRotateEulerAngle(), destRotate) > UtilMath.EPSILON)
+            {
+                this.mIsRotateToDest = true;
+            }
+            else
+            {
+                this.mIsRotateToDest = false;
+            }
         }
 
         public void setDestScale(float scale)
@@ -267,6 +305,22 @@
             {
                 this.mIsScaleToDest = false;
             }
+        }
+
+        virtual public void lookAt(UnityEngine.Vector3 targetPt)
+        {
+            this.mDestRotate.SetLookRotation(targetPt);
+            this.setDestRotate(this.mDestRotate.eulerAngles);
+        }
+
+        virtual public void moveAlong()
+        {
+
+        }
+
+        virtual public void movePause()
+        {
+
         }
 
         public void sendMoveMsg()

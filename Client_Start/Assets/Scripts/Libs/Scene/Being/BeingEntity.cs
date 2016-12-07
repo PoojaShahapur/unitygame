@@ -8,6 +8,7 @@ namespace SDK.Lib
     public class BeingEntity : SceneEntityBase
     {
         protected SkinModelSkelAnim m_skinAniModel;      // 模型数据
+        protected BeingState mBeingState;       // 当前的状态
 
         public float mMoveSpeed;     // 移动速度
         public float mRotateSpeed;   // 旋转速度
@@ -20,12 +21,13 @@ namespace SDK.Lib
         {
             //m_skinAniModel = new SkinModelSkelAnim();
             //m_skinAniModel.handleCB = onSkeletonLoaded;
+            this.mBeingState = BeingState.BSIdle;
 
-            this.mMoveSpeed = 10;
+            this.mMoveSpeed = 16;
             this.mRotateSpeed = 50;
             this.mScaleSpeed = 1;
 
-            this.mEatSize = 1;
+            this.mEatSize = 5;
         }
 
         public SkinModelSkelAnim skinAniModel
@@ -159,10 +161,10 @@ namespace SDK.Lib
             return this.mEatSize;
         }
 
-        override public void init()
+        override public void preInit()
         {
             // 基类初始化
-            base.init();
+            base.preInit();
             // 自动处理，例如添加到管理器
             this.autoHandle();
             // 初始化渲染器
@@ -201,6 +203,16 @@ namespace SDK.Lib
             {
                 this.mAttack.onTick(delta);
             }
+        }
+
+        public void setBeingState(BeingState state)
+        {
+            this.mBeingState = state;
+        }
+
+        public BeingState getBeingState()
+        {
+            return this.mBeingState;
         }
 
         virtual public bool canEatOther(BeingEntity other)

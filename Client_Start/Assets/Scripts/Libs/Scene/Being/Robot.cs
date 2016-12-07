@@ -13,9 +13,9 @@
             this.mAIControl = new RobotAIControl(this);
         }
 
-        override public void init()
+        override public void preInit()
         {
-            base.init();
+            base.preInit();
             this.mAIControl.init();
         }
 
@@ -50,7 +50,7 @@
         {
             if(null != this.mAIControl)
             {
-                this.mAIControl.SetPlayer(player);
+                //this.mAIControl.SetPlayer(player);
             }
         }
     }

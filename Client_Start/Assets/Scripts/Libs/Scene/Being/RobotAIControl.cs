@@ -41,61 +41,61 @@ namespace SDK.Lib
 
         public void onTick(float delta)
         {
-            this.Update();
+            //this.Update();
         }
 
-        // Update is called once per frame
-        protected void Update()
-        {
-            //if (!this.GetComponent<Food>().IsOnGround())
-            if (!this.mPlayer.IsOnGround())
-            {
-                return;
-            }
+        //// Update is called once per frame
+        //protected void Update()
+        //{
+        //    //if (!this.GetComponent<Food>().IsOnGround())
+        //    if (!this.mPlayer.IsOnGround())
+        //    {
+        //        return;
+        //    }
 
-            ChangeForce();
+        //    ChangeForce();
 
-            //force = MoveSpeed_k / this.GetComponent<Transform>().localScale.x + MoveSpeed_b;
-            force = MoveSpeed_k / this.mPlayer.transform().localScale.x + MoveSpeed_b;
-            force *= 6.0f;
+        //    //force = MoveSpeed_k / this.GetComponent<Transform>().localScale.x + MoveSpeed_b;
+        //    force = MoveSpeed_k / this.mPlayer.transform().localScale.x + MoveSpeed_b;
+        //    force *= 6.0f;
 
-            //if (!this.GetComponent<Food>().IsOnGround())
-            if (!this.mPlayer.IsOnGround())
-            {
-                //log.logHelper.DebugLog("玩家不在地上,不加力");
-                return;
-            }
-            //添加力
-            if (isautoForce) this.mPlayer.AddForce(new Vector3(force * Mathf.Cos(angle), 0, force * Mathf.Sin(angle)));
-        }
+        //    //if (!this.GetComponent<Food>().IsOnGround())
+        //    if (!this.mPlayer.IsOnGround())
+        //    {
+        //        //log.logHelper.DebugLog("玩家不在地上,不加力");
+        //        return;
+        //    }
+        //    //添加力
+        //    if (isautoForce) this.mPlayer.AddForce(new Vector3(force * Mathf.Cos(angle), 0, force * Mathf.Sin(angle)));
+        //}
 
-        //public void SetPlayer(GameObject player)
-        public void SetPlayer(PlayerMain player)
-        {
-            this.mPlayerMain = player;
-            MoveSpeed_k = this.mPlayerMain.MoveSpeed_k;
-            MoveSpeed_b = this.mPlayerMain.MoveSpeed_b;
-        }
+        ////public void SetPlayer(GameObject player)
+        //public void SetPlayer(PlayerMain player)
+        //{
+        //    this.mPlayerMain = player;
+        //    MoveSpeed_k = this.mPlayerMain.MoveSpeed_k;
+        //    MoveSpeed_b = this.mPlayerMain.MoveSpeed_b;
+        //}
 
-        private int auto_relive_seconds = 3;
-        private float totalTime = 0;
-        private void ChangeForce()//3s中改变一次力的方向
-        {
-            //累加每帧消耗时间
-            //totalTime += Time.deltaTime;
-            totalTime += Ctx.mInstance.mSystemTimeData.deltaSec;
-            if (totalTime >= 1)//每过1秒执行一次
-            {
-                auto_relive_seconds--;
-                totalTime = 0;
-            }
+        //private int auto_relive_seconds = 3;
+        //private float totalTime = 0;
+        //private void ChangeForce()//3s中改变一次力的方向
+        //{
+        //    //累加每帧消耗时间
+        //    //totalTime += Time.deltaTime;
+        //    totalTime += Ctx.mInstance.mSystemTimeData.deltaSec;
+        //    if (totalTime >= 1)//每过1秒执行一次
+        //    {
+        //        auto_relive_seconds--;
+        //        totalTime = 0;
+        //    }
 
-            //自动复活
-            if (0 == auto_relive_seconds)
-            {
-                angle = UtilApi.rangRandom(0, 360);
-                auto_relive_seconds = 3;
-            }
-        }
+        //    //自动复活
+        //    if (0 == auto_relive_seconds)
+        //    {
+        //        angle = UtilApi.rangRandom(0, 360);
+        //        auto_relive_seconds = 3;
+        //    }
+        //}
     }
 }

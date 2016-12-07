@@ -113,11 +113,11 @@ namespace SDK.Lib
             {
                 PlayerMain playerMain = Ctx.mInstance.mPlayerMgr.getHero();
                 //if (CreatePlayer._Instace.GetIsJustCreate())
-                if (null != playerMain && playerMain.GetIsJustCreate())
+                if (null != playerMain)
                 {
                     ResetDefaultValue();
                     //CreatePlayer._Instace.SetIsJustCreate(false);
-                    playerMain.SetIsJustCreate(false);
+                    //playerMain.SetIsJustCreate(false);
                 }
                 SetCameraPosition();
             }
@@ -139,10 +139,12 @@ namespace SDK.Lib
                 Quaternion quaternion = Quaternion.Euler(this.eulerAngles_y, this.eulerAngles_x, (float)0);
                 //中心位置
                 //Vector3 centerPos = CreatePlayer._Instace.GetCenterPosition();
-                Vector3 centerPos = playerMain.GetCenterPosition();
+                //Vector3 centerPos = playerMain.GetCenterPosition();
+                Vector3 centerPos = playerMain.getPos();
                 //缩放参照距离
                 //float radius = CreatePlayer._Instace.GetScaleDistance(centerPos);
-                float radius = playerMain.GetScaleDistance(centerPos);
+                //float radius = playerMain.GetScaleDistance(centerPos);
+                float radius = 5;
                 //等比缩放相机位置
                 float cur_distance_Z = this.distance_Z * radius;
 
@@ -181,7 +183,7 @@ namespace SDK.Lib
                 //CreatePlayer._Instace.player.GetComponent<Transform>().eulerAngles = eulerAngles;
                 //CreatePlayer._Instace.RefreshChildrensRotation(eulerAngles);
                 //playerMain.transform().eulerAngles = eulerAngles;
-                playerMain.RefreshChildrensRotation(eulerAngles);
+                //playerMain.RefreshChildrensRotation(eulerAngles);
             }
         }
 

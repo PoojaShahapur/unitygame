@@ -22,7 +22,7 @@ namespace SDK.Lib
         protected UnityEngine.Vector3 mPos;         // 当前位置信息
         protected UnityEngine.Quaternion mRotate;   // 当前方向信息
         protected UnityEngine.Vector3 mScale;         // 当前缩放信息
-        protected SceneEntityMovement mMovement;    // 移动组件
+        public SceneEntityMovement mMovement;    // 移动组件
 
         public SceneEntityBase()
         {
@@ -45,7 +45,18 @@ namespace SDK.Lib
 
         virtual public void init()
         {
-            
+            this.preInit();
+            this.postInit();
+        }
+
+        virtual public void preInit()
+        {
+
+        }
+
+        virtual public void postInit()
+        {
+
         }
 
         virtual public void onInit()

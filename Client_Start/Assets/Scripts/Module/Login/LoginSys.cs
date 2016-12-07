@@ -39,7 +39,7 @@ namespace Game.Login
 
             Ctx.mInstance.mUiMgr.loadAndShow(UIFormID.eUILogin);
             //Ctx.mInstance.mUiMgr.loadAndShow(UIFormID.eUISelectRole);
-            //Ctx.mInstance.mLuaSystem.openForm(10001);
+            //Ctx.mInstance.mLuaSystem.openForm(10001);//参数：UIFormID.lua中genNewId()
             //Ctx.mInstance.mUiMgr.loadAndShow(UIFormID.eUITest);
         }
 

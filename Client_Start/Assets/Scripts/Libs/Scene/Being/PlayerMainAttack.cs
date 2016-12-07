@@ -36,13 +36,13 @@
                 {
                     // 吃掉机器人，修改自己的数据
                     this.mEntity.setEatSize(newBallRadius);
-                    ++(this.mEntity as Player).m_swallownum;
+                    //++(this.mEntity as Player).m_swallownum;
                     bBeingEntity.dispose();      // 删除玩家
                 }
                 else if (EatState.Eaten_ByOther == state)//被吃掉
                 {
                     bBeingEntity.setEatSize(newBallRadius);
-                    ++(bBeingEntity as Player).m_swallownum;
+                    //++(bBeingEntity as Player).m_swallownum;
                     this.mEntity.dispose();
                 }
             }

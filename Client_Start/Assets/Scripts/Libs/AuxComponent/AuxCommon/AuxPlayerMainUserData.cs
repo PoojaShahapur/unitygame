@@ -26,7 +26,7 @@ namespace SDK.Lib
                 else
                 {
                     // 如果碰撞的是地形
-                    aBeingEntity.m_isOnGround = true;
+                    //aBeingEntity.m_isOnGround = true;
                 }
             }
         }
@@ -39,7 +39,7 @@ namespace SDK.Lib
             AuxSceneEntityUserData bUserData = collision.gameObject.GetComponent<AuxSceneEntityUserData>();
             if (null == bUserData)
             {
-                aBeingEntity.m_isOnGround = true;
+                //aBeingEntity.m_isOnGround = true;
             }
         }
 
@@ -51,7 +51,7 @@ namespace SDK.Lib
             AuxSceneEntityUserData bUserData = collision.gameObject.GetComponent<AuxSceneEntityUserData>();
             if (null == bUserData)   // 地形暂时没有绑定组件
             {
-                aBeingEntity.m_isOnGround = false;
+                //aBeingEntity.m_isOnGround = false;
             }
         }
     }

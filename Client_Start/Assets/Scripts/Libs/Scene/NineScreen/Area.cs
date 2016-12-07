@@ -10,9 +10,9 @@
             init();
         }
 
-        public void init()
+        override public void init()
         {
-            
+            base.init();
         }
 
         override public void addEntity(SceneEntityBase entity)
@@ -24,10 +24,10 @@
         public void clearArea()
         {
             int idx = 0;
-            int len = m_sceneEntityList.Count();
+            int len = mSceneEntityList.Count();
             while(idx < len)
             {
-                m_sceneEntityList[idx].dispose();
+                mSceneEntityList[idx].dispose();
                 ++idx;
             }
         }

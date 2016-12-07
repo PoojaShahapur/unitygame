@@ -21,6 +21,13 @@
             {
                 this.rotateRight();
             }
+            else
+            {
+                if(!this.isMoveToDest())
+                {
+                    this.stopMove();
+                }
+            }
 
             float vertical = UnityEngine.Input.GetAxis("Vertical");
             if (vertical > 0.0f)
@@ -30,6 +37,13 @@
             else if(vertical < 0.0f)
             {
                 this.moveBack();
+            }
+            else
+            {
+                if (!this.isRotateToDest())
+                {
+                    this.stopMove();
+                }
             }
         }
     }

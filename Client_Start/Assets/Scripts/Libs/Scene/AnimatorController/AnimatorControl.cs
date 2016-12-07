@@ -400,7 +400,7 @@ namespace SDK.Lib
         protected void playFromBackToFront()
         {
             AnimatorStateInfo stateInfo = this.mAnimator.GetCurrentAnimatorStateInfo(0);
-            //m_animator.SetTime
+            // 这个设置成 -1 没什么用处，需要把 Animator 编辑器中的动画节点的 Speed 属性改成 -1，默认是 1
             this.mAnimator.speed = -1.0f;
         }
     }
