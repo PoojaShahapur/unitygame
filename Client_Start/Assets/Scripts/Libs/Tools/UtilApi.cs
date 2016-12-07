@@ -539,6 +539,11 @@ namespace SDK.Lib
             return false;
         }
 
+        public static bool fakeIsActive(GameObject target)
+        {
+            return target.transform.position == UtilApi.FAKE_POS;
+        }
+
         public static UnityEngine.Object Instantiate(UnityEngine.Object original)
         {
             return UnityEngine.Object.Instantiate(original);
