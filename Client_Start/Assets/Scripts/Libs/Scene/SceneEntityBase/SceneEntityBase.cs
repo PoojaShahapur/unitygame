@@ -212,6 +212,7 @@ namespace SDK.Lib
         public void setOriginal(Vector3 original)
         {
             this.mPos = original;
+            this.mPos.y = 1.3f;     // TODO: 先固定
 
             if (null != mRender)
             {
@@ -354,6 +355,21 @@ namespace SDK.Lib
                 this.setOriginal(new Vector3(mEntity_KBE.position.x, 1.3f, mEntity_KBE.position.z));
                 this.setRotation(Quaternion.Euler(new Vector3(mEntity_KBE.direction.y, mEntity_KBE.direction.z, mEntity_KBE.direction.x)));
             }
+        }
+
+        public System.Int32 getId()
+        {
+            return mEntity_KBE.id;
+        }
+
+        public void baseCall(string methodname, params object[] arguments)
+        {
+            mEntity_KBE.baseCall(methodname, arguments);
+        }
+
+        public void cellCall(string methodname, params object[] arguments)
+        {
+            mEntity_KBE.cellCall(methodname, arguments);
         }
     }
 }

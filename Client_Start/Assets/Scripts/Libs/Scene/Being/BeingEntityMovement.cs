@@ -14,6 +14,7 @@
         protected bool mIsScaleToDest;  // 是否需要缩放到目标大小
 
         protected float mAcceleration;  // 线性加速度
+        protected bool mIsAutoPath;     // 是否是自动寻路，或者是通过控制向前移动
 
         public BeingEntityMovement(SceneEntityBase entity)
             : base(entity)
@@ -21,6 +22,7 @@
             this.mIsMoveToDest = false;
             this.mIsRotateToDest = false;
             this.mIsScaleToDest = false;
+            this.mIsAutoPath = false;
         }
 
         public bool isMoveToDest()
@@ -44,7 +46,15 @@
 
             if(this.mIsMoveToDest)
             {
-                this.moveToDest(delta);
+                if (this.mIsAutoPath)
+                {
+                    this.moveToDest(delta);
+                }
+                else
+                {
+                    // 其它控制向前移动
+                    this.moveForwardToDest(delta);
+                }
             }
             if(this.mIsRotateToDest)
             {
@@ -57,9 +67,18 @@
         }
 
         // 局部空间移动位置
-        public void addActorLocalOffset(UnityEngine.Vector3 DeltaLocation)
+        virtual public void addActorLocalOffset(UnityEngine.Vector3 DeltaLocation)
         {
             UnityEngine.Vector3 localOffset = mEntity.getRotate() * DeltaLocation;
+            mEntity.setOriginal(mEntity.getPos() + localOffset);
+
+            this.sendMoveMsg();
+        }
+
+        // 向目的前向移动
+        virtual public void addActorLocalDestOffset(UnityEngine.Vector3 DeltaLocation)
+        {
+            UnityEngine.Vector3 localOffset = this.mDestRotate * DeltaLocation;
             mEntity.setOriginal(mEntity.getPos() + localOffset);
 
             this.sendMoveMsg();
@@ -74,24 +93,25 @@
         }
 
         // 向前移动
-        public void moveForward()
+        virtual public void moveForward()
         {
             (this.mEntity as BeingEntity).setBeingState(BeingState.BSWalk);
 
-            float delta = Ctx.mInstance.mSystemTimeData.deltaSec;
-            UnityEngine.Vector3 localMove = new UnityEngine.Vector3(0.0f, 0.0f, (mEntity as BeingEntity).mMoveSpeed * delta);
-            this.addActorLocalOffset(localMove);
+            this.setIsMoveToDest(true);
+            this.mIsAutoPath = false;
         }
 
         // 向后移动
-        public void moveBack()
-        {
-            (this.mEntity as BeingEntity).setBeingState(BeingState.BSWalk);
+        //virtual public void moveBack()
+        //{
+        //    (this.mEntity as BeingEntity).setBeingState(BeingState.BSWalk);
 
-            float delta = Ctx.mInstance.mSystemTimeData.deltaSec;
-            UnityEngine.Vector3 localMove = new UnityEngine.Vector3(0.0f, 0.0f, -(mEntity as BeingEntity).mMoveSpeed * delta);
-            this.addActorLocalOffset(localMove);
-        }
+        //    UnityEngine.Quaternion destRotate = this.mEntity.getRotate() * UnityEngine.Quaternion.Euler(new UnityEngine.Vector3(0, 180, 0));
+        //    (this.mEntity as BeingEntity).setDestRotate(destRotate.eulerAngles);
+
+        //    this.setIsMoveToDest(true);
+        //    this.mIsAutoPath = false;
+        //}
 
         // 向左旋转
         public void rotateLeft()
@@ -114,66 +134,47 @@
         }
 
         // 停止移动
-        public void stopMove()
+        virtual public void stopMove()
         {
             (this.mEntity as BeingEntity).setBeingState(BeingState.BSIdle);
+            this.setIsMoveToDest(false);
         }
 
-        // 根据目标点信息移动
+        virtual public void stopRotate()
+        {
+
+        }
+
+        // 控制向前移动
+        public void moveForwardToDest(float delta)
+        {
+            (this.mEntity as BeingEntity).setBeingState(BeingState.BSWalk);
+
+            UnityEngine.Vector3 localMove = new UnityEngine.Vector3(0.0f, 0.0f, (mEntity as BeingEntity).mMoveSpeed * delta);
+            this.addActorLocalOffset(localMove);
+        }
+
+        // 自动寻路移动
         public void moveToDest(float delta)
         {
-            float currY = 1.0f;
-            bool isOnGround = true;
-            bool isArrived = false;
-
+            // 新的移动
             float dist = 0.0f;
-
-            if (isOnGround)
-            {
-                dist = UnityEngine.Vector3.Distance(new UnityEngine.Vector3(mDestPos.x, 0f, mDestPos.z),
+            dist = UnityEngine.Vector3.Distance(new UnityEngine.Vector3(mDestPos.x, 0f, mDestPos.z),
                     new UnityEngine.Vector3(mEntity.getPos().x, 0f, mEntity.getPos().z));
-            }
-            else
-            {
-                dist = UnityEngine.Vector3.Distance(mDestPos, mEntity.getPos());
-            }
 
             float deltaSpeed = (mEntity as BeingEntity).mMoveSpeed * delta;
 
-            if (dist > UtilMath.EPSILON)
+            if (dist > deltaSpeed)
             {
-                UnityEngine.Vector3 pos = mEntity.getPos();
+                (this.mEntity as BeingEntity).setBeingState(BeingState.BSWalk);
 
-                UnityEngine.Vector3 movement = mDestPos - pos;
-                movement.y = 0f;
-                movement.Normalize();
-
-                movement *= deltaSpeed;
-
-                // 如果需要移动
-                if (dist > deltaSpeed || movement.magnitude > deltaSpeed)
-                {
-                    pos += movement;
-                }
-                else
-                {
-                    pos = mDestPos;
-                    isArrived = true;
-                }
-
-                if (isOnGround)
-                {
-                    pos.y = currY;
-                }
-
-                mEntity.setOriginal(pos);
-                this.sendMoveMsg();
-
-                if (isArrived)
-                {
-                    // 移动到终点
-                    this.onArriveDestPos();
-                }
+                UnityEngine.Vector3 localMove = new UnityEngine.Vector3(0.0f, 0.0f, (mEntity as BeingEntity).mMoveSpeed * delta);
+                this.addActorLocalDestOffset(localMove);
+            }
+            else
+            {
+                mEntity.setOriginal(this.mDestPos);
+                this.onArriveDestPos();
             }
         }
 
@@ -224,6 +225,7 @@
         public void onArriveDestPos()
         {
             this.mIsMoveToDest = false;
+            this.mIsAutoPath = false;
             (this.mEntity as BeingEntity).setBeingState(BeingState.BSIdle);
         }
 
@@ -248,6 +250,7 @@
             if (dist > UtilMath.EPSILON)
             {
                 this.mIsMoveToDest = true;
+                this.mIsAutoPath = true;
                 (this.mEntity as BeingEntity).setBeingState(BeingState.BSWalk);
 
                 // 计算最终方向

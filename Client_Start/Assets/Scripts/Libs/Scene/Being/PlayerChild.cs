@@ -2,7 +2,7 @@
 {
     public class PlayerChild : Player
     {
-        protected Player mParentPlayer; // Parent Player
+        public Player mParentPlayer; // Parent Player
 
         public PlayerChild(Player parentPlayer)
         {

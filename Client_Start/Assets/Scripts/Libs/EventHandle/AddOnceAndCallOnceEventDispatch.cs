@@ -7,7 +7,7 @@ namespace SDK.Lib
     {
         override public void addEventHandle(ICalleeObject pThis, MAction<IDispatchObject> handle, LuaTable luaTable = null, LuaFunction luaFunction = null)
         {
-            if (!existEventHandle(pThis, handle, luaTable, luaFunction))
+            if (!isExistEventHandle(pThis, handle, luaTable, luaFunction))
             {
                 base.addEventHandle(pThis, handle, luaTable, luaFunction);
             }

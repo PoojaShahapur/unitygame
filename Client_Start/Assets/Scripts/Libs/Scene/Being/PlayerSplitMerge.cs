@@ -6,12 +6,13 @@
     public class PlayerSplitMerge
     {
         public PlayerChildMgr mPlayerChildMgr;    // 保存分裂的 Child
-        protected Player mEntity;     // 分裂玩家
-        protected bool mIsFitstSplited;    // 是否分裂
+        protected Player mEntity;           // 分裂玩家
+        protected bool mIsFitstSplited;     // 是否分裂
 
-        public Player mParentPlayer;  // 真正的父
+        public Player mParentPlayer;        // 真正的父
         public MRangeBox mRangeBox;
-        protected float mTargetLength;     // 分裂时刻记录目标长度
+        protected float mTargetLength;      // 分裂时刻记录目标长度
+        UnityEngine.Vector3 mTargetPoint;   // 目标点
 
         public PlayerSplitMerge(Player mPlayer)
         {
@@ -34,6 +35,16 @@
         public virtual void onTick(float delta)
         {
             this.mPlayerChildMgr.onTick(delta);
+        }
+
+        public float getTargetLength()
+        {
+            return this.mTargetLength;
+        }
+
+        public UnityEngine.Vector3 getTargetPoint()
+        {
+            return this.mTargetPoint;
         }
 
         public void setParentPlayer(Player parentPlayer)
@@ -81,11 +92,22 @@
             this.mTargetLength = mRangeBox.getHalfZ() * Ctx.mInstance.mPlayerMgr.mK + Ctx.mInstance.mPlayerMgr.mN;
         }
 
-        // 计算目标点
-        public UnityEngine.Vector3 getAndCalcTargetPoint()
+        public void reduceTargetLength(float length)
         {
-            UnityEngine.Vector3 targetPoint = mEntity.getRotate() * new UnityEngine.Vector3(0, 0, this.mTargetLength);
-            return targetPoint;
+            mTargetLength -= length;
+            if(mTargetLength <= 0)
+            {
+                mTargetLength = 0;
+            }
+        }
+
+        // 计算目标点
+        public void calcTargetPoint()
+        {
+            if (this.mTargetLength > 0)
+            {
+                this.mTargetPoint = mEntity.getPos() + mEntity.getRotate() * new UnityEngine.Vector3(0, 0, this.mTargetLength);
+            }
         }
 
         public void updateChildDestDir()
@@ -94,12 +116,11 @@
             int idx = 0;
             int num = this.mPlayerChildMgr.getEntityCount();
             PlayerChild player;
-            UnityEngine.Vector3 targetPoint = this.getAndCalcTargetPoint();
 
             while (idx < num)
             {
                 player = this.mPlayerChildMgr.getEntityByIndex(idx) as PlayerChild;
-                (player.mMovement as BeingEntityMovement).lookAt(targetPoint);
+                (player.mMovement as BeingEntityMovement).lookAt(this.mTargetPoint);
 
                 ++idx;
             }

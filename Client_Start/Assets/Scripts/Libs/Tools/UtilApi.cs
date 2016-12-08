@@ -539,11 +539,6 @@ namespace SDK.Lib
             return false;
         }
 
-        public static bool fakeIsActive(GameObject target)
-        {
-            return target.transform.position == UtilApi.FAKE_POS;
-        }
-
         public static UnityEngine.Object Instantiate(UnityEngine.Object original)
         {
             return UnityEngine.Object.Instantiate(original);
@@ -1253,6 +1248,12 @@ namespace SDK.Lib
             Vector3 dir = transform.localRotation * Vector3.forward;
             dir.Normalize();
             return dir;
+        }
+
+        public static void DrawLine(Vector3 start, Vector3 end, Color color, float duration = 30)
+        {
+            // 只能在编辑器中看到
+            UnityEngine.Debug.DrawLine(start, end, color);
         }
     }
 }

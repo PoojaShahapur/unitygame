@@ -13,6 +13,7 @@
             base.lookAt(targetPt);
 
             this.mDestPos = targetPt;
+            //this.moveToPos(targetPt);
         }
 
         // 继续向前移动

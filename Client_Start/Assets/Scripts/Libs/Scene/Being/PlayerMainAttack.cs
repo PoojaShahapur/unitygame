@@ -10,9 +10,12 @@
 
         override public void overlapTo(BeingEntity bBeingEntity)
         {
-            if (bBeingEntity.getEntityType() == EntityType.ePlayerOther ||
-                                bBeingEntity.getEntityType() == EntityType.eSnowBlock ||
-                                bBeingEntity.getEntityType() == EntityType.eRobot)
+            if (bBeingEntity.getEntityType() == EntityType.eSnowBlock)
+            {
+                this.eateSnowBlock(bBeingEntity);
+            }
+            else if (bBeingEntity.getEntityType() == EntityType.ePlayerOther ||
+                     bBeingEntity.getEntityType() == EntityType.eRobot)
             {
                 EatState state = EatState.Nothing_Happen;
 
@@ -46,6 +49,12 @@
                     this.mEntity.dispose();
                 }
             }
+        }
+
+        // 雪块
+        public void eateSnowBlock(BeingEntity bBeingEntity)
+        {
+            this.mEntity.cellCall("eatSnowBlock", bBeingEntity.getId());
         }
     }
 }

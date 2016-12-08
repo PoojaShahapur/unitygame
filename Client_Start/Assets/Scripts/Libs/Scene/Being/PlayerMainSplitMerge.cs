@@ -18,10 +18,21 @@
             //UnityEngine.Vector3 initPos = this.mEntity.getPos() + this.mEntity.getRotate() * new UnityEngine.Vector3(0, 0, this.mEntity.getEatSize());
             UnityEngine.Vector3 initPos = this.mEntity.getPos();
             child.setOriginal(initPos);
-            //child.setEatSize(this.mEntity.getEatSize() / 2);
+            // 设置 Child 分裂半径
+            child.setEatSize(this.mEntity.getEatSize());
 
-            // 设置分裂半径
-            this.mEntity.setEatSize(this.mEntity.getEatSize());
+            // 自己不设置分裂半径
+            //this.mEntity.setEatSize(this.mEntity.getEatSize());
+
+            // 添加 Child 事件
+            ((this.mEntity as PlayerMain).mMovement as PlayerMainMovement).addOrientChangedHandle((child.mMovement as PlayerMainChildMovement).handleParentOrientChanged);
+            ((this.mEntity as PlayerMain).mMovement as PlayerMainMovement).addPosChangedHandle((child.mMovement as PlayerMainChildMovement).handleParentPosChanged);
+            ((this.mEntity as PlayerMain).mMovement as PlayerMainMovement).addOrientStopChangedHandle((child.mMovement as PlayerMainChildMovement).handleParentOrientStopChanged);
+            ((this.mEntity as PlayerMain).mMovement as PlayerMainMovement).addPosStopChangedHandle((child.mMovement as PlayerMainChildMovement).handleParentPosStopChanged);
+
+            this.calcTargetLength();
+            this.calcTargetPoint();
+            this.updateChildDestDir();
         }
 
         override protected void onNoFirstSplit()
@@ -49,7 +60,13 @@
                 child.setEatSize(player.getEatSize() / 2);
 
                 // 设置分裂半径
-                player.setEatSize(this.mEntity.getEatSize() / 2);
+                player.setEatSize(player.getEatSize() / 2);
+
+                // 添加 Child 事件
+                ((this.mEntity as PlayerMain).mMovement as PlayerMainMovement).addOrientChangedHandle((child.mMovement as PlayerMainChildMovement).handleParentOrientChanged);
+                ((this.mEntity as PlayerMain).mMovement as PlayerMainMovement).addPosChangedHandle((child.mMovement as PlayerMainChildMovement).handleParentPosChanged);
+                ((this.mEntity as PlayerMain).mMovement as PlayerMainMovement).addOrientStopChangedHandle((child.mMovement as PlayerMainChildMovement).handleParentOrientStopChanged);
+                ((this.mEntity as PlayerMain).mMovement as PlayerMainMovement).addPosStopChangedHandle((child.mMovement as PlayerMainChildMovement).handleParentPosStopChanged);
 
                 ++idx;
             }
@@ -57,6 +74,7 @@
             // 设置自己到中心点
             this.mEntity.setOriginal(this.mRangeBox.getCenter().toNative());
             this.calcTargetLength();
+            this.calcTargetPoint();
             this.updateChildDestDir();
         }
     }

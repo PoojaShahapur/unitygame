@@ -22,8 +22,8 @@ namespace SDK.Lib
             mUniqueStrIdGen = new UniqueStrIdGen("PL", 0);
             mChildUniqueStrIdGen = new UniqueStrIdGen("PC", 0);
 
-            mK = 2;
-            mN = 2;
+            mK = 10;
+            mN = 10;
         }
 
         override protected void onTickExec(float delta)

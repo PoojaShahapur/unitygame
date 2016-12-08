@@ -181,6 +181,11 @@ namespace SDK.Lib
             this.callLuaFunction("GlobalNS.GlobalEventCmd.openForm", formId);
         }
 
+        public void exitForm(int formId)
+        {
+            this.callLuaFunction("GlobalNS.GlobalEventCmd.exitForm", formId);
+        }
+
         // 添加单击事件
         public void addClick(GameObject go, LuaFunction luafunc)
         {

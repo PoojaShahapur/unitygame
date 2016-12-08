@@ -183,7 +183,8 @@ namespace Game.Login
         {
             info("login is successfully!(登陆成功!)");
 
-            Ctx.mInstance.mUiMgr.exitForm(UIFormID.eUILogin);
+            //Ctx.mInstance.mUiMgr.exitForm(UIFormID.eUILogin);
+            Ctx.mInstance.mLuaSystem.exitForm(10001);
             Ctx.mInstance.mUiMgr.loadAndShow(UIFormID.eUISelectRole);
 
             ui_state = 1;

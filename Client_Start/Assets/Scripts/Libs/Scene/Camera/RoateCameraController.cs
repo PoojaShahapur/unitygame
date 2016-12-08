@@ -183,6 +183,7 @@ namespace SDK.Lib
                 //CreatePlayer._Instace.player.GetComponent<Transform>().eulerAngles = eulerAngles;
                 //CreatePlayer._Instace.RefreshChildrensRotation(eulerAngles);
                 //playerMain.transform().eulerAngles = eulerAngles;
+                playerMain.setDestRotate(eulerAngles);
                 //playerMain.RefreshChildrensRotation(eulerAngles);
             }
         }

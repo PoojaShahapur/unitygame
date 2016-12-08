@@ -8,6 +8,7 @@ namespace Game.Game
         public GameRouteCB mGameRouteCB;
         public GameNetHandleCB mGameNetHandleCB;
         protected GotoScene mGotoScene;
+        public GameNetHandleCB_KBE mGameNetHandleCB_KBE;
 
         public void Start()
         {
@@ -29,6 +30,9 @@ namespace Game.Game
             Ctx.mInstance.mNetCmdNotify.isStopNetHandle = false;     // 停止网络消息处理
             Ctx.mInstance.mSceneEventCB = new GameSceneEventCB();
             Ctx.mInstance.mSceneLogic = new GameSceneLogic();
+
+            mGameNetHandleCB_KBE = new GameNetHandleCB_KBE();
+            mGameNetHandleCB_KBE.init();
 
             this.mGotoScene.addSceneHandle();
         }
