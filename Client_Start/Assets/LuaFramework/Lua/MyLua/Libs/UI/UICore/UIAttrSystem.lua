@@ -56,6 +56,61 @@ function M.init()
 			m_preFormModeWhenOpen = GlobalNS.PreFormModeWhenOpen.eNONE,
 			m_preFormModeWhenClose = GlobalNS.PreFormModeWhenClose.eNONE,
         };
+    M[GlobalNS.UIFormID.eUIRankListPanel] = {
+            m_widgetPath = "UI/UIRankListPanel/UIRankListPanel.prefab",
+            m_luaScriptPath = "MyLua.UI.UIRankListPanel.UIRankListPanel",
+			m_luaScriptTableName = "GlobalNS.UILua",
+			m_canvasId = GlobalNS.UICanvasID.eUIFirstCanvas,
+			m_layerId = GlobalNS.UILayerID.eUISecondLayer,
+			m_preFormModeWhenOpen = GlobalNS.PreFormModeWhenOpen.eNONE,
+			m_preFormModeWhenClose = GlobalNS.PreFormModeWhenClose.eNONE,
+        };
+    M[GlobalNS.UIFormID.eUIRelivePanel] = {
+            m_widgetPath = "UI/UIRelivePanel/UIRelivePanel.prefab",
+            m_luaScriptPath = "MyLua.UI.UIRelivePanel.UIRelivePanel",
+			m_luaScriptTableName = "GlobalNS.UILua",
+			m_canvasId = GlobalNS.UICanvasID.eUIFirstCanvas,
+			m_layerId = GlobalNS.UILayerID.eUISecondLayer,
+			m_preFormModeWhenOpen = GlobalNS.PreFormModeWhenOpen.eNONE,
+			m_preFormModeWhenClose = GlobalNS.PreFormModeWhenClose.eNONE,
+        };
+	M[GlobalNS.UIFormID.eUIPlayerDataPanel] = {
+            m_widgetPath = "UI/UIPlayerDataPanel/UIPlayerDataPanel.prefab",
+            m_luaScriptPath = "MyLua.UI.UIPlayerDataPanel.UIPlayerDataPanel",
+			m_luaScriptTableName = "GlobalNS.UILua",
+			m_canvasId = GlobalNS.UICanvasID.eUIFirstCanvas,
+			m_layerId = GlobalNS.UILayerID.eUISecondLayer,
+			m_preFormModeWhenOpen = GlobalNS.PreFormModeWhenOpen.eNONE,
+			m_preFormModeWhenClose = GlobalNS.PreFormModeWhenClose.eNONE,
+        };
+	M[GlobalNS.UIFormID.eUIForwardForce] = {
+            m_widgetPath = "UI/UIForwardForce/UIForwardForce.prefab",
+            m_luaScriptPath = "MyLua.UI.UIForwardForce.UIForwardForce",
+			m_luaScriptTableName = "GlobalNS.UILua",
+			m_canvasId = GlobalNS.UICanvasID.eUIFirstCanvas,
+			m_layerId = GlobalNS.UILayerID.eUISecondLayer,
+			m_preFormModeWhenOpen = GlobalNS.PreFormModeWhenOpen.eNONE,
+			m_preFormModeWhenClose = GlobalNS.PreFormModeWhenClose.eNONE,
+        };
+	M[GlobalNS.UIFormID.eUIOptionPanel] = {
+            m_widgetPath = "UI/UIOptionPanel/UIOptionPanel.prefab",
+            m_luaScriptPath = "MyLua.UI.UIOptionPanel.UIOptionPanel",
+			m_luaScriptTableName = "GlobalNS.UILua",
+			m_canvasId = GlobalNS.UICanvasID.eUIFirstCanvas,
+			m_layerId = GlobalNS.UILayerID.eUISecondLayer,
+			m_preFormModeWhenOpen = GlobalNS.PreFormModeWhenOpen.eNONE,
+			m_preFormModeWhenClose = GlobalNS.PreFormModeWhenClose.eNONE,
+        };
+	M[GlobalNS.UIFormID.eUITopXRankPanel] = {
+            m_widgetPath = "UI/UITopXRankPanel/UITopXRankPanel.prefab",
+            m_luaScriptPath = "MyLua.UI.UITopXRankPanel.UITopXRankPanel",
+			m_luaScriptTableName = "GlobalNS.UILua",
+			m_canvasId = GlobalNS.UICanvasID.eUIFirstCanvas,
+			m_layerId = GlobalNS.UILayerID.eUISecondLayer,
+			m_preFormModeWhenOpen = GlobalNS.PreFormModeWhenOpen.eNONE,
+			m_preFormModeWhenClose = GlobalNS.PreFormModeWhenClose.eNONE,
+        };
+	--[[替换占位符(勿删)--]]
 end
 
 M.ctor();

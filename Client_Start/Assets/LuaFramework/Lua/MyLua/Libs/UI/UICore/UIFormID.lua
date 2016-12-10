@@ -11,8 +11,18 @@ function M.ctor()
 end
 
 function M.init()
+    --10000
 	this.eUITest = GCtx.mUiMgr.mUniqueNumIdGen:genNewId();
+    --10001
 	this.eUIStartGame = GCtx.mUiMgr.mUniqueNumIdGen:genNewId();
+    --10002 依次类推... ...
+    this.eUIRankListPanel = GCtx.mUiMgr.mUniqueNumIdGen:genNewId();
+    this.eUIRelivePanel = GCtx.mUiMgr.mUniqueNumIdGen:genNewId();
+    this.eUIPlayerDataPanel = GCtx.mUiMgr.mUniqueNumIdGen:genNewId();
+    this.eUIForwardForce = GCtx.mUiMgr.mUniqueNumIdGen:genNewId();
+    this.eUIOptionPanel = GCtx.mUiMgr.mUniqueNumIdGen:genNewId();
+    this.eUITopXRankPanel = GCtx.mUiMgr.mUniqueNumIdGen:genNewId();
+    --[[替换占位符(勿删)--]]
 	this.eUICount = GCtx.mUiMgr.mUniqueNumIdGen:genNewId();
 end
 

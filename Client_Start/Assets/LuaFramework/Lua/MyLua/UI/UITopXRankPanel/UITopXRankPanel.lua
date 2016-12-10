@@ -39,18 +39,24 @@ function M:onReady()
 
     for i=1, itemCount do
         --获取topx的GameObject对象
-        local topx = GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.mGuiWin, "Top" .. i);
+        local topXBG = GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.mGuiWin, "TopXBG");
+        local topx = GlobalNS.UtilApi.TransFindChildByPObjAndPath(topXBG, "Top" .. i);
+        if i % 2 == 0 then
+            GCtx.mLogSys:log("i " .. i, GlobalNS.LogTypeId.eLogCommon);
+            topx.color = Color.New(255, 255, 255, 0);
+        end
 
         --Name
         local rankname = GlobalNS.UtilApi.getComByPath(topx, "Name", "Text");
-        rankname.text = self.topN[i].m_name;
+        if i < 10 then
+            rankname.text = "  " .. i .. ". " .. self.topN[i].m_name;
+        else
+            rankname.text = i .. ". " .. self.topN[i].m_name;
+        end
 
         --Rank
         local rankImage = GlobalNS.UtilApi.getComByPath(topx, "Rank", "Image");
-        rankImage.color = Color.New(0, 126, 126, 255);
-        local rank = GlobalNS.UtilApi.TransFindChildByPObjAndPath(topx, "Rank");
-        local rankText = GlobalNS.UtilApi.getComByPath(rank, "Text", "Text");
-        rankText.text = i;
+        
     end
 end
 

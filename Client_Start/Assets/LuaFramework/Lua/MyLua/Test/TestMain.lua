@@ -9,6 +9,7 @@ MLoader("MyLua.Test.TestCmdDisp.TestCmdDisp");
 MLoader("MyLua.Test.TestProtoBuf.TestProtoBuf");
 MLoader("MyLua.Test.TestUI.TestUI");
 MLoader("MyLua.Test.TestTable.TestTable");
+MLoader("MyLua.Test.TestStr.TestStr");
 
 local M = GlobalNS.Class(GlobalNS.GObject);
 M.clsName = "TestMain";
@@ -19,6 +20,7 @@ function M:ctor()
 	self.mTestCmdDisp = GlobalNS.new(GlobalNS.TestCmdDisp);
 	self.mTestUI = GlobalNS.new(GlobalNS.TestUI);
 	self.mTestTable = GlobalNS.new(GlobalNS.TestTable);
+	self.mTestStr = GlobalNS.new(GlobalNS.TestStr);
 	
 	self:init();
 end
@@ -39,7 +41,8 @@ function M:run()
 	--self.mTestProtoBuf:run();
 	--self.mTestCmdDisp:run();
 	--self.mTestUI:run();
-	self.mTestTable:run();
+	--self.mTestTable:run();
+	self.mTestStr:run();
 end
 
 return M;

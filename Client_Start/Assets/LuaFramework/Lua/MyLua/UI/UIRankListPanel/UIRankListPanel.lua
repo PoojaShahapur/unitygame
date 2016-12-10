@@ -24,7 +24,8 @@ end
 
 function M:onInit()
     M.super.onInit(self);
-	
+	self.listitem_height = 75;
+    self.listitem_width = 1334;
     --返回游戏按钮
 	self.mBackGameBtn = GlobalNS.new(GlobalNS.AuxButton);
 	self.mBackGameBtn:addEventHandle(self, self.onBtnClk);
@@ -42,21 +43,22 @@ end
 
 function M:onReady()
     M.super.onReady(self);
+    self.RankBG = GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.mGuiWin, "RankListBG");
 	self.mBackGameBtn:setSelfGo(GlobalNS.UtilApi.TransFindChildByPObjAndPath(
-			self.mGuiWin, 
+			self.RankBG, 
 			GlobalNS.RankListPanelNS.RankListPanelPath.BtnBackGame)
 		);
 
     --获取ScrollRect的GameObject对象
-    self.mScrollRect = GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.mGuiWin, "ScrollRect");
+    self.mScrollRect = GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.RankBG, "ScrollRect");
     --获取ScrollRect下Grid中的RectTransform组件
     self.mRankGrid = GlobalNS.UtilApi.getComByPath(self.mScrollRect, "Grid", "RectTransform");
     
-    local gridHeight = itemCount * 50 - (itemCount - 1) * 2;
-    self.mRankGrid.sizeDelta = Vector2.New(800, gridHeight);
+    local gridHeight = itemCount * self.listitem_height - (itemCount - 1) * 2;
+    self.mRankGrid.sizeDelta = Vector2.New(self.listitem_width, gridHeight);
     
     --获取MyRank的GameObject对象
-    self.mMyRankArea = GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.mGuiWin, "MyRank");
+    self.mMyRankArea = GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.RankBG, "MyRank");
 
     --加载listitem prefab
     self.mListitem_prefab = GlobalNS.new(GlobalNS.AuxPrefabLoader);
@@ -84,10 +86,10 @@ function M:onPrefabLoaded(dispObj)
     self.mListitemPrefab = self.mListitem_prefab:getPrefabTmpl();
     
     for i=1, itemCount do
-        local y_pos = -25 - 48 * (i - 1);  --  -25:第一个item的起始位置，48为item高度50-2(缩进)
+        local y_pos = 197.5 - (self.listitem_height-2) * (i - 1);  --  197.5:第一个item的起始位置
         --用listitemprefab生成GameObject对象
         local listitem = GlobalNS.UtilApi.Instantiate(self.mListitemPrefab);
-        listitem.transform.position = Vector3.New(400, y_pos, 0);
+        listitem.transform.position = Vector3.New(0, y_pos, 0);
         listitem.transform.parent = self.mRankGrid;
         listitem.transform.localScale = Vector3.New(1.0, 1.0, 1.0);
 
@@ -97,7 +99,7 @@ function M:onPrefabLoaded(dispObj)
     end
     
     --滚动到起始位置，默认会在中间
-    GlobalNS.UtilApi.getComByPath(self.mGuiWin, "ScrollRect", "ScrollRect").verticalNormalizedPosition = 1;
+    GlobalNS.UtilApi.getComByPath(self.RankBG, "ScrollRect", "ScrollRect").verticalNormalizedPosition = 1;
 
     self:SetMyRankInfo();
     self:SetTopXRankInfo();

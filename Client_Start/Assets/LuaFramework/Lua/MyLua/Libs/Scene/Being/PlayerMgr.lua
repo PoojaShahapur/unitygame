@@ -11,7 +11,7 @@ M.clsName = "PlayerMgr";
 GlobalNS[M.clsName] = M;
 
 function M:ctor()
-    self.m_hero = nil;
+    self.mHero = nil;
 end
 
 function M:onTickExec(delta)
@@ -23,8 +23,8 @@ function M:createHero()
 end
 
 function M:addHero(hero)
-    self.m_hero = hero;
-    self:addPlayer(self.m_hero);
+    self.mHero = hero;
+    self:addPlayer(self.mHero);
 end
 
 function M:addPlayer(being)
@@ -36,7 +36,7 @@ function M:removePlayer(being)
 end
 
 function M:getHero()
-    return self.m_hero;
+    return self.mHero;
 end
 
 function M:getPlayerByThisId(thisId)

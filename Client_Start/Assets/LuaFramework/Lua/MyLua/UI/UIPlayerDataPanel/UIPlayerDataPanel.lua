@@ -27,7 +27,11 @@ end
 
 function M:onReady()
     M.super.onReady(self);
+    
+    --self:refreshMassAndTime();    
+end
 
+function M:refreshMassAndTime()
     --获取Mass_Text的Text组件
     self.hero = GlobalNS.CSSystem.Ctx.mInstance.mPlayerMgr:getHero();
     local mass = self.hero:transform().localScale.x;

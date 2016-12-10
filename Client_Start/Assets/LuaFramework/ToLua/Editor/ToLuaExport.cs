@@ -1405,7 +1405,8 @@ public static class ToLuaExport
             {
                 if (beParams)
                 {
-                    fname = beCheckTypes ? "ToParamsString" : "CheckParamsString";
+                    //fname = beCheckTypes ? "ToParamsString" : "CheckParamsString";
+                    fname = "ToParamsString";
                 }
                 else
                 {

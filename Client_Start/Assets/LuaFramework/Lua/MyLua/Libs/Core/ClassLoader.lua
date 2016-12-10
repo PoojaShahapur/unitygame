@@ -14,9 +14,17 @@ function M.ctor()
 end
 
 function M.loadClass(path)
+	path = (string.gsub(path, "%.", "/")); 	-- 替换点(.)成斜杠(/)
+	
     -- require path -- 竟然会报错
-    return require(path); -- 需要这么写才行，一定要返回加载的内容， 宿主语言中需要返回值
+    local M = require(path); -- 需要这么写才行，一定要返回加载的内容， 宿主语言中需要返回值
     -- require "aaa" -- 直接跟字符串就可以这么写
+	
+	if(false == M) then
+		error(string.format("Error %s load failed", tostring(path)));
+	end
+	
+	return M;
 end
 
 function M.unloadClass(path)

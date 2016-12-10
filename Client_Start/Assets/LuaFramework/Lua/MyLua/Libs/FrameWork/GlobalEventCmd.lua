@@ -1,8 +1,10 @@
 MLoader("MyLua.Libs.Core.GlobalNS");
 MLoader("MyLua.Libs.Core.StaticClass");
 
+MLoader("MyLua.Test.TestMain");
+
 if(MacroDef.UNIT_TEST) then
-	require "MyLua.Test.TestMain"
+	MLoader("MyLua.Test.TestMain");
 end
 
 --[[
@@ -31,6 +33,12 @@ function M.onSceneLoaded()
 		pTestMain = GlobalNS.new(GlobalNS.TestMain);
 		pTestMain:run();
 	end
+
+    --加载场景上的UI组件
+    GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormID.eUIPlayerDataPanel);
+    GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormID.eUIForwardForce);
+    GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormID.eUIOptionPanel);
+    GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormID.eUITopXRankPanel);
 end
 
 -- 帧循环
@@ -40,6 +48,10 @@ end
 
 function M.openForm(formId)
 	GCtx.mUiMgr:loadAndShow(formId);
+end
+
+function M.exitForm(formId)
+	GCtx.mUiMgr:exitForm(formId);
 end
 
 function M.requireFile(filePath)

@@ -164,7 +164,8 @@ public class LuaFileUtils
         }
         else
         {
-            return ReadZipFile(fileName);
+            //return ReadZipFile(fileName);
+            return SDK.Lib.Ctx.mInstance.mLuaSystem.readFile(fileName);
         }  
     }
 

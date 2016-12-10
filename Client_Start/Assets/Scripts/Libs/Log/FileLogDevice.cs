@@ -9,27 +9,27 @@ namespace SDK.Lib
      */
     public class FileLogDevice : LogDeviceBase
     {
-        protected string m_fileSuffix;      // 文件后缀。例如 log_suffix.txt ，suffix 就是后缀
-        protected string m_filePrefix;      // 文件前缀。例如 prefix_suffix.txt ，prefix 就是前缀
-        protected FileStream m_fileStream;
-        protected StreamWriter m_streamWriter;
+        protected string mFileSuffix;      // 文件后缀。例如 log_suffix.txt ，suffix 就是后缀
+        protected string mFilePrefix;      // 文件前缀。例如 prefix_suffix.txt ，prefix 就是前缀
+        protected FileStream mFileStream;
+        protected StreamWriter mStreamWriter;
         //protected StackTrace m_stackTrace;
         //protected string m_traceStr;
 
         public FileLogDevice()
         {
-            m_filePrefix = "log";
+            mFilePrefix = "log";
         }
 
         public string fileSuffix
         {
             get
             {
-                return m_fileSuffix;
+                return mFileSuffix;
             }
             set
             {
-                m_fileSuffix = value;
+                mFileSuffix = value;
             }
         }
 
@@ -37,12 +37,17 @@ namespace SDK.Lib
         {
             get
             {
-                return m_filePrefix; 
+                return mFilePrefix; 
             }
             set
             {
-                m_filePrefix = value;
+                mFilePrefix = value;
             }
+        }
+
+        public bool isValid()
+        {
+            return null != mFileStream;
         }
 
         public override void initDevice()
@@ -56,13 +61,13 @@ namespace SDK.Lib
             checkDirSize(path); // 检查目录大小
 
             string file;
-            if(string.IsNullOrEmpty(m_fileSuffix))
+            if(string.IsNullOrEmpty(mFileSuffix))
             {
-                file = string.Format("{0}/{1}_{2}{3}", path, m_filePrefix, UtilApi.getUTCFormatText(), ".txt");
+                file = string.Format("{0}/{1}_{2}{3}", path, mFilePrefix, UtilApi.getUTCFormatText(), ".txt");
             }
             else
             {
-                file = string.Format("{0}/{1}_{2}{3}{4}{5}", path, m_filePrefix, m_fileSuffix, "_", UtilApi.getUTCFormatText(), ".txt");
+                file = string.Format("{0}/{1}_{2}{3}{4}{5}", path, mFilePrefix, mFileSuffix, "_", UtilApi.getUTCFormatText(), ".txt");
             }
             
             if (!Directory.Exists(path))                    // 判断是否存在
@@ -81,41 +86,46 @@ namespace SDK.Lib
 
             if (File.Exists(@file))                  // 如果文件存在
             {
-                //m_fileStream = new FileStream(file, FileMode.Append);
+                //mFileStream = new FileStream(file, FileMode.Append);
                 File.Delete(@file);
-                m_fileStream = new FileStream(file, FileMode.Create);
+                mFileStream = new FileStream(file, FileMode.Create);
             }
             else
             {
-                m_fileStream = new FileStream(file, FileMode.Create);
+                mFileStream = new FileStream(file, FileMode.Create);
             }
 
-            m_streamWriter = new StreamWriter(m_fileStream);
+            mStreamWriter = new StreamWriter(mFileStream);
         }
 
         public override void closeDevice()
         {
-            m_streamWriter.Flush();
+            mStreamWriter.Flush();
             //关闭流
-            m_streamWriter.Close();
-            m_fileStream.Close();
+            mStreamWriter.Close();
+            mStreamWriter = null;
+            mFileStream.Close();
+            mFileStream = null;
         }
 
         // 写文件
         public override void logout(string message, LogColor type = LogColor.LOG)
         {
-            if (m_streamWriter != null)
+            if (this.isValid())
             {
-                m_streamWriter.Write(message);
-                m_streamWriter.Write("\n");
-                //if (type == LogColor.WARN || type == LogColor.ERROR)
-                //{
-                //    m_stackTrace = new StackTrace(true);        // 这个在 new 的地方生成当时堆栈数据，需要的时候再 new ，否则是旧的堆栈数据
-                //    m_traceStr = m_stackTrace.ToString();
-                //    m_streamWriter.Write(m_traceStr);
-                //    m_streamWriter.Write("\n");
-                //}
-                m_streamWriter.Flush();             // 立马输出
+                if (mStreamWriter != null)
+                {
+                    mStreamWriter.Write(message);
+                    mStreamWriter.Write("\n");
+                    //if (type == LogColor.WARN || type == LogColor.ERROR)
+                    //{
+                    //    m_stackTrace = new StackTrace(true);        // 这个在 new 的地方生成当时堆栈数据，需要的时候再 new ，否则是旧的堆栈数据
+                    //    m_traceStr = m_stackTrace.ToString();
+                    //    mStreamWriter.Write(m_traceStr);
+                    //    mStreamWriter.Write("\n");
+                    //}
+                    mStreamWriter.Flush();             // 立马输出
+                }
             }
         }
 

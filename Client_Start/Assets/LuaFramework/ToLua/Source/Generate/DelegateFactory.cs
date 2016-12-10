@@ -4,19 +4,19 @@ using LuaInterface;
 
 public static class DelegateFactory
 {
-	delegate Delegate DelegateValue(LuaFunction func);
-	static Dictionary<Type, DelegateValue> dict = new Dictionary<Type, DelegateValue>();
+    delegate Delegate DelegateValue(LuaFunction func);
+    static Dictionary<Type, DelegateValue> dict = new Dictionary<Type, DelegateValue>();
 
-	static DelegateFactory()
-	{
-		Register();
-	}
+    static DelegateFactory()
+    {
+        Register();
+    }
 
-	[NoToLuaAttribute]
-	public static void Register()
-	{
-		dict.Clear();
-	}
+    [NoToLuaAttribute]
+    public static void Register()
+    {
+        dict.Clear();
+    }
 
     [NoToLuaAttribute]
     public static Delegate CreateDelegate(Type t, LuaFunction func = null)
@@ -25,10 +25,10 @@ public static class DelegateFactory
 
         if (!dict.TryGetValue(t, out create))
         {
-            throw new LuaException(string.Format("Delegate {0} not register", LuaMisc.GetTypeName(t)));            
+            throw new LuaException(string.Format("Delegate {0} not register", LuaMisc.GetTypeName(t)));
         }
-        
-        return create(func);        
+
+        return create(func);
     }
 
     [NoToLuaAttribute]

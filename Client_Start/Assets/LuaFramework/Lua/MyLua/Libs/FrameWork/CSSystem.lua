@@ -17,6 +17,7 @@ function M.init()
 	this.MFileSys = SDK.Lib.MFileSys;
 	this.EEndian = SDK.Lib.EEndian;
 	this.GkEncode = SDK.Lib.GkEncode;
+    this.ModuleID = SDK.Lib.ModuleID;
 end
 
 --[[
@@ -95,6 +96,11 @@ end
 
 function M.buildByteBuffer()
 	return this.Ctx.mInstance.mFactoryBuild:buildByteBuffer();
+end
+
+--进行分裂
+function M.startSplit()
+	this.Ctx.mInstance.mPlayerMgr:startSplit();
 end
 
 return M;

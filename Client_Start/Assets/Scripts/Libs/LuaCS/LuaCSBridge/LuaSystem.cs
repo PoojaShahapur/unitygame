@@ -17,6 +17,7 @@ namespace SDK.Lib
         //protected LuaTable m_luaCtx;
         //protected LuaTable mProcessSys;
         protected bool mIsNeedUpdate;           // 是否需要更新 Lua
+        protected MDataStream mDataStream;
 
         public LuaSystem()
         {
@@ -271,6 +272,13 @@ namespace SDK.Lib
             {
                 LuaDLL.lua_pushnil(L);
             }
+        }
+
+        public byte[] readFile(string fileName)
+        {
+            this.mDataStream = new MDataStream(string.Format("{0}/Lua/{1}", MFileSys.msDataStreamStreamingAssetsPath, fileName));
+            return this.mDataStream.readByte();
+
         }
     }
 }

@@ -1,0 +1,1 @@
+自己 lua 代码中的路径都是使用点(.)分割，并且不要加扩展名字，例如 require(""MyLua.Libs.Tools.UtilStr"")，但是 ToLua 加载的时候，需要的路径是斜杠的，例如 require(""MyLua/Libs/Tools/UtilStr"")，注意这一点。加载自己 lua 代码的时候一定要使用 MLoader 去加载，这里面将路径中的点转换成斜杠。

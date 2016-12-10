@@ -51,6 +51,7 @@ end
 
 function M:onSplitBtnClk()
 	GCtx.mLogSys:log("Split", GlobalNS.LogTypeId.eLogCommon);
+	GlobalNS.CSSystem.startSplit();
 end
 
 return M;

@@ -59,7 +59,7 @@ public static class CustomSettings
                                        
         _GT(typeof(Component)),
         _GT(typeof(Behaviour)),
-        _GT(typeof(MonoBehaviour)),        
+        //_GT(typeof(MonoBehaviour)),        
         _GT(typeof(GameObject)),
         _GT(typeof(Transform)),
         _GT(typeof(Space)),
@@ -70,11 +70,8 @@ public static class CustomSettings
         _GT(typeof(Renderer)),        
         _GT(typeof(MeshRenderer)),
         _GT(typeof(SkinnedMeshRenderer)),
-        _GT(typeof(Light)),
-        _GT(typeof(LightType)),     
-        _GT(typeof(ParticleEmitter)),
-        _GT(typeof(ParticleRenderer)),
-        _GT(typeof(ParticleAnimator)),   
+        //_GT(typeof(Light)),
+        _GT(typeof(LightType)),  
         _GT(typeof(ParticleSystem)),                
         _GT(typeof(Physics)),
         _GT(typeof(Collider)),
@@ -82,10 +79,12 @@ public static class CustomSettings
         _GT(typeof(MeshCollider)),
         _GT(typeof(SphereCollider)),        
         _GT(typeof(CharacterController)),
-        _GT(typeof(Animation)),             
+        _GT(typeof(Animation)),
+        _GT(typeof(Animator)),
         _GT(typeof(AnimationClip)),
         _GT(typeof(TrackedReference)),
-        _GT(typeof(AnimationState)),  
+        _GT(typeof(AnimationState)),
+        _GT(typeof(AnimatorStateInfo)),
         _GT(typeof(QueueMode)),  
         _GT(typeof(PlayMode)),                          
         _GT(typeof(AudioClip)),
@@ -114,6 +113,33 @@ public static class CustomSettings
         //for ugui
         _GT(typeof(RectTransform)),
         _GT(typeof(Text)),
+        _GT(typeof(Image)),
+        _GT(typeof(RawImage)),
+
+        _GT(typeof(Button)),
+        _GT(typeof(Toggle)),
+        _GT(typeof(Slider)),
+        _GT(typeof(Scrollbar)),
+        _GT(typeof(Dropdown)),
+        _GT(typeof(InputField)),
+
+        _GT(typeof(Canvas)),
+        _GT(typeof(ScrollRect)),
+
+        //for Vector
+        _GT(typeof(Vector2)),
+        _GT(typeof(Vector3)),
+        _GT(typeof(Vector4)),
+
+        //for Quaternion
+        _GT(typeof(Quaternion)),
+
+        //for Sprite
+        _GT(typeof(Sprite)),
+
+        //for Color
+        _GT(typeof(Color)),
+
 
         //for LuaFramework
         _GT(typeof(Util)),
@@ -146,6 +172,21 @@ public static class CustomSettings
         _GT(typeof(SDK.Lib.FactoryBuild)),
         _GT(typeof(SDK.Lib.EEndian)),
         _GT(typeof(SDK.Lib.GkEncode)),
+        //for ModuleSys
+        _GT(typeof(SDK.Lib.ModuleSys)),
+        _GT(typeof(SDK.Lib.ModuleID)),
+        _GT(typeof(SDK.Lib.SystemSetting)),
+        _GT(typeof(SDK.Lib.LoginState)),
+        _GT(typeof(SDK.Lib.SelectEnterMode)),
+        _GT(typeof(SDK.Lib.MacroDef)),
+
+        //for Game Login
+        _GT(typeof(Game.Login.LoginNetHandleCB_KBE)),
+        _GT(typeof(Game.Login.LoginSys)),
+
+        //for Player
+        _GT(typeof(SDK.Lib.PlayerMgr)),
+        _GT(typeof(SDK.Lib.PlayerMain)),
 
         //#if UNIT_TEST
         _GT(typeof(UnitTest.GlobalEventCmdTest)),
