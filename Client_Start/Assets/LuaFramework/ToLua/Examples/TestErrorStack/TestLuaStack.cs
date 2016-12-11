@@ -16,16 +16,16 @@ public class TestLuaStack : MonoBehaviour
 
     private static GameObject testGo = null;
     private string tips = "";
-    public static TestLuaStack Instance = null;
+    public static TestLuaStack Instance = null;    
 
     [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
     static int Test1(IntPtr L)
     {
         try
-        {
-            show.BeginPCall();            
+        {                                                    
+            show.BeginPCall();
             show.PCall();
-            show.EndPCall();        
+            show.EndPCall();
         }
         catch (Exception e)
         {            
@@ -255,17 +255,24 @@ public class TestLuaStack : MonoBehaviour
         }
         catch (Exception e)
         {
-            Debugger.Log("xxxx" + e.StackTrace);
+            //Debugger.Log("xxxx" + e.StackTrace);
             return LuaDLL.toluaL_exception(L, e);
         }
     }
 
     void OnSendMsg()
     {
-        LuaFunction func = state.GetFunction("TestStack.Test6");
-        func.BeginPCall();
-        func.PCall();
-        func.EndPCall();
+        try
+        {
+            LuaFunction func = state.GetFunction("TestStack.Test6");
+            func.BeginPCall();
+            func.PCall();
+            func.EndPCall();
+        }
+        catch(Exception e)
+        {
+            state.ThrowLuaException(e);
+        }
     }
     
 
@@ -277,7 +284,7 @@ public class TestLuaStack : MonoBehaviour
     void Awake()
     {
 #if UNITY_5		
-		Application.logMessageReceived += ShowTips;
+        Application.logMessageReceived += ShowTips;
 #else
         Application.RegisterLogCallback(ShowTips);
 #endif
@@ -325,6 +332,11 @@ public class TestLuaStack : MonoBehaviour
 
     void OnApplicationQuit()
     {
+#if UNITY_5		
+        Application.logMessageReceived -= ShowTips;
+#else
+        Application.RegisterLogCallback(null);
+#endif
         state.Dispose();
         state = null;
     }
@@ -451,20 +463,21 @@ public class TestLuaStack : MonoBehaviour
             func.EndPCall();
             func.Dispose();
         }
-        //else if (GUI.Button(new Rect(10, 510, 120, 40), "TestDelegate"))
-        //{
-        //    TestDelegate();
-        //}
-        //else if (GUI.Button(new Rect(10, 560, 120, 40), "- TsetD2"))
-        //{
-        //    TestDelegate -= TestD2;
-        //}
         else if (GUI.Button(new Rect(10, 510, 120, 40), "SendMessage"))
         {
             tips = "";
             gameObject.SendMessage("OnSendMsg");
         }
-        else if (GUI.Button(new Rect(10, 560, 120, 40), "AddComponent"))
+        else if (GUI.Button(new Rect(10, 560, 120, 40), "SendMessageInLua"))
+        {
+            LuaFunction func = state.GetFunction("SendMsgError");
+            func.BeginPCall();
+            func.Push(gameObject);
+            func.PCall();
+            func.EndPCall();
+            func.Dispose();
+        }
+        else if (GUI.Button(new Rect(10, 610, 120, 40), "AddComponent"))
         {
             tips = "";
             LuaFunction func = state.GetFunction("TestAddComponent");            
@@ -496,7 +509,7 @@ public class TestLuaStack : MonoBehaviour
                 state.Push(123456);
                 state.LuaSetField(-2, "value");
                 state.LuaGetField(-1, "value");
-                int n = (int)state.CheckNumber(-1);
+                int n = (int)state.LuaCheckNumber(-1);
                 Debugger.Log("value is: " + n);
 
                 state.LuaPop(1);
@@ -519,7 +532,7 @@ public class TestLuaStack : MonoBehaviour
                 state.LuaSetTable(-3);                
                                 
                 state.LuaGetField(-1, "look");
-                n = (int)state.CheckNumber(-1);
+                n = (int)state.LuaCheckNumber(-1);
                 Debugger.Log("look: " + n);
             }
             catch (Exception e)
@@ -589,10 +602,6 @@ public class TestLuaStack : MonoBehaviour
             func.PushObject(null);
             func.PCall();
             func.EndPCall();
-        }
-        else if (GUI.Button(new Rect(210, 360, 120, 40), "TestExp"))
-        {
-            throw new Exception("just an exception");
         }
     }
 

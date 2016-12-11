@@ -46,4 +46,20 @@ namespace LuaInterface
 
         }
     }
+    
+    public sealed class LuaByteBufferAttribute : Attribute
+    {                
+        public LuaByteBufferAttribute()
+        {
+        }       
+    }
+
+    [AttributeUsage(AttributeTargets.Method)]
+    public sealed class LuaRenameAttribute : Attribute
+    {
+        public string Name;
+        public LuaRenameAttribute()
+        {
+        }
+    }
 }
