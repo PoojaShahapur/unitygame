@@ -41,7 +41,7 @@ namespace SDK.Lib
                 m_luaFunc = null;
             }
 
-            Util.ClearMemory();
+            LuaFramework.Util.ClearMemory();
 
             Ctx.mInstance.mLogSys.log(string.Format("~ {0} was destroy!", m_tableName));
         }

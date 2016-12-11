@@ -21,13 +21,13 @@ namespace SDK.Lib
 
         public LuaSystem()
         {
-            mLuaScriptMgr = new LuaScriptMgr();
+            mLuaScriptMgr = LuaScriptMgr.getSinglePtr();
             mIsNeedUpdate = true;
         }
 
         public void init()
         {
-            this.mLuaScriptMgr.InitStart();
+            this.mLuaScriptMgr.init();
             //m_luaCtx = DoFile("MyLua.Libs.FrameWork.GCtx")[0] as LuaTable;  // lua 入口
             this.doFile("MyLua.Module.Entry.MainEntry");        // 启动 Lua AppSys
             this.mLuaClassLoader = new LuaCSBridgeClassLoader();
@@ -276,9 +276,27 @@ namespace SDK.Lib
 
         public byte[] readFile(string fileName)
         {
-            this.mDataStream = new MDataStream(string.Format("{0}/Lua/{1}", MFileSys.msDataStreamStreamingAssetsPath, fileName));
-            return this.mDataStream.readByte();
+            //this.mDataStream = new MDataStream(string.Format("{0}/Lua/{1}", MFileSys.msDataStreamStreamingAssetsPath, fileName));
+            //return this.mDataStream.readByte();
 
+            byte[] str = null;
+            AuxBytesLoader auxBytesLoader = new AuxBytesLoader();
+
+            if (fileName.EndsWith(".lua"))
+            {
+                int index = fileName.LastIndexOf('.');
+                fileName = fileName.Substring(0, index);
+            }
+
+            string path = "Lua/" + fileName;
+            path = path.Replace('.', '/');
+            path = path + ".txt";
+
+            auxBytesLoader.syncLoad(path);
+            str = auxBytesLoader.getBytes();
+            auxBytesLoader.dispose();
+
+            return str;
         }
     }
 }

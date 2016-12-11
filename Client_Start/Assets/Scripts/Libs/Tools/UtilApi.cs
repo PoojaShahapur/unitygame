@@ -1255,5 +1255,24 @@ namespace SDK.Lib
             // 只能在编辑器中看到
             UnityEngine.Debug.DrawLine(start, end, color);
         }
+
+        // 转换 Lua 包目录到磁盘目录
+        public static string convPackagePath2DiscPath(string packagePath)
+        {
+            string path = "";
+
+            if (packagePath.EndsWith(".lua"))
+            {
+                path = packagePath.Substring(0, packagePath.Length - 4);
+            }
+            else
+            {
+                path = packagePath;
+            }
+
+            path = path.Replace('.', '/');
+            path = string.Format("{0}{1}", path, ".lua");
+            return path;
+        }
     }
 }
