@@ -125,10 +125,11 @@ namespace SDK.Lib
                 OpenLuaSocket();
             }
 
-            if (LuaConst.openZbsDebugger)
-            {
-                OpenZbsDebugger();
-            }
+            // 不用调用这个接口，mobdebug.lua 已经拷贝到 Assets\LuaFramework\Lua 目录下了
+            //if (LuaConst.openZbsDebugger)
+            //{
+            //    OpenZbsDebugger();
+            //}
         }
 
         /// <summary>
