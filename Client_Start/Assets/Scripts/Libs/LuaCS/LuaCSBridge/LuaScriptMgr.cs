@@ -26,7 +26,6 @@ namespace SDK.Lib
             
         }
 
-        // Use this for initialization
         public void init()
         {
             loader = new MyLuaLoader();
@@ -46,7 +45,7 @@ namespace SDK.Lib
 
         public void InitStart()
         {
-            InitLuaPath();
+            //InitLuaPath();
             InitLuaBundle();
             this.lua.Start();    //启动LUAVM
         }
@@ -143,7 +142,8 @@ namespace SDK.Lib
                 lua.AddSearchPath(rootPath + "/Lua");
                 lua.AddSearchPath(rootPath + "/ToLua/Lua");
             }
-            else {
+            else
+            {
                 lua.AddSearchPath(LuaFramework.Util.DataPath + "lua");
             }
         }
@@ -186,7 +186,6 @@ namespace SDK.Lib
             return lua.GetTable(tableName);
         }
 
-        // Update is called once per frame
         public object[] CallLuaFunction(string funcName, params object[] args)
         {
             //LuaFunction func = luaState.GetFunction(name);

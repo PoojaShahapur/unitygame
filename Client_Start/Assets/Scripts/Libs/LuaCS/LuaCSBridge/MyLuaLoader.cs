@@ -9,7 +9,6 @@ namespace SDK.Lib
     /// </summary>
     public class MyLuaLoader : LuaFileUtils
     {
-        // Use this for initialization
         public MyLuaLoader()
         {
             instance = this;
