@@ -20,7 +20,7 @@ namespace SDK.Lib
         {
             base.postInit();
 
-            this.mPlayerSplitMerge.startSplit();
+            //this.mPlayerSplitMerge.startSplit();
         }
 
         override public void initRender()

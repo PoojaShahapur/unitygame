@@ -112,7 +112,7 @@ namespace SDK.Lib
         {
             //lua.OpenLibs(LuaDLL.luaopen_pb);
             //lua.OpenLibs(LuaDLL.luaopen_sproto_core);
-            lua.OpenLibs(LuaDLL.luaopen_protobuf_c);
+            lua.OpenLibs(LuaDLL.luaopen_protobuf_c);    // C 版本 lua protobuffer
             //lua.OpenLibs(LuaDLL.luaopen_lpeg);
             //lua.OpenLibs(LuaDLL.luaopen_bit);
             //lua.OpenLibs(LuaDLL.luaopen_socket_core);
@@ -156,7 +156,7 @@ namespace SDK.Lib
             if (loader.beZip)
             {
                 loader.AddBundle("lua/lua.unity3d");
-                //loader.AddBundle("lua/lua_math.unity3d");
+                //loader.AddBundle("lua/lua_math.unity3d"); // 新版本 math 已经没有了
                 loader.AddBundle("lua/lua_system.unity3d");
                 loader.AddBundle("lua/lua_system_reflection.unity3d");
                 loader.AddBundle("lua/lua_unityengine.unity3d");
