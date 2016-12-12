@@ -9,85 +9,6 @@ namespace SDK.Lib
 {
     public class IOController : MonoBehaviour
     {
-        public enum ControlScheme
-        {
-            Mouse,
-            Touch,
-            Controller,
-        }
-
-        /// <summary>
-        /// Whether the touch event will be sending out the OnClick notification at the end.
-        /// </summary>
-        public enum ClickNotification
-        {
-            None,
-            Always,
-            BasedOnDelta,   // Click 事件中间有间隔产生的，例如 Down ，然后移动很小距离，再 Up ，这个时候就产生 Click 事件
-        }
-
-        /// <summary>
-        /// Ambiguous mouse, touch, or controller event.
-        /// </summary>
-        public class MouseOrTouch
-        {
-            public KeyCode key = KeyCode.None;
-            public Vector2 pos;             // Current position of the mouse or touch event
-            public Vector2 lastPos;         // Previous position of the mouse or touch event
-            public Vector2 delta;           // Delta since last update
-            public Vector2 totalDelta;      // Delta since the event started being tracked
-
-            public Camera pressedCam;       // Camera that the OnPress(true) was fired with
-
-            public GameObject last;         // Last object under the touch or mouse
-            public GameObject current;      // Current game object under the touch or mouse
-            public GameObject pressed;      // Last game object to receive OnPress
-            public GameObject dragged;      // Game object that's being dragged
-
-            public float pressTime = 0f;    // When the touch event started
-            public float clickTime = 0f;    // The last time a click event was sent out
-
-            public ClickNotification clickNotification = ClickNotification.Always;
-            public bool touchBegan = true;
-            public bool pressStarted = false;
-            public bool dragStarted = false;
-            public int ignoreDelta = 0;
-
-            /// <summary>
-            /// Delta time since the touch operation started.
-            /// </summary>
-            public float deltaTime { get { return UtilIO.time - pressTime; } }
-
-            /// <summary>
-            /// Returns whether this touch is currently over a UI element.
-            /// </summary>
-            public bool isOverUI
-            {
-                get
-                {
-#if UI_NGUI
-                    // NGUI UI 判断当前摄像机是否在处理 UI 事件
-                    return current != null && current != fallThrough && NGUITools.FindInParents<UIRoot>(current) != null;
-                    return current != null && current != fallThrough;
-#else
-                    // UGUI UI 判断当前摄像机是否在处理 UI 事件
-                    return UtilApi.IsPointerOverGameObjectRaycast();
-#endif
-                }
-            }
-        }
-
-        /// <summary>
-        /// Camera type controls how raycasts are handled by the UICamera.
-        /// </summary>
-        public enum EventType : int
-        {
-            World_3D,   // Perform a Physics.Raycast and sort by distance to the point that was hit.
-            UI_3D,      // Perform a Physics.Raycast and sort by widget depth.
-            World_2D,   // Perform a Physics2D.OverlapPoint
-            UI_2D,      // Physics2D.OverlapPoint then sort by widget depth
-        }
-
         /// <summary>
         /// List of all active cameras in the scene.
         /// </summary>
@@ -134,7 +55,7 @@ namespace SDK.Lib
         /// Event type -- use "UI" for your user interfaces, and "World" for your game camera.
         /// This setting changes how raycasts are handled. Raycasts have to be more complicated for UI cameras.
         /// </summary>
-        public EventType eventType = EventType.World_3D;
+        public MEventType eventType = MEventType.World_3D;
 
         /// <summary>
         /// By default, events will go to rigidbodies when the Event Type is not UI.
@@ -312,9 +233,9 @@ namespace SDK.Lib
         {
             get
             {
-                IOController.ControlScheme scheme = IOController.currentScheme;
+                MControlScheme scheme = IOController.currentScheme;
 
-                if (scheme == IOController.ControlScheme.Controller)
+                if (scheme == MControlScheme.Controller)
                 {
                     GameObject go = hoveredObject;
 
@@ -373,33 +294,33 @@ namespace SDK.Lib
         /// Delegate called when the control scheme changes.
         /// </summary>
         static public OnSchemeChange onSchemeChange;
-        static ControlScheme mLastScheme = ControlScheme.Mouse;
+        static MControlScheme mLastScheme = MControlScheme.Mouse;
 
         /// <summary>
         /// Current control scheme. Derived from the last event to arrive.
         /// </summary>
-        static public ControlScheme currentScheme
+        static public MControlScheme currentScheme
         {
             get
             {
-                if (mCurrentKey == KeyCode.None) return ControlScheme.Touch;
-                if (mCurrentKey >= KeyCode.JoystickButton0) return ControlScheme.Controller;
-                if (current != null && mLastScheme == ControlScheme.Controller &&
+                if (mCurrentKey == KeyCode.None) return MControlScheme.Touch;
+                if (mCurrentKey >= KeyCode.JoystickButton0) return MControlScheme.Controller;
+                if (current != null && mLastScheme == MControlScheme.Controller &&
                     (mCurrentKey == current.submitKey0 || mCurrentKey == current.submitKey1))
-                    return ControlScheme.Controller;
-                return ControlScheme.Mouse;
+                    return MControlScheme.Controller;
+                return MControlScheme.Mouse;
             }
             set
             {
-                if (value == ControlScheme.Mouse)
+                if (value == MControlScheme.Mouse)
                 {
                     currentKey = KeyCode.Mouse0;
                 }
-                else if (value == ControlScheme.Controller)
+                else if (value == MControlScheme.Controller)
                 {
                     currentKey = KeyCode.JoystickButton0;
                 }
-                else if (value == ControlScheme.Touch)
+                else if (value == MControlScheme.Touch)
                 {
                     currentKey = KeyCode.None;
                 }
@@ -429,7 +350,7 @@ namespace SDK.Lib
             {
                 if (mCurrentKey != value)
                 {
-                    ControlScheme before = mLastScheme;
+                    MControlScheme before = mLastScheme;
                     mCurrentKey = value;
                     mLastScheme = currentScheme;
 
@@ -437,7 +358,7 @@ namespace SDK.Lib
                     {
                         HideTooltip();
 
-                        if (mLastScheme == ControlScheme.Mouse)
+                        if (mLastScheme == MControlScheme.Mouse)
                         {
 #if UNITY_4_3 || UNITY_4_5 || UNITY_4_6
 						Screen.lockCursor = false;
@@ -448,7 +369,7 @@ namespace SDK.Lib
 #endif
                         }
 #if UNITY_EDITOR
-                        else if (mLastScheme == ControlScheme.Controller)
+                        else if (mLastScheme == MControlScheme.Controller)
 #else
 					else
 #endif
@@ -464,7 +385,7 @@ namespace SDK.Lib
 #endif
 
                                 // Skip the next 2 frames worth of mouse movement
-                                mMouse[0].ignoreDelta = 2;
+                                mMouse[0].mIgnoreDelta = 2;
                             }
                         }
 
@@ -482,14 +403,14 @@ namespace SDK.Lib
             get
             {
                 return (currentCamera != null && currentTouch != null) ?
-                    currentCamera.ScreenPointToRay(currentTouch.pos) : new Ray();
+                    currentCamera.ScreenPointToRay(currentTouch.mPos) : new Ray();
             }
         }
 
         /// <summary>
         /// Current touch, set before any event function gets called.
         /// </summary>
-        static public MouseOrTouch currentTouch = null;
+        static public MMouseOrTouch currentTouch = null;
 
         static bool mInputFocus = false;
 
@@ -553,15 +474,15 @@ namespace SDK.Lib
         static public MoveDelegate onMouseMove;
 
         // Mouse events
-        static MouseOrTouch[] mMouse = new MouseOrTouch[] { new MouseOrTouch(), new MouseOrTouch(), new MouseOrTouch() };
+        static MMouseOrTouch[] mMouse = new MMouseOrTouch[] { new MMouseOrTouch(), new MMouseOrTouch(), new MMouseOrTouch() };
 
         // Joystick/controller/keyboard event
-        static public MouseOrTouch controller = new MouseOrTouch();
+        static public MMouseOrTouch controller = new MMouseOrTouch();
 
         /// <summary>
         /// List of all the active touches.
         /// </summary>
-        static public List<MouseOrTouch> activeTouches = new List<MouseOrTouch>();
+        static public List<MMouseOrTouch> activeTouches = new List<MMouseOrTouch>();
 
         // Used internally to store IDs of active touches
         static List<int> mTouchIDs = new List<int>();
@@ -642,7 +563,7 @@ namespace SDK.Lib
         {
             get
             {
-                if (currentTouch != null && currentTouch.dragStarted) return currentTouch.current;
+                if (currentTouch != null && currentTouch.mDragStarted) return currentTouch.mCurrent;
                 if (mHover && mHover.activeInHierarchy) return mHover;
                 mHover = null;
                 return null;
@@ -666,7 +587,7 @@ namespace SDK.Lib
                 ShowTooltip(null);
 
                 // Remove the selection
-                if (mSelected && currentScheme == ControlScheme.Controller)
+                if (mSelected && currentScheme == MControlScheme.Controller)
                 {
                     Notify(mSelected, "OnSelect", false);
                     if (onSelect != null) onSelect(mSelected, false);
@@ -681,7 +602,7 @@ namespace SDK.Lib
                 }
 
                 mHover = value;
-                currentTouch.clickNotification = ClickNotification.None;
+                currentTouch.mClickNotification = MClickNotification.None;
 
                 if (mHover)
                 {
@@ -722,8 +643,8 @@ namespace SDK.Lib
         {
             get
             {
-                if (controller.current && controller.current.activeInHierarchy)
-                    return controller.current;
+                if (controller.mCurrent && controller.mCurrent.activeInHierarchy)
+                    return controller.mCurrent;
 
                 // Automatically update the object chosen by the controller
                 //if (currentScheme == ControlScheme.Controller &&
@@ -758,16 +679,16 @@ namespace SDK.Lib
                 //    }
                 //}
 
-                controller.current = null;
+                controller.mCurrent = null;
                 return null;
             }
             set
             {
-                if (controller.current != value && controller.current)
+                if (controller.mCurrent != value && controller.mCurrent)
                 {
-                    Notify(controller.current, "OnHover", false);
-                    if (onHover != null) onHover(controller.current, false);
-                    controller.current = null;
+                    Notify(controller.mCurrent, "OnHover", false);
+                    if (onHover != null) onHover(controller.mCurrent, false);
+                    controller.mCurrent = null;
                 }
 
                 hoveredObject = value;
@@ -792,7 +713,7 @@ namespace SDK.Lib
                 if (mSelected == value)
                 {
                     hoveredObject = value;
-                    controller.current = value;
+                    controller.mCurrent = value;
                     return;
                 }
 
@@ -831,7 +752,7 @@ namespace SDK.Lib
                 // Change the selection and hover
                 mSelected = value;
                 //if (scheme >= ControlScheme.Controller) mHover = value;
-                currentTouch.clickNotification = ClickNotification.None;
+                currentTouch.mClickNotification = MClickNotification.None;
 
                 //if (value != null)
                 //{
@@ -882,13 +803,13 @@ namespace SDK.Lib
         /// </summary>
         static public bool IsPressed(GameObject go)
         {
-            for (int i = 0; i < 3; ++i) if (mMouse[i].pressed == go) return true;
+            for (int i = 0; i < 3; ++i) if (mMouse[i].mPressed == go) return true;
             for (int i = 0, imax = activeTouches.Count; i < imax; ++i)
             {
-                MouseOrTouch touch = activeTouches[i];
-                if (touch.pressed == go) return true;
+                MMouseOrTouch touch = activeTouches[i];
+                if (touch.mPressed == go) return true;
             }
-            if (controller.pressed == go) return true;
+            if (controller.mPressed == go) return true;
             return false;
         }
 
@@ -906,16 +827,16 @@ namespace SDK.Lib
 
             for (int i = 0, imax = activeTouches.Count; i < imax; ++i)
             {
-                MouseOrTouch touch = activeTouches[i];
-                if (touch.pressed != null)
+                MMouseOrTouch touch = activeTouches[i];
+                if (touch.mPressed != null)
                     ++count;
             }
 
             for (int i = 0; i < mMouse.Length; ++i)
-                if (mMouse[i].pressed != null)
+                if (mMouse[i].mPressed != null)
                     ++count;
 
-            if (controller.pressed != null)
+            if (controller.mPressed != null)
                 ++count;
 
             return count;
@@ -932,16 +853,16 @@ namespace SDK.Lib
 
                 for (int i = 0, imax = activeTouches.Count; i < imax; ++i)
                 {
-                    MouseOrTouch touch = activeTouches[i];
-                    if (touch.dragged != null)
+                    MMouseOrTouch touch = activeTouches[i];
+                    if (touch.mDragged != null)
                         ++count;
                 }
 
                 for (int i = 0; i < mMouse.Length; ++i)
-                    if (mMouse[i].dragged != null)
+                    if (mMouse[i].mDragged != null)
                         ++count;
 
-                if (controller.dragged != null)
+                if (controller.mDragged != null)
                     ++count;
 
                 return count;
@@ -1031,14 +952,14 @@ namespace SDK.Lib
         /// Raycast into the screen underneath the touch and update its 'current' value.
         /// Raycast 设置很多变量，后面会使用这些设置的值进行判断
         /// </summary>
-        static public void Raycast(MouseOrTouch touch)
+        static public void Raycast(MMouseOrTouch touch)
         {
             // raycast 设置的值
-            if (!Raycast(touch.pos)) mRayHitObject = fallThrough;
+            if (!Raycast(touch.mPos)) mRayHitObject = fallThrough;
             if (mRayHitObject == null) mRayHitObject = mGenericHandler;
-            touch.last = touch.current;     // 第一帧这个字段可能没有，但是后面这个字段必然有值，或者默认值
-            touch.current = mRayHitObject;  // 这个字段必然有值，或者默认值
-            mLastPos = touch.pos;
+            touch.mLast = touch.mCurrent;     // 第一帧这个字段可能没有，但是后面这个字段必然有值，或者默认值
+            touch.mCurrent = mRayHitObject;  // 这个字段必然有值，或者默认值
+            mLastPos = touch.mPos;
         }
 
         /// <summary>
@@ -1068,7 +989,7 @@ namespace SDK.Lib
                 int mask = currentCamera.cullingMask & (int)cam.eventReceiverMask;
                 float dist = (cam.rangeDistance > 0f) ? cam.rangeDistance : currentCamera.farClipPlane - currentCamera.nearClipPlane;
 
-                if (cam.eventType == EventType.World_3D)
+                if (cam.eventType == MEventType.World_3D)
                 {
                     if (Physics.Raycast(ray, out lastHit, dist, mask))
                     {
@@ -1085,7 +1006,7 @@ namespace SDK.Lib
                     }
                     continue;
                 }
-                else if (cam.eventType == EventType.World_2D)
+                else if (cam.eventType == MEventType.World_2D)
                 {
                     if (m2DPlane.Raycast(ray, out dist))
                     {
@@ -1216,12 +1137,12 @@ namespace SDK.Lib
         /// <summary>
         /// Get the details of the specified mouse button.
         /// </summary>
-        static public MouseOrTouch GetMouse(int button) { return mMouse[button]; }
+        static public MMouseOrTouch GetMouse(int button) { return mMouse[button]; }
 
         /// <summary>
         /// Get or create a touch event. If you are trying to iterate through a list of active touches, use activeTouches instead.
         /// </summary>
-        static public MouseOrTouch GetTouch(int id, bool createIfMissing = false)
+        static public MMouseOrTouch GetTouch(int id, bool createIfMissing = false)
         {
             if (id < 0) return GetMouse(-id - 1);
 
@@ -1230,9 +1151,9 @@ namespace SDK.Lib
 
             if (createIfMissing)
             {
-                MouseOrTouch touch = new MouseOrTouch();
-                touch.pressTime = UtilIO.time;
-                touch.touchBegan = true;
+                MMouseOrTouch touch = new MMouseOrTouch();
+                touch.mPressTime = UtilIO.time;
+                touch.mTouchBegan = true;
                 activeTouches.Add(touch);
                 mTouchIDs.Add(id);
                 return touch;
@@ -1270,19 +1191,19 @@ namespace SDK.Lib
             if (Application.platform == RuntimePlatform.PS3 ||
                 Application.platform == RuntimePlatform.XBOX360)
             {
-                currentScheme = ControlScheme.Controller;
+                currentScheme = MControlScheme.Controller;
             }
 #endif
 
             // Save the starting mouse position
-            mMouse[0].pos = Input.mousePosition;
+            mMouse[0].mPos = Input.mousePosition;
 
             for (int i = 1; i < 3; ++i)
             {
-                mMouse[i].pos = mMouse[0].pos;
-                mMouse[i].lastPos = mMouse[0].pos;
+                mMouse[i].mPos = mMouse[0].mPos;
+                mMouse[i].mLastPos = mMouse[0].mPos;
             }
-            mLastPos = mMouse[0].pos;
+            mLastPos = mMouse[0].mPos;
 
 #if !UNITY_EDITOR && (UNITY_STANDALONE_WIN || UNITY_STANDALONE_OSX || UNITY_STANDALONE_LINUX)
 		    string[] args = System.Environment.GetCommandLineArgs();
@@ -1328,7 +1249,7 @@ namespace SDK.Lib
         /// </summary>
         void Start()
         {
-            if (eventType != EventType.World_3D && cachedCamera.transparencySortMode != TransparencySortMode.Orthographic)
+            if (eventType != MEventType.World_3D && cachedCamera.transparencySortMode != TransparencySortMode.Orthographic)
                 cachedCamera.transparencySortMode = TransparencySortMode.Orthographic;
 
             if (Application.isPlaying)
@@ -1407,7 +1328,7 @@ namespace SDK.Lib
                 }
 
                 // mTooltipTime < UtilApi.time 说明延迟时间到了，需要显示 ToolTip 了
-                if (showTooltips && mTooltipTime != 0f && mMouse[0].dragged == null && (mTooltipTime < UtilIO.time ||
+                if (showTooltips && mTooltipTime != 0f && mMouse[0].mDragged == null && (mTooltipTime < UtilIO.time ||
                     GetKey(KeyCode.LeftShift) || GetKey(KeyCode.RightShift)))
                 {
                     currentTouch = mMouse[0];
@@ -1473,32 +1394,32 @@ namespace SDK.Lib
             }
 
             // We're currently using touches -- do nothing
-            if (currentScheme == ControlScheme.Touch) return;
+            if (currentScheme == MControlScheme.Touch) return;
 
             currentTouch = mMouse[0];
 
             // Update the position and delta
             Vector2 pos = Input.mousePosition;
 
-            if (currentTouch.ignoreDelta == 0)
+            if (currentTouch.mIgnoreDelta == 0)
             {
                 // ignoreDelta == 0 彩计算移动变化 delta 
-                currentTouch.delta = pos - currentTouch.pos;
+                currentTouch.mDelta = pos - currentTouch.mPos;
             }
             else
             {
-                --currentTouch.ignoreDelta;
-                currentTouch.delta.x = 0f;
-                currentTouch.delta.y = 0f;
+                --currentTouch.mIgnoreDelta;
+                currentTouch.mDelta.x = 0f;
+                currentTouch.mDelta.y = 0f;
             }
 
-            float sqrMag = currentTouch.delta.sqrMagnitude;
-            currentTouch.pos = pos;
+            float sqrMag = currentTouch.mDelta.sqrMagnitude;
+            currentTouch.mPos = pos;
             mLastPos = pos;
 
             bool posChanged = false;
 
-            if (currentScheme != ControlScheme.Mouse)
+            if (currentScheme != MControlScheme.Mouse)
             {
                 if (sqrMag < 0.001f) return; // Nothing changed and we are not using the mouse -- exit
                 currentKey = KeyCode.Mouse0;
@@ -1509,8 +1430,8 @@ namespace SDK.Lib
             // Propagate the updates to the other mouse buttons
             for (int i = 1; i < 3; ++i)
             {
-                mMouse[i].pos = currentTouch.pos;
-                mMouse[i].delta = currentTouch.delta;
+                mMouse[i].mPos = currentTouch.mPos;
+                mMouse[i].mDelta = currentTouch.mDelta;
             }
 
             // No need to perform raycasts every frame
@@ -1519,15 +1440,15 @@ namespace SDK.Lib
             {
                 mNextRaycast = UtilIO.time + 0.02f;
                 Raycast(currentTouch);
-                for (int i = 0; i < 3; ++i) mMouse[i].current = currentTouch.current;
+                for (int i = 0; i < 3; ++i) mMouse[i].mCurrent = currentTouch.mCurrent;
             }
 
-            bool highlightChanged = (currentTouch.last != currentTouch.current);
-            bool wasPressed = (currentTouch.pressed != null);
+            bool highlightChanged = (currentTouch.mLast != currentTouch.mCurrent);
+            bool wasPressed = (currentTouch.mPressed != null);
 
             // hoveredObject 已经在 Raycast 这里面设置了，这里重复设置了一边
             if (!wasPressed)
-                hoveredObject = currentTouch.current;   // hoveredObject 其实在 Raycast 函数里已经设置过了
+                hoveredObject = currentTouch.mCurrent;   // hoveredObject 其实在 Raycast 函数里已经设置过了
 
             currentTouchID = -1;
             if (highlightChanged) currentKey = KeyCode.Mouse0;
@@ -1550,7 +1471,7 @@ namespace SDK.Lib
             // Generic mouse move notifications
             if (posChanged && onMouseMove != null)
             {
-                onMouseMove(currentTouch.delta);
+                onMouseMove(currentTouch.mDelta);
                 currentTouch = null;
             }
 
@@ -1584,10 +1505,10 @@ namespace SDK.Lib
                 // 第一次按下
                 if (pressed)
                 {
-                    currentTouch.pressedCam = currentCamera;
-                    currentTouch.pressTime = UtilIO.time;
+                    currentTouch.mPressedCam = currentCamera;
+                    currentTouch.mPressTime = UtilIO.time;
                 }
-                else if (currentTouch.pressed != null) currentCamera = currentTouch.pressedCam; // 之前已经按下
+                else if (currentTouch.mPressed != null) currentCamera = currentTouch.mPressedCam; // 之前已经按下
 
                 // Process the mouse events
                 ProcessTouch(pressed, unpressed);
@@ -1601,13 +1522,13 @@ namespace SDK.Lib
                 mTooltipTime = UtilIO.time + tooltipDelay;
                 currentTouchID = -1;
                 currentKey = KeyCode.Mouse0;
-                hoveredObject = currentTouch.current;
+                hoveredObject = currentTouch.mCurrent;
             }
             currentTouch = null;
 
             // Update the last value
-            mMouse[0].last = mMouse[0].current;
-            for (int i = 1; i < 3; ++i) mMouse[i].last = mMouse[0].last;
+            mMouse[0].mLast = mMouse[0].mCurrent;
+            for (int i = 1; i < 3; ++i) mMouse[i].mLast = mMouse[0].mLast;
         }
 
         static bool mUsingTouchEvents = true;
@@ -1664,22 +1585,22 @@ namespace SDK.Lib
                 currentTouchID = allowMultiTouch ? fingerId : 1;
                 currentTouch = GetTouch(currentTouchID, true);
 
-                bool pressed = (phase == TouchPhase.Began) || currentTouch.touchBegan;
+                bool pressed = (phase == TouchPhase.Began) || currentTouch.mTouchBegan;
                 bool unpressed = (phase == TouchPhase.Canceled) || (phase == TouchPhase.Ended);
-                currentTouch.touchBegan = false;
-                currentTouch.delta = position - currentTouch.pos;
-                currentTouch.pos = position;
+                currentTouch.mTouchBegan = false;
+                currentTouch.mDelta = position - currentTouch.mPos;
+                currentTouch.mPos = position;
                 currentKey = KeyCode.None;
 
                 // Raycast into the screen
                 Raycast(currentTouch);
 
                 // We don't want to update the last camera while there is a touch happening
-                if (pressed) currentTouch.pressedCam = currentCamera;
-                else if (currentTouch.pressed != null) currentCamera = currentTouch.pressedCam;
+                if (pressed) currentTouch.mPressedCam = currentCamera;
+                else if (currentTouch.mPressed != null) currentCamera = currentTouch.mPressedCam;
 
                 // Double-tap support
-                if (tapCount > 1) currentTouch.clickTime = UtilIO.time;
+                if (tapCount > 1) currentTouch.mClickTime = UtilIO.time;
 
                 // Process the events from this touch
                 ProcessTouch(pressed, unpressed);
@@ -1687,7 +1608,7 @@ namespace SDK.Lib
                 // If the touch has ended, remove it from the list
                 if (unpressed) RemoveTouch(currentTouchID);
 
-                currentTouch.last = null;
+                currentTouch.mLast = null;
                 currentTouch = null;
 
                 // Don't consider other touches
@@ -1725,24 +1646,24 @@ namespace SDK.Lib
             {
                 currentTouchID = 1;
                 currentTouch = mMouse[0];
-                currentTouch.touchBegan = pressed;
+                currentTouch.mTouchBegan = pressed;
 
                 if (pressed)
                 {
-                    currentTouch.pressTime =  UtilIO.time;
+                    currentTouch.mPressTime =  UtilIO.time;
                     activeTouches.Add(currentTouch);
                 }
 
                 Vector2 pos = Input.mousePosition;
-                currentTouch.delta = pos - currentTouch.pos;
-                currentTouch.pos = pos;
+                currentTouch.mDelta = pos - currentTouch.mPos;
+                currentTouch.mPos = pos;
 
                 // Raycast into the screen
                 Raycast(currentTouch);
 
                 // We don't want to update the last camera while there is a touch happening
-                if (pressed) currentTouch.pressedCam = currentCamera;
-                else if (currentTouch.pressed != null) currentCamera = currentTouch.pressedCam;
+                if (pressed) currentTouch.mPressedCam = currentCamera;
+                else if (currentTouch.mPressed != null) currentCamera = currentTouch.mPressedCam;
 
                 // Process the events from this touch
                 currentKey = KeyCode.None;
@@ -1750,7 +1671,7 @@ namespace SDK.Lib
 
                 // If the touch has ended, remove it from the list
                 if (unpressed) activeTouches.Remove(currentTouch);
-                currentTouch.last = null;
+                currentTouch.mLast = null;
                 currentTouch = null;
             }
         }
@@ -1798,13 +1719,13 @@ namespace SDK.Lib
                 submitKeyUp = true;
             }
 
-            if (submitKeyDown) currentTouch.pressTime = UtilIO.time;
+            if (submitKeyDown) currentTouch.mPressTime = UtilIO.time;
 
-            if ((submitKeyDown || submitKeyUp) && currentScheme == ControlScheme.Controller)
+            if ((submitKeyDown || submitKeyUp) && currentScheme == MControlScheme.Controller)
             {
-                currentTouch.current = controllerNavigationObject;
+                currentTouch.mCurrent = controllerNavigationObject;
                 ProcessTouch(submitKeyDown, submitKeyUp);
-                currentTouch.last = currentTouch.current;
+                currentTouch.mLast = currentTouch.mCurrent;
             }
 
             KeyCode lastKey = KeyCode.None;
@@ -1813,8 +1734,8 @@ namespace SDK.Lib
             if (useController)
             {
                 // Automatically choose the first available selection object
-                if (!disableController && currentScheme == ControlScheme.Controller && (currentTouch.current == null || !currentTouch.current.activeInHierarchy))
-                    currentTouch.current = controllerNavigationObject;
+                if (!disableController && currentScheme == MControlScheme.Controller && (currentTouch.mCurrent == null || !currentTouch.mCurrent.activeInHierarchy))
+                    currentTouch.mCurrent = controllerNavigationObject;
 
                 if (!string.IsNullOrEmpty(verticalAxisName))
                 {
@@ -1823,14 +1744,14 @@ namespace SDK.Lib
                     if (vertical != 0)
                     {
                         ShowTooltip(null);
-                        currentScheme = ControlScheme.Controller;
-                        currentTouch.current = controllerNavigationObject;
+                        currentScheme = MControlScheme.Controller;
+                        currentTouch.mCurrent = controllerNavigationObject;
 
-                        if (currentTouch.current != null)
+                        if (currentTouch.mCurrent != null)
                         {
                             lastKey = vertical > 0 ? KeyCode.UpArrow : KeyCode.DownArrow;
-                            if (onNavigate != null) onNavigate(currentTouch.current, lastKey);
-                            Notify(currentTouch.current, "OnNavigate", lastKey);
+                            if (onNavigate != null) onNavigate(currentTouch.mCurrent, lastKey);
+                            Notify(currentTouch.mCurrent, "OnNavigate", lastKey);
                         }
                     }
                 }
@@ -1842,14 +1763,14 @@ namespace SDK.Lib
                     if (horizontal != 0)
                     {
                         ShowTooltip(null);
-                        currentScheme = ControlScheme.Controller;
-                        currentTouch.current = controllerNavigationObject;
+                        currentScheme = MControlScheme.Controller;
+                        currentTouch.mCurrent = controllerNavigationObject;
 
-                        if (currentTouch.current != null)
+                        if (currentTouch.mCurrent != null)
                         {
                             lastKey = horizontal > 0 ? KeyCode.RightArrow : KeyCode.LeftArrow;
-                            if (onNavigate != null) onNavigate(currentTouch.current, lastKey);
-                            Notify(currentTouch.current, "OnNavigate", lastKey);
+                            if (onNavigate != null) onNavigate(currentTouch.mCurrent, lastKey);
+                            Notify(currentTouch.mCurrent, "OnNavigate", lastKey);
                         }
                     }
                 }
@@ -1860,15 +1781,15 @@ namespace SDK.Lib
                 if (x != 0f || y != 0f)
                 {
                     ShowTooltip(null);
-                    currentScheme = ControlScheme.Controller;
-                    currentTouch.current = controllerNavigationObject;
+                    currentScheme = MControlScheme.Controller;
+                    currentTouch.mCurrent = controllerNavigationObject;
 
-                    if (currentTouch.current != null)
+                    if (currentTouch.mCurrent != null)
                     {
                         Vector2 delta = new Vector2(x, y);
                         delta *= Time.unscaledDeltaTime;
-                        if (onPan != null) onPan(currentTouch.current, delta);
-                        Notify(currentTouch.current, "OnPan", delta);
+                        if (onPan != null) onPan(currentTouch.mCurrent, delta);
+                        Notify(currentTouch.mCurrent, "OnPan", delta);
                     }
                 }
             }
@@ -1887,8 +1808,8 @@ namespace SDK.Lib
                     if (!useMouse && (key >= KeyCode.Mouse0 || key <= KeyCode.Mouse6)) continue;
 
                     currentKey = key;
-                    if (onKey != null) onKey(currentTouch.current, key);
-                    Notify(currentTouch.current, "OnKey", key);
+                    if (onKey != null) onKey(currentTouch.mCurrent, key);
+                    Notify(currentTouch.mCurrent, "OnKey", key);
                 }
             }
 
@@ -1904,30 +1825,30 @@ namespace SDK.Lib
             if (pressed)
             {
                 if (mTooltip != null) ShowTooltip(null);
-                currentTouch.pressStarted = true;
-                if (onPress != null && currentTouch.pressed)
-                    onPress(currentTouch.pressed, false);
+                currentTouch.mPressStarted = true;
+                if (onPress != null && currentTouch.mPressed)
+                    onPress(currentTouch.mPressed, false);
 
-                Notify(currentTouch.pressed, "OnPress", false);
+                Notify(currentTouch.mPressed, "OnPress", false);
 
-                if (currentScheme == ControlScheme.Mouse && hoveredObject == null && currentTouch.current != null)
-                    hoveredObject = currentTouch.current;
+                if (currentScheme == MControlScheme.Mouse && hoveredObject == null && currentTouch.mCurrent != null)
+                    hoveredObject = currentTouch.mCurrent;
 
-                currentTouch.pressed = currentTouch.current;
-                currentTouch.dragged = currentTouch.current;
-                currentTouch.clickNotification = ClickNotification.BasedOnDelta;
-                currentTouch.totalDelta = Vector2.zero;
-                currentTouch.dragStarted = false;
+                currentTouch.mPressed = currentTouch.mCurrent;
+                currentTouch.mDragged = currentTouch.mCurrent;
+                currentTouch.mClickNotification = MClickNotification.BasedOnDelta;
+                currentTouch.mTotalDelta = Vector2.zero;
+                currentTouch.mDragStarted = false;
 
-                if (onPress != null && currentTouch.pressed)
-                    onPress(currentTouch.pressed, true);
+                if (onPress != null && currentTouch.mPressed)
+                    onPress(currentTouch.mPressed, true);
 
-                Notify(currentTouch.pressed, "OnPress", true);
+                Notify(currentTouch.mPressed, "OnPress", true);
 
                 if (mTooltip != null) ShowTooltip(null);    // 与函数开头的一行代码重复了
 
                 // Change the selection
-                if (mSelected != currentTouch.pressed)
+                if (mSelected != currentTouch.mPressed)
                 {
                     // Input no longer has selection, even if it did
                     mInputFocus = false;
@@ -1940,7 +1861,7 @@ namespace SDK.Lib
                     }
 
                     // Change the selection
-                    mSelected = currentTouch.pressed;
+                    mSelected = currentTouch.mPressed;
 
                     //if (currentTouch.pressed != null)
                     //{
@@ -1957,78 +1878,78 @@ namespace SDK.Lib
                     //}
                 }
             }
-            else if (currentTouch.pressed != null && (currentTouch.delta.sqrMagnitude != 0f || currentTouch.current != currentTouch.last))
+            else if (currentTouch.mPressed != null && (currentTouch.mDelta.sqrMagnitude != 0f || currentTouch.mCurrent != currentTouch.mLast))
             {
                 // Keep track of the total movement
-                currentTouch.totalDelta += currentTouch.delta;
-                float mag = currentTouch.totalDelta.sqrMagnitude;
+                currentTouch.mTotalDelta += currentTouch.mDelta;
+                float mag = currentTouch.mTotalDelta.sqrMagnitude;
                 bool justStarted = false;
 
                 // If the drag process hasn't started yet but we've already moved off the object, start it immediately
-                if (!currentTouch.dragStarted && currentTouch.last != currentTouch.current)
+                if (!currentTouch.mDragStarted && currentTouch.mLast != currentTouch.mCurrent)
                 {
-                    currentTouch.dragStarted = true;
-                    currentTouch.delta = currentTouch.totalDelta;
+                    currentTouch.mDragStarted = true;
+                    currentTouch.mDelta = currentTouch.mTotalDelta;
 
                     // OnDragOver is sent for consistency, so that OnDragOut is always preceded by OnDragOver
                     isDragging = true;
 
-                    if (onDragStart != null) onDragStart(currentTouch.dragged);
-                    Notify(currentTouch.dragged, "OnDragStart", null);
+                    if (onDragStart != null) onDragStart(currentTouch.mDragged);
+                    Notify(currentTouch.mDragged, "OnDragStart", null);
 
-                    if (onDragOver != null) onDragOver(currentTouch.last, currentTouch.dragged);
-                    Notify(currentTouch.last, "OnDragOver", currentTouch.dragged);
+                    if (onDragOver != null) onDragOver(currentTouch.mLast, currentTouch.mDragged);
+                    Notify(currentTouch.mLast, "OnDragOver", currentTouch.mDragged);
 
                     isDragging = false;
                 }
-                else if (!currentTouch.dragStarted && drag < mag)
+                else if (!currentTouch.mDragStarted && drag < mag)
                 {
                     // If the drag event has not yet started, see if we've dragged the touch far enough to start it
                     justStarted = true;
-                    currentTouch.dragStarted = true;
-                    currentTouch.delta = currentTouch.totalDelta;
+                    currentTouch.mDragStarted = true;
+                    currentTouch.mDelta = currentTouch.mTotalDelta;
                 }
 
                 // If we're dragging the touch, send out drag events
-                if (currentTouch.dragStarted)
+                if (currentTouch.mDragStarted)
                 {
                     if (mTooltip != null) ShowTooltip(null);
 
                     isDragging = true;
-                    bool isDisabled = (currentTouch.clickNotification == ClickNotification.None);
+                    bool isDisabled = (currentTouch.mClickNotification == MClickNotification.None);
 
                     if (justStarted)
                     {
-                        if (onDragStart != null) onDragStart(currentTouch.dragged);
-                        Notify(currentTouch.dragged, "OnDragStart", null);
+                        if (onDragStart != null) onDragStart(currentTouch.mDragged);
+                        Notify(currentTouch.mDragged, "OnDragStart", null);
 
-                        if (onDragOver != null) onDragOver(currentTouch.last, currentTouch.dragged);
-                        Notify(currentTouch.current, "OnDragOver", currentTouch.dragged);
+                        if (onDragOver != null) onDragOver(currentTouch.mLast, currentTouch.mDragged);
+                        Notify(currentTouch.mCurrent, "OnDragOver", currentTouch.mDragged);
                     }
-                    else if (currentTouch.last != currentTouch.current)
+                    else if (currentTouch.mLast != currentTouch.mCurrent)
                     {
-                        if (onDragOut != null) onDragOut(currentTouch.last, currentTouch.dragged);
-                        Notify(currentTouch.last, "OnDragOut", currentTouch.dragged);
+                        if (onDragOut != null) onDragOut(currentTouch.mLast, currentTouch.mDragged);
+                        Notify(currentTouch.mLast, "OnDragOut", currentTouch.mDragged);
 
-                        if (onDragOver != null) onDragOver(currentTouch.last, currentTouch.dragged);
-                        Notify(currentTouch.current, "OnDragOver", currentTouch.dragged);
+                        if (onDragOver != null) onDragOver(currentTouch.mLast, currentTouch.mDragged);
+                        Notify(currentTouch.mCurrent, "OnDragOver", currentTouch.mDragged);
                     }
 
-                    if (onDrag != null) onDrag(currentTouch.dragged, currentTouch.delta);
-                    Notify(currentTouch.dragged, "OnDrag", currentTouch.delta);
+                    if (onDrag != null) onDrag(currentTouch.mDragged, currentTouch.mDelta);
+                    Notify(currentTouch.mDragged, "OnDrag", currentTouch.mDelta);
 
-                    currentTouch.last = currentTouch.current;
+                    currentTouch.mLast = currentTouch.mCurrent;
                     isDragging = false;
 
                     if (isDisabled)
                     {
                         // If the notification status has already been disabled, keep it as such
-                        currentTouch.clickNotification = ClickNotification.None;
+                        currentTouch.mClickNotification = MClickNotification.None;
                     }
-                    else if (currentTouch.clickNotification == ClickNotification.BasedOnDelta && click < mag)
+                    else if (currentTouch.mClickNotification == MClickNotification.BasedOnDelta && click < mag)
                     {
                         // We've dragged far enough to cancel the click
-                        currentTouch.clickNotification = ClickNotification.None;
+                        currentTouch.mClickNotification = MClickNotification.None;
                     }
                 }
             }
@@ -2041,70 +1962,70 @@ namespace SDK.Lib
         {
             // Send out the unpress message
             if (currentTouch == null) return;
-            currentTouch.pressStarted = false;
+            currentTouch.mPressStarted = false;
 
-            if (currentTouch.pressed != null)
+            if (currentTouch.mPressed != null)
             {
                 // If there was a drag event in progress, make sure OnDragOut gets sent
-                if (currentTouch.dragStarted)
+                if (currentTouch.mDragStarted)
                 {
-                    if (onDragOut != null) onDragOut(currentTouch.last, currentTouch.dragged);
-                    Notify(currentTouch.last, "OnDragOut", currentTouch.dragged);
+                    if (onDragOut != null) onDragOut(currentTouch.mLast, currentTouch.mDragged);
+                    Notify(currentTouch.mLast, "OnDragOut", currentTouch.mDragged);
 
-                    if (onDragEnd != null) onDragEnd(currentTouch.dragged);
-                    Notify(currentTouch.dragged, "OnDragEnd", null);
+                    if (onDragEnd != null) onDragEnd(currentTouch.mDragged);
+                    Notify(currentTouch.mDragged, "OnDragEnd", null);
                 }
 
                 // Send the notification of a touch ending
-                if (onPress != null) onPress(currentTouch.pressed, false);
-                Notify(currentTouch.pressed, "OnPress", false);
+                if (onPress != null) onPress(currentTouch.mPressed, false);
+                Notify(currentTouch.mPressed, "OnPress", false);
 
                 // Send a hover message to the object
-                if (isMouse && HasCollider(currentTouch.pressed))
+                if (isMouse && HasCollider(currentTouch.mPressed))
                 {
                     // OnHover is sent to restore the visual state
-                    if (mHover == currentTouch.current)
+                    if (mHover == currentTouch.mCurrent)
                     {
-                        if (onHover != null) onHover(currentTouch.current, true);
-                        Notify(currentTouch.current, "OnHover", true);
+                        if (onHover != null) onHover(currentTouch.mCurrent, true);
+                        Notify(currentTouch.mCurrent, "OnHover", true);
                     }
-                    else hoveredObject = currentTouch.current;
+                    else hoveredObject = currentTouch.mCurrent;
                 }
 
                 // If the button/touch was released on the same object, consider it a click and select it
                 // 如果移动的输入还不到启动拖动的距离，判断是否作为一次 Click 事件
-                if (currentTouch.dragged == currentTouch.current ||
-                    (currentScheme != ControlScheme.Controller &&
-                    currentTouch.clickNotification != ClickNotification.None &&
-                    currentTouch.totalDelta.sqrMagnitude < drag))
+                if (currentTouch.mDragged == currentTouch.mCurrent ||
+                    (currentScheme != MControlScheme.Controller &&
+                    currentTouch.mClickNotification != MClickNotification.None &&
+                    currentTouch.mTotalDelta.sqrMagnitude < drag))
                 {
                     // If the touch should consider clicks, send out an OnClick notification
-                    if (currentTouch.clickNotification != ClickNotification.None && currentTouch.pressed == currentTouch.current)
+                    if (currentTouch.mClickNotification != MClickNotification.None && currentTouch.mPressed == currentTouch.mCurrent)
                     {
                         ShowTooltip(null);
                         float time = UtilIO.time;
 
-                        if (onClick != null) onClick(currentTouch.pressed);
-                        Notify(currentTouch.pressed, "OnClick", null);
+                        if (onClick != null) onClick(currentTouch.mPressed);
+                        Notify(currentTouch.mPressed, "OnClick", null);
 
-                        if (currentTouch.clickTime + 0.35f > time)
+                        if (currentTouch.mClickTime + 0.35f > time)
                         {
-                            if (onDoubleClick != null) onDoubleClick(currentTouch.pressed);
-                            Notify(currentTouch.pressed, "OnDoubleClick", null);
+                            if (onDoubleClick != null) onDoubleClick(currentTouch.mPressed);
+                            Notify(currentTouch.mPressed, "OnDoubleClick", null);
                         }
-                        currentTouch.clickTime = time;
+                        currentTouch.mClickTime = time;
                     }
                 }
-                else if (currentTouch.dragStarted) // The button/touch was released on a different object
+                else if (currentTouch.mDragStarted) // The button/touch was released on a different object
                 {
                     // Send a drop notification (for drag & drop)
-                    if (onDrop != null) onDrop(currentTouch.current, currentTouch.dragged);
-                    Notify(currentTouch.current, "OnDrop", currentTouch.dragged);
+                    if (onDrop != null) onDrop(currentTouch.mCurrent, currentTouch.mDragged);
+                    Notify(currentTouch.mCurrent, "OnDrop", currentTouch.mDragged);
                 }
             }
-            currentTouch.dragStarted = false;
-            currentTouch.pressed = null;
-            currentTouch.dragged = null;
+            currentTouch.mDragStarted = false;
+            currentTouch.mPressed = null;
+            currentTouch.mDragged = null;
         }
 
         bool HasCollider(GameObject go)
@@ -2129,7 +2050,7 @@ namespace SDK.Lib
             if (pressed) mTooltipTime = UtilIO.time + tooltipDelay;
 
             // Whether we're using the mouse
-            bool isMouse = (currentScheme == ControlScheme.Mouse);
+            bool isMouse = (currentScheme == MControlScheme.Mouse);
             float drag = isMouse ? mouseDragThreshold : touchDragThreshold;
             float click = isMouse ? mouseClickThreshold : touchClickThreshold;
 
@@ -2137,20 +2058,20 @@ namespace SDK.Lib
             drag *= drag;
             click *= click;
 
-            if (currentTouch.pressed != null)
+            if (currentTouch.mPressed != null)
             {
                 if (released) ProcessRelease(isMouse, drag);
                 ProcessPress(pressed, click, drag);
 
                 // Hold event = show tooltip
-                if (currentTouch.pressed == currentTouch.current && mTooltipTime != 0f &&
-                    currentTouch.clickNotification != ClickNotification.None &&
-                    !currentTouch.dragStarted && currentTouch.deltaTime > tooltipDelay)
+                if (currentTouch.mPressed == currentTouch.mCurrent && mTooltipTime != 0f &&
+                    currentTouch.mClickNotification != MClickNotification.None &&
+                    !currentTouch.mDragStarted && currentTouch.deltaTime > tooltipDelay)
                 {
                     mTooltipTime = 0f;
-                    currentTouch.clickNotification = ClickNotification.None;
-                    if (longPressTooltip) ShowTooltip(currentTouch.pressed);
-                    Notify(currentTouch.current, "OnLongPress", null);
+                    currentTouch.mClickNotification = MClickNotification.None;
+                    if (longPressTooltip) ShowTooltip(currentTouch.mPressed);
+                    Notify(currentTouch.mCurrent, "OnLongPress", null);
                 }
             }
             else if (isMouse || pressed || released)

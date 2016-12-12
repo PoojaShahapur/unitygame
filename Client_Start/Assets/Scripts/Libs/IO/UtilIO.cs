@@ -196,13 +196,13 @@ namespace SDK.Lib
         }
 
         // 模拟停止拖放
-        static public void simuStopDrag(IOController.MouseOrTouch currentTouch)
+        static public void simuStopDrag(MMouseOrTouch currentTouch)
         {
             if (currentTouch != null)
             {
-                currentTouch.dragStarted = false;
-                currentTouch.pressed = null;
-                currentTouch.dragged = null;
+                currentTouch.mDragStarted = false;
+                currentTouch.mPressed = null;
+                currentTouch.mDragged = null;
             }
         }
 

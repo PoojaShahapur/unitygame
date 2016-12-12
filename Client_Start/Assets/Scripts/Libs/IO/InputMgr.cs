@@ -8,14 +8,14 @@ namespace SDK.Lib
      */
     public class InputMgr : ITickedObject, IDelayHandleItem
     {
-        Action<KeyCode> mOnKeyUp = null;
-        Action<KeyCode> mOnKeyDown = null;
-        Action<KeyCode> mOnKeyPress = null;
-        
-        Action mOnMouseUp = null;
-        Action mOnMouseDown = null;
+        private AddOnceEventDispatch mOnKeyUp = null;
+        private AddOnceEventDispatch mOnKeyDown = null;
+        private AddOnceEventDispatch mOnKeyPress = null;
 
-        Action mOnAxisDown = null;
+        private Action mOnMouseUp = null;
+        private Action mOnMouseDown = null;
+
+        private Action mOnAxisDown = null;
 
         private bool[] mKeyState = new bool[(int)KeyCode.Joystick8Button19 + 1];     // The most recent information on key states
         private bool[] mKeyStateOld = new bool[(int)KeyCode.Joystick8Button19 + 1];  // The state of the keys on the previous tick
@@ -26,6 +26,8 @@ namespace SDK.Lib
         {
             // 添加事件处理
             Ctx.mInstance.mCamSys.mUiCam = Ctx.mInstance.mLayerMgr.mPath2Go[NotDestroyPath.ND_CV_App].AddComponent<UICamera>();
+
+            InputKey.getInputKeyArray();
         }
 
         public void dispose()
@@ -56,21 +58,40 @@ namespace SDK.Lib
 
             // This function tracks which keys were just pressed (or released) within the last tick.
             // It should be called at the beginning of the tick to give the most accurate responses possible.
-            int cnt;
+            int idx = 0;
             
-            for (cnt = 0; cnt < mKeyState.Length; cnt++)
+            for (idx = 0; idx < mKeyState.Length; idx++)
             {
-                if (mKeyState[cnt] && !mKeyStateOld[cnt])
-                    mJustPressed[cnt] = true;
+                if (Input.GetKey((KeyCode)idx))
+                {
+                    mKeyState[idx] = true;
+                }
                 else
-                    mJustPressed[cnt] = false;
-                
-                if (!mKeyState[cnt] && mKeyStateOld[cnt])
-                    mJustReleased[cnt] = true;
+                {
+                    mKeyState[idx] = false;
+                }
+
+                // 按下状态
+                if (mKeyState[idx] && !mKeyStateOld[idx])
+                {
+                    mJustPressed[idx] = true;
+                }
                 else
-                    mJustReleased[cnt] = false;
+                {
+                    mJustPressed[idx] = false;
+                }
+
+                // 弹起状态
+                if (!mKeyState[idx] && mKeyStateOld[idx])
+                {
+                    mJustReleased[idx] = true;
+                }
+                else
+                {
+                    mJustReleased[idx] = false;
+                }
                 
-                mKeyStateOld[cnt] = mKeyState[cnt];
+                mKeyStateOld[idx] = mKeyState[idx];
             }
         }
 
@@ -295,14 +316,16 @@ namespace SDK.Lib
         }
 
         private void onKeyDown(KeyCode keyCode)
-        {			
+        {
             if (mKeyState[(int)keyCode])
+            {
                 return;
+            }
 
             mKeyState[(int)keyCode] = true;
             if (null != mOnKeyDown)
             {
-                mOnKeyDown(keyCode);
+                mOnKeyDown.dispatchEvent(InputKey.mInputKeyArray[(int)keyCode]);
             }
         }
 
@@ -311,7 +334,7 @@ namespace SDK.Lib
 		    mKeyState[(int)keyCode] = false;
             if (null != mOnKeyUp)
             {
-                mOnKeyUp(keyCode);
+                mOnKeyUp.dispatchEvent(InputKey.mInputKeyArray[(int)keyCode]);
             }
         }
 
@@ -319,7 +342,7 @@ namespace SDK.Lib
         {
             if (null != mOnKeyPress)
             {
-                mOnKeyPress(keyCode);
+                mOnKeyPress.dispatchEvent(InputKey.mInputKeyArray[(int)keyCode]);
             }
         }
 
@@ -339,35 +362,35 @@ namespace SDK.Lib
             }
         }
 
-        public void addKeyListener(EventID evtID, Action<KeyCode> cb)
+        public void addKeyListener(EventID evtID, MAction<IDispatchObject> handle)
         {
             if (EventID.KEYUP_EVENT == evtID)
             {
-                mOnKeyUp += cb;
+                mOnKeyUp.addEventHandle(null, handle);
             }
             else if (EventID.KEYDOWN_EVENT == evtID)
             {
-                mOnKeyDown += cb;
+                mOnKeyDown.addEventHandle(null, handle);
             }
             else if (EventID.KEYPRESS_EVENT == evtID)
             {
-                mOnKeyPress += cb;
+                mOnKeyPress.addEventHandle(null, handle);
             }
         }
 
-        public void removeKeyListener(EventID evtID, Action<KeyCode> cb)
+        public void removeKeyListener(EventID evtID, MAction<IDispatchObject> handle)
         {
             if (EventID.KEYUP_EVENT == evtID)
             {
-                mOnKeyUp -= cb;
+                mOnKeyUp.removeEventHandle(null, handle);
             }
             else if (EventID.KEYDOWN_EVENT == evtID)
             {
-                mOnKeyDown -= cb;
+                mOnKeyDown.removeEventHandle(null, handle);
             }
             else if (EventID.KEYPRESS_EVENT == evtID)
             {
-                mOnKeyPress -= cb;
+                mOnKeyPress.removeEventHandle(null, handle);
             }
         }
 
