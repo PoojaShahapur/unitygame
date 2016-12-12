@@ -679,6 +679,11 @@ namespace SDK.Lib
         {
             mKeyCode = keyCode;
             mKeyDesc = keyDesc;
+
+            mKeyState = false;
+            mKeyStateOld = false;
+            mJustPressed = false;
+            mJustReleased = false;
         }
 
         public KeyCode getKeyCode()
@@ -691,7 +696,46 @@ namespace SDK.Lib
             return mKeyDesc;
         }
 
+        public void onTick(float delta)
+        {
+            if (Input.GetKey(mKeyCode))
+            {
+                mKeyState = true;
+            }
+            else
+            {
+                mKeyState = false;
+            }
+
+            // 按下状态
+            if (mKeyState && !mKeyStateOld)
+            {
+                mJustPressed = true;
+            }
+            else
+            {
+                mJustPressed = false;
+            }
+
+            // 弹起状态
+            if (!mKeyState && mKeyStateOld)
+            {
+                mJustReleased = true;
+            }
+            else
+            {
+                mJustReleased = false;
+            }
+
+            mKeyStateOld = mKeyState;
+        }
+
         private KeyCode mKeyCode;
         private string mKeyDesc;
+
+        public bool mKeyState;
+        public bool mKeyStateOld;
+        public bool mJustPressed;
+        public bool mJustReleased;
     }
 }

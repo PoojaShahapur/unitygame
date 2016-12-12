@@ -17,11 +17,6 @@ namespace SDK.Lib
 
         private Action mOnAxisDown = null;
 
-        private bool[] mKeyState = new bool[(int)KeyCode.Joystick8Button19 + 1];     // The most recent information on key states
-        private bool[] mKeyStateOld = new bool[(int)KeyCode.Joystick8Button19 + 1];  // The state of the keys on the previous tick
-        private bool[] mJustPressed = new bool[(int)KeyCode.Joystick8Button19 + 1];  // An array of keys that were just pressed within the last tick.
-        private bool[] mJustReleased = new bool[(int)KeyCode.Joystick8Button19 + 1]; // An array of keys that were just released within the last tick.
-
         public void init()
         {
             // 添加事件处理
@@ -48,7 +43,7 @@ namespace SDK.Lib
         /**
          * @inheritDoc
          */
-        public void onTick(float deltaTime)
+        public void onTick(float delta)
         {
             handleKeyDown();
             handleKeyUp();
@@ -60,38 +55,9 @@ namespace SDK.Lib
             // It should be called at the beginning of the tick to give the most accurate responses possible.
             int idx = 0;
             
-            for (idx = 0; idx < mKeyState.Length; idx++)
+            for (idx = 0; idx < InputKey.mInputKeyArray.Length; idx++)
             {
-                if (Input.GetKey((KeyCode)idx))
-                {
-                    mKeyState[idx] = true;
-                }
-                else
-                {
-                    mKeyState[idx] = false;
-                }
-
-                // 按下状态
-                if (mKeyState[idx] && !mKeyStateOld[idx])
-                {
-                    mJustPressed[idx] = true;
-                }
-                else
-                {
-                    mJustPressed[idx] = false;
-                }
-
-                // 弹起状态
-                if (!mKeyState[idx] && mKeyStateOld[idx])
-                {
-                    mJustReleased[idx] = true;
-                }
-                else
-                {
-                    mJustReleased[idx] = false;
-                }
-                
-                mKeyStateOld[idx] = mKeyState[idx];
+                InputKey.mInputKeyArray[idx].onTick(delta);
             }
         }
 
@@ -283,7 +249,7 @@ namespace SDK.Lib
          */
         public bool keyJustPressed(int keyCode)
         {
-            return mJustPressed[keyCode];
+            return InputKey.mInputKeyArray[keyCode].mJustPressed;
         }
         
         /**
@@ -291,7 +257,7 @@ namespace SDK.Lib
          */
         public bool keyJustReleased(int keyCode)
         {
-            return mJustReleased[keyCode];
+            return InputKey.mInputKeyArray[keyCode].mJustReleased;
         }
 
         /**
@@ -299,7 +265,7 @@ namespace SDK.Lib
          */
         public bool isKeyDown(int keyCode)
         {
-            return mKeyState[keyCode];
+            return InputKey.mInputKeyArray[keyCode].mKeyState;
         }
         
         /**
@@ -307,22 +273,24 @@ namespace SDK.Lib
          */
         public bool isAnyKeyDown()
         {
-            foreach (bool b in mKeyState)
+            foreach (InputKey inputKey in InputKey.mInputKeyArray)
             {
-                if (b)
-                    return true;
+                if (null != inputKey)
+                {
+                    return inputKey.mKeyState;
+                }
             }
             return false;
         }
 
         private void onKeyDown(KeyCode keyCode)
         {
-            if (mKeyState[(int)keyCode])
+            if (InputKey.mInputKeyArray[(int)keyCode].mKeyState)
             {
                 return;
             }
 
-            mKeyState[(int)keyCode] = true;
+            InputKey.mInputKeyArray[(int)keyCode].mKeyState = true;
             if (null != mOnKeyDown)
             {
                 mOnKeyDown.dispatchEvent(InputKey.mInputKeyArray[(int)keyCode]);
@@ -331,7 +299,7 @@ namespace SDK.Lib
 
         private void onKeyUp(KeyCode keyCode)
         {
-		    mKeyState[(int)keyCode] = false;
+            InputKey.mInputKeyArray[(int)keyCode].mKeyState = false;
             if (null != mOnKeyUp)
             {
                 mOnKeyUp.dispatchEvent(InputKey.mInputKeyArray[(int)keyCode]);
