@@ -96,6 +96,11 @@ namespace SDK.Lib
             return ret;
         }
 
+        public PlayerMovement[] getAllChildMovement()
+        {
+            return null;
+        }
+
         //--------------------------------------
         //public bool m_isRobot;//是否为机器人
 

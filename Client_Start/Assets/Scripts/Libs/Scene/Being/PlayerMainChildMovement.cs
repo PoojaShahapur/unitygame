@@ -119,7 +119,7 @@
             //Get all the unity flock components from the parent transform in the group
             if (transform.parent)
             {
-                tempFlocks = transform.parent.GetComponentsInChildren<UnityFlock>();
+                tempFlocks = (this.mEntity as PlayerChild).mParentPlayer.getAllChildMovement() as PlayerMainChildMovement[];
             }
 
             //Assign and store all the flock objects in this group
