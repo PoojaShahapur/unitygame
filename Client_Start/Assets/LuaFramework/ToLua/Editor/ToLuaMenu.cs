@@ -76,6 +76,7 @@ public static class ToLuaMenu
         typeof(LuaInterface.LuaThread),
         typeof(LuaInterface.LuaByteBuffer),                 //只是类型标识符
         typeof(DelegateFactory),                            //无需导出，导出类支持lua函数转换为委托。如UIEventListener.OnClick(luafunc)
+        typeof(UnityEngine.MonoBehaviour),
     };
 
     //可以导出的内部支持类型

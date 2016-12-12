@@ -21,15 +21,31 @@ namespace SDK.Lib
         /// <param name="bundle"></param>
         public void AddBundle(string bundleName)
         {
-            string url = LuaFramework.Util.DataPath + bundleName.ToLower();
-            if (File.Exists(url))
+            //string url = LuaFramework.Util.DataPath + bundleName.ToLower();
+            //if (File.Exists(url))
+            //{
+            //    AssetBundle bundle = AssetBundle.LoadFromFile(url);
+            //    if (bundle != null)
+            //    {
+            //        bundleName = bundleName.Replace("lua/", "").Replace(".unity3d", "");
+            //        base.AddSearchBundle(bundleName.ToLower(), bundle);
+            //    }
+            //}
+
+            string url = string.Format("{0}/{1}", MFileSys.msAssetBundlesStreamingAssetsPath, bundleName.ToLower());
+            Ctx.mInstance.mLogSys.log(string.Format("MyLuaLoader::AddBundle url is {0} .", url));
+
+            AssetBundle bundle = AssetBundle.LoadFromFile(url);
+            if (bundle != null)
             {
-                AssetBundle bundle = AssetBundle.LoadFromFile(url);
-                if (bundle != null)
-                {
-                    bundleName = bundleName.Replace("lua/", "").Replace(".unity3d", "");
-                    base.AddSearchBundle(bundleName.ToLower(), bundle);
-                }
+                Ctx.mInstance.mLogSys.log(string.Format("MyLuaLoader::AddBundle loaded, url is {0} .", url));
+
+                bundleName = bundleName.Replace("lua/", "").Replace(".unity3d", "");
+                base.AddSearchBundle(bundleName.ToLower(), bundle);
+            }
+            else
+            {
+                Ctx.mInstance.mLogSys.log(string.Format("MyLuaLoader::AddBundle failed, url is {0} .", url));
             }
         }
 

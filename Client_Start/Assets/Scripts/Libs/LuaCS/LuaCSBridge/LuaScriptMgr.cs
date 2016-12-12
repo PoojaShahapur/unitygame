@@ -156,7 +156,7 @@ namespace SDK.Lib
             if (loader.beZip)
             {
                 loader.AddBundle("lua/lua.unity3d");
-                loader.AddBundle("lua/lua_math.unity3d");
+                //loader.AddBundle("lua/lua_math.unity3d");
                 loader.AddBundle("lua/lua_system.unity3d");
                 loader.AddBundle("lua/lua_system_reflection.unity3d");
                 loader.AddBundle("lua/lua_unityengine.unity3d");
