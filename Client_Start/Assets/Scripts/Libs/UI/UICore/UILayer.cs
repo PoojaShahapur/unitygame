@@ -108,7 +108,7 @@ namespace SDK.Lib
 
         public void findLayerGOAndTrans()
         {
-            m_layerTrans = Ctx.mInstance.mLayerMgr.m_path2Go[m_goName].transform;
+            m_layerTrans = Ctx.mInstance.mLayerMgr.mPath2Go[m_goName].transform;
         }
 	}
 }

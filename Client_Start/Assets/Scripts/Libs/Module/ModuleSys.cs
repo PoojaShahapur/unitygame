@@ -83,15 +83,15 @@ namespace SDK.Lib
                     Ctx.mInstance.mAutoUpdate.unload();
                 }
             }
-            if (Ctx.mInstance.mLayerMgr.m_path2Go.ContainsKey(m_type2ItemDic[moduleID].m_moduleLayerPath))
+            if (Ctx.mInstance.mLayerMgr.mPath2Go.ContainsKey(m_type2ItemDic[moduleID].m_moduleLayerPath))
             {
-                UtilApi.Destroy(Ctx.mInstance.mLayerMgr.m_path2Go[m_type2ItemDic[moduleID].m_moduleLayerPath]);
+                UtilApi.Destroy(Ctx.mInstance.mLayerMgr.mPath2Go[m_type2ItemDic[moduleID].m_moduleLayerPath]);
             }
             else
             {
                 Ctx.mInstance.mLogSys.log("Cannot find unload module object");
             }
-            Ctx.mInstance.mLayerMgr.m_path2Go.Remove(m_type2ItemDic[moduleID].m_moduleLayerPath);
+            Ctx.mInstance.mLayerMgr.mPath2Go.Remove(m_type2ItemDic[moduleID].m_moduleLayerPath);
             UtilApi.UnloadUnusedAssets();
         }
 
@@ -100,9 +100,9 @@ namespace SDK.Lib
             ResItem res = dispObj as ResItem;
             if (res.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
             {
-                Ctx.mInstance.mLayerMgr.m_path2Go[ModulePath.LOGINMN] = res.InstantiateObject(m_type2ItemDic[ModuleID.LOGINMN].mPath);
-                Ctx.mInstance.mLayerMgr.m_path2Go[ModulePath.LOGINMN].name = ModuleName.LOGINMN;
-                Ctx.mInstance.mLayerMgr.m_path2Go[ModulePath.LOGINMN].transform.parent = Ctx.mInstance.mLayerMgr.m_path2Go[NotDestroyPath.ND_CV_Root].transform;
+                Ctx.mInstance.mLayerMgr.mPath2Go[ModulePath.LOGINMN] = res.InstantiateObject(m_type2ItemDic[ModuleID.LOGINMN].mPath);
+                Ctx.mInstance.mLayerMgr.mPath2Go[ModulePath.LOGINMN].name = ModuleName.LOGINMN;
+                Ctx.mInstance.mLayerMgr.mPath2Go[ModulePath.LOGINMN].transform.parent = Ctx.mInstance.mLayerMgr.mPath2Go[NotDestroyPath.ND_CV_Root].transform;
 
                 // 立马卸载这个资源
                 Ctx.mInstance.mResLoadMgr.unload(m_type2ItemDic[ModuleID.LOGINMN].mPath, onLoginLoadEventHandle);
@@ -118,12 +118,12 @@ namespace SDK.Lib
             ResItem res = dispObj as ResItem;
             if (res.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
             {
-                Ctx.mInstance.mLayerMgr.m_path2Go[ModulePath.GAMEMN] = res.InstantiateObject(m_type2ItemDic[ModuleID.GAMEMN].mPath);
-                Ctx.mInstance.mLayerMgr.m_path2Go[ModulePath.GAMEMN].name = ModuleName.GAMEMN;
-                Ctx.mInstance.mLayerMgr.m_path2Go[NotDestroyPath.ND_CV_Game].transform.parent = Ctx.mInstance.mLayerMgr.m_path2Go[NotDestroyPath.ND_CV_Root].transform;
+                Ctx.mInstance.mLayerMgr.mPath2Go[ModulePath.GAMEMN] = res.InstantiateObject(m_type2ItemDic[ModuleID.GAMEMN].mPath);
+                Ctx.mInstance.mLayerMgr.mPath2Go[ModulePath.GAMEMN].name = ModuleName.GAMEMN;
+                Ctx.mInstance.mLayerMgr.mPath2Go[NotDestroyPath.ND_CV_Game].transform.parent = Ctx.mInstance.mLayerMgr.mPath2Go[NotDestroyPath.ND_CV_Root].transform;
 
                 // 游戏模块也不释放
-                UtilApi.DontDestroyOnLoad(Ctx.mInstance.mLayerMgr.m_path2Go[NotDestroyPath.ND_CV_Game]);
+                UtilApi.DontDestroyOnLoad(Ctx.mInstance.mLayerMgr.mPath2Go[NotDestroyPath.ND_CV_Game]);
 
                 // 立马卸载这个资源
                 Ctx.mInstance.mResLoadMgr.unload(m_type2ItemDic[ModuleID.GAMEMN].mPath, onGameLoadEventHandle);
@@ -141,9 +141,9 @@ namespace SDK.Lib
             {
                 Ctx.mInstance.mLogSys.debugLog_1(LangItemID.eItem0, res.getLoadPath());
 
-                Ctx.mInstance.mLayerMgr.m_path2Go[ModulePath.AUTOUPDATEMN] = res.InstantiateObject(m_type2ItemDic[ModuleID.AUTOUPDATEMN].mPath);
-                Ctx.mInstance.mLayerMgr.m_path2Go[ModulePath.AUTOUPDATEMN].name = ModuleName.AUTOUPDATEMN;
-                Ctx.mInstance.mLayerMgr.m_path2Go[ModulePath.AUTOUPDATEMN].transform.parent = Ctx.mInstance.mLayerMgr.m_path2Go[NotDestroyPath.ND_CV_Root].transform;
+                Ctx.mInstance.mLayerMgr.mPath2Go[ModulePath.AUTOUPDATEMN] = res.InstantiateObject(m_type2ItemDic[ModuleID.AUTOUPDATEMN].mPath);
+                Ctx.mInstance.mLayerMgr.mPath2Go[ModulePath.AUTOUPDATEMN].name = ModuleName.AUTOUPDATEMN;
+                Ctx.mInstance.mLayerMgr.mPath2Go[ModulePath.AUTOUPDATEMN].transform.parent = Ctx.mInstance.mLayerMgr.mPath2Go[NotDestroyPath.ND_CV_Root].transform;
 
                 // 立马卸载这个资源
                 Ctx.mInstance.mResLoadMgr.unload(m_type2ItemDic[ModuleID.AUTOUPDATEMN].mPath, onAutoUpdateLoadEventHandle);

@@ -309,13 +309,13 @@
             // Unity 编辑器设置的基本数据
             initBasicCfg();
             // 添加 KBEngine组件
-            this.mClientApp = this.mLayerMgr.m_path2Go[NotDestroyPath.ND_CV_Root].AddComponent<clientapp>();
+            this.mClientApp = this.mLayerMgr.mPath2Go[NotDestroyPath.ND_CV_Root].AddComponent<clientapp>();
         }
 
         public void setNoDestroyObject()
         {
-            this.mLayerMgr.m_path2Go[NotDestroyPath.ND_CV_Root] = UtilApi.GoFindChildByName(NotDestroyPath.ND_CV_Root);
-            UtilApi.DontDestroyOnLoad(Ctx.mInstance.mLayerMgr.m_path2Go[NotDestroyPath.ND_CV_Root]);
+            this.mLayerMgr.mPath2Go[NotDestroyPath.ND_CV_Root] = UtilApi.GoFindChildByName(NotDestroyPath.ND_CV_Root);
+            UtilApi.DontDestroyOnLoad(Ctx.mInstance.mLayerMgr.mPath2Go[NotDestroyPath.ND_CV_Root]);
 
             setNoDestroyObject_impl(NotDestroyPath.ND_CV_App, NotDestroyPath.ND_CV_Root);
             setNoDestroyObject_impl(NotDestroyPath.ND_CV_UIFirstCanvas, NotDestroyPath.ND_CV_Root);
@@ -340,13 +340,13 @@
 
         protected void setNoDestroyObject_impl(string child, string parent)
         {
-            this.mLayerMgr.m_path2Go[child] = UtilApi.TransFindChildByPObjAndPath(this.mLayerMgr.m_path2Go[parent], child);
-            //UtilApi.DontDestroyOnLoad(mLayerMgr.m_path2Go[child]);
+            this.mLayerMgr.mPath2Go[child] = UtilApi.TransFindChildByPObjAndPath(this.mLayerMgr.mPath2Go[parent], child);
+            //UtilApi.DontDestroyOnLoad(mLayerMgr.mPath2Go[child]);
         }
 
         protected void initBasicCfg()
         {
-            BasicConfig basicCfg = this.mLayerMgr.m_path2Go[NotDestroyPath.ND_CV_Root].GetComponent<BasicConfig>();
+            BasicConfig basicCfg = this.mLayerMgr.mPath2Go[NotDestroyPath.ND_CV_Root].GetComponent<BasicConfig>();
             //mCfg.mIp = basicCfg.getIp();
             this.mCfg.mZone = basicCfg.getPort();
         }

@@ -63,7 +63,7 @@ namespace SDK.Lib
 
         public void setSceneCamera2UICamera()
         {
-            mUiCam.mCam = Ctx.mInstance.mLayerMgr.m_path2Go[NotDestroyPath.ND_CV_UICamera].GetComponent<Camera>();
+            mUiCam.mCam = Ctx.mInstance.mLayerMgr.mPath2Go[NotDestroyPath.ND_CV_UICamera].GetComponent<Camera>();
         }
 
         public void setSceneCamera2MainCamera()

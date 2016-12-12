@@ -12,15 +12,15 @@ namespace SDK.Lib
         Action<KeyCode> mOnKeyDown = null;
         Action<KeyCode> mOnKeyPress = null;
         
-        Action m_onMouseUp = null;
-        Action m_onMouseDown = null;
+        Action mOnMouseUp = null;
+        Action mOnMouseDown = null;
 
-        Action m_onAxisDown = null;
+        Action mOnAxisDown = null;
 
-        private bool[] _keyState = new bool[(int)KeyCode.Joystick8Button19 + 1];     // The most recent information on key states
-        private bool[] _keyStateOld = new bool[(int)KeyCode.Joystick8Button19 + 1];  // The state of the keys on the previous tick
-        private bool[] _justPressed = new bool[(int)KeyCode.Joystick8Button19 + 1];  // An array of keys that were just pressed within the last tick.
-        private bool[] _justReleased = new bool[(int)KeyCode.Joystick8Button19 + 1]; // An array of keys that were just released within the last tick.
+        private bool[] mKeyState = new bool[(int)KeyCode.Joystick8Button19 + 1];     // The most recent information on key states
+        private bool[] mKeyStateOld = new bool[(int)KeyCode.Joystick8Button19 + 1];  // The state of the keys on the previous tick
+        private bool[] mJustPressed = new bool[(int)KeyCode.Joystick8Button19 + 1];  // An array of keys that were just pressed within the last tick.
+        private bool[] mJustReleased = new bool[(int)KeyCode.Joystick8Button19 + 1]; // An array of keys that were just released within the last tick.
 
         public void init()
         {
@@ -58,19 +58,19 @@ namespace SDK.Lib
             // It should be called at the beginning of the tick to give the most accurate responses possible.
             int cnt;
             
-            for (cnt = 0; cnt < _keyState.Length; cnt++)
+            for (cnt = 0; cnt < mKeyState.Length; cnt++)
             {
-                if (_keyState[cnt] && !_keyStateOld[cnt])
-                    _justPressed[cnt] = true;
+                if (mKeyState[cnt] && !mKeyStateOld[cnt])
+                    mJustPressed[cnt] = true;
                 else
-                    _justPressed[cnt] = false;
+                    mJustPressed[cnt] = false;
                 
-                if (!_keyState[cnt] && _keyStateOld[cnt])
-                    _justReleased[cnt] = true;
+                if (!mKeyState[cnt] && mKeyStateOld[cnt])
+                    mJustReleased[cnt] = true;
                 else
-                    _justReleased[cnt] = false;
+                    mJustReleased[cnt] = false;
                 
-                _keyStateOld[cnt] = _keyState[cnt];
+                mKeyStateOld[cnt] = mKeyState[cnt];
             }
         }
 
@@ -242,9 +242,9 @@ namespace SDK.Lib
             float vertical = Input.GetAxis("Vertical");
             if (horizontal != 0.0f || vertical != 0.0f)
             {
-                if (m_onAxisDown != null)
+                if (mOnAxisDown != null)
                 {
-                    m_onAxisDown();
+                    mOnAxisDown();
                 }
             }
         }
@@ -262,7 +262,7 @@ namespace SDK.Lib
          */
         public bool keyJustPressed(int keyCode)
         {
-            return _justPressed[keyCode];
+            return mJustPressed[keyCode];
         }
         
         /**
@@ -270,7 +270,7 @@ namespace SDK.Lib
          */
         public bool keyJustReleased(int keyCode)
         {
-            return _justReleased[keyCode];
+            return mJustReleased[keyCode];
         }
 
         /**
@@ -278,7 +278,7 @@ namespace SDK.Lib
          */
         public bool isKeyDown(int keyCode)
         {
-            return _keyState[keyCode];
+            return mKeyState[keyCode];
         }
         
         /**
@@ -286,7 +286,7 @@ namespace SDK.Lib
          */
         public bool isAnyKeyDown()
         {
-            foreach (bool b in _keyState)
+            foreach (bool b in mKeyState)
             {
                 if (b)
                     return true;
@@ -296,10 +296,10 @@ namespace SDK.Lib
 
         private void onKeyDown(KeyCode keyCode)
         {			
-            if (_keyState[(int)keyCode])
+            if (mKeyState[(int)keyCode])
                 return;
 
-            _keyState[(int)keyCode] = true;
+            mKeyState[(int)keyCode] = true;
             if (null != mOnKeyDown)
             {
                 mOnKeyDown(keyCode);
@@ -308,7 +308,7 @@ namespace SDK.Lib
 
         private void onKeyUp(KeyCode keyCode)
         {
-		    _keyState[(int)keyCode] = false;
+		    mKeyState[(int)keyCode] = false;
             if (null != mOnKeyUp)
             {
                 mOnKeyUp(keyCode);
@@ -325,17 +325,17 @@ namespace SDK.Lib
 
         private void onMouseDown()
         {
-            if (null != m_onMouseDown)
+            if (null != mOnMouseDown)
             {
-                m_onMouseDown();
+                mOnMouseDown();
             }
         }
 
         private void onMouseUp()
         {
-            if (null != m_onMouseUp)
+            if (null != mOnMouseUp)
             {
-                m_onMouseUp();
+                mOnMouseUp();
             }
         }
 
@@ -375,11 +375,11 @@ namespace SDK.Lib
         {
             if (EventID.MOUSEDOWN_EVENT == evtID)
             {
-                m_onMouseDown += cb;
+                mOnMouseDown += cb;
             }
             else if (EventID.MOUSEUP_EVENT == evtID)
             {
-                m_onMouseUp += cb;
+                mOnMouseUp += cb;
             }
         }
 
@@ -387,22 +387,22 @@ namespace SDK.Lib
         {
             if (EventID.MOUSEDOWN_EVENT == evtID)
             {
-                m_onMouseDown -= cb;
+                mOnMouseDown -= cb;
             }
             else if (EventID.MOUSEUP_EVENT == evtID)
             {
-                m_onMouseUp -= cb;
+                mOnMouseUp -= cb;
             }
         }
 
         public void addAxisListener(EventID evtID, Action cb)
         {
-            m_onAxisDown += cb;
+            mOnAxisDown += cb;
         }
 
         public void removeAxisListener(EventID evtID, Action cb)
         {
-            m_onAxisDown -= cb;
+            mOnAxisDown -= cb;
         }
     }
 }

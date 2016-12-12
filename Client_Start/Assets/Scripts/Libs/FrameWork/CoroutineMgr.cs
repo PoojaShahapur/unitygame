@@ -22,7 +22,7 @@ namespace SDK.Lib
         {
             if (m_CoroutineCmnt == null)
             {
-                m_CoroutineCmnt = Ctx.mInstance.mLayerMgr.m_path2Go[NotDestroyPath.ND_CV_App].AddComponent<CoroutineComponent>();
+                m_CoroutineCmnt = Ctx.mInstance.mLayerMgr.mPath2Go[NotDestroyPath.ND_CV_App].AddComponent<CoroutineComponent>();
             }
             return m_CoroutineCmnt.StartCoroutine(routine);
         }
