@@ -162,5 +162,40 @@
         {
             mPosStopChangedDisp.removeEventHandle(null, handle);
         }
+
+        //---------------------- Flock Start-----------------------------
+        public UnityEngine.Vector3 bound;
+        public float speed = 100.0f;
+
+        private UnityEngine.Vector3 initialPosition;
+        private UnityEngine.Vector3 nextMovementPoint;
+        private UnityEngine.Transform transform;
+
+        // Use this for initialization
+        void Start()
+        {
+            initialPosition = transform.position;
+            CalculateNextMovementPoint();
+        }
+
+        void CalculateNextMovementPoint()
+        {
+            float posX = UnityEngine.Random.Range(initialPosition.x - bound.x, initialPosition.x + bound.x);
+            float posY = UnityEngine.Random.Range(initialPosition.y - bound.y, initialPosition.y + bound.y);
+            float posZ = UnityEngine.Random.Range(initialPosition.z - bound.z, initialPosition.z + bound.z);
+
+            nextMovementPoint = initialPosition + new UnityEngine.Vector3(posX, posY, posZ);
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+            transform.Translate(UnityEngine.Vector3.forward * speed * Ctx.mInstance.mSystemTimeData.deltaSec);
+            transform.rotation = UnityEngine.Quaternion.Slerp(transform.rotation, UnityEngine.Quaternion.LookRotation(nextMovementPoint - transform.position), 1.0f * Ctx.mInstance.mSystemTimeData.deltaSec);
+
+            //if (Vector3.Distance(nextMovementPoint, transform.position) <= 10.0f)
+            //    CalculateNextMovementPoint();
+        }
+        //---------------------- Flock End --------------------------
     }
 }

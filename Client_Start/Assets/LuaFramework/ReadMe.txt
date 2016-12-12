@@ -1,0 +1,2 @@
+使用的 tolua 的版本号:
+Revision: 19c9d45209a9617020ae260be5973ce6c1f91fed
