@@ -25,7 +25,7 @@ namespace SDK.Lib
         public void init()
         {
             // 添加事件处理
-            Ctx.mInstance.mCamSys.mUiCam = Ctx.mInstance.mLayerMgr.m_path2Go[NotDestroyPath.ND_CV_App].AddComponent<UICamera>();
+            Ctx.mInstance.mCamSys.mUiCam = Ctx.mInstance.mLayerMgr.mPath2Go[NotDestroyPath.ND_CV_App].AddComponent<UICamera>();
         }
 
         public void dispose()

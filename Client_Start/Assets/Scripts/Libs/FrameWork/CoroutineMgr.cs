@@ -16,15 +16,15 @@ namespace SDK.Lib
      */
     public class CoroutineMgr
     {
-        protected CoroutineComponent m_CoroutineCmnt;
+        protected CoroutineComponent mCoroutineComponent;
 
         public Coroutine StartCoroutine(IEnumerator routine)
         {
-            if (m_CoroutineCmnt == null)
+            if (mCoroutineComponent == null)
             {
-                m_CoroutineCmnt = Ctx.mInstance.mLayerMgr.mPath2Go[NotDestroyPath.ND_CV_App].AddComponent<CoroutineComponent>();
+                mCoroutineComponent = Ctx.mInstance.mLayerMgr.mPath2Go[NotDestroyPath.ND_CV_App].AddComponent<CoroutineComponent>();
             }
-            return m_CoroutineCmnt.StartCoroutine(routine);
+            return mCoroutineComponent.StartCoroutine(routine);
         }
     }
 }
