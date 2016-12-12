@@ -86,13 +86,13 @@ function M:initForm()
     --昵称
     self.mNameBG = GlobalNS.UtilApi.TransFindChildByPObjAndPath(bg_image, "NameBG");
     self.mNickNameInput = GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.mNameBG, "MyName");
-    self.inputText = GlobalNS.UtilApi.getComponent(self.mNickNameInput, "InputField");    
+    self.inputText = GlobalNS.UtilApi.GetComponent(self.mNickNameInput, "InputField");    
     self.mNickNameBtn:setSelfGo(GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.mNameBG, "RandomName_BtnTouch"));
     self.mStartGameBtn:setSelfGo(GlobalNS.UtilApi.TransFindChildByPObjAndPath(bg_image, "StartGame_BtnTouch"));
     
     --功能设置区相关控件
     self.mSettingsPanel = GlobalNS.UtilApi.TransFindChildByPObjAndPath(bg_image, "SettingsPanel");
-    self.mSettingsAnimator = GlobalNS.UtilApi.getComponent(self.mSettingsPanel, "Animator");
+    self.mSettingsAnimator = GlobalNS.UtilApi.GetComponent(self.mSettingsPanel, "Animator");
 
     --收缩按钮
     self.mDropBtn:setSelfGo(GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.mSettingsPanel, "Drop_BtnTouch"));
@@ -123,7 +123,7 @@ function M:setUsernameAndPassword()
            self.inputText.text = self.username;
     end
 
-    self.password = GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:getString(SDK.Lib.SystemSetting.PASSWORD);
+    --self.password = GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:getString(SDK.Lib.SystemSetting.PASSWORD);
 end
 
 function M:onShow()

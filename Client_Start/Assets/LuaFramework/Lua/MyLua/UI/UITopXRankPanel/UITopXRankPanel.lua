@@ -43,7 +43,8 @@ function M:onReady()
         local topx = GlobalNS.UtilApi.TransFindChildByPObjAndPath(topXBG, "Top" .. i);
         if i % 2 == 0 then
             GCtx.mLogSys:log("i " .. i, GlobalNS.LogTypeId.eLogCommon);
-            topx.color = Color.New(255, 255, 255, 0);
+            --topx.color = Color.New(255, 255, 255, 0);
+			GlobalNS.UtilApi.setImageColor(topx, 255, 255, 255, 0);
         end
 
         --Name

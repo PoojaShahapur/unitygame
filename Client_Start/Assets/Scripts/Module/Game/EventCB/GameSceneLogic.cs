@@ -7,11 +7,11 @@ namespace Game.Game
     {
         public GameSceneLogic()
         {
-            Ctx.mInstance.mInputMgr.addKeyListener(EventID.KEYDOWN_EVENT, onKeyDown);
-            Ctx.mInstance.mInputMgr.addKeyListener(EventID.KEYUP_EVENT, onKeyUp);
-            Ctx.mInstance.mInputMgr.addMouseListener(EventID.MOUSEDOWN_EVENT, onMouseDown);
-            Ctx.mInstance.mInputMgr.addMouseListener(EventID.MOUSEUP_EVENT, onMouseUp);
-            Ctx.mInstance.mInputMgr.addAxisListener(EventID.AXIS_EVENT, onAxisDown);
+            //Ctx.mInstance.mInputMgr.addKeyListener(EventID.KEYDOWN_EVENT, onKeyDown);
+            //Ctx.mInstance.mInputMgr.addKeyListener(EventID.KEYUP_EVENT, onKeyUp);
+            //Ctx.mInstance.mInputMgr.addMouseListener(EventID.MOUSEDOWN_EVENT, onMouseDown);
+            //Ctx.mInstance.mInputMgr.addMouseListener(EventID.MOUSEUP_EVENT, onMouseUp);
+            //Ctx.mInstance.mInputMgr.addAxisListener(EventID.AXIS_EVENT, onAxisDown);
         }
 
         private void onKeyDown(KeyCode keyCode)

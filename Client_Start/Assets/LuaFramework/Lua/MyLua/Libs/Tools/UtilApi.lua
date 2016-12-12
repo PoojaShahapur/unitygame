@@ -39,8 +39,8 @@ function M.setTextColorInOne(go, color)
 	M.GetComponent(go, 'Text').color = color;
 end
 
-function M.setImageColor(go, r, g, b)
-    M.GetComponent(go, 'Image').color = Color.New(r, g, b);
+function M.setImageColor(go, r, g, b, a)
+    M.GetComponent(go, 'Image').color = Color.New(r, g, b, a);
 end
 
 function M.getText(textComp)
@@ -134,7 +134,8 @@ function M.setRectRotate(go, rotateX, rotateY, rotateZ)
     rectTransform.localEulerAngles = rot;
 end
 
-function M.getComponent(go, name)
+-- GetComponent 不是 getComponent ，大小写是有区别的
+function M.GetComponent(go, name)
 	return go:GetComponent(name);
 end
 
@@ -321,7 +322,7 @@ end
 
 -- 从 Parent 获取一个组件
 function M.getComFromSelf(go, typeName)
-    return M.getComponent(go, typeName);
+    return M.GetComponent(go, typeName);
 end
 
 function M.addEventHandleByPath(go, path, luaTable, luaFunction)
