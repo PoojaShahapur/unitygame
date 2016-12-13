@@ -12,8 +12,8 @@
 
         private AddOnceEventDispatch mOnMouseDownDispatch;
         private AddOnceEventDispatch mOnMouseUpDispatch;
-        private AddOnceEventDispatch mOnMousePressDispatch;
-        private AddOnceEventDispatch mOnMouseMoveDispatch;
+        private AddOnceEventDispatch mOnMousePressedDispatch;
+        private AddOnceEventDispatch mOnMouseMovedDispatch;
         private AddOnceEventDispatch mOnMouseCanceledDispatch;
 
         static public MMouse GetMouse(int button)
@@ -27,8 +27,8 @@
 
             this.mOnMouseDownDispatch = new AddOnceEventDispatch();
             this.mOnMouseUpDispatch = new AddOnceEventDispatch();
-            this.mOnMousePressDispatch = new AddOnceEventDispatch();
-            this.mOnMouseMoveDispatch = new AddOnceEventDispatch();
+            this.mOnMousePressedDispatch = new AddOnceEventDispatch();
+            this.mOnMouseMovedDispatch = new AddOnceEventDispatch();
             this.mOnMouseCanceledDispatch = new AddOnceEventDispatch();
         }
 
@@ -80,11 +80,11 @@
             }
             else if (EventId.MOUSEPRESS_EVENT == evtID)
             {
-                this.mOnMousePressDispatch.addEventHandle(null, handle);
+                this.mOnMousePressedDispatch.addEventHandle(null, handle);
             }
             else if (EventId.MOUSEMove_EVENT == evtID)
             {
-                this.mOnMouseMoveDispatch.addEventHandle(null, handle);
+                this.mOnMouseMovedDispatch.addEventHandle(null, handle);
             }
         }
 
@@ -100,11 +100,11 @@
             }
             else if (EventId.KEYPRESS_EVENT == evtID)
             {
-                this.mOnMousePressDispatch.removeEventHandle(null, handle);
+                this.mOnMousePressedDispatch.removeEventHandle(null, handle);
             }
             else if (EventId.MOUSEMove_EVENT == evtID)
             {
-                this.mOnMouseMoveDispatch.removeEventHandle(null, handle);
+                this.mOnMouseMovedDispatch.removeEventHandle(null, handle);
             }
         }
 
@@ -119,7 +119,7 @@
             {
                 return true;
             }
-            if (this.mOnMousePressDispatch.hasEventHandle())
+            if (this.mOnMousePressedDispatch.hasEventHandle())
             {
                 return true;
             }
@@ -145,9 +145,9 @@
 
         public void handleMousePress()
         {
-            if (null != this.mOnMousePressDispatch)
+            if (null != this.mOnMousePressedDispatch)
             {
-                this.mOnMousePressDispatch.dispatchEvent(this);
+                this.mOnMousePressedDispatch.dispatchEvent(this);
             }
         }
 
@@ -155,9 +155,9 @@
         {
             if(this.isPosChanged())
             {
-                if (null != this.mOnMouseMoveDispatch)
+                if (null != this.mOnMouseMovedDispatch)
                 {
-                    this.mOnMouseMoveDispatch.dispatchEvent(this);
+                    this.mOnMouseMovedDispatch.dispatchEvent(this);
                 }
             }
         }

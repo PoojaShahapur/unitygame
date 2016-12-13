@@ -16,6 +16,8 @@ namespace SDK.Lib
         protected MList<InputKey> mEventInputKeyList;
         // 有监听事件的鼠标 MMouse
         protected MList<MMouse> mEventMouseList;
+        // 摇杆事件
+        protected MList<MInputAxis> mInputAxisList;
         // 是否有重力感应事件
         protected bool mHasAccelerationHandle;
 
@@ -31,6 +33,7 @@ namespace SDK.Lib
 
             this.mEventInputKeyList = new MList<InputKey>();
             this.mEventMouseList = new MList<MMouse>();
+            this.mInputAxisList = new MList<MInputAxis>();
             this.mHasAccelerationHandle = false;
 
             this.mIsEnableIO = true;
@@ -224,6 +227,21 @@ namespace SDK.Lib
             }
         }
 
+        public void addAxisListener(MInputAxis inputAxis, EventId evtID, MAction<IDispatchObject> handle)
+        {
+            inputAxis.addAxisListener(evtID, handle);
+            this.addEventAxis(inputAxis);
+        }
+
+        public void removeAxisListener(MInputAxis inputAxis, EventId evtID, MAction<IDispatchObject> handle)
+        {
+            inputAxis.removeAxisListener(evtID, handle);
+            if (!inputAxis.hasEventHandle())
+            {
+                this.removeEventAxis(inputAxis);
+            }
+        }
+
         //public void addAxisListener(EventId evtID, Action cb)
         //{
         //    mOnAxisDown += cb;
@@ -263,6 +281,22 @@ namespace SDK.Lib
             if (-1 != this.mEventMouseList.IndexOf(mouse))
             {
                 this.mEventMouseList.Remove(mouse);
+            }
+        }
+
+        protected void addEventAxis(MInputAxis inputAxis)
+        {
+            if (-1 == this.mInputAxisList.IndexOf(inputAxis))
+            {
+                this.mInputAxisList.Add(inputAxis);
+            }
+        }
+
+        protected void removeEventAxis(MInputAxis inputAxis)
+        {
+            if (-1 != this.mInputAxisList.IndexOf(inputAxis))
+            {
+                this.mInputAxisList.Remove(inputAxis);
             }
         }
     }
