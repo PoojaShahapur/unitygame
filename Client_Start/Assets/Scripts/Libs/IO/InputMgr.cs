@@ -17,6 +17,8 @@ namespace SDK.Lib
         protected MList<InputKey> mEventInputKeyList;
         // 有监听事件的鼠标 MMouse
         protected MList<MMouse> mEventMouseList;
+        // 是否有重力感应事件
+        protected bool mHasAccelerationHandle;
 
         //private Action mOnAxisDown = null;
 
@@ -24,6 +26,7 @@ namespace SDK.Lib
         {
             this.mEventInputKeyList = new MList<InputKey>();
             this.mEventMouseList = new MList<MMouse>();
+            this.mHasAccelerationHandle = false;
         }
 
         public void init()
@@ -71,6 +74,11 @@ namespace SDK.Lib
             }
 
             this.ProcessTouches(delta);
+
+            if(this.mHasAccelerationHandle)
+            {
+                MAcceleration.mAccelerationOne.onTick(delta);
+            }
         }
 
         public void ProcessTouches(float delta)
@@ -189,6 +197,21 @@ namespace SDK.Lib
         {
             MTouch touch = MTouch.GetTouch(1);
             touch.removeTouchListener(evtID, handle);
+        }
+
+        public void addAccelerationListener(EventId evtID, MAction<IDispatchObject> handle)
+        {
+            MAcceleration.mAccelerationOne.addAccelerationListener(evtID, handle);
+            this.mHasAccelerationHandle = true;
+        }
+
+        public void removeAccelerationListener(EventId evtID, MAction<IDispatchObject> handle)
+        {
+            MAcceleration.mAccelerationOne.removeAccelerationListener(evtID, handle);
+            if(!MAcceleration.mAccelerationOne.hasEventHandle())
+            {
+                this.mHasAccelerationHandle = false;
+            }
         }
 
         //public void addAxisListener(EventId evtID, Action cb)

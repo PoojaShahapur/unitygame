@@ -25,6 +25,7 @@
 
             Ctx.mInstance.mInputMgr.addKeyListener(InputKey.UpArrow, EventId.KEYPRESS_EVENT, onUpArrowPress);
             Ctx.mInstance.mInputMgr.addKeyListener(InputKey.UpArrow, EventId.KEYUP_EVENT, onUpArrowUp);
+            Ctx.mInstance.mInputMgr.addAccelerationListener(EventId.ACCELERATIONMOVED_EVENT, onAccelerationMovedHandle);
         }
 
         override public void onTick(float delta)
@@ -134,6 +135,14 @@
             base.setDestRotate(destRotate);
             (this.mEntity as Player).mPlayerSplitMerge.calcTargetPoint();
             this.mOrientChangedDisp.dispatchEvent(this);
+        }
+
+        protected void onAccelerationMovedHandle(IDispatchObject disoObj)
+        {
+            MAcceleration acceleration = disoObj as MAcceleration;
+            (this.mEntity as Player).setDestRotate(acceleration.getOrient().eulerAngles);
+
+            this.moveForward();
         }
 
         public void addOrientChangedHandle(MAction<IDispatchObject> handle)

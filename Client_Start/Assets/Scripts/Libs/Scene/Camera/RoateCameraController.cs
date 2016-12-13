@@ -63,7 +63,7 @@ namespace SDK.Lib
             //critical_value = Mathf.Pow(limit_radius_value, MoveSensitivity);
             //critical_value2 = critical_value - Mathf.Pow(limit_radius_value2, Mathf.Abs(MoveSensitivity - MoveSensitivity2));
             critical_value = Mathf.Log(limit_radius_value, MoveSensitivity);
-            Screen.sleepTimeout = SleepTimeout.NeverSleep;//设置屏幕永远亮着        
+            Screen.sleepTimeout = SleepTimeout.NeverSleep;//设置屏幕永远亮着
 
             //按钮四个角的屏幕坐标 顺序是左下、左上、右上、右下
             //Vector3[] corners = new Vector3[4];

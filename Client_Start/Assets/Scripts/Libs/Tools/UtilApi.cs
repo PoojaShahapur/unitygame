@@ -1274,5 +1274,14 @@ namespace SDK.Lib
             path = string.Format("{0}{1}", path, ".lua");
             return path;
         }
+
+        //设置屏幕永远亮着
+        public static void setSleepTimeout(int mode)
+        {
+            if (0 == mode)
+            {
+                Screen.sleepTimeout = SleepTimeout.NeverSleep;
+            }
+        }
     }
 }
