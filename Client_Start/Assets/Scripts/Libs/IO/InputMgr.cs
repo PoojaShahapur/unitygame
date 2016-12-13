@@ -1,5 +1,4 @@
 ﻿using System;
-using UnityEngine;
 
 namespace SDK.Lib
 {
@@ -10,15 +9,15 @@ namespace SDK.Lib
     {
         // 有监听事件的键盘 InputKey
         protected MList<InputKey> mEventInputKeyList;
+        // 有监听事件的鼠标 MMouse
+        protected MList<MMouse> mEventMouseList;
 
-        private Action mOnMouseUp = null;
-        private Action mOnMouseDown = null;
-
-        private Action mOnAxisDown = null;
+        //private Action mOnAxisDown = null;
 
         public InputMgr()
         {
             this.mEventInputKeyList = new MList<InputKey>();
+            this.mEventMouseList = new MList<MMouse>();
         }
 
         public void init()
@@ -49,8 +48,7 @@ namespace SDK.Lib
          */
         public void onTick(float delta)
         {
-            handleAxis();
-            handleMouseUp();
+            //handleAxis();
 
             // This function tracks which keys were just pressed (or released) within the last tick.
             // It should be called at the beginning of the tick to give the most accurate responses possible.
@@ -60,28 +58,25 @@ namespace SDK.Lib
             {
                 this.mEventInputKeyList[idx].onTick(delta);
             }
-        }
 
-        protected void handleAxis()
-        {
-            float horizontal = Input.GetAxis("Horizontal");
-            float vertical = Input.GetAxis("Vertical");
-            if (horizontal != 0.0f || vertical != 0.0f)
+            for (idx = 0; idx < this.mEventMouseList.Count(); idx++)
             {
-                if (mOnAxisDown != null)
-                {
-                    mOnAxisDown();
-                }
+                this.mEventMouseList[idx].onTick(delta);
             }
         }
 
-        public void handleMouseUp()
-        {
-            if(Input.GetMouseButtonUp(0))
-            {
-                onMouseUp();
-            }
-        }
+        //protected void handleAxis()
+        //{
+        //    float horizontal = Input.GetAxis("Horizontal");
+        //    float vertical = Input.GetAxis("Vertical");
+        //    if (horizontal != 0.0f || vertical != 0.0f)
+        //    {
+        //        if (mOnAxisDown != null)
+        //        {
+        //            mOnAxisDown();
+        //        }
+        //    }
+        //}
 
         /**
          * Returns whether or not a key was pressed since the last tick.
@@ -122,22 +117,6 @@ namespace SDK.Lib
             return false;
         }
 
-        private void onMouseDown()
-        {
-            if (null != mOnMouseDown)
-            {
-                mOnMouseDown();
-            }
-        }
-
-        private void onMouseUp()
-        {
-            if (null != mOnMouseUp)
-            {
-                mOnMouseUp();
-            }
-        }
-
         // 添加 KeyInput 输入事件
         public void addKeyListener(InputKey inputKey, EventId evtID, MAction<IDispatchObject> handle)
         {
@@ -158,40 +137,32 @@ namespace SDK.Lib
         }
 
         // 添加鼠标监听器
-        public void addMouseListener(EventId evtID, Action cb)
+        public void addMouseListener(MMouse mouse, EventId evtID, MAction<IDispatchObject> handle)
         {
-            if (EventId.MOUSEDOWN_EVENT == evtID)
-            {
-                mOnMouseDown += cb;
-            }
-            else if (EventId.MOUSEUP_EVENT == evtID)
-            {
-                mOnMouseUp += cb;
-            }
+            mouse.addMouseListener(evtID, handle);
+            this.addEventMouse(mouse);
         }
 
         // 移除鼠标监听器
-        public void removeMouseListener(EventId evtID, Action cb)
+        public void removeMouseListener(MMouse mouse, EventId evtID, MAction<IDispatchObject> handle)
         {
-            if (EventId.MOUSEDOWN_EVENT == evtID)
+            mouse.removeMouseListener(evtID, handle);
+
+            if (!mouse.hasEventHandle())
             {
-                mOnMouseDown -= cb;
-            }
-            else if (EventId.MOUSEUP_EVENT == evtID)
-            {
-                mOnMouseUp -= cb;
+                this.removeEventMouse(mouse);
             }
         }
 
-        public void addAxisListener(EventId evtID, Action cb)
-        {
-            mOnAxisDown += cb;
-        }
+        //public void addAxisListener(EventId evtID, Action cb)
+        //{
+        //    mOnAxisDown += cb;
+        //}
 
-        public void removeAxisListener(EventId evtID, Action cb)
-        {
-            mOnAxisDown -= cb;
-        }
+        //public void removeAxisListener(EventId evtID, Action cb)
+        //{
+        //    mOnAxisDown -= cb;
+        //}
 
         public void addEventInputKey(InputKey inputKey)
         {
@@ -206,6 +177,22 @@ namespace SDK.Lib
             if (-1 != this.mEventInputKeyList.IndexOf(inputKey))
             {
                 this.mEventInputKeyList.Remove(inputKey);
+            }
+        }
+
+        public void addEventMouse(MMouse mouse)
+        {
+            if (-1 == this.mEventMouseList.IndexOf(mouse))
+            {
+                this.mEventMouseList.Add(mouse);
+            }
+        }
+
+        public void removeEventMouse(MMouse mouse)
+        {
+            if (-1 != this.mEventMouseList.IndexOf(mouse))
+            {
+                this.mEventMouseList.Remove(mouse);
             }
         }
     }

@@ -770,7 +770,7 @@ namespace SDK.Lib
             //this.mKeyState = true;
             if (null != this.mOnKeyDownDispatch)
             {
-                this.mOnKeyDownDispatch.dispatchEvent(InputKey.mInputKeyArray[(int)keyCode]);
+                this.mOnKeyDownDispatch.dispatchEvent(this);
             }
         }
 
@@ -779,7 +779,7 @@ namespace SDK.Lib
             //this.mKeyState = false;
             if (null != this.mOnKeyUpDispatch)
             {
-                this.mOnKeyUpDispatch.dispatchEvent(InputKey.mInputKeyArray[(int)keyCode]);
+                this.mOnKeyUpDispatch.dispatchEvent(this);
             }
         }
 
@@ -787,7 +787,7 @@ namespace SDK.Lib
         {
             if (null != this.mOnKeyPressDispatch)
             {
-                this.mOnKeyPressDispatch.dispatchEvent(InputKey.mInputKeyArray[(int)keyCode]);
+                this.mOnKeyPressDispatch.dispatchEvent(this);
             }
         }
 
