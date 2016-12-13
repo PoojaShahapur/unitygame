@@ -5,7 +5,7 @@
         protected AddOnceEventDispatch mOrientChangedDisp;     // 方向改变分发器
         protected AddOnceEventDispatch mPosChangedDisp;        // 位置改变分发器
         protected AddOnceEventDispatch mOrientStopChangedDisp; // 方向改变停止分发器
-        protected AddOnceEventDispatch mPosStopChangedDisp;        // 位置改变停止分发器
+        protected AddOnceEventDispatch mPosStopChangedDisp;    // 位置改变停止分发器
 
         //protected bool mIsRotateDown;
         //protected bool mIsRotateUp;

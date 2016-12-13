@@ -23,7 +23,7 @@ namespace SDK.Lib
             AuxPlayerMainUserData auxData = UtilApi.AddComponent<AuxPlayerMainUserData>(collide);
             auxData.setUserData(this.mEntity);
 
-            Ctx.mInstance.mCamSys.setCameraActor(this.selfGo);
+            Ctx.mInstance.mCamSys.setCameraActor(this.mEntity);
         }
     }
 }

@@ -92,12 +92,37 @@ namespace SDK.Lib
         }
 
         // 设置摄像机 Man Actor
+        public void setCameraActor(SceneEntityBase actor)
+        {
+            if (mCameraController == null)
+            {
+                //mCameraController = new ThirdCameraController(mMainCamera, go);
+                mCameraController = new RoateCameraController(mMainCamera, actor.gameObject(), actor);
+                mCameraController.init();
+            }
+            else
+            {
+                mCameraController.setTarget(actor.gameObject());
+            }
+
+            if (mCameraMan == null)
+            {
+                //mCameraMan = new CameraMan(go);
+                mCameraMan = new TerrainCameraMan(actor.gameObject());
+                mCameraMan.setCameraController(mCameraController);
+            }
+            else
+            {
+                mCameraMan.setActor(actor.gameObject());
+            }
+        }
+
         public void setCameraActor(GameObject go)
         {
             if (mCameraController == null)
             {
                 //mCameraController = new ThirdCameraController(mMainCamera, go);
-                mCameraController = new RoateCameraController(mMainCamera, go);
+                mCameraController = new RoateCameraController(mMainCamera, go, null);
                 mCameraController.init();
             }
             else

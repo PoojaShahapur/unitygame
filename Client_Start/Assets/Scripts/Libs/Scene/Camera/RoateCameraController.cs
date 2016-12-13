@@ -5,7 +5,7 @@ namespace SDK.Lib
     /**
      * @brief 旋转相机控制器
      */
-    public class RoateCameraController : CameraController, ITickedObject, IDelayHandleItem
+    public class RoateCameraController : CameraController
     {
         public float distance_Z = 10.0f;//主相机与目标物体之间的水平距离
         public float distance_Y = 0.5f;//主相机与目标物体之间的垂直距离   
@@ -39,10 +39,11 @@ namespace SDK.Lib
         //private float fward_force_Op_y_max = 1.0f;
         private Transform transform;
 
-        public RoateCameraController(Camera camera, GameObject target)
-            : base(camera, target)
+        public RoateCameraController(Camera camera, GameObject go, SceneEntityBase actor)
+            : base(camera, go)
         {
             this.transform = camera.gameObject.GetComponent<Transform>();
+            (((actor as PlayerMain).mMovement) as PlayerMainMovement).addPosChangedHandle(onTargetOrientPosChanged);
         }
 
         public void init()
@@ -64,7 +65,7 @@ namespace SDK.Lib
             Screen.sleepTimeout = SleepTimeout.NeverSleep;//设置屏幕永远亮着        
 
             //按钮四个角的屏幕坐标 顺序是左下、左上、右上、右下
-            Vector3[] corners = new Vector3[4];
+            //Vector3[] corners = new Vector3[4];
             //fward_force_Op.GetComponent<RectTransform>().GetWorldCorners(corners);
             //fward_force_Op_x_min = corners[0].x;
             //fward_force_Op_x_max = corners[2].x;
@@ -77,15 +78,15 @@ namespace SDK.Lib
 
         }
 
-        public void setClientDispose()
-        {
+        //public void setClientDispose()
+        //{
 
-        }
+        //}
 
-        public bool isClientDispose()
-        {
-            return false;
-        }
+        //public bool isClientDispose()
+        //{
+        //    return false;
+        //}
 
         public void onTouchMove(IDispatchObject dispObj)
         {
@@ -94,40 +95,46 @@ namespace SDK.Lib
             float xOffset = 0;
             xOffset = touch.getXOffset();
             this.eulerAngles_x += ((xOffset * this.xSpeed) * this.distance_Z) * 0.02f;
-            float yOffset = touch.getYOffset();
+            float yOffset = 0;
+            yOffset = touch.getYOffset();
             this.eulerAngles_y -= (yOffset * this.ySpeed) * 0.02f;
 
-            Ctx.mInstance.mLogSys.log(string.Format("xOffset is {0}, yOffset is {1}", xOffset, yOffset), LogTypeId.eLogCommon);
+            //Ctx.mInstance.mLogSys.log(string.Format("xOffset is {0}, yOffset is {1}", xOffset, yOffset), LogTypeId.eLogCommon);
 
             this.LateUpdate();
         }
 
-        public void onTick(float delta)
+        public void onTargetOrientPosChanged(IDispatchObject dispObj)
         {
-            this.Update();
-        }
-
-        public void Update()
-        {
-            //if (Input.mousePosition.x >= fward_force_Op_x_min && Input.mousePosition.x <= fward_force_Op_x_max &&
-            //   Input.mousePosition.y >= fward_force_Op_y_min && Input.mousePosition.y <= fward_force_Op_y_max)
-            //{
-            //Debug.Log("触摸在ui上 " + " x: " + Input.mousePosition.x + " y: " + Input.mousePosition.y + "  x_min: " + fward_force_Op_x_min + "  x_max: " + fward_force_Op_x_max + "  y_min: " + fward_force_Op_y_min + "  y_max: " + fward_force_Op_y_max);
-            //}
-            //else
-            //{
-            float xOffset = 0;
-            xOffset = Input.GetAxis("Mouse X");
-            this.eulerAngles_x += ((xOffset * this.xSpeed) * this.distance_Z) * 0.02f;
-            float yOffset = Input.GetAxis("Mouse Y");
-            this.eulerAngles_y -= (yOffset * this.ySpeed) * 0.02f;
-
-            Ctx.mInstance.mLogSys.log(string.Format("xOffset is {0}, yOffset is {1}", xOffset, yOffset) , LogTypeId.eLogCommon);
-
-            //}
-
             this.LateUpdate();
         }
+
+        //public void onTick(float delta)
+        //{
+        //    this.Update();
+        //}
+
+        //public void Update()
+        //{
+        //    //if (Input.mousePosition.x >= fward_force_Op_x_min && Input.mousePosition.x <= fward_force_Op_x_max &&
+        //    //   Input.mousePosition.y >= fward_force_Op_y_min && Input.mousePosition.y <= fward_force_Op_y_max)
+        //    //{
+        //    //Debug.Log("触摸在ui上 " + " x: " + Input.mousePosition.x + " y: " + Input.mousePosition.y + "  x_min: " + fward_force_Op_x_min + "  x_max: " + fward_force_Op_x_max + "  y_min: " + fward_force_Op_y_min + "  y_max: " + fward_force_Op_y_max);
+        //    //}
+        //    //else
+        //    //{
+        //    float xOffset = 0;
+        //    xOffset = Input.GetAxis("Mouse X");
+        //    this.eulerAngles_x += ((xOffset * this.xSpeed) * this.distance_Z) * 0.02f;
+        //    float yOffset = Input.GetAxis("Mouse Y");
+        //    this.eulerAngles_y -= (yOffset * this.ySpeed) * 0.02f;
+
+        //    Ctx.mInstance.mLogSys.log(string.Format("xOffset is {0}, yOffset is {1}", xOffset, yOffset) , LogTypeId.eLogCommon);
+
+        //    //}
+
+        //    this.LateUpdate();
+        //}
 
         // Update is called once per frame 
         protected void LateUpdate()
