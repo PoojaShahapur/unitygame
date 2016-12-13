@@ -73,6 +73,22 @@ namespace SDK.Lib
             this.ProcessTouches(delta);
         }
 
+        public void ProcessTouches(float delta)
+        {
+            this.mCurrentScheme = MControlScheme.Touch;
+
+            for (int i = 0; i < Input.touchCount && i < 1; ++i)
+            {
+                Touch touch = Input.GetTouch(i);
+
+                this.mCurrentTouchID = this.mAllowMultiTouch ? touch.fingerId : 1;
+                this.mCurrentTouch = MTouch.GetTouch(this.mCurrentTouchID);
+
+                this.mCurrentTouch.setNativeTouch(touch);
+                this.mCurrentTouch.onTick(delta);
+            }
+        }
+
         //protected void handleAxis()
         //{
         //    float horizontal = Input.GetAxis("Horizontal");
@@ -214,22 +230,6 @@ namespace SDK.Lib
             if (-1 != this.mEventMouseList.IndexOf(mouse))
             {
                 this.mEventMouseList.Remove(mouse);
-            }
-        }
-
-        public void ProcessTouches(float delta)
-        {
-            this.mCurrentScheme = MControlScheme.Touch;
-
-            for (int i = 0; i < Input.touchCount && i < 1; ++i)
-            {
-                Touch touch = Input.GetTouch(i);
-
-                this.mCurrentTouchID = this.mAllowMultiTouch ? touch.fingerId : 1;
-                this.mCurrentTouch = MTouch.GetTouch(this.mCurrentTouchID);
-
-                this.mCurrentTouch.setNativeTouch(touch);
-                this.mCurrentTouch.onTick(delta);
             }
         }
     }
