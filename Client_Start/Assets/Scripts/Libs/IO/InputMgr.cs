@@ -8,14 +8,18 @@ namespace SDK.Lib
      */
     public class InputMgr : ITickedObject, IDelayHandleItem
     {
-        private AddOnceEventDispatch mOnKeyUp = null;
-        private AddOnceEventDispatch mOnKeyDown = null;
-        private AddOnceEventDispatch mOnKeyPress = null;
+        // 有监听事件的键盘 InputKey
+        protected MList<InputKey> mEventInputKeyList;
 
         private Action mOnMouseUp = null;
         private Action mOnMouseDown = null;
 
         private Action mOnAxisDown = null;
+
+        public InputMgr()
+        {
+            this.mEventInputKeyList = new MList<InputKey>();
+        }
 
         public void init()
         {
@@ -45,9 +49,6 @@ namespace SDK.Lib
          */
         public void onTick(float delta)
         {
-            handleKeyDown();
-            handleKeyUp();
-            handleKeyPress();
             handleAxis();
             handleMouseUp();
 
@@ -55,172 +56,10 @@ namespace SDK.Lib
             // It should be called at the beginning of the tick to give the most accurate responses possible.
             int idx = 0;
             
-            for (idx = 0; idx < InputKey.mInputKeyArray.Length; idx++)
+            for (idx = 0; idx < this.mEventInputKeyList.Count(); idx++)
             {
-                InputKey.mInputKeyArray[idx].onTick(delta);
+                this.mEventInputKeyList[idx].onTick(delta);
             }
-        }
-
-        // 按下和起一定要对称
-        protected void handleKeyDown()
-        {
-            if (Input.GetKeyDown(KeyCode.M))
-            {
-                onKeyDown(KeyCode.M);
-            }
-            else if (Input.GetKeyDown(KeyCode.K))
-            {
-                onKeyDown(KeyCode.K);
-            }
-            else if (Input.GetKeyDown(KeyCode.W))
-            {
-                onKeyDown(KeyCode.W);
-            }
-            else if (Input.GetKeyDown(KeyCode.A))
-            {
-                onKeyDown(KeyCode.A);
-            }
-            else if (Input.GetKeyDown(KeyCode.S))
-            {
-                onKeyDown(KeyCode.S);
-            }
-            else if (Input.GetKeyDown(KeyCode.D))
-            {
-                onKeyDown(KeyCode.D);
-            }
-            else if (Input.GetKeyDown(KeyCode.UpArrow))
-            {
-                onKeyDown(KeyCode.UpArrow);
-            }
-            else if (Input.GetKeyDown(KeyCode.DownArrow))
-            {
-                onKeyDown(KeyCode.DownArrow);
-            }
-            else if (Input.GetKeyDown(KeyCode.RightArrow))
-            {
-                onKeyDown(KeyCode.RightArrow);
-            }
-            else if (Input.GetKeyDown(KeyCode.LeftArrow))
-            {
-                onKeyDown(KeyCode.LeftArrow);
-            }
-
-            /*
-            if(Input.anyKeyDown)
-            {
-                // Event.current 为什么一直是 null
-                if (Event.current != null && Event.current.isKey)
-                {
-                    onKeyDown(Event.current.keyCode);
-                }
-            }
-            */
-        }
-
-        protected void handleKeyUp()
-        {
-            if (Input.GetKeyUp(KeyCode.Escape))
-            {
-                onKeyUp(KeyCode.Escape);
-            }
-            else if (Input.GetKeyUp(KeyCode.M))
-            {
-                onKeyUp(KeyCode.M);
-            }
-            else if (Input.GetKeyUp(KeyCode.K))
-            {
-                onKeyUp(KeyCode.K);
-            }
-            else if (Input.GetKeyUp(KeyCode.W))
-            {
-                onKeyUp(KeyCode.W);
-            }
-            else if (Input.GetKeyUp(KeyCode.A))
-            {
-                onKeyUp(KeyCode.A);
-            }
-            else if (Input.GetKeyUp(KeyCode.S))
-            {
-                onKeyUp(KeyCode.S);
-            }
-            else if (Input.GetKeyUp(KeyCode.D))
-            {
-                onKeyUp(KeyCode.D);
-            }
-            else if (Input.GetKeyUp(KeyCode.UpArrow))
-            {
-                onKeyUp(KeyCode.UpArrow);
-            }
-            else if (Input.GetKeyUp(KeyCode.DownArrow))
-            {
-                onKeyUp(KeyCode.DownArrow);
-            }
-            else if (Input.GetKeyUp(KeyCode.RightArrow))
-            {
-                onKeyUp(KeyCode.RightArrow);
-            }
-            else if (Input.GetKeyUp(KeyCode.LeftArrow))
-            {
-                onKeyUp(KeyCode.LeftArrow);
-            }
-        }
-
-        public void handleKeyPress()
-        {
-            if (Input.GetKey(KeyCode.Escape))
-            {
-                onKeyPress(KeyCode.Escape);
-            }
-            else if (Input.GetKey(KeyCode.M))
-            {
-                onKeyPress(KeyCode.M);
-            }
-            else if (Input.GetKey(KeyCode.K))
-            {
-                onKeyPress(KeyCode.K);
-            }
-            else if (Input.GetKey(KeyCode.W))
-            {
-                onKeyPress(KeyCode.W);
-            }
-            else if (Input.GetKey(KeyCode.A))
-            {
-                onKeyPress(KeyCode.A);
-            }
-            else if (Input.GetKey(KeyCode.S))
-            {
-                onKeyPress(KeyCode.S);
-            }
-            else if (Input.GetKey(KeyCode.D))
-            {
-                onKeyPress(KeyCode.D);
-            }
-            else if (Input.GetKey(KeyCode.UpArrow))
-            {
-                onKeyPress(KeyCode.UpArrow);
-            }
-            else if (Input.GetKey(KeyCode.DownArrow))
-            {
-                onKeyPress(KeyCode.DownArrow);
-            }
-            else if (Input.GetKey(KeyCode.RightArrow))
-            {
-                onKeyPress(KeyCode.RightArrow);
-            }
-            else if (Input.GetKey(KeyCode.LeftArrow))
-            {
-                onKeyPress(KeyCode.LeftArrow);
-            }
-
-            /*
-            if(Input.anyKey)
-            {
-                if (Event.current != null && Event.current.isKey)
-                {
-                    onKeyPress(Event.current.keyCode);
-                }
-            }
-            */
         }
 
         protected void handleAxis()
@@ -247,27 +86,27 @@ namespace SDK.Lib
         /**
          * Returns whether or not a key was pressed since the last tick.
          */
-        public bool keyJustPressed(int keyCode)
+        public bool keyJustPressed(InputKey inputKey)
         {
-            return InputKey.mInputKeyArray[keyCode].mJustPressed;
+            return inputKey.keyJustPressed();
         }
-        
+
         /**
          * Returns whether or not a key was released since the last tick.
          */
-        public bool keyJustReleased(int keyCode)
+        public bool keyJustReleased(InputKey inputKey)
         {
-            return InputKey.mInputKeyArray[keyCode].mJustReleased;
+            return inputKey.keyJustReleased();
         }
 
         /**
          * Returns whether or not a specific key is down.
          */
-        public bool isKeyDown(int keyCode)
+        public bool isKeyDown(InputKey inputKey)
         {
-            return InputKey.mInputKeyArray[keyCode].mKeyState;
+            return inputKey.isKeyDown();
         }
-        
+
         /**
          * Returns true if any key is down.
          */
@@ -281,37 +120,6 @@ namespace SDK.Lib
                 }
             }
             return false;
-        }
-
-        private void onKeyDown(KeyCode keyCode)
-        {
-            if (InputKey.mInputKeyArray[(int)keyCode].mKeyState)
-            {
-                return;
-            }
-
-            InputKey.mInputKeyArray[(int)keyCode].mKeyState = true;
-            if (null != mOnKeyDown)
-            {
-                mOnKeyDown.dispatchEvent(InputKey.mInputKeyArray[(int)keyCode]);
-            }
-        }
-
-        private void onKeyUp(KeyCode keyCode)
-        {
-            InputKey.mInputKeyArray[(int)keyCode].mKeyState = false;
-            if (null != mOnKeyUp)
-            {
-                mOnKeyUp.dispatchEvent(InputKey.mInputKeyArray[(int)keyCode]);
-            }
-        }
-
-        private void onKeyPress(KeyCode keyCode)
-        {
-            if (null != mOnKeyPress)
-            {
-                mOnKeyPress.dispatchEvent(InputKey.mInputKeyArray[(int)keyCode]);
-            }
         }
 
         private void onMouseDown()
@@ -330,70 +138,75 @@ namespace SDK.Lib
             }
         }
 
-        public void addKeyListener(EventID evtID, MAction<IDispatchObject> handle)
+        // 添加 KeyInput 输入事件
+        public void addKeyListener(InputKey inputKey, EventId evtID, MAction<IDispatchObject> handle)
         {
-            if (EventID.KEYUP_EVENT == evtID)
+            inputKey.addKeyListener(evtID, handle);
+
+            this.addEventInputKey(inputKey);
+        }
+
+        // 移除键盘 KeyInput 输入事件
+        public void removeKeyListener(InputKey inputKey, EventId evtID, MAction<IDispatchObject> handle)
+        {
+            inputKey.removeKeyListener(evtID, handle);
+
+            if(!inputKey.hasEventHandle())
             {
-                mOnKeyUp.addEventHandle(null, handle);
-            }
-            else if (EventID.KEYDOWN_EVENT == evtID)
-            {
-                mOnKeyDown.addEventHandle(null, handle);
-            }
-            else if (EventID.KEYPRESS_EVENT == evtID)
-            {
-                mOnKeyPress.addEventHandle(null, handle);
+                this.removeEventInputKey(inputKey);
             }
         }
 
-        public void removeKeyListener(EventID evtID, MAction<IDispatchObject> handle)
+        // 添加鼠标监听器
+        public void addMouseListener(EventId evtID, Action cb)
         {
-            if (EventID.KEYUP_EVENT == evtID)
-            {
-                mOnKeyUp.removeEventHandle(null, handle);
-            }
-            else if (EventID.KEYDOWN_EVENT == evtID)
-            {
-                mOnKeyDown.removeEventHandle(null, handle);
-            }
-            else if (EventID.KEYPRESS_EVENT == evtID)
-            {
-                mOnKeyPress.removeEventHandle(null, handle);
-            }
-        }
-
-        public void addMouseListener(EventID evtID, Action cb)
-        {
-            if (EventID.MOUSEDOWN_EVENT == evtID)
+            if (EventId.MOUSEDOWN_EVENT == evtID)
             {
                 mOnMouseDown += cb;
             }
-            else if (EventID.MOUSEUP_EVENT == evtID)
+            else if (EventId.MOUSEUP_EVENT == evtID)
             {
                 mOnMouseUp += cb;
             }
         }
 
-        public void removeMouseListener(EventID evtID, Action cb)
+        // 移除鼠标监听器
+        public void removeMouseListener(EventId evtID, Action cb)
         {
-            if (EventID.MOUSEDOWN_EVENT == evtID)
+            if (EventId.MOUSEDOWN_EVENT == evtID)
             {
                 mOnMouseDown -= cb;
             }
-            else if (EventID.MOUSEUP_EVENT == evtID)
+            else if (EventId.MOUSEUP_EVENT == evtID)
             {
                 mOnMouseUp -= cb;
             }
         }
 
-        public void addAxisListener(EventID evtID, Action cb)
+        public void addAxisListener(EventId evtID, Action cb)
         {
             mOnAxisDown += cb;
         }
 
-        public void removeAxisListener(EventID evtID, Action cb)
+        public void removeAxisListener(EventId evtID, Action cb)
         {
             mOnAxisDown -= cb;
+        }
+
+        public void addEventInputKey(InputKey inputKey)
+        {
+            if(-1 == this.mEventInputKeyList.IndexOf(inputKey))
+            {
+                this.mEventInputKeyList.Add(inputKey);
+            }
+        }
+
+        public void removeEventInputKey(InputKey inputKey)
+        {
+            if (-1 != this.mEventInputKeyList.IndexOf(inputKey))
+            {
+                this.mEventInputKeyList.Remove(inputKey);
+            }
         }
     }
 }

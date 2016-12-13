@@ -9,6 +9,17 @@ namespace SDK.Lib
      */   
     public class InputKey : IDispatchObject
     {
+        /*
+        if(Input.anyKeyDown)
+        {
+            // Event.current 为什么一直是 null
+            if (Event.current != null && Event.current.isKey)
+            {
+                onKeyDown(Event.current.keyCode);
+            }
+        }
+        */
+
         public static InputKey None = new InputKey(KeyCode.None, "None");
         public static InputKey Backspace = new InputKey(KeyCode.Backspace, "Backspace");
         public static InputKey Tab = new InputKey(KeyCode.Tab, "Tab");
@@ -677,13 +688,17 @@ namespace SDK.Lib
 
         public InputKey(KeyCode keyCode, string keyDesc)
         {
-            mKeyCode = keyCode;
-            mKeyDesc = keyDesc;
+            this.mKeyCode = keyCode;
+            this.mKeyDesc = keyDesc;
 
-            mKeyState = false;
-            mKeyStateOld = false;
-            mJustPressed = false;
-            mJustReleased = false;
+            this.mKeyState = false;
+            this.mKeyStateOld = false;
+            this.mJustPressed = false;
+            this.mJustReleased = false;
+
+            this.mOnKeyUpDispatch = new AddOnceEventDispatch();
+            this.mOnKeyDownDispatch = new AddOnceEventDispatch();
+            this.mOnKeyPressDispatch = new AddOnceEventDispatch();
         }
 
         public KeyCode getKeyCode()
@@ -698,44 +713,172 @@ namespace SDK.Lib
 
         public void onTick(float delta)
         {
-            if (Input.GetKey(mKeyCode))
+            //if (Input.GetKey(mKeyCode))
+            //{
+            //    mKeyState = true;
+            //}
+            //else
+            //{
+            //    mKeyState = false;
+            //}
+
+            //// 按下状态
+            //if (mKeyState && !mKeyStateOld)
+            //{
+            //    mJustPressed = true;
+            //}
+            //else
+            //{
+            //    mJustPressed = false;
+            //}
+
+            //// 弹起状态
+            //if (!mKeyState && mKeyStateOld)
+            //{
+            //    mJustReleased = true;
+            //}
+            //else
+            //{
+            //    mJustReleased = false;
+            //}
+
+            //mKeyStateOld = mKeyState;
+
+            if (Input.GetKeyDown(this.mKeyCode))
             {
-                mKeyState = true;
-            }
-            else
-            {
-                mKeyState = false;
+                this.onKeyDown(this.mKeyCode);
             }
 
-            // 按下状态
-            if (mKeyState && !mKeyStateOld)
+            if (Input.GetKeyUp(this.mKeyCode))
             {
-                mJustPressed = true;
-            }
-            else
-            {
-                mJustPressed = false;
+                this.onKeyUp(this.mKeyCode);
             }
 
-            // 弹起状态
-            if (!mKeyState && mKeyStateOld)
+            if (Input.GetKey(this.mKeyCode))
             {
-                mJustReleased = true;
+                this.onKeyPress(this.mKeyCode);
             }
-            else
-            {
-                mJustReleased = false;
-            }
-
-            mKeyStateOld = mKeyState;
         }
 
+        private void onKeyDown(KeyCode keyCode)
+        {
+            //if (this.mKeyState)
+            //{
+            //    return;
+            //}
+
+            //this.mKeyState = true;
+            if (null != this.mOnKeyDownDispatch)
+            {
+                this.mOnKeyDownDispatch.dispatchEvent(InputKey.mInputKeyArray[(int)keyCode]);
+            }
+        }
+
+        private void onKeyUp(KeyCode keyCode)
+        {
+            //this.mKeyState = false;
+            if (null != this.mOnKeyUpDispatch)
+            {
+                this.mOnKeyUpDispatch.dispatchEvent(InputKey.mInputKeyArray[(int)keyCode]);
+            }
+        }
+
+        private void onKeyPress(KeyCode keyCode)
+        {
+            if (null != this.mOnKeyPressDispatch)
+            {
+                this.mOnKeyPressDispatch.dispatchEvent(InputKey.mInputKeyArray[(int)keyCode]);
+            }
+        }
+
+        public void addKeyListener(EventId evtID, MAction<IDispatchObject> handle)
+        {
+            if (EventId.KEYUP_EVENT == evtID)
+            {
+                mOnKeyUpDispatch.addEventHandle(null, handle);
+            }
+            else if (EventId.KEYDOWN_EVENT == evtID)
+            {
+                mOnKeyDownDispatch.addEventHandle(null, handle);
+            }
+            else if (EventId.KEYPRESS_EVENT == evtID)
+            {
+                mOnKeyPressDispatch.addEventHandle(null, handle);
+            }
+        }
+
+        public void removeKeyListener(EventId evtID, MAction<IDispatchObject> handle)
+        {
+            if (EventId.KEYUP_EVENT == evtID)
+            {
+                mOnKeyUpDispatch.removeEventHandle(null, handle);
+            }
+            else if (EventId.KEYDOWN_EVENT == evtID)
+            {
+                mOnKeyDownDispatch.removeEventHandle(null, handle);
+            }
+            else if (EventId.KEYPRESS_EVENT == evtID)
+            {
+                mOnKeyPressDispatch.removeEventHandle(null, handle);
+            }
+        }
+
+        // 是否还有需要处理的事件
+        public bool hasEventHandle()
+        {
+            if(this.mOnKeyUpDispatch.hasEventHandle())
+            {
+                return true;
+            }
+            if (this.mOnKeyDownDispatch.hasEventHandle())
+            {
+                return true;
+            }
+            if (this.mOnKeyPressDispatch.hasEventHandle())
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        /**
+         * Returns whether or not a key was pressed since the last tick.
+         */
+        public bool keyJustPressed()
+        {
+            return this.mJustPressed;
+        }
+
+        /**
+         * Returns whether or not a key was released since the last tick.
+         */
+        public bool keyJustReleased()
+        {
+            return this.mJustReleased;
+        }
+
+        /**
+         * Returns whether or not a specific key is down.
+         */
+        public bool isKeyDown()
+        {
+            return this.mKeyState;
+        }
+
+        // 按键相关
         private KeyCode mKeyCode;
         private string mKeyDesc;
 
+        // 键盘状态
         public bool mKeyState;
         public bool mKeyStateOld;
         public bool mJustPressed;
         public bool mJustReleased;
+
+        // 事件处理
+        private AddOnceEventDispatch mOnKeyUpDispatch;
+        private AddOnceEventDispatch mOnKeyDownDispatch;
+        private AddOnceEventDispatch mOnKeyPressDispatch;
     }
 }

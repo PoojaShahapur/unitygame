@@ -7,10 +7,10 @@
         protected AddOnceEventDispatch mOrientStopChangedDisp; // 方向改变停止分发器
         protected AddOnceEventDispatch mPosStopChangedDisp;        // 位置改变停止分发器
 
-        protected bool mIsRotateDown;
-        protected bool mIsRotateUp;
-        protected bool mIsMoveDown;
-        protected bool mIsMoveUp;
+        //protected bool mIsRotateDown;
+        //protected bool mIsRotateUp;
+        //protected bool mIsMoveDown;
+        //protected bool mIsMoveUp;
 
         public PlayerMainMovement(SceneEntityBase entity)
             : base(entity)
@@ -20,8 +20,11 @@
             this.mOrientStopChangedDisp = new AddOnceEventDispatch();
             this.mPosStopChangedDisp = new AddOnceEventDispatch();
 
-            this.mIsRotateUp = true;
-            this.mIsMoveUp = true;
+            //this.mIsRotateUp = true;
+            //this.mIsMoveUp = true;
+
+            Ctx.mInstance.mInputMgr.addKeyListener(InputKey.UpArrow, EventId.KEYPRESS_EVENT, onUpArrowPress);
+            Ctx.mInstance.mInputMgr.addKeyListener(InputKey.UpArrow, EventId.KEYUP_EVENT, onUpArrowUp);
         }
 
         override public void onTick(float delta)
@@ -60,34 +63,44 @@
             //    }
             //}
 
-            float vertical = UnityEngine.Input.GetAxis("Vertical");
-            if (vertical > 0.0f)
-            {
-                mIsMoveUp = false;
-                if (!mIsMoveDown)
-                {
-                    mIsMoveDown = true;
-                    this.moveForward();
-                }
-            }
-            else if(vertical < 0.0f)
-            {
-                mIsMoveUp = false;
-                if (!mIsMoveDown)
-                {
-                    mIsMoveDown = true;
-                    //this.moveBack();
-                }
-            }
-            else
-            {
-                mIsMoveDown = false;
-                if (mIsMoveUp == false)
-                {
-                    mIsMoveUp = true;
-                    this.stopMove();
-                }
-            }
+            //float vertical = UnityEngine.Input.GetAxis("Vertical");
+            //if (vertical > 0.0f)
+            //{
+            //    mIsMoveUp = false;
+            //    if (!mIsMoveDown)
+            //    {
+            //        mIsMoveDown = true;
+            //        this.moveForward();
+            //    }
+            //}
+            //else if(vertical < 0.0f)
+            //{
+            //    mIsMoveUp = false;
+            //    if (!mIsMoveDown)
+            //    {
+            //        mIsMoveDown = true;
+            //        //this.moveBack();
+            //    }
+            //}
+            //else
+            //{
+            //    mIsMoveDown = false;
+            //    if (mIsMoveUp == false)
+            //    {
+            //        mIsMoveUp = true;
+            //        this.stopMove();
+            //    }
+            //}
+        }
+
+        protected void onUpArrowPress(IDispatchObject dispObj)
+        {
+            this.moveForward();
+        }
+
+        protected void onUpArrowUp(IDispatchObject dispObj)
+        {
+            this.stopMove();
         }
 
         override public void stopMove()
