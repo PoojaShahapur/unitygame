@@ -41,12 +41,20 @@
 
         public UnityEngine.Quaternion getOrient()
         {
-            //UnityEngine.Vector3 dir = mPos - mLastPos;
-            UnityEngine.Vector3 dir = mPos;
-            //dir.z = dir.y;
+            UnityEngine.Vector3 dir = UnityEngine.Vector3.zero;
+
+            // unity的X轴的正方向是向左的
+            dir.x = -mPos.x;
             dir.y = 0;
-            dir.Normalize();
+            dir.z = mPos.z;
+
+            if (dir.sqrMagnitude > 1)
+            {
+                dir.Normalize();
+            }
+
             UnityEngine.Quaternion orient = UnityEngine.Quaternion.LookRotation(dir);
+
             return orient;
         }
 
