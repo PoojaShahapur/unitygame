@@ -25,7 +25,7 @@
 
             Ctx.mInstance.mInputMgr.addKeyListener(InputKey.UpArrow, EventId.KEYPRESS_EVENT, onUpArrowPress);
             Ctx.mInstance.mInputMgr.addKeyListener(InputKey.UpArrow, EventId.KEYUP_EVENT, onUpArrowUp);
-            Ctx.mInstance.mInputMgr.addKeyListener(InputKey.L, EventId.KEYUP_EVENT, onStartUp);
+            //Ctx.mInstance.mInputMgr.addKeyListener(InputKey.L, EventId.KEYUP_EVENT, onStartUp);
             Ctx.mInstance.mInputMgr.addAccelerationListener(EventId.ACCELERATIONMOVED_EVENT, onAccelerationMovedHandle);
         }
 
@@ -105,12 +105,12 @@
             this.stopMove();
         }
 
-        protected void onStartUp(IDispatchObject dispObj)
-        {
-            UnityEngine.Vector3 pos = this.mEntity.getPos();
-            Player player = Ctx.mInstance.mPlayerMgr.getEntityByIndex(1) as Player;
-            player.setDestPos(pos);
-        }
+        //protected void onStartUp(IDispatchObject dispObj)
+        //{
+        //    UnityEngine.Vector3 pos = this.mEntity.getPos();
+        //    Player player = Ctx.mInstance.mPlayerMgr.getEntityByIndex(1) as Player;
+        //    player.setDestPos(pos);
+        //}
 
         override public void stopMove()
         {
