@@ -25,6 +25,7 @@
 
             Ctx.mInstance.mInputMgr.addKeyListener(InputKey.UpArrow, EventId.KEYPRESS_EVENT, onUpArrowPress);
             Ctx.mInstance.mInputMgr.addKeyListener(InputKey.UpArrow, EventId.KEYUP_EVENT, onUpArrowUp);
+            Ctx.mInstance.mInputMgr.addKeyListener(InputKey.L, EventId.KEYUP_EVENT, onStartUp);
             Ctx.mInstance.mInputMgr.addAccelerationListener(EventId.ACCELERATIONMOVED_EVENT, onAccelerationMovedHandle);
         }
 
@@ -102,6 +103,13 @@
         protected void onUpArrowUp(IDispatchObject dispObj)
         {
             this.stopMove();
+        }
+
+        protected void onStartUp(IDispatchObject dispObj)
+        {
+            UnityEngine.Vector3 pos = this.mEntity.getPos();
+            Player player = Ctx.mInstance.mPlayerMgr.getEntityByIndex(1) as Player;
+            player.setDestPos(pos);
         }
 
         override public void stopMove()
@@ -185,6 +193,18 @@
         public void removePosStopChangedHandle(MAction<IDispatchObject> handle)
         {
             mPosStopChangedDisp.removeEventHandle(null, handle);
+        }
+
+        override public void sendMoveMsg()
+        {
+            // 移动后，更新 KBE 中的 Avatar 数据
+            KBEngine.Event.fireIn(
+                "updatePlayer",
+                mEntity.getPos().x,
+                mEntity.getPos().y,
+                mEntity.getPos().z,
+                mEntity.getRotateEulerAngle().y
+                );
         }
 
         //---------------------- Flock Start-----------------------------

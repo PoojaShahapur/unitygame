@@ -702,5 +702,61 @@ namespace SDK.Lib
         {
             return UnityEngine.Vector3.Distance(a, b);
         }
+
+        public static bool isVectorEqual(Vector3 a, Vector3 b)
+        {
+            if(UtilMath.Abs(a.x - b.x) > UtilMath.EPSILON ||
+               UtilMath.Abs(a.y - b.y) > UtilMath.EPSILON ||
+               UtilMath.Abs(a.z - b.z) > UtilMath.EPSILON)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        // 获取单位前向向量
+        public Vector3 getNormalForwardVector(Transform transform)
+        {
+            Vector3 dir = transform.localRotation * Vector3.forward;
+            dir.Normalize();
+            return dir;
+        }
+
+        /**
+         * @param curOrient 当前方向
+         * @param lookAt 观察点方向
+         * @ret 返回旋转到观察点向量的四元数，这个是两个方向向量的夹角，不是点之间的夹角
+         */
+        public static UnityEngine.Quaternion getRotateByLookatPoint(UnityEngine.Quaternion curOrient, UnityEngine.Vector3 lookAt)
+        {
+            UnityEngine.Quaternion retQuat = curOrient;
+            retQuat.SetLookRotation(lookAt);
+            return retQuat;
+        }
+
+        /**
+         * @param startPoint 开始点
+         * @param destPoint 目标点
+         * @ret 返回两个点之间的旋转的四元数，这个是两个点之间的夹角
+         */
+        public static UnityEngine.Quaternion getRotateByStartAndEndPoint(UnityEngine.Vector3 startPoint, UnityEngine.Vector3 destPoint)
+        {
+            UnityEngine.Quaternion retQuat;
+            retQuat = UnityEngine.Quaternion.LookRotation(destPoint - startPoint);
+            return retQuat;
+        }
+
+        /**
+         * @param startOrient 开始方向
+         * @param destOrient 目标方向
+         * @ret 返回两个向量之间的旋转的四元数，这个是两个向量之间的夹角
+         */
+        public static UnityEngine.Quaternion getRotateByStartAndEndOrient(UnityEngine.Vector3 startOrient, UnityEngine.Vector3 destOrient)
+        {
+            UnityEngine.Quaternion retQuat;
+            retQuat = UnityEngine.Quaternion.FromToRotation(startOrient, destOrient);
+            return retQuat;
+        }
     }
 }

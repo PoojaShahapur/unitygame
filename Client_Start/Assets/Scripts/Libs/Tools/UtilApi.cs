@@ -1242,14 +1242,6 @@ namespace SDK.Lib
             return Quaternion.Euler(euler);
         }
 
-        // 获取单位方向向量
-        public Vector3 getNormalDirVector(Transform transform)
-        {
-            Vector3 dir = transform.localRotation * Vector3.forward;
-            dir.Normalize();
-            return dir;
-        }
-
         public static void DrawLine(Vector3 start, Vector3 end, Color color, float duration = 30)
         {
             // 只能在编辑器中看到

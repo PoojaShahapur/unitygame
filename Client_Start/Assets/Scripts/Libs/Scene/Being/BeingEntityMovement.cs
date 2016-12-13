@@ -182,7 +182,7 @@
         public void rotateToDest(float delta)
         {
             // 方向插值
-            if (UnityEngine.Vector3.Distance(mEntity.getRotateEulerAngle(), this.mDestRotate.eulerAngles) > UtilMath.EPSILON)
+            if (!UtilMath.isVectorEqual(mEntity.getRotateEulerAngle(), this.mDestRotate.eulerAngles))
             {
                 mEntity.setRotation(UnityEngine.Quaternion.Slerp(mEntity.getRotate(), this.mDestRotate, (mEntity as BeingEntity).mRotateSpeed * delta));
             }
@@ -195,20 +195,20 @@
         // 旋转到目标方向
         public void scaleToDest(float delta)
         {
-            float dist = 0.0f;
-            dist = UnityEngine.Vector3.Distance(this.mDestScale, this.mEntity.getScale());
-
-            float deltaSpeed = (mEntity as BeingEntity).mScaleSpeed * delta;
-
-            if (dist > UtilMath.EPSILON)
+            if (!UtilMath.isVectorEqual(this.mDestScale, this.mEntity.getScale()))
             {
+                float dist = 0.0f;
+                dist = UnityEngine.Vector3.Distance(this.mDestScale, this.mEntity.getScale());
+
+                float deltaSpeed = (mEntity as BeingEntity).mScaleSpeed * delta;
+
                 UnityEngine.Vector3 scale = this.mDestScale - mEntity.getScale();
                 scale.Normalize();
 
                 scale *= deltaSpeed;
 
-                // 如果需要移动
-                if (dist > deltaSpeed || scale.magnitude > deltaSpeed)
+                // 如果需要缩放
+                if (dist > scale.magnitude)
                 {
                     mEntity.setScale(mEntity.getScale() + scale);
                 }
@@ -245,16 +245,15 @@
         public void moveToPos(UnityEngine.Vector3 destPos)
         {
             this.mDestPos = destPos;
-            float dist = UnityEngine.Vector3.Distance(mDestPos, mEntity.getPos());
 
-            if (dist > UtilMath.EPSILON)
+            if (!UtilMath.isVectorEqual(mDestPos, mEntity.getPos()))
             {
                 this.mIsMoveToDest = true;
                 this.mIsAutoPath = true;
                 (this.mEntity as BeingEntity).setBeingState(BeingState.BSWalk);
 
                 // 计算最终方向
-                this.mDestRotate = UnityEngine.Quaternion.FromToRotation(UnityEngine.Vector3.forward, this.mDestPos);
+                this.mDestRotate = UtilMath.getRotateByStartAndEndPoint(this.mEntity.getPos(), this.mDestPos);
             }
             else
             {
@@ -266,10 +265,9 @@
         public void gotoPos(UnityEngine.Vector3 destPos)
         {
             this.mDestPos = destPos;
-            float dist = UnityEngine.Vector3.Distance(mDestPos, mEntity.getPos());
             this.mIsMoveToDest = false;
 
-            if (dist > UtilMath.EPSILON)
+            if (!UtilMath.isVectorEqual(mDestPos, mEntity.getPos()))
             {
                 // 计算最终方向
                 this.mDestRotate = UnityEngine.Quaternion.FromToRotation(UnityEngine.Vector3.forward, this.mDestPos);
@@ -284,7 +282,7 @@
         {
             this.mDestRotate = UnityEngine.Quaternion.Euler(destRotate);
 
-            if (UnityEngine.Vector3.Distance(mEntity.getRotateEulerAngle(), destRotate) > UtilMath.EPSILON)
+            if (!UtilMath.isVectorEqual(mEntity.getRotateEulerAngle(), destRotate))
             {
                 this.mIsRotateToDest = true;
             }
@@ -298,9 +296,7 @@
         {
             this.mDestScale = new UnityEngine.Vector3(scale, scale, scale);
 
-            float dist = UnityEngine.Vector3.Distance(this.mDestScale, this.mEntity.getScale());
-
-            if (dist > UtilMath.EPSILON)
+            if (!UtilMath.isVectorEqual(this.mDestScale, this.mEntity.getScale()))
             {
                 this.mIsScaleToDest = true;
             }
@@ -312,8 +308,8 @@
 
         virtual public void lookAt(UnityEngine.Vector3 targetPt)
         {
-            this.mDestRotate.SetLookRotation(targetPt);
-            this.setDestRotate(this.mDestRotate.eulerAngles);
+            UnityEngine.Quaternion retQuat = UtilMath.getRotateByStartAndEndPoint(this.mEntity.getPos(), targetPt);
+            this.setDestRotate(retQuat.eulerAngles);
         }
 
         virtual public void moveAlong()
@@ -326,16 +322,16 @@
 
         }
 
-        public void sendMoveMsg()
+        virtual public void sendMoveMsg()
         {
             // 移动后，更新 KBE 中的 Avatar 数据
-            KBEngine.Event.fireIn(
-                "updatePlayer", 
-                mEntity.getPos().x, 
-                mEntity.getPos().y, 
-                mEntity.getPos().z, 
-                mEntity.getRotateEulerAngle().y
-                );
+            //KBEngine.Event.fireIn(
+            //    "updatePlayer", 
+            //    mEntity.getPos().x, 
+            //    mEntity.getPos().y, 
+            //    mEntity.getPos().z, 
+            //    mEntity.getRotateEulerAngle().y
+            //    );
         }
     }
 }

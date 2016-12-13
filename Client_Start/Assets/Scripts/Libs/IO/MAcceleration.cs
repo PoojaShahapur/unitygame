@@ -41,7 +41,10 @@
 
         public UnityEngine.Quaternion getOrient()
         {
-            UnityEngine.Vector3 dir = mPos - mLastPos;
+            //UnityEngine.Vector3 dir = mPos - mLastPos;
+            UnityEngine.Vector3 dir = mPos;
+            //dir.z = dir.y;
+            dir.y = 0;
             dir.Normalize();
             UnityEngine.Quaternion orient = UnityEngine.Quaternion.LookRotation(dir);
             return orient;
@@ -51,8 +54,8 @@
         {
             this.mLastPos = this.mPos;
             // TODO:Test
-            this.mPos = UnityEngine.Input.mousePosition;
-            //this.mPos = UnityEngine.Input.acceleration;
+            //this.mPos = UnityEngine.Input.mousePosition;
+            this.mPos = UnityEngine.Input.acceleration;
 
             Ctx.mInstance.mLogSys.log(string.Format("LastPos is x = {0}, y = {1}, z = {2}, Pos is x = {3}, y = {4}, z = {5}", this.mLastPos.x, this.mLastPos.y, this.mLastPos.z, this.mPos.x, this.mPos.y, this.mPos.z), LogTypeId.eLogCommon);
 
