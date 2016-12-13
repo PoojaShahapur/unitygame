@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace SDK.Lib
 {
@@ -7,6 +8,11 @@ namespace SDK.Lib
      */
     public class InputMgr : ITickedObject, IDelayHandleItem
     {
+        public MControlScheme mCurrentScheme = MControlScheme.Mouse;
+        public bool mAllowMultiTouch = false;
+        public int mCurrentTouchID = -1;
+        public MTouch mCurrentTouch = null;
+
         // 有监听事件的键盘 InputKey
         protected MList<InputKey> mEventInputKeyList;
         // 有监听事件的鼠标 MMouse
@@ -63,6 +69,8 @@ namespace SDK.Lib
             {
                 this.mEventMouseList[idx].onTick(delta);
             }
+
+            this.ProcessTouches(delta);
         }
 
         //protected void handleAxis()
@@ -154,6 +162,19 @@ namespace SDK.Lib
             }
         }
 
+        public void addTouchListener(EventId evtID, MAction<IDispatchObject> handle)
+        {
+            MTouch touch = MTouch.GetTouch(1);
+
+            touch.addTouchListener(evtID, handle);
+        }
+
+        public void removeTouchListener(EventId evtID, MAction<IDispatchObject> handle)
+        {
+            MTouch touch = MTouch.GetTouch(1);
+            touch.removeTouchListener(evtID, handle);
+        }
+
         //public void addAxisListener(EventId evtID, Action cb)
         //{
         //    mOnAxisDown += cb;
@@ -193,6 +214,22 @@ namespace SDK.Lib
             if (-1 != this.mEventMouseList.IndexOf(mouse))
             {
                 this.mEventMouseList.Remove(mouse);
+            }
+        }
+
+        public void ProcessTouches(float delta)
+        {
+            this.mCurrentScheme = MControlScheme.Touch;
+
+            for (int i = 0; i < Input.touchCount && i < 1; ++i)
+            {
+                Touch touch = Input.GetTouch(i);
+
+                this.mCurrentTouchID = this.mAllowMultiTouch ? touch.fingerId : 1;
+                this.mCurrentTouch = MTouch.GetTouch(this.mCurrentTouchID);
+
+                this.mCurrentTouch.setNativeTouch(touch);
+                this.mCurrentTouch.onTick(delta);
             }
         }
     }
