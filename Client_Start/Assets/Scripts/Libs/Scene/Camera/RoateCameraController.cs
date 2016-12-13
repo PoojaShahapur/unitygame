@@ -47,7 +47,9 @@ namespace SDK.Lib
 
         public void init()
         {
-            Ctx.mInstance.mTickMgr.addTick(this, TickPriority.eTPCamController);
+            //Ctx.mInstance.mTickMgr.addTick(this, TickPriority.eTPCamController);
+
+            Ctx.mInstance.mInputMgr.addMouseListener(MMouse.MouseLeftButton, EventId.MOUSEMove_EVENT, onTouchMove);
 
             Vector3 eulerAngles = this.transform.eulerAngles;//当前物体的欧拉角  
             this.eulerAngles_x = eulerAngles.y;
@@ -85,6 +87,21 @@ namespace SDK.Lib
             return false;
         }
 
+        public void onTouchMove(IDispatchObject dispObj)
+        {
+            MMouseOrTouch touch = dispObj as MMouseOrTouch;
+
+            float xOffset = 0;
+            xOffset = touch.getXOffset();
+            this.eulerAngles_x += ((xOffset * this.xSpeed) * this.distance_Z) * 0.02f;
+            float yOffset = touch.getYOffset();
+            this.eulerAngles_y -= (yOffset * this.ySpeed) * 0.02f;
+
+            Ctx.mInstance.mLogSys.log(string.Format("xOffset is {0}, yOffset is {1}", xOffset, yOffset), LogTypeId.eLogCommon);
+
+            this.LateUpdate();
+        }
+
         public void onTick(float delta)
         {
             this.Update();
@@ -95,12 +112,18 @@ namespace SDK.Lib
             //if (Input.mousePosition.x >= fward_force_Op_x_min && Input.mousePosition.x <= fward_force_Op_x_max &&
             //   Input.mousePosition.y >= fward_force_Op_y_min && Input.mousePosition.y <= fward_force_Op_y_max)
             //{
-                //Debug.Log("触摸在ui上 " + " x: " + Input.mousePosition.x + " y: " + Input.mousePosition.y + "  x_min: " + fward_force_Op_x_min + "  x_max: " + fward_force_Op_x_max + "  y_min: " + fward_force_Op_y_min + "  y_max: " + fward_force_Op_y_max);
+            //Debug.Log("触摸在ui上 " + " x: " + Input.mousePosition.x + " y: " + Input.mousePosition.y + "  x_min: " + fward_force_Op_x_min + "  x_max: " + fward_force_Op_x_max + "  y_min: " + fward_force_Op_y_min + "  y_max: " + fward_force_Op_y_max);
             //}
             //else
             //{
-                this.eulerAngles_x += ((Input.GetAxis("Mouse X") * this.xSpeed) * this.distance_Z) * 0.02f;
-                this.eulerAngles_y -= (Input.GetAxis("Mouse Y") * this.ySpeed) * 0.02f;
+            float xOffset = 0;
+            xOffset = Input.GetAxis("Mouse X");
+            this.eulerAngles_x += ((xOffset * this.xSpeed) * this.distance_Z) * 0.02f;
+            float yOffset = Input.GetAxis("Mouse Y");
+            this.eulerAngles_y -= (yOffset * this.ySpeed) * 0.02f;
+
+            Ctx.mInstance.mLogSys.log(string.Format("xOffset is {0}, yOffset is {1}", xOffset, yOffset) , LogTypeId.eLogCommon);
+
             //}
 
             this.LateUpdate();

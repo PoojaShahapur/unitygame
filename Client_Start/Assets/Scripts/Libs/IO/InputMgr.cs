@@ -164,7 +164,7 @@ namespace SDK.Lib
         //    mOnAxisDown -= cb;
         //}
 
-        public void addEventInputKey(InputKey inputKey)
+        protected void addEventInputKey(InputKey inputKey)
         {
             if(-1 == this.mEventInputKeyList.IndexOf(inputKey))
             {
@@ -172,7 +172,7 @@ namespace SDK.Lib
             }
         }
 
-        public void removeEventInputKey(InputKey inputKey)
+        protected void removeEventInputKey(InputKey inputKey)
         {
             if (-1 != this.mEventInputKeyList.IndexOf(inputKey))
             {
@@ -180,7 +180,7 @@ namespace SDK.Lib
             }
         }
 
-        public void addEventMouse(MMouse mouse)
+        protected void addEventMouse(MMouse mouse)
         {
             if (-1 == this.mEventMouseList.IndexOf(mouse))
             {
@@ -188,7 +188,7 @@ namespace SDK.Lib
             }
         }
 
-        public void removeEventMouse(MMouse mouse)
+        protected void removeEventMouse(MMouse mouse)
         {
             if (-1 != this.mEventMouseList.IndexOf(mouse))
             {

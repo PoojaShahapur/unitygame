@@ -344,6 +344,23 @@ namespace SDK.Lib
 
         public static InputKey[] mInputKeyArray;
 
+        //----------------- Data Area Start ---------------------
+        // 按键相关
+        private KeyCode mKeyCode;
+        private string mKeyDesc;
+
+        // 键盘状态
+        public bool mKeyState;
+        public bool mKeyStateOld;
+        public bool mJustPressed;
+        public bool mJustReleased;
+
+        // 事件处理
+        private AddOnceEventDispatch mOnKeyUpDispatch;
+        private AddOnceEventDispatch mOnKeyDownDispatch;
+        private AddOnceEventDispatch mOnKeyPressDispatch;
+        //----------------- Data Area End -----------------------
+
         /**
          * A dictionary mapping the string names of all the keys to the InputKey they represent.
          */
@@ -865,20 +882,5 @@ namespace SDK.Lib
         {
             return this.mKeyState;
         }
-
-        // 按键相关
-        private KeyCode mKeyCode;
-        private string mKeyDesc;
-
-        // 键盘状态
-        public bool mKeyState;
-        public bool mKeyStateOld;
-        public bool mJustPressed;
-        public bool mJustReleased;
-
-        // 事件处理
-        private AddOnceEventDispatch mOnKeyUpDispatch;
-        private AddOnceEventDispatch mOnKeyDownDispatch;
-        private AddOnceEventDispatch mOnKeyPressDispatch;
     }
 }
