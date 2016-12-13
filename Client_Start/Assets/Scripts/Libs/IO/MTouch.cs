@@ -6,6 +6,11 @@ namespace SDK.Lib
     public class MTouch : MMouseOrTouch, IDispatchObject
     {
         // 最多支持 5 个同时触碰
+        public static MTouch TouchOne = new MTouch(0);
+        public static MTouch TouchTwo = new MTouch(1);
+        public static MTouch TouchThree = new MTouch(2);
+        public static MTouch TouchFour = new MTouch(3);
+        public static MTouch TouchFive = new MTouch(4);
         public static Dictionary<int, MTouch> mTouches = new Dictionary<int, MTouch>();
 
         protected int mTouchIndex;  // 触碰索引

@@ -1275,5 +1275,11 @@ namespace SDK.Lib
                 Screen.sleepTimeout = SleepTimeout.NeverSleep;
             }
         }
+
+        // 启用/禁用使用触碰仿真鼠标的操作
+        public static void setSimulateMouseWithTouches(bool isEnable)
+        {
+            UnityEngine.Input.simulateMouseWithTouches = isEnable;
+        }
     }
 }
