@@ -35,7 +35,7 @@
 
             base.onTick(delta);
 
-            float horizontal = UnityEngine.Input.GetAxis("Horizontal");
+            //float horizontal = UnityEngine.Input.GetAxis("Horizontal");
             //if (horizontal > 0.0f)
             //{
             //    mIsRotateUp = false;
@@ -143,6 +143,8 @@
             (this.mEntity as Player).setDestRotate(acceleration.getOrient().eulerAngles);
 
             this.moveForward();
+
+            Ctx.mInstance.mLogSys.log(string.Format("Acceleration orient is x = {0}, y = {1}, z = {2}", acceleration.getOrient().eulerAngles.x, acceleration.getOrient().eulerAngles.y, acceleration.getOrient().eulerAngles.z), LogTypeId.eLogCommon);
         }
 
         public void addOrientChangedHandle(MAction<IDispatchObject> handle)
