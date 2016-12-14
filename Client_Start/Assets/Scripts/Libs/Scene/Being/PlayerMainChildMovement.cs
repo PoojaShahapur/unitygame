@@ -90,7 +90,8 @@
             randomFreq = 1.0f / randomFreq;
 
             //Assign the parent as origin
-            origin = transform.parent;
+            //origin = transform.parent;
+            origin = (this.mEntity as PlayerChild).mParentPlayer.transform();
 
             //Flock transform           
             transformComponent = transform;
@@ -99,10 +100,10 @@
             PlayerMainChildMovement[] tempFlocks = null;
 
             //Get all the unity flock components from the parent transform in the group
-            if (transform.parent)
-            {
+            //if (transform.parent)
+            //{
                 tempFlocks = (this.mEntity as PlayerChild).mParentPlayer.getAllChildMovement() as PlayerMainChildMovement[];
-            }
+            //}
 
             //Assign and store all the flock objects in this group
             objects = new UnityEngine.Transform[tempFlocks.Length];
@@ -115,7 +116,7 @@
             }
 
             //Null Parent as the flock leader will be UnityFlockController object
-            transform.parent = null;
+            //transform.parent = null;
 
             //Calculate random push depends on the random frequency provided
             Ctx.mInstance.mCoroutineMgr.StartCoroutine(UpdateRandom());

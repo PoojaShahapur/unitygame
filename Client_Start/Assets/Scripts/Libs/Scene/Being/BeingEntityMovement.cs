@@ -255,7 +255,7 @@
                 (this.mEntity as BeingEntity).setBeingState(BeingState.BSWalk);
 
                 // 计算最终方向
-                this.mDestRotate = UtilMath.getRotateByStartAndEndPoint(this.mEntity.getPos(), this.mDestPos);
+                this.setDestRotate(UtilMath.getRotateByStartAndEndPoint(this.mEntity.getPos(), this.mDestPos).eulerAngles);
             }
             else
             {
@@ -272,7 +272,7 @@
             if (!UtilMath.isVectorEqual(mDestPos, mEntity.getPos()))
             {
                 // 计算最终方向
-                this.mDestRotate = UnityEngine.Quaternion.FromToRotation(UnityEngine.Vector3.forward, this.mDestPos);
+                this.setDestRotate(UtilMath.getRotateByStartAndEndPoint(this.mEntity.getPos(), this.mDestPos).eulerAngles);
                 this.mEntity.setRotation(this.mDestRotate);
                 this.mEntity.setOriginal(this.mDestPos);
 

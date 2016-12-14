@@ -25,7 +25,6 @@
         {
             base.init();
 
-            this.transform = this.mEntity.transform();
             this.Start();
         }
 
@@ -76,6 +75,13 @@
         override public void addActorLocalOffset(UnityEngine.Vector3 DeltaLocation)
         {
             base.addActorLocalOffset(DeltaLocation);
+            (this.mEntity as Player).mPlayerSplitMerge.reduceTargetLength(-DeltaLocation.z);
+            this.mPosChangedDisp.dispatchEvent(this);
+        }
+
+        override public void addActorLocalDestOffset(UnityEngine.Vector3 DeltaLocation)
+        {
+            base.addActorLocalDestOffset(DeltaLocation);
             (this.mEntity as Player).mPlayerSplitMerge.reduceTargetLength(-DeltaLocation.z);
             this.mPosChangedDisp.dispatchEvent(this);
         }
@@ -159,36 +165,35 @@
 
         //---------------------- Flock Start-----------------------------
         public UnityEngine.Vector3 bound;
-        public float speed = 100.0f;
-
-        private UnityEngine.Vector3 initialPosition;
-        private UnityEngine.Vector3 nextMovementPoint;
-        private UnityEngine.Transform transform;
 
         // Use this for initialization
         protected void Start()
         {
-            initialPosition = transform.position;
             CalculateNextMovementPoint();
         }
 
         protected void CalculateNextMovementPoint()
         {
+            UnityEngine.Vector3 initialPosition = this.mEntity.getPos();
             float posX = UnityEngine.Random.Range(initialPosition.x - bound.x, initialPosition.x + bound.x);
             float posY = UnityEngine.Random.Range(initialPosition.y - bound.y, initialPosition.y + bound.y);
             float posZ = UnityEngine.Random.Range(initialPosition.z - bound.z, initialPosition.z + bound.z);
 
-            nextMovementPoint = initialPosition + new UnityEngine.Vector3(posX, posY, posZ);
+            UnityEngine.Vector3 nextMovementPoint = initialPosition + new UnityEngine.Vector3(posX, posY, posZ);
+
+            (this.mEntity as BeingEntity).setDestPos(nextMovementPoint);
         }
 
         // Update is called once per frame
         protected void Update()
         {
-            transform.Translate(UnityEngine.Vector3.forward * speed * Ctx.mInstance.mSystemTimeData.deltaSec);
-            transform.rotation = UnityEngine.Quaternion.Slerp(transform.rotation, UnityEngine.Quaternion.LookRotation(nextMovementPoint - transform.position), 1.0f * Ctx.mInstance.mSystemTimeData.deltaSec);
+            //transform.Translate(UnityEngine.Vector3.forward * speed * Ctx.mInstance.mSystemTimeData.deltaSec);
+            //transform.rotation = UnityEngine.Quaternion.Slerp(transform.rotation, UnityEngine.Quaternion.LookRotation(nextMovementPoint - transform.position), 1.0f * Ctx.mInstance.mSystemTimeData.deltaSec);
 
-            //if (Vector3.Distance(nextMovementPoint, transform.position) <= 10.0f)
-            //    CalculateNextMovementPoint();
+            if (UnityEngine.Vector3.Distance(this.mDestPos, this.mEntity.getPos()) <= 10.0f)
+            {
+                CalculateNextMovementPoint();
+            }
         }
         //---------------------- Flock End --------------------------
     }

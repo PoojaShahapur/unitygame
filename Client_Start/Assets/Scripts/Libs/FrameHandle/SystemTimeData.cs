@@ -16,7 +16,7 @@ namespace SDK.Lib
             this.mPreTime = 0;
             this.mCurTime = 0;
             this.mDeltaSec = 0.0f;
-            this.mIsFixFrameRate = false;
+            this.mIsFixFrameRate = true;
             this.mFixFrameRate = 0.0417f;       //  1 / 24;
             this.mScale = 1;
         }
