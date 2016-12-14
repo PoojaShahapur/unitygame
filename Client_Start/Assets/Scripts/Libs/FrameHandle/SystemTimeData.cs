@@ -47,6 +47,7 @@ namespace SDK.Lib
 
         public void nextFrame()
         {
+            this.mPreTime = this.mCurTime;
             this.mCurTime = DateTime.Now.Ticks;
 
             if (mIsFixFrameRate)
@@ -67,7 +68,6 @@ namespace SDK.Lib
             }
 
             this.mDeltaSec *= this.mScale;
-            this.mPreTime = this.mCurTime;
         }
     }
 }
