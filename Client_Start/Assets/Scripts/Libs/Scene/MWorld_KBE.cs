@@ -265,8 +265,8 @@ public class MWorld_KBE
         if (player == null)
             return;
 
-        player.setDestPos(entity.position);
-        player.setOriginal(entity.position);
+        //player.setDestPos(entity.position);
+        //player.setOriginal(entity.position);
     }
 
     public void updatePosition(KBEngine.Entity entity)
@@ -282,7 +282,7 @@ public class MWorld_KBE
         if (player == null)
             return;
 
-        player.setDestPos(entity.position);
+        //player.setDestPos(entity.position);
         //player.isOnGround = entity.isOnGround;
     }
 

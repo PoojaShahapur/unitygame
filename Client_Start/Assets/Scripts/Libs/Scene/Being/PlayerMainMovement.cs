@@ -169,6 +169,7 @@
         // Use this for initialization
         protected void Start()
         {
+            this.bound = new UnityEngine.Vector3(5, 0, 5);
             CalculateNextMovementPoint();
         }
 
@@ -190,7 +191,8 @@
             //transform.Translate(UnityEngine.Vector3.forward * speed * Ctx.mInstance.mSystemTimeData.deltaSec);
             //transform.rotation = UnityEngine.Quaternion.Slerp(transform.rotation, UnityEngine.Quaternion.LookRotation(nextMovementPoint - transform.position), 1.0f * Ctx.mInstance.mSystemTimeData.deltaSec);
 
-            if (UnityEngine.Vector3.Distance(this.mDestPos, this.mEntity.getPos()) <= 10.0f)
+            //if (UnityEngine.Vector3.Distance(this.mDestPos, this.mEntity.getPos()) <= 10.0f)
+            if (!this.isMoveToDest())
             {
                 CalculateNextMovementPoint();
             }
