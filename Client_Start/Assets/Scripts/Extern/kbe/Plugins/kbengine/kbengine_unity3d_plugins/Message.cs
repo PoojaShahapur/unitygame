@@ -114,17 +114,37 @@
 		*/
 		public void handleMessage(MemoryStream msgstream)
 		{
-			if(argtypes.Length <= 0)
-			{
-				if(argsType < 0)
-					handler.Invoke(KBEngineApp.app, new object[]{msgstream});
-				else
-					handler.Invoke(KBEngineApp.app, new object[]{});
-			}
-			else
-			{
-				handler.Invoke(KBEngineApp.app, createFromStream(msgstream));
-			}
+            if (null != handler)
+            {
+                if (argtypes.Length <= 0)
+                {
+                    if (argsType < 0)
+                        handler.Invoke(KBEngineApp.app, new object[] { msgstream });
+                    else
+                        handler.Invoke(KBEngineApp.app, new object[] { });
+                }
+                else
+                {
+                    handler.Invoke(KBEngineApp.app, createFromStream(msgstream));
+                }
+            }
+            else
+            {
+                object[] param;
+                if (argtypes.Length <= 0)
+                {
+                    if (argsType < 0)
+                        param = new object[] { msgstream };
+                    else
+                        param = new object[] { };
+                }
+                else
+                {
+                    param = createFromStream(msgstream);
+                }
+
+                SDK.Lib.Ctx.mInstance.mLuaSystem.receiveToLua_KBE(name, param);
+            }
 		}
     }
 } 

@@ -26,6 +26,11 @@ function M.onReceiveToLuaRpc(buffer, length)
     GCtx.mNetMgr:receiveCmdRpc(buffer, length);
 end
 
+-- 接收消息, KBE
+function M.onReceiveToLua_KBE(msgName, param)
+    GCtx.mLogSys:log("GlobalEventCmd::onReceiveToLua_KBE", GlobalNS.LogTypeId.eLogCommon);
+	GCtx.mNetCmdNotify_KBE:handleMsg(msgName, param);
+end
 
 -- 场景加载完成
 function M.onSceneLoaded()

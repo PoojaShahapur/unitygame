@@ -99,6 +99,7 @@ MLoader("MyLua.Libs.Log.LogSys");
 
 -- 网络
 MLoader("MyLua.Libs.Network.CmdDisp.NetCmdDispHandle");
+MLoader("MyLua.Libs.Network.CmdDisp.NetCmdDispHandle_KBE");
 MLoader("MyLua.Libs.Network.CmdDisp.NetModuleDispHandle");
 MLoader("MyLua.Libs.Network.CmdDisp.NetCmdNotify");
 MLoader("MyLua.Libs.Network.CmdDisp.CmdDispInfo");

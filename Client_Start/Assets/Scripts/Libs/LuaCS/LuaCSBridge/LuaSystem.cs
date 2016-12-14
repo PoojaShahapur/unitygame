@@ -298,5 +298,18 @@ namespace SDK.Lib
 
             return str;
         }
+
+        public void receiveToLua_KBE(string msgname, object[] param)
+        {
+            //object[] oneArgs = new object[param.Length + 1];
+            //oneArgs[0] = msgname;
+            //oneArgs[1] = param[0];
+
+            //object oneArgs = new object[2];
+            //(oneArgs as object[])[0] = new AuxPrefabLoader();
+            //(oneArgs as object[])[1] = new AuxPrefabLoader();
+
+            this.callLuaFunction("GlobalNS.GlobalEventCmd.onReceiveToLua_KBE", msgname, (object)param);
+        }
     }
 }

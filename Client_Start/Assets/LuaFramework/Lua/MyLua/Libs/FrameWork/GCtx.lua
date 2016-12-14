@@ -27,6 +27,7 @@ function M.preInit()
 	this.mTableSys = GlobalNS.new(GlobalNS.TableSys);
 	
     this.mNetCmdNotify = GlobalNS.new(GlobalNS.NetCmdNotify);
+	this.mNetCmdNotify_KBE = GlobalNS.new(GlobalNS.NetCmdDispHandle_KBE);
 end
 
 function M.interInit()
