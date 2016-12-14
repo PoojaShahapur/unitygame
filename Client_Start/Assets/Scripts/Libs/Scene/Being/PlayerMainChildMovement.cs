@@ -8,42 +8,24 @@
 
         }
 
+        override public void init()
+        {
+            base.init();
+
+            this.transform = this.mEntity.transform();
+            this.Start();
+        }
+
+        override public void dispose()
+        {
+            base.dispose();
+        }
+
         override public void onTick(float delta)
         {
             base.onTick(delta);
 
-            //float horizontal = UnityEngine.Input.GetAxis("Horizontal");
-            //if (horizontal > 0.0f)
-            //{
-            //    this.rotateLeft();
-            //}
-            //else if (horizontal < 0.0f)
-            //{
-            //    this.rotateRight();
-            //}
-            //else
-            //{
-            //    if(!this.isMoveToDest())
-            //    {
-            //        this.stopMove();
-            //    }
-            //}
-
-            //float vertical = UnityEngine.Input.GetAxis("Vertical");
-            //if (vertical > 0.0f)
-            //{
-            //    //this.moveForward();
-            //    this.moveAlong();
-            //}
-            //else if (vertical < 0.0f)
-            //{
-            //    //this.moveBack();
-            //    this.moveAlong();
-            //}
-            //else
-            //{
-            //    this.movePause();
-            //}
+            this.Update();
         }
 
         // Parent Player 方向改变事件处理器
@@ -103,7 +85,7 @@
 
         private UnityEngine.Transform transform;
 
-        void Start()
+        protected void Start()
         {
             randomFreq = 1.0f / randomFreq;
 
@@ -139,7 +121,7 @@
             Ctx.mInstance.mCoroutineMgr.StartCoroutine(UpdateRandom());
         }
 
-        System.Collections.IEnumerator UpdateRandom()
+        protected System.Collections.IEnumerator UpdateRandom()
         {
             while (true)
             {
@@ -148,7 +130,7 @@
             }
         }
 
-        void Update()
+        protected void Update()
         {
             //Internal variables
             float speed = velocity.magnitude;

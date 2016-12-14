@@ -20,6 +20,10 @@ namespace SDK.Lib
         {
             base.postInit();
 
+            this.mMovement.init();
+            this.mAttack.init();
+            this.mPlayerSplitMerge.init();
+
             //this.mPlayerSplitMerge.startSplit();
         }
 

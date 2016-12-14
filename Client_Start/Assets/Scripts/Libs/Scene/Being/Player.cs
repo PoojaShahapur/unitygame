@@ -96,8 +96,14 @@ namespace SDK.Lib
             return ret;
         }
 
+        // 获取所有的 ChildMovement
         public PlayerMovement[] getAllChildMovement()
         {
+            if(null != this.mPlayerSplitMerge)
+            {
+                return this.mPlayerSplitMerge.getAllChildMovement();
+            }
+
             return null;
         }
 

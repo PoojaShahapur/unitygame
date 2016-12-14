@@ -17,5 +17,13 @@
             mRender = new PlayerMainChildRender(this);
             mRender.init();
         }
+
+        public override void preInit()
+        {
+            base.preInit();
+
+            this.mMovement.init();
+            this.mAttack.init();
+        }
     }
 }

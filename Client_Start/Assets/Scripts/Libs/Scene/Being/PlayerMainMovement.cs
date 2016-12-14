@@ -7,11 +7,6 @@
         protected AddOnceEventDispatch mOrientStopChangedDisp; // 方向改变停止分发器
         protected AddOnceEventDispatch mPosStopChangedDisp;    // 位置改变停止分发器
 
-        //protected bool mIsRotateDown;
-        //protected bool mIsRotateUp;
-        //protected bool mIsMoveDown;
-        //protected bool mIsMoveUp;
-
         public PlayerMainMovement(SceneEntityBase entity)
             : base(entity)
         {
@@ -20,13 +15,23 @@
             this.mOrientStopChangedDisp = new AddOnceEventDispatch();
             this.mPosStopChangedDisp = new AddOnceEventDispatch();
 
-            //this.mIsRotateUp = true;
-            //this.mIsMoveUp = true;
-
             Ctx.mInstance.mInputMgr.addKeyListener(InputKey.UpArrow, EventId.KEYPRESS_EVENT, onUpArrowPress);
             Ctx.mInstance.mInputMgr.addKeyListener(InputKey.UpArrow, EventId.KEYUP_EVENT, onUpArrowUp);
             //Ctx.mInstance.mInputMgr.addKeyListener(InputKey.L, EventId.KEYUP_EVENT, onStartUp);
             Ctx.mInstance.mInputMgr.addAccelerationListener(EventId.ACCELERATIONMOVED_EVENT, onAccelerationMovedHandle);
+        }
+
+        override public void init()
+        {
+            base.init();
+
+            this.transform = this.mEntity.transform();
+            this.Start();
+        }
+
+        override public void dispose()
+        {
+            base.dispose();
         }
 
         override public void onTick(float delta)
@@ -36,63 +41,7 @@
 
             base.onTick(delta);
 
-            //float horizontal = UnityEngine.Input.GetAxis("Horizontal");
-            //if (horizontal > 0.0f)
-            //{
-            //    mIsRotateUp = false;
-            //    if (!mIsRotateDown)
-            //    {
-            //        //mIsRotateDown = true;
-            //        this.rotateLeft();
-            //    }
-            //}
-            //else if (horizontal < 0.0f)
-            //{
-            //    mIsRotateUp = false;
-            //    if (!mIsRotateDown)
-            //    {
-            //        this.rotateRight();
-            //        //mIsRotateDown = true;
-            //    }
-            //}
-            //else
-            //{
-            //    mIsRotateDown = false;
-            //    if (mIsRotateUp == false)
-            //    {
-            //        mIsRotateUp = true;
-            //        this.stopRotate();
-            //    }
-            //}
-
-            //float vertical = UnityEngine.Input.GetAxis("Vertical");
-            //if (vertical > 0.0f)
-            //{
-            //    mIsMoveUp = false;
-            //    if (!mIsMoveDown)
-            //    {
-            //        mIsMoveDown = true;
-            //        this.moveForward();
-            //    }
-            //}
-            //else if(vertical < 0.0f)
-            //{
-            //    mIsMoveUp = false;
-            //    if (!mIsMoveDown)
-            //    {
-            //        mIsMoveDown = true;
-            //        //this.moveBack();
-            //    }
-            //}
-            //else
-            //{
-            //    mIsMoveDown = false;
-            //    if (mIsMoveUp == false)
-            //    {
-            //        mIsMoveUp = true;
-            //        this.stopMove();
-            //    }
-            //}
+            this.Update();
         }
 
         protected void onUpArrowPress(IDispatchObject dispObj)
@@ -217,13 +166,13 @@
         private UnityEngine.Transform transform;
 
         // Use this for initialization
-        void Start()
+        protected void Start()
         {
             initialPosition = transform.position;
             CalculateNextMovementPoint();
         }
 
-        void CalculateNextMovementPoint()
+        protected void CalculateNextMovementPoint()
         {
             float posX = UnityEngine.Random.Range(initialPosition.x - bound.x, initialPosition.x + bound.x);
             float posY = UnityEngine.Random.Range(initialPosition.y - bound.y, initialPosition.y + bound.y);
@@ -233,7 +182,7 @@
         }
 
         // Update is called once per frame
-        void Update()
+        protected void Update()
         {
             transform.Translate(UnityEngine.Vector3.forward * speed * Ctx.mInstance.mSystemTimeData.deltaSec);
             transform.rotation = UnityEngine.Quaternion.Slerp(transform.rotation, UnityEngine.Quaternion.LookRotation(nextMovementPoint - transform.position), 1.0f * Ctx.mInstance.mSystemTimeData.deltaSec);

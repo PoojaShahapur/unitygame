@@ -13,6 +13,16 @@
             mEntity = entity;
         }
 
+        virtual public void init()
+        {
+
+        }
+
+        virtual public void dispose()
+        {
+
+        }
+
         virtual public void onTick(float delta)
         {
 

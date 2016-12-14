@@ -100,6 +100,10 @@ namespace SDK.Lib
         {
             base.preInit();
 
+            this.mMovement.init();
+            this.mAttack.init();
+            this.mPlayerSplitMerge.init();
+
             //this.Start_layerMain();
         }
 

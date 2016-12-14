@@ -22,12 +22,12 @@
             mRangeBox = new MRangeBox();
         }
 
-        public void init()
+        virtual public void init()
         {
 
         }
 
-        public void dispose()
+        virtual public void dispose()
         {
 
         }
@@ -60,6 +60,22 @@
         public void removeFormParent(Player childPlayer)
         {
             this.mParentPlayer.mPlayerSplitMerge.mPlayerChildMgr.removeEntity(childPlayer);
+        }
+
+        public PlayerMovement[] getAllChildMovement()
+        {
+            int total = this.mPlayerChildMgr.getEntityCount();
+            int index = 0;
+            Player player = null;
+            PlayerMovement[] movement = new PlayerMovement[total];
+            while (index < total)
+            {
+                player = this.mPlayerChildMgr.getEntityByIndex(index) as Player;
+                movement[index] = player.mMovement as PlayerMovement;
+                ++index;
+            }
+
+            return movement;
         }
 
         // 分裂
