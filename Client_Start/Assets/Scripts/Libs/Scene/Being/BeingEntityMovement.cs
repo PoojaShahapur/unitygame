@@ -44,7 +44,17 @@
         {
             base.onTick(delta);
 
-            if(this.mIsMoveToDest)
+            if (this.mIsRotateToDest)
+            {
+                this.rotateToDest(delta);
+            }
+
+            if (this.mIsScaleToDest)
+            {
+                this.scaleToDest(delta);
+            }
+
+            if (this.mIsMoveToDest)
             {
                 if (this.mIsAutoPath)
                 {
@@ -55,14 +65,6 @@
                     // 其它控制向前移动
                     this.moveForwardToDest(delta);
                 }
-            }
-            if(this.mIsRotateToDest)
-            {
-                this.rotateToDest(delta);
-            }
-            if(this.mIsScaleToDest)
-            {
-                this.scaleToDest(delta);
             }
         }
 

@@ -48,10 +48,10 @@
             dir.y = 0;
             dir.z = mPos.z;
 
-            if (dir.sqrMagnitude > 1)
-            {
-                dir.Normalize();
-            }
+            //if (dir.sqrMagnitude > 1)
+            //{
+            //    dir.Normalize();
+            //}
 
             UnityEngine.Quaternion orient = UnityEngine.Quaternion.LookRotation(dir);
 
@@ -63,7 +63,7 @@
             this.mLastPos = this.mPos;
             // TODO:Test
             //this.mPos = UnityEngine.Input.mousePosition;
-            this.mPos = UnityEngine.Input.acceleration;
+            this.mPos = UnityEngine.Input.acceleration * this.mSensitivity;
 
             Ctx.mInstance.mLogSys.log(string.Format("LastPos is x = {0}, y = {1}, z = {2}, Pos is x = {3}, y = {4}, z = {5}", this.mLastPos.x, this.mLastPos.y, this.mLastPos.z, this.mPos.x, this.mPos.y, this.mPos.z), LogTypeId.eLogCommon);
 

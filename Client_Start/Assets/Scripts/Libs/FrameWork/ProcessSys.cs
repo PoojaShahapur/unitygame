@@ -13,7 +13,7 @@ namespace SDK.Lib
         public void ProcessNextFrame()
         {
             Ctx.mInstance.mSystemTimeData.nextFrame();
-            Advance(Ctx.mInstance.mSystemTimeData.deltaSec);
+            this.Advance(Ctx.mInstance.mSystemTimeData.deltaSec);
         }
 
         public void Advance(float delta)

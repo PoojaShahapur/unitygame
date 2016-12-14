@@ -148,6 +148,7 @@
         protected void onAccelerationMovedHandle(IDispatchObject disoObj)
         {
             MAcceleration acceleration = disoObj as MAcceleration;
+            (this.mEntity as Player).setRotation(acceleration.getOrient());
             (this.mEntity as Player).setDestRotate(acceleration.getOrient().eulerAngles);
 
             this.moveForward();
