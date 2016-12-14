@@ -220,9 +220,42 @@ namespace SDK.Lib
 
             if (m_luaFunc != null && m_luaTable != null)
             {
-                // 如果这样调用，args 将会以 Array 的形式传递近 lua
-                return m_luaFunc.Call(m_luaTable, args);
-                // 如果这样调用，args 将会以 object 的形式传递近 lua
+                // object[] args
+                // (1) 数组类型 args
+                // (2) object 类型
+                //E:\Self\Self\unity\unitygame\Client_Start\Assets\LuaFramework\ToLua\Core\LuaFunction.cs
+                //public void PushArgs(object[] args)
+                //{
+                //    if (args == null)
+                //    {
+                //        return;
+                //    }
+
+                //    argCount += args.Length; // (1) args.Length (2) 1
+                //    luaState.PushArgs(args);
+                //}
+                //E:\Self\Self\unity\unitygame\Client_Start\Assets\LuaFramework\ToLua\Core\LuaState.cs
+                //public void PushArgs(object[] args)
+                //{
+                //    for (int i = 0; i < args.Length; i++)     // (1) args.Length (2) 1
+                //    {
+                //        Push(args[i]);
+                //    }
+                //}
+                //E:\Self\Self\unity\unitygame\Client_Start\Assets\LuaFramework\ToLua\Core\ToLua.cs
+                //public static void Push(IntPtr L, object obj)
+                //{
+                //    if (t.IsArray)    // (1) t.IsArray == false (2) t.IsArray == true
+                //}
+
+
+                // 如果这样调用，args 会将每一个元素压入堆栈，在 lua 中访问的时候，需要这样 function handle(...) ，然后获取每一个参数。
+                //return m_luaFunc.Call(m_luaTable, args);
+                // 如果这样调用，args 将会以 userdata 的形式作为一个元素压入 lua 的堆栈，在 lua 中获取的时候，使用 function handle(params)，要使用类似 CS 数组访问的形式，例如 params[0]，而不是 Lua 中表的访问形式，例如 params[1] 下表从 1 开始
+                return m_luaFunc.Call(m_luaTable, (object)args);
+
+
+                // 如果这样调用，args 也将会数组中的每一个元素压入 lua 堆栈，而不是将其作为 userdata 压入堆栈
                 //object[] oneArgs = new object[args.Length + 1];
                 //oneArgs[0] = m_luaTable;
                 //int idx = 0;
@@ -232,6 +265,12 @@ namespace SDK.Lib
                 //    ++idx;
                 //}
                 //return m_luaFunc.Call(oneArgs);
+
+                // 这样调用，testArgs 会以 t.IsArray 数组形式，直接作为 userdata 压入 lua ，在 lua 中获取的时候，要使用类似 CS 数组访问的形式，例如 testArgs[0]，而不是 Lua 中表的访问形式，例如 testArgs[1] 下表从 1 开始
+                //object testArgs = new object[2];
+                //(testArgs as object[])[0] = new AuxPrefabLoader();
+                //(testArgs as object[])[1] = new AuxPrefabLoader();
+                //return m_luaFunc.Call(testArgs);
             }
 
             return null;
