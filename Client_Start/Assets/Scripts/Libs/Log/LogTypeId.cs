@@ -9,5 +9,6 @@
         eLogTestRL,         // 测试资源加载
         eLogResLoader,      // 资源加载
         eLogLocalFile,      // 本地文件系统， MDataStream
+        eLogAcceleration,   // 重力
     }
 }

@@ -296,6 +296,10 @@
 
         public void setDestScale(float scale)
         {
+            if(UtilMath.isInvalidNum(scale))
+            {
+                Ctx.mInstance.mLogSys.log("Invalid num", LogTypeId.eLogCommon);
+            }
             this.mDestScale = new UnityEngine.Vector3(scale, scale, scale);
 
             if (!UtilMath.isVectorEqual(this.mDestScale, this.mEntity.getScale()))

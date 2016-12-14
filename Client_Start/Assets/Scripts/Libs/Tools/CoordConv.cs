@@ -82,5 +82,22 @@ namespace SDK.Lib
 
             return m_currentPos;
         }
+
+        // 通过屏幕点获取光线远场景的交点
+        public Vector3 getScenePointByScreenPoint(Vector3 screenPoint, Camera currentCamera)
+        {
+            Ray ray = currentCamera.ScreenPointToRay(screenPoint);
+            RaycastHit lastHit;
+            int mask = UtilApi.NameToLayer("Everything");
+            float dist = 10000;
+            Vector3 lastWorldPosition = Vector3.zero;
+
+            if (Physics.Raycast(ray, out lastHit, dist, mask))
+            {
+                lastWorldPosition = lastHit.point;
+            }
+
+            return lastWorldPosition;
+        }
     }
 }

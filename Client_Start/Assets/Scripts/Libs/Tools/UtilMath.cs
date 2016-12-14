@@ -758,5 +758,13 @@ namespace SDK.Lib
             retQuat = UnityEngine.Quaternion.FromToRotation(startOrient, destOrient);
             return retQuat;
         }
+
+        public static bool isInvalidNum(float value)
+        {
+            return float.IsInfinity(value) ||
+                   float.IsNaN(value) ||
+                   float.IsNegativeInfinity(value) ||
+                   float.IsPositiveInfinity(value);
+        }
     }
 }
