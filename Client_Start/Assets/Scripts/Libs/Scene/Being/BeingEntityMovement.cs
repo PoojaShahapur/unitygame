@@ -159,6 +159,7 @@
         // 自动寻路移动
         public void moveToDest(float delta)
         {
+            UtilApi.DrawLine(mEntity.getPos(), mDestPos, UnityEngine.Color.red);
             // 新的移动
             float dist = 0.0f;
             dist = UnityEngine.Vector3.Distance(new UnityEngine.Vector3(mDestPos.x, 0f, mDestPos.z),

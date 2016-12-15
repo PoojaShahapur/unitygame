@@ -21,7 +21,7 @@ namespace SDK.Lib
             //m_skinAniModel.handleCB = onSkeletonLoaded;
             this.mBeingState = BeingState.BSIdle;
 
-            this.mMoveSpeed = 1;
+            this.mMoveSpeed = 5;
             this.mRotateSpeed = 5;
             this.mScaleSpeed = 1;
 
@@ -132,11 +132,15 @@ namespace SDK.Lib
             }
         }
 
-        public void setDestRotate(UnityEngine.Vector3 pos)
+        public void setDestRotate(UnityEngine.Vector3 rotate, bool immeRotate)
         {
+            if(immeRotate)
+            {
+                this.setRotateEulerAngle(rotate);
+            }
             if (null != mMovement)
             {
-                (mMovement as BeingEntityMovement).setDestRotate(pos);
+                (mMovement as BeingEntityMovement).setDestRotate(rotate);
             }
         }
 

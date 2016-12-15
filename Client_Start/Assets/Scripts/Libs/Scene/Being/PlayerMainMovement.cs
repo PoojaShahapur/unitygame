@@ -103,8 +103,7 @@
         protected void onAccelerationMovedHandle(IDispatchObject disoObj)
         {
             MAcceleration acceleration = disoObj as MAcceleration;
-            (this.mEntity as Player).setRotation(acceleration.getOrient());
-            (this.mEntity as Player).setDestRotate(acceleration.getOrient().eulerAngles);
+            (this.mEntity as Player).setDestRotate(acceleration.getOrient().eulerAngles, true);
 
             this.moveForward();
 
@@ -183,8 +182,11 @@
             UnityEngine.Vector3 nextMovementPoint = initialPosition + new UnityEngine.Vector3(posX, posY, posZ);
 
             (this.mEntity as BeingEntity).setDestPos(nextMovementPoint);
+
+            Ctx.mInstance.mPlayerMgr.setPlayerTargetPos(nextMovementPoint);
         }
 
+        public bool mIsCalcNextPoint = false;
         // Update is called once per frame
         protected void Update()
         {
@@ -194,7 +196,11 @@
             //if (UnityEngine.Vector3.Distance(this.mDestPos, this.mEntity.getPos()) <= 10.0f)
             if (!this.isMoveToDest())
             {
-                CalculateNextMovementPoint();
+                if (!mIsCalcNextPoint)
+                {
+                    mIsCalcNextPoint = true;
+                    CalculateNextMovementPoint();
+                }
             }
         }
         //---------------------- Flock End --------------------------

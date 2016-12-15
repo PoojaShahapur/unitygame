@@ -7,7 +7,7 @@
     {
         BSIdle,         // 空闲状态
         BSWalk,         // 走状态
-        BSRun,          // 走状态
+        BSRun,          // 跑状态
     }
 
     /**

@@ -313,7 +313,7 @@ public class MWorld_KBE
         if (player == null)
             return;
 
-        player.setDestRotate(new Vector3(entity.direction.y, entity.direction.z, entity.direction.x));
+        player.setDestRotate(new Vector3(entity.direction.y, entity.direction.z, entity.direction.x), false);
     }
 
     public void set_HP(KBEngine.Entity entity, object v)

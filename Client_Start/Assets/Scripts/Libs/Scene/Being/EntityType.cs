@@ -7,6 +7,7 @@
         ePlayerChild = 2,
         eRobot = 3,
         eSnowBlock = 4,
-        eCount = 5,
+        ePlayerTarget = 5,
+        eCount = 6,
     }
 }

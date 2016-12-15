@@ -17,6 +17,8 @@ namespace SDK.Lib
         public float mK;     // 目标点 K 因子
         public float mN;     // 目标点 N 因子
 
+        public PlayerTarget mPlayerTarget;
+
         public PlayerMgr()
 		{
             mUniqueStrIdGen = new UniqueStrIdGen("PL", 0);
@@ -64,27 +66,9 @@ namespace SDK.Lib
 
             mHero = new PlayerMain();
             mHero.init();
-            mHero.setOriginal(new UnityEngine.Vector3(x, PlayerMgr.y_height, z));
-            mHero.setRotation(UnityEngine.Quaternion.identity);
-
-            if (mHero != null)
-            {
-                //mHero.SetIsJustCreate(true);
-                //++mHero.create_times;
-                //mHero.cur_auto_relive_seconds = mHero.auto_relive_seconds;
-
-                string tempName = "";
-                tempName = Ctx.mInstance.mSystemSetting.getString("myname");
-                //if (tempName == "")
-                //{
-                //    tempName = mHero.playerName;
-                //}
-
-                //mHero.SetIsRobot(false);
-                mHero.setSelfName(tempName);
-                //mHero.m_charid = 0;//自己的charid为0
-                //mHero.setMyName(tempName);
-            }
+            //mHero.setOriginal(new UnityEngine.Vector3(x, PlayerMgr.y_height, z));
+            mHero.setOriginal(new UnityEngine.Vector3(10, 1.3f, 10f));
+            mHero.setDestRotate(UnityEngine.Quaternion.identity.eulerAngles, true);
         }
 
         // 进行分裂
@@ -94,6 +78,17 @@ namespace SDK.Lib
             {
                 this.mHero.mPlayerSplitMerge.startSplit();
             }
+        }
+
+        public void setPlayerTargetPos(UnityEngine.Vector3 pos)
+        {
+            if(null == this.mPlayerTarget)
+            {
+                this.mPlayerTarget = new PlayerTarget();
+                this.mPlayerTarget.init();
+            }
+
+            this.mPlayerTarget.setOriginal(pos);
         }
     }
 }
