@@ -132,18 +132,6 @@
             }
         }
 
-        // 向前移动出生
-        public void moveForwardBirth()
-        {
-            if (BeingState.BSBirth != (this.mEntity as BeingEntity).getBeingState())
-            {
-                (this.mEntity as BeingEntity).setBeingState(BeingState.BSBirth);
-
-                this.setIsMoveToDest(true);
-                this.mMoveWay = MoveWay.eBirthMove;
-            }
-        }
-
         // 向后移动
         //virtual public void moveBack()
         //{
@@ -271,7 +259,7 @@
         // 到达终点
         public void onArriveDestPos()
         {
-            this.mIsMoveToDest = false;
+            this.setIsMoveToDest(false);
             this.mMoveWay = MoveWay.eNone;
             (this.mEntity as BeingEntity).setBeingState(BeingState.BSIdle);
         }
@@ -296,7 +284,7 @@
 
             if (!UtilMath.isVectorEqual(mDestPos, mEntity.getPos()))
             {
-                this.mIsMoveToDest = true;
+                this.setIsMoveToDest(true);
                 this.mMoveWay = MoveWay.eAutoPathMove;
 
                 (this.mEntity as BeingEntity).setBeingState(BeingState.BSWalk);
@@ -306,7 +294,28 @@
             }
             else
             {
-                this.mIsMoveToDest = false;
+                this.setIsMoveToDest(false);
+            }
+        }
+
+        // 向前移动出生
+        public void setDestPosForBirth(UnityEngine.Vector3 destPos)
+        {
+            this.mDestPos = destPos;
+
+            if (!UtilMath.isVectorEqual(mDestPos, mEntity.getPos()))
+            {
+                this.setIsMoveToDest(true);
+                this.mMoveWay = MoveWay.eBirthMove;
+
+                (this.mEntity as BeingEntity).setBeingState(BeingState.BSBirth);
+
+                // 计算最终方向
+                this.setDestRotate(UtilMath.getRotateByStartAndEndPoint(this.mEntity.getPos(), this.mDestPos).eulerAngles);
+            }
+            else
+            {
+                this.setIsMoveToDest(false);
             }
         }
 
@@ -314,7 +323,7 @@
         public void gotoPos(UnityEngine.Vector3 destPos)
         {
             this.mDestPos = destPos;
-            this.mIsMoveToDest = false;
+            this.setIsMoveToDest(false);
 
             if (!UtilMath.isVectorEqual(mDestPos, mEntity.getPos()))
             {

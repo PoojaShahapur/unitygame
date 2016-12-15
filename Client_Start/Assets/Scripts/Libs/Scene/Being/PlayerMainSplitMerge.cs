@@ -61,7 +61,8 @@
 
                     //UnityEngine.Vector3 initPos = player.getPos() + player.getRotate() * new UnityEngine.Vector3(0, 0, player.getEatSize() + 5);
                     UnityEngine.Vector3 initPos = player.getPos() + UtilMath.UnitCircleRandom();
-                    child.setOriginal(initPos);
+                    child.setOriginal(player.getPos());
+                    (child as BeingEntity).setDestPosForBirth(initPos, false);
                     child.setEatSize(player.getEatSize());
 
                     // 设置分裂半径

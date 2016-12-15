@@ -140,6 +140,18 @@ namespace SDK.Lib
             }
         }
 
+        public void setDestPosForBirth(UnityEngine.Vector3 pos, bool immePos)
+        {
+            if (immePos)
+            {
+                this.setOriginal(pos);
+            }
+            if (null != mMovement)
+            {
+                (mMovement as BeingEntityMovement).setDestPosForBirth(pos);
+            }
+        }
+
         public void setDestRotate(UnityEngine.Vector3 rotate, bool immeRotate)
         {
             if(immeRotate)
