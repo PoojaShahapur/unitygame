@@ -248,5 +248,17 @@ namespace SDK.Lib
         {
             this.mAttack.overlapTo(bBeingEntity);
         }
+
+        // 是否需要分离
+        public bool isNeedSeparate(BeingEntity other)
+        {
+            UnityEngine.Vector3 direction = other.getPos() - this.getPos();
+            if(direction.magnitude < this.getEatSize() + other.getEatSize())
+            {
+                return true;
+            }
+
+            return false;
+        }
     }
 }

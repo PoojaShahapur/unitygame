@@ -270,8 +270,9 @@
             // add in steering contribution
             // (opposite of the offset direction, divided once by distance
             // to normalize, divided another time to get 1/d falloff)
-            var offset = other.getPos()- this.mEntity.getPos();
-            var offsetSqrMag = offset.sqrMagnitude;
+            // 如果正好重叠， offset 正好是 0
+            UnityEngine.Vector3 offset = other.getPos()- this.mEntity.getPos();
+            float offsetSqrMag = offset.sqrMagnitude;
 
             steering = (offset / -offsetSqrMag);
             if (!UnityEngine.Mathf.Approximately(_multiplierInsideComfortDistance, 1) && offsetSqrMag < _comfortDistanceSquared)
@@ -300,7 +301,8 @@
                     {
                         UtilApi.DrawLine(this.mEntity.getPos(), other.getPos(), UnityEngine.Color.magenta);
                     }
-                    if (this.IsDirectionInRange(direction))
+                    //if (this.IsDirectionInRange(direction))
+                    if((this.mEntity as BeingEntity).isNeedSeparate(other as BeingEntity))
                     {
                         steering = this.CalculateNeighborContribution(other);
                     }
@@ -312,7 +314,7 @@
             return steering;
         }
 
-        public bool IsDirectionInRange(UnityEngine.Vector2 difference)
+        public bool IsDirectionInRange(UnityEngine.Vector3 difference)
         {
             return
                 UtilMath.IntervalComparison(difference.sqrMagnitude, MinDistanceSquared, MaxDistanceSquared) ==
@@ -327,6 +329,10 @@
                 UnityEngine.Quaternion rotate = UtilMath.getRotateByOrient(steering);
                 (this.mEntity as PlayerMainChild).setDestRotate(rotate.eulerAngles, true);
                 this.moveForward();
+            }
+            else
+            {
+                this.stopMove();
             }
         }
 
