@@ -32,7 +32,7 @@
 
             this.calcTargetLength();
             this.calcTargetPoint();
-            this.updateChildDestDir();
+            //this.updateChildDestDir();
         }
 
         // 每一次分裂确定一次目标点，其它时候不改变目标点
