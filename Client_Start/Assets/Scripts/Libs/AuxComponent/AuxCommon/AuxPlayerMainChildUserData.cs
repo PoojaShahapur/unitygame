@@ -18,6 +18,7 @@
             }
         }
 
+
         void OnCollisionExit(UnityEngine.Collision collision)
         {
             AuxSceneEntityUserData aUserData = this.GetComponent<AuxSceneEntityUserData>();
