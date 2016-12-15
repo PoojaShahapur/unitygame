@@ -25,7 +25,7 @@ namespace SDK.Lib
             this.mRotateSpeed = 5;
             this.mScaleSpeed = 1;
 
-            this.mEatSize = 1;
+            this.mEatSize = 10;
         }
 
         public SkinModelSkelAnim skinAniModel

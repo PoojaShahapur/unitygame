@@ -25,7 +25,7 @@
         {
             base.onTick(delta);
 
-            //this.Update();
+            this.Update();
         }
 
         // Parent Player 方向改变事件处理器
@@ -263,9 +263,9 @@
             _neighbors = ((this.mEntity as PlayerChild).mParentPlayer as Player).getChildList();
         }
 
-        public UnityEngine.Vector2 CalculateNeighborContribution(PlayerMainChild other)
+        public UnityEngine.Vector3 CalculateNeighborContribution(PlayerMainChild other)
         {
-            var steering = UnityEngine.Vector2.zero;
+            UnityEngine.Vector3 steering = UnityEngine.Vector3.zero;
 
             // add in steering contribution
             // (opposite of the offset direction, divided once by distance
@@ -287,21 +287,23 @@
             return steering;
         }
 
-        protected UnityEngine.Vector2 CalculateForces()
+        protected UnityEngine.Vector3 CalculateForces()
         {
-            UnityEngine.Vector2 steering = UnityEngine.Vector2.zero;
+            UnityEngine.Vector3 steering = UnityEngine.Vector3.zero;
             for (var i = 0; i < _neighbors.Count(); i++)
             {
                 PlayerMainChild other = _neighbors[i] as PlayerMainChild;
-
-                UnityEngine.Vector2 direction = other.getPos() - this.mEntity.getPos();
-                if (_drawNeighbors)
+                if (other != this.mEntity)
                 {
-                    UtilApi.DrawLine(this.mEntity.getPos(), other.getPos(), UnityEngine.Color.magenta);
-                }
-                if (this.IsDirectionInRange(direction))
-                {
-                    steering = this.CalculateNeighborContribution(other);
+                    UnityEngine.Vector3 direction = other.getPos() - this.mEntity.getPos();
+                    if (_drawNeighbors)
+                    {
+                        UtilApi.DrawLine(this.mEntity.getPos(), other.getPos(), UnityEngine.Color.magenta);
+                    }
+                    if (this.IsDirectionInRange(direction))
+                    {
+                        steering = this.CalculateNeighborContribution(other);
+                    }
                 }
             }
 
@@ -319,9 +321,13 @@
 
         private void Update()
         {
-            UnityEngine.Vector2 steering = this.CalculateForces();
-            UnityEngine.Quaternion rotate = UtilMath.getRotateByOrient(new UnityEngine.Vector3(steering.x, 0, steering.y));
-            (this.mEntity as PlayerMainChild).setDestRotate(rotate.eulerAngles, true);
+            UnityEngine.Vector3 steering = this.CalculateForces();
+            if (UnityEngine.Vector3.zero != steering)
+            {
+                UnityEngine.Quaternion rotate = UtilMath.getRotateByOrient(steering);
+                (this.mEntity as PlayerMainChild).setDestRotate(rotate.eulerAngles, true);
+                this.moveForward();
+            }
         }
 
         //---------------------- SteerForSeparation Start ---------------------------
