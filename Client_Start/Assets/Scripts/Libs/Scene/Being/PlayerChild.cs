@@ -7,7 +7,7 @@
         public PlayerChild(Player parentPlayer)
         {
             this.mParentPlayer = parentPlayer;
-            this.mMoveSpeed = 3;
+            this.mMoveSpeed = 10;
         }
 
         override public void dispose()

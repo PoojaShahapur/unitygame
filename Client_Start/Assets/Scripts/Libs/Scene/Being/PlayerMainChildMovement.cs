@@ -25,7 +25,7 @@
         {
             base.onTick(delta);
 
-            this.Update();
+            this.updateSeparate();
         }
 
         // 被控制的时候向前移动，需要走这里
@@ -137,12 +137,19 @@
             // add in steering contribution
             // (opposite of the offset direction, divided once by distance
             // to normalize, divided another time to get 1/d falloff)
+
             // 如果正好重叠， offset 正好是 0
             UnityEngine.Vector3 offset = other.getPos()- this.mEntity.getPos();
-            if(UnityEngine.Vector3.zero == offset)  // 如果两个位置重叠
+
+            if(UnityEngine.Vector3.zero == offset)  // 如果两个位置重叠，就随机一个方向移动
             {
                 offset = UtilMath.UnitCircleRandom();   // 获取一个单位圆随机位置
+                if(UnityEngine.Vector3.zero == offset)  // 如果正好随机一个 zero，需要赋值一个值
+                {
+                    offset = new UnityEngine.Vector3(0.1f, 0.1f, 0.1f);
+                }
             }
+
             float offsetSqrMag = offset.sqrMagnitude;
 
             steering = (offset / -offsetSqrMag);
@@ -192,7 +199,7 @@
                 0;
         }
 
-        private void Update()
+        private void updateSeparate()
         {
             if ((this.mEntity as BeingEntity).canSeparateByState())
             {
