@@ -66,8 +66,7 @@ namespace SDK.Lib
 
             mHero = new PlayerMain();
             mHero.init();
-            //mHero.setOriginal(new UnityEngine.Vector3(x, PlayerMgr.y_height, z));
-            mHero.setOriginal(new UnityEngine.Vector3(10, 1.3f, 10f));
+            mHero.setDestPos(new UnityEngine.Vector3(10, 1.3f, 10f), true);
             mHero.setDestRotate(UnityEngine.Quaternion.identity.eulerAngles, true);
         }
 
