@@ -124,8 +124,12 @@ namespace SDK.Lib
             this.mScaleSpeed = value;
         }
 
-        public void setDestPos(UnityEngine.Vector3 pos)
+        public void setDestPos(UnityEngine.Vector3 pos, bool immePos)
         {
+            if(immePos)
+            {
+                this.setOriginal(pos);
+            }
             if(null != mMovement)
             {
                 (mMovement as BeingEntityMovement).moveToPos(pos);

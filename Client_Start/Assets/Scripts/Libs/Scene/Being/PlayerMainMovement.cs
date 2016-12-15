@@ -181,7 +181,7 @@
 
             UnityEngine.Vector3 nextMovementPoint = initialPosition + new UnityEngine.Vector3(posX, posY, posZ);
 
-            (this.mEntity as BeingEntity).setDestPos(nextMovementPoint);
+            (this.mEntity as BeingEntity).setDestPos(nextMovementPoint, false);
 
             Ctx.mInstance.mPlayerMgr.setPlayerTargetPos(nextMovementPoint);
         }
