@@ -82,7 +82,7 @@
             this.mEntity.setOriginal(this.mRangeBox.getCenter().toNative());
             this.calcTargetLength();
             this.calcTargetPoint();
-            this.updateChildDestDir();
+            //this.updateChildDestDir();
         }
     }
 }

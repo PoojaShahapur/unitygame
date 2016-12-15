@@ -84,7 +84,9 @@
             if ((this.mEntity as PlayerMainChild).isBehindTargetPoint())
             {
                 targetPoint = (this.mEntity as PlayerChild).mParentPlayer.mPlayerSplitMerge.getTargetPoint();
-                (this.mEntity as BeingEntity).setDestPosAndDestRotate(targetPoint, false, true);
+                UnityEngine.Quaternion retQuat = UtilMath.getRotateByStartAndEndPoint(this.mEntity.getPos(), targetPoint);
+                //(this.mEntity as BeingEntity).setDestPosAndDestRotate(targetPoint, false, true);
+                (this.mEntity as BeingEntity).setDestRotate(retQuat.eulerAngles, true);
             }
             else
             {
