@@ -43,6 +43,14 @@
             return this.mIsRotateToDest;
         }
 
+        public void setRotateToDest(bool isRotate)
+        {
+            if (this.mIsRotateToDest != isRotate)
+            {
+                this.mIsRotateToDest = isRotate;
+            }
+        }
+
         override public void onTick(float delta)
         {
             base.onTick(delta);
@@ -100,19 +108,25 @@
         // 向前移动
         virtual public void moveForward()
         {
-            (this.mEntity as BeingEntity).setBeingState(BeingState.BSWalk);
+            if (BeingState.BSWalk != (this.mEntity as BeingEntity).getBeingState())
+            {
+                (this.mEntity as BeingEntity).setBeingState(BeingState.BSWalk);
 
-            this.setIsMoveToDest(true);
-            this.mIsAutoPath = false;
+                this.setIsMoveToDest(true);
+                this.mIsAutoPath = false;
+            }
         }
 
         // 向前移动进行分离
         public void moveForwardSeparate()
         {
-            (this.mEntity as BeingEntity).setBeingState(BeingState.BSSeparation);
+            if (BeingState.BSSeparation != (this.mEntity as BeingEntity).getBeingState())
+            {
+                (this.mEntity as BeingEntity).setBeingState(BeingState.BSSeparation);
 
-            this.setIsMoveToDest(true);
-            this.mIsAutoPath = false;
+                this.setIsMoveToDest(true);
+                this.mIsAutoPath = false;
+            }
         }
 
         // 向后移动
@@ -159,7 +173,7 @@
 
         virtual public void stopRotate()
         {
-
+            this.setRotateToDest(false);
         }
 
         // 控制向前移动
