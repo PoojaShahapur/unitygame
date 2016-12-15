@@ -19,6 +19,11 @@
             Ctx.mInstance.mInputMgr.addKeyListener(InputKey.UpArrow, EventId.KEYUP_EVENT, onUpArrowUp);
             //Ctx.mInstance.mInputMgr.addKeyListener(InputKey.L, EventId.KEYUP_EVENT, onStartUp);
             Ctx.mInstance.mInputMgr.addAccelerationListener(EventId.ACCELERATIONMOVED_EVENT, onAccelerationMovedHandle);
+
+            Ctx.mInstance.mInputMgr.addKeyListener(InputKey.LeftArrow, EventId.KEYPRESS_EVENT, onLeftArrowPress);
+            Ctx.mInstance.mInputMgr.addKeyListener(InputKey.LeftArrow, EventId.KEYUP_EVENT, onLeftArrowUp);
+            Ctx.mInstance.mInputMgr.addKeyListener(InputKey.RightArrow, EventId.KEYPRESS_EVENT, onRightArrowPress);
+            Ctx.mInstance.mInputMgr.addKeyListener(InputKey.RightArrow, EventId.KEYUP_EVENT, onRightArrowUp);
         }
 
         override public void init()
@@ -51,6 +56,26 @@
         protected void onUpArrowUp(IDispatchObject dispObj)
         {
             this.stopMove();
+        }
+
+        protected void onLeftArrowPress(IDispatchObject dispObj)
+        {
+            this.rotateLeft();
+        }
+
+        protected void onLeftArrowUp(IDispatchObject dispObj)
+        {
+
+        }
+
+        protected void onRightArrowPress(IDispatchObject dispObj)
+        {
+            this.rotateRight();
+        }
+
+        protected void onRightArrowUp(IDispatchObject dispObj)
+        {
+
         }
 
         //protected void onStartUp(IDispatchObject dispObj)

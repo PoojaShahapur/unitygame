@@ -127,7 +127,7 @@
         // 向左旋转
         public void rotateLeft()
         {
-            (this.mEntity as BeingEntity).setBeingState(BeingState.BSWalk);
+            //(this.mEntity as BeingEntity).setBeingState(BeingState.BSWalk);
 
             float delta = Ctx.mInstance.mSystemTimeData.deltaSec;
             UnityEngine.Vector3 deltaRotation = new UnityEngine.Vector3(0.0f, (mEntity as BeingEntity).mRotateSpeed * delta, 0.0f);
@@ -137,7 +137,7 @@
         // 向右旋转
         public void rotateRight()
         {
-            (this.mEntity as BeingEntity).setBeingState(BeingState.BSWalk);
+            //(this.mEntity as BeingEntity).setBeingState(BeingState.BSWalk);
 
             float delta = Ctx.mInstance.mSystemTimeData.deltaSec;
             UnityEngine.Vector3 deltaRotation = new UnityEngine.Vector3(0.0f, -(mEntity as BeingEntity).mRotateSpeed * delta, 0.0f);

@@ -82,13 +82,13 @@
             if ((this.mEntity as PlayerMainChild).isBehindTargetPoint())
             {
                 targetPoint = (this.mEntity as PlayerChild).mParentPlayer.mPlayerSplitMerge.getTargetPoint();
+                this.lookAt(targetPoint);
             }
             else
             {
-                targetPoint = this.mEntity.getPos() + (this.mEntity as PlayerChild).mParentPlayer.getRotate() * new UnityEngine.Vector3(0, 0, (this.mEntity as BeingEntity).mMoveSpeed * Ctx.mInstance.mSystemTimeData.deltaSec);
+                //targetPoint = this.mEntity.getPos() + (this.mEntity as PlayerChild).mParentPlayer.getRotate() * new UnityEngine.Vector3(0, 0, (this.mEntity as BeingEntity).mMoveSpeed * Ctx.mInstance.mSystemTimeData.deltaSec);
+                (this.mEntity as BeingEntity).setDestRotate((this.mEntity as PlayerChild).mParentPlayer.getRotateEulerAngle(), true);
             }
-
-            this.lookAt(targetPoint);
         }
 
         //---------------------- Flock Start-----------------------------
