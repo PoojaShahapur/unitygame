@@ -102,39 +102,39 @@ public class MWorld_KBE
     public void Update()
     {
         //createPlayer();
-        if (Input.GetKeyUp(KeyCode.Space))
-        {
-            Debug.Log("KeyCode.Space");
-            KBEngine.Event.fireIn("jump");
-        }
-        else if (Input.GetMouseButton(0))
-        {
-            // ÉäÏßÑ¡Ôñ£¬¹¥»÷
-            if (Camera.main)
-            {
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
+        //if (Input.GetKeyUp(KeyCode.Space))
+        //{
+        //    Debug.Log("KeyCode.Space");
+        //    KBEngine.Event.fireIn("jump");
+        //}
+        //else if (Input.GetMouseButton(0))
+        //{
+        //    // ÉäÏßÑ¡Ôñ£¬¹¥»÷
+        //    if (Camera.main)
+        //    {
+        //        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        //        RaycastHit hit;
 
-                if (Physics.Raycast(ray, out hit))
-                {
-                    Debug.DrawLine(ray.origin, hit.point);
-                    UnityEngine.GameObject gameObj = hit.collider.gameObject;
-                    if (gameObj.name.IndexOf("terrain") == -1 &&
-                        gameObj.name.IndexOf("Quad") == -1 &&
-                        gameObj.name.IndexOf("Cube") == -1 &&
-                        gameObj.name.IndexOf("Cube (1)") == -1)
-                    {
-                        string[] s = gameObj.name.Split(new char[] { '_' });
+        //        if (Physics.Raycast(ray, out hit))
+        //        {
+        //            Debug.DrawLine(ray.origin, hit.point);
+        //            UnityEngine.GameObject gameObj = hit.collider.gameObject;
+        //            if (gameObj.name.IndexOf("terrain") == -1 &&
+        //                gameObj.name.IndexOf("Quad") == -1 &&
+        //                gameObj.name.IndexOf("Cube") == -1 &&
+        //                gameObj.name.IndexOf("Cube (1)") == -1)
+        //            {
+        //                string[] s = gameObj.name.Split(new char[] { '_' });
 
-                        if (s.Length > 0)
-                        {
-                            int targetEntityID = Convert.ToInt32(s[s.Length - 1]);
-                            KBEngine.Event.fireIn("useTargetSkill", (Int32)1, (Int32)targetEntityID);
-                        }
-                    }
-                }
-            }
-        }
+        //                if (s.Length > 0)
+        //                {
+        //                    int targetEntityID = Convert.ToInt32(s[s.Length - 1]);
+        //                    KBEngine.Event.fireIn("useTargetSkill", (Int32)1, (Int32)targetEntityID);
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
     }
 
     public void addSpaceGeometryMapping(string respath)

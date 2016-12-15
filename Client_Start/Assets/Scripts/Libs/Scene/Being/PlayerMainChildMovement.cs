@@ -41,14 +41,16 @@
             (this.mEntity as BeingEntity).setBeingState(BeingState.BSWalk);
             this.setIsMoveToDest(true);
 
-            if ((this.mEntity as PlayerMainChild).isBehindTargetPoint())
-            {
-                this.mIsAutoPath = true;
-            }
-            else
-            {
-                this.mIsAutoPath = false;
-            }
+            //if ((this.mEntity as PlayerMainChild).isBehindTargetPoint())
+            //{
+            //    this.mIsAutoPath = true;
+            //}
+            //else
+            //{
+            //    this.mIsAutoPath = false;
+            //}
+
+            this.mIsAutoPath = false;
         }
 
         // Parent Player 方向改变事件处理器
@@ -82,7 +84,7 @@
             if ((this.mEntity as PlayerMainChild).isBehindTargetPoint())
             {
                 targetPoint = (this.mEntity as PlayerChild).mParentPlayer.mPlayerSplitMerge.getTargetPoint();
-                this.lookAt(targetPoint);
+                (this.mEntity as BeingEntity).setDestPosAndDestRotate(targetPoint, false, true);
             }
             else
             {

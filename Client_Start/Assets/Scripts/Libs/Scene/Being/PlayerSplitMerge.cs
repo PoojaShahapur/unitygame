@@ -138,7 +138,7 @@
             while (idx < num)
             {
                 player = this.mPlayerChildMgr.getEntityByIndex(idx) as PlayerChild;
-                (player.mMovement as BeingEntityMovement).lookAt(this.mTargetPoint);
+                player.setDestPosAndDestRotate(this.mTargetPoint, false, true);
 
                 ++idx;
             }

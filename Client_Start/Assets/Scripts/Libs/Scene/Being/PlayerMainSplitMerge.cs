@@ -15,8 +15,8 @@
             PlayerMainChild child;
             child = new PlayerMainChild(mParentPlayer);
             child.init();
-            //UnityEngine.Vector3 initPos = this.mEntity.getPos() + this.mEntity.getRotate() * new UnityEngine.Vector3(0, 0, this.mEntity.getEatSize());
-            UnityEngine.Vector3 initPos = this.mEntity.getPos();
+            UnityEngine.Vector3 initPos = this.mEntity.getPos() + this.mEntity.getRotate() * new UnityEngine.Vector3(0, 0, this.mEntity.getEatSize());
+            //UnityEngine.Vector3 initPos = this.mEntity.getPos();
             child.setOriginal(initPos);
             // 设置 Child 分裂半径
             child.setEatSize(this.mEntity.getEatSize());

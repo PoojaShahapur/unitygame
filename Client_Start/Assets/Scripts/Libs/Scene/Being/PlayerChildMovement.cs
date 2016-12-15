@@ -8,14 +8,6 @@
 
         }
 
-        override public void lookAt(UnityEngine.Vector3 targetPt)
-        {
-            base.lookAt(targetPt);
-
-            this.mDestPos = targetPt;
-            //this.moveToPos(targetPt);
-        }
-
         // 移动暂停
         override public void movePause()
         {

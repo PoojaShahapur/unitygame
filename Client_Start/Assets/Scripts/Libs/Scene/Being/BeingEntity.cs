@@ -136,7 +136,7 @@ namespace SDK.Lib
             }
             if(null != mMovement)
             {
-                (mMovement as BeingEntityMovement).moveToPos(pos);
+                (mMovement as BeingEntityMovement).setDestPos(pos);
             }
         }
 
@@ -149,6 +149,24 @@ namespace SDK.Lib
             if (null != mMovement)
             {
                 (mMovement as BeingEntityMovement).setDestRotate(rotate);
+            }
+        }
+
+        public void setDestPosAndDestRotate(UnityEngine.Vector3 targetPt, bool immePos, bool immeRotate)
+        {
+            if (immePos)
+            {
+                this.setOriginal(targetPt);
+            }
+
+            UnityEngine.Quaternion retQuat = UtilMath.getRotateByStartAndEndPoint(this.getPos(), targetPt);
+            if (immeRotate)
+            {
+                this.setRotateEulerAngle(retQuat.eulerAngles);
+            }
+            if (null != mMovement)
+            {
+                (mMovement as BeingEntityMovement).setDestPos(targetPt);
             }
         }
 

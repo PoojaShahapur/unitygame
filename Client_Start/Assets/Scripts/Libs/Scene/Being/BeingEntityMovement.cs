@@ -32,7 +32,10 @@
 
         public void setIsMoveToDest(bool isMove)
         {
-            this.mIsMoveToDest = isMove;
+            if (this.mIsMoveToDest != isMove)
+            {
+                this.mIsMoveToDest = isMove;
+            }
         }
 
         public bool isRotateToDest()
@@ -257,7 +260,8 @@
         }
 
         // 移动到最终地点
-        public void moveToPos(UnityEngine.Vector3 destPos)
+        //public void moveToPos(UnityEngine.Vector3 destPos)
+        public void setDestPos(UnityEngine.Vector3 destPos)
         {
             this.mDestPos = destPos;
 
@@ -325,10 +329,11 @@
             }
         }
 
-        virtual public void lookAt(UnityEngine.Vector3 targetPt)
+        virtual public void setDestPosAndDestRotate(UnityEngine.Vector3 targetPt, bool immePos, bool immeRotate)
         {
             UnityEngine.Quaternion retQuat = UtilMath.getRotateByStartAndEndPoint(this.mEntity.getPos(), targetPt);
-            (this.mEntity as BeingEntity).setDestRotate(retQuat.eulerAngles, true);
+            (this.mEntity as BeingEntity).setDestRotate(retQuat.eulerAngles, immeRotate);
+            (this.mEntity as BeingEntity).setDestRotate(retQuat.eulerAngles, immeRotate);
         }
 
         virtual public void movePause()
