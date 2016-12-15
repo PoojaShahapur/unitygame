@@ -804,7 +804,25 @@ namespace SDK.Lib
         {
             UnityEngine.Vector3 ac = cPoint - aPoint;
             UnityEngine.Vector3 bc = cPoint - bPoint;
+
             if(UnityEngine.Vector3.Dot(ac, bc) > 0)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        /**
+         * @brief 判断碰撞对象是在运动方向的后面
+         * @param direct 运动方向
+         * @param collision 碰撞信息
+         */
+        public static bool isBehindCollidePoint(UnityEngine.Vector3 pos, UnityEngine.Vector3 direct, Collision collision)
+        {
+            UnityEngine.Vector3 normal = collision.contacts[0].normal;
+
+            if (UnityEngine.Vector3.Dot(normal, direct) > 0)
             {
                 return true;
             }

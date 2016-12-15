@@ -8,7 +8,7 @@
 
         }
 
-        override public void overlapTo(BeingEntity bBeingEntity)
+        override public void overlapToEnter(BeingEntity bBeingEntity, UnityEngine.Collider collider)
         {
             if (bBeingEntity.getEntityType() == EntityType.eSnowBlock)
             {

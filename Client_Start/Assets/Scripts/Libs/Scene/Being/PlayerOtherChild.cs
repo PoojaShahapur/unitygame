@@ -6,7 +6,7 @@
             : base(parentPlayer)
         {
             this.mTypeId = "PlayerOtherChild";
-            this.mEntityType = EntityType.ePlayerChild;
+            this.mEntityType = EntityType.ePlayerOtherChild;
             this.mMovement = new PlayerOtherChildMovement(this);
             this.mAttack = new PlayerOtherChildAttack(this);
             this.mEntityUniqueId = Ctx.mInstance.mPlayerMgr.genChildNewStrId();

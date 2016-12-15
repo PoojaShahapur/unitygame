@@ -4,10 +4,11 @@
     {
         ePlayerMain = 0,
         ePlayerOther = 1,
-        ePlayerChild = 2,
-        eRobot = 3,
-        eSnowBlock = 4,
-        ePlayerTarget = 5,
-        eCount = 6,
+        ePlayerMainChild = 2,
+        ePlayerOtherChild = 3,
+        eRobot = 4,
+        eSnowBlock = 5,
+        ePlayerTarget = 6,
+        eCount = 7,
     }
 }

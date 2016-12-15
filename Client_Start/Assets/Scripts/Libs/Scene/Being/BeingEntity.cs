@@ -247,9 +247,19 @@ namespace SDK.Lib
             return ret;
         }
 
-        public void overlapTo(BeingEntity bBeingEntity)
+        public void overlapToEnter(BeingEntity bBeingEntity, UnityEngine.Collider collider)
         {
-            this.mAttack.overlapTo(bBeingEntity);
+            this.mAttack.overlapToEnter(bBeingEntity, collider);
+        }
+
+        public void overlapToStay(BeingEntity bBeingEntity, UnityEngine.Collision collision)
+        {
+            this.mAttack.overlapToStay(bBeingEntity, collision);
+        }
+
+        public void overlapToExit(BeingEntity bBeingEntity, UnityEngine.Collision collision)
+        {
+            this.mAttack.overlapToExit(bBeingEntity, collision);
         }
 
         // 是否需要分离
