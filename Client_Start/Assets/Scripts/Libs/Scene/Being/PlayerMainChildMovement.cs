@@ -33,7 +33,7 @@
         {
             //base.moveForward();
 
-            if(BeingState.BSIdle == (this.mEntity as BeingEntity).getBeingState())
+            //if(BeingState.BSIdle == (this.mEntity as BeingEntity).getBeingState())
             {
                 this.updateDir();   // 如果从空闲状态开始走，第一次需要更新一下方向
             }

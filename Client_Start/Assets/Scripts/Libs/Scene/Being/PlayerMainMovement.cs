@@ -76,6 +76,7 @@
         {
             base.addActorLocalOffset(DeltaLocation);
             //(this.mEntity as Player).mPlayerSplitMerge.reduceTargetLength(-DeltaLocation.z);
+            (this.mEntity as Player).mPlayerSplitMerge.calcTargetPoint();
             this.mPosChangedDisp.dispatchEvent(this);
         }
 
@@ -83,6 +84,7 @@
         {
             base.addActorLocalDestOffset(DeltaLocation);
             //(this.mEntity as Player).mPlayerSplitMerge.reduceTargetLength(-DeltaLocation.z);
+            (this.mEntity as Player).mPlayerSplitMerge.calcTargetPoint();
             this.mPosChangedDisp.dispatchEvent(this);
         }
 
