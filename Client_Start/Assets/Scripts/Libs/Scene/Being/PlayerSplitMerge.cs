@@ -108,14 +108,14 @@
             this.mTargetLength = mRangeBox.getHalfZ() * Ctx.mInstance.mPlayerMgr.mK + Ctx.mInstance.mPlayerMgr.mN;
         }
 
-        public void reduceTargetLength(float length)
-        {
-            mTargetLength -= length;
-            if(mTargetLength <= 0)
-            {
-                mTargetLength = 0;
-            }
-        }
+        //public void reduceTargetLength(float length)
+        //{
+        //    mTargetLength -= length;
+        //    if(mTargetLength <= 0)
+        //    {
+        //        mTargetLength = 0;
+        //    }
+        //}
 
         // 计算目标点
         public void calcTargetPoint()
@@ -123,6 +123,8 @@
             if (this.mTargetLength > 0)
             {
                 this.mTargetPoint = mEntity.getPos() + mEntity.getRotate() * new UnityEngine.Vector3(0, 0, this.mTargetLength);
+
+                Ctx.mInstance.mPlayerMgr.setPlayerTargetPos(this.mTargetPoint);
             }
         }
 

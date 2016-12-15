@@ -35,6 +35,7 @@
             this.updateChildDestDir();
         }
 
+        // 每一次分裂确定一次目标点，其它时候不改变目标点
         override protected void onNoFirstSplit()
         {
             PlayerMainChild child;
@@ -48,27 +49,32 @@
 
             while (idx < num)
             {
-                player = this.mPlayerChildMgr.getEntityByIndex(idx) as PlayerChild;
-                pos = player.getPos();
-                this.mRangeBox.setExtents(pos.x, pos.y, pos.z);
+                //int childIdx = 0;
+                //while (childIdx < 5)
+                {
+                    player = this.mPlayerChildMgr.getEntityByIndex(idx) as PlayerChild;
+                    pos = player.getPos();
+                    this.mRangeBox.setExtents(pos.x, pos.y, pos.z);
 
-                child = new PlayerMainChild(mParentPlayer);
-                child.init();
+                    child = new PlayerMainChild(mParentPlayer);
+                    child.init();
 
-                //UnityEngine.Vector3 initPos = player.getPos() + player.getRotate() * new UnityEngine.Vector3(0, 0, player.getEatSize() + 5);
-                UnityEngine.Vector3 initPos = player.getPos() + UtilMath.UnitCircleRandom();
-                child.setOriginal(initPos);
-                child.setEatSize(player.getEatSize() / 2);
+                    //UnityEngine.Vector3 initPos = player.getPos() + player.getRotate() * new UnityEngine.Vector3(0, 0, player.getEatSize() + 5);
+                    UnityEngine.Vector3 initPos = player.getPos() + UtilMath.UnitCircleRandom();
+                    child.setOriginal(initPos);
+                    child.setEatSize(player.getEatSize());
 
-                // 设置分裂半径
-                player.setEatSize(player.getEatSize() / 2);
+                    // 设置分裂半径
+                    player.setEatSize(player.getEatSize());
 
-                // 添加 Child 事件
-                ((this.mEntity as PlayerMain).mMovement as PlayerMainMovement).addOrientChangedHandle((child.mMovement as PlayerMainChildMovement).handleParentOrientChanged);
-                ((this.mEntity as PlayerMain).mMovement as PlayerMainMovement).addPosChangedHandle((child.mMovement as PlayerMainChildMovement).handleParentPosChanged);
-                ((this.mEntity as PlayerMain).mMovement as PlayerMainMovement).addOrientStopChangedHandle((child.mMovement as PlayerMainChildMovement).handleParentOrientStopChanged);
-                ((this.mEntity as PlayerMain).mMovement as PlayerMainMovement).addPosStopChangedHandle((child.mMovement as PlayerMainChildMovement).handleParentPosStopChanged);
+                    // 添加 Child 事件
+                    ((this.mEntity as PlayerMain).mMovement as PlayerMainMovement).addOrientChangedHandle((child.mMovement as PlayerMainChildMovement).handleParentOrientChanged);
+                    ((this.mEntity as PlayerMain).mMovement as PlayerMainMovement).addPosChangedHandle((child.mMovement as PlayerMainChildMovement).handleParentPosChanged);
+                    ((this.mEntity as PlayerMain).mMovement as PlayerMainMovement).addOrientStopChangedHandle((child.mMovement as PlayerMainChildMovement).handleParentOrientStopChanged);
+                    ((this.mEntity as PlayerMain).mMovement as PlayerMainMovement).addPosStopChangedHandle((child.mMovement as PlayerMainChildMovement).handleParentPosStopChanged);
 
+                    //++childIdx;
+                }
                 ++idx;
             }
 

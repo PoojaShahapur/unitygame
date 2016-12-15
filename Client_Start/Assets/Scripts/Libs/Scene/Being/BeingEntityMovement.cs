@@ -103,6 +103,15 @@
             this.mIsAutoPath = false;
         }
 
+        // 向前移动进行分离
+        public void moveForwardSeparate()
+        {
+            (this.mEntity as BeingEntity).setBeingState(BeingState.BSSeparation);
+
+            this.setIsMoveToDest(true);
+            this.mIsAutoPath = false;
+        }
+
         // 向后移动
         //virtual public void moveBack()
         //{
@@ -138,8 +147,11 @@
         // 停止移动
         virtual public void stopMove()
         {
-            (this.mEntity as BeingEntity).setBeingState(BeingState.BSIdle);
-            this.setIsMoveToDest(false);
+            if (BeingState.BSIdle != (this.mEntity as BeingEntity).getBeingState())
+            {
+                (this.mEntity as BeingEntity).setBeingState(BeingState.BSIdle);
+                this.setIsMoveToDest(false);
+            }
         }
 
         virtual public void stopRotate()
@@ -150,7 +162,7 @@
         // 控制向前移动
         public void moveForwardToDest(float delta)
         {
-            (this.mEntity as BeingEntity).setBeingState(BeingState.BSWalk);
+            //(this.mEntity as BeingEntity).setBeingState(BeingState.BSWalk);
 
             UnityEngine.Vector3 localMove = new UnityEngine.Vector3(0.0f, 0.0f, (mEntity as BeingEntity).mMoveSpeed * delta);
             this.addActorLocalOffset(localMove);
@@ -316,12 +328,7 @@
         virtual public void lookAt(UnityEngine.Vector3 targetPt)
         {
             UnityEngine.Quaternion retQuat = UtilMath.getRotateByStartAndEndPoint(this.mEntity.getPos(), targetPt);
-            this.setDestRotate(retQuat.eulerAngles);
-        }
-
-        virtual public void moveAlong()
-        {
-
+            (this.mEntity as BeingEntity).setDestRotate(retQuat.eulerAngles, true);
         }
 
         virtual public void movePause()

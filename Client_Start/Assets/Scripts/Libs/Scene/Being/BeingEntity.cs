@@ -21,7 +21,7 @@ namespace SDK.Lib
             //m_skinAniModel.handleCB = onSkeletonLoaded;
             this.mBeingState = BeingState.BSIdle;
 
-            this.mMoveSpeed = 0.1f;
+            this.mMoveSpeed = 1;
             this.mRotateSpeed = 5;
             this.mScaleSpeed = 1;
 
@@ -214,7 +214,10 @@ namespace SDK.Lib
 
         public void setBeingState(BeingState state)
         {
-            this.mBeingState = state;
+            if (this.mBeingState != state)
+            {
+                this.mBeingState = state;
+            }
         }
 
         public BeingState getBeingState()
@@ -254,6 +257,18 @@ namespace SDK.Lib
         {
             UnityEngine.Vector3 direction = other.getPos() - this.getPos();
             if(direction.magnitude < this.getEatSize() + other.getEatSize())
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        // 通过当前状态判断是否可以进行分离
+        public bool canSeparateByState()
+        {
+            if(BeingState.BSIdle == this.mBeingState ||
+               BeingState.BSSeparation == this.mBeingState)
             {
                 return true;
             }

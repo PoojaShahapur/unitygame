@@ -28,6 +28,29 @@
             this.Update();
         }
 
+        // 被控制的时候向前移动，需要走这里
+        public void moveForwardAndUpdateDir()
+        {
+            //base.moveForward();
+
+            if(BeingState.BSIdle == (this.mEntity as BeingEntity).getBeingState())
+            {
+                this.updateDir();   // 如果从空闲状态开始走，第一次需要更新一下方向
+            }
+
+            (this.mEntity as BeingEntity).setBeingState(BeingState.BSWalk);
+            this.setIsMoveToDest(true);
+
+            if ((this.mEntity as PlayerMainChild).isBehindTargetPoint())
+            {
+                this.mIsAutoPath = true;
+            }
+            else
+            {
+                this.mIsAutoPath = false;
+            }
+        }
+
         // Parent Player 方向改变事件处理器
         public void handleParentOrientChanged(IDispatchObject dispObj)
         {
@@ -37,7 +60,7 @@
         // Parent Player 位置改变事件处理器
         public void handleParentPosChanged(IDispatchObject dispObj)
         {
-            this.moveAlong();
+            this.moveForwardAndUpdateDir();
         }
 
         // 方向停止改变
@@ -54,7 +77,18 @@
 
         protected void updateDir()
         {
-            this.lookAt((this.mEntity as PlayerChild).mParentPlayer.mPlayerSplitMerge.getTargetPoint());
+            UnityEngine.Vector3 targetPoint;
+
+            if ((this.mEntity as PlayerMainChild).isBehindTargetPoint())
+            {
+                targetPoint = (this.mEntity as PlayerChild).mParentPlayer.mPlayerSplitMerge.getTargetPoint();
+            }
+            else
+            {
+                targetPoint = this.mEntity.getPos() + (this.mEntity as PlayerChild).mParentPlayer.getRotate() * new UnityEngine.Vector3(0, 0, (this.mEntity as BeingEntity).mMoveSpeed * Ctx.mInstance.mSystemTimeData.deltaSec);
+            }
+
+            this.lookAt(targetPoint);
         }
 
         //---------------------- Flock Start-----------------------------
@@ -272,6 +306,10 @@
             // to normalize, divided another time to get 1/d falloff)
             // 如果正好重叠， offset 正好是 0
             UnityEngine.Vector3 offset = other.getPos()- this.mEntity.getPos();
+            if(UnityEngine.Vector3.zero == offset)  // 如果两个位置重叠
+            {
+                offset = UtilMath.UnitCircleRandom();   // 获取一个单位圆随机位置
+            }
             float offsetSqrMag = offset.sqrMagnitude;
 
             steering = (offset / -offsetSqrMag);
@@ -304,7 +342,7 @@
                     //if (this.IsDirectionInRange(direction))
                     if((this.mEntity as BeingEntity).isNeedSeparate(other as BeingEntity))
                     {
-                        steering = this.CalculateNeighborContribution(other);
+                        steering += this.CalculateNeighborContribution(other);
                     }
                 }
             }
@@ -323,16 +361,19 @@
 
         private void Update()
         {
-            UnityEngine.Vector3 steering = this.CalculateForces();
-            if (UnityEngine.Vector3.zero != steering)
+            if ((this.mEntity as BeingEntity).canSeparateByState())
             {
-                UnityEngine.Quaternion rotate = UtilMath.getRotateByOrient(steering);
-                (this.mEntity as PlayerMainChild).setDestRotate(rotate.eulerAngles, true);
-                this.moveForward();
-            }
-            else
-            {
-                this.stopMove();
+                UnityEngine.Vector3 steering = this.CalculateForces();
+                if (UnityEngine.Vector3.zero != steering)
+                {
+                    UnityEngine.Quaternion rotate = UtilMath.getRotateByOrient(steering);
+                    (this.mEntity as PlayerMainChild).setDestRotate(rotate.eulerAngles, true);
+                    this.moveForwardSeparate();
+                }
+                else
+                {
+                    this.stopMove();
+                }
             }
         }
 

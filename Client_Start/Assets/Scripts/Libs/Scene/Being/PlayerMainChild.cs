@@ -25,5 +25,16 @@
             this.mMovement.init();
             this.mAttack.init();
         }
+
+        // 自己当前是否在分裂目标点的后面
+        public bool isBehindTargetPoint()
+        {
+            if (UtilMath.isABehindC(this.getPos(), this.mParentPlayer.getPos(), this.mParentPlayer.mPlayerSplitMerge.getTargetPoint()))
+            {
+                return true;
+            }
+
+            return false;
+        }
     }
 }

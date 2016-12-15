@@ -796,5 +796,20 @@ namespace SDK.Lib
             if (x > upperBound) return +1;
             return 0;
         }
+
+        /**
+         * @brief 判断 A 是否在 C 的后面
+          */
+        public static bool isABehindC(UnityEngine.Vector3 aPoint, UnityEngine.Vector3 bPoint, UnityEngine.Vector3 cPoint)
+        {
+            UnityEngine.Vector3 ac = cPoint - aPoint;
+            UnityEngine.Vector3 bc = cPoint - bPoint;
+            if(UnityEngine.Vector3.Dot(ac, bc) > 0)
+            {
+                return true;
+            }
+
+            return false;
+        }
     }
 }

@@ -16,13 +16,6 @@
             //this.moveToPos(targetPt);
         }
 
-        // 继续向前移动
-        override public void moveAlong()
-        {
-            base.moveAlong();
-            this.setIsMoveToDest(true);
-        }
-
         // 移动暂停
         override public void movePause()
         {
