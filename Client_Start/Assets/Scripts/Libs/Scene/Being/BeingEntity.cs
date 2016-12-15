@@ -21,7 +21,7 @@ namespace SDK.Lib
             //m_skinAniModel.handleCB = onSkeletonLoaded;
             this.mBeingState = BeingState.BSIdle;
 
-            this.mMoveSpeed = 5;
+            this.mMoveSpeed = 0.1f;
             this.mRotateSpeed = 5;
             this.mScaleSpeed = 1;
 

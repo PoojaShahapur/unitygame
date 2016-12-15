@@ -281,8 +281,20 @@ namespace SDK.Lib
 
         static public float UnitRandom()
         {
-            UnityEngine.Random.seed = (int)UtilApi.getUTCSec();
-            return UnityEngine.Random.Range(0, int.MaxValue) / int.MaxValue;
+            //UnityEngine.Random.seed = (int)UtilApi.getUTCSec();
+            UnityEngine.Random.InitState((int)UtilApi.getUTCSec());
+            return UnityEngine.Random.Range(0, float.MaxValue) / float.MaxValue;
+        }
+
+        // 在单位圆内随机一个点
+        static public UnityEngine.Vector3 UnitCircleRandom()
+        {
+            UnityEngine.Vector3 orient = new UnityEngine.Vector3(
+                UtilMath.UnitRandom(), 
+                UtilMath.UnitRandom(), 
+                UtilMath.UnitRandom());
+
+            return orient;
         }
 
         static public float Clamp(float value, float min, float max)

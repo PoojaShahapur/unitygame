@@ -56,7 +56,7 @@
                 child.init();
 
                 //UnityEngine.Vector3 initPos = player.getPos() + player.getRotate() * new UnityEngine.Vector3(0, 0, player.getEatSize() + 5);
-                UnityEngine.Vector3 initPos = player.getPos() + player.getRotate() * new UnityEngine.Vector3(0, 0, 1);
+                UnityEngine.Vector3 initPos = player.getPos() + UtilMath.UnitCircleRandom();
                 child.setOriginal(initPos);
                 child.setEatSize(player.getEatSize() / 2);
 
