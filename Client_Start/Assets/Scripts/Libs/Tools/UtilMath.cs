@@ -759,12 +759,30 @@ namespace SDK.Lib
             return retQuat;
         }
 
+        /**
+         * @param forward 转向的方向
+         * @ret 转向的四元数
+         */
+        public static UnityEngine.Quaternion getRotateByOrient(UnityEngine.Vector3 forward)
+        {
+            UnityEngine.Quaternion retQuat;
+            retQuat = UnityEngine.Quaternion.LookRotation(forward);
+            return retQuat;
+        }
+
         public static bool isInvalidNum(float value)
         {
             return float.IsInfinity(value) ||
                    float.IsNaN(value) ||
                    float.IsNegativeInfinity(value) ||
                    float.IsPositiveInfinity(value);
+        }
+
+        public static int IntervalComparison(float x, float lowerBound, float upperBound)
+        {
+            if (x < lowerBound) return -1;
+            if (x > upperBound) return +1;
+            return 0;
         }
     }
 }

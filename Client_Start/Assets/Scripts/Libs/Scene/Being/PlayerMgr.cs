@@ -59,14 +59,14 @@ namespace SDK.Lib
             return mChildUniqueStrIdGen.genNewStrId();
         }
 
-        public void createPlayer()
+        public void createPlayerMain()
         {
             float x = UtilApi.rangRandom(PlayerMgr.xlimit_min, PlayerMgr.xlimit_max);
             float z = UtilApi.rangRandom(PlayerMgr.zlimit_min, PlayerMgr.zlimit_max);
 
             mHero = new PlayerMain();
             mHero.init();
-            mHero.setDestPos(new UnityEngine.Vector3(10, 1.3f, 10f), true);
+            mHero.setDestPos(new UnityEngine.Vector3(50, 1.3f, 50f), true);
             mHero.setDestRotate(UnityEngine.Quaternion.identity.eulerAngles, true);
         }
 

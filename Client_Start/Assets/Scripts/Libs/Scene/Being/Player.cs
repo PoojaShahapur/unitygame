@@ -107,6 +107,16 @@ namespace SDK.Lib
             return null;
         }
 
+        public MList<SceneEntityBase> getChildList()
+        {
+            if (null != this.mPlayerSplitMerge)
+            {
+                return this.mPlayerSplitMerge.mPlayerChildMgr.getSceneEntityList();
+            }
+
+            return null;
+        }
+
         //--------------------------------------
         //public bool m_isRobot;//是否为机器人
 

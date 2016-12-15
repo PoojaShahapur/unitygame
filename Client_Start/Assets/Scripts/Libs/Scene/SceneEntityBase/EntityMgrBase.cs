@@ -153,5 +153,10 @@ namespace SDK.Lib
         {
             return this.mSceneEntityList.Count();
         }
+
+        public MList<SceneEntityBase> getSceneEntityList()
+        {
+            return this.mSceneEntityList;
+        }
     }
 }
