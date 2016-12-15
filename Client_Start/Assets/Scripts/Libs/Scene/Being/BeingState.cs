@@ -9,6 +9,7 @@
         BSWalk,         // 走状态
         BSRun,          // 跑状态
         BSSeparation,   // 分离状态
+        BSBirth,        // 出生状态
     }
 
     /**
@@ -38,5 +39,17 @@
         {
             return eBeingActId.ActIdle;
         }
+    }
+
+    /**
+     * @brief 移动方式
+     */
+    public enum MoveWay
+    {
+        eNone,          // 没有移动
+        eAutoPathMove,  // 自动寻路
+        eIOControlMove, // IO 控制移动
+        eSeparateMove,  // 分离移动
+        eBirthMove,     // 出生移动
     }
 }

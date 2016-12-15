@@ -188,48 +188,5 @@
                 mEntity.getRotateEulerAngle().y
                 );
         }
-
-        //---------------------- Flock Start-----------------------------
-        //public UnityEngine.Vector3 bound;
-
-        //// Use this for initialization
-        //protected void Start()
-        //{
-        //    this.bound = new UnityEngine.Vector3(5, 0, 5);
-        //    CalculateNextMovementPoint();
-        //}
-
-        //protected void CalculateNextMovementPoint()
-        //{
-        //    UnityEngine.Vector3 initialPosition = this.mEntity.getPos();
-        //    float posX = UnityEngine.Random.Range(initialPosition.x - bound.x, initialPosition.x + bound.x);
-        //    float posY = UnityEngine.Random.Range(initialPosition.y - bound.y, initialPosition.y + bound.y);
-        //    float posZ = UnityEngine.Random.Range(initialPosition.z - bound.z, initialPosition.z + bound.z);
-
-        //    UnityEngine.Vector3 nextMovementPoint = initialPosition + new UnityEngine.Vector3(posX, posY, posZ);
-
-        //    (this.mEntity as BeingEntity).setDestPos(nextMovementPoint, false);
-
-        //    Ctx.mInstance.mPlayerMgr.setPlayerTargetPos(nextMovementPoint);
-        //}
-
-        //public bool mIsCalcNextPoint = false;
-        //// Update is called once per frame
-        //protected void Update()
-        //{
-        //    //transform.Translate(UnityEngine.Vector3.forward * speed * Ctx.mInstance.mSystemTimeData.deltaSec);
-        //    //transform.rotation = UnityEngine.Quaternion.Slerp(transform.rotation, UnityEngine.Quaternion.LookRotation(nextMovementPoint - transform.position), 1.0f * Ctx.mInstance.mSystemTimeData.deltaSec);
-
-        //    //if (UnityEngine.Vector3.Distance(this.mDestPos, this.mEntity.getPos()) <= 10.0f)
-        //    if (!this.isMoveToDest())
-        //    {
-        //        if (!mIsCalcNextPoint)
-        //        {
-        //            mIsCalcNextPoint = true;
-        //            CalculateNextMovementPoint();
-        //        }
-        //    }
-        //}
-        //---------------------- Flock End --------------------------
     }
 }

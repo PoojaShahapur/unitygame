@@ -14,7 +14,7 @@
         protected bool mIsScaleToDest;  // 是否需要缩放到目标大小
 
         protected float mAcceleration;  // 线性加速度
-        protected bool mIsAutoPath;     // 是否是自动寻路，或者是通过控制向前移动
+        protected MoveWay mMoveWay;     // 移动方式
 
         public BeingEntityMovement(SceneEntityBase entity)
             : base(entity)
@@ -22,7 +22,7 @@
             this.mIsMoveToDest = false;
             this.mIsRotateToDest = false;
             this.mIsScaleToDest = false;
-            this.mIsAutoPath = false;
+            this.mMoveWay = MoveWay.eNone;
         }
 
         public bool isMoveToDest()
@@ -67,13 +67,16 @@
 
             if (this.mIsMoveToDest)
             {
-                if (this.mIsAutoPath)
+                if (MoveWay.eAutoPathMove == this.mMoveWay ||
+                    MoveWay.eBirthMove == this.mMoveWay)
                 {
+                    // 设置目标点移动
                     this.moveToDest(delta);
                 }
-                else
+                else if(MoveWay.eIOControlMove == this.mMoveWay ||
+                        MoveWay.eSeparateMove == this.mMoveWay)
                 {
-                    // 其它控制向前移动
+                    // 设置前向方向移动
                     this.moveForwardToDest(delta);
                 }
             }
@@ -113,7 +116,7 @@
                 (this.mEntity as BeingEntity).setBeingState(BeingState.BSWalk);
 
                 this.setIsMoveToDest(true);
-                this.mIsAutoPath = false;
+                this.mMoveWay = MoveWay.eIOControlMove;
             }
         }
 
@@ -125,7 +128,19 @@
                 (this.mEntity as BeingEntity).setBeingState(BeingState.BSSeparation);
 
                 this.setIsMoveToDest(true);
-                this.mIsAutoPath = false;
+                this.mMoveWay = MoveWay.eSeparateMove;
+            }
+        }
+
+        // 向前移动出生
+        public void moveForwardBirth()
+        {
+            if (BeingState.BSBirth != (this.mEntity as BeingEntity).getBeingState())
+            {
+                (this.mEntity as BeingEntity).setBeingState(BeingState.BSBirth);
+
+                this.setIsMoveToDest(true);
+                this.mMoveWay = MoveWay.eBirthMove;
             }
         }
 
@@ -257,7 +272,7 @@
         public void onArriveDestPos()
         {
             this.mIsMoveToDest = false;
-            this.mIsAutoPath = false;
+            this.mMoveWay = MoveWay.eNone;
             (this.mEntity as BeingEntity).setBeingState(BeingState.BSIdle);
         }
 
@@ -282,7 +297,8 @@
             if (!UtilMath.isVectorEqual(mDestPos, mEntity.getPos()))
             {
                 this.mIsMoveToDest = true;
-                this.mIsAutoPath = true;
+                this.mMoveWay = MoveWay.eAutoPathMove;
+
                 (this.mEntity as BeingEntity).setBeingState(BeingState.BSWalk);
 
                 // 计算最终方向
