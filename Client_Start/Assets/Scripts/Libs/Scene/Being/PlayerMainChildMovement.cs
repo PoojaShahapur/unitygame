@@ -97,13 +97,10 @@
             transformComponent = transform;
 
             //Temporary components
-            PlayerMainChildMovement[] tempFlocks = null;
+            PlayerMovement[] tempFlocks = null;
 
             //Get all the unity flock components from the parent transform in the group
-            //if (transform.parent)
-            //{
-                tempFlocks = (this.mEntity as PlayerChild).mParentPlayer.getAllChildMovement() as PlayerMainChildMovement[];
-            //}
+            tempFlocks = (this.mEntity as PlayerChild).mParentPlayer.getAllChildMovement();
 
             //Assign and store all the flock objects in this group
             objects = new UnityEngine.Transform[tempFlocks.Length];
@@ -111,7 +108,7 @@
 
             for (int i = 0; i < tempFlocks.Length; i++)
             {
-                objects[i] = tempFlocks[i].transform;
+                objects[i] = (tempFlocks[i] as PlayerMainChildMovement).transform;
                 otherFlocks[i] = (PlayerMainChildMovement)tempFlocks[i];
             }
 
