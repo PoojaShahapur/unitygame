@@ -11,7 +11,10 @@
             if (null != bUserData)
             {
                 BeingEntity bBeingEntity = bUserData.getUserData() as BeingEntity;
-                aBeingEntity.overlapToStay(bBeingEntity, collision);
+                if (!Ctx.mInstance.mFrameCollideMgr.isOrAddCollidedInCurFrame(aBeingEntity.getEntityUniqueId(), bBeingEntity.getEntityUniqueId()))
+                {
+                    aBeingEntity.overlapToStay(bBeingEntity, collision);
+                }
             }
         }
 
@@ -24,7 +27,10 @@
             if (null != bUserData)
             {
                 BeingEntity bBeingEntity = bUserData.getUserData() as BeingEntity;
-                aBeingEntity.overlapToExit(bBeingEntity, collision);
+                if (!Ctx.mInstance.mFrameCollideMgr.isOrAddCollidedInCurFrame(aBeingEntity.getEntityUniqueId(), bBeingEntity.getEntityUniqueId()))
+                {
+                    aBeingEntity.overlapToExit(bBeingEntity, collision);
+                }
             }
         }
     }

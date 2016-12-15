@@ -111,7 +111,11 @@ namespace SDK.Lib
         public void setMoveSpeed(float value)
         {
             this.mMoveSpeed = value;
-            this.mMoveSpeed = 1;
+        }
+
+        public float getMoveSpeed()
+        {
+            return this.mMoveSpeed;
         }
 
         public void setRotateSpeed(float value)

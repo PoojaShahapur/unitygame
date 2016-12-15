@@ -245,6 +245,13 @@ namespace SDK.Lib
             }
         }
 
+        // 获取前向向量
+        public UnityEngine.Vector3 getForward()
+        {
+            UnityEngine.Vector3 forward = this.mRotate * UnityEngine.Vector3.forward;
+            return forward;
+        }
+
         public UnityEngine.Quaternion getRotate()
         {
             return this.mRotate;
