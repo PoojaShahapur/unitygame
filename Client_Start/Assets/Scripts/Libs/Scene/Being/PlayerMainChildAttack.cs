@@ -11,17 +11,25 @@
         override public void overlapToStay(BeingEntity bBeingEntity, UnityEngine.Collision collision)
         {
             // 如果和 PlayerMainChild 碰撞
-            if (EntityType.ePlayerMainChild == bBeingEntity.getEntityType())
+            if (EntityType.ePlayerMainChild == bBeingEntity.getEntityType() ||
+                EntityType.ePlayerMain == bBeingEntity.getEntityType())
             {
-                if (UtilMath.isBehindCollidePoint(this.mEntity.getPos(), this.mEntity.getForward(), collision))
+                if (this.mEntity.canReduceSpeed() || bBeingEntity.canReduceSpeed())
                 {
-                    // 需要减小速度
-                    this.mEntity.setMoveSpeed(bBeingEntity.getMoveSpeed());
+                    if (UtilMath.isBehindCollidePoint(this.mEntity.getPos(), this.mEntity.getForward(), collision))
+                    {
+                        // 需要减小速度
+                        this.mEntity.setMoveSpeed(bBeingEntity.getMoveSpeed());
+                    }
+                    else
+                    {
+                        bBeingEntity.setMoveSpeed(this.mEntity.getMoveSpeed());
+                    }
                 }
-                else
-                {
-                    bBeingEntity.setMoveSpeed(this.mEntity.getMoveSpeed());
-                }
+            }
+            else if(EntityType.ePlayerOtherChild == bBeingEntity.getEntityType())
+            {
+                // 如果碰撞 PlayerOtherChild
             }
         }
 

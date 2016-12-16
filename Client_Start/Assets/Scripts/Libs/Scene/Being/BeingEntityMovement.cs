@@ -35,6 +35,11 @@
             if (this.mIsMoveToDest != isMove)
             {
                 this.mIsMoveToDest = isMove;
+
+                if(false == this.mIsMoveToDest)
+                {
+                    this.mMoveWay = MoveWay.eNone;
+                }
             }
         }
 
@@ -201,7 +206,7 @@
 
             if (dist > deltaSpeed)
             {
-                (this.mEntity as BeingEntity).setBeingState(BeingState.BSWalk);
+                //(this.mEntity as BeingEntity).setBeingState(BeingState.BSWalk);
 
                 UnityEngine.Vector3 localMove = new UnityEngine.Vector3(0.0f, 0.0f, (mEntity as BeingEntity).mMoveSpeed * delta);
                 this.addActorLocalDestOffset(localMove);
@@ -260,7 +265,6 @@
         public void onArriveDestPos()
         {
             this.setIsMoveToDest(false);
-            this.mMoveWay = MoveWay.eNone;
             (this.mEntity as BeingEntity).setBeingState(BeingState.BSIdle);
         }
 

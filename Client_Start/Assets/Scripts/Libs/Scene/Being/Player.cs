@@ -9,11 +9,11 @@ namespace SDK.Lib
 
         public Player()
 		{
-            //m_skinAniModel.m_modelList = new SkinSubModel[(int)ePlayerModelType.eModelTotal];
+            //mSkinAniModel.m_modelList = new SkinSubModel[(int)ePlayerModelType.eModelTotal];
             //int idx = 0;
             //while (idx < (int)ePlayerModelType.eModelTotal)
             //{
-            //    m_skinAniModel.m_modelList[idx] = new SkinSubModel();
+            //    mSkinAniModel.m_modelList[idx] = new SkinSubModel();
             //    ++idx;
             //}
         }

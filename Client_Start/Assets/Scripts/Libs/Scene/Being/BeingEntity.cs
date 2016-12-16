@@ -5,7 +5,7 @@ namespace SDK.Lib
 	 */
     public class BeingEntity : SceneEntityBase
     {
-        protected SkinModelSkelAnim m_skinAniModel;      // 模型数据
+        protected SkinModelSkelAnim mSkinAniModel;      // 模型数据
         protected BeingState mBeingState;       // 当前的状态
 
         public float mMoveSpeed;     // 移动速度
@@ -17,8 +17,8 @@ namespace SDK.Lib
 
         public BeingEntity()
         {
-            //m_skinAniModel = new SkinModelSkelAnim();
-            //m_skinAniModel.handleCB = onSkeletonLoaded;
+            //mSkinAniModel = new SkinModelSkelAnim();
+            //mSkinAniModel.handleCB = onSkeletonLoaded;
             this.mBeingState = BeingState.BSIdle;
 
             this.mMoveSpeed = 1;
@@ -32,25 +32,25 @@ namespace SDK.Lib
         {
             get
             {
-                return m_skinAniModel;
+                return mSkinAniModel;
             }
         }
 
         // 骨骼设置，骨骼不能更换
         public void setSkeleton(string name)
         {
-            //if(string.IsNullOrEmpty(m_skinAniModel.m_skeletonName))
+            //if(string.IsNullOrEmpty(mSkinAniModel.m_skeletonName))
             //{
-            //    m_skinAniModel.m_skeletonName = name;
-            //    m_skinAniModel.loadSkeleton();
+            //    mSkinAniModel.m_skeletonName = name;
+            //    mSkinAniModel.loadSkeleton();
             //}
         }
 
         public void setPartModel(int modelDef, string assetBundleName, string partName)
         {
-            //m_skinAniModel.m_modelList[modelDef].m_bundleName = string.Format("{0}{1}", assetBundleName, ".prefab");
-            //m_skinAniModel.m_modelList[modelDef].m_partName = partName;
-            //m_skinAniModel.loadPartModel(modelDef);
+            //mSkinAniModel.m_modelList[modelDef].m_bundleName = string.Format("{0}{1}", assetBundleName, ".prefab");
+            //mSkinAniModel.m_modelList[modelDef].m_partName = partName;
+            //mSkinAniModel.loadPartModel(modelDef);
         }
 
         public virtual void onSkeletonLoaded()
@@ -313,6 +313,17 @@ namespace SDK.Lib
         {
             if(BeingState.BSIdle == this.mBeingState ||
                BeingState.BSSeparation == this.mBeingState)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        // 通过当前状态判断是否需要减速
+        public bool canReduceSpeed()
+        {
+            if (BeingState.BSWalk == this.mBeingState)
             {
                 return true;
             }

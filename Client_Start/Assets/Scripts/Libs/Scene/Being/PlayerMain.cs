@@ -28,7 +28,7 @@ namespace SDK.Lib
         public override void onSkeletonLoaded()
         {
             base.onSkeletonLoaded();
-            //Transform tran = m_skinAniModel.transform.FindChild("Reference/Hips");
+            //Transform tran = mSkinAniModel.transform.FindChild("Reference/Hips");
             //if(tran)
             //{
                 //Ctx.mInstance.mCamSys.m_sceneCam.setTarget(tran);
@@ -37,10 +37,10 @@ namespace SDK.Lib
 
         public void evtMove()
         {
-            //if (m_skinAniModel.animSys.animator && Camera.main)
+            //if (mSkinAniModel.animSys.animator && Camera.main)
             //{
-            //    Do(m_skinAniModel.transform, Camera.main.transform, ref speed, ref direction);
-            //    m_skinAniModel.animSys.Do(speed * 6, direction * 180);
+            //    Do(mSkinAniModel.transform, Camera.main.transform, ref speed, ref direction);
+            //    mSkinAniModel.animSys.Do(speed * 6, direction * 180);
             //}
         }
 

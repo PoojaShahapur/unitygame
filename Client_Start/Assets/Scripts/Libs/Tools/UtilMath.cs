@@ -814,15 +814,15 @@ namespace SDK.Lib
         }
 
         /**
-         * @brief 判断碰撞对象是在运动方向的后面
+         * @brief 判断碰撞对象是在前向还是后面，如果在球体的前半部分，与 forward 的关系是小于 90 ，否则大于 90
          * @param direct 运动方向
          * @param collision 碰撞信息
          */
-        public static bool isBehindCollidePoint(UnityEngine.Vector3 pos, UnityEngine.Vector3 direct, Collision collision)
+        public static bool isBehindCollidePoint(UnityEngine.Vector3 pos, UnityEngine.Vector3 forward, Collision collision)
         {
             UnityEngine.Vector3 normal = collision.contacts[0].normal;
 
-            if (UnityEngine.Vector3.Dot(normal, direct) > 0)
+            if (UnityEngine.Vector3.Dot(normal, forward) < 0)
             {
                 return true;
             }
