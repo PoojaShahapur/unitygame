@@ -11,7 +11,7 @@ M.clsName = "EntityRenderBase";
 GlobalNS[M.clsName] = M;
 
 function M:ctor(entity_)
-    self.m_entity = entity_;
+    self.mEntity = entity_;
 end
 
 function M:setClientDispose()
@@ -19,7 +19,7 @@ function M:setClientDispose()
 end
 
 function M:getClientDispose()
-    return self.m_entity:getClientDispose();
+    return self.mEntity:getClientDispose();
 end
 
 function M:gameObject()

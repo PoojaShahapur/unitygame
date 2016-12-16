@@ -9,9 +9,9 @@ M.clsName = "MLinkListNode";
 GlobalNS[M.clsName] = M;
 
 function M:ctor()
-    self.m_data = nil;
-    self.m_prev = nil
-    self.m_next = nil;
+    self.mData = nil;
+    self.mPrev = nil
+    self.mNext = nil;
 end
 
 function M:dtor()
@@ -19,27 +19,27 @@ function M:dtor()
 end
 
 function M:setData(value)
-    self.m_data = value;
+    self.mData = value;
 end
 
 function M:getData()
-    return self.m_data
+    return self.mData
 end
 
 function M:setPrev(value)
-    self.m_prev = value
+    self.mPrev = value
 end
 
 function M:getPrev()
-    return self.m_prev
+    return self.mPrev
 end
 
 function M:setNext(value)
-    self.m_next = value;
+    self.mNext = value;
 end
 
 function M:getNext()
-    return self.m_next
+    return self.mNext
 end
 
 return M;

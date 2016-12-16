@@ -14,7 +14,7 @@ M.clsName = "MList";
 GlobalNS[M.clsName] = M;
 
 function M:ctor()
-    self.m_data = {};
+    self.mData = {};
 end
 
 function M:dtor()
@@ -24,8 +24,8 @@ end
 -- 获取数组中元素的个数
 function M:getLen()
 	local ret = 0;
-    if (self.m_data ~= nil) then
-        ret = table.getn(self.m_data);
+    if (self.mData ~= nil) then
+        ret = table.getn(self.mData);
     end
     
     return ret;
@@ -34,8 +34,8 @@ end
 -- 获取数组和哈希表中元素的个数
 function M:getAllLen()
     local ret = 0;
-    if (self.m_data ~= nil) then
-        for _, value in pairs(self.m_data) do
+    if (self.mData ~= nil) then
+        for _, value in pairs(self.mData) do
             ret = ret + 1;
         end
     end
@@ -48,7 +48,7 @@ function M:Count()
 end
 
 function M:list()
-    return self.m_data;
+    return self.mData;
 end
 
 function M:Add(value)
@@ -57,14 +57,14 @@ end
 
 -- 表添加是从索引 1 开始的， ipairs 遍历也是从下表 1 开始的，因此，如果是 0 可能有问题，第 0 个元素不能遍历
 function M:add(value)
-	table.insert(self.m_data, value);
-    -- self.m_data[self:getLen() + 1] = value;
+	table.insert(self.mData, value);
+    -- self.mData[self:getLen() + 1] = value;
 end
 
 -- 向列表中插入一个值
 function M:insert(index, value)
     if(index < self:Count()) then
-        table.insert(self.m_data, index + 1, value);
+        table.insert(self.mData, index + 1, value);
     else
         self:add(value);
     end
@@ -79,8 +79,8 @@ function M:remove(value)
     local idx = 1;
     local bFind = false;
     while( idx < self:getLen() + 1 ) do
-        if (self:cmpFunc(self.m_data[idx], value) == 0) then
-            table.remove(self.m_data, idx);
+        if (self:cmpFunc(self.mData[idx], value) == 0) then
+            table.remove(self.mData, idx);
             bFind = true
             break;
         end
@@ -95,8 +95,8 @@ function M:removeAllEqual(value)
     local idx = self:getLen();
     local bFind = false;
     while( idx > 0 ) do
-        if (self:cmpFunc(self.m_data[idx], value) == 0) then
-            table.remove(self.m_data, idx);
+        if (self:cmpFunc(self.mData[idx], value) == 0) then
+            table.remove(self.mData, idx);
             bFind = true
         end
         idx = idx - 1;
@@ -107,7 +107,7 @@ end
 
 function M:removeAt(index)
 	if (index < self.Count()) then
-		table.remove(self.m_data, index + 1);  	-- 需要添加 1 ，作为删除的索引
+		table.remove(self.mData, index + 1);  	-- 需要添加 1 ，作为删除的索引
 		return true;
 	end
 	
@@ -117,7 +117,7 @@ end
 function M:removeAtAndRet(index)
     local ret;
     if (index < self.Count()) then
-        ret = table.remove(self.m_data, index + 1);    -- 需要添加 1 ，作为删除的索引
+        ret = table.remove(self.mData, index + 1);    -- 需要添加 1 ，作为删除的索引
     end
     
     return ret;
@@ -125,7 +125,7 @@ end
 
 function M:at(index)
     if (index < self:getLen()) then
-        return self.m_data[index + 1];
+        return self.mData[index + 1];
     end
     
     return nil;
@@ -135,7 +135,7 @@ function M:IndexOf(value)
     local idx = 1;
     local bFind = false;
     while (idx < self:getLen() + 1 ) do
-        if (self:cmpFunc(self.m_data[idx], value) == 0) then
+        if (self:cmpFunc(self.mData[idx], value) == 0) then
             bFind = true;
             break;
         end
@@ -157,7 +157,7 @@ function M:find(value, pThis, func)
     local index = 1;
     local bFind = false;
     while(index < self:getLen() + 1) do
-        if (self:cmpFunc(self.m_data[index], value) == 0) then
+        if (self:cmpFunc(self.mData[index], value) == 0) then
             bFind = true;
             break;
         end
@@ -165,7 +165,7 @@ function M:find(value, pThis, func)
     end
     
     if (bFind) then
-        return self.m_data[index];
+        return self.mData[index];
     else
         return nil;
     end
@@ -188,7 +188,7 @@ function M:getOrCreate(value, cls, pThis, func)
 end
 
 function M:Clear()
-    self.m_data = {};
+    self.mData = {};
 end
 
 -- 排序
@@ -202,14 +202,14 @@ function M:sort(pThis, func)
     local temp;
     local jIndex = 0;
     for index = 2, len, 1 do
-        if (self:cmpFunc(self.m_data[index - 1], self.m_data[index]) == 1) then
-            temp = self.m_data[index];
+        if (self:cmpFunc(self.mData[index - 1], self.mData[index]) == 1) then
+            temp = self.mData[index];
             jIndex = index;
-            while (jIndex > 1 and self.cmpFunc(self.m_data[jIndex - 1], temp) == 1) do
-                self.m_data[jIndex] = self.m_data[jIndex - 1];
+            while (jIndex > 1 and self.cmpFunc(self.mData[jIndex - 1], temp) == 1) do
+                self.mData[jIndex] = self.mData[jIndex - 1];
                 jIndex = jIndex - 1;
             end
-            self.m_data[jIndex] = temp;
+            self.mData[jIndex] = temp;
         end
     end
 end

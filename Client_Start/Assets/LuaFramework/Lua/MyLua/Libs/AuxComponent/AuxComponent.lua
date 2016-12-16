@@ -3,11 +3,11 @@ M.clsName = "AuxComponent";
 GlobalNS[M.clsName] = M;
 
 function M:ctor()
-    self.m_selfGo = nil;                  -- 自己节点
-    self.m_pntGo = nil;                   -- 指向父节点
-    self.m_placeHolderGo = nil;           -- 自己节点，资源挂在 m_placeHolderGo 上， m_placeHolderGo 挂在 m_pntGo 上
-    self.m_bNeedPlaceHolderGo = nil;      -- 是否需要占位 GameObject
-    self.m_visible = true;
+    self.mSelfGo = nil;                  -- 自己节点
+    self.mPntGo = nil;                   -- 指向父节点
+    self.mPlaceHolderGo = nil;           -- 自己节点，资源挂在 mPlaceHolderGo 上， mPlaceHolderGo 挂在 mPntGo 上
+    self.mIsNeedPlaceHolderGo = nil;      -- 是否需要占位 GameObject
+    self.mIsVisible = true;
 end
 
 function M:dtor()
@@ -19,59 +19,59 @@ function M:setSelfName(name_)
 end
 
 function M:setSelfGo(value)
-    local bPntChange = self:bChange(self.m_selfGo, value);
-    self.m_selfGo = value;
+    local bPntChange = self:bChange(self.mSelfGo, value);
+    self.mSelfGo = value;
     if (bPntChange) then
         self:onSelfChanged();
     end
     
-    GlobalNS.UtilApi.SetActive(self.m_selfGo, self.m_visible);
+    GlobalNS.UtilApi.SetActive(self.mSelfGo, self.mIsVisible);
 end
 
 function M:getSelfGo()
-    return self.m_selfGo;
+    return self.mSelfGo;
 end
 
 function M:setPntGo(value)
-    local bPntChange = self:bChange(self.m_pntGo, value);
-    self.m_pntGo = value;
+    local bPntChange = self:bChange(self.mPntGo, value);
+    self.mPntGo = value;
     if (bPntChange) then
         self:onPntChanged();
     end
 end
 
 function M:getPntGo()
-    return self.m_pntGo;
+    return self.mPntGo;
 end
 
 function M:getNeedPlaceHolderGo()
-    return self.m_bNeedPlaceHolderGo;
+    return self.mIsNeedPlaceHolderGo;
 end
 
 function M:setNeedPlaceHolderGo(value)
-    self.m_bNeedPlaceHolderGo = value;
-    if(self.m_bNeedPlaceHolderGo) then
-        if (self.m_placeHolderGo == nil) then
-            self.m_placeHolderGo = GlobalNS.UtilApi.createGameObject("PlaceHolderGO");
+    self.mIsNeedPlaceHolderGo = value;
+    if(self.mIsNeedPlaceHolderGo) then
+        if (self.mPlaceHolderGo == nil) then
+            self.mPlaceHolderGo = GlobalNS.UtilApi.createGameObject("PlaceHolderGO");
         end
     end
 end
 
 function M:getPlaceHolderGo()
-    return self.m_placeHolderGo;
+    return self.mPlaceHolderGo;
 end
 
 function M:setPlaceHolderGo(value)
-    self.m_placeHolderGo = value;
+    self.mPlaceHolderGo = value;
 end
 
 function M:isSelfValid()
-    return self.m_selfGo ~= nil;
+    return self.mSelfGo ~= nil;
 end
 
 function M:dispose()
-    if (self.m_bNeedPlaceHolderGo ~= nil and self.m_placeHolderGo ~= nil) then
-        GlobalNS.UtilApi.Destroy(self.m_placeHolderGo);
+    if (self.mIsNeedPlaceHolderGo ~= nil and self.mPlaceHolderGo ~= nil) then
+        GlobalNS.UtilApi.Destroy(self.mPlaceHolderGo);
     end
 end
 
@@ -94,30 +94,30 @@ function M:onSelfChanged()
 end
 
 function M:linkPlaceHolder2Parent()
-    if (self.m_placeHolderGo == nil) then
-        self.m_placeHolderGo = GlobalNS.UtilApi.createGameObject("PlaceHolderGO");
+    if (self.mPlaceHolderGo == nil) then
+        self.mPlaceHolderGo = GlobalNS.UtilApi.createGameObject("PlaceHolderGO");
     end
-    GlobalNS.UtilApi.SetParent(self.m_placeHolderGo, self.m_pntGo, false);
+    GlobalNS.UtilApi.SetParent(self.mPlaceHolderGo, self.mPntGo, false);
 end
 
 function M:linkSelf2Parent()
-    if (self.m_selfGo ~= nil and self.m_pntGo ~= nil) then   -- 现在可能还没有创建
-        GlobalNS.UtilApi.SetParent(self.m_selfGo, self.m_pntGo, false);
+    if (self.mSelfGo ~= nil and self.mPntGo ~= nil) then   -- 现在可能还没有创建
+        GlobalNS.UtilApi.SetParent(self.mSelfGo, self.mPntGo, false);
     end
 end
 
 function M:show()
-    if (self.m_selfGo ~= nil) then
-        GlobalNS.UtilApi.SetActive(self.m_selfGo, true);
+    if (self.mSelfGo ~= nil) then
+        GlobalNS.UtilApi.SetActive(self.mSelfGo, true);
     end
 end
 
 function M:hide()
-    if (self.m_selfGo ~= nil and self:IsVisible()) then
-        GlobalNS.UtilApi.SetActive(self.m_selfGo, false);
+    if (self.mSelfGo ~= nil and self:IsVisible()) then
+        GlobalNS.UtilApi.SetActive(self.mSelfGo, false);
     end
 end
 
 function M:IsVisible()
-    return GlobalNS.UtilApi.IsActive(self.m_selfGo);
+    return GlobalNS.UtilApi.IsActive(self.mSelfGo);
 end

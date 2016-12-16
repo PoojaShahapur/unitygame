@@ -7,9 +7,9 @@ M.clsName = "CallFuncObjectBase";
 GlobalNS[M.clsName] = M;
 
 function M:ctor()
-    self.m_handle = nil;
-    self.m_pThis = nil;
-    self.m_param = nil;
+    self.mHandle = nil;
+    self.mThis = nil;
+    self.mParam = nil;
 end
 
 function M:dtor()
@@ -21,15 +21,15 @@ function M:setPThisAndHandle(pThis, handle, param)
 end
 
 function M:clear()
-    self.m_pThis = nil;
-    self.m_handle = nil;
-    self.m_param = nil;
+    self.mThis = nil;
+    self.mHandle = nil;
+    self.mParam = nil;
 end
 
 function M:isValid()
-    if(nil ~= self.m_pThis and nil ~= self.m_handle) then
+    if(nil ~= self.mThis and nil ~= self.mHandle) then
         return true;
-    elseif(nil ~= self.m_handle) then
+    elseif(nil ~= self.mHandle) then
         return true;
     else
         return false;

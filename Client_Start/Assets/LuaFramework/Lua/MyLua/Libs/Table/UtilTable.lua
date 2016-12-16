@@ -8,13 +8,13 @@ M.clsName = "UtilTable";
 GlobalNS[M.clsName] = M;
 
 function M.ctor()
-    this.m_prePos = 0;        -- 记录之前的位置
-    this.m_sCnt = 0;
+    this.mPrePos = 0;        -- 记录之前的位置
+    this.mSCnt = 0;
 end
 
 function M.readString(bytes, tmpStr)
-    _, this.m_sCnt = bytes:readUnsignedInt16(this.m_sCnt);
-    _, tmpStr = bytes:readMultiByte(tmpStr, this.m_sCnt, GlobalNS.CSSystem.GkEncode.eUTF8);
+    _, this.mSCnt = bytes:readUnsignedInt16(this.mSCnt);
+    _, tmpStr = bytes:readMultiByte(tmpStr, this.mSCnt, GlobalNS.CSSystem.GkEncode.eUTF8);
 	return tmpStr;
 end
 

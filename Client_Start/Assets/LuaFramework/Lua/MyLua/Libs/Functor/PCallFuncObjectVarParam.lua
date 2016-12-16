@@ -16,9 +16,9 @@ function M:dtor()
 end
 
 function M:setPThisAndHandle(pThis, handle, ...)
-	self.m_pThis = pThis;
-	self.m_handle = handle;
-	self.m_param = {...};
+	self.mThis = pThis;
+	self.mHandle = handle;
+	self.mParam = {...};
 end
 
 function M:call()
@@ -26,18 +26,18 @@ function M:call()
     local flag;
     local msg;
     
-    if(nil ~= self.m_pThis and nil ~= self.m_handle) then
+    if(nil ~= self.mThis and nil ~= self.mHandle) then
         func = function() 
-            return self.m_handle(self.m_pThis, unpack(self.m_param)) 
+            return self.mHandle(self.mThis, unpack(self.mParam)) 
         end
         flag, msg = xpcall(func, traceback)
         if(not flag) then
             self:error(flag, msg);
         end
         return msg
-    elseif nil ~= self.m_handle then
+    elseif nil ~= self.mHandle then
         func = function() 
-            self.func(unpack(self.m_param)) 
+            self.func(unpack(self.mParam)) 
         end
         flag, msg = xpcall(func, traceback)
         if(not flag) then
@@ -52,7 +52,7 @@ end
 function M:error(status, value)
     if not status then
         -- 获取当前堆栈信息
-        value = debug.traceback(self.m_handle, value)              
+        value = debug.traceback(self.mHandle, value)              
         error(value)              
     end
 end

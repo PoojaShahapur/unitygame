@@ -8,7 +8,7 @@ M.clsName = "EntityMgrBase";
 GlobalNS[M.clsName] = M;
 
 function M:ctor()
-    self.m_sceneEntityList = GlobalNS.new(GlobalNS.MList);
+    self.mSceneEntityList = GlobalNS.new(GlobalNS.MList);
 end
 
 function M:addObject(entity, priority)
@@ -18,7 +18,7 @@ function M:addObject(entity, priority)
     if (self:bInDepth()) then
         M.super.addObject(self, entity);
     else
-        self.m_sceneEntityList:Add(entity);
+        self.mSceneEntityList:Add(entity);
     end
 end
 
@@ -26,7 +26,7 @@ function M:removeObject(entity)
     if (self:bInDepth()) then
         M.super.removeObject(self, entity);
     else
-        self.m_sceneEntityList:Remove(entity);
+        self.mSceneEntityList:Remove(entity);
     end
 end
 
@@ -39,7 +39,7 @@ function M:onTick(delta)
 end
 
 function M:onTickExec(delta)
-    for _, entity in ipairs(self.m_sceneEntityList:list()) do
+    for _, entity in ipairs(self.mSceneEntityList:list()) do
         if (not entity.getClientDispose()) then
             entity.onTick(delta);
         end

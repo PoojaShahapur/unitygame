@@ -35,9 +35,9 @@ function M:onInit()
 
     --排名信息
     self.topN = { };
-    self.topN[1] = {m_isRobot=false, m_name="528", m_radius=1, m_swallownum=10};
+    self.topN[1] = {m_isRobot=false, mName="528", m_radius=1, m_swallownum=10};
     for i=2,itemCount do
-        self.topN[i] = {m_isRobot=true, m_name="god", m_radius=i, m_swallownum=i+10};
+        self.topN[i] = {m_isRobot=true, mName="god", m_radius=i, m_swallownum=i+10};
     end
 end
 
@@ -121,7 +121,7 @@ function M:SetMyRankInfo()
 
             --用户名
             local myName = GlobalNS.UtilApi.getComByPath(self.mMyRankArea, "Name", "Text");
-            myName.text = self.topN[i].m_name;
+            myName.text = self.topN[i].mName;
 
             --本轮质量
             local myMass = GlobalNS.UtilApi.getComByPath(self.mMyRankArea, "Mass", "Text");
@@ -151,7 +151,7 @@ function M:SetTopXRankInfo()
 
         --用户名
         local Name = GlobalNS.UtilApi.getComByPath(listitem, "Name", "Text");
-        Name.text = self.topN[i].m_name;
+        Name.text = self.topN[i].mName;
 
         --本轮质量
         local Mass = GlobalNS.UtilApi.getComByPath(listitem, "Mass", "Text");

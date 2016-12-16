@@ -11,7 +11,7 @@ M.clsName = "TextCompTimer";
 GlobalNS[M.clsName] = M;
 
 function M:ctor()
-    self.m_text = nil;
+    self.mText = nil;
 end
 
 function M:onPreCallBack()

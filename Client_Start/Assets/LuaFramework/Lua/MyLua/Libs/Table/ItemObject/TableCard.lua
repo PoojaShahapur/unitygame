@@ -31,81 +31,81 @@ M.clsName = "TableCardItemBody";
 GlobalNS[M.clsName] = M;
 
 function M:ctor()
-    self.m_name = "";        -- 名称
-    self.m_type = 0;           -- 类型
-    self.m_career = 0;         -- 职业
-    self.m_race = 0;           -- 种族
-    self.m_quality = 0;        -- 品质
+    self.mName = "";        -- 名称
+    self.mType = 0;           -- 类型
+    self.mCareer = 0;         -- 职业
+    self.mRace = 0;           -- 种族
+    self.mQuality = 0;        -- 品质
     
-    self.m_magicConsume = 0;   -- 魔法消耗
-    self.m_attack = 0;         -- 攻击力
-    self.m_hp = 0;             -- 血量
-    self.m_Durable = 0;        -- 耐久
+    self.mMagicConsume = 0;   -- 魔法消耗
+    self.mAttack = 0;         -- 攻击力
+    self.mHp = 0;             -- 血量
+    self.mDurable = 0;        -- 耐久
     
-    self.m_chaoFeng = 0;      -- 嘲讽
-    self.m_chongFeng = 0;     -- 冲锋
-    self.m_fengNu = 0;        -- 风怒
-    self.m_qianXing = 0;      -- 潜行
-    self.m_shengDun = 0;      -- 圣盾
+    self.mChaoFeng = 0;      -- 嘲讽
+    self.mChongFeng = 0;     -- 冲锋
+    self.mFengNu = 0;        -- 风怒
+    self.mQianXing = 0;      -- 潜行
+    self.mShengDun = 0;      -- 圣盾
     
-    self.m_mpAdded = 0;       -- 魔法伤害增加
-    self.m_guoZai = 0;        -- 过载
+    self.mMpAdded = 0;       -- 魔法伤害增加
+    self.mGuoZai = 0;        -- 过载
     
-    self.m_faShu = 0;         -- 法术
-    self.m_zhanHou = 0;       -- 战吼
-    self.m_bNeedFaShuTarget = 0;     -- 是否需要法术目标，这个是出牌后是否需要选择目录，这个技能是否需要在目标位置释放，需要看技能表
-    self.m_bNeedZhanHouTarget = 0;    -- 战吼需要目标
-    self.m_cardDesc = "";           -- 卡牌描述
-    self.m_cardHeader = "";         -- 卡牌头像贴图路径，卡牌模型中头像
+    self.mFaShu = 0;         -- 法术
+    self.mZhanHou = 0;       -- 战吼
+    self.mIsNeedFaShuTarget = 0;     -- 是否需要法术目标，这个是出牌后是否需要选择目录，这个技能是否需要在目标位置释放，需要看技能表
+    self.mIsNeedZhanHouTarget = 0;    -- 战吼需要目标
+    self.mCardDesc = "";           -- 卡牌描述
+    self.mCardHeader = "";         -- 卡牌头像贴图路径，卡牌模型中头像
     
-    self.m_cardSetCardHeader = "";    -- 卡牌头像贴图路径，卡组中卡牌资源
-    self.m_dzCardHeader = "";         -- 卡牌头像贴图路径，对战中卡牌图像
-    self.m_skillPrepareEffect = 0;     -- 技能攻击准备特效
+    self.mCardSetCardHeader = "";    -- 卡牌头像贴图路径，卡组中卡牌资源
+    self.mDzCardHeader = "";         -- 卡牌头像贴图路径，对战中卡牌图像
+    self.mSkillPrepareEffect = 0;     -- 技能攻击准备特效
 end
 
 function M:parseBodyByteBuffer(bytes, offset)
     bytes:setPos(offset);
-    self.m_name = GlobalNS.UtilTable.readString(bytes, self.m_name);
+    self.mName = GlobalNS.UtilTable.readString(bytes, self.mName);
 
-    _, self.m_type = bytes:readInt32(self.m_type);
-    _, self.m_career = bytes:readInt32(self.m_career);
-    _, self.m_race = bytes:readInt32(self.m_race);
-    _, self.m_quality = bytes:readInt32(self.m_quality);
-    _, self.m_magicConsume = bytes:readInt32(self.m_magicConsume);
+    _, self.mType = bytes:readInt32(self.mType);
+    _, self.mCareer = bytes:readInt32(self.mCareer);
+    _, self.mRace = bytes:readInt32(self.mRace);
+    _, self.mQuality = bytes:readInt32(self.mQuality);
+    _, self.mMagicConsume = bytes:readInt32(self.mMagicConsume);
 
-    _, self.m_attack = bytes:readInt32(self.m_attack);
-    _, self.m_hp = bytes:readInt32(self.m_hp);
-    _, self.m_Durable = bytes:readInt32(self.m_Durable);
+    _, self.mAttack = bytes:readInt32(self.mAttack);
+    _, self.mHp = bytes:readInt32(self.mHp);
+    _, self.mDurable = bytes:readInt32(self.mDurable);
 
-    _, self.m_chaoFeng = bytes:readInt32(self.m_chaoFeng);
-    _, self.m_chongFeng = bytes:readInt32(self.m_chongFeng);
-    _, self.m_fengNu = bytes:readInt32(self.m_fengNu);
-    _, self.m_qianXing = bytes:readInt32(self.m_qianXing);
-    _, self.m_shengDun = bytes:readInt32(self.m_shengDun);
-    _, self.m_mpAdded = bytes:readInt32(self.m_mpAdded);
-    _, self.m_guoZai = bytes:readInt32(self.m_guoZai);
-    _, self.m_faShu = bytes:readInt32(self.m_faShu);
-    _, self.m_zhanHou = bytes:readInt32(self.m_zhanHou);
-    _, self.m_bNeedFaShuTarget = bytes:readUnsignedInt8(self.m_bNeedFaShuTarget);
-    _, self.m_bNeedZhanHouTarget = bytes:readInt32(self.m_bNeedZhanHouTarget);
-    self.m_cardDesc = GlobalNS.UtilTable.readString(bytes, self.m_cardDesc);
-    self.m_cardHeader = GlobalNS.UtilTable.readString(bytes, self.m_cardHeader);
-    _, self.m_skillPrepareEffect = bytes:readUnsignedInt32(self.m_skillPrepareEffect);
+    _, self.mChaoFeng = bytes:readInt32(self.mChaoFeng);
+    _, self.mChongFeng = bytes:readInt32(self.mChongFeng);
+    _, self.mFengNu = bytes:readInt32(self.mFengNu);
+    _, self.mQianXing = bytes:readInt32(self.mQianXing);
+    _, self.mShengDun = bytes:readInt32(self.mShengDun);
+    _, self.mMpAdded = bytes:readInt32(self.mMpAdded);
+    _, self.mGuoZai = bytes:readInt32(self.mGuoZai);
+    _, self.mFaShu = bytes:readInt32(self.mFaShu);
+    _, self.mZhanHou = bytes:readInt32(self.mZhanHou);
+    _, self.mIsNeedFaShuTarget = bytes:readUnsignedInt8(self.mIsNeedFaShuTarget);
+    _, self.mIsNeedZhanHouTarget = bytes:readInt32(self.mIsNeedZhanHouTarget);
+    self.mCardDesc = GlobalNS.UtilTable.readString(bytes, self.mCardDesc);
+    self.mCardHeader = GlobalNS.UtilTable.readString(bytes, self.mCardHeader);
+    _, self.mSkillPrepareEffect = bytes:readUnsignedInt32(self.mSkillPrepareEffect);
 
     self:initDefaultValue();
 end
 
 function M:initDefaultValue()
-    if (self.m_cardHeader == nil) then
-        self.m_cardHeader = "gaibangzhutu_kapai";
+    if (self.mCardHeader == nil) then
+        self.mCardHeader = "gaibangzhutu_kapai";
     end
 
-    self.m_cardSetCardHeader = string.format("%s_2", self.m_cardHeader);
-    self.m_dzCardHeader = string.format("%s_3", self.m_cardHeader);
-    self.m_cardHeader = string.format("%s_1", self.m_cardHeader);
+    self.mCardSetCardHeader = string.format("%s_2", self.mCardHeader);
+    self.mDzCardHeader = string.format("%s_3", self.mCardHeader);
+    self.mCardHeader = string.format("%s_1", self.mCardHeader);
 
-    if (self.m_skillPrepareEffect == 0) then
-        self.m_skillPrepareEffect = 4;
+    if (self.mSkillPrepareEffect == 0) then
+        self.mSkillPrepareEffect = 4;
     end
 end
 

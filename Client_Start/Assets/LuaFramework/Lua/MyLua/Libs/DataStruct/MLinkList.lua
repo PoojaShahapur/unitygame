@@ -12,9 +12,9 @@ M.clsName = "MLinkList";
 GlobalNS[M.clsName] = M;
 
 function M:ctor()
-    self.m_head = nil;  -- 头指针
-    self.m_tail = nil;  -- 尾指针
-    self.m_count = 0    -- 总共数量
+    self.mHead = nil;  -- 头指针
+    self.mTail = nil;  -- 尾指针
+    self.mCount = 0    -- 总共数量
 end
 
 function M:dtor()
@@ -22,13 +22,13 @@ function M:dtor()
 end
 
 function M:isEmpty()
-    return self.m_count == 0;
+    return self.mCount == 0;
 end
 
 function M:at(index)
     if index < self:getLen() then
         local idx = 0;
-        local ret = self.m_head;
+        local ret = self.mHead;
         
         while(idx < index) do
             idx = idx + 1;
@@ -50,37 +50,37 @@ function M:count()
 end
 
 function M:getLen()
-    return self.m_count;
+    return self.mCount;
 end
 
 -- 在 Head 添加一个 Node
 function M:addHead(value)
-    self.m_count = self.m_count + 1;
+    self.mCount = self.mCount + 1;
     
     local node = GlobalNS.new(GlobalNS.MLinkListNode)
     
     node:setData(value)
-    node:setNext(self.m_head);
+    node:setNext(self.mHead);
     
-    self.m_head = node;
+    self.mHead = node;
     
-    if(self.m_tail == nil) then
-        self.m_tail = node
+    if(self.mTail == nil) then
+        self.mTail = node
     end
 end
 
 function M:removeHead()
-    if(self.m_head ~= nil) then
-        self.m_count = self.m_count - 1;
+    if(self.mHead ~= nil) then
+        self.mCount = self.mCount - 1;
         
         local ret;
-        ret = self.m_head;
-        self.m_head = self.m_head:getNext();
+        ret = self.mHead;
+        self.mHead = self.mHead:getNext();
         
-        if(self.m_head == nil) then
-            self.m_tail = nil;
+        if(self.mHead == nil) then
+            self.mTail = nil;
         else
-            self.m_head:setPrev(nil);
+            self.mHead:setPrev(nil);
         end
         
         return ret;
@@ -90,32 +90,32 @@ function M:removeHead()
 end
 
 function M:addTail(value)
-    self.m_count = self.m_count + 1;
+    self.mCount = self.mCount + 1;
     
     local node = GlobalNS.new(GlobalNS.MLinkListNode);
     
     node:setData(value);
-    node:setPrev(self.m_tail);
+    node:setPrev(self.mTail);
 
-    if(self.m_tail ~= nil) then
-        self.m_tail:setNext(node);
+    if(self.mTail ~= nil) then
+        self.mTail:setNext(node);
     else
-        self.m_head = node;
+        self.mHead = node;
     end
     
-    self.m_tail = node;
+    self.mTail = node;
 end
 
 function M:removeTail()
-    if(self.m_tail ~= nil) then
-        self.m_count = self.m_count + 1;
+    if(self.mTail ~= nil) then
+        self.mCount = self.mCount + 1;
         
         local ret;
-        ret = self.m_tail;
-        self.m_tail = self.m_tail:getPrev();
+        ret = self.mTail;
+        self.mTail = self.mTail:getPrev();
         
-        if(self.m_tail == nil) then
-            self.m_head = nil;
+        if(self.mTail == nil) then
+            self.mHead = nil;
         end
         
         return ret;
@@ -129,7 +129,7 @@ function M:insert(index, data)
     if(index == 0) then
         -- 插入在开头
         self:addHead(data)
-    elseif(index < self.m_count) then
+    elseif(index < self.mCount) then
         -- 如果插入位置不是在结尾
         local elem = self:at(index);
         local node = GlobalNS.new(GlobalNS.MLinkListNode);
@@ -142,7 +142,7 @@ function M:insert(index, data)
         end
         elem:setPrev(node);
         
-        self.m_count = self.m_count + 1;
+        self.mCount = self.mCount + 1;
     else
         -- 如果插入位置在结尾
         self:addTail(data);
@@ -150,15 +150,15 @@ function M:insert(index, data)
 end
 
 function M:removeAt(index)
-    if(index < self.m_count) then
+    if(index < self.mCount) then
         if(index == 0) then
             self:removeHead();
-        elseif(index == self.m_count - 1) then
+        elseif(index == self.mCount - 1) then
             self:removeTail();
         else
             -- LinkList 不使用 table ，而是使用的是 node 连接的
             local idx = 0;
-            local ret = self.m_head;
+            local ret = self.mHead;
             
             while(idx < index) do
                 idx = idx + 1;
@@ -176,7 +176,7 @@ function M:removeAt(index)
 end
 
 function M:remove(value)
-    local elem = self.m_head;
+    local elem = self.mHead;
     local bFind = false
     
     while(elem ~= nil) do
@@ -187,11 +187,11 @@ function M:remove(value)
                 elem:getNext():setPrev(elem:getPrev());
             end
             
-            if(self.m_head == elem) then
-                self.m_head = elem:getNext();
+            if(self.mHead == elem) then
+                self.mHead = elem:getNext();
             end
-            if(self.m_tail == elem) then
-                self.m_tail = elem:getPrev(); 
+            if(self.mTail == elem) then
+                self.mTail = elem:getPrev(); 
             end
             
             break;
@@ -205,7 +205,7 @@ end
 function M:find(value, func, pThis)
     self:setFuncObject(pThis, func);
 
-    local elem = self.m_head;
+    local elem = self.mHead;
     local bFind = false;
     
     while(elem ~= nil) do
@@ -225,7 +225,7 @@ end
 
 function M:tostring()
     local str = ''
-    local elem = self.m_head;
+    local elem = self.mHead;
     
     while(elem ~= nil) do
         str = str .. elem:getData();

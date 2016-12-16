@@ -34,7 +34,7 @@ function M:AuxButton_1(...)
     
     self.m_eventDisp = GlobalNS.new(GlobalNS.EventDispatch);
     if (pntNode ~= nil) then
-        self.m_selfGo = GlobalNS.UtilApi.TransFindChildByPObjAndPath(pntNode, path);
+        self.mSelfGo = GlobalNS.UtilApi.TransFindChildByPObjAndPath(pntNode, path);
         self:updateBtnCom(nil);
     end
 end
@@ -46,9 +46,9 @@ function M:onSelfChanged()
 end
 
 function M:updateBtnCom(dispObj)
-    self.m_btn = GlobalNS.UtilApi.getComFromSelf(self.m_selfGo, GlobalNS.AuxUITypeId.Button);
+    self.m_btn = GlobalNS.UtilApi.getComFromSelf(self.mSelfGo, GlobalNS.AuxUITypeId.Button);
     --GlobalNS.UtilApi.addEventHandle(self.m_btn, self, self.onBtnClk);
-	GlobalNS.UtilApi.addEventHandleSelf(self.m_selfGo, self, self.onBtnClk);
+	GlobalNS.UtilApi.addEventHandleSelf(self.mSelfGo, self, self.onBtnClk);
 end
 
 function M:enable()

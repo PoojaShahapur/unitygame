@@ -10,58 +10,58 @@ M.clsName = "TableJobItemBody";
 GlobalNS[M.clsName] = M;
 
 function M:ctor()
-    self.m_jobName = "";                -- 职业名称
-    self.m_jobDesc = "";                -- 职业描述
-    self.m_frameImage = "";             -- 门派底图资源(这个是场景卡牌需要的资源)
-    self.m_yaoDaiImage = "";            -- 卡牌名字腰带资源(这个是场景卡牌需要的资源)
-    self.m_jobRes = "";                 -- 门派选择资源(门派名字资源是这个资源名字加上 __name 组成，例如这个名字是 aaa ，那么名字的资源名字就是 aaa_name)
-    self.m_cardSetRes = "";             -- 门派卡组资源
-    self.m_skillName = "";              -- 技能名称
-    self.m_skillDesc = "";              -- 技能描述
-    self.m_skillRes = "";               -- 技能图标资源
+    self.mJobName = "";                -- 职业名称
+    self.mJobDesc = "";                -- 职业描述
+    self.mFrameImage = "";             -- 门派底图资源(这个是场景卡牌需要的资源)
+    self.mYaoDaiImage = "";            -- 卡牌名字腰带资源(这个是场景卡牌需要的资源)
+    self.mJobRes = "";                 -- 门派选择资源(门派名字资源是这个资源名字加上 __name 组成，例如这个名字是 aaa ，那么名字的资源名字就是 aaa_name)
+    self.mCardSetRes = "";             -- 门派卡组资源
+    self.mSkillName = "";              -- 技能名称
+    self.mSkillDesc = "";              -- 技能描述
+    self.mSkillRes = "";               -- 技能图标资源
     
-    self.m_jobNameRes = "";             -- 这个字段表中没有配置
-    self.m_jobBtnRes = "";              -- 职业按钮资源
+    self.mJobNameRes = "";             -- 这个字段表中没有配置
+    self.mJobBtnRes = "";              -- 职业按钮资源
 end
 
 function M:parseBodyByteBuffer(bytes, offset)
     bytes.position = offset;
-    self.m_jobName = GlobalNS.UtilTable.readString(bytes, self.m_jobName);
-    self.m_jobDesc = GlobalNS.UtilTable.readString(bytes, self.m_jobDesc);
-    self.m_frameImage = GlobalNS.UtilTable.readString(bytes, self.m_frameImage);
-    self.m_yaoDaiImage = GlobalNS.UtilTable.readString(bytes, self.m_yaoDaiImage);
+    self.mJobName = GlobalNS.UtilTable.readString(bytes, self.mJobName);
+    self.mJobDesc = GlobalNS.UtilTable.readString(bytes, self.mJobDesc);
+    self.mFrameImage = GlobalNS.UtilTable.readString(bytes, self.mFrameImage);
+    self.mYaoDaiImage = GlobalNS.UtilTable.readString(bytes, self.mYaoDaiImage);
 
-    self.m_jobRes = GlobalNS.UtilTable.readString(bytes, self.m_jobRes);
-    self.m_cardSetRes = GlobalNS.UtilTable.readString(bytes, self.m_cardSetRes);
-    self.m_skillName = GlobalNS.UtilTable.readString(bytes, self.m_skillName);
-    self.m_skillDesc = GlobalNS.UtilTable.readString(bytes, self.m_skillDesc);
-    self.m_skillRes = GlobalNS.UtilTable.readString(bytes, self.m_skillRes);
+    self.mJobRes = GlobalNS.UtilTable.readString(bytes, self.mJobRes);
+    self.mCardSetRes = GlobalNS.UtilTable.readString(bytes, self.mCardSetRes);
+    self.mSkillName = GlobalNS.UtilTable.readString(bytes, self.mSkillName);
+    self.mSkillDesc = GlobalNS.UtilTable.readString(bytes, self.mSkillDesc);
+    self.mSkillRes = GlobalNS.UtilTable.readString(bytes, self.mSkillRes);
 
     self:initDefaultValue();
 end
 
 function M:initDefaultValue()
-    if (self.m_frameImage == nil) then
-        self.m_frameImage = "paidi_kapai";
+    if (self.mFrameImage == nil) then
+        self.mFrameImage = "paidi_kapai";
     end
-    if (self.m_yaoDaiImage == nil) then
-        self.m_yaoDaiImage = "mingzidi_kapai";
+    if (self.mYaoDaiImage == nil) then
+        self.mYaoDaiImage = "mingzidi_kapai";
     end
-    if (self.m_cardSetRes == nil) then
-        self.m_cardSetRes = "emei_taopai";
+    if (self.mCardSetRes == nil) then
+        self.mCardSetRes = "emei_taopai";
     end
-    if (self.m_skillRes == nil) then
-        self.m_skillRes = "emeibiao_zhiye";
+    if (self.mSkillRes == nil) then
+        self.mSkillRes = "emeibiao_zhiye";
     end
-    if (self.m_jobRes == nil) then
-        self.m_jobNameRes = "emei_zhiye";
-        self.m_jobBtnRes = "gaibang_paizu";
+    if (self.mJobRes == nil) then
+        self.mJobNameRes = "emei_zhiye";
+        self.mJobBtnRes = "gaibang_paizu";
     else
-        self.m_jobNameRes = string.format("%s_name", self.m_jobRes);
-        self.m_jobBtnRes = string.format("%s_btn", self.m_jobRes);
+        self.mJobNameRes = string.format("%s_name", self.mJobRes);
+        self.mJobBtnRes = string.format("%s_btn", self.mJobRes);
     end
-    if (GlobalNS.UtilStr.IsNullOrEmpty(self.m_jobRes)) then
-        self.m_jobRes = "emei_zhiyepai";
+    if (GlobalNS.UtilStr.IsNullOrEmpty(self.mJobRes)) then
+        self.mJobRes = "emei_zhiyepai";
     end
 end
 

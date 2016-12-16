@@ -11,10 +11,10 @@ M.clsName = "DelayHandleMgrBase";
 GlobalNS[M.clsName] = M;
 
 function M:ctor()
-    self.m_deferredAddQueue = GlobalNS.new(GlobalNS.MList);
-    self.m_deferredDelQueue = GlobalNS.new(GlobalNS.MList);
+    self.mDeferredAddQueue = GlobalNS.new(GlobalNS.MList);
+    self.mDeferredDelQueue = GlobalNS.new(GlobalNS.MList);
 
-    self.m_loopDepth = 0;
+    self.mLoopDepth = 0;
 end
 
 function M:dtor()
@@ -22,24 +22,24 @@ function M:dtor()
 end
 
 function M:addObject(delayObject, priority)
-    if (self.m_loopDepth > 0) then
+    if (self.mLoopDepth > 0) then
         if (not self:existAddList(delayObject)) then       -- 如果添加列表中没有
             if (self:existDelList(delayObject)) then   -- 如果已经添加到删除列表中
                 self:delFromDelayDelList(delayObject);
             end
 
             local delayHandleObject = GlobalNS.new(GlobalNS.DelayHandleObject);
-            delayHandleObject.m_delayParam = GlobalNS.new(GlobalNS.DelayAddParam);
-            self.m_deferredAddQueue:Add(delayHandleObject);
+            delayHandleObject.mDelayParam = GlobalNS.new(GlobalNS.DelayAddParam);
+            self.mDeferredAddQueue:Add(delayHandleObject);
 
-            delayHandleObject.m_delayObject = delayObject;
-            delayHandleObject.m_delayParam.m_priority = priority;
+            delayHandleObject.mDelayObject = delayObject;
+            delayHandleObject.mDelayParam.mPriority = priority;
         end
     end
 end
 
 function M:removeObject(delayObject)
-    if (self.m_loopDepth > 0) then
+    if (self.mLoopDepth > 0) then
         if (not self:existDelList(delayObject)) then
             if (self:existAddList(delayObject)) then    -- 如果已经添加到删除列表中
                 self:delFromDelayAddList(delayObject);
@@ -48,17 +48,17 @@ function M:removeObject(delayObject)
             delayObject:setClientDispose();
 
             local delayHandleObject = GlobalNS.new(GlobalNS.DelayHandleObject);
-            delayHandleObject.m_delayParam = GlobalNS.new(GlobalNS.DelayDelParam);
-            self.m_deferredDelQueue:Add(delayHandleObject);
-            delayHandleObject.m_delayObject = delayObject;
+            delayHandleObject.mDelayParam = GlobalNS.new(GlobalNS.DelayDelParam);
+            self.mDeferredDelQueue:Add(delayHandleObject);
+            delayHandleObject.mDelayObject = delayObject;
         end
     end
 end
 
 -- 只有没有添加到列表中的才能添加
 function M:existAddList(delayObject)
-    for _, item in ipairs(self.m_deferredAddQueue:list()) do
-        if (item.m_delayObject == delayObject) then
+    for _, item in ipairs(self.mDeferredAddQueue:list()) do
+        if (item.mDelayObject == delayObject) then
             return true;
         end
     end
@@ -68,8 +68,8 @@ end
 
 -- 只有没有添加到列表中的才能添加
 function M:existDelList(delayObject)
-    for _, item in ipairs(self.m_deferredAddQueue:list()) do
-        if (item.m_delayObject == delayObject) then
+    for _, item in ipairs(self.mDeferredAddQueue:list()) do
+        if (item.mDelayObject == delayObject) then
             return true;
         end
     end
@@ -79,55 +79,55 @@ end
 
 -- 从延迟添加列表删除一个 Item
 function M:delFromDelayAddList(delayObject)
-    for _, item in ipairs(self.m_deferredAddQueue:list()) do
-        if (item.m_delayObject == delayObject) then
-            self.m_deferredAddQueue:Remove(item);
+    for _, item in ipairs(self.mDeferredAddQueue:list()) do
+        if (item.mDelayObject == delayObject) then
+            self.mDeferredAddQueue:Remove(item);
         end
     end
 end
 
 -- 从延迟删除列表删除一个 Item
 function M:delFromDelayDelList(delayObject)
-    for _, item in ipairs(self.m_deferredDelQueue:list()) do
-        if (item.m_delayObject == delayObject) then
-            self.m_deferredDelQueue:Remove(item);
+    for _, item in ipairs(self.mDeferredDelQueue:list()) do
+        if (item.mDelayObject == delayObject) then
+            self.mDeferredDelQueue:Remove(item);
         end
     end
 end
 
 function M:processDelayObjects()
-    if 0 == self.m_loopDepth then       -- 只有全部退出循环后，才能处理添加删除
-        if (self.m_deferredAddQueue:Count() > 0) then
+    if 0 == self.mLoopDepth then       -- 只有全部退出循环后，才能处理添加删除
+        if (self.mDeferredAddQueue:Count() > 0) then
             local idx = 0;
-            for idx = 0, self.m_deferredAddQueue:Count() - 1, 1 do
-                self:addObject(self.m_deferredAddQueue:at(idx).m_delayObject, self.m_deferredAddQueue:at(idx).m_delayParam.m_priority);
+            for idx = 0, self.mDeferredAddQueue:Count() - 1, 1 do
+                self:addObject(self.mDeferredAddQueue:at(idx).mDelayObject, self.mDeferredAddQueue:at(idx).mDelayParam.mPriority);
             end
 
-            self.m_deferredAddQueue:Clear();
+            self.mDeferredAddQueue:Clear();
         end
 
-        if (self.m_deferredDelQueue:Count() > 0) then
+        if (self.mDeferredDelQueue:Count() > 0) then
             local idx = 0;
-            for idx = 0, self.m_deferredDelQueue:Count() - 1, 1 do
-                self:removeObject(self.m_deferredDelQueue:at(idx).m_delayObject);
+            for idx = 0, self.mDeferredDelQueue:Count() - 1, 1 do
+                self:removeObject(self.mDeferredDelQueue:at(idx).mDelayObject);
             end
 
-            self.m_deferredDelQueue:Clear();
+            self.mDeferredDelQueue:Clear();
         end
     end
 end
 
 function M:incDepth()
-    self.m_loopDepth = self.m_loopDepth + 1;
+    self.mLoopDepth = self.mLoopDepth + 1;
 end
 
 function M:decDepth()
-    self.m_loopDepth = self.m_loopDepth - 1;
+    self.mLoopDepth = self.mLoopDepth - 1;
     self:processDelayObjects();
 end
 
 function M:bInDepth()
-    return self.m_loopDepth > 0;
+    return self.mLoopDepth > 0;
 end
 
 return M;

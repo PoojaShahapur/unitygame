@@ -11,9 +11,9 @@ M.clsName = "EventDispatchFunctionObject";
 GlobalNS[M.clsName] = M;
 
 function M:ctor()
-    self.m_bClientDispose = false;       -- 是否释放了资源
-    self.m_handle = nil;
-    self.m_pThis = nil;
+    self.mIsClientDispose = false;       -- 是否释放了资源
+    self.mHandle = nil;
+    self.mThis = nil;
 end
 
 function M:dtor()
@@ -21,9 +21,9 @@ function M:dtor()
 end
 
 function M:isValid()
-    if(nil ~= self.m_pThis and nil ~= self.m_handle) then
+    if(nil ~= self.mThis and nil ~= self.mHandle) then
         return true;
-    elseif(nil ~= self.m_handle) then
+    elseif(nil ~= self.mHandle) then
         return true;
     else
         return false;
@@ -31,31 +31,31 @@ function M:isValid()
 end
 
 function M:isEqual(pThis, handle)
-    return pThis == self.m_pThis and handle == self.m_handle;
+    return pThis == self.mThis and handle == self.mHandle;
 end
 
 function M:setFuncObject(pThis, func)
-    self.m_pThis = pThis;
-    self.m_handle = func;
+    self.mThis = pThis;
+    self.mHandle = func;
 end
 
 function M:call(dispObj)
-    if(nil ~= self.m_pThis and nil ~= self.m_handle) then
-        -- self.m_pThis:self.m_handle(dispObj);     -- 这么写好像不行
-        self.m_handle(self.m_pThis, dispObj);
-    elseif(nil ~= self.m_handle) then
-        self.m_handle(dispObj);
+    if(nil ~= self.mThis and nil ~= self.mHandle) then
+        -- self.mThis:self.mHandle(dispObj);     -- 这么写好像不行
+        self.mHandle(self.mThis, dispObj);
+    elseif(nil ~= self.mHandle) then
+        self.mHandle(dispObj);
     else
         GlobalNS.UtilApi.error("EventDispatchFunctionObject is InValid");        -- 抛出一个异常
     end
 end
 
 function M:setClientDispose()
-    self.m_bClientDispose = true;
+    self.mIsClientDispose = true;
 end
 
 function M:getClientDispose()
-    return self.m_bClientDispose;
+    return self.mIsClientDispose;
 end
 
 return M;

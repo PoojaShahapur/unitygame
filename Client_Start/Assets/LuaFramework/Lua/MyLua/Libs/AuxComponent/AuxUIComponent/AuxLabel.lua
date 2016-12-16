@@ -25,11 +25,11 @@ function M:AuxLabel_1(...)
         styleId = GlobalNS.LabelStyleID.eLSID_None;
     end
     
-    self.m_selfGo = GlobalNS.UtilApi.TransFindChildByPObjAndPath(pntNode, path);
-    self.m_text = GlobalNS.UtilApi.getComByPath(pntNode, path, GlobalNS.AuxUITypeId.Label);
-    self.m_labelStyle = GCtx.mWidgetStyleMgr:GetWidgetStyle(GlobalNS.WidgetStyleID.eWSID_Text, styleId);
-    if(self.m_labelStyle:needClearText()) then
-        self.m_text.text = "";
+    self.mSelfGo = GlobalNS.UtilApi.TransFindChildByPObjAndPath(pntNode, path);
+    self.mText = GlobalNS.UtilApi.getComByPath(pntNode, path, GlobalNS.AuxUITypeId.Label);
+    self.mLabelStyle = GCtx.mWidgetStyleMgr:GetWidgetStyle(GlobalNS.WidgetStyleID.eWSID_Text, styleId);
+    if(self.mLabelStyle:needClearText()) then
+        self.mText.text = "";
     end
 end
 
@@ -39,8 +39,8 @@ function M:AuxLabel_2(...)
         styleId = GlobalNS.LabelStyleID.eLSID_None;
     end
     
-    self.m_selfGo = selfNode;
-    self.m_text = GlobalNS.UtilApi.getComByPath(selfNode, GlobalNS.AuxUITypeId.Label);
+    self.mSelfGo = selfNode;
+    self.mText = GlobalNS.UtilApi.getComByPath(selfNode, GlobalNS.AuxUITypeId.Label);
 end
 
 function M:AuxLabel_3(...)
@@ -51,25 +51,25 @@ function M:AuxLabel_3(...)
 end
 
 function M:setSelfGo(pntNode, path)
-    self.m_selfGo = GlobalNS.UtilApi.TransFindChildByPObjAndPath(pntNode, path);
-    self.m_text = GlobalNS.UtilApi.getComByP(pntNode, path, GlobalNS.AuxUITypeId.Label);
+    self.mSelfGo = GlobalNS.UtilApi.TransFindChildByPObjAndPath(pntNode, path);
+    self.mText = GlobalNS.UtilApi.getComByP(pntNode, path, GlobalNS.AuxUITypeId.Label);
 end
 
 function M:setText(value)
-    if (self.m_text ~= nil) then
-        self.m_text.text = value;
+    if (self.mText ~= nil) then
+        self.mText.text = value;
     end
 end
     
 function M:getText()
-    if (self.m_text ~= nil) then
-        return self.m_text.text;
+    if (self.mText ~= nil) then
+        return self.mText.text;
     end
     return "";
 end
 
 function M:changeSize()
-    self.m_text.rectTransform.sizeDelta = Vector2.New(self.m_text.rectTransform.sizeDelta.x, self.m_text.preferredHeight);
+    self.mText.rectTransform.sizeDelta = Vector2.New(self.mText.rectTransform.sizeDelta.x, self.mText.preferredHeight);
 end
 
 return M;

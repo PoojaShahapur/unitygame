@@ -8,31 +8,31 @@ M.clsName = "FrameTimerMgr";
 GlobalNS[M.clsName] = M;
 
 function M:ctor()
-    self.m_timerLists = GlobalNS.new(GlobalNS.MList);
-    self.m_delLists = GlobalNS.new(GlobalNS.MList);
+    self.mTimerList = GlobalNS.new(GlobalNS.MList);
+    self.mDelList = GlobalNS.new(GlobalNS.MList);
 end
 
 function M:addObject(delayObject, priority)
     -- 检查当前是否已经在队列中
-    if self.m_timerLists:IndexOf(delayObject) == -1 then
+    if self.mTimerList:IndexOf(delayObject) == -1 then
         if self:bInDepth() then
             M.super.addObject(self, delayObject, priority);
         else
-            self.m_timerLists:Add(delayObject);
+            self.mTimerList:Add(delayObject);
         end
     end
 end
 
 function M:removeObject(delayObject)
     -- 检查当前是否在队列中
-    if not self.m_timerLists:IndexOf(delayObject) == -1 then
-        delayObject.m_disposed = true;
+    if not self.mTimerList:IndexOf(delayObject) == -1 then
+        delayObject.mIsDisposed = true;
         if self:bInDepth() then
             M.super.addObject(self, delayObject);
         else
-            for key, item in ipairs(self.m_timerLists.list()) do
+            for key, item in ipairs(self.mTimerList.list()) do
                 if item == delayObject then
-                    self.m_timerLists:Remove(item);
+                    self.mTimerList:Remove(item);
                     break;
                 end
             end
@@ -43,11 +43,11 @@ end
 function M:Advance(delta)
     self.incDepth();
 
-    for key, timerItem in ipairs(self.m_timerLists.list()) do
+    for key, timerItem in ipairs(self.mTimerList.list()) do
         if not timerItem:getClientDispose() then
             timerItem:OnFrameTimer();
         end
-        if timerItem.m_disposed then
+        if timerItem.mIsDisposed then
             self:removeObject(timerItem);
         end
     end

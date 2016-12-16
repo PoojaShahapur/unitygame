@@ -7,34 +7,34 @@ M.clsName = "TableItemBase";
 GlobalNS[M.clsName] = M;
 
 function M:ctor()
-    self.m_itemHeader = nil;
-    self.m_itemBody = nil;
+    self.mItemHeader = nil;
+    self.mItemBody = nil;
 end
 
 function M:parseHeaderByteBuffer(bytes)
-    if(nil == self.m_itemHeader) then
-        self.m_itemHeader = GlobalNS.new(GlobalNS.TableItemHeader);
+    if(nil == self.mItemHeader) then
+        self.mItemHeader = GlobalNS.new(GlobalNS.TableItemHeader);
     end
-    self.m_itemHeader:parseHeaderByteBuffer(bytes);
+    self.mItemHeader:parseHeaderByteBuffer(bytes);
 end
 
 function M:parseBodyByteBuffer(bytes, offset, cls)
-    if(nil == self.m_itemBody) then
-        self.m_itemBody = GlobalNS.new(cls);
+    if(nil == self.mItemBody) then
+        self.mItemBody = GlobalNS.new(cls);
     end
 
-    self.m_itemBody:parseBodyByteBuffer(bytes, offset);
+    self.mItemBody:parseBodyByteBuffer(bytes, offset);
 end
 
 function M:parseAllByteBuffer(bytes, cls)
     -- 解析头
     self:parseHeaderByteBuffer(bytes);
     -- 保存下一个 Item 的头位置
-    GlobalNS.UtilTable.m_prePos = bytes.position;
+    GlobalNS.UtilTable.mPrePos = bytes.position;
     -- 解析内容
-    self:parseBodyByteBuffer(bytes, self.m_itemHeader.m_offset, cls);
+    self:parseBodyByteBuffer(bytes, self.mItemHeader.mOffset, cls);
     -- 移动到下一个 Item 头位置
-    bytes:setPos(GlobalNS.UtilTable.m_prePos);
+    bytes:setPos(GlobalNS.UtilTable.mPrePos);
 end
 
 return M;

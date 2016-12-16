@@ -7,9 +7,9 @@ M.clsName = "CallFuncObjectVarParam";
 GlobalNS[M.clsName] = M;
 
 function M:ctor()
-    self.m_pThis = nil;
-    self.m_handle = nil;
-    self.m_param = nil;
+    self.mThis = nil;
+    self.mHandle = nil;
+    self.mParam = nil;
 end
 
 function M:dtor()
@@ -17,16 +17,16 @@ function M:dtor()
 end
 
 function M:setPThisAndHandle(pThis, handle, ...)
-	self.m_pThis = pThis;
-	self.m_handle = handle;
-	self.m_param = {...};
+	self.mThis = pThis;
+	self.mHandle = handle;
+	self.mParam = {...};
 end
 
 function M:call()
-    if(nil ~= self.m_pThis and nil ~= self.m_handle) then
-        return self.m_handle(self.m_pThis, unpack(self.m_param));
-    elseif nil ~= self.m_handle then
-        return self.m_handle(unpack(self.m_param));
+    if(nil ~= self.mThis and nil ~= self.mHandle) then
+        return self.mHandle(self.mThis, unpack(self.mParam));
+    elseif nil ~= self.mHandle then
+        return self.mHandle(unpack(self.mParam));
     else
         return 0
     end

@@ -7,8 +7,8 @@ M.clsName = "DelayHandleObject";
 GlobalNS[M.clsName] = M;
 
 function M:ctor()
-    self.m_delayObject = nil;
-    self.m_delayParam = nil;
+    self.mDelayObject = nil;
+    self.mDelayParam = nil;
 end
 
 return M;

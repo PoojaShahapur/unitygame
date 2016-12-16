@@ -10,25 +10,25 @@ M.clsName = "TableSpriteAniItemBody";
 GlobalNS[M.clsName] = M;
 
 function M:ctor()
-    self.m_frameRate = 0;     -- 帧率 FPS，每秒帧数
-    self.m_frameCount = 0;    -- 帧数，总共多少帧
-    self.m_aniResNameNoExt = ""; -- 动画资源的名字，没有扩展名
+    self.mFrameRate = 0;     -- 帧率 FPS，每秒帧数
+    self.mFrameCount = 0;    -- 帧数，总共多少帧
+    self.mAniResNameNoExt = ""; -- 动画资源的名字，没有扩展名
     
-    self.m_invFrameRate = 0;    -- 一帧需要的时间
-    self.m_aniResName = "";     -- 动画资源的名字，有扩展名
-    self.m_aniPrefabName = "";  -- 动画预制资源
+    self.mInvFrameRate = 0;    -- 一帧需要的时间
+    self.mAniResName = "";     -- 动画资源的名字，有扩展名
+    self.mAniPrefabName = "";  -- 动画预制资源
 end
 
 function M:parseBodyByteBuffer(bytes, offset)
     bytes.position = offset;
-    _, self.m_frameRate = bytes:readInt32(self.m_frameRate);
-    _, self.m_frameCount = bytes:readInt32(self.m_frameCount);
-    self.m_aniResNameNoExt = GlobalNS.UtilTable.readString(bytes, self.m_aniResNameNoExt);
+    _, self.mFrameRate = bytes:readInt32(self.mFrameRate);
+    _, self.mFrameCount = bytes:readInt32(self.mFrameCount);
+    self.mAniResNameNoExt = GlobalNS.UtilTable.readString(bytes, self.mAniResNameNoExt);
 
-    self.m_invFrameRate = 1 / self.m_frameRate;
-    self.m_aniResName = string.format("%s.asset", self.m_aniResNameNoExt);
+    self.mInvFrameRate = 1 / self.mFrameRate;
+    self.mAniResName = string.format("%s.asset", self.mAniResNameNoExt);
 
-    self.m_aniPrefabName = string.format("%sprefab.prefab", self.m_aniResNameNoExt);
+    self.mAniPrefabName = string.format("%sprefab.prefab", self.mAniResNameNoExt);
 end
 
 return M;

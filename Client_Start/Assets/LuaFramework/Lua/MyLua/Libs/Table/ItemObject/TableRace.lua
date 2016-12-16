@@ -6,12 +6,12 @@ M.clsName = "TableRaceItemBody";
 GlobalNS[M.clsName] = M;
 
 function M:ctor()
-    self.m_raceName = "";
+    self.mRaceName = "";
 end
 
 function M:parseBodyByteBuffer(bytes, offset)
     bytes.position = offset;
-    self.m_raceName = GlobalNS.UtilTable.readString(bytes, self.m_raceName);
+    self.mRaceName = GlobalNS.UtilTable.readString(bytes, self.mRaceName);
 end
 
 return M;

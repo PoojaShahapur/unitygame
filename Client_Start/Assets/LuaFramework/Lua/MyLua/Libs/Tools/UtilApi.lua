@@ -11,7 +11,7 @@ function M.ctor()
 end
 
 function M.getInputFieldText(inputField)
-    return inputField.m_Text;
+    return inputField.mText;
 end
 
 function M.getInputFieldComp(go, path)

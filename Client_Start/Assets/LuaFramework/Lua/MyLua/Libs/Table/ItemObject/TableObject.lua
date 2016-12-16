@@ -10,20 +10,20 @@ M.clsName = "TableObjectItemBody";
 GlobalNS[M.clsName] = M;
 
 function M:ctor()
-    self.m_name = "";
-    self.m_maxNum = 0;
-    self.m_type = 0;
-    self.m_color = 0;
-    self.m_objResName = "";
+    self.mName = "";
+    self.mMaxNum = 0;
+    self.mType = 0;
+    self.mColor = 0;
+    self.mObjResName = "";
 end
 
 function M:parseBodyByteBuffer(bytes, offset)
     bytes:setPos(offset);  -- 从偏移处继续读取真正的内容
-    self.m_name = GlobalNS.UtilTable.readString(bytes, self.m_name);
-    _, self.m_maxNum = bytes:readInt32(self.m_maxNum);
-    _, self.m_type = bytes:readInt32(self.m_type);
-    _, self.m_color = bytes:readInt32(self.m_color);
-    self.m_objResName = GlobalNS.UtilTable.readString(bytes, self.m_objResName);
+    self.mName = GlobalNS.UtilTable.readString(bytes, self.mName);
+    _, self.mMaxNum = bytes:readInt32(self.mMaxNum);
+    _, self.mType = bytes:readInt32(self.mType);
+    _, self.mColor = bytes:readInt32(self.mColor);
+    self.mObjResName = GlobalNS.UtilTable.readString(bytes, self.mObjResName);
 end
 
 return M;

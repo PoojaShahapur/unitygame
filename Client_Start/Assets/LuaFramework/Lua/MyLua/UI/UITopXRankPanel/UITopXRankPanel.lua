@@ -30,7 +30,7 @@ function M:onInit()
     --排名信息
     self.topN = { };
     for i=1,itemCount do
-        self.topN[i] = {m_name="Bone"};
+        self.topN[i] = {mName="Bone"};
     end
 end
 
@@ -50,9 +50,9 @@ function M:onReady()
         --Name
         local rankname = GlobalNS.UtilApi.getComByPath(topx, "Name", "Text");
         if i < 10 then
-            rankname.text = "  " .. i .. ". " .. self.topN[i].m_name;
+            rankname.text = "  " .. i .. ". " .. self.topN[i].mName;
         else
-            rankname.text = i .. ". " .. self.topN[i].m_name;
+            rankname.text = i .. ". " .. self.topN[i].mName;
         end
 
         --Rank

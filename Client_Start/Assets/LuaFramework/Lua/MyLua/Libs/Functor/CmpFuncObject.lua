@@ -7,8 +7,8 @@ M.clsName = "CmpFuncObject";
 GlobalNS[M.clsName] = M;
 
 function M:ctor()
-    self.m_pThis = nil;
-    self.m_handle = nil;
+    self.mThis = nil;
+    self.mHandle = nil;
 end
 
 function M:dtor()
@@ -16,19 +16,19 @@ function M:dtor()
 end
 
 function M:setPThisAndHandle(pThis, handle)
-	self.m_pThis = pThis;
-	self.m_handle = handle;
+	self.mThis = pThis;
+	self.mHandle = handle;
 end
 
 function M:clear()
-    self.m_handle = nil;
-    self.m_pThis = nil;
+    self.mHandle = nil;
+    self.mThis = nil;
 end
 
 function M:isValid()
-    if(nil ~= self.m_pThis and nil ~= self.m_handle) then
+    if(nil ~= self.mThis and nil ~= self.mHandle) then
         return true;
-    elseif(nil ~= self.m_handle) then
+    elseif(nil ~= self.mHandle) then
         return true;
     else
         return false;
@@ -36,20 +36,20 @@ function M:isValid()
 end
 
 function M:callOneParam(param)
-    if(nil ~= self.m_pThis and nil ~= self.m_handle) then
-        return self.m_handle(self.m_pThis, param);
-    elseif (nil ~= self.m_handle) then
-        return self.m_handle(param);
+    if(nil ~= self.mThis and nil ~= self.mHandle) then
+        return self.mHandle(self.mThis, param);
+    elseif (nil ~= self.mHandle) then
+        return self.mHandle(param);
     else
         return 0;
     end
 end
 
 function M:callTwoParam(oneParam, twoParam)
-    if(nil ~= self.m_pThis and nil ~= self.m_handle) then
-        return self.m_handle(self.m_pThis, oneParam, twoParam);
-    elseif (nil ~= self.m_handle) then
-        return self.m_handle(oneParam, twoParam);
+    if(nil ~= self.mThis and nil ~= self.mHandle) then
+        return self.mHandle(self.mThis, oneParam, twoParam);
+    elseif (nil ~= self.mHandle) then
+        return self.mHandle(oneParam, twoParam);
     else
         return 0;
     end

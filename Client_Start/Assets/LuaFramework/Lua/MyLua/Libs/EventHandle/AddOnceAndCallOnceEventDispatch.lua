@@ -11,7 +11,7 @@ function M:ctor()
 end
 
 function M:addEventHandle(pThis, handle)
-    if (not self:existEventHandle(pThis, handle)) then
+    if (not self:isExistEventHandle(pThis, handle)) then
         M.super.addEventHandle(self, pThis, handle);
     end
 end

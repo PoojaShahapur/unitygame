@@ -15,16 +15,16 @@ function M:dtor()
 end
 
 function M:setPThisAndHandle(pThis, handle, param)
-	self.m_pThis = pThis;
-	self.m_handle = handle;
-	self.m_param = param;
+	self.mThis = pThis;
+	self.mHandle = handle;
+	self.mParam = param;
 end
 
 function M:call()
-    if(nil ~= self.m_pThis and nil ~= self.m_handle) then
-        return self.m_handle(self.m_pThis, self.m_param);
-    elseif nil ~= self.m_handle then
-        return self.m_handle(self.m_param);
+    if(nil ~= self.mThis and nil ~= self.mHandle) then
+        return self.mHandle(self.mThis, self.mParam);
+    elseif nil ~= self.mHandle then
+        return self.mHandle(self.mParam);
     else
         return 0
     end

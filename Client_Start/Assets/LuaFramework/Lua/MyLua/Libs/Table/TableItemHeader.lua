@@ -7,14 +7,14 @@ M.clsName = "TableItemHeader";
 GlobalNS[M.clsName] = M;
 
 function M:ctor()
-    self.m_uID = 0;              -- 唯一 ID
-    self.m_offset = 0;           -- 这一项在文件中的偏移
+    self.mId = 0;              -- 唯一 ID
+    self.mOffset = 0;           -- 这一项在文件中的偏移
 end
 
 -- 解析头部
 function M:parseHeaderByteBuffer(bytes)
-    _, self.m_uID = bytes:readUnsignedInt32(self.m_uID);
-    _, self.m_offset = bytes:readUnsignedInt32(self.m_offset);
+    _, self.mId = bytes:readUnsignedInt32(self.mId);
+    _, self.mOffset = bytes:readUnsignedInt32(self.mOffset);
 end
 
 return M;

@@ -9,7 +9,7 @@ M.clsName = "TickMgr";
 GlobalNS[M.clsName] = M;
 
 function M:ctor()
-    self.m_tickLst = GlobalNS.new(GlobalNS.MList);
+    self.mTickList = GlobalNS.new(GlobalNS.MList);
 end
 
 function M:addTick(tickObj, priority)
@@ -22,17 +22,17 @@ function M:addObject(delayObject, priority)
     else
         local position = -1;
         local i = 0;
-        for i = 0, i < self.m_tickLst:Count(), 1 do
+        for i = 0, i < self.mTickList:Count(), 1 do
             while true do
-                if self.m_tickLst:at(i) == nil then
+                if self.mTickList:at(i) == nil then
                     break;
                 end
     
-                if self.m_tickLst:at(i).m_tickObject == delayObject then
+                if self.mTickList:at(i).mTickObject == delayObject then
                     return;
                 end
     
-                if self.m_tickLst:at(i).m_priority < priority then
+                if self.mTickList:at(i).mPriority < priority then
                     position = i;
                     break;
                 end
@@ -42,13 +42,13 @@ function M:addObject(delayObject, priority)
         end
 
         local processObject = GlobalNS.new(GlobalNS.TickProcessObject);
-        processObject.m_tickObject = delayObject;
-        processObject.m_priority = priority;
+        processObject.mTickObject = delayObject;
+        processObject.mPriority = priority;
 
-        if position < 0 or position >= self.m_tickLst:Count() then
-            self.m_tickLst:Add(processObject);
+        if position < 0 or position >= self.mTickList:Count() then
+            self.mTickList:Add(processObject);
         else
-            self.m_tickLst:Insert(position, processObject);
+            self.mTickList:Insert(position, processObject);
         end
     end
 end
@@ -57,9 +57,9 @@ function M:removeObject(delayObject)
     if self:bInDepth() then
         M.super.removeObject(self, delayObject);
     else
-        for key, item in ipairs(self.m_tickLst:list()) do
-            if item.m_tickObject == delayObject then
-                self.m_tickLst:Remove(item);
+        for key, item in ipairs(self.mTickList:list()) do
+            if item.mTickObject == delayObject then
+                self.mTickList:Remove(item);
                 break;
             end
         end
@@ -69,9 +69,9 @@ end
 function M:Advance(delta)
     self:incDepth();
 
-    for key, tk in ipairs(self.m_tickLst:list()) do
-        if not tk.m_tickObject:getClientDispose() then
-            tk.m_tickObject:onTick(delta);
+    for key, tk in ipairs(self.mTickList:list()) do
+        if not tk.mTickObject:getClientDispose() then
+            tk.mTickObject:onTick(delta);
         end
     end
 

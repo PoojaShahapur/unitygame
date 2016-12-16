@@ -13,16 +13,16 @@ function M:ctor(...)
     if(styleId == nil) then
         styleId = GlobalNS.BtnStyleID.eBSID_None;
     end
-    self.m_selfGo = GlobalNS.UtilApi.TransFindChildByPObjAndPath(pntNode, path);
-    self.m_inputField = GlobalNS.UtilApi.getComByPath(pntNode, path, GlobalNS.AuxUITypeId.InputField);
+    self.mSelfGo = GlobalNS.UtilApi.TransFindChildByPObjAndPath(pntNode, path);
+    self.mInputField = GlobalNS.UtilApi.getComByPath(pntNode, path, GlobalNS.AuxUITypeId.InputField);
 end
 
 function M:setText(value)
-    self.m_inputField.text = value;
+    self.mInputField.text = value;
 end
 
 function M:getText()
-    return self.m_inputField.text;
+    return self.mInputField.text;
 end
 
 return M;

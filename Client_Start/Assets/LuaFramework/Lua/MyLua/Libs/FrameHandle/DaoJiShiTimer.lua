@@ -16,33 +16,33 @@ end
 
 function M:setTotalTime(value)
     M.super.setTotalTime(self, value);
-    self.m_curRunTime = value;
+    self.mCurRunTime = value;
 end
 
 function M:getRunTime()
-    return self.m_totalTime - self.m_curRunTime;
+    return self.mTotalTime - self.mCurRunTime;
 end
 
 -- 如果要获取剩余的倒计时时间，使用 getLeftCallTime 
 function M:getLeftRunTime()
-    return self.m_curRunTime;
+    return self.mCurRunTime;
 end
 
 function M:OnTimer(delta)
-    if self.m_disposed then
+    if self.mIsDisposed then
         return;
     end
 
-    self.m_curRunTime = self.m_curRunTime - delta;
-    if(self.m_curRunTime < 0) then
-        self.m_curRunTime = 0;
+    self.mCurRunTime = self.mCurRunTime - delta;
+    if(self.mCurRunTime < 0) then
+        self.mCurRunTime = 0;
     end
-    self.m_intervalLeftTime = self.m_intervalLeftTime + delta;
+    self.mIntervalLeftTime = self.mIntervalLeftTime + delta;
 
-    if self.m_bInfineLoop then
+    if self.mIsInfineLoop then
         self:checkAndDisp();
     else
-        if self.m_curRunTime <= 0 then
+        if self.mCurRunTime <= 0 then
             self:disposeAndDisp();
         else
             self:checkAndDisp();
@@ -51,10 +51,10 @@ function M:OnTimer(delta)
 end
 
 function M:reset()
-    self.m_curRunTime = self.m_totalTime;
-    self.m_curCallTime = 0;
-    self.m_intervalLeftTime = 0;
-    self.m_disposed = false;
+    self.mCurRunTime = self.mTotalTime;
+    self.mCurCallTime = 0;
+    self.mIntervalLeftTime = 0;
+    self.mIsDisposed = false;
 end
 
 return M;
