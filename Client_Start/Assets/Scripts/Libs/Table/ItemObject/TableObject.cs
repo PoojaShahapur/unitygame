@@ -7,12 +7,12 @@
     //{
     //    override public void parseBodyByteBuffer(ByteBuffer bytes, uint offset)
     //    {
-    //        if (null == m_itemBody)
+    //        if (null == mItemBody)
     //        {
-    //            m_itemBody = new TableObjectItemBody();
+    //            mItemBody = new TableObjectItemBody();
     //        }
 
-    //        m_itemBody.parseBodyByteBuffer(bytes, offset);
+    //        mItemBody.parseBodyByteBuffer(bytes, offset);
     //    }
     //}
 
@@ -35,19 +35,19 @@
         //}
 
         public string mName;
-        public int m_maxNum;
-        public int m_type;
-        public int m_color;
-        public string m_objResName;
+        public int mMaxNum;
+        public int mType;
+        public int mColor;
+        public string mObjResName;
 
         override public void parseBodyByteBuffer(ByteBuffer bytes, uint offset)
         {
             bytes.setPos(offset);  // 从偏移处继续读取真正的内容
             UtilTable.readString(bytes, ref mName);
-            bytes.readInt32(ref m_maxNum);
-            bytes.readInt32(ref m_type);
-            bytes.readInt32(ref m_color);
-            UtilTable.readString(bytes, ref m_objResName);
+            bytes.readInt32(ref mMaxNum);
+            bytes.readInt32(ref mType);
+            bytes.readInt32(ref mColor);
+            UtilTable.readString(bytes, ref mObjResName);
         }
     }
 }

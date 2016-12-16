@@ -49,7 +49,7 @@ namespace SDK.Lib
             timer.mInternal = 1;
             timer.mTotalTime = 1;
             timer.mTimerDisp.setFuncObject(endTimer);
-            Ctx.mInstance.mTimerMgr.addTimer(timer);
+            timer.startTimer();
         }
 
         protected void endTimer(TimerItemBase timer)

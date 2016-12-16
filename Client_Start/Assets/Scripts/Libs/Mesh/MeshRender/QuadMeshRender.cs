@@ -11,7 +11,7 @@ namespace SDK.Lib
         protected int m_vertexIndex;
         protected Vector3[] m_vertices;
         protected Vector2[] m_uv;
-        protected Color[] m_color;
+        protected Color[] mColor;
         protected Vector3[] m_normals;
         protected int[] m_triangles;
 
@@ -132,7 +132,7 @@ namespace SDK.Lib
             m_mesh.Clear();
             m_mesh.vertices = m_vertices;
             m_mesh.uv = m_uv;
-            m_mesh.colors = m_color;
+            m_mesh.colors = mColor;
             m_mesh.normals = m_normals;
             m_mesh.triangles = m_triangles;
             m_mesh.RecalculateNormals();

@@ -7,7 +7,7 @@ public class MonoMesh : MonoBehaviour
 {
     public Vector3[] m_vertices;
     public Vector2[] m_uv;
-    public Color[] m_color;
+    public Color[] mColor;
     public Vector3[] m_normals;
     public int[] m_triangles;
 
@@ -53,7 +53,7 @@ public class MonoMesh : MonoBehaviour
         mesh.Clear();
         mesh.vertices = m_vertices;
         mesh.uv = m_uv;
-        mesh.colors = m_color;
+        mesh.colors = mColor;
         mesh.normals = m_normals;
         mesh.triangles = m_triangles;
         mesh.RecalculateNormals();

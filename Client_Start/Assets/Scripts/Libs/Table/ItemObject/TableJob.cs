@@ -5,67 +5,67 @@
      */
     public class TableJobItemBody : TableItemBodyBase
     {
-        public string m_jobName;                // 职业名称
-        public string m_jobDesc;                // 职业描述
-        public string m_frameImage;             // 门派底图资源(这个是场景卡牌需要的资源)
-        public string m_yaoDaiImage;            // 卡牌名字腰带资源(这个是场景卡牌需要的资源)
-        public string m_jobRes;                 // 门派选择资源(门派名字资源是这个资源名字加上 __name 组成，例如这个名字是 aaa ，那么名字的资源名字就是 aaa_name)
-        public string m_cardSetRes;             // 门派卡组资源
-        public string m_skillName;              // 技能名称
-        public string m_skillDesc;              // 技能描述
-        public string m_skillRes;               // 技能图标资源
+        public string mJobName;                // 职业名称
+        public string mJobDesc;                // 职业描述
+        public string mFrameImage;             // 门派底图资源(这个是场景卡牌需要的资源)
+        public string mYaoDaiImage;            // 卡牌名字腰带资源(这个是场景卡牌需要的资源)
+        public string mJobRes;                 // 门派选择资源(门派名字资源是这个资源名字加上 __name 组成，例如这个名字是 aaa ，那么名字的资源名字就是 aaa_name)
+        public string mCardSetRes;             // 门派卡组资源
+        public string mSkillName;              // 技能名称
+        public string mSkillDesc;              // 技能描述
+        public string mSkillRes;               // 技能图标资源
 
-        public string m_jobNameRes;             // 这个字段表中没有配置
-        public string m_jobBtnRes;              // 职业按钮资源
+        public string mJobNameRes;             // 这个字段表中没有配置
+        public string mJobBtnRes;              // 职业按钮资源
 
         override public void parseBodyByteBuffer(ByteBuffer bytes, uint offset)
         {
             bytes.position = offset;
-            UtilTable.readString(bytes, ref m_jobName);
-            UtilTable.readString(bytes, ref m_jobDesc);
-            UtilTable.readString(bytes, ref m_frameImage);
-            UtilTable.readString(bytes, ref m_yaoDaiImage);
+            UtilTable.readString(bytes, ref mJobName);
+            UtilTable.readString(bytes, ref mJobDesc);
+            UtilTable.readString(bytes, ref mFrameImage);
+            UtilTable.readString(bytes, ref mYaoDaiImage);
 
-            UtilTable.readString(bytes, ref m_jobRes);
-            UtilTable.readString(bytes, ref m_cardSetRes);
-            UtilTable.readString(bytes, ref m_skillName);
-            UtilTable.readString(bytes, ref m_skillDesc);
-            UtilTable.readString(bytes, ref m_skillRes);
+            UtilTable.readString(bytes, ref mJobRes);
+            UtilTable.readString(bytes, ref mCardSetRes);
+            UtilTable.readString(bytes, ref mSkillName);
+            UtilTable.readString(bytes, ref mSkillDesc);
+            UtilTable.readString(bytes, ref mSkillRes);
 
             initDefaultValue();
         }
 
         protected void initDefaultValue()
         {
-            if (string.IsNullOrEmpty(m_frameImage))
+            if (string.IsNullOrEmpty(mFrameImage))
             {
-                m_frameImage = "paidi_kapai";
+                mFrameImage = "paidi_kapai";
             }
-            if (string.IsNullOrEmpty(m_yaoDaiImage))
+            if (string.IsNullOrEmpty(mYaoDaiImage))
             {
-                m_yaoDaiImage = "mingzidi_kapai";
+                mYaoDaiImage = "mingzidi_kapai";
             }
-            if (string.IsNullOrEmpty(m_cardSetRes))
+            if (string.IsNullOrEmpty(mCardSetRes))
             {
-                m_cardSetRes = "emei_taopai";
+                mCardSetRes = "emei_taopai";
             }
-            if (string.IsNullOrEmpty(m_skillRes))
+            if (string.IsNullOrEmpty(mSkillRes))
             {
-                m_skillRes = "emeibiao_zhiye";
+                mSkillRes = "emeibiao_zhiye";
             }
-            if (string.IsNullOrEmpty(m_jobRes))
+            if (string.IsNullOrEmpty(mJobRes))
             {
-                m_jobNameRes = "emei_zhiye";
-                m_jobBtnRes = "gaibang_paizu";
+                mJobNameRes = "emei_zhiye";
+                mJobBtnRes = "gaibang_paizu";
             }
             else
             {
-                m_jobNameRes = string.Format("{0}_name", m_jobRes);
-                m_jobBtnRes = string.Format("{0}_btn", m_jobRes);
+                mJobNameRes = string.Format("{0}_name", mJobRes);
+                mJobBtnRes = string.Format("{0}_btn", mJobRes);
             }
-            if (string.IsNullOrEmpty(m_jobRes))
+            if (string.IsNullOrEmpty(mJobRes))
             {
-                m_jobRes = "emei_zhiyepai";
+                mJobRes = "emei_zhiyepai";
             }
         }
     }

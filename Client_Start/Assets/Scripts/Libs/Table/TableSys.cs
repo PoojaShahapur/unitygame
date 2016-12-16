@@ -37,21 +37,21 @@ namespace SDK.Lib
 				loadOneTable(tableID);
 				table = mDicTable[tableID];
 			}
-			return table.m_List;
+			return table.mList;
 		}
 		
         // 返回一个表中一项，返回的时候表中数据全部加载到 Item 中
         public TableItemBase getItem(TableID tableID, uint itemID)
 		{
             TableBase table = mDicTable[tableID];
-            if (null == table.m_byteBuffer)
+            if (null == table.mByteBuffer)
 			{
 				loadOneTable(tableID);
 				table = mDicTable[tableID];
 			}
             TableItemBase ret = TableSys.findDataItem(table, itemID);
 
-            if (null != ret && null == ret.m_itemBody)
+            if (null != ret && null == ret.mItemBody)
             {
                 loadOneTableOneItemAll(tableID, table, ret);
             }
@@ -70,7 +70,7 @@ namespace SDK.Lib
 			TableBase table = mDicTable[tableID];
 
             LoadParam param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
-            param.setPath(Path.Combine(Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathTablePath], table.m_resName));
+            param.setPath(Path.Combine(Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathTablePath], table.mResName));
             param.mLoadEventHandle = onLoadEventHandle;
             param.mLoadNeedCoroutine = false;
             param.mResNeedCoroutine = false;
@@ -110,7 +110,7 @@ namespace SDK.Lib
         {
             foreach (KeyValuePair<TableID, TableBase> kv in mDicTable)
             {
-                if (Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathTablePath] + kv.Value.m_resName == path)
+                if (Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathTablePath] + kv.Value.mResName == path)
                 {
                     return kv.Key;
                 }
@@ -124,31 +124,31 @@ namespace SDK.Lib
         {
             if (TableID.TABLE_OBJECT == tableID)
             {
-                itemBase.parseBodyByteBuffer<TableObjectItemBody>(table.m_byteBuffer, itemBase.m_itemHeader.m_offset);
+                itemBase.parseBodyByteBuffer<TableObjectItemBody>(table.mByteBuffer, itemBase.mItemHeader.mOffset);
             }
             else if (TableID.TABLE_CARD == tableID)
             {
-                itemBase.parseBodyByteBuffer<TableCardItemBody>(table.m_byteBuffer, itemBase.m_itemHeader.m_offset);
+                itemBase.parseBodyByteBuffer<TableCardItemBody>(table.mByteBuffer, itemBase.mItemHeader.mOffset);
             }
             else if (TableID.TABLE_SKILL == tableID)  // 添加一个表的步骤四
             {
-                itemBase.parseBodyByteBuffer<TableSkillItemBody>(table.m_byteBuffer, itemBase.m_itemHeader.m_offset);
+                itemBase.parseBodyByteBuffer<TableSkillItemBody>(table.mByteBuffer, itemBase.mItemHeader.mOffset);
             }
             else if (TableID.TABLE_JOB == tableID)
             {
-                itemBase.parseBodyByteBuffer<TableJobItemBody>(table.m_byteBuffer, itemBase.m_itemHeader.m_offset);
+                itemBase.parseBodyByteBuffer<TableJobItemBody>(table.mByteBuffer, itemBase.mItemHeader.mOffset);
             }
             else if (TableID.TABLE_SPRITEANI == tableID)
             {
-                itemBase.parseBodyByteBuffer<TableSpriteAniItemBody>(table.m_byteBuffer, itemBase.m_itemHeader.m_offset);
+                itemBase.parseBodyByteBuffer<TableSpriteAniItemBody>(table.mByteBuffer, itemBase.mItemHeader.mOffset);
             }
             else if (TableID.TABLE_RACE == tableID)
             {
-                itemBase.parseBodyByteBuffer<TableRaceItemBody>(table.m_byteBuffer, itemBase.m_itemHeader.m_offset);
+                itemBase.parseBodyByteBuffer<TableRaceItemBody>(table.mByteBuffer, itemBase.mItemHeader.mOffset);
             }
             else if (TableID.TABLE_STATE == tableID)
             {
-                itemBase.parseBodyByteBuffer<TableStateItemBody>(table.m_byteBuffer, itemBase.m_itemHeader.m_offset);
+                itemBase.parseBodyByteBuffer<TableStateItemBody>(table.mByteBuffer, itemBase.mItemHeader.mOffset);
             }
         }
 		
@@ -158,7 +158,7 @@ namespace SDK.Lib
 			TableBase table = mDicTable[tableID];
 			if (null != table)
 			{
-				return table.m_tableName;
+				return table.mTableName;
 			}			
 			return "";
 		}
@@ -167,7 +167,7 @@ namespace SDK.Lib
         private void readTable(TableID tableID, ByteBuffer bytes)
         {
             TableBase table = mDicTable[tableID];
-            table.m_byteBuffer = bytes;
+            table.mByteBuffer = bytes;
 
             bytes.setEndian(EEndian.eLITTLE_ENDIAN);
             uint len = 0;
@@ -188,14 +188,14 @@ namespace SDK.Lib
                 //{
                     //item.parseAllByteBuffer<TableObjectItemBody>(bytes);
                 //}
-                table.m_List.Add(item);
+                table.mList.Add(item);
             }
         }
 
         // 查找表中的一项
         static public TableItemBase findDataItem(TableBase table, uint id)
 		{
-			int size = table.m_List.Count;
+			int size = table.mList.Count;
 			int low = 0;
 			int high = size - 1;
 			int middle = 0;
@@ -204,7 +204,7 @@ namespace SDK.Lib
 			while (low <= high)
 			{
 				middle = (low + high) / 2;
-                idCur = table.m_List[middle].m_itemHeader.m_uID;
+                idCur = table.mList[middle].mItemHeader.mId;
 				if (idCur == id)
 				{
 					break;
@@ -221,7 +221,7 @@ namespace SDK.Lib
 			
 			if (low <= high)
 			{
-                return table.m_List[middle];
+                return table.mList[middle];
 			}
 			return null;
 		}

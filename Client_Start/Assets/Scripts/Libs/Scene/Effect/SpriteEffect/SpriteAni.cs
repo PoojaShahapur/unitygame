@@ -87,7 +87,7 @@
                     this.mIsNeedReloadRes = true;
 
                     this.mTableID = value;
-                    this.mTableBody = Ctx.mInstance.mTableSys.getItem(TableID.TABLE_SPRITEANI, (uint)this.mTableID).m_itemBody as TableSpriteAniItemBody;
+                    this.mTableBody = Ctx.mInstance.mTableSys.getItem(TableID.TABLE_SPRITEANI, (uint)this.mTableID).mItemBody as TableSpriteAniItemBody;
 
                     onSpritePrefabChanged();
                 }
@@ -223,7 +223,7 @@
                     Ctx.mInstance.mAtlasMgr.unload(this.mAtlasScriptRes.getResUniqueId(), null);
                     this.mAtlasScriptRes = null;
                 }
-                this.mAtlasScriptRes = Ctx.mInstance.mAtlasMgr.getAndSyncLoad<AtlasScriptRes>(string.Format("{0}{1}", Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathSpriteAni], this.mTableBody.m_aniResName));
+                this.mAtlasScriptRes = Ctx.mInstance.mAtlasMgr.getAndSyncLoad<AtlasScriptRes>(string.Format("{0}{1}", Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathSpriteAni], this.mTableBody.mAniResName));
             }
 
             this.mIsNeedReloadRes = false;
@@ -235,18 +235,18 @@
             {
                 this.mLeftTime += delta;
 
-                if (this.mLeftTime >= this.mTableBody.m_invFrameRate)
+                if (this.mLeftTime >= this.mTableBody.mInvFrameRate)
                 {
                     if (eSpriteLoopType.eSequence == this.mLoopType)    // 顺序播放
                     {
                         ++this.mCurFrame;
-                        this.mCurFrame %= this.mTableBody.m_frameCount;
+                        this.mCurFrame %= this.mTableBody.mFrameCount;
                     }
                     else        // pingpang 播放
                     {
                         if(ePlayDirection.ePositive == this.mCurPlayDirection)
                         {
-                            if (this.mCurFrame == mTableBody.m_frameCount - 1) // 如果上一帧是最后一帧
+                            if (this.mCurFrame == mTableBody.mFrameCount - 1) // 如果上一帧是最后一帧
                             {
                                 this.mCurPlayDirection = ePlayDirection.eNegative;
                                 --this.mCurFrame;
@@ -267,7 +267,7 @@
                             {
                                 this.mCurPlayDirection = ePlayDirection.ePositive;
                                 ++this.mCurFrame;
-                                if(this.mCurFrame == this.mTableBody.m_frameCount)  // 如果总共就一帧
+                                if(this.mCurFrame == this.mTableBody.mFrameCount)  // 如果总共就一帧
                                 {
                                     this.mCurFrame = 0;
                                     this.mCurPlayDirection = ePlayDirection.eNegative;
@@ -280,11 +280,11 @@
                         }
                     }
 
-                    this.mLeftTime -= this.mTableBody.m_invFrameRate;
+                    this.mLeftTime -= this.mTableBody.mInvFrameRate;
 
                     updateImage();
 
-                    if (this.mCurFrame == this.mTableBody.m_frameCount - 1)
+                    if (this.mCurFrame == this.mTableBody.mFrameCount - 1)
                     {
                         if (!this.mIsLoop)
                         {

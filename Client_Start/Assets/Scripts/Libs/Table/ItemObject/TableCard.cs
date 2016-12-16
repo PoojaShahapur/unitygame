@@ -25,7 +25,7 @@
     public class TableCardItemBody : TableItemBodyBase
     {
         public string mName;        // 名称
-        public int m_type;           // 类型
+        public int mType;           // 类型
         public int m_career;         // 职业
         public int m_race;           // 种族
         public int m_quality;        // 品质
@@ -60,7 +60,7 @@
             bytes.setPos(offset);
             UtilTable.readString(bytes, ref mName);
 
-            bytes.readInt32(ref m_type);
+            bytes.readInt32(ref mType);
             bytes.readInt32(ref m_career);
             bytes.readInt32(ref m_race);
             bytes.readInt32(ref m_quality);

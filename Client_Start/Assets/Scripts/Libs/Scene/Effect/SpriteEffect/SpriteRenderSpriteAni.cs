@@ -116,7 +116,7 @@ namespace SDK.Lib
         {
             clearEffectRes();
 
-            string path = string.Format("{0}{1}", Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathSpriteAni], this.mTableBody.m_aniPrefabName);
+            string path = string.Format("{0}{1}", Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathSpriteAni], this.mTableBody.mAniPrefabName);
             this.mEffectPrefab = Ctx.mInstance.mModelMgr.getAndSyncLoad<ModelRes>(path);
             selfGo = this.mEffectPrefab.InstantiateObject(path);
 

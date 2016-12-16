@@ -55,7 +55,7 @@ namespace SDK.Lib
         public uint m_objid;
         public uint m_num;
         public uint m_price;
-		public uint m_type;
+		public uint mType;
 
         public override void parseXml(SecurityElement xmlelem)
         {
@@ -63,7 +63,7 @@ namespace SDK.Lib
             UtilXml.getXmlAttrUInt(xmlelem, "objid", ref m_objid);
             UtilXml.getXmlAttrUInt(xmlelem, "num", ref m_num);
             UtilXml.getXmlAttrUInt(xmlelem, "price", ref m_price);
-			UtilXml.getXmlAttrUInt(xmlelem,"type", ref m_type);
+			UtilXml.getXmlAttrUInt(xmlelem,"type", ref mType);
         }
     }
 }

@@ -89,7 +89,7 @@ namespace SDK.Lib
             mStartTimer.mInternal = startTime;
             mStartTimer.mTotalTime = startTime;
             mStartTimer.mTimerDisp.setFuncObject(onStartTimerEnd);
-            Ctx.mInstance.mTimerMgr.addTimer(mStartTimer);
+            this.mStartTimer.startTimer();
 
             MList<string> allAvaliableNames = new MList<string>();
             getAllPermutation(randomName, ref allAvaliableNames);
@@ -103,7 +103,7 @@ namespace SDK.Lib
             mRepeatTimer.mInternal = createTime;
             mRepeatTimer.mIsInfineLoop = true;
             mRepeatTimer.mTimerDisp.setFuncObject(onRepeatTimerTick);
-            Ctx.mInstance.mTimerMgr.addTimer(mRepeatTimer);
+            this.mRepeatTimer.startTimer();
         }
 
         protected void onRepeatTimerTick(TimerItemBase timer)

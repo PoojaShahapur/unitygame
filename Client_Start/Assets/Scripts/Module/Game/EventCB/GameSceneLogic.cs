@@ -78,7 +78,7 @@ namespace Game.Game
         {
             //LoadParam param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
             //param.mPath = Ctx.mInstance.mCfg.m_pathLst[(int)ResPathType.ePathComUI] + "UIScrollForm.unity3d";
-            //param.m_type = ResPackType.eBundleType;
+            //param.mType = ResPackType.eBundleType;
             //param.mResLoadType = ResLoadType.eLoadDicWeb;
             //param.mPrefabName = "UIScrollForm";
             //param.m_loadedcb = onResLoad;

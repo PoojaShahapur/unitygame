@@ -11,7 +11,7 @@ namespace SDK.Lib
     public class LuaCSBridge
     {
         protected string m_luaFile;         // Lua 文件名字
-        protected string m_tableName;       // 表的名字
+        protected string mTableName;       // 表的名字
         protected string m_funcName;        // 函数名字
         protected LuaTable m_luaTable;       // Lua 中的 Form
         protected LuaFunction m_luaFunc;    // lua 函数
@@ -23,7 +23,7 @@ namespace SDK.Lib
         public LuaCSBridge(string luaFile, string tableName, string funcName = "")
         {
             m_luaFile = luaFile;
-            m_tableName = tableName;
+            mTableName = tableName;
             m_funcName = funcName;
         }
 
@@ -43,7 +43,7 @@ namespace SDK.Lib
 
             LuaFramework.Util.ClearMemory();
 
-            Ctx.mInstance.mLogSys.log(string.Format("~ {0} was destroy!", m_tableName));
+            Ctx.mInstance.mLogSys.log(string.Format("~ {0} was destroy!", mTableName));
         }
 
         public void setTable(LuaTable luaTable)
@@ -98,9 +98,9 @@ namespace SDK.Lib
         {
             if (!string.IsNullOrEmpty(tableName))
             {
-                if (m_tableName != tableName)
+                if (mTableName != tableName)
                 {
-                    m_tableName = tableName;
+                    mTableName = tableName;
                     loadTable();
                 }
             }
@@ -120,7 +120,7 @@ namespace SDK.Lib
 
         public void setTableAndFunctionName(string tableName, string funcName)
         {
-            m_tableName = tableName;
+            mTableName = tableName;
             m_funcName = funcName;
             loadTableAndFunction();
         }
@@ -137,9 +137,9 @@ namespace SDK.Lib
                 //this.m_luaTable = this.DoFile(m_luaFile)[0] as LuaTable;        // 加载 lua 脚本
                 m_luaTable = Ctx.mInstance.mLuaSystem.loadModule(m_luaFile);   // 加载 lua 脚本
             }
-            else if (!string.IsNullOrEmpty(m_tableName))
+            else if (!string.IsNullOrEmpty(mTableName))
             {
-                m_luaTable = Ctx.mInstance.mLuaSystem.getLuaTable(m_tableName);
+                m_luaTable = Ctx.mInstance.mLuaSystem.getLuaTable(mTableName);
             }
         }
 
@@ -167,13 +167,13 @@ namespace SDK.Lib
         {
             /*
             string fullFuncName = "";   // 完全的有表的完全名字
-            if (String.IsNullOrEmpty(m_tableName))  // 如果在 _G 表中
+            if (String.IsNullOrEmpty(mTableName))  // 如果在 _G 表中
             {
                 fullFuncName = funcName_;
             }
             else    // 在一个 _G 的一个表中
             {
-                fullFuncName = m_tableName + "." + funcName_;
+                fullFuncName = mTableName + "." + funcName_;
             }
             return Ctx.mInstance.mLuaSystem.CallLuaFunction(fullFuncName, args);
             */
@@ -197,9 +197,9 @@ namespace SDK.Lib
         {
             /*
             string fullFuncName = "";               // 完全的有表的完全名字
-            if (!String.IsNullOrEmpty(m_tableName))  // 如果在 _G 表中
+            if (!String.IsNullOrEmpty(mTableName))  // 如果在 _G 表中
             {
-                fullFuncName = m_tableName + "." + funcName_;
+                fullFuncName = mTableName + "." + funcName_;
                 return Ctx.mInstance.mLuaSystem.CallLuaFunction(fullFuncName, m_luaTable, args);
             }
             else
@@ -284,13 +284,13 @@ namespace SDK.Lib
         {
             /*
             string fullMemberName = "";             // 有表前缀的成员的名字
-            if (String.IsNullOrEmpty(m_tableName))  // 如果在 _G 表中
+            if (String.IsNullOrEmpty(mTableName))  // 如果在 _G 表中
             {
                 fullMemberName = memberName_;
             }
             else    // 在一个 _G 的一个表中
             {
-                fullMemberName = m_tableName + "." + memberName_;
+                fullMemberName = mTableName + "." + memberName_;
             }
 
             return Ctx.mInstance.mLuaSystem.lua[fullMemberName];

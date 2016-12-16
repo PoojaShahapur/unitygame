@@ -7,7 +7,7 @@ public class HandleMesh : MonoBehaviour
 {
     public Vector3[] m_vertices;
     public Vector2[] m_uv;
-    public Color[] m_color;
+    public Color[] mColor;
     public Vector3[] m_normals;
     public int[] m_triangles;
 
@@ -52,7 +52,7 @@ public class HandleMesh : MonoBehaviour
             0, 3, 1,// 通过顶点132连接形成的三角面
         };
 
-        m_color = new Color[4]
+        mColor = new Color[4]
         {
             new Color(255, 0, 0, 1),
             new Color(0, 255, 0, 1),
@@ -78,7 +78,7 @@ public class HandleMesh : MonoBehaviour
         m_mesh.Clear();
         m_mesh.vertices = m_vertices;
         m_mesh.uv = m_uv;
-        m_mesh.colors = m_color;
+        m_mesh.colors = mColor;
         m_mesh.normals = m_normals;
         m_mesh.triangles = m_triangles;
         m_mesh.RecalculateNormals();

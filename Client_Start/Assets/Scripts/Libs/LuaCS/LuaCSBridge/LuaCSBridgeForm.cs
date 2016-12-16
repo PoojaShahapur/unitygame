@@ -59,9 +59,9 @@ namespace SDK.Lib
         // 资源加载完成初始化
         public void postInit()
         {
-            Ctx.mInstance.mLuaSystem.lua[m_tableName + ".gameObject"] = m_gameObject;
-            Ctx.mInstance.mLuaSystem.lua[m_tableName + ".transform"] = m_gameObject.transform;
-            Ctx.mInstance.mLuaSystem.lua[m_tableName + ".form"] = m_form;
+            Ctx.mInstance.mLuaSystem.lua[mTableName + ".gameObject"] = m_gameObject;
+            Ctx.mInstance.mLuaSystem.lua[mTableName + ".transform"] = m_gameObject.transform;
+            Ctx.mInstance.mLuaSystem.lua[mTableName + ".form"] = m_form;
         }
 
         // 根据表注册 UI 事件， LuaTable 的格式如下 luaTable {name="Panel_Name", BtnClickTable={"ui/click", "ui/tab"} ImageClickTable={"ui/click", "ui/tab"}}
@@ -90,9 +90,9 @@ namespace SDK.Lib
         override public object[] callClassMethod(string tableName_, string funcName_, params object[] args)
         {
             string fullFuncName = "";               // 完全的有表的完全名字
-            if (!String.IsNullOrEmpty(m_tableName))  // 如果在 _G 表中
+            if (!String.IsNullOrEmpty(mTableName))  // 如果在 _G 表中
             {
-                fullFuncName = m_tableName + "." + funcName_;
+                fullFuncName = mTableName + "." + funcName_;
                 return Ctx.mInstance.mLuaSystem.callLuaFunction(fullFuncName, m_luaInsTable, args);
             }
 

@@ -68,7 +68,7 @@ namespace SDK.Lib
             mStartTimer.mInternal = refreshTime;
             mStartTimer.mTotalTime = refreshTime;
             mStartTimer.mTimerDisp.setFuncObject(onStartTimerEnd);
-            Ctx.mInstance.mTimerMgr.addTimer(mStartTimer);
+            this.mStartTimer.startTimer();
         }
 
         protected void onStartTimerEnd(TimerItemBase timer)

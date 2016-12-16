@@ -17,7 +17,7 @@ namespace SDK.Lib
         {
             string path = "LuaScript/DataStruct/NetMsgData.lua";
             Ctx.mInstance.mLuaSystem.doFile(path);
-            m_luaTable = Ctx.mInstance.mLuaSystem.getLuaTable(m_tableName);
+            m_luaTable = Ctx.mInstance.mLuaSystem.getLuaTable(mTableName);
             // 设置系统字节序
             setSysEndian((int)SystemEndian.msLocalEndian);
         }
@@ -32,10 +32,10 @@ namespace SDK.Lib
                 //CallClassMethod("writeInt8", bu.dynBuff.buff[idx]);         // 写入每一个字节到缓冲区中，直接传递数字类型调用函数，这个数字会被作为 UserData ，如果传递数字，需要传递字符串才行
                 //object ret = CallClassMethod("writeInt8", bu.dynBuff.buff[idx].ToString());
                 //int aaa = 10;
-                //writeInt8ToLua(m_tableName, WRITEINT8, bu.dynBuff.buff[idx]);
+                //writeInt8ToLua(mTableName, WRITEINT8, bu.dynBuff.buff[idx]);
             }
 
-            writeByteArrToLua(m_tableName, WRITEMULTIBYTE, bu.dynBuffer.buffer, (int)bu.dynBuffer.size);
+            writeByteArrToLua(mTableName, WRITEMULTIBYTE, bu.dynBuffer.buffer, (int)bu.dynBuffer.size);
         }
 
         // writeInt8 函数调用，写一个字节到 Lua 表中
@@ -182,7 +182,7 @@ namespace SDK.Lib
         public void updateLuaByteBuffer(byte[] bytes, int bytesLen)
         {
             callClassMethod("", LuaCSBridgeByteBuffer.CLEAR);
-            writeByteArrToLua(m_tableName, WRITEMULTIBYTE, bytes, bytesLen);
+            writeByteArrToLua(mTableName, WRITEMULTIBYTE, bytes, bytesLen);
         }
     }
 }

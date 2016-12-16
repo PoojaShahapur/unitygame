@@ -63,7 +63,7 @@ namespace SDK.Lib
             }
             if (this.mOneAniEndTimer != null)
             {
-                Ctx.mInstance.mTimerMgr.removeTimer(this.mOneAniEndTimer);
+                this.mOneAniEndTimer.stopTimer();
                 this.mOneAniEndTimer = null;
             }
 
@@ -292,7 +292,7 @@ namespace SDK.Lib
             this.mOneAniEndTimer.mInternal = state.length;
             this.mOneAniEndTimer.mTotalTime = mOneAniEndTimer.mInternal;
 
-            Ctx.mInstance.mTimerMgr.addTimer(mOneAniEndTimer);
+            this.mOneAniEndTimer.startTimer();
         }
 
         // 默认状态监测处理器

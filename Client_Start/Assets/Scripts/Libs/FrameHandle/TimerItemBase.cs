@@ -28,7 +28,7 @@ namespace SDK.Lib
             this.mIntervalLeftTime = 0;
             this.mTimerDisp = new TimerFunctionObject();
             this.mDisposed = false;
-            mIsContinuous = false;
+            this.mIsContinuous = false;
         }
 
         public void setFuncObject(Action<TimerItemBase> handle)
@@ -206,6 +206,16 @@ namespace SDK.Lib
         public void setLuaFunctor(LuaTable luaTable, LuaFunction function)
         {
             this.mTimerDisp.setLuaFunctor(luaTable, function);
+        }
+
+        public void startTimer()
+        {
+            Ctx.mInstance.mTimerMgr.addTimer(this);
+        }
+
+        public void stopTimer()
+        {
+            Ctx.mInstance.mTimerMgr.removeTimer(this);
         }
     }
 }
