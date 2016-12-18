@@ -9,12 +9,12 @@ GlobalNS[M.clsName] = M;
 
 function M.ctor()
     this.mPrePos = 0;        -- 记录之前的位置
-    this.mSCnt = 0;
+    this.msCnt = 0;
 end
 
 function M.readString(bytes, tmpStr)
-    _, this.mSCnt = bytes:readUnsignedInt16(this.mSCnt);
-    _, tmpStr = bytes:readMultiByte(tmpStr, this.mSCnt, GlobalNS.CSSystem.GkEncode.eUTF8);
+    _, this.msCnt = bytes:readUnsignedInt16(this.msCnt);
+    _, tmpStr = bytes:readMultiByte(tmpStr, this.msCnt, GlobalNS.CSSystem.GkEncode.eUTF8);
 	return tmpStr;
 end
 
