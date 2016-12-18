@@ -2,14 +2,14 @@
 {
     public class UtilTable
     {
-        static public uint m_prePos;        // 记录之前的位置
-        static public ushort mSCnt;
+        static public uint mPrePos;        // 记录之前的位置
+        static public ushort msCnt;
 
         static public void readString(ByteBuffer bytes, ref string tmpStr)
         {
-            bytes.readUnsignedInt16(ref mSCnt);
-            //bytes.readMultiByte(ref tmpStr, mSCnt, GkEncode.UTF8);
-            bytes.readMultiByte(ref tmpStr, mSCnt, GkEncode.eUTF8);
+            bytes.readUnsignedInt16(ref msCnt);
+            //bytes.readMultiByte(ref tmpStr, msCnt, GkEncode.UTF8);
+            bytes.readMultiByte(ref tmpStr, msCnt, GkEncode.eUTF8);
         }
     }
 }
