@@ -11,6 +11,7 @@ GlobalNS.OptionPanelNS[M.clsName] = M;
 
 function M.init()
 	M.BtnSplit = "Split_BtnTouch";
+    M.BtnSwallow = "Swallow_BtnTouch";
 end
 
 M.init();

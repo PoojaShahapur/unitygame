@@ -189,5 +189,24 @@
 
             return ret;
         }
+
+        override public void emitSnowBlock()
+        {
+            PlayerMainChild child;
+            // 这个分裂修改列表数据，因此只查找前面的数据
+            int idx = 0;
+            int num = this.mPlayerChildMgr.getEntityCount();
+            UnityEngine.Vector3 relPos = new UnityEngine.Vector3(0, 0, 5);
+            UnityEngine.Vector3 destPos;
+
+            while (idx < num)
+            {
+                child = this.mPlayerChildMgr.getEntityByIndex(idx) as PlayerMainChild;
+                destPos = child.getRotate() * relPos;
+                Ctx.mInstance.mPlayerSnowBlockMgr.emitOne(child.getPos(), child.getPos() + destPos, child.getRotate(), child.getEmitSnowSize());
+
+                ++idx;
+            }
+        }
     }
 }

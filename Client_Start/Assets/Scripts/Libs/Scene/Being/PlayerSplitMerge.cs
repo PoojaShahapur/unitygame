@@ -152,5 +152,10 @@
         {
             return false;
         }
+
+        virtual public void emitSnowBlock()
+        {
+
+        }
     }
 }

@@ -15,6 +15,7 @@ GlobalNS.RelivePanelNS[M.clsName] = M;
 function M:ctor()
 	self.mId = GlobalNS.UIFormID.eUIRelivePanel;
 	self.mData = GlobalNS.new(GlobalNS.RelivePanelNS.RelivePanelData);
+    self.mTimer = GlobalNS.new(GlobalNS.TimerItemBase);
 end
 
 function M:dtor()
@@ -23,6 +24,8 @@ end
 
 function M:onInit()
     M.super.onInit(self);
+
+    self.roomFatherBtn = GlobalNS.new(GlobalNS.AuxButton);
 
     self.mBackRoomBtn = GlobalNS.new(GlobalNS.AuxButton);
 	self.mBackRoomBtn:addEventHandle(self, self.onBtnBackRoomClk);
@@ -33,16 +36,16 @@ end
 
 function M:onReady()
     M.super.onReady(self);
-    local roomFatherBtn = GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.mGuiWin, "BackRoom");
+    self.roomFatherBtn:setSelfGo(GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.mGuiWin, "BackRoom"));
     self.mBackRoomBtn:setSelfGo(GlobalNS.UtilApi.TransFindChildByPObjAndPath(
-			roomFatherBtn, 
+			self.roomFatherBtn:getSelfGo(), 
 			GlobalNS.RelivePanelNS.RelivePanelPath.BtnBackRoom)
 		);
 
 	self.mReliveBtn:setSelfGo(GlobalNS.UtilApi.TransFindChildByPObjAndPath(
 			self.mGuiWin, 
 			GlobalNS.RelivePanelNS.RelivePanelPath.BtnRelive)
-		);
+		);    
 end
 
 function M:onShow()
@@ -58,11 +61,35 @@ function M:onExit()
 end
 
 function M:onBtnReliveClk()
-	GCtx.mLogSys:log("Relive", GlobalNS.LogTypeId.eLogCommon);
+    self.mTimer:Stop();
+	self:exit();
 end
 
 function M:onBtnBackRoomClk()
 	GCtx.mLogSys:log("Back Room", GlobalNS.LogTypeId.eLogCommon);
+end
+
+function M:Client_notifyReliveSeconds(reliveseconds, entityID)
+    self.mReliveBtn:setText("立即复活（<color=#00FF01FF>" .. reliveseconds .. "</color>）");
+    local enemyname;
+    local entity = GlobalNS.CSSystem.Ctx.mInstance.mPlayerMgr:GetEntityByID(entityID);
+    if nil ~= entity and nil ~= entity.mEntity_SDK then
+        enemyname = entity:getDefinedProperty("name");
+    end
+    self.roomFatherBtn:setText("你被  <color=#00FF01FF>" .. enemyname .. "</color> 吃掉了");
+
+    self.mTimer:setTotalTime(reliveseconds);
+    self.mTimer:setFuncObject(self, self.onTick);
+    self.mTimer:Start();
+end
+
+function M:onTick()
+	local lefttime = GlobalNS.UtilMath.ceil(self.mTimer:getLeftRunTime());
+    if lefttime <= 0 then
+        self:exit();
+    else
+        self.mReliveBtn:setText("立即复活（<color=#00FF01FF>" .. lefttime .. "</color>）");
+    end    
 end
 
 return M;

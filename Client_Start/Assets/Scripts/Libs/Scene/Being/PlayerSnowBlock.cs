@@ -10,6 +10,7 @@
             this.mTypeId = "PlayerSnowBlock";
             this.mEntityType = EntityType.ePlayerSnowBlock;
             this.mEntityUniqueId = Ctx.mInstance.mPlayerSnowBlockMgr.genNewStrId();
+            this.mMovement = new PlayerSnowBlockMovement(this);
         }
 
         override public void dispose()

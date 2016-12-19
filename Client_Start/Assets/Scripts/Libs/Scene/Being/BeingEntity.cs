@@ -345,5 +345,16 @@ namespace SDK.Lib
         {
             return true;
         }
+
+        // 是否可以吐积雪块
+        virtual public bool canEmitSnow()
+        {
+            return this.mEatSize >= Ctx.mInstance.mSnowBallCfg.mEmitSnowMinMass;
+        }
+
+        virtual public float getEmitSnowSize()
+        {
+            return this.mEatSize * Ctx.mInstance.mSnowBallCfg.mEmitSnowFactor;
+        }
     }
 }

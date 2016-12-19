@@ -1,6 +1,6 @@
 ﻿namespace SDK.Lib
 {
-    public class PlayerOtherMovement : PlayerMovement
+    public class PlayerOtherMovement : BeingEntityMovement
     {
         public PlayerOtherMovement(SceneEntityBase entity)
             : base(entity)

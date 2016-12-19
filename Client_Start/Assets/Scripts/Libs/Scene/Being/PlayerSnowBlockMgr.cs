@@ -36,13 +36,15 @@
         }
 
         // 发射出一个 PlayerSnowBlock
-        public void emitOne(UnityEngine.Vector3 pos, UnityEngine.Quaternion rot)
+        public void emitOne(UnityEngine.Vector3 srcPos, UnityEngine.Vector3 destPos, UnityEngine.Quaternion rot, float emitSnowSize)
         {
             PlayerSnowBlock playerSnowBlock = new PlayerSnowBlock();
             playerSnowBlock.init();
 
-            playerSnowBlock.setDestPos(pos, true);
             playerSnowBlock.setDestRotate(rot.eulerAngles, true);
+            playerSnowBlock.setPos(srcPos);
+            playerSnowBlock.setDestPos(destPos, false);
+            playerSnowBlock.setEatSize(emitSnowSize);
         }
     }
 }

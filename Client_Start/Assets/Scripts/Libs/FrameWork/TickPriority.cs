@@ -8,6 +8,7 @@
     {
         public static float eTPPlayerMgr = 1;       // PlayerMgr
         public static float eTPSnowBlockMgr = 1;    // SnowBlockMgr
+        public static float eTPPlayerSnowBlockMgr = 1;    // PlayerSnowBlockMgr
         public static float eTPRobotMgr = 1;        // RobotMgr
         public static float eTPCamController = 1;   // 相机控制器
 

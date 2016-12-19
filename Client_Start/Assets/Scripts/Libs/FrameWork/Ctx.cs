@@ -297,7 +297,9 @@
 
             this.mTickMgr.addTick(this.mPlayerMgr as ITickedObject, TickPriority.eTPPlayerMgr);
             this.mTickMgr.addTick(this.mSnowBlockMgr as ITickedObject, TickPriority.eTPSnowBlockMgr);
+            this.mTickMgr.addTick(this.mPlayerSnowBlockMgr as ITickedObject, TickPriority.eTPPlayerSnowBlockMgr);
             this.mTickMgr.addTick(this.mRobotMgr as ITickedObject, TickPriority.eTPRobotMgr);
+            this.mTickMgr.addTick(this.mSceneSys as ITickedObject, TickPriority.eTPSceneSys);
             this.mTickMgr.addTick(this.mSceneSys as ITickedObject, TickPriority.eTPSceneSys);
         }
 

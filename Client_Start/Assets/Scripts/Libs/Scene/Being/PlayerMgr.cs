@@ -5,12 +5,6 @@ namespace SDK.Lib
 	 */
     public class PlayerMgr : EntityMgrBase
 	{
-        static public float xlimit_min = 100;
-        static public float xlimit_max = 900;
-        static public float zlimit_min = 100;
-        static public float zlimit_max = 900;
-        static public float y_height = 1.0f;
-
         protected PlayerMain mHero;
         protected UniqueStrIdGen mChildUniqueStrIdGen;
 
@@ -55,9 +49,6 @@ namespace SDK.Lib
 
         public void createPlayerMain()
         {
-            float x = UtilApi.rangRandom(PlayerMgr.xlimit_min, PlayerMgr.xlimit_max);
-            float z = UtilApi.rangRandom(PlayerMgr.zlimit_min, PlayerMgr.zlimit_max);
-
             mHero = new PlayerMain();
             mHero.init();
             mHero.setDestPos(new UnityEngine.Vector3(50, 1.3f, 50f), true);
@@ -89,7 +80,7 @@ namespace SDK.Lib
         {
             if (null != this.mHero)
             {
-                Ctx.mInstance.mPlayerSnowBlockMgr.emitOne(this.mHero.getPos(), this.mHero.getRotate());
+                this.mHero.emitSnowBlock();
             }
         }
     }

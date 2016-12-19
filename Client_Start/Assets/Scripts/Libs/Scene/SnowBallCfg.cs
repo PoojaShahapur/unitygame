@@ -12,6 +12,9 @@
         public float mMergeContactTime;     // 可以合并的接触时间
         public float mMergeCoolTime;        // 小球可以再次融合的时间间隔
 
+        public float mEmitSnowMinMass;      // 吐积雪块的最小质量
+        public float mEmitSnowFactor;       // 吐积雪块的因子
+
         public SnowBallCfg()
         {
             this.mCanEatRate = 1.0f;
@@ -19,6 +22,8 @@
             this.mN = 10;
             this.mMergeContactTime = 1;
             this.mMergeCoolTime = 1;
+            this.mEmitSnowMinMass = 1;
+            this.mEmitSnowFactor = 1;
         }
 
         public void init()

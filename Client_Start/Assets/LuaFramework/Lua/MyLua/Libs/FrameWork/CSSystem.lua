@@ -103,4 +103,9 @@ function M.startSplit()
 	this.Ctx.mInstance.mPlayerMgr:startSplit();
 end
 
+--吐一个小球
+function M.emitSnowBlock()
+	this.Ctx.mInstance.mPlayerMgr:emitSnowBlock();
+end
+
 return M;

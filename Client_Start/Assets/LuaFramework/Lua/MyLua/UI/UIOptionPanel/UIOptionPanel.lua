@@ -27,6 +27,9 @@ function M:onInit()
 	
 	self.mSplitBtn = GlobalNS.new(GlobalNS.AuxButton);
 	self.mSplitBtn:addEventHandle(self, self.onSplitBtnClk);
+
+    self.mSwallowBtn = GlobalNS.new(GlobalNS.AuxButton);
+	self.mSwallowBtn:addEventHandle(self, self.onSwallowBtnClk);
 end
 
 function M:onReady()
@@ -34,6 +37,11 @@ function M:onReady()
 	self.mSplitBtn:setSelfGo(GlobalNS.UtilApi.TransFindChildByPObjAndPath(
 			self.mGuiWin, 
 			GlobalNS.OptionPanelNS.OptionPanelPath.BtnSplit)
+		);
+
+    self.mSwallowBtn:setSelfGo(GlobalNS.UtilApi.TransFindChildByPObjAndPath(
+			self.mGuiWin, 
+			GlobalNS.OptionPanelNS.OptionPanelPath.BtnSwallow)
 		);
 end
 
@@ -50,8 +58,12 @@ function M:onExit()
 end
 
 function M:onSplitBtnClk()
-	GCtx.mLogSys:log("Split", GlobalNS.LogTypeId.eLogCommon);
 	GlobalNS.CSSystem.startSplit();
+end
+
+function M:onSwallowBtnClk()
+	--GCtx.mLogSys:log("Swallow", GlobalNS.LogTypeId.eLogCommon);
+	GlobalNS.CSSystem.emitSnowBlock();
 end
 
 return M;
