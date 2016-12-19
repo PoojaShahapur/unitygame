@@ -91,7 +91,7 @@
         virtual public void addActorLocalOffset(UnityEngine.Vector3 DeltaLocation)
         {
             UnityEngine.Vector3 localOffset = mEntity.getRotate() * DeltaLocation;
-            mEntity.setOriginal(mEntity.getPos() + localOffset);
+            mEntity.setPos(mEntity.getPos() + localOffset);
 
             this.sendMoveMsg();
         }
@@ -100,7 +100,7 @@
         virtual public void addActorLocalDestOffset(UnityEngine.Vector3 DeltaLocation)
         {
             UnityEngine.Vector3 localOffset = this.mDestRotate * DeltaLocation;
-            mEntity.setOriginal(mEntity.getPos() + localOffset);
+            mEntity.setPos(mEntity.getPos() + localOffset);
 
             this.sendMoveMsg();
         }
@@ -213,7 +213,7 @@
             }
             else
             {
-                mEntity.setOriginal(this.mDestPos);
+                mEntity.setPos(this.mDestPos);
                 this.onArriveDestPos();
             }
         }
@@ -334,7 +334,7 @@
                 // 计算最终方向
                 this.setDestRotate(UtilMath.getRotateByStartAndEndPoint(this.mEntity.getPos(), this.mDestPos).eulerAngles);
                 this.mEntity.setRotation(this.mDestRotate);
-                this.mEntity.setOriginal(this.mDestPos);
+                this.mEntity.setPos(this.mDestPos);
 
                 this.sendMoveMsg();
             }

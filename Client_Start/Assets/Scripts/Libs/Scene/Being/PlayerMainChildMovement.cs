@@ -12,7 +12,6 @@
         {
             base.init();
 
-            //this.transform = this.mEntity.transform();
             this.Start();
         }
 
@@ -40,15 +39,6 @@
 
             (this.mEntity as BeingEntity).setBeingState(BeingState.BSWalk);
             this.setIsMoveToDest(true);
-
-            //if ((this.mEntity as PlayerMainChild).isBehindTargetPoint())
-            //{
-            //    this.mIsAutoPath = true;
-            //}
-            //else
-            //{
-            //    this.mIsAutoPath = false;
-            //}
 
             this.mMoveWay = MoveWay.eIOControlMove;
         }
@@ -85,12 +75,10 @@
             {
                 targetPoint = (this.mEntity as PlayerChild).mParentPlayer.mPlayerSplitMerge.getTargetPoint();
                 UnityEngine.Quaternion retQuat = UtilMath.getRotateByStartAndEndPoint(this.mEntity.getPos(), targetPoint);
-                //(this.mEntity as BeingEntity).setDestPosAndDestRotate(targetPoint, false, true);
                 (this.mEntity as BeingEntity).setDestRotate(retQuat.eulerAngles, true);
             }
             else
             {
-                //targetPoint = this.mEntity.getPos() + (this.mEntity as PlayerChild).mParentPlayer.getRotate() * new UnityEngine.Vector3(0, 0, (this.mEntity as BeingEntity).mMoveSpeed * Ctx.mInstance.mSystemTimeData.deltaSec);
                 (this.mEntity as BeingEntity).setDestRotate((this.mEntity as PlayerChild).mParentPlayer.getRotateEulerAngle(), true);
             }
         }

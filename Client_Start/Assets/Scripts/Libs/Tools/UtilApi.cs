@@ -409,7 +409,6 @@ namespace SDK.Lib
             }
             else
             {
-                Ctx.mInstance.mLogSys.log("Destroy Object is null");
             }
         }
 
@@ -910,15 +909,15 @@ namespace SDK.Lib
             return false;
         }
 
-        static long scurTime;
-        static System.TimeSpan ts;
+        protected static long msCurTime;
+        protected static System.TimeSpan msTimeSpan;
 
         // 返回 UTC 秒
         public static uint getUTCSec()
         {
-            scurTime = System.DateTime.Now.Ticks;
-            ts = new System.TimeSpan(scurTime);
-            return (uint)(ts.TotalSeconds);
+            msCurTime = System.DateTime.Now.Ticks;
+            msTimeSpan = new System.TimeSpan(msCurTime);
+            return (uint)(msTimeSpan.TotalSeconds);
         }
 
         // 获取当前时间的文本可读形式
@@ -1274,12 +1273,6 @@ namespace SDK.Lib
             {
                 Screen.sleepTimeout = SleepTimeout.NeverSleep;
             }
-        }
-
-        // 启用/禁用使用触碰仿真鼠标的操作
-        public static void setSimulateMouseWithTouches(bool isEnable)
-        {
-            UnityEngine.Input.simulateMouseWithTouches = isEnable;
         }
     }
 }

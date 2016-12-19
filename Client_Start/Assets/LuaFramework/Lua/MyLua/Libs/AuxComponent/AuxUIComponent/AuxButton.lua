@@ -10,6 +10,7 @@ GlobalNS[M.clsName] = M;
 
 function M:ctor(...)
     self:AuxButton_1(...);
+    self.mText = "";
 end
 
 function M:dtor()
@@ -49,6 +50,10 @@ function M:updateBtnCom(dispObj)
     self.m_btn = GlobalNS.UtilApi.getComFromSelf(self.mSelfGo, GlobalNS.AuxUITypeId.Button);
     --GlobalNS.UtilApi.addEventHandle(self.m_btn, self, self.onBtnClk);
 	GlobalNS.UtilApi.addEventHandleSelf(self.mSelfGo, self, self.onBtnClk);
+
+    if "" ~= self.mText then
+        self:setText(self.mText);
+    end
 end
 
 function M:enable()
@@ -70,6 +75,17 @@ end
 
 function M:syncUpdateCom()
 
+end
+
+function M:setText(text)
+    self.mText = text;
+
+    if("" ~= self.mText) then
+        if(self.m_btn ~= nil) then
+            local btn_text = GlobalNS.UtilApi.getComByPath(self.mSelfGo, "Text", "Text");
+            btn_text.text = self.mText;
+        end
+    end
 end
 
 return M;

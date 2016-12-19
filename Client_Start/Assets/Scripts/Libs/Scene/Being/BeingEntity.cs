@@ -14,6 +14,7 @@ namespace SDK.Lib
 
         protected float mEatSize;    // 吃的大小，使用这个字段判断是否可以吃，以及吃后的大小
         protected BeingEntityAttack mAttack;
+        protected int reliveseconds; // 复活时间
 
         public BeingEntity()
         {
@@ -25,7 +26,7 @@ namespace SDK.Lib
             this.mRotateSpeed = 5;
             this.mScaleSpeed = 1;
 
-            this.mEatSize = 10;
+            this.mEatSize = 1;
         }
 
         public SkinModelSkelAnim skinAniModel
@@ -34,6 +35,12 @@ namespace SDK.Lib
             {
                 return mSkinAniModel;
             }
+        }
+
+        public int ReliveSeconds
+        {
+            set { reliveseconds = value; }
+            get { return reliveseconds; }
         }
 
         // 骨骼设置，骨骼不能更换
@@ -132,7 +139,7 @@ namespace SDK.Lib
         {
             if(immePos)
             {
-                this.setOriginal(pos);
+                this.setPos(pos);
             }
             if(null != mMovement)
             {
@@ -144,7 +151,7 @@ namespace SDK.Lib
         {
             if (immePos)
             {
-                this.setOriginal(pos);
+                this.setPos(pos);
             }
             if (null != mMovement)
             {
@@ -168,7 +175,7 @@ namespace SDK.Lib
         {
             if (immePos)
             {
-                this.setOriginal(targetPt);
+                this.setPos(targetPt);
             }
 
             UnityEngine.Quaternion retQuat = UtilMath.getRotateByStartAndEndPoint(this.getPos(), targetPt);
@@ -321,14 +328,22 @@ namespace SDK.Lib
         }
 
         // 通过当前状态判断是否需要减速
-        public bool canReduceSpeed()
+        public bool isNeedReduceSpeed()
         {
-            if (BeingState.BSWalk == this.mBeingState)
-            {
-                return true;
-            }
+            //if (BeingState.BSWalk == this.mBeingState)
+            //{
+            //    return true;
+            //}
 
-            return false;
+            //return false;
+
+            return !this.canMerge();
+        }
+
+        // 是否可以进行融合
+        virtual public bool canMerge()
+        {
+            return true;
         }
     }
 }

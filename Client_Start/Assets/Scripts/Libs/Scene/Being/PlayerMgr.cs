@@ -17,6 +17,9 @@ namespace SDK.Lib
         public float mK;     // 目标点 K 因子
         public float mN;     // 目标点 N 因子
 
+        public float mMergeContactTime;     // 可以合并的接触时间
+        public float mMergeCoolTime;        // 小球可以再次融合的时间间隔
+
         public PlayerTarget mPlayerTarget;
 
         public PlayerMgr()
@@ -26,6 +29,8 @@ namespace SDK.Lib
 
             mK = 10;
             mN = 10;
+            mMergeContactTime = 1;
+            mMergeCoolTime = 1;
         }
 
         override protected void onTickExec(float delta)
@@ -87,7 +92,7 @@ namespace SDK.Lib
                 this.mPlayerTarget.init();
             }
 
-            this.mPlayerTarget.setOriginal(pos);
+            this.mPlayerTarget.setPos(pos);
         }
     }
 }

@@ -13,9 +13,9 @@
             base.onFirstSplit();
 
             PlayerOtherChild child;
-            child = new PlayerOtherChild(mParentPlayer);
+            child = new PlayerOtherChild(this.mEntity);
             child.init();
-            child.setOriginal(this.mEntity.getPos());
+            child.setPos(this.mEntity.getPos());
         }
 
         override protected void onNoFirstSplit()
@@ -27,9 +27,9 @@
 
             while (idx < num)
             {
-                child = new PlayerOtherChild(mParentPlayer);
+                child = new PlayerOtherChild(this.mEntity);
                 child.init();
-                child.setOriginal(this.mEntity.getPos());
+                child.setPos(this.mEntity.getPos());
 
                 ++idx;
             }

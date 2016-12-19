@@ -216,7 +216,7 @@ namespace SDK.Lib
             return null;
         }
 
-        public void setOriginal(Vector3 original)
+        public void setPos(Vector3 original)
         {
             this.mIsPosDirty = true;
 

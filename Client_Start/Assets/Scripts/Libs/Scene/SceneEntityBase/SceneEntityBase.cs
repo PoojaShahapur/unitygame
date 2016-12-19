@@ -209,14 +209,14 @@ namespace SDK.Lib
             return mIsInSceneGraph;
         }
 
-        public void setOriginal(Vector3 original)
+        public void setPos(Vector3 original)
         {
             this.mPos = original;
             this.mPos.y = 1.3f;     // TODO: 先固定
 
             if (null != mRender)
             {
-                mRender.setOriginal(original);
+                mRender.setPos(original);
             }
         }
 
@@ -359,7 +359,7 @@ namespace SDK.Lib
         {
             if (null != this.mEntity_KBE)
             {
-                this.setOriginal(new Vector3(mEntity_KBE.position.x, 1.3f, mEntity_KBE.position.z));
+                this.setPos(new Vector3(mEntity_KBE.position.x, 1.3f, mEntity_KBE.position.z));
                 this.setRotation(Quaternion.Euler(new Vector3(mEntity_KBE.direction.y, mEntity_KBE.direction.z, mEntity_KBE.direction.x)));
             }
         }
@@ -369,14 +369,25 @@ namespace SDK.Lib
             return mEntity_KBE.id;
         }
 
+        public KBEngine.Entity getEntity()
+        {
+            return mEntity_KBE;
+        }
+
         public void baseCall(string methodname, params object[] arguments)
         {
-            mEntity_KBE.baseCall(methodname, arguments);
+            if (null != mEntity_KBE)
+            {
+                mEntity_KBE.baseCall(methodname, arguments);
+            }
         }
 
         public void cellCall(string methodname, params object[] arguments)
         {
-            mEntity_KBE.cellCall(methodname, arguments);
+            if (null != this.mEntity_KBE)
+            {
+                mEntity_KBE.cellCall(methodname, arguments);
+            }
         }
     }
 }

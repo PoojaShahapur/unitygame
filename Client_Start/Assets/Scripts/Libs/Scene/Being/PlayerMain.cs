@@ -2,13 +2,6 @@ using UnityEngine;
 
 namespace SDK.Lib
 {
-    //操作方式
-    public enum ControlType
-    {
-        KeyBoardControl,
-        GravitytouchControl,
-    }
-
     /**
 	 * @brief 主角
 	 */
@@ -22,7 +15,6 @@ namespace SDK.Lib
             this.mMovement = new PlayerMainMovement(this);
             this.mAttack = new PlayerMainAttack(this);
             this.mPlayerSplitMerge = new PlayerMainSplitMerge(this);
-            this.mPlayerSplitMerge.setParentPlayer(this);
         }
 
         public override void onSkeletonLoaded()
@@ -274,7 +266,7 @@ namespace SDK.Lib
 
         //----------------------------------------------------------
         //public ControlType controlType = ControlType.GravitytouchControl;
-        public ControlType controlType = ControlType.KeyBoardControl;
+        //public ControlType controlType = ControlType.KeyBoardControl;
         //public float horizontal_move = 0.0f;
         //public float vertical_move = 0.0f;
 

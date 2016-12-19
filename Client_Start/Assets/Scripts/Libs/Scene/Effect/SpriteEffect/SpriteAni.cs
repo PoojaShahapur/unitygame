@@ -78,10 +78,6 @@
         {
             set
             {
-                //if (m_tableID == 11)
-                //{
-                //    Ctx.mInstance.mLogSys.log("asdfasdasdfas");
-                //}
                 if (this.mTableID != value)
                 {
                     this.mIsNeedReloadRes = true;

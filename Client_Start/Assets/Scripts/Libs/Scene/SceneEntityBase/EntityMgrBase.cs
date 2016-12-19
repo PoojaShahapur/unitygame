@@ -5,14 +5,15 @@ namespace SDK.Lib
     public class EntityMgrBase : DelayHandleMgrBase, ITickedObject, IDelayHandleItem
     {
         protected MList<SceneEntityBase> mSceneEntityList;
-        protected Dictionary<uint, SceneEntityBase> mId2EntityDic;
+        protected Dictionary<string, SceneEntityBase> mId2EntityDic;
         protected MList<SceneEntityBase> mBufferPool;
         protected UniqueStrIdGen mUniqueStrIdGen;
 
         public EntityMgrBase()
         {
-            mSceneEntityList = new MList<SceneEntityBase>();
-            mBufferPool = new MList<SceneEntityBase>();
+            this.mSceneEntityList = new MList<SceneEntityBase>();
+            this.mId2EntityDic = new Dictionary<string, SceneEntityBase>();
+            this.mBufferPool = new MList<SceneEntityBase>();
         }
 
         virtual public void init()
@@ -58,6 +59,16 @@ namespace SDK.Lib
         virtual public void addEntity(SceneEntityBase entity)
         {
             this.addObject(entity);
+
+            if(!this.mId2EntityDic.ContainsKey(entity.getEntityUniqueId()))
+            {
+                this.mId2EntityDic[entity.getEntityUniqueId()] = entity;
+            }
+            else
+            {
+                Ctx.mInstance.mLogSys.log("EntityMgrBase already exist key", LogTypeId.eLogCommon);
+            }
+
             entity.onInit();
         }
 
@@ -112,11 +123,13 @@ namespace SDK.Lib
         }
 
         // 通过 Id 获取元素
-        public SceneEntityBase getEntityByThisId(uint thisId)
+        // 通过 Unique Id 获取元素，Unique Id 是客户端自己的唯一 id ，与服务器没有关系
+        // public SceneEntityBase getEntityByThisId(uint thisId)
+        public SceneEntityBase getEntityByUniqueId(string uniqueId)
         {
-            if(this.mId2EntityDic.ContainsKey(thisId))
+            if(this.mId2EntityDic.ContainsKey(uniqueId))
             {
-                return this.mId2EntityDic[thisId];
+                return this.mId2EntityDic[uniqueId];
             }
             return null;
         }

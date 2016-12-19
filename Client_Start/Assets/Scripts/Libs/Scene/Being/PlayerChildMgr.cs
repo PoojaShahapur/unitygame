@@ -48,7 +48,7 @@
             }
 
             child.init();
-            child.setOriginal(splitParentPlayer.getPos());
+            child.setPos(splitParentPlayer.getPos());
         }
     }
 }

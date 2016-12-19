@@ -14,7 +14,7 @@
             {
                 this.eateSnowBlock(bBeingEntity);
             }
-            else if(bBeingEntity.getEntityType() == EntityType.ePlayerOther)
+            else if (bBeingEntity.getEntityType() == EntityType.ePlayerOther)
             {
                 this.eatePlayerOther(bBeingEntity);
             }
@@ -62,7 +62,9 @@
         // 玩家之间互吃
         public void eatePlayerOther(BeingEntity bBeingEntity)
         {
-            if (this.mEntity.canEatOther(bBeingEntity))
+            byte otherIsGod = (byte)bBeingEntity.getEntity().getDefinedProperty("isGod");
+
+            if (this.mEntity.canEatOther(bBeingEntity) && 0 == otherIsGod)
             {
                 this.mEntity.cellCall("eatSnowBlock", bBeingEntity.getId());
             }

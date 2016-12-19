@@ -13,7 +13,6 @@ namespace SDK.Lib
             this.mMovement = new PlayerOtherMovement(this);
             this.mAttack = new PlayerOtherAttack(this);
             this.mPlayerSplitMerge = new PlayerOtherSplitMerge(this);
-            this.mPlayerSplitMerge.setParentPlayer(this);
         }
 
         public override void postInit()

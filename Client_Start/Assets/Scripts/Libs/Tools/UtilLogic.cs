@@ -520,5 +520,15 @@ namespace SDK.Lib
         {
             return num * num;
         }
+
+        public static bool canMerge(uint timeStamp)
+        {
+            if (UtilApi.getUTCSec() - timeStamp > Ctx.mInstance.mPlayerMgr.mMergeCoolTime)
+            {
+                return true;
+            }
+
+            return false;
+        }
     }
 }

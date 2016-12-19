@@ -55,7 +55,7 @@ namespace SDK.Lib
             }
             else
             {
-                Ctx.mInstance.mLogSys.log("spriteRender delete is already null");
+                //Ctx.mInstance.mLogSys.log("spriteRender delete is already null");
             }
         }
 
@@ -80,7 +80,7 @@ namespace SDK.Lib
 
                 if(this.mSpriteRender == null)
                 {
-                    Ctx.mInstance.mLogSys.log("m_spriteRender is null");
+                    //Ctx.mInstance.mLogSys.log("m_spriteRender is null");
                 }
             }
         }
@@ -92,12 +92,12 @@ namespace SDK.Lib
                 this.mSpriteRender.sprite = this.mAtlasScriptRes.getImage(mCurFrame).image;
                 if(this.mSpriteRender.sprite == null)
                 {
-                    Ctx.mInstance.mLogSys.log("updateImage m_spriteRender is null");
+                    //Ctx.mInstance.mLogSys.log("updateImage m_spriteRender is null");
                 }
             }
             else
             {
-                Ctx.mInstance.mLogSys.log("updateImage m_spriteRender is null");
+                //Ctx.mInstance.mLogSys.log("updateImage m_spriteRender is null");
             }
         }
 
@@ -122,7 +122,7 @@ namespace SDK.Lib
 
             if(this.mSelfGo == null)
             {
-                Ctx.mInstance.mLogSys.log(string.Format("Load SpritePrefab Path = {0} Failed", path));
+                //Ctx.mInstance.mLogSys.log(string.Format("Load SpritePrefab Path = {0} Failed", path));
             }
         }
 

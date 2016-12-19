@@ -149,7 +149,7 @@ namespace SDK.Lib
                 float z = UtilApi.rangRandom(zlimit_min, zlimit_max);
                 Robot robot = new Robot();
                 robot.init();
-                robot.setOriginal(new UnityEngine.Vector3(x, y_height * scaleRate, z));
+                robot.setPos(new UnityEngine.Vector3(x, y_height * scaleRate, z));
                 robot.setRotation(Quaternion.identity);
 
                 robot.transform().localScale = new UnityEngine.Vector3(scaleRate, scaleRate, scaleRate);//缩放
@@ -192,7 +192,7 @@ namespace SDK.Lib
 
                 Robot robot = new Robot();
                 robot.init();
-                robot.setOriginal(new Vector3(x, y_height * scaleRate, z));
+                robot.setPos(new Vector3(x, y_height * scaleRate, z));
                 robot.setRotation(Quaternion.identity);
 
                 robot.transform().localScale = new Vector3(scaleRate, scaleRate, scaleRate);//缩放

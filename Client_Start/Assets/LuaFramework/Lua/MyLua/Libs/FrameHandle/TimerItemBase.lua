@@ -154,4 +154,12 @@ function M:getClientDispose()
     return false;
 end
 
+function M:Start(priority)
+    GCtx.mTimerMgr:addTimer(self);
+end
+
+function M:Stop()
+    GCtx.mTimerMgr:removeObject(self);
+end
+
 return M;

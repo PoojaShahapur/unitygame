@@ -43,7 +43,7 @@ namespace SDK.Lib
 
             LuaFramework.Util.ClearMemory();
 
-            Ctx.mInstance.mLogSys.log(string.Format("~ {0} was destroy!", mTableName));
+            //Ctx.mInstance.mLogSys.log(string.Format("~ {0} was destroy!", mTableName));
         }
 
         public void setTable(LuaTable luaTable)

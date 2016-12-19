@@ -10,6 +10,9 @@ namespace SDK.Lib
         eUITerrainEdit,     // 地形编辑器窗口
         eUILogin,           // 登陆窗口
         eUISelectRole,      // 选择角色窗口
+
+        // Lua 界面 Id 定义开始
+        eUIStartGame = 10001,       // Lua中的界面
     }
 
     public enum WinIDCnt

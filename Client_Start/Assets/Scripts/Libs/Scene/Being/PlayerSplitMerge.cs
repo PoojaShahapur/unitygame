@@ -9,7 +9,6 @@
         protected Player mEntity;           // 分裂玩家
         protected bool mIsFitstSplited;     // 是否分裂
 
-        public Player mParentPlayer;        // 真正的父
         public MRangeBox mRangeBox;
         protected float mTargetLength;      // 分裂时刻记录目标长度
         UnityEngine.Vector3 mTargetPoint;   // 目标点
@@ -47,19 +46,14 @@
             return this.mTargetPoint;
         }
 
-        public void setParentPlayer(Player parentPlayer)
-        {
-            this.mParentPlayer = parentPlayer;
-        }
-
         public void addToParent(Player childPlayer)
         {
-            this.mParentPlayer.mPlayerSplitMerge.mPlayerChildMgr.addEntity(childPlayer);
+            this.mPlayerChildMgr.addEntity(childPlayer);
         }
 
         public void removeFormParent(Player childPlayer)
         {
-            this.mParentPlayer.mPlayerSplitMerge.mPlayerChildMgr.removeEntity(childPlayer);
+            this.mPlayerChildMgr.removeEntity(childPlayer);
         }
 
         public PlayerMovement[] getAllChildMovement()
@@ -142,6 +136,21 @@
 
                 ++idx;
             }
+        }
+
+        virtual public MergeItem addMerge(PlayerChild aChild, PlayerChild bChild)
+        {
+            return null;
+        }
+
+        virtual public void removeMerge(PlayerChild aChild, PlayerChild bChild)
+        {
+
+        }
+
+        virtual public bool isExistMerge(PlayerChild aChild, PlayerChild bChild)
+        {
+            return false;
         }
     }
 }

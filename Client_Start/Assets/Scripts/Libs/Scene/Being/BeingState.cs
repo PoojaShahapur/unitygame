@@ -8,8 +8,9 @@
         BSIdle,         // 空闲状态
         BSWalk,         // 走状态
         BSRun,          // 跑状态
-        BSSeparation,   // 分离状态
+        BSSeparation,   // 分离状态，出生后，不要都聚集在一起，停止的时候也不要都聚集在一起
         BSBirth,        // 出生状态
+        BSContactMerge, // 触碰合并，这个时候还没有真正的合并，需要等到触碰一段时间后，才能合并
     }
 
     /**

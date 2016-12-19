@@ -57,8 +57,8 @@ public class MWorld_KBE
         KBEngine.Event.registerOut("onAvatarEnterWorld", this, "onAvatarEnterWorld");
         KBEngine.Event.registerOut("onEnterWorld", this, "onEnterWorld");
         KBEngine.Event.registerOut("onLeaveWorld", this, "onLeaveWorld");
-        KBEngine.Event.registerOut("set_position", this, "set_position");
-        KBEngine.Event.registerOut("set_direction", this, "set_direction");
+        KBEngine.Event.registerOut("SetPosition", this, "SetPosition");
+        KBEngine.Event.registerOut("SetDirection", this, "SetDirection");
         KBEngine.Event.registerOut("updatePosition", this, "updatePosition");
         KBEngine.Event.registerOut("onControlled", this, "onControlled");
         KBEngine.Event.registerOut("set_HP", this, "set_HP");
@@ -139,8 +139,6 @@ public class MWorld_KBE
 
     public void addSpaceGeometryMapping(string respath)
     {
-        Debug.Log("loading scene(" + respath + ")...");
-        Ctx.mInstance.mLogSys.log("scene(" + respath + "), spaceID=" + KBEngineApp.app.spaceID);
         //if (terrain == null)
         //    terrain = UtilApi.Instantiate(terrainPerfab) as UnityEngine.GameObject;
 
@@ -162,9 +160,7 @@ public class MWorld_KBE
         if (!avatar.isPlayer())
         {
             return;
-        }
-
-        Ctx.mInstance.mLogSys.log("loading scene...(加载场景中...)");
+        }        
     }
 
     // 创建主角，只要删除显示，立刻重新创建
@@ -208,7 +204,7 @@ public class MWorld_KBE
 
         //player.GetComponent<GameEntity>().entityDisable();
 
-        player.setOriginal(new Vector3(avatar.position.x, y, avatar.position.z));
+        player.setPos(new Vector3(avatar.position.x, y, avatar.position.z));
         player.setRotation(Quaternion.Euler(new Vector3(avatar.direction.y, avatar.direction.z, avatar.direction.x)));
 
         //avatar.renderObj = player;
@@ -217,13 +213,12 @@ public class MWorld_KBE
 
         // 有必要设置一下，由于该接口由Update异步调用，有可能set_position等初始化信息已经先触发了
         // 那么如果不设置renderObj的位置和方向将为0，人物会陷入地下
-        set_position(avatar);
-        set_direction(avatar);
+        SetPosition(avatar);
+        SetDirection(avatar);
     }
 
     public void onAddSkill(KBEngine.Entity entity)
     {
-        Debug.Log("onAddSkill");
     }
 
     // 创建其它玩家
@@ -253,7 +248,7 @@ public class MWorld_KBE
         entity.renderObj = null;
     }
 
-    public void set_position(KBEngine.Entity entity)
+    public void SetPosition(KBEngine.Entity entity)
     {
         //if (entity.renderObj == null)
         //    return;
@@ -300,7 +295,7 @@ public class MWorld_KBE
         //player.isControlled = isControlled;
     }
 
-    public void set_direction(KBEngine.Entity entity)
+    public void SetDirection(KBEngine.Entity entity)
     {
         //if (entity.renderObj == null)
         //    return;

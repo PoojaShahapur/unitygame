@@ -100,7 +100,6 @@
         override public void addActorLocalOffset(UnityEngine.Vector3 DeltaLocation)
         {
             base.addActorLocalOffset(DeltaLocation);
-            //(this.mEntity as Player).mPlayerSplitMerge.reduceTargetLength(-DeltaLocation.z);
             (this.mEntity as Player).mPlayerSplitMerge.calcTargetPoint();
             this.mPosChangedDisp.dispatchEvent(this);
         }
@@ -108,7 +107,6 @@
         override public void addActorLocalDestOffset(UnityEngine.Vector3 DeltaLocation)
         {
             base.addActorLocalDestOffset(DeltaLocation);
-            //(this.mEntity as Player).mPlayerSplitMerge.reduceTargetLength(-DeltaLocation.z);
             (this.mEntity as Player).mPlayerSplitMerge.calcTargetPoint();
             this.mPosChangedDisp.dispatchEvent(this);
         }

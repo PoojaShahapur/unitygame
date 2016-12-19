@@ -57,7 +57,7 @@ namespace SDK.Lib
             //GameObject food = Instantiate(SnowBlockPrefab, new Vector3(x, y_height, z), Quaternion.identity) as GameObject;
             SnowBlock snowBlock = new SnowBlock();
             snowBlock.init();
-            snowBlock.setOriginal(new Vector3(x, y_height, z));
+            snowBlock.setPos(new Vector3(x, y_height, z));
             snowBlock.setRotation(Quaternion.identity);
         }
 

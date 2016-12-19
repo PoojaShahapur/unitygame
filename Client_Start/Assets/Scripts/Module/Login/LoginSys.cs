@@ -39,8 +39,8 @@ namespace Game.Login
 
             //Ctx.mInstance.mUiMgr.loadAndShow(UIFormID.eUILogin);
             //Ctx.mInstance.mUiMgr.loadAndShow(UIFormID.eUISelectRole);
-            //Ctx.mInstance.mLuaSystem.openForm(10001);//参数：UIFormID.lua中genNewId()
-            Ctx.mInstance.mUiMgr.loadAndShow(UIFormID.eUITest);
+            Ctx.mInstance.mLuaSystem.openForm((int)UIFormID.eUIStartGame);//参数：UIFormID.lua中genNewId()
+            //Ctx.mInstance.mUiMgr.loadAndShow(UIFormID.eUITest);
         }
 
         // 加载登陆常见
@@ -53,7 +53,7 @@ namespace Game.Login
         {
             Scene scene = dispObj as Scene;
             Ctx.mInstance.mGameRunStage.toggleGameStage(EGameStage.eStage_Login);
-            Ctx.mInstance.mLogSys.log("Login Scene is loaded");
+            //Ctx.mInstance.mLogSys.log("Login Scene is loaded");
         }
 
         public void connectLoginServer(string name, string passwd, SelectEnterMode selectEnterMode)

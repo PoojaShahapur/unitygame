@@ -32,11 +32,6 @@ namespace SDK.Lib
 
         public LayerMask CollisionLayerMask;
 
-        //public UnityEngine.UI.Scrollbar fward_force_Op;
-        //private float fward_force_Op_x_min = 1.0f;
-        //private float fward_force_Op_x_max = 1.0f;
-        //private float fward_force_Op_y_min = 1.0f;
-        //private float fward_force_Op_y_max = 1.0f;
         private Transform transform;
 
         public RoateCameraController(Camera camera, GameObject go, SceneEntityBase actor)
@@ -64,30 +59,12 @@ namespace SDK.Lib
             //critical_value2 = critical_value - Mathf.Pow(limit_radius_value2, Mathf.Abs(MoveSensitivity - MoveSensitivity2));
             critical_value = Mathf.Log(limit_radius_value, MoveSensitivity);
             Screen.sleepTimeout = SleepTimeout.NeverSleep;//设置屏幕永远亮着
-
-            //按钮四个角的屏幕坐标 顺序是左下、左上、右上、右下
-            //Vector3[] corners = new Vector3[4];
-            //fward_force_Op.GetComponent<RectTransform>().GetWorldCorners(corners);
-            //fward_force_Op_x_min = corners[0].x;
-            //fward_force_Op_x_max = corners[2].x;
-            //fward_force_Op_y_min = corners[0].y;
-            //fward_force_Op_y_max = corners[2].y;
         }
 
         public void dispose()
         {
 
         }
-
-        //public void setClientDispose()
-        //{
-
-        //}
-
-        //public bool isClientDispose()
-        //{
-        //    return false;
-        //}
 
         public void onTouchMove(IDispatchObject dispObj)
         {
@@ -141,7 +118,7 @@ namespace SDK.Lib
         protected void LateUpdate()
         {
             //if (CreatePlayer._Instace.player != null && CreatePlayer._Instace.player.GetComponent<Player>().controlType == ControlType.KeyBoardControl)
-            {
+            //{
                 PlayerMain playerMain = Ctx.mInstance.mPlayerMgr.getHero();
                 //if (CreatePlayer._Instace.GetIsJustCreate())
                 if (null != playerMain)
@@ -151,7 +128,7 @@ namespace SDK.Lib
                     //playerMain.SetIsJustCreate(false);
                 }
                 SetCameraPosition();
-            }
+            //}
         }
 
         void ResetDefaultValue()
@@ -214,7 +191,7 @@ namespace SDK.Lib
                 //CreatePlayer._Instace.player.GetComponent<Transform>().eulerAngles = eulerAngles;
                 //CreatePlayer._Instace.RefreshChildrensRotation(eulerAngles);
                 //playerMain.transform().eulerAngles = eulerAngles;
-                //playerMain.setDestRotate(eulerAngles);
+                playerMain.setDestRotate(eulerAngles, true);
                 //playerMain.RefreshChildrensRotation(eulerAngles);
             }
         }

@@ -171,7 +171,7 @@ namespace SDK.Lib
 
         public void advance(float delta)
         {
-            if (mIsNeedUpdate)
+            //if (mIsNeedUpdate)
             {
                 this.callLuaFunction("GlobalNS.GlobalEventCmd.onAdvance", delta);
             }

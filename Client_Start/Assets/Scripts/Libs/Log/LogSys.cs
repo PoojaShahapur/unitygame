@@ -118,7 +118,7 @@ namespace SDK.Lib
         {
             string textStr = Ctx.mInstance.mLangMgr.getText(LangTypeId.eDebug5, idx);
             mTmpStr = string.Format(textStr, str);
-            Ctx.mInstance.mLogSys.log(mTmpStr);
+            //Ctx.mInstance.mLogSys.log(mTmpStr);
         }
 
         public void formatLog(LangTypeId type, LangItemID item, params string[] param)
@@ -131,7 +131,7 @@ namespace SDK.Lib
             {
                 mTmpStr = string.Format(Ctx.mInstance.mLangMgr.getText(type, item), param[0], param[1]);
             }
-            Ctx.mInstance.mLogSys.log(mTmpStr);
+            //Ctx.mInstance.mLogSys.log(mTmpStr);
         }
 
         /**
