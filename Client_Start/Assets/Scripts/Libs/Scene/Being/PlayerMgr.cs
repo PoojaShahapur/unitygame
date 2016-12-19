@@ -14,23 +14,12 @@ namespace SDK.Lib
         protected PlayerMain mHero;
         protected UniqueStrIdGen mChildUniqueStrIdGen;
 
-        public float mK;     // 目标点 K 因子
-        public float mN;     // 目标点 N 因子
-
-        public float mMergeContactTime;     // 可以合并的接触时间
-        public float mMergeCoolTime;        // 小球可以再次融合的时间间隔
-
         public PlayerTarget mPlayerTarget;
 
         public PlayerMgr()
 		{
-            mUniqueStrIdGen = new UniqueStrIdGen("PL", 0);
-            mChildUniqueStrIdGen = new UniqueStrIdGen("PC", 0);
-
-            mK = 10;
-            mN = 10;
-            mMergeContactTime = 1;
-            mMergeCoolTime = 1;
+            mUniqueStrIdGen = new UniqueStrIdGen(UniqueStrIdGen.PlayerPrefix, 0);
+            mChildUniqueStrIdGen = new UniqueStrIdGen(UniqueStrIdGen.PlayerChildPrefix, 0);
         }
 
         override protected void onTickExec(float delta)
@@ -93,6 +82,15 @@ namespace SDK.Lib
             }
 
             this.mPlayerTarget.setPos(pos);
+        }
+
+        // 吐雪球
+        public void emitSnowBlock()
+        {
+            if (null != this.mHero)
+            {
+                Ctx.mInstance.mPlayerSnowBlockMgr.emitOne(this.mHero.getPos(), this.mHero.getRotate());
+            }
         }
     }
 }

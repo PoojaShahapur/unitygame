@@ -523,7 +523,7 @@ namespace SDK.Lib
 
         public static bool canMerge(uint timeStamp)
         {
-            if (UtilApi.getUTCSec() - timeStamp > Ctx.mInstance.mPlayerMgr.mMergeCoolTime)
+            if (UtilApi.getUTCSec() - timeStamp > Ctx.mInstance.mSnowBallCfg.mMergeCoolTime)
             {
                 return true;
             }

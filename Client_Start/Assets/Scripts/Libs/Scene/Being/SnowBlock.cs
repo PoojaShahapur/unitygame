@@ -4,7 +4,7 @@
     {
         public SnowBlock()
         {
-            mTypeId = "SnowBlock";
+            this.mTypeId = "SnowBlock";
             this.mEntityType = EntityType.eSnowBlock;
             this.mEntityUniqueId = Ctx.mInstance.mSnowBlockMgr.genNewStrId();
         }
@@ -13,14 +13,14 @@
         {
             base.dispose();
 
-            Ctx.mInstance.mSnowBlockMgr.removeEntity(this);
+            Ctx.mInstance.mSnowBlockMgr.removeSnowBlock(this);
         }
 
         override public void autoHandle()
         {
             base.autoHandle();
 
-            Ctx.mInstance.mSnowBlockMgr.addEntity(this);
+            Ctx.mInstance.mSnowBlockMgr.addSnowBlock(this);
         }
 
         override public void initRender()

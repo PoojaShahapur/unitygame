@@ -110,6 +110,7 @@
         public DownloadMgr mDownloadMgr;            // 下载管理器
         public clientapp mClientApp;        // KBEngine 相关处理
         public SnowBlockMgr mSnowBlockMgr;
+        public PlayerSnowBlockMgr mPlayerSnowBlockMgr;
         public RobotMgr mRobotMgr;
         public FrameCollideMgr mFrameCollideMgr;
         public SnowBallCfg mSnowBallCfg;
@@ -249,6 +250,7 @@
             this.mSnowBlockMgr = new SnowBlockMgr();
             this.mRobotMgr = new RobotMgr();
             this.mFrameCollideMgr = new FrameCollideMgr();
+            this.mPlayerSnowBlockMgr = new PlayerSnowBlockMgr();
             this.mSnowBallCfg = new SnowBallCfg();
         }
 
@@ -284,6 +286,7 @@
             this.mFrameCollideMgr.init();
             this.mSceneSys.init();
             this.mSnowBallCfg.init();
+            this.mPlayerSnowBlockMgr.init();
 
             //this.mTickMgr.addTick(mMonsterMgr as ITickedObject);
             //this.mTickMgr.addTick(mFObjectMgr as ITickedObject);

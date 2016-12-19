@@ -6,7 +6,7 @@ namespace SDK.Lib
     {
         public SnowBlockMgr()
         {
-            mUniqueStrIdGen = new UniqueStrIdGen("SM", 0);
+            mUniqueStrIdGen = new UniqueStrIdGen(UniqueStrIdGen.SnowBlockPrefix, 0);
         }
 
         override protected void onTickExec(float delta)
@@ -30,6 +30,16 @@ namespace SDK.Lib
         {
             //StartCoroutine(CreateSnowFood());
             //Ctx.mInstance.mCoroutineMgr.StartCoroutine(CreateSnowFood());
+        }
+
+        public void addSnowBlock(SnowBlock snowBlock)
+        {
+            this.addEntity(snowBlock);
+        }
+
+        public void removeSnowBlock(SnowBlock snowBlock)
+        {
+            this.removeEntity(snowBlock);
         }
 
         public void createAllSnowFood()

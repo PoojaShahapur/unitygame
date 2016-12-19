@@ -33,7 +33,7 @@ namespace SDK.Lib
     {
         public RobotMgr()
         {
-            mUniqueStrIdGen = new UniqueStrIdGen("RT", 0);
+            mUniqueStrIdGen = new UniqueStrIdGen(UniqueStrIdGen.RobotPrefix, 0);
         }
 
         override protected void onTickExec(float delta)

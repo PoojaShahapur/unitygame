@@ -76,6 +76,16 @@ namespace SDK.Lib
         {
             this.removeObject(entity);
             this.mBufferPool.Add(entity);
+
+            if (this.mId2EntityDic.ContainsKey(entity.getEntityUniqueId()))
+            {
+                this.mId2EntityDic.Remove(entity.getEntityUniqueId());
+            }
+            else
+            {
+                Ctx.mInstance.mLogSys.log("EntityMgrBase already remove key", LogTypeId.eLogCommon);
+            }
+
             if(isDispose)
             {
                 entity.onDestroy();
@@ -99,6 +109,7 @@ namespace SDK.Lib
             int idx = 0;
             int count = this.mSceneEntityList.Count();
             SceneEntityBase entity;
+
             while(idx < count)
             {
                 entity = this.mSceneEntityList[idx];

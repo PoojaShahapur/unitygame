@@ -9,6 +9,7 @@
         eRobot = 4,
         eSnowBlock = 5,
         ePlayerTarget = 6,
-        eCount = 7,
+        ePlayerSnowBlock = 7,   // Player 吐出来的积雪块
+        eCount = 8,
     }
 }

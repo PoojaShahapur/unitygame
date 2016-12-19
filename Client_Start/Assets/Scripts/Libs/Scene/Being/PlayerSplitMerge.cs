@@ -99,7 +99,7 @@
 
         protected void calcTargetLength()
         {
-            this.mTargetLength = mRangeBox.getHalfZ() * Ctx.mInstance.mPlayerMgr.mK + Ctx.mInstance.mPlayerMgr.mN;
+            this.mTargetLength = mRangeBox.getHalfZ() * Ctx.mInstance.mSnowBallCfg.mK + Ctx.mInstance.mSnowBallCfg.mN;
         }
 
         //public void reduceTargetLength(float length)

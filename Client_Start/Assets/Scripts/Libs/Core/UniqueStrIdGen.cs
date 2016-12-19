@@ -5,6 +5,12 @@
      */
     public class UniqueStrIdGen : UniqueNumIdGen
     {
+        public const string PlayerPrefix = "PL";
+        public const string PlayerChildPrefix = "PC";
+        public const string PlayerSnowBlockPrefix = "PSM";
+        public const string RobotPrefix = "RT";
+        public const string SnowBlockPrefix = "SM";
+
         protected string mPrefix;
         protected string mRetId;
 
