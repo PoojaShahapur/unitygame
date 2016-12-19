@@ -1713,8 +1713,8 @@
 				entityMessage.reclaimObject();
 				
 				entity.isOnGround = isOnGround > 0;
-				entity.set_direction(entity.getDefinedProperty("direction"));
-				entity.set_position(entity.getDefinedProperty("position"));
+				entity.SetDirection(entity.getDefinedProperty("direction"));
+				entity.SetPosition(entity.getDefinedProperty("position"));
 								
 				entity.__init__();
 				entity.inited = true;
@@ -1740,8 +1740,8 @@
 					entity.cellMailbox.className = entityType;
 					entity.cellMailbox.type = Mailbox.MAILBOX_TYPE.MAILBOX_TYPE_CELL;
 					
-					entity.set_direction(entity.getDefinedProperty("direction"));
-					entity.set_position(entity.getDefinedProperty("position"));					
+					entity.SetDirection(entity.getDefinedProperty("direction"));
+					entity.SetPosition(entity.getDefinedProperty("position"));					
 
 					_entityServerPos = entity.position;
 					entity.isOnGround = isOnGround > 0;
@@ -2253,8 +2253,8 @@
 			entity._entityLastLocalPos = entity.position;
 			entity._entityLastLocalDir = entity.direction;
 			
-			entity.set_direction(old_direction);
-			entity.set_position(old_position);
+			entity.SetDirection(old_direction);
+			entity.SetPosition(old_position);
 		}
 		
 		public void Client_onUpdateData_ypr(MemoryStream stream)

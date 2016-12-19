@@ -352,7 +352,7 @@
 		{
 		}
 		
-		public virtual void set_position(object old)
+		public virtual void SetPosition(object old)
 		{
 			Vector3 v = (Vector3)getDefinedProperty("position");
 			position = v;
@@ -362,14 +362,14 @@
 				KBEngineApp.app.entityServerPos(position);
 			
 			if(inWorld)
-				Event.fireOut("set_position", new object[]{this});
+				Event.fireOut("SetPosition", new object[]{this});
 		}
 
 		public virtual void onUpdateVolatileData()
 		{
 		}
 		
-		public virtual void set_direction(object old)
+		public virtual void SetDirection(object old)
 		{
 			Vector3 v = (Vector3)getDefinedProperty("direction");
 			
@@ -380,7 +380,7 @@
 			//Dbg.DEBUG_MSG(className + "::set_direction: " + old + " => " + v); 
 			
 			if(inWorld)
-				Event.fireOut("set_direction", new object[]{this});
+				Event.fireOut("SetDirection", new object[]{this});
 		}
 
 		/// <summary>
