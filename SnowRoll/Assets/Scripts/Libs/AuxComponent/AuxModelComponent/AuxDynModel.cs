@@ -101,7 +101,7 @@
 
                 this.mModelRes = Ctx.mInstance.mModelMgr.getAndSyncLoad<ModelRes>(this.mModelResPath);
 
-                selfGo = this.mModelRes.InstantiateObject(this.mModelResPath);
+                selfGo = this.mModelRes.InstantiateObject(this.mModelResPath, false, UtilMath.ZeroVec3, UtilMath.UnitQuat);
                 attach2Parent();
 
                 this.mModelInsDisp.dispatchEvent(this);

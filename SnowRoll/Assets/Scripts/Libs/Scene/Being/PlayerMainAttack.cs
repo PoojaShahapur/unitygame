@@ -10,6 +10,11 @@
 
         override public void overlapToEnter(BeingEntity bBeingEntity, UnityEngine.Collision collisionInfo)
         {
+            if (UtilApi.isInFakePos(this.mEntity.getPos()))
+            {
+                return;
+            }
+
             if (bBeingEntity.getEntityType() == EntityType.eSnowBlock)
             {
                 this.eateSnowBlock(bBeingEntity);

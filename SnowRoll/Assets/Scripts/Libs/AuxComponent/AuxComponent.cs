@@ -228,7 +228,7 @@ namespace SDK.Lib
             this.updateLocalTransform();
         }
 
-        public void setRotation(Quaternion rotation)
+        public void setRotate(Quaternion rotation)
         {
             this.mIsRotDirty = true;
 

@@ -40,6 +40,8 @@ namespace SDK.Lib
             {
                 this.mAuxPrefabLoader = new AuxPrefabLoader("", true, false);
                 this.mAuxPrefabLoader.setDestroySelf(false); // 自己释放 GmmeObject
+                this.mAuxPrefabLoader.setIsInitOrientPos(true);
+                this.mAuxPrefabLoader.setIsFakePos(true);
             }
 
             this.mAuxPrefabLoader.syncLoad(mResPath);

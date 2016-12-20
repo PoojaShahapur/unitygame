@@ -14,6 +14,10 @@
 
         public float mEmitSnowMinMass;      // 吐积雪块的最小质量
         public float mEmitSnowFactor;       // 吐积雪块的因子
+        public float mInitSnowMass;         // 初始雪球大小
+        public float mCanEmitMultiple;      // 可以吐雪块的倍数
+
+        public int mMaxSnowNum;            // 最大雪块的数量
 
         public SnowBallCfg()
         {
@@ -24,6 +28,10 @@
             this.mMergeCoolTime = 10;
             this.mEmitSnowMinMass = 1;
             this.mEmitSnowFactor = 0.1f;
+
+            this.mInitSnowMass = 1;
+            this.mCanEmitMultiple = 4;
+            this.mMaxSnowNum = 200;
         }
 
         public void init()
@@ -34,6 +42,12 @@
         public void dispose()
         {
 
+        }
+
+        // 是否小于最大雪球的数量
+        public bool isLessMaxNum(int num)
+        {
+            return num < mMaxSnowNum;
         }
     }
 }

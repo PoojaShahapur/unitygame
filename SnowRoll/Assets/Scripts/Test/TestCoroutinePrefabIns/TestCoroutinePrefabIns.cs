@@ -29,7 +29,7 @@ namespace UnitTest
                 {
                     evt = new ResInsEventDispatch();
                     evt.addEventHandle(null, onResIns);
-                    mPrefabRes.InstantiateObject(mPrefabRes.getPrefabName(), evt);
+                    mPrefabRes.InstantiateObject(mPrefabRes.getPrefabName(), false, UtilMath.ZeroVec3, UtilMath.UnitQuat, evt);
                 }
             }
             else if(mPrefabRes.hasFailed())

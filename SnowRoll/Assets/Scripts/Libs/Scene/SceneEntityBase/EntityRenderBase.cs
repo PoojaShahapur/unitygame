@@ -61,10 +61,12 @@
 
         }
 
+        // 资源加载完成，初始化一些基本资源
         override protected void onSelfChanged()
         {
             base.onSelfChanged();
 
+            // 设置可视化
             if (this.mEntity.IsVisible())
             {
                 this.show();
@@ -73,6 +75,10 @@
             {
                 this.hide();
             }
+            // 设置方向位置信息
+            this.setPos(this.mEntity.getPos());
+            this.setRotate(this.mEntity.getRotate());
+            this.setScale(this.mEntity.getScale());
         }
 
         override public void updateLocalTransform()

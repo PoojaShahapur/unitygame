@@ -10,6 +10,11 @@
 
         override public void overlapToEnter(BeingEntity bBeingEntity, UnityEngine.Collision collisionInfo)
         {
+            if(UtilApi.isInFakePos(this.mEntity.getPos()))
+            {
+                return;
+            }
+
             if (bBeingEntity.getEntityType() == EntityType.eSnowBlock)
             {
                 this.eateSnowBlock(bBeingEntity);
@@ -51,18 +56,15 @@
                     }
                 }
             }
-        }
-
-        override public void overlapToStay(BeingEntity bBeingEntity, UnityEngine.Collision collision)
-        {
-            // 如果和 PlayerMainChild 碰撞
-            //if (EntityType.ePlayerMainChild == bBeingEntity.getEntityType() ||
-            //    EntityType.ePlayerMain == bBeingEntity.getEntityType())
-            if (EntityType.ePlayerMainChild == bBeingEntity.getEntityType())
+            else if (EntityType.ePlayerMainChild == bBeingEntity.getEntityType())
             {
-                if (this.mEntity.isNeedReduceSpeed() || bBeingEntity.isNeedReduceSpeed())
+                if (this.mEntity.canMerge() && bBeingEntity.canMerge())
                 {
-                    if (UtilMath.isBehindCollidePoint(this.mEntity.getPos(), this.mEntity.getForward(), collision))
+                    (this.mEntity as PlayerMainChild).mParentPlayer.mPlayerSplitMerge.addMerge(this.mEntity as PlayerChild, bBeingEntity as PlayerChild);
+                }
+                else if (this.mEntity.isNeedReduceSpeed() || bBeingEntity.isNeedReduceSpeed())
+                {
+                    if (UtilMath.isBehindCollidePoint(this.mEntity.getPos(), this.mEntity.getForward(), collisionInfo))
                     {
                         // 需要减小速度
                         this.mEntity.setMoveSpeed(bBeingEntity.getMoveSpeed());
@@ -72,19 +74,28 @@
                         bBeingEntity.setMoveSpeed(this.mEntity.getMoveSpeed());
                     }
                 }
-                else if (this.mEntity.canMerge() && bBeingEntity.canMerge())
-                {
-                    (this.mEntity as PlayerMainChild).mParentPlayer.mPlayerSplitMerge.addMerge(this.mEntity as PlayerChild, bBeingEntity as PlayerChild);
-                }
             }
-            else if(EntityType.ePlayerOtherChild == bBeingEntity.getEntityType())
+            else if (EntityType.ePlayerOtherChild == bBeingEntity.getEntityType())
             {
                 // 如果碰撞 PlayerOtherChild
             }
         }
 
-        override public void overlapToExit(BeingEntity bBeingEntity, UnityEngine.Collision collision)
+        override public void overlapToStay(BeingEntity bBeingEntity, UnityEngine.Collision collisionInfo)
         {
+            if (UtilApi.isInFakePos(this.mEntity.getPos()))
+            {
+                return;
+            }
+        }
+
+        override public void overlapToExit(BeingEntity bBeingEntity, UnityEngine.Collision collisionInfo)
+        {
+            if (UtilApi.isInFakePos(this.mEntity.getPos()))
+            {
+                return;
+            }
+
             // 如果和 PlayerMainChild 碰撞
             if (EntityType.ePlayerMainChild == bBeingEntity.getEntityType())
             {

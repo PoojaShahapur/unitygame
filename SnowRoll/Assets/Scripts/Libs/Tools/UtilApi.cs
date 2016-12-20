@@ -538,6 +538,11 @@ namespace SDK.Lib
             return false;
         }
 
+        public static bool isInFakePos(Vector3 pos)
+        {
+            return UtilMath.isEqualVec3(pos, UtilApi.FAKE_POS);
+        }
+
         public static UnityEngine.Object Instantiate(UnityEngine.Object original)
         {
             return UnityEngine.Object.Instantiate(original);

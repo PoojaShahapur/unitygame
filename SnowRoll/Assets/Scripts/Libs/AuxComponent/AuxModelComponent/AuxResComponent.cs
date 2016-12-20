@@ -54,7 +54,7 @@ namespace SDK.Lib
             {
                 Ctx.mInstance.mLogSys.debugLog_1(LangItemID.eItem0, this.mRes.getLoadPath());
 
-                this.mSelfGo = this.mRes.InstantiateObject(this.mPath);
+                this.mSelfGo = this.mRes.InstantiateObject(this.mPath, false, UtilMath.ZeroVec3, UtilMath.UnitQuat);
                 this.mSelfGo.transform.SetParent(this.mSelfLocalGo.transform, false);
 
                 // 不是使用 mResLoadMgr.load 接口加载的资源，不要使用 mResLoadMgr.unload 去卸载资源

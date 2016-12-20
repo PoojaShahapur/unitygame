@@ -12,7 +12,7 @@
         {
             base.init();
 
-            this.Start();
+            this.initSeparate();
         }
 
         override public void dispose()
@@ -108,7 +108,7 @@
         public float MaxDistanceSquared { get; private set; }
         public float MinDistanceSquared { get; private set; }
 
-        protected void Start()
+        protected void initSeparate()
         {
             MaxDistanceSquared = _maxDistance * _maxDistance;
             MinDistanceSquared = _minDistance * _minDistance;
@@ -132,6 +132,7 @@
             if(UnityEngine.Vector3.zero == offset)  // 如果两个位置重叠，就随机一个方向移动
             {
                 offset = UtilMath.UnitCircleRandom();   // 获取一个单位圆随机位置
+
                 if(UnityEngine.Vector3.zero == offset)  // 如果正好随机一个 zero，需要赋值一个值
                 {
                     offset = new UnityEngine.Vector3(0.1f, 0.1f, 0.1f);
@@ -139,8 +140,8 @@
             }
 
             float offsetSqrMag = offset.sqrMagnitude;
-
             steering = (offset / -offsetSqrMag);
+
             if (!UnityEngine.Mathf.Approximately(_multiplierInsideComfortDistance, 1) && offsetSqrMag < _comfortDistanceSquared)
             {
                 steering *= _multiplierInsideComfortDistance;
@@ -157,17 +158,20 @@
         protected UnityEngine.Vector3 CalculateForces()
         {
             UnityEngine.Vector3 steering = UnityEngine.Vector3.zero;
+
             for (var i = 0; i < _neighbors.Count(); i++)
             {
                 PlayerMainChild other = _neighbors[i] as PlayerMainChild;
+
                 if (other != this.mEntity)
                 {
                     UnityEngine.Vector3 direction = other.getPos() - this.mEntity.getPos();
+
                     if (_drawNeighbors)
                     {
                         UtilApi.DrawLine(this.mEntity.getPos(), other.getPos(), UnityEngine.Color.magenta);
                     }
-                    //if (this.IsDirectionInRange(direction))
+
                     if((this.mEntity as BeingEntity).isNeedSeparate(other as BeingEntity))
                     {
                         steering += this.CalculateNeighborContribution(other);
@@ -192,10 +196,12 @@
             if ((this.mEntity as BeingEntity).canSeparateByState())
             {
                 UnityEngine.Vector3 steering = this.CalculateForces();
+
                 if (UnityEngine.Vector3.zero != steering)
                 {
                     UnityEngine.Quaternion rotate = UtilMath.getRotateByOrient(steering);
                     (this.mEntity as PlayerMainChild).setDestRotate(rotate.eulerAngles, true);
+
                     this.moveForwardSeparate();
                 }
                 else

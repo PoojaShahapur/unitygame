@@ -78,7 +78,7 @@
 
             if (res.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
             {
-                this.selfGo = res.InstantiateObject(res.getPrefabName());
+                this.selfGo = res.InstantiateObject(res.getPrefabName(), false, UtilMath.ZeroVec3, UtilMath.UnitQuat);
                 m_skelLoadDisp.dispatchEvent(this);
             }
             else if (res.refCountResLoadResultNotify.resLoadState.hasFailed())

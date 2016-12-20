@@ -348,7 +348,7 @@ namespace SDK.Lib
 
             UIAttrItem attrItem = mUIAttrs.mId2AttrDic[formId];
             mId2FormDic[formId].isLoadWidgetRes = true;
-            mId2FormDic[formId].m_guiWin.m_uiRoot = res.InstantiateObject(attrItem.mWidgetPath);
+            mId2FormDic[formId].m_guiWin.m_uiRoot = res.InstantiateObject(attrItem.mWidgetPath, false,  UtilMath.ZeroVec3, UtilMath.UnitQuat);
             if (attrItem.mIsNeedLua)
             {
                 mId2FormDic[formId].luaCSBridgeForm.gameObject = mId2FormDic[formId].m_guiWin.m_uiRoot;

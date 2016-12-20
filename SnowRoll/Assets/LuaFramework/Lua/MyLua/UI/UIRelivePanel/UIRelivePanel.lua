@@ -72,7 +72,8 @@ end
 function M:Client_notifyReliveSeconds(reliveseconds, entityID)
     self.mReliveBtn:setText("立即复活（<color=#00FF01FF>" .. reliveseconds .. "</color>）");
     local enemyname;
-    local entity = GlobalNS.CSSystem.Ctx.mInstance.mPlayerMgr:GetEntityByID(entityID);
+    local entity = GlobalNS.CSSystem.Ctx.mInstance.mPlayerMgr:getEntityByThisId(entityID):getEntity();
+    
     if nil ~= entity and nil ~= entity.mEntity_SDK then
         enemyname = entity:getDefinedProperty("name");
     end

@@ -31,7 +31,10 @@ namespace SDK.Lib
             this.mIsClientDispose = false;
             this.mIsInSceneGraph = true;
 
+            this.mPos = Vector3.zero;
+            this.mRotate = new Quaternion(0, 0, 0, 1);
             this.mScale = Vector3.one;
+
             this.mIsVisible = true;
         }
 
@@ -83,6 +86,16 @@ namespace SDK.Lib
                 mRender.dispose();
                 mRender = null;
             }
+        }
+
+        public void setThisId(uint thisId)
+        {
+            mId = thisId;
+        }
+
+        public uint getThisId()
+        {
+            return mId;
         }
 
         virtual public void show()
@@ -235,16 +248,16 @@ namespace SDK.Lib
             return mIsInSceneGraph;
         }
 
-        public void setPos(Vector3 original)
+        public void setPos(Vector3 pos)
         {
-            if (!UtilMath.isEqualVec3(this.mPos, original))
+            if (!UtilMath.isEqualVec3(this.mPos, pos))
             {
-                this.mPos = original;
+                this.mPos = pos;
                 this.mPos.y = 1.3f;     // TODO: 先固定
 
                 if (null != mRender)
                 {
-                    mRender.setPos(original);
+                    mRender.setPos(pos);
                 }
             }
         }
@@ -260,7 +273,7 @@ namespace SDK.Lib
 
             if (null != mRender)
             {
-                mRender.setRotation(rotation);
+                mRender.setRotate(rotation);
             }
         }
 
@@ -270,7 +283,7 @@ namespace SDK.Lib
 
             if (null != mRender)
             {
-                mRender.setRotation(this.mRotate);
+                mRender.setRotate(this.mRotate);
             }
         }
 
@@ -278,6 +291,7 @@ namespace SDK.Lib
         public UnityEngine.Vector3 getForward()
         {
             UnityEngine.Vector3 forward = this.mRotate * UnityEngine.Vector3.forward;
+
             return forward;
         }
 
@@ -293,7 +307,7 @@ namespace SDK.Lib
 
         public Vector3 getScale()
         {
-            return mScale;
+            return this.mScale;
         }
 
         public void setScale(UnityEngine.Vector3 value)

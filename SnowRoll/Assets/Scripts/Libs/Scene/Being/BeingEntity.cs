@@ -388,5 +388,12 @@ namespace SDK.Lib
         {
             return this.mEatSize * Ctx.mInstance.mSnowBallCfg.mEmitSnowFactor;
         }
+
+        // 是否可以分裂
+        virtual public bool canSplit()
+        {
+            //return this.mEatSize >= Ctx.mInstance.mSnowBallCfg.mCanEmitMultiple * Ctx.mInstance.mSnowBallCfg.mInitSnowMass;
+            return true;
+        }
     }
 }

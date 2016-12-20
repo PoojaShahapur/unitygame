@@ -70,7 +70,7 @@
                 this.mModelRes = Ctx.mInstance.mModelMgr.getAndLoad<ModelRes>(param);
                 Ctx.mInstance.mPoolSys.deleteObj(param);
 
-                this.mSelfGo = this.mModelRes.InstantiateObject(this.mResPath);
+                this.mSelfGo = this.mModelRes.InstantiateObject(this.mResPath, false, UtilMath.ZeroVec3, UtilMath.UnitQuat);
                 if (this.mIsNeedPlaceHolderGo)
                 {
                     if(this.mPlaceHolderGo == null)

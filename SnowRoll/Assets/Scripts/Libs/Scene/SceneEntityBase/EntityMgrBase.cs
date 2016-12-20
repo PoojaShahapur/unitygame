@@ -6,6 +6,7 @@ namespace SDK.Lib
     {
         protected MList<SceneEntityBase> mSceneEntityList;
         protected Dictionary<string, SceneEntityBase> mId2EntityDic;
+        protected Dictionary<uint, SceneEntityBase> mThisId2EntityDic;
         protected MList<SceneEntityBase> mBufferPool;
         protected UniqueStrIdGen mUniqueStrIdGen;
 
@@ -13,6 +14,7 @@ namespace SDK.Lib
         {
             this.mSceneEntityList = new MList<SceneEntityBase>();
             this.mId2EntityDic = new Dictionary<string, SceneEntityBase>();
+            this.mThisId2EntityDic = new Dictionary<uint, SceneEntityBase>();
             this.mBufferPool = new MList<SceneEntityBase>();
         }
 
@@ -69,6 +71,11 @@ namespace SDK.Lib
                 Ctx.mInstance.mLogSys.log("EntityMgrBase already exist key", LogTypeId.eLogCommon);
             }
 
+            if (!this.mThisId2EntityDic.ContainsKey(entity.getThisId()))
+            {
+                this.mThisId2EntityDic[entity.getThisId()] = entity;
+            }
+
             entity.onInit();
         }
 
@@ -86,7 +93,12 @@ namespace SDK.Lib
                 Ctx.mInstance.mLogSys.log("EntityMgrBase already remove key", LogTypeId.eLogCommon);
             }
 
-            if(isDispose)
+            if (this.mThisId2EntityDic.ContainsKey(entity.getThisId()))
+            {
+                this.mThisId2EntityDic.Remove(entity.getThisId());
+            }
+
+            if (isDispose)
             {
                 entity.onDestroy();
             }
@@ -134,8 +146,16 @@ namespace SDK.Lib
         }
 
         // 通过 Id 获取元素
+        public SceneEntityBase getEntityByThisId(uint thisId)
+        {
+            if (this.mThisId2EntityDic.ContainsKey(thisId))
+            {
+                return this.mThisId2EntityDic[thisId];
+            }
+            return null;
+        }
+
         // 通过 Unique Id 获取元素，Unique Id 是客户端自己的唯一 id ，与服务器没有关系
-        // public SceneEntityBase getEntityByThisId(uint thisId)
         public SceneEntityBase getEntityByUniqueId(string uniqueId)
         {
             if(this.mId2EntityDic.ContainsKey(uniqueId))

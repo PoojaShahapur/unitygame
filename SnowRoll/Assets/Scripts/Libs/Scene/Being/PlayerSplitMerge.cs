@@ -72,6 +72,33 @@
             return movement;
         }
 
+        public float getMaxCameraLength()
+        {
+            float length = 0;
+            UnityEngine.Vector3 center = Ctx.mInstance.mPlayerMgr.getHero().getPos(); ; //中心
+            int total = this.mPlayerChildMgr.getEntityCount();
+            int index = 0;
+            Player player = null;
+
+            if (1 == total)//只有一个根据直径缩放
+            {
+                player = this.mPlayerChildMgr.getEntityByIndex(index) as Player;
+                length = player.getScale().x * 2;
+            }
+            else
+            {//多个根据中心到最远子物体的距离缩放
+                while (index < total)
+                {
+                    player = this.mPlayerChildMgr.getEntityByIndex(index) as Player;
+                    float templen = UtilMath.Sqrt(UtilMath.Sqr(center.x - player.getPos().x) + UtilMath.Sqr(center.z - player.getPos().z));
+                    if (templen > length) length = templen;
+                    ++index;
+                }
+            }
+
+            return 0 == length ? 5 : length;
+        }
+
         // 分裂
         public void startSplit()
         {

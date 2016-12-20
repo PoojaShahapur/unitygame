@@ -152,8 +152,6 @@
         // 向左旋转
         public void rotateLeft()
         {
-            //(this.mEntity as BeingEntity).setBeingState(BeingState.BSWalk);
-
             float delta = Ctx.mInstance.mSystemTimeData.deltaSec;
             UnityEngine.Vector3 deltaRotation = new UnityEngine.Vector3(0.0f, (mEntity as BeingEntity).mRotateSpeed * delta, 0.0f);
             this.addLocalRotation(deltaRotation);
@@ -187,8 +185,6 @@
         // 控制向前移动
         public void moveForwardToDest(float delta)
         {
-            //(this.mEntity as BeingEntity).setBeingState(BeingState.BSWalk);
-
             UnityEngine.Vector3 localMove = new UnityEngine.Vector3(0.0f, 0.0f, (mEntity as BeingEntity).mMoveSpeed * delta);
             this.addActorLocalOffset(localMove);
         }
@@ -206,8 +202,6 @@
 
             if (dist > deltaSpeed)
             {
-                //(this.mEntity as BeingEntity).setBeingState(BeingState.BSWalk);
-
                 UnityEngine.Vector3 localMove = new UnityEngine.Vector3(0.0f, 0.0f, (mEntity as BeingEntity).mMoveSpeed * delta);
                 this.addActorLocalDestOffset(localMove);
             }

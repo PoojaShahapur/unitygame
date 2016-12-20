@@ -146,22 +146,13 @@ namespace SDK.Lib
                 this.eulerAngles_y = ClampAngle(this.eulerAngles_y, (float)this.yMinLimit, (float)this.yMaxLimit);
                 Quaternion quaternion = Quaternion.Euler(this.eulerAngles_y, this.eulerAngles_x, (float)0);
                 //中心位置
-                //Vector3 centerPos = CreatePlayer._Instace.GetCenterPosition();
-                //Vector3 centerPos = playerMain.GetCenterPosition();
                 Vector3 centerPos = playerMain.getPos();
                 //缩放参照距离
-                //float radius = CreatePlayer._Instace.GetScaleDistance(centerPos);
-                //float radius = playerMain.GetScaleDistance(centerPos);
-                float radius = 5;
+                //float radius = 5;
+                float radius = playerMain.mPlayerSplitMerge.getMaxCameraLength();
                 //等比缩放相机位置
                 float cur_distance_Z = this.distance_Z * radius;
-
-                /*if (radius <= limit_radius_value)
-                    cur_distance_Z -= Mathf.Pow(radius, MoveSensitivity);
-                else if(radius > limit_radius_value && radius <= limit_radius_value2)
-                    cur_distance_Z -= ( critical_value - Mathf.Pow(radius, Mathf.Abs(MoveSensitivity - MoveSensitivity2)) );
-                else
-                    cur_distance_Z -= critical_value2;*/
+                
                 cur_distance_Z = this.distance_Z + Mathf.Log(radius, MoveSensitivity) + radius;
                 if (radius > limit_radius_value)
                 {
@@ -182,8 +173,7 @@ namespace SDK.Lib
 
                 //更改主相机的旋转角度和位置 
                 this.transform.rotation = quaternion;
-                this.transform.position = vector;
-
+                this.transform.position = vector;     
                 //旋转玩家角度，x轴不变
                 //player.GetComponent<Transform>().rotation = (this.transform.rotation);
                 Vector3 eulerAngles_cam = this.transform.rotation.eulerAngles;

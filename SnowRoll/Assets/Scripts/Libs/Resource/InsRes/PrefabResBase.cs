@@ -16,48 +16,65 @@ namespace SDK.Lib
         override protected void initImpl(ResItem res)
         {
             mGo = res.getObject(res.getPrefabName()) as GameObject;
+
             base.initImpl(res);
         }
 
-        public GameObject InstantiateObject(string resName)
+        public GameObject InstantiateObject(string resName, bool isSetInitOrientPos, Vector3 position, Quaternion rotation)
         {
             mRetGO = null;
 
             if (null == mGo)
             {
-                
+                Ctx.mInstance.mLogSys.log("Actor default object is null", LogTypeId.eLogCommon);
             }
             else
             {
-                mRetGO = GameObject.Instantiate(mGo) as GameObject;
+                if (isSetInitOrientPos)
+                {
+                    mRetGO = GameObject.Instantiate(mGo, position, rotation) as GameObject;
+                }
+                else
+                {
+                    mRetGO = GameObject.Instantiate(mGo) as GameObject;
+                }
+
                 if (null == mRetGO)
                 {
-                   
+                    Ctx.mInstance.mLogSys.log("Actor instance object is null", LogTypeId.eLogCommon);
                 }
             }
 
             return mRetGO;
         }
 
-        public void InstantiateObject(string resName, ResInsEventDispatch evtHandle)
+        public void InstantiateObject(string resName, bool isSetInitOrientPos, Vector3 position, Quaternion rotation,  ResInsEventDispatch evtHandle)
         {
-            Ctx.mInstance.mCoroutineMgr.StartCoroutine(asyncInstantiateObject(resName, evtHandle));
+            Ctx.mInstance.mCoroutineMgr.StartCoroutine(asyncInstantiateObject(resName, isSetInitOrientPos, position, rotation, evtHandle));
         }
 
-        public IEnumerator asyncInstantiateObject(string resName, ResInsEventDispatch evtHandle)
+        public IEnumerator asyncInstantiateObject(string resName, bool isSetInitOrientPos, Vector3 position, Quaternion rotation, ResInsEventDispatch evtHandle)
         {
             GameObject retGO = null;
 
             if (null == mGo)
             {
-                
+                Ctx.mInstance.mLogSys.log("Actor default object is null", LogTypeId.eLogCommon);
             }
             else
             {
-                retGO = GameObject.Instantiate(mGo) as GameObject;
+                if (isSetInitOrientPos)
+                {
+                    retGO = GameObject.Instantiate(mGo, position, rotation) as GameObject;
+                }
+                else
+                {
+                    retGO = GameObject.Instantiate(mGo) as GameObject;
+                }
+
                 if (null == retGO)
                 {
-                    
+                    Ctx.mInstance.mLogSys.log("Actor instance object is null", LogTypeId.eLogCommon);
                 }
             }
 

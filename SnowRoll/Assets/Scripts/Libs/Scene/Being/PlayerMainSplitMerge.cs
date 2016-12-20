@@ -25,6 +25,7 @@
         {
             mTmpMergedList.Clear();
             int idx = 0;
+
             while (idx < mMergeList.Count())
             {
                 if (mMergeList[idx].canMerge())
@@ -50,64 +51,37 @@
         {
             base.onFirstSplit();
 
-            PlayerMainChild child;
-            child = new PlayerMainChild(this.mEntity);
-            child.init();
-            //UnityEngine.Vector3 initPos = this.mEntity.getPos() + this.mEntity.getRotate() * new UnityEngine.Vector3(0, 0, -this.mEntity.getEatSize());
-            UnityEngine.Vector3 initPos = this.mEntity.getPos();
-            child.setPos(initPos);
-            // 设置 Child 分裂半径
-            child.setEatSize(this.mEntity.getEatSize());
+            this.mRangeBox.clear();
+            this.mRangeBox.setExtents(this.mEntity.getPos().x, this.mEntity.getPos().y, this.mEntity.getPos().z);
 
-            // 自己不设置分裂半径
-            //this.mEntity.setEatSize(this.mEntity.getEatSize());
-
-            // 添加 Child 事件
-            ((this.mEntity as PlayerMain).mMovement as PlayerMainMovement).addOrientChangedHandle((child.mMovement as PlayerMainChildMovement).handleParentOrientChanged);
-            ((this.mEntity as PlayerMain).mMovement as PlayerMainMovement).addPosChangedHandle((child.mMovement as PlayerMainChildMovement).handleParentPosChanged);
-            ((this.mEntity as PlayerMain).mMovement as PlayerMainMovement).addOrientStopChangedHandle((child.mMovement as PlayerMainChildMovement).handleParentOrientStopChanged);
-            ((this.mEntity as PlayerMain).mMovement as PlayerMainMovement).addPosStopChangedHandle((child.mMovement as PlayerMainChildMovement).handleParentPosStopChanged);
+            this.splitOne(null, true);
 
             this.calcTargetLength();
             this.calcTargetPoint();
-            //this.updateChildDestDir();
         }
 
         // 每一次分裂确定一次目标点，其它时候不改变目标点
         override protected void onNoFirstSplit()
-        {
-            PlayerMainChild child;
+        {   
             // 这个分裂修改列表数据，因此只查找前面的数据
             int idx = 0;
             int num = this.mPlayerChildMgr.getEntityCount();
             PlayerChild player;
-            UnityEngine.Vector3 pos;
+            bool isClear = false;
 
-            this.mRangeBox.clear();
-
-            while (idx < num)
+            while (idx < num && Ctx.mInstance.mSnowBallCfg.isLessMaxNum(this.mPlayerChildMgr.getEntityCount()))
             {
+                if(!isClear)
+                {
+                    isClear = true;
+                    this.mRangeBox.clear();
+                }
+
                 player = this.mPlayerChildMgr.getEntityByIndex(idx) as PlayerChild;
-                pos = player.getPos();
-                this.mRangeBox.setExtents(pos.x, pos.y, pos.z);
-
-                child = new PlayerMainChild(this.mEntity);
-                child.init();
-
-                UnityEngine.Vector3 initPos = player.getPos() + player.getRotate() * new UnityEngine.Vector3(0, 0, player.getEatSize() + 5);
-                //UnityEngine.Vector3 initPos = player.getPos() + UtilMath.UnitCircleRandom();
-                child.setPos(player.getPos());
-                (child as BeingEntity).setDestPosForBirth(initPos, false);
-                child.setEatSize(player.getEatSize());
-
-                // 设置分裂半径
-                player.setEatSize(player.getEatSize());
-
-                // 添加 Child 事件
-                ((this.mEntity as PlayerMain).mMovement as PlayerMainMovement).addOrientChangedHandle((child.mMovement as PlayerMainChildMovement).handleParentOrientChanged);
-                ((this.mEntity as PlayerMain).mMovement as PlayerMainMovement).addPosChangedHandle((child.mMovement as PlayerMainChildMovement).handleParentPosChanged);
-                ((this.mEntity as PlayerMain).mMovement as PlayerMainMovement).addOrientStopChangedHandle((child.mMovement as PlayerMainChildMovement).handleParentOrientStopChanged);
-                ((this.mEntity as PlayerMain).mMovement as PlayerMainMovement).addPosStopChangedHandle((child.mMovement as PlayerMainChildMovement).handleParentPosStopChanged);
+                if (player.canSplit())
+                {
+                    this.splitOne(player, false);
+                }
 
                 ++idx;
             }
@@ -116,7 +90,51 @@
             this.mEntity.setPos(this.mRangeBox.getCenter().toNative());
             this.calcTargetLength();
             this.calcTargetPoint();
-            //this.updateChildDestDir();
+        }
+
+        protected void splitOne(PlayerChild player, bool isFirst)
+        {
+            PlayerMainChild child;
+            UnityEngine.Vector3 pos;
+
+            child = new PlayerMainChild(this.mEntity);
+            child.init();
+
+            UnityEngine.Vector3 initPos;
+
+            if (isFirst)
+            {
+                initPos = this.mEntity.getPos();
+                child.setPos(initPos);
+                // 设置 Child 分裂半径
+                child.setEatSize(this.mEntity.getEatSize());
+                (child as BeingEntity).setMoveSpeed((this.mEntity as BeingEntity).getMoveSpeed());
+            }
+            else
+            {
+                pos = player.getPos();
+                this.mRangeBox.setExtents(pos.x, pos.y, pos.z);
+
+                initPos = pos + player.getRotate() * new UnityEngine.Vector3(0, 0, player.getEatSize() + 5);
+                //initPos = player.getPos() + UtilMath.UnitCircleRandom();
+                //child.setPos(player.getPos());
+                child.setPos(initPos);
+
+                initPos = pos + player.getRotate() * new UnityEngine.Vector3(0, 0, player.getEatSize() + 10);
+                (child as BeingEntity).setDestPosForBirth(initPos, false);
+
+                child.setEatSize(player.getEatSize());
+                (child as BeingEntity).setMoveSpeed(player.getMoveSpeed() * 2.0f);
+
+                // 设置分裂半径
+                player.setEatSize(player.getEatSize());
+            }
+
+            // 添加 Child 事件
+            ((this.mEntity as PlayerMain).mMovement as PlayerMainMovement).addOrientChangedHandle((child.mMovement as PlayerMainChildMovement).handleParentOrientChanged);
+            ((this.mEntity as PlayerMain).mMovement as PlayerMainMovement).addPosChangedHandle((child.mMovement as PlayerMainChildMovement).handleParentPosChanged);
+            ((this.mEntity as PlayerMain).mMovement as PlayerMainMovement).addOrientStopChangedHandle((child.mMovement as PlayerMainChildMovement).handleParentOrientStopChanged);
+            ((this.mEntity as PlayerMain).mMovement as PlayerMainMovement).addPosStopChangedHandle((child.mMovement as PlayerMainChildMovement).handleParentPosStopChanged);
         }
 
         override public MergeItem addMerge(PlayerChild aChild, PlayerChild bChild)
@@ -215,6 +233,12 @@
                 player.setDestPos(pos, immePos);
                 ++index;
             }
+
+            this.mRangeBox.clear();
+            this.mRangeBox.setExtents(pos.x, pos.y, pos.z);
+
+            this.calcTargetLength();
+            this.calcTargetPoint();
         }
     }
 }

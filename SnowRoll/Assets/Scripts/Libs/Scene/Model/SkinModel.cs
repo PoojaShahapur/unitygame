@@ -194,7 +194,7 @@ namespace SDK.Lib
 
         public void linkSkelModel()
         {
-            m_modelGo = m_modelRes.InstantiateObject(m_modelRes.getPrefabName());
+            m_modelGo = m_modelRes.InstantiateObject(m_modelRes.getPrefabName(), false, UtilMath.ZeroVec3, UtilMath.UnitQuat);
             UtilApi.SetParent(m_modelGo, m_skelRootGo);
             if (m_skinRes.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
             {

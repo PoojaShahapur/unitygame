@@ -28,6 +28,9 @@ namespace SDK.Lib
         public static float[] mSinTable;
         public static float[] mTanTable;
 
+        public static Vector3 ZeroVec3 = Vector3.zero;
+        public static Quaternion UnitQuat = new Quaternion(0, 0, 0, 1);
+
         public UtilMath( int trigTableSize )
         {
             msAngleUnit = AngleUnit.AU_DEGREE;
