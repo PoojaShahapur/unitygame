@@ -27,17 +27,17 @@
 
         }
 
-        virtual public void overlapToEnter(BeingEntity bBeingEntity, UnityEngine.Collider collider)
+        virtual public void overlapToEnter(BeingEntity bBeingEntity, UnityEngine.Collision collisionInfo)
         {
 
         }
 
-        virtual public void overlapToStay(BeingEntity bBeingEntity, UnityEngine.Collision collision)
+        virtual public void overlapToStay(BeingEntity bBeingEntity, UnityEngine.Collision collisionInfo)
         {
 
         }
 
-        virtual public void overlapToExit(BeingEntity bBeingEntity, UnityEngine.Collision collision)
+        virtual public void overlapToExit(BeingEntity bBeingEntity, UnityEngine.Collision collisionInfo)
         {
 
         }

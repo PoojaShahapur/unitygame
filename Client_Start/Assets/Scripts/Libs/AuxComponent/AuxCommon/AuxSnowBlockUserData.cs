@@ -4,7 +4,7 @@ namespace SDK.Lib
 {
     public class AuxSnowBlockUserData : AuxSceneEntityUserData
     {
-        void OnTriggerEnter(Collider other)
+        void OnCollisionEnter(UnityEngine.Collision collisionInfo)
         {
 
         }

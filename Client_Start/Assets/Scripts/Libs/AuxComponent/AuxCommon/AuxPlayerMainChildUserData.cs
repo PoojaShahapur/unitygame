@@ -2,50 +2,50 @@
 {
     public class AuxPlayerMainChildUserData : AuxPlayerUserData
     {
-        void OnTriggerEnter(UnityEngine.Collider collider)
+        void OnCollisionEnter(UnityEngine.Collision collisionInfo)
         {
             AuxSceneEntityUserData aUserData = this.GetComponent<AuxSceneEntityUserData>();
             PlayerMainChild aBeingEntity = aUserData.getUserData() as PlayerMainChild;
 
-            AuxSceneEntityUserData bUserData = collider.gameObject.GetComponent<AuxSceneEntityUserData>();
+            AuxSceneEntityUserData bUserData = collisionInfo.gameObject.GetComponent<AuxSceneEntityUserData>();
             if (null != bUserData)
             {
                 BeingEntity bBeingEntity = bUserData.getUserData() as BeingEntity;
                 if (!Ctx.mInstance.mFrameCollideMgr.isOrAddCollidedInCurFrame(aBeingEntity.getEntityUniqueId(), bBeingEntity.getEntityUniqueId()))
                 {
-                    aBeingEntity.overlapToEnter(bBeingEntity, collider);
+                    aBeingEntity.overlapToEnter(bBeingEntity, collisionInfo);
                 }
             }
         }
 
-        void OnCollisionStay(UnityEngine.Collision collision)
+        void OnCollisionStay(UnityEngine.Collision collisionInfo)
         {
             AuxSceneEntityUserData aUserData = this.GetComponent<AuxSceneEntityUserData>();
             PlayerMainChild aBeingEntity = aUserData.getUserData() as PlayerMainChild;
 
-            AuxSceneEntityUserData bUserData = collision.gameObject.GetComponent<AuxSceneEntityUserData>();
+            AuxSceneEntityUserData bUserData = collisionInfo.gameObject.GetComponent<AuxSceneEntityUserData>();
             if (null != bUserData)
             {
                 BeingEntity bBeingEntity = bUserData.getUserData() as BeingEntity;
                 if (!Ctx.mInstance.mFrameCollideMgr.isOrAddCollidedInCurFrame(aBeingEntity.getEntityUniqueId(), bBeingEntity.getEntityUniqueId()))
                 {
-                    aBeingEntity.overlapToStay(bBeingEntity, collision);
+                    aBeingEntity.overlapToStay(bBeingEntity, collisionInfo);
                 }
             }
         }
 
-        void OnCollisionExit(UnityEngine.Collision collision)
+        void OnCollisionExit(UnityEngine.Collision collisionInfo)
         {
             AuxSceneEntityUserData aUserData = this.GetComponent<AuxSceneEntityUserData>();
             PlayerMainChild aBeingEntity = aUserData.getUserData() as PlayerMainChild;
 
-            AuxSceneEntityUserData bUserData = collision.gameObject.GetComponent<AuxSceneEntityUserData>();
+            AuxSceneEntityUserData bUserData = collisionInfo.gameObject.GetComponent<AuxSceneEntityUserData>();
             if (null != bUserData)
             {
                 BeingEntity bBeingEntity = bUserData.getUserData() as BeingEntity;
                 if (!Ctx.mInstance.mFrameCollideMgr.isOrAddCollidedInCurFrame(aBeingEntity.getEntityUniqueId(), bBeingEntity.getEntityUniqueId()))
                 {
-                    aBeingEntity.overlapToExit(bBeingEntity, collision);
+                    aBeingEntity.overlapToExit(bBeingEntity, collisionInfo);
                 }
             }
         }

@@ -4,14 +4,14 @@ namespace SDK.Lib
 {
     public class AuxPlayerMainUserData : AuxPlayerUserData
     {
-        void OnTriggerEnter(Collider collider)
+        void OnCollisionEnter(UnityEngine.Collision collisionInfo)
         {
             AuxSceneEntityUserData aUserData = this.GetComponent<AuxSceneEntityUserData>();
             if (null != aUserData)
             {
                 Player aBeingEntity = aUserData.getUserData() as Player;
 
-                AuxSceneEntityUserData bUserData = collider.gameObject.GetComponent<AuxSceneEntityUserData>();
+                AuxSceneEntityUserData bUserData = collisionInfo.gameObject.GetComponent<AuxSceneEntityUserData>();
                 if (null != bUserData)
                 {
                     BeingEntity bBeingEntity = bUserData.getUserData() as BeingEntity;
@@ -19,7 +19,7 @@ namespace SDK.Lib
                     {
                         if (!Ctx.mInstance.mFrameCollideMgr.isOrAddCollidedInCurFrame(aBeingEntity.getEntityUniqueId(), bBeingEntity.getEntityUniqueId()))
                         {
-                            aBeingEntity.overlapToEnter(bBeingEntity, collider);
+                            aBeingEntity.overlapToEnter(bBeingEntity, collisionInfo);
                         }
                     }
                 }

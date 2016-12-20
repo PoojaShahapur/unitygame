@@ -11,6 +11,8 @@
             this.mEntityType = EntityType.ePlayerSnowBlock;
             this.mEntityUniqueId = Ctx.mInstance.mPlayerSnowBlockMgr.genNewStrId();
             this.mMovement = new PlayerSnowBlockMovement(this);
+
+            this.mMoveSpeed = 6;
         }
 
         override public void dispose()
