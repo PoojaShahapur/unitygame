@@ -1,0 +1,66 @@
+﻿using System.Collections.Generic;
+using System.IO;
+
+namespace SDK.Lib
+{
+	public class PakItem
+	{
+		protected ArchiveHeader m_pArchiveHeader;
+		protected uint m_fileSize;			// 文件总共大小
+		protected List<FileHeader> m_pFileVec;		// 整个文件列表
+        public MDataStream mDataStream = null;      // 文件句柄
+
+		public PakItem()
+		{
+			m_pArchiveHeader = new ArchiveHeader();
+			m_pFileVec = new List<FileHeader>();
+		}
+
+		public void clearFileVec()
+		{
+			m_fileSize = 0;
+			m_pArchiveHeader.clear();
+			m_pFileVec.Clear();
+		}
+
+		public void readArchiveFileHeader()
+		{
+			ByteBuffer pMByteBuffer = new ByteBuffer();
+
+            if (m_pArchiveHeader.readArchiveFileHeader(mDataStream.mFileStream, pMByteBuffer))		// 检查 magic
+			{
+				FileHeader pFileHeader;
+				for (uint idx = 0; idx < m_pArchiveHeader.mFileCount; ++idx)
+				{
+					pFileHeader = new FileHeader();
+					m_pFileVec.Add(pFileHeader);
+					pFileHeader.readHeaderFromArchiveFile(pMByteBuffer);
+				}
+			}
+		}
+
+		public void readArchiveFile2Bytes(FileHeader fileHeader, ref byte[] bytes)
+		{
+            fileHeader.readArchiveFile2Bytes(mDataStream.mFileStream, ref bytes);
+		}
+
+        public FileHeader getFileHeader(string path)
+        {
+            foreach(FileHeader item in m_pFileVec)
+            {
+                if (item.fileNamePath == path)
+                {
+                    return item;
+                }
+            }
+
+            return null;
+        }
+
+        public void dispose()
+        {
+            mDataStream.dispose();
+            mDataStream = null;
+        }
+	}
+}

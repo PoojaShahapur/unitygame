@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<Root>
+    <BehaviorTemplate name="1000" >
+		<!-- 根节点 -->
+        <BehaviorTree name="1000">
+			<!-- 各个模块顺序执行 -->
+            <Sequence>
+				<!-- 攻击模块，暂时全部写在这里面 -->
+				<Sequence>
+					<Action type="AttackAll" />
+				</Sequence>
+            </Sequence>
+        </BehaviorTree>
+    </BehaviorTemplate>
+</Root>

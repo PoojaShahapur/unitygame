@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!--
+	resourcespath：资源目录
+	srcroot：根目录
+	extname：扩展名字
+	unity3d：
+	ignoreext:忽略扩展
+	destroot:保存的目录
+	null：忽略此目录
+	reslistoutpath：资源列表输出目录
+-->
+<Root reslistoutpath="E:/aaaaa/File2Unity3d.bytes">
+	<resourcespath srcroot="Assets/Resources" destroot="" unity3dextname="prefab,png,shader,mat" ignoreext="meta" />
+	<resourcespath srcroot="Assets/Scenes" destroot="Scenes" unity3dextname="unity" ignoreext="meta,xml,exr" />
+</Root>
