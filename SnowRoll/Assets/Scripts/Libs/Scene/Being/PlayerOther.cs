@@ -19,11 +19,13 @@ namespace SDK.Lib
         {
             base.postInit();
 
+            this.hide();
+
             this.mMovement.init();
             this.mAttack.init();
             this.mPlayerSplitMerge.init();
 
-            //this.mPlayerSplitMerge.startSplit();
+            this.mPlayerSplitMerge.startSplit();
         }
 
         override public void initRender()
@@ -36,14 +38,14 @@ namespace SDK.Lib
         {
             base.dispose();
 
-            Ctx.mInstance.mPlayerMgr.removeEntity(this);
+            Ctx.mInstance.mPlayerMgr.removePlayer(this);
         }
 
         override public void autoHandle()
         {
             base.autoHandle();
 
-            Ctx.mInstance.mPlayerMgr.addEntity(this);
+            Ctx.mInstance.mPlayerMgr.addPlayer(this);
         }
     }
 }

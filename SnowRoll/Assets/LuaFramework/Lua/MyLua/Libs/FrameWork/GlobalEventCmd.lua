@@ -38,8 +38,11 @@ function M.onSceneLoaded()
 		pTestMain = GlobalNS.new(GlobalNS.TestMain);
 		pTestMain:run();
 	end
+end
 
-    --加载场景上的UI组件
+-- 主角加载完成
+function M.onPlayerMainLoaded()
+    --加载场景上的UI组件，主角加载完成后再加载UI，否则UI拿不到主角数据
     GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormID.eUIPlayerDataPanel);
     GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormID.eUIForwardForce);
     GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormID.eUIOptionPanel);
@@ -61,6 +64,16 @@ end
 
 function M.requireFile(filePath)
 	return MLoader(filePath);
+end
+
+function M.getUserNickName()
+    if GCtx.mUiMgr:hasForm(GlobalNS.UIFormID.eUIStartGame) then
+        local form = GCtx.mUiMgr:getForm(GlobalNS.UIFormID.eUIStartGame);
+        if nil ~= form and form:isVisible() then            
+            return form.username;
+        end
+    end
+    return "海盗一号";
 end
 
 return M;

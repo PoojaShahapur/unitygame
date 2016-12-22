@@ -42,12 +42,9 @@ namespace SDK.Lib
 
         }
 
-        public SceneCfg sceneCfg
+        public SceneCfg getSceneCfg()
         {
-            get
-            {
-                return mSceneCfg;
-            }
+            return mSceneCfg;
         }
 
         public string file

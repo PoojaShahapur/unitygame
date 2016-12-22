@@ -297,6 +297,8 @@ namespace SDK.Lib
                 UtilMath.UnitRandom(), 
                 UtilMath.UnitRandom());
 
+            orient.Normalize();
+
             return orient;
         }
 
@@ -802,6 +804,63 @@ namespace SDK.Lib
             }
 
             return false;
+        }
+
+        //由半径求质量
+        public static float getMassByRadius(float radius)
+        {
+            return Ctx.mInstance.mSnowBallCfg.mMassFactor * Mathf.Pow(radius, 3.0f);
+        }
+
+        //由质量求半径
+        public static float getRadiusByMass(float mass)
+        {
+            return Mathf.Pow(mass * Ctx.mInstance.mSnowBallCfg.mInvMassFactor, 1 / 3.0f);
+        }
+
+        //吞食后的新半径
+        public static float getNewRadiusByRadius(float radius1, float radius2)
+        {
+            return getRadiusByMass(getMassByRadius(radius1) + getMassByRadius(radius2));
+        }
+
+        //客户端显示质量
+        public static string getShowMass(float radius)
+        {
+            string showmass = "1毫克";
+            float k = 3.0f;
+            float _wt = k * Mathf.Pow((radius * 0.0001f), 3.0f) / 10; //万吨
+            if(_wt > 1)
+            {
+                showmass = System.String.Format("{0:N1}万吨", _wt);
+                return showmass;
+            }
+
+            float _t = k * Mathf.Pow((radius * 0.001f), 3.0f); //吨
+            if(_t > 1)
+            {
+                showmass = System.String.Format("{0:N1}吨", _t);
+                return showmass;
+            }
+
+            float _kg = k * Mathf.Pow((radius * 0.01f), 3.0f); //kg
+            if (_kg > 1)
+            {
+                showmass = System.String.Format("{0:N1}千克", _kg);
+                return showmass;
+            }
+
+            float _g = k * Mathf.Pow((radius * 0.1f), 3.0f); //g
+            if (_g > 1)
+            {
+                showmass = System.String.Format("{0:N1}克", _g);
+                return showmass;
+            }
+
+            float _mg = k * Mathf.Pow((radius), 3.0f); //mg
+            showmass = System.String.Format("{0:N1}毫克", _mg);
+
+            return showmass;
         }
     }
 }

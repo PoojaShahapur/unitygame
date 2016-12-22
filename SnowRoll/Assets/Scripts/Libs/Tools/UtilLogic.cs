@@ -506,16 +506,6 @@ namespace SDK.Lib
             return ret;
         }
 
-        public static float getMassByRadius(float radius)
-        {
-            return Mathf.Pow(radius, 3.0f);
-        }
-
-        public static float getRadiusByMass(float mass)
-        {
-            return Mathf.Pow(mass, 1.0f / 3.0f);
-        }
-
         public static float getSquare(float num)
         {
             return num * num;

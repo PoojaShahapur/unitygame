@@ -35,6 +35,7 @@ namespace SDK.Lib
             mEnableLogTypeList.Add(LogTypeId.eLogLocalFile);
             mEnableLogTypeList.Add(LogTypeId.eLogTestRL);
             //mEnableLogTypeList.Add(LogTypeId.eLogAcceleration);
+            mEnableLogTypeList.Add(LogTypeId.eLogSplitMergeEmit);
 
             mEnableLog = true;
         }

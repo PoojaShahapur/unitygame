@@ -7,6 +7,8 @@
             this.mTypeId = "SnowBlock";
             this.mEntityType = EntityType.eSnowBlock;
             this.mEntityUniqueId = Ctx.mInstance.mSnowBlockMgr.genNewStrId();
+
+            this.mAttack = new SnowBlockAttack(this);
         }
 
         override public void dispose()

@@ -248,7 +248,7 @@ namespace SDK.Lib
             return mIsInSceneGraph;
         }
 
-        public void setPos(Vector3 pos)
+        virtual public void setPos(Vector3 pos)
         {
             if (!UtilMath.isEqualVec3(this.mPos, pos))
             {

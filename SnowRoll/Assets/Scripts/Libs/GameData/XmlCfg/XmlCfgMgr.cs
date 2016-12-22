@@ -22,6 +22,7 @@ namespace SDK.Lib
             param.mLoadEventHandle = onLoadEventHandle;
             param.mLoadNeedCoroutine = false;
             param.mResNeedCoroutine = false;
+
             Ctx.mInstance.mResLoadMgr.loadAsset(param);
             Ctx.mInstance.mPoolSys.deleteObj(param);
         }

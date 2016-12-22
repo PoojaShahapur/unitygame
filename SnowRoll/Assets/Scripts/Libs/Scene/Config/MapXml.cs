@@ -16,54 +16,47 @@ namespace SDK.Lib
         public override void parseXml(string str)
         {
             base.parseXml(str);
-            parseXml<DZDaoJiShiXmlLimit>(str, "limit");
-            parseXml<MapXmlItem>(str, "scenesPVP");
-        }
-
-        public override ArrayList getXmlNodeList(SecurityElement config, string itemNode)
-        {
-            ArrayList itemNodeList = new ArrayList();
-            UtilXml.getXmlChildList(config, itemNode, ref itemNodeList);
-            return itemNodeList;
+            parseXml<DZDaoJiShiXmlLimit>(null, "limit");
+            parseXml<MapXmlItem>(null, "scenesPVP");
         }
     }
 
     public class DZDaoJiShiXmlLimit : XmlItemBase
     {
-        public uint m_preparetime;
-        public uint m_roundtime;
-        public uint m_peaceNum;
-        public uint m_luckyCoin;
+        public uint mPrepareTime;
+        public uint mRoundTime;
+        public uint mPeaceNum;
+        public uint mLuckyCoin;
 
-        public uint m_tiredCard;
-        public uint m_lastpreparetime;
-        public uint m_lastroundtime;
+        public uint mTiredCard;
+        public uint mLastPrepareTime;
+        public uint mLastRoundTime;
 
         public override void parseXml(SecurityElement xmlelem)
         {
-            UtilXml.getXmlAttrUInt(xmlelem, "preparetime", ref m_preparetime);
-            UtilXml.getXmlAttrUInt(xmlelem, "roundtime", ref m_roundtime);
-            UtilXml.getXmlAttrUInt(xmlelem, "peaceNum", ref m_peaceNum);
-            UtilXml.getXmlAttrUInt(xmlelem, "luckyCoin", ref m_luckyCoin);
+            UtilXml.getXmlAttrUInt(xmlelem, "preparetime", ref mPrepareTime);
+            UtilXml.getXmlAttrUInt(xmlelem, "roundtime", ref mRoundTime);
+            UtilXml.getXmlAttrUInt(xmlelem, "peaceNum", ref mPeaceNum);
+            UtilXml.getXmlAttrUInt(xmlelem, "luckyCoin", ref mLuckyCoin);
 
-            UtilXml.getXmlAttrUInt(xmlelem, "tiredCard", ref m_tiredCard);
-            UtilXml.getXmlAttrUInt(xmlelem, "lastpreparetime", ref m_lastpreparetime);
-            UtilXml.getXmlAttrUInt(xmlelem, "lastroundtime", ref m_lastroundtime);
+            UtilXml.getXmlAttrUInt(xmlelem, "tiredCard", ref mTiredCard);
+            UtilXml.getXmlAttrUInt(xmlelem, "lastpreparetime", ref mLastPrepareTime);
+            UtilXml.getXmlAttrUInt(xmlelem, "lastroundtime", ref mLastRoundTime);
         }
     }
 
     public class MapXmlItem : XmlItemBase
     {
-        public uint m_sceneId;
-        public string m_sceneName;
+        public uint mSceneId;
+        public string mSceneName;
         public string mLevelName;
 
         public override void parseXml(SecurityElement xmlelem)
         {
             SecurityElement itemXml = null;
             UtilXml.getXmlChild(xmlelem, "item", ref itemXml);
-            UtilXml.getXmlAttrUInt(itemXml, "id", ref m_sceneId);
-            UtilXml.getXmlAttrStr(itemXml, "name", ref m_sceneName);
+            UtilXml.getXmlAttrUInt(itemXml, "id", ref mSceneId);
+            UtilXml.getXmlAttrStr(itemXml, "name", ref mSceneName);
             UtilXml.getXmlAttrStr(itemXml, "res", ref mLevelName);
         }
     }

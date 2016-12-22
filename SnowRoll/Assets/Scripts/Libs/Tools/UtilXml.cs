@@ -104,18 +104,27 @@ namespace SDK.Lib
             return XML_FAIL;
         }
 
-        // 获取一个孩子节点列表
+        // 获取一个 Element 中对应名字是 name 的孩子节点列表
         static public int getXmlChildList(SecurityElement elem, string name, ref ArrayList list)
         {
             if (elem != null)
             {
-                foreach (SecurityElement child in elem.Children)
+                int idx = 0;
+                int len = elem.Children.Count;
+                SecurityElement child = null;
+
+                //foreach (SecurityElement child in elem.Children)
+                while(idx < len)
                 {
+                    child = elem.Children[idx] as SecurityElement;
+
                     //比对下是否使自己所需要得节点
                     if (child.Tag == name)
                     {
                         list.Add(child);
                     }
+
+                    ++idx;
                 }
             }
 
@@ -135,19 +144,47 @@ namespace SDK.Lib
         {
             if (elem != null)
             {
-                foreach (SecurityElement child in elem.Children)
+                int idx = 0;
+                int len = elem.Children.Count;
+                SecurityElement child = null;
+
+                //foreach (SecurityElement child in elem.Children)
+                while(idx < len)
                 {
+                    child = elem.Children[idx] as SecurityElement;
+
                     //比对下是否使自己所需要得节点
                     if (child.Tag == name)
                     {
                         childNode = child;
                         return XML_OK;
                     }
+
+                    ++idx;
                 }
             }
 
             childNode = null;
             return XML_FAIL;
+        }
+
+        // 获取某一个元素的所有 Child 列表
+        public static int getXmlElementAllChildList(SecurityElement elem, string itemNode, ref ArrayList list)
+        {
+            SecurityElement objElem = null;
+
+            if (string.IsNullOrEmpty(itemNode))
+            {
+                objElem = elem;
+            }
+            else
+            {
+                UtilXml.getXmlChild(elem, itemNode, ref objElem);
+            }
+
+            list = objElem.Children;
+
+            return XML_OK;
         }
     }
 }

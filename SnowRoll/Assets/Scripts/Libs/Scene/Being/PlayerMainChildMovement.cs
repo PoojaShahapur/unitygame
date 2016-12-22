@@ -149,7 +149,7 @@
 
             if (_vehicleRadiusImpact > 0)
             {
-                steering *= (other.getEatSize() + (this.mEntity as PlayerMainChild).getEatSize()) * _vehicleRadiusImpact;
+                steering *= (other.getBallRadius() + (this.mEntity as PlayerMainChild).getBallRadius()) * _vehicleRadiusImpact;
             }
 
             return steering;

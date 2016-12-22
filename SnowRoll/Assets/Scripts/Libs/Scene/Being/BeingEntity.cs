@@ -13,12 +13,12 @@ namespace SDK.Lib
         public float mRotateSpeed;   // 旋转速度
         public float mScaleSpeed;    // 缩放速度
 
-        public float mMoveSpeed_k = 10;
-        public float mMoveSpeed_b = 10;
-
-        protected float mEatSize;    // 吃的大小，使用这个字段判断是否可以吃，以及吃后的大小
+        protected float mBallRadius;    // 吃的大小，使用这个字段判断是否可以吃，以及吃后的大小
         protected BeingEntityAttack mAttack;
         protected int reliveseconds; // 复活时间
+        protected HudItemBase mHud; // HUD
+
+        protected string mName;     // 名字
 
         public BeingEntity()
         {
@@ -31,8 +31,11 @@ namespace SDK.Lib
             this.mRotateSpeed = 5;
             this.mScaleSpeed = 1;
 
-            this.mEatSize = 1;
-            mMoveSpeed = mMoveSpeed_k / mScale.x + mMoveSpeed_b;
+            this.mBallRadius = 1;
+
+            this.mMoveSpeed = Ctx.mInstance.mSnowBallCfg.mMoveSpeed_k / mScale.x + Ctx.mInstance.mSnowBallCfg.mMoveSpeed_b;
+
+            this.mName = "";
         }
 
         public SkinModelSkelAnim skinAniModel
@@ -82,19 +85,6 @@ namespace SDK.Lib
             return "";
         }
 
-        public BeingBehaviorControl behaviorControl
-        {
-            get
-            {
-                return getBeingBehaviorControl();
-            }
-        }
-
-        virtual public BeingBehaviorControl getBeingBehaviorControl()
-        {
-            return null;
-        }
-
         public EffectControl effectControl
         {
             get
@@ -119,6 +109,37 @@ namespace SDK.Lib
         public void playFlyNum(int num)
         {
 
+        }
+
+        public override void onDestroy()
+        {
+            base.onDestroy();
+
+            if (null != this.mHud)
+            {
+                this.mHud.dispose();
+            }
+        }
+
+        override public void setPos(UnityEngine.Vector3 pos)
+        {
+            if (!UtilMath.isEqualVec3(this.mPos, pos))
+            {
+                pos = Ctx.mInstance.mSceneSys.adjustPosInRange(pos);
+
+                this.mPos = pos;
+                this.mPos.y = 1.3f;     // TODO: 先固定
+
+                if (null != mRender)
+                {
+                    mRender.setPos(pos);
+                }
+
+                if (null != this.mHud)
+                {
+                    this.mHud.onPosChanged();
+                }
+            }
         }
 
         public void setMoveSpeed(float value)
@@ -195,28 +216,79 @@ namespace SDK.Lib
             }
         }
 
-        public void setDestScale(float scale)
+        public void setDestScale(float scale, bool immeScale)
         {
+            if(immeScale)
+            {
+                this.setScale(new UnityEngine.Vector3(scale, scale, scale));
+            }
+
             if (null != mMovement)
             {
                 (mMovement as BeingEntityMovement).setDestScale(scale);
             }
         }
 
-        public void setEatSize(float size)
+        public void setBallRadius(float size)
         {
-            this.mEatSize = size;
+            if (0 == size) return;
 
-            this.setDestScale(size);
+            this.mBallRadius = size;
+
+            if(UtilMath.isInvalidNum(this.mBallRadius))
+            {
+                this.mBallRadius = 1;
+
+                Ctx.mInstance.mLogSys.log("BeingEntity::setBallRadius is InValid num", LogTypeId.eLogSplitMergeEmit);
+            }
+
+            this.setDestScale(size, false);
         }
 
-        public float getEatSize()
+        public float getBallRadius()
         {
-            return this.mEatSize;
+            return this.mBallRadius;
+        }
+
+        virtual public void setName(string name)
+        {
+            if (!string.IsNullOrEmpty(name))
+            {
+                this.mName = name;
+
+                if(null != this.mHud)
+                {
+                    this.mHud.onNameChanged();
+                }
+            }
+        }
+
+        public string getName()
+        {
+            return this.mName;
+        }
+
+        // 减少质量
+        public void reduceMassBy(float mass)
+        {
+            float selfMass = UtilMath.getRadiusByMass(this.mBallRadius);
+            selfMass -= mass;
+            this.setBallRadius(UtilMath.getRadiusByMass(selfMass));
+        }
+
+        // 获取分裂半径
+        public float getSplitRadius()
+        {
+            float selfMass = UtilMath.getRadiusByMass(this.mBallRadius);
+            selfMass /= 2;
+            float splitRadius = UtilMath.getRadiusByMass(selfMass);
+            return splitRadius;
         }
 
         override public void preInit()
         {
+            this.setBallRadius(Ctx.mInstance.mSnowBallCfg.mInitSnowRadius);  // 初始小球的半径是配置的
+
             // 基类初始化
             base.preInit();
             // 自动处理，例如添加到管理器
@@ -227,6 +299,11 @@ namespace SDK.Lib
             this.loadRenderRes();
             // 更新位置
             this.updateTransform();
+        }
+
+        public override void postInit()
+        {
+            base.postInit();
         }
 
         override public void loadRenderRes()
@@ -242,8 +319,8 @@ namespace SDK.Lib
         // Tick 第一阶段执行
         override public void onPreTick(float delta)
         {
-            base.onPreTick(delta);
-            mMoveSpeed = mMoveSpeed_k / mScale.x + mMoveSpeed_b;
+            base.onPreTick(delta);            
+            mMoveSpeed = Ctx.mInstance.mSnowBallCfg.mMoveSpeed_k / mScale.x + Ctx.mInstance.mSnowBallCfg.mMoveSpeed_b;
         }
 
         // Tick 第二阶段执行
@@ -302,16 +379,16 @@ namespace SDK.Lib
         {
             bool ret = false;
 
-            if(this.mEatSize > other.getEatSize())
+            if(this.mBallRadius > other.getBallRadius())
             {
-                if (this.mEatSize >= other.getEatSize() * Ctx.mInstance.mSnowBallCfg.mCanEatRate)
+                if (this.mBallRadius >= other.getBallRadius() * Ctx.mInstance.mSnowBallCfg.mCanAttackRate)
                 {
                     ret = true;
                 }
             }
-            else if(this.mEatSize < other.getEatSize())
+            else if(this.mBallRadius < other.getBallRadius())
             {
-                if (this.mEatSize * Ctx.mInstance.mSnowBallCfg.mCanEatRate <= other.getEatSize())
+                if (this.mBallRadius * Ctx.mInstance.mSnowBallCfg.mCanAttackRate <= other.getBallRadius())
                 {
                     ret = true;
                 }
@@ -339,7 +416,7 @@ namespace SDK.Lib
         public bool isNeedSeparate(BeingEntity other)
         {
             UnityEngine.Vector3 direction = other.getPos() - this.getPos();
-            if(direction.magnitude < this.getEatSize() + other.getEatSize())
+            if(direction.magnitude < this.getBallRadius() + other.getBallRadius())
             {
                 return true;
             }
@@ -381,19 +458,18 @@ namespace SDK.Lib
         // 是否可以吐积雪块
         virtual public bool canEmitSnow()
         {
-            return this.mEatSize >= Ctx.mInstance.mSnowBallCfg.mEmitSnowMinMass;
+            return this.mBallRadius >= Ctx.mInstance.mSnowBallCfg.mEmitSnowRadius;
         }
 
         virtual public float getEmitSnowSize()
         {
-            return this.mEatSize * Ctx.mInstance.mSnowBallCfg.mEmitSnowFactor;
+            return UtilMath.getRadiusByMass(Ctx.mInstance.mSnowBallCfg.mEmitSnowMass);        // 需要转换成半径
         }
 
         // 是否可以分裂
         virtual public bool canSplit()
         {
-            //return this.mEatSize >= Ctx.mInstance.mSnowBallCfg.mCanEmitMultiple * Ctx.mInstance.mSnowBallCfg.mInitSnowMass;
-            return true;
+            return this.mBallRadius >= Ctx.mInstance.mSnowBallCfg.mCanSplitFactor * Ctx.mInstance.mSnowBallCfg.mInitSnowRadius;
         }
     }
 }

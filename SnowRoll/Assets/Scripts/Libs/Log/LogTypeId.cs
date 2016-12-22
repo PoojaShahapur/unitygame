@@ -10,5 +10,6 @@
         eLogResLoader,      // 资源加载
         eLogLocalFile,      // 本地文件系统， MDataStream
         eLogAcceleration,   // 重力
+        eLogSplitMergeEmit,     // 分裂融合
     }
 }

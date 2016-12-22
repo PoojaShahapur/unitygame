@@ -44,7 +44,7 @@ namespace SDK.Lib
         // 查找 UI 组件
         override public void findWidget()
         {
-            if (string.IsNullOrEmpty(this.mGoName))      // 如果 m_goName 为空，就说明就是当前 GameObject 上获取 Image 
+            if (string.IsNullOrEmpty(this.mGoName))      // 如果 mGoName 为空，就说明就是当前 GameObject 上获取 Image 
             {
                 this.mImage = UtilApi.getComByP<Image>(this.mSelfGo);
             }

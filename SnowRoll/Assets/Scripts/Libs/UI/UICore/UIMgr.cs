@@ -12,7 +12,7 @@ namespace SDK.Lib
     public class UIMgr : IResizeObject
 	{
 		private Dictionary<UIFormID, Form> mId2FormDic; //[id,form]
-        private List<UICanvas> mCanvasList;
+        private MList<UICanvas> mCanvasList;
         public UIAttrSystem mUIAttrs;
 
         private Dictionary<UIFormID, UILoadingItem> mId2CodeLoadingItemDic;         // 记录当前代码正在加载的项
@@ -39,7 +39,7 @@ namespace SDK.Lib
 
         protected void createCanvas()
         {
-            mCanvasList = new List<UICanvas>();
+            mCanvasList = new MList<UICanvas>();
             int idx = 0;
             for (idx = 0; idx < (int)UICanvasID.eCanvas_Total; ++idx)
             {
@@ -48,6 +48,7 @@ namespace SDK.Lib
 
             mCanvasList[(int)UICanvasID.eFirstCanvas].goName = NotDestroyPath.ND_CV_UIFirstCanvas;
             mCanvasList[(int)UICanvasID.eSecondCanvas].goName = NotDestroyPath.ND_CV_UISecondCanvas;
+            mCanvasList[(int)UICanvasID.eHudCanvas].goName = NotDestroyPath.ND_CV_HudCanvas;
         }
 
         // 关联每一层的对象
@@ -166,9 +167,9 @@ namespace SDK.Lib
         {
             UILayer layer = null;
 
-            if (UICanvasID.eFirstCanvas <= canvasID && canvasID <= UICanvasID.eSecondCanvas)
+            if (canvasID < UICanvasID.eCanvas_Total)
             {
-                if (UILayerID.eBtmLayer <= layerID && layerID <= UILayerID.eTopLayer)
+                if (layerID < UILayerID.eMaxLayer)
                 {
                     layer = mCanvasList[(int)canvasID].layerList[(int)layerID];
                 }

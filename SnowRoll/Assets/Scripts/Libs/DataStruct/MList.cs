@@ -9,27 +9,27 @@ namespace SDK.Lib
     {
         //public delegate int CompareFunc(T left, T right);
 
-        protected List<T> m_list;
+        protected List<T> mList;
         protected int m_uniqueId;       // 唯一 Id ，调试使用
 
         public MList()
         {
-            m_list = new List<T>();
+            mList = new List<T>();
         }
 
         public MList(int capacity)
         {
-            m_list = new List<T>(capacity);
+            mList = new List<T>(capacity);
         }
 
         public T[] ToArray()
         {
-            return m_list.ToArray();
+            return mList.ToArray();
         }
 
         public List<T> list()
         {
-            return m_list;
+            return mList;
         }
 
         public int uniqueId
@@ -48,7 +48,7 @@ namespace SDK.Lib
         {
             get
             {
-                return m_list;
+                return mList;
             }
         }
 
@@ -56,96 +56,96 @@ namespace SDK.Lib
         {
             get
             {
-                return m_list.Count;
+                return mList.Count;
             }
         }
 
         public void Add(T item)
         {
-            m_list.Add(item);
+            mList.Add(item);
         }
 
         // 主要是 Add 一个 float 类型的 Vector3
         public void Add(T item_1, T item_2, T item_3)
         {
-            m_list.Add(item_1);
-            m_list.Add(item_2);
-            m_list.Add(item_3);
+            mList.Add(item_1);
+            mList.Add(item_2);
+            mList.Add(item_3);
         }
 
         // 主要是 Add 一个 float 类型的 UV
         public void Add(T item_1, T item_2)
         {
-            m_list.Add(item_1);
-            m_list.Add(item_2);
+            mList.Add(item_1);
+            mList.Add(item_2);
         }
 
         // 主要是 Add 一个 byte 类型的 Color32
         public void Add(T item_1, T item_2, T item_3, T item_4)
         {
-            m_list.Add(item_1);
-            m_list.Add(item_2);
-            m_list.Add(item_3);
-            m_list.Add(item_4);
+            mList.Add(item_1);
+            mList.Add(item_2);
+            mList.Add(item_3);
+            mList.Add(item_4);
         }
 
         public void push(T item)
         {
-            m_list.Add(item);
+            mList.Add(item);
         }
 
         public bool Remove(T item)
         {
-            return m_list.Remove(item);
+            return mList.Remove(item);
         }
 
         public T this[int index]
         {
             get
             {
-                return m_list[index];
+                return mList[index];
             }
             set
             {
-                m_list[index] = value;
+                mList[index] = value;
             }
         }
 
         public void Clear()
         {
-            m_list.Clear();
+            mList.Clear();
         }
 
         public int Count()
         {
-            return m_list.Count;
+            return mList.Count;
         }
 
         public int length()
         {
-            return m_list.Count;
+            return mList.Count;
         }
 
         public void setLength(int value)
         {
-            m_list.Capacity = value;
+            mList.Capacity = value;
         }
 
         public void RemoveAt(int index)
         {
-            m_list.RemoveAt(index);
+            mList.RemoveAt(index);
         }
 
         public int IndexOf(T item)
         {
-            return m_list.IndexOf(item);
+            return mList.IndexOf(item);
         }
 
         public void Insert(int index, T item)
         {
             if (index <= Count())
             {
-                m_list.Insert(index, item);
+                mList.Insert(index, item);
             }
             else
             {
@@ -154,12 +154,12 @@ namespace SDK.Lib
 
         public bool Contains(T item)
         {
-            return m_list.Contains(item);
+            return mList.Contains(item);
         }
 
         public void Sort(System.Comparison<T> comparer)
         {
-            m_list.Sort(comparer);
+            mList.Sort(comparer);
         }
 
         public void merge(MList<T> appendList)
@@ -168,7 +168,7 @@ namespace SDK.Lib
             {
                 foreach(T item in appendList.list())
                 {
-                    m_list.Add(item);
+                    mList.Add(item);
                 }
             }
         }

@@ -11,12 +11,12 @@ namespace UnitTest
 
         protected void testLockList()
         {
-            LockList<string> m_list = new LockList<string>("TestLockList", 4);
-            m_list.Add("aaaaa");
-            m_list.Add("bbbbb");
-            m_list.Add("ccccc");
+            LockList<string> mList = new LockList<string>("TestLockList", 4);
+            mList.Add("aaaaa");
+            mList.Add("bbbbb");
+            mList.Add("ccccc");
 
-            m_list.RemoveAt(1);
+            mList.RemoveAt(1);
         }
     }
 }

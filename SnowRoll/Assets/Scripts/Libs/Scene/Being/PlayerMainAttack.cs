@@ -41,17 +41,17 @@
                 if (EatState.Nothing_Happen != state)
                 {
                     //计算缩放比率            
-                    float newBallRadius = UtilLogic.getRadiusByMass(UtilLogic.getMassByRadius(this.mEntity.getEatSize()) + UtilLogic.getMassByRadius(bBeingEntity.getEatSize()));
+                    float newBallRadius = UtilMath.getNewRadiusByRadius(this.mEntity.getBallRadius(), bBeingEntity.getBallRadius());
 
                     if (state == EatState.Eat_Other)//吃掉对方
                     {
                         // 吃掉机器人，修改自己的数据
-                        this.mEntity.setEatSize(newBallRadius);
+                        this.mEntity.setBallRadius(newBallRadius);
                         bBeingEntity.dispose();      // 删除玩家
                     }
                     else if (EatState.Eaten_ByOther == state)//被吃掉
                     {
-                        bBeingEntity.setEatSize(newBallRadius);
+                        bBeingEntity.setBallRadius(newBallRadius);
                         this.mEntity.dispose();
                     }
                 }

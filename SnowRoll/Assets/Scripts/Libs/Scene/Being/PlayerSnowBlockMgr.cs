@@ -44,7 +44,7 @@
             playerSnowBlock.setDestRotate(rot.eulerAngles, true);
             playerSnowBlock.setPos(srcPos);
             playerSnowBlock.setDestPos(destPos, false);
-            playerSnowBlock.setEatSize(emitSnowSize);
+            playerSnowBlock.setBallRadius(emitSnowSize);
         }
     }
 }

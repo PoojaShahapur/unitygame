@@ -3,7 +3,7 @@
     /**
      * @brief 同一时刻只能有一个场景存在
      */
-    public class SceneSys : ITickedObject, IDelayHandleItem
+    public class SceneSys
     {
         protected AddOnceAndCallOnceEventDispatch mOnSceneLoadedDisp;
 
@@ -28,34 +28,9 @@
 
         }
 
-        public void onTick(float delta)
+        public Scene getCurScene()
         {
-            if(null != this.mScene)
-            {
-                this.mScene.onTick(delta);
-            }
-        }
-
-        public void setClientDispose()
-        {
-
-        }
-
-        public bool isClientDispose()
-        {
-            return false;
-        }
-
-        public Scene scene
-        {
-            get
-            {
-                return mScene;
-            }
-            set
-            {
-                mScene = value;
-            }
+            return mScene;
         }
 
         public bool isSceneLoaded()
@@ -110,7 +85,7 @@
         protected void onSceneCfgLoadded(IDispatchObject dispObj)
         {
             ResItem res = dispObj as ResItem;
-            mSceneParse.sceneCfg = mScene.sceneCfg;
+            mSceneParse.sceneCfg = mScene.getSceneCfg();
             string text = res.getText(mScene.file);
             mSceneParse.parse(text);
         }
@@ -167,6 +142,21 @@
             }
 
             return 0;
+        }
+
+        public UnityEngine.Vector3 adjustPosInRange(UnityEngine.Vector3 pos)
+        {
+            if (pos.x > Ctx.mInstance.mSceneSys.getCurScene().getSceneCfg().getWidth())
+            {
+                pos.x = Ctx.mInstance.mSceneSys.getCurScene().getSceneCfg().getWidth();
+            }
+
+            if (pos.z > Ctx.mInstance.mSceneSys.getCurScene().getSceneCfg().getDepth())
+            {
+                pos.z = Ctx.mInstance.mSceneSys.getCurScene().getSceneCfg().getDepth();
+            }
+
+            return pos;
         }
     }
 }

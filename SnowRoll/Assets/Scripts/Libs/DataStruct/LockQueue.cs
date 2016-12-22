@@ -2,21 +2,21 @@
 {
     public class LockQueue<T>
     {
-        protected LockList<T> m_list;
+        protected LockList<T> mList;
 
         public LockQueue(string name)
         {
-            m_list = new LockList<T>("name");
+            mList = new LockList<T>("name");
         }
 
         public void push(T item)
         {
-            m_list.Add(item);
+            mList.Add(item);
         }
 
         public T pop()
         {
-            return m_list.RemoveAt(0);
+            return mList.RemoveAt(0);
         }
     }
 }

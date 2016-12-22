@@ -157,6 +157,18 @@ namespace Game.Login
             {
                 err("login is failed(登陆失败), err=" + KBEngineApp.app.serverErr(failedcode));
             }
+
+            if(23 == failedcode)//账号不存在
+            {
+                autoCreateAccount();
+            }
+        }
+
+        private void autoCreateAccount()
+        {
+            string nickname = SDK.Lib.Ctx.mInstance.mLuaSystem.callLuaFunction("GlobalNS.GlobalEventCmd.getUserNickName")[0] as string;
+            string password = "111111";
+            KBEngine.Event.fireIn("createAccount", nickname, password, System.Text.Encoding.UTF8.GetBytes("kbengine_unity3d_demo"));
         }
 
         public void onVersionNotMatch(string verInfo, string serVerInfo)
@@ -184,8 +196,8 @@ namespace Game.Login
             info("login is successfully!(登陆成功!)");
 
             //Ctx.mInstance.mUiMgr.exitForm(UIFormID.eUILogin);
-            Ctx.mInstance.mLuaSystem.exitForm(10001);
-            Ctx.mInstance.mUiMgr.loadAndShow(UIFormID.eUISelectRole);
+            //Ctx.mInstance.mLuaSystem.exitForm((int)UIFormID.eUIStartGame);
+            //Ctx.mInstance.mUiMgr.loadAndShow(UIFormID.eUISelectRole);
 
             ui_state = 1;
             //Application.LoadLevel("selavatars");

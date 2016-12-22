@@ -233,7 +233,7 @@
 			
 			UInt16 methodID = method.methodUtype;
 			
-			if(arguments.Length != method.args.Count)
+			if(arguments!=null && arguments.Length != method.args.Count)
 			{
 				Dbg.ERROR_MSG(className + "::cellCall(" + methodname + "): args(" + (arguments.Length) + "!= " + method.args.Count + ") size is error!");  
 				return;

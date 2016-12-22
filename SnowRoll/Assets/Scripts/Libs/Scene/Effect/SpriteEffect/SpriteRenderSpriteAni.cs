@@ -69,7 +69,7 @@ namespace SDK.Lib
         {
             if (this.mSpriteRender == null)
             {
-                if (string.IsNullOrEmpty(this.mGoName))      // 如果 m_goName 为空，就说明就是当前 GameObject 上获取 Image 
+                if (string.IsNullOrEmpty(this.mGoName))      // 如果 mGoName 为空，就说明就是当前 GameObject 上获取 Image 
                 {
                     this.mSpriteRender = UtilApi.getComByP<SpriteRenderer>(this.mSelfGo);
                 }

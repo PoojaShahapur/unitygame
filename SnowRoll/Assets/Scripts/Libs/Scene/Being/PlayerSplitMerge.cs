@@ -145,7 +145,7 @@
             {
                 this.mTargetPoint = mEntity.getPos() + mEntity.getRotate() * new UnityEngine.Vector3(0, 0, this.mTargetLength);
 
-                Ctx.mInstance.mPlayerMgr.setPlayerTargetPos(this.mTargetPoint);
+                //Ctx.mInstance.mPlayerMgr.setPlayerTargetPos(this.mTargetPoint);
             }
         }
 
@@ -186,6 +186,11 @@
         }
 
         virtual public void setDestPos(UnityEngine.Vector3 pos, bool immePos)
+        {
+
+        }
+
+        virtual public void setName()
         {
 
         }

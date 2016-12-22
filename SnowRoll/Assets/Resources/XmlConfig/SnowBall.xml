@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 雪球配置 -->
+<Config>
+    <SnowBallBasic>
+		<!-- 雪球基本配置， Radius: 初始半径，MassFactor: 质量转换公式-->
+		<Init Radius="1" MassFactor="0.01" />
+		<!-- 雪球分裂配置， K,N: AC=K*AB+N, CanSplitFactor: 达到的分裂倍数, Max: 最大的雪球数量, RelStartPos: 分裂开始的时候，距离多远开始， RelDist: 分裂需要运动的距离-->
+		<Split K="10" N="10" CanSplitFactor="20" Max="20" RelStartPos="1" RelDist="10" />
+		<!-- 雪球融合配置， MergeContactTime: 在一起的秒数，才能融合, Inter: 融合冷却时间 -->
+		<Merge ContactTime="10" CoolTime="5" />
+		<!-- 雪球吞吐配置, EmitSnowMass:吐出积雪的质量, EmitSnowRadius: 雪球半径达到 EmitSnowRadius 才可以吐积雪, S\A\L: 在 S 秒内，球受力角度小于 a 或者不受力，雪球移动距离小于 L -->
+		<Emit SnowMass="10" SnowRadius="10"  RelStartPos="1" RelDist="10" S="1" A="1" L="1" />
+		<!-- 吞噬 , AttackFactor: 可以吞噬的因子-->
+		<Attack Factor="1.2" />
+		<!-- 速度系数 -->
+		<MoveSpeed MoveSpeed_k="20.0" MoveSpeed_b="10.0" />		
+    </SnowBallBasic>
+</Config>

@@ -278,59 +278,74 @@
         //public void moveToPos(UnityEngine.Vector3 destPos)
         public void setDestPos(UnityEngine.Vector3 destPos)
         {
-            this.mDestPos = destPos;
-
-            if (!UtilMath.isEqualVec3(mDestPos, mEntity.getPos()))
+            if (!UtilMath.isEqualVec3(this.mDestPos, destPos))
             {
-                this.setIsMoveToDest(true);
-                this.mMoveWay = MoveWay.eAutoPathMove;
+                destPos = Ctx.mInstance.mSceneSys.adjustPosInRange(destPos);
 
-                (this.mEntity as BeingEntity).setBeingState(BeingState.eBSWalk);
+                this.mDestPos = destPos;
 
-                // 计算最终方向
-                this.setDestRotate(UtilMath.getRotateByStartAndEndPoint(this.mEntity.getPos(), this.mDestPos).eulerAngles);
-            }
-            else
-            {
-                this.setIsMoveToDest(false);
+                if (!UtilMath.isEqualVec3(mDestPos, mEntity.getPos()))
+                {
+                    this.setIsMoveToDest(true);
+                    this.mMoveWay = MoveWay.eAutoPathMove;
+
+                    (this.mEntity as BeingEntity).setBeingState(BeingState.eBSWalk);
+
+                    // 计算最终方向
+                    this.setDestRotate(UtilMath.getRotateByStartAndEndPoint(this.mEntity.getPos(), this.mDestPos).eulerAngles);
+                }
+                else
+                {
+                    this.setIsMoveToDest(false);
+                }
             }
         }
 
         // 向前移动出生
         public void setDestPosForBirth(UnityEngine.Vector3 destPos)
         {
-            this.mDestPos = destPos;
-
-            if (!UtilMath.isEqualVec3(mDestPos, mEntity.getPos()))
+            if (!UtilMath.isEqualVec3(this.mDestPos, destPos))
             {
-                this.setIsMoveToDest(true);
-                this.mMoveWay = MoveWay.eBirthMove;
+                destPos = Ctx.mInstance.mSceneSys.adjustPosInRange(destPos);
 
-                (this.mEntity as BeingEntity).setBeingState(BeingState.eBSBirth);
+                this.mDestPos = destPos;
 
-                // 计算最终方向
-                this.setDestRotate(UtilMath.getRotateByStartAndEndPoint(this.mEntity.getPos(), this.mDestPos).eulerAngles);
-            }
-            else
-            {
-                this.setIsMoveToDest(false);
+                if (!UtilMath.isEqualVec3(mDestPos, mEntity.getPos()))
+                {
+                    this.setIsMoveToDest(true);
+                    this.mMoveWay = MoveWay.eBirthMove;
+
+                    (this.mEntity as BeingEntity).setBeingState(BeingState.eBSBirth);
+
+                    // 计算最终方向
+                    this.setDestRotate(UtilMath.getRotateByStartAndEndPoint(this.mEntity.getPos(), this.mDestPos).eulerAngles);
+                }
+                else
+                {
+                    this.setIsMoveToDest(false);
+                }
             }
         }
 
         // 直接到具体位置，不用移动
         public void gotoPos(UnityEngine.Vector3 destPos)
         {
-            this.mDestPos = destPos;
-            this.setIsMoveToDest(false);
-
-            if (!UtilMath.isEqualVec3(mDestPos, mEntity.getPos()))
+            if (!UtilMath.isEqualVec3(this.mDestPos, destPos))
             {
-                // 计算最终方向
-                this.setDestRotate(UtilMath.getRotateByStartAndEndPoint(this.mEntity.getPos(), this.mDestPos).eulerAngles);
-                this.mEntity.setRotation(this.mDestRotate);
-                this.mEntity.setPos(this.mDestPos);
+                destPos = Ctx.mInstance.mSceneSys.adjustPosInRange(destPos);
 
-                this.sendMoveMsg();
+                this.mDestPos = destPos;
+                this.setIsMoveToDest(false);
+
+                if (!UtilMath.isEqualVec3(mDestPos, mEntity.getPos()))
+                {
+                    // 计算最终方向
+                    this.setDestRotate(UtilMath.getRotateByStartAndEndPoint(this.mEntity.getPos(), this.mDestPos).eulerAngles);
+                    this.mEntity.setRotation(this.mDestRotate);
+                    this.mEntity.setPos(this.mDestPos);
+
+                    this.sendMoveMsg();
+                }
             }
         }
 

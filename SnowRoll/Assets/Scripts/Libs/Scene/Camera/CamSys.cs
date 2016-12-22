@@ -4,7 +4,7 @@ namespace SDK.Lib
 {
     public class CamSys
     {
-        public UICamera mUiCam;            // 这个不是 UI 相机，这个是场景相机
+        protected UICamera mUiCam;            // 这个不是 UI 相机，这个是场景相机
 
         protected MCamera mLocalCamera;         // 这个是系统摄像机，主要进行裁剪使用的
         protected Camera mMainCamera;          // 主相机
@@ -61,9 +61,16 @@ namespace SDK.Lib
             //testFrustumDir();
         }
 
+        public void setUiCamera(UICamera camera)
+        {
+            this.mUiCam = camera;
+        }
+
         public void setSceneCamera2UICamera()
         {
             mUiCam.mCam = Ctx.mInstance.mLayerMgr.mPath2Go[NotDestroyPath.ND_CV_UICamera].GetComponent<Camera>();
+
+            this.setUGuiCamera(mUiCam.mCam);
         }
 
         public void setSceneCamera2MainCamera()

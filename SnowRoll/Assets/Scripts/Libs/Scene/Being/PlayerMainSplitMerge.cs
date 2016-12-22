@@ -67,29 +67,41 @@
             int idx = 0;
             int num = this.mPlayerChildMgr.getEntityCount();
             PlayerChild player;
-            bool isClear = false;
+            bool ischanged = false;
 
             while (idx < num && Ctx.mInstance.mSnowBallCfg.isLessMaxNum(this.mPlayerChildMgr.getEntityCount()))
             {
-                if(!isClear)
-                {
-                    isClear = true;
-                    this.mRangeBox.clear();
-                }
-
                 player = this.mPlayerChildMgr.getEntityByIndex(idx) as PlayerChild;
                 if (player.canSplit())
                 {
+                    if (!ischanged)
+                    {
+                        ischanged = true;
+                        this.mRangeBox.clear();
+                    }
+
                     this.splitOne(player, false);
+                }
+                else
+                {
+                    Ctx.mInstance.mLogSys.log("Can not Split", LogTypeId.eLogSplitMergeEmit);
                 }
 
                 ++idx;
             }
 
-            // 设置自己到中心点
-            this.mEntity.setPos(this.mRangeBox.getCenter().toNative());
-            this.calcTargetLength();
-            this.calcTargetPoint();
+            if (ischanged)
+            {
+                if (Ctx.mInstance.mSnowBallCfg.isGreatEqualMaxNum(this.mPlayerChildMgr.getEntityCount()))
+                {
+                    Ctx.mInstance.mLogSys.log("Split GreatEqual Max", LogTypeId.eLogSplitMergeEmit);
+                }
+
+                // 设置自己到中心点
+                this.mEntity.setPos(this.mRangeBox.getCenter().toNative());
+                this.calcTargetLength();
+                this.calcTargetPoint();
+            }
         }
 
         protected void splitOne(PlayerChild player, bool isFirst)
@@ -101,33 +113,41 @@
             child.init();
 
             UnityEngine.Vector3 initPos;
+            float splitRadius = 0;
 
             if (isFirst)
             {
                 initPos = this.mEntity.getPos();
                 child.setPos(initPos);
                 // 设置 Child 分裂半径
-                child.setEatSize(this.mEntity.getEatSize());
+                child.setBallRadius(this.mEntity.getBallRadius());
                 (child as BeingEntity).setMoveSpeed((this.mEntity as BeingEntity).getMoveSpeed());
+
+                // TODO:Test
+                //child.setBallRadius(10);
             }
             else
             {
+                // 设置分裂半径
+                //child.setBallRadius(player.getBallRadius());
+                // player.setBallRadius(player.getBallRadius());
+                splitRadius = (player as BeingEntity).getSplitRadius();
+                child.setBallRadius(splitRadius);
+                player.setBallRadius(splitRadius);
+
+                // 设置位置
                 pos = player.getPos();
                 this.mRangeBox.setExtents(pos.x, pos.y, pos.z);
 
-                initPos = pos + player.getRotate() * new UnityEngine.Vector3(0, 0, player.getEatSize() + 5);
+                initPos = pos + player.getRotate() * new UnityEngine.Vector3(0, 0, player.getBallRadius() + Ctx.mInstance.mSnowBallCfg.mSplitRelStartPos);
                 //initPos = player.getPos() + UtilMath.UnitCircleRandom();
                 //child.setPos(player.getPos());
                 child.setPos(initPos);
 
-                initPos = pos + player.getRotate() * new UnityEngine.Vector3(0, 0, player.getEatSize() + 10);
+                initPos = pos + player.getRotate() * new UnityEngine.Vector3(0, 0, player.getBallRadius() + Ctx.mInstance.mSnowBallCfg.mSplitRelStartPos);
                 (child as BeingEntity).setDestPosForBirth(initPos, false);
 
-                child.setEatSize(player.getEatSize());
-                (child as BeingEntity).setMoveSpeed(player.getMoveSpeed() * 2.0f);
-
-                // 设置分裂半径
-                player.setEatSize(player.getEatSize());
+                //(child as BeingEntity).setMoveSpeed(player.getMoveSpeed() * 2.0f);
             }
 
             // 添加 Child 事件
@@ -209,14 +229,26 @@
             // 这个分裂修改列表数据，因此只查找前面的数据
             int idx = 0;
             int num = this.mPlayerChildMgr.getEntityCount();
-            UnityEngine.Vector3 relPos = new UnityEngine.Vector3(0, 0, 5);
-            UnityEngine.Vector3 destPos;
+
+            UnityEngine.Vector3 startPos;
+            UnityEngine.Vector3 endPos;
 
             while (idx < num)
             {
                 child = this.mPlayerChildMgr.getEntityByIndex(idx) as PlayerMainChild;
-                destPos = child.getRotate() * relPos;
-                Ctx.mInstance.mPlayerSnowBlockMgr.emitOne(child.getPos(), child.getPos() + destPos, child.getRotate(), child.getEmitSnowSize());
+                if (child.canEmitSnow())
+                {
+                    startPos = child.getPos() + child.getRotate() * new UnityEngine.Vector3(0, 0, Ctx.mInstance.mSnowBallCfg.mEmitRelStartPos);
+                    endPos = child.getPos() + child.getRotate() * new UnityEngine.Vector3(0, 0, Ctx.mInstance.mSnowBallCfg.mEmitRelDist);
+
+                    Ctx.mInstance.mPlayerSnowBlockMgr.emitOne(startPos, endPos, child.getRotate(), child.getEmitSnowSize());
+
+                    child.reduceMassBy(Ctx.mInstance.mSnowBallCfg.mEmitSnowMass);
+                }
+                else
+                {
+                    Ctx.mInstance.mLogSys.log("Can not Emit", LogTypeId.eLogSplitMergeEmit);
+                }
 
                 ++idx;
             }
@@ -239,6 +271,19 @@
 
             this.calcTargetLength();
             this.calcTargetPoint();
+        }
+
+        override public void setName()
+        {
+            int total = this.mPlayerChildMgr.getEntityCount();
+            int index = 0;
+            Player player = null;
+            while (index < total)
+            {
+                player = this.mPlayerChildMgr.getEntityByIndex(index) as Player;
+                player.setName(this.mEntity.getName());
+                ++index;
+            }
         }
     }
 }

@@ -4,26 +4,42 @@ namespace SDK.Lib
 {
     public class SceneCfg
     {
-        protected TerrainCfg m_terrainCfg;
-        protected ArrayList m_sceneNodeCfgArr;
+        protected TerrainCfg mTerrainCfg;
+        protected ArrayList mSceneNodeCfgArr;
+
+        protected float mWidth;
+        protected float mDepth;
 
         public SceneCfg()
         {
-            m_terrainCfg = new TerrainCfg();
-            m_sceneNodeCfgArr = new ArrayList();
+            this.mTerrainCfg = new TerrainCfg();
+            this.mSceneNodeCfgArr = new ArrayList();
+
+            this.mWidth = 3000;
+            this.mDepth = 3000;
         }
 
         public TerrainCfg terrainCfg
         {
             get
             {
-                return m_terrainCfg;
+                return mTerrainCfg;
             }
         }
 
         public void addSceneNode(SceneNodeCfg node)
         {
-            m_sceneNodeCfgArr.Add(node);
+            this.mSceneNodeCfgArr.Add(node);
+        }
+
+        public float getWidth()
+        {
+            return this.mWidth;
+        }
+
+        public float getDepth()
+        {
+            return this.mDepth;
         }
     }
 }

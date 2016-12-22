@@ -11,9 +11,15 @@ namespace SDK.Lib
         protected Text mText;
         protected LabelStyleBase mLabelStyle;
 
+        protected bool mIsStrInvalid;
+        protected string mStr;
+
         // ≥ı ºππ‘Ï
         public AuxLabel(GameObject pntNode, string path, LabelStyleID styleId = LabelStyleID.eLSID_None)
         {
+            this.mStr = "";
+            this.mIsStrInvalid = false;
+
             this.mSelfGo = UtilApi.TransFindChildByPObjAndPath(pntNode, path);
             this.mText = UtilApi.getComByP<Text>(pntNode, path);
             this.mLabelStyle = Ctx.mInstance.mWidgetStyleMgr.GetWidgetStyle<LabelStyleBase>(WidgetStyleID.eWSID_Text, (int)styleId);
@@ -26,12 +32,17 @@ namespace SDK.Lib
 
         public AuxLabel(GameObject selfNode, LabelStyleID styleId = LabelStyleID.eLSID_None)
         {
+            this.mStr = "";
+            this.mIsStrInvalid = false;
+
             this.mSelfGo = selfNode;
             this.mText = UtilApi.getComByP<Text>(selfNode);
         }
 
         public AuxLabel(LabelStyleID styleId = LabelStyleID.eLSID_None)
         {
+            this.mStr = "";
+            this.mIsStrInvalid = false;
             this.mSelfGo = null;
         }
 
@@ -40,6 +51,11 @@ namespace SDK.Lib
         {
             this.mSelfGo = UtilApi.TransFindChildByPObjAndPath(pntNode, path);
             this.mText = UtilApi.getComByP<Text>(pntNode, path);
+
+            if(this.mIsStrInvalid)
+            {
+                this.mText.text = this.mStr;
+            }
         }
 
         public string text
@@ -63,9 +79,22 @@ namespace SDK.Lib
 
         public void setText(string value)
         {
-            if (this.mText != null)
+            if (!string.IsNullOrEmpty(value))
             {
-                this.mText.text = value;
+                if (this.mStr != value)
+                {
+                    this.mStr = value;
+
+                    if (this.mText != null)
+                    {
+                        this.mIsStrInvalid = false;
+                        this.mText.text = value;
+                    }
+                    else
+                    {
+                        this.mIsStrInvalid = true;
+                    }
+                }
             }
         }
 

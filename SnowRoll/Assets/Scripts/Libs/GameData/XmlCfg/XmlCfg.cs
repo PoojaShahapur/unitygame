@@ -1,61 +1,125 @@
 ﻿using Mono.Xml;
 using System.Collections;
-using System.Collections.Generic;
 using System.Security;
 
 namespace SDK.Lib
 {
+    /**
+     * @brief Id 配置
+     */
     public enum XmlCfgID
     {
         eXmlMarketCfg,
-        eXmlDZCfg,
         eXmlMapCfg,
+        eXmlSnowBallCfg,
+    }
+
+    /**
+     * @brief 基本的 XmlItem
+     */
+    public class XmlItemBase
+    {
+        public virtual void parseXml(SecurityElement xmlelem)
+        {
+
+        }
     }
 
     public class XmlCfgBase
     {
         public string mPath;
-        internal SecurityParser m_xmlDoc = new SecurityParser();
-        public List<XmlItemBase> m_list = new List<XmlItemBase>();
+
+        internal SecurityParser mXmlDoc;
+        internal SecurityElement mXmlConfig;
+        public MList<XmlItemBase> mList;
+
+        public XmlCfgBase()
+        {
+            mXmlDoc = new SecurityParser();
+            mList = new MList<XmlItemBase>();
+        }
 
         public virtual void parseXml(string str)
         {
-            m_xmlDoc.LoadXml(str);
+            mXmlDoc.LoadXml(str);
+            mXmlConfig = mXmlDoc.ToXml();
         }
 
-        protected void parseXml<T>(string str, string itemNode) where T : XmlItemBase, new()
+        protected MList<XmlItemBase> parseXml<T>(SecurityElement xmlElem, string itemNode) where T : XmlItemBase, new()
         {
-            SecurityElement config = m_xmlDoc.ToXml();
-            ArrayList itemNodeList = getXmlNodeList(config, itemNode);
-
-            XmlItemBase item;
-            foreach (SecurityElement itemElem in itemNodeList)
+            if(null == xmlElem)
             {
-                item = new T();
-                item.parseXml(itemElem);
-                m_list.Add(item);
+                xmlElem = mXmlConfig;
             }
+
+            ArrayList itemNodeList = new ArrayList();
+            UtilXml.getXmlChildList(xmlElem, itemNode, ref itemNodeList);
+
+            MList<XmlItemBase> retList = new MList<XmlItemBase>();
+            XmlItemBase item;
+
+            int idx = 0;
+            int len = itemNodeList.Count;
+            SecurityElement itemElem = null;
+
+            //foreach (SecurityElement itemElem in itemNodeList)
+            while (idx < len)
+            {
+                itemElem = itemNodeList[idx] as SecurityElement;
+
+                item = new T();
+
+                mList.Add(item);
+                retList.Add(item);
+
+                item.parseXml(itemElem);
+
+                ++idx;
+            }
+
+            return retList;
         }
 
-        public virtual ArrayList getXmlNodeList(SecurityElement config, string itemNode)
+        protected void parseAllXml<T>(SecurityElement xmlElem, string itemNode) where T : XmlItemBase, new()
         {
-            SecurityElement objElem = null;
-            UtilXml.getXmlChild(config, itemNode, ref objElem);
-            ArrayList itemNodeList = objElem.Children;
-            return itemNodeList;
+            if (null == xmlElem)
+            {
+                xmlElem = mXmlConfig;
+            }
+
+            ArrayList itemNodeList = null;
+            UtilXml.getXmlElementAllChildList(xmlElem, itemNode, ref itemNodeList);
+            
+            MList<XmlItemBase> retList = new MList<XmlItemBase>();
+            XmlItemBase item;
+
+            int idx = 0;
+            int len = itemNodeList.Count;
+            SecurityElement itemElem = null;
+
+            //foreach (SecurityElement itemElem in itemNodeList)
+            while (idx < len)
+            {
+                itemElem = itemNodeList[idx] as SecurityElement;
+                item = new T();
+
+                mList.Add(item);
+                retList.Add(item);
+
+                item.parseXml(itemElem);
+
+                ++idx;
+            }
         }
 
         public void unload()
         {
             
         }
-    }
 
-    public class XmlItemBase
-    {
-        public virtual void parseXml(SecurityElement xmlelem)
+        public static T loadAndRetXml<T>(XmlCfgID id) where T : XmlCfgBase, new()
         {
-
+            return Ctx.mInstance.mXmlCfgMgr.getXmlCfg<T>(id);
         }
     }
 }

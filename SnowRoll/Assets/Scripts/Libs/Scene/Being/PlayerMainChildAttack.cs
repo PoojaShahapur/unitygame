@@ -1,6 +1,6 @@
 ﻿namespace SDK.Lib
 {
-    public class PlayerMainChildAttack : BeingEntityAttack
+    public class PlayerMainChildAttack : PlayerChildAttack
     {
         public PlayerMainChildAttack(BeingEntity entity)
             : base(entity)
@@ -10,7 +10,7 @@
 
         override public void overlapToEnter(BeingEntity bBeingEntity, UnityEngine.Collision collisionInfo)
         {
-            if(UtilApi.isInFakePos(this.mEntity.getPos()))
+            if (UtilApi.isInFakePos(this.mEntity.getPos()))
             {
                 return;
             }
@@ -22,6 +22,10 @@
             else if (bBeingEntity.getEntityType() == EntityType.ePlayerOther)
             {
                 this.eatePlayerOther(bBeingEntity);
+            }
+            else if (bBeingEntity.getEntityType() == EntityType.ePlayerOtherChild)
+            {
+                this.eatePlayerOtherChild(bBeingEntity);
             }
             else if (bBeingEntity.getEntityType() == EntityType.eRobot)
             {
@@ -41,17 +45,17 @@
                 if (EatState.Nothing_Happen != state)
                 {
                     //计算缩放比率            
-                    float newBallRadius = UtilLogic.getRadiusByMass(UtilLogic.getMassByRadius(this.mEntity.getEatSize()) + UtilLogic.getMassByRadius(bBeingEntity.getEatSize()));
+                    float newBallRadius = UtilMath.getNewRadiusByRadius(this.mEntity.getBallRadius(), bBeingEntity.getBallRadius());
 
                     if (state == EatState.Eat_Other)//吃掉对方
                     {
                         // 吃掉机器人，修改自己的数据
-                        this.mEntity.setEatSize(newBallRadius);
+                        this.mEntity.setBallRadius(newBallRadius);
                         bBeingEntity.dispose();      // 删除玩家
                     }
                     else if (EatState.Eaten_ByOther == state)//被吃掉
                     {
-                        bBeingEntity.setEatSize(newBallRadius);
+                        bBeingEntity.setBallRadius(newBallRadius);
                         this.mEntity.dispose();
                     }
                 }
@@ -106,7 +110,18 @@
         // 雪块
         public void eateSnowBlock(BeingEntity bBeingEntity)
         {
-            this.mEntity.cellCall("eatSnowBlock", bBeingEntity.getId());
+            if (!MacroDef.DEBUG_NOTNET)
+            {
+                this.mEntity.cellCall("eatSnowBlock", bBeingEntity.getId());
+            }
+            else
+            {
+                // TODO:客户端自己模拟
+                float newRadius = UtilMath.getNewRadiusByRadius(this.mEntity.getBallRadius(), bBeingEntity.getBallRadius());
+
+                this.mEntity.setBallRadius(newRadius);
+                bBeingEntity.dispose();
+            }
         }
 
         // 玩家之间互吃
@@ -117,6 +132,33 @@
             if (this.mEntity.canEatOther(bBeingEntity) && 0 == otherIsGod)
             {
                 this.mEntity.cellCall("eatSnowBlock", bBeingEntity.getId());
+            }
+        }
+
+        // 玩家之间互吃
+        public void eatePlayerOtherChild(BeingEntity bBeingEntity)
+        {
+            byte otherIsGod = 0;
+
+            if (!MacroDef.DEBUG_NOTNET)
+            {
+                otherIsGod = (byte)bBeingEntity.getEntity().getDefinedProperty("isGod");
+            }
+
+            if (this.mEntity.canEatOther(bBeingEntity) && 0 == otherIsGod)
+            {
+                if (!MacroDef.DEBUG_NOTNET)
+                {
+                    this.mEntity.cellCall("eatSnowBlock", bBeingEntity.getId());
+                }
+                else
+                {
+                    // TODO:客户端自己模拟
+                    float newRadius = UtilMath.getNewRadiusByRadius(this.mEntity.getBallRadius(), bBeingEntity.getBallRadius());
+
+                    this.mEntity.setBallRadius(newRadius);
+                    bBeingEntity.dispose();
+                }
             }
         }
     }

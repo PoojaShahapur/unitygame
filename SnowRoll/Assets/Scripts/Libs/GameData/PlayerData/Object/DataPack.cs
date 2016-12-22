@@ -8,8 +8,14 @@ namespace SDK.Lib
      */
     public class DataPack
     {
-        public List<DataItemObjectBase> m_objList = new List<DataItemObjectBase>();             // 道具列表
-        public Dictionary<uint, DataItemObjectBase> mId2ObjDic = new Dictionary<uint, DataItemObjectBase>();       // 道具 thidid到 Obj 字典，加快查找
+        public List<DataItemObjectBase> mObjList;             // 道具列表
+        public Dictionary<uint, DataItemObjectBase> mId2ObjDic;       // 道具 thidid到 Obj 字典，加快查找
+
+        public DataPack()
+        {
+            mObjList = new List<DataItemObjectBase>();
+            mId2ObjDic = new Dictionary<uint, DataItemObjectBase>();
+        }
 
         // 添加测试数据
         public void postConstruct()
@@ -22,7 +28,7 @@ namespace SDK.Lib
         public void addObjectByTableID(uint tableid)
         {
             DataItemObjectBase item = new DataItemObjectBase();
-            m_objList.Add(item);
+            mObjList.Add(item);
             mId2ObjDic[tableid] = item;
 
             item.m_tableItemObject = Ctx.mInstance.mTableSys.getItem(TableID.TABLE_OBJECT, tableid) as TableItemBase;
@@ -41,7 +47,7 @@ namespace SDK.Lib
                 DataItemObjectBase item = new DataItemObjectBase();
                 item.m_srvItemObject = obj;
                 item.m_tableItemObject = Ctx.mInstance.mTableSys.getItem(TableID.TABLE_OBJECT, item.m_srvItemObject.dwObjectID) as TableItemBase;
-                m_objList.Add(item);
+                mObjList.Add(item);
                 mId2ObjDic[item.m_srvItemObject.dwThisID] = item;
             }
         }
@@ -51,14 +57,14 @@ namespace SDK.Lib
             DataItemObjectBase item = new DataItemObjectBase();
             item.m_srvItemObject = obj;
             item.m_tableItemObject = Ctx.mInstance.mTableSys.getItem(TableID.TABLE_OBJECT, item.m_srvItemObject.dwObjectID) as TableItemBase;
-            m_objList.Add(item);
+            mObjList.Add(item);
             mId2ObjDic[item.m_srvItemObject.dwThisID] = item;
         }
 
         // 删除一个道具
         public void psstRemoveObjectPropertyUserCmd(uint qwThisID)
         {
-            m_objList.Remove(mId2ObjDic[qwThisID]);
+            mObjList.Remove(mId2ObjDic[qwThisID]);
             mId2ObjDic.Remove(qwThisID);
         }
 
@@ -70,7 +76,7 @@ namespace SDK.Lib
 
         protected void clearPack()
         {
-            m_objList.Clear();
+            mObjList.Clear();
             mId2ObjDic.Clear();
         }
     }

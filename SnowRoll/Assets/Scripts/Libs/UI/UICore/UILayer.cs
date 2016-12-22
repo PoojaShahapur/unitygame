@@ -20,22 +20,22 @@ namespace SDK.Lib
      */
 	public class UILayer 
 	{
-        private UILayerID m_layer;	                        // UIFormID.FirstLayer定义
-        private Transform m_layerTrans;                     // 当前所在层根节点转换
-        private Dictionary<UIFormID, Form> m_winDic;        // 当前层所有的界面
-        protected string m_goName;
+        private UILayerID mLayer;	                        // UIFormID.FirstLayer定义
+        private Transform mLayerTrans;                     // 当前所在层根节点转换
+        private Dictionary<UIFormID, Form> mWinDic;        // 当前层所有的界面
+        protected string mGoName;
 
         public UILayer(UILayerID layer) 
 		{
-			m_layer = layer;
-            m_winDic = new Dictionary<UIFormID, Form>();
+			mLayer = layer;
+            mWinDic = new Dictionary<UIFormID, Form>();
 		}
 
         public Dictionary<UIFormID, Form> winDic
 		{
             get
             {
-			    return m_winDic;
+			    return mWinDic;
             }
 		}
 
@@ -43,11 +43,11 @@ namespace SDK.Lib
         {
             get
             {
-                return m_layerTrans;
+                return mLayerTrans;
             }
             set
             {
-                m_layerTrans = value;
+                mLayerTrans = value;
             }
         }
 
@@ -55,25 +55,25 @@ namespace SDK.Lib
         {
             set
             {
-                m_goName = value;
+                mGoName = value;
             }
         }
 
-        public void getLayerGO()
+        public GameObject getLayerGO()
         {
-
+            return mLayerTrans.gameObject;
         }
 		
 		public bool hasForm(Form form)
 		{
-			return m_winDic.ContainsKey(form.id);
+			return mWinDic.ContainsKey(form.id);
 		}
 		
 		public void removeForm(Form form)
 		{
-            if (m_winDic.ContainsKey(form.id))
+            if (mWinDic.ContainsKey(form.id))
 			{
-                m_winDic.Remove(form.id);
+                mWinDic.Remove(form.id);
 			}
 		}
 
@@ -81,18 +81,18 @@ namespace SDK.Lib
 		{
             get
             {
-			    return m_layer;
+			    return mLayer;
             }
 		}
 		
 		public void addForm(Form form)
 		{
-			m_winDic[form.id] = form;
+			mWinDic[form.id] = form;
 		}
 
 		public void onStageReSize()
 		{
-			foreach (Form form in m_winDic.Values)
+			foreach (Form form in mWinDic.Values)
 			{
 				form.onStageReSize();
 			}
@@ -100,7 +100,7 @@ namespace SDK.Lib
 
 		public void closeAllForm()
 		{
-            foreach (Form form in m_winDic.Values)
+            foreach (Form form in mWinDic.Values)
 			{
 			    form.exit();
 			}
@@ -108,7 +108,7 @@ namespace SDK.Lib
 
         public void findLayerGOAndTrans()
         {
-            m_layerTrans = Ctx.mInstance.mLayerMgr.mPath2Go[m_goName].transform;
+            mLayerTrans = Ctx.mInstance.mLayerMgr.mPath2Go[mGoName].transform;
         }
 	}
 }

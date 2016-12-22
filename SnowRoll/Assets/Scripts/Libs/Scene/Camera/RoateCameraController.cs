@@ -162,6 +162,7 @@ namespace SDK.Lib
                 float cur_distance_Y = this.distance_Y * radius;
 
                 //Ctx.mInstance.mLogSys.log("radius: " + radius + "      Z: " + cur_distance_Z + "       Y: " + cur_distance_Y + "   lim1: " + limit_radius_value);
+                
                 //从目标物体处，到当前脚本所依附的对象（主相机）发射一个射线，如果中间有物体阻隔，则更改this.distance（这样做的目的是为了不被挡住）  
                 /*RaycastHit hitInfo = new RaycastHit();
                 if (Physics.Linecast(this.target.position, this.transform.position, out hitInfo, this.CollisionLayerMask))
@@ -170,19 +171,14 @@ namespace SDK.Lib
                 }*/
 
                 Vector3 vector = ((Vector3)(quaternion * new Vector3(0.0f, cur_distance_Y, -cur_distance_Z))) + centerPos;
-
+                //Ctx.mInstance.mLogSys.log("centerPos: " + centerPos + "   vector: " + vector);
                 //更改主相机的旋转角度和位置 
                 this.transform.rotation = quaternion;
                 this.transform.position = vector;     
                 //旋转玩家角度，x轴不变
-                //player.GetComponent<Transform>().rotation = (this.transform.rotation);
                 Vector3 eulerAngles_cam = this.transform.rotation.eulerAngles;
                 Vector3 eulerAngles = new Vector3(0, eulerAngles_cam.y, eulerAngles_cam.z);
-                //CreatePlayer._Instace.player.GetComponent<Transform>().eulerAngles = eulerAngles;
-                //CreatePlayer._Instace.RefreshChildrensRotation(eulerAngles);
-                //playerMain.transform().eulerAngles = eulerAngles;
                 playerMain.setDestRotate(eulerAngles, true);
-                //playerMain.RefreshChildrensRotation(eulerAngles);
             }
         }
 

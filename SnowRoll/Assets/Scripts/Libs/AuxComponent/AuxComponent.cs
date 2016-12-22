@@ -109,6 +109,11 @@ namespace SDK.Lib
             return this.mPntGo;
         }
 
+        public Transform getParentTransform()
+        {
+            return this.mPntGo.transform;
+        }
+
         public bool bNeedPlaceHolderGo
         {
             get

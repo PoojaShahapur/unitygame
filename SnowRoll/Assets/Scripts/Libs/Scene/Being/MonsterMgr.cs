@@ -34,21 +34,21 @@
             //m_group2RadarDic[monster.groupID].Add(monster.aiController.vehicle);
             //int idx = 0;
             //int idy = 0;
-            //while(idx < m_list.Count)
+            //while(idx < mList.Count)
             //{
             //    idy = 0;
-            //    while (idy < m_list.Count)
+            //    while (idy < mList.Count)
             //    {
-            //        m_list[idx].aiController.radar.Vehicles.Clear();
-            //        if (m_list[idx] != m_list[idy])
+            //        mList[idx].aiController.radar.Vehicles.Clear();
+            //        if (mList[idx] != mList[idy])
             //        {
-            //            m_list[idx].aiController.radar.Vehicles.Add(m_list[idy].aiController.vehicle);
+            //            mList[idx].aiController.radar.Vehicles.Add(mList[idy].aiController.vehicle);
             //        }
 
             //        ++idy;
             //    }
 
-            //    (m_list[idx].aiController.vehicle.Steerings[1] as SteerForNeighborGroup).HandleDetection(m_list[idx].aiController.radar);
+            //    (mList[idx].aiController.vehicle.Steerings[1] as SteerForNeighborGroup).HandleDetection(mList[idx].aiController.radar);
 
             //    ++idx;
             //}

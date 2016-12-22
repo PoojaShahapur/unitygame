@@ -105,13 +105,15 @@ namespace SDK.Lib
             base.postInit();
 
             this.mPlayerSplitMerge.startSplit();
+
+            Ctx.mInstance.mLuaSystem.onPlayerMainLoaded();
         }
 
         override public void dispose()
         {
             base.dispose();
 
-            Ctx.mInstance.mPlayerMgr.removeEntity(this);
+            Ctx.mInstance.mPlayerMgr.removePlayer(this);
         }
 
         override public void autoHandle()
@@ -140,6 +142,13 @@ namespace SDK.Lib
         public void emitSnowBlock()
         {
             this.mPlayerSplitMerge.emitSnowBlock();
+        }
+
+        override public void setName(string name)
+        {
+            base.setName(name);
+
+            this.mPlayerSplitMerge.setName();
         }
     }
 }

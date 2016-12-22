@@ -2,25 +2,25 @@
 {
     public class MapCfg
     {
-        public MapXml m_mapXml;
+        public MapXml mMapXml;
 
         protected void loadXml()
         {
-            m_mapXml = Ctx.mInstance.mXmlCfgMgr.getXmlCfg<MapXml>(XmlCfgID.eXmlMapCfg);
+            mMapXml = Ctx.mInstance.mXmlCfgMgr.getXmlCfg<MapXml>(XmlCfgID.eXmlMapCfg);
         }
 
         public MapXmlItem getXmlItem(uint sceneId)
         {
-            if (m_mapXml == null)
+            if (mMapXml == null)
             {
                 loadXml();
             }
 
-            foreach (XmlItemBase item in m_mapXml.m_list)
+            foreach (XmlItemBase item in mMapXml.mList.list())
             {
                 if ((item as MapXmlItem) != null)
                 {
-                    if ((item as MapXmlItem).m_sceneId == sceneId)
+                    if ((item as MapXmlItem).mSceneId == sceneId)
                     {
                         return (item as MapXmlItem);
                     }

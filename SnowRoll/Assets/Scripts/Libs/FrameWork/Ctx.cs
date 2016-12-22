@@ -111,9 +111,10 @@
         public clientapp mClientApp;        // KBEngine 相关处理
         public SnowBlockMgr mSnowBlockMgr;
         public PlayerSnowBlockMgr mPlayerSnowBlockMgr;
-        public RobotMgr mRobotMgr;
         public FrameCollideMgr mFrameCollideMgr;
         public SnowBallCfg mSnowBallCfg;
+
+        public HudSystem mHudSystem;
 
         public Ctx()
         {
@@ -248,10 +249,10 @@
             this.mDownloadMgr = new DownloadMgr();
 
             this.mSnowBlockMgr = new SnowBlockMgr();
-            this.mRobotMgr = new RobotMgr();
             this.mFrameCollideMgr = new FrameCollideMgr();
             this.mPlayerSnowBlockMgr = new PlayerSnowBlockMgr();
             this.mSnowBallCfg = new SnowBallCfg();
+            this.mHudSystem = new HudSystem();
         }
 
         public void logicInit()
@@ -281,26 +282,20 @@
             this.mUiMgr.init();
 
             this.mSnowBlockMgr.init();
-            this.mRobotMgr.init();
-
             this.mFrameCollideMgr.init();
             this.mSceneSys.init();
             this.mSnowBallCfg.init();
             this.mPlayerSnowBlockMgr.init();
+            this.mHudSystem.init();
+            this.mPlayerMgr.init();
 
-            //this.mTickMgr.addTick(mMonsterMgr as ITickedObject);
-            //this.mTickMgr.addTick(mFObjectMgr as ITickedObject);
-            //this.mTickMgr.addTick(mNpcMgr as ITickedObject);
-            //this.mTickMgr.addTick(this.mSpriteAniMgr as ITickedObject);
-            //this.mTickMgr.addTick(this.mSceneEffectMgr as ITickedObject);
-            //this.mTickMgr.addTick(m_aiSystem.aiControllerMgr as ITickedObject);
+            // 添加事件处理
+            Ctx.mInstance.mCamSys.setUiCamera(Ctx.mInstance.mLayerMgr.mPath2Go[NotDestroyPath.ND_CV_App].AddComponent<UICamera>());
+            Ctx.mInstance.mCamSys.setSceneCamera2UICamera();
 
             this.mTickMgr.addTick(this.mPlayerMgr as ITickedObject, TickPriority.eTPPlayerMgr);
             this.mTickMgr.addTick(this.mSnowBlockMgr as ITickedObject, TickPriority.eTPSnowBlockMgr);
             this.mTickMgr.addTick(this.mPlayerSnowBlockMgr as ITickedObject, TickPriority.eTPPlayerSnowBlockMgr);
-            this.mTickMgr.addTick(this.mRobotMgr as ITickedObject, TickPriority.eTPRobotMgr);
-            this.mTickMgr.addTick(this.mSceneSys as ITickedObject, TickPriority.eTPSceneSys);
-            this.mTickMgr.addTick(this.mSceneSys as ITickedObject, TickPriority.eTPSceneSys);
         }
 
         public void init()
@@ -341,6 +336,13 @@
             setNoDestroyObject_impl(NotDestroyPath.ND_CV_UIThirdLayer_SecondCanvas, NotDestroyPath.ND_CV_Root);
             setNoDestroyObject_impl(NotDestroyPath.ND_CV_UIForthLayer_SecondCanvas, NotDestroyPath.ND_CV_Root);
             setNoDestroyObject_impl(NotDestroyPath.ND_CV_UITopLayer_SecondCanvas, NotDestroyPath.ND_CV_Root);
+
+            setNoDestroyObject_impl(NotDestroyPath.ND_CV_UIBtmLayer_HudCanvas, NotDestroyPath.ND_CV_Root);
+            setNoDestroyObject_impl(NotDestroyPath.ND_CV_UIFirstLayer_HudCanvas, NotDestroyPath.ND_CV_Root);
+            setNoDestroyObject_impl(NotDestroyPath.ND_CV_UISecondLayer_HudCanvas, NotDestroyPath.ND_CV_Root);
+            setNoDestroyObject_impl(NotDestroyPath.ND_CV_UIThirdLayer_HudCanvas, NotDestroyPath.ND_CV_Root);
+            setNoDestroyObject_impl(NotDestroyPath.ND_CV_UIForthLayer_HudCanvas, NotDestroyPath.ND_CV_Root);
+            setNoDestroyObject_impl(NotDestroyPath.ND_CV_UITopLayer_HudCanvas, NotDestroyPath.ND_CV_Root);
         }
 
         protected void setNoDestroyObject_impl(string child, string parent)

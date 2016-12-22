@@ -216,6 +216,7 @@ public static class CustomSettings
         //for Player
         _GT(typeof(SDK.Lib.PlayerMgr)),
         _GT(typeof(SDK.Lib.PlayerMain)),
+        _GT(typeof(SDK.Lib.RankInfo)),
 
         //for KBEngine
         _GT(typeof(KBEngine.Entity)),

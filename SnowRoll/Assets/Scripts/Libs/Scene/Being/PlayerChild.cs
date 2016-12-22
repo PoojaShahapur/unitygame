@@ -22,5 +22,12 @@
 
             this.mParentPlayer.mPlayerSplitMerge.addToParent(this);
         }
+
+        public override void postInit()
+        {
+            base.postInit();
+
+            this.mHud = Ctx.mInstance.mHudSystem.createHud(this);
+        }
     }
 }

@@ -12,12 +12,14 @@ function M:dtor()
 	GCtx.mNetCmdNotify_KBE:removeParamHandle("Client_onHelloCB", self, self.handleTest);
     GCtx.mNetCmdNotify_KBE:removeParamHandle("Client_notifyReliveSeconds", self, self.Client_notifyReliveSeconds);
     GCtx.mNetCmdNotify_KBE:removeParamHandle("handleSendAndGetMessage", self, self.handleSendAndGetMessage);
+    GCtx.mNetCmdNotify_KBE:removeParamHandle("Client_notifyTop10RankInfoList", self, self.Client_notifyTop10RankInfoList);
 end
 
 function M:init()
 	GCtx.mNetCmdNotify_KBE:addParamHandle("Client_onHelloCB", self, self.handleTest);
     GCtx.mNetCmdNotify_KBE:addParamHandle("Client_notifyReliveSeconds", self, self.Client_notifyReliveSeconds);
     GCtx.mNetCmdNotify_KBE:addParamHandle("handleSendAndGetMessage", self, self.handleSendAndGetMessage);
+    GCtx.mNetCmdNotify_KBE:addParamHandle("Client_notifyTop10RankInfoList", self, self.Client_notifyTop10RankInfoList);
 end
 
 function M:dtor()
@@ -58,6 +60,15 @@ function M:Client_notifyReliveSeconds(params)
     local entityID = params[1];
     local form = GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormID.eUIRelivePanel);
     form:Client_notifyReliveSeconds(reliveseconds, entityID);
+end
+
+function M:Client_notifyTop10RankInfoList(params)
+    if GCtx.mUiMgr:hasForm(GlobalNS.UIFormID.eUITopXRankPanel) then
+        local form = GCtx.mUiMgr:getForm(GlobalNS.UIFormID.eUITopXRankPanel);
+        if nil ~= form and form:isVisible() then            
+            form:onSetRankInfo(params);
+        end
+    end
 end
 
 return M;

@@ -981,14 +981,37 @@ namespace SDK.Lib
         /**
          * @brief 两个相机坐标之间转换
          * @Param scale 就是 Canvas 组件所在的 GameObject 中 RectTransform 组件中的 Scale 因子
+         * @param srcWorldPos 一定是世界坐标空间位置
          */
-        static public Vector3 convPosFromSrcToDestCam(Camera src, Camera dest, Vector3 pos, float scale = 0.0122f)
+        static public Vector3 convPosFromSrcToDestCam(Camera srcCam, Camera destCam, Vector3 srcWorldPos, float scale = 0.01173333f)
         {
-            Vector3 srcScreenPos = src.WorldToScreenPoint(pos);
-            srcScreenPos.z = 1.0f;
-            Vector3 destPos = dest.ScreenToWorldPoint(srcScreenPos);
-            destPos.z = 0.0f;
-            destPos /= scale;
+            //Vector3 srcScreenPos = srcCam.WorldToScreenPoint(srcWorldPos);
+            //srcScreenPos.z = 1.0f;
+            //Vector3 destPos = destCam.ScreenToWorldPoint(srcScreenPos);
+            //destPos.z = 0.0f;
+            //destPos /= scale;
+            //return destPos;
+
+            Vector3 srcScreenPos = srcCam.WorldToScreenPoint(srcWorldPos);
+            Vector3 destPos = destCam.ScreenToWorldPoint(srcScreenPos);
+            return destPos;
+        }
+
+        // 将坐标从一个 Transform 转换到另外一个 Transform
+        static public Vector3 convPosFromOneToOtherLocal(Transform srcTrans, Transform destTrans, Vector3 srcPos)
+        {
+            Vector3 worldPos = srcTrans.TransformPoint(srcPos);
+            Vector3 destPos = destTrans.InverseTransformVector(worldPos);
+            return destPos;
+        }
+
+        // scale 主要是转向父节点有 Canvas 组建的 RectTransform 的时候，需要进行转换
+        static public Vector3 convPosFromWorldToLocal(Transform destTrans, Vector3 worldPos, float scale = 0.01173333f)
+        {
+            // 这两个公式都可以转换世界坐标系到局部坐标系
+            Vector3 destPos = destTrans.InverseTransformVector(worldPos);
+            //Vector3 destPos = destTrans.worldToLocalMatrix * worldPos;
+            destPos *= scale;
             return destPos;
         }
 

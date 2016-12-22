@@ -48,14 +48,14 @@
             PlayerMainChild aChild = this.mPlayerMain.mPlayerSplitMerge.mPlayerChildMgr.getEntityByUniqueId(mMergeAId) as PlayerMainChild;
             PlayerMainChild bChild = this.mPlayerMain.mPlayerSplitMerge.mPlayerChildMgr.getEntityByUniqueId(mMergeBId) as PlayerMainChild;
 
-            if (aChild.getEatSize() > bChild.getEatSize())
+            if (aChild.getBallRadius() > bChild.getBallRadius())
             {
-                aChild.setEatSize(aChild.getEatSize() + bChild.getEatSize());
+                aChild.setBallRadius(aChild.getBallRadius() + bChild.getBallRadius());
                 bChild.dispose();
             }
             else
             {
-                bChild.setEatSize(bChild.getEatSize() + aChild.getEatSize());
+                bChild.setBallRadius(bChild.getBallRadius() + aChild.getBallRadius());
                 aChild.dispose();
             }
         }

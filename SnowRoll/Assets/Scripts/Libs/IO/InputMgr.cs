@@ -31,9 +31,6 @@ namespace SDK.Lib
 
         public void init()
         {
-            // 添加事件处理
-            Ctx.mInstance.mCamSys.mUiCam = Ctx.mInstance.mLayerMgr.mPath2Go[NotDestroyPath.ND_CV_App].AddComponent<UICamera>();
-
             InputKey.getInputKeyArray();
         }
 

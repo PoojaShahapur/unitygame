@@ -12,6 +12,7 @@
 
         public const string ND_CV_UIFirstCanvas = "UIFirstCanvas";            // 这个是 UI ，需要屏幕自适应的
         public const string ND_CV_UISecondCanvas = "UISecondCanvas";          // 这个是 UI ，需要屏幕自适应的
+        public const string ND_CV_HudCanvas = "HudLayer";          // 这个是 UI ，需要屏幕自适应的
         public const string ND_CV_UICamera = "UICamera";
 
         // 界面层，层越小越在最后面显示
@@ -28,6 +29,13 @@
         public const string ND_CV_UIThirdLayer_SecondCanvas = "UISecondCanvas/UIThirdLayer";     // 界面第三层
         public const string ND_CV_UIForthLayer_SecondCanvas = "UISecondCanvas/UIForthLayer";     // 界面第四层
         public const string ND_CV_UITopLayer_SecondCanvas = "UISecondCanvas/UITopLayer";         // 界面最顶层
+
+        public const string ND_CV_UIBtmLayer_HudCanvas = "HudCanvas/UIBtmLayer";         // 界面最底层
+        public const string ND_CV_UIFirstLayer_HudCanvas = "HudCanvas/UIFirstLayer";     // 界面第一层
+        public const string ND_CV_UISecondLayer_HudCanvas = "HudCanvas/UISecondLayer";   // 界面第二层
+        public const string ND_CV_UIThirdLayer_HudCanvas = "HudCanvas/UIThirdLayer";     // 界面第三层
+        public const string ND_CV_UIForthLayer_HudCanvas = "HudCanvas/UIForthLayer";     // 界面第四层
+        public const string ND_CV_UITopLayer_HudCanvas = "HudCanvas/UITopLayer";         // 界面最顶层
 
         public const string ND_CV_EventSystem = "EventSystem";
     }

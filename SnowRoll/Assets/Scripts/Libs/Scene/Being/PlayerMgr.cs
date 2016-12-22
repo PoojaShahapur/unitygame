@@ -9,11 +9,18 @@ namespace SDK.Lib
         protected UniqueStrIdGen mChildUniqueStrIdGen;
 
         public PlayerTarget mPlayerTarget;
+        protected TimerItemBase mRepeatTimer;
+
+        protected int mCurNum;
+        protected int mMaxNum;
 
         public PlayerMgr()
 		{
-            mUniqueStrIdGen = new UniqueStrIdGen(UniqueStrIdGen.PlayerPrefix, 0);
-            mChildUniqueStrIdGen = new UniqueStrIdGen(UniqueStrIdGen.PlayerChildPrefix, 0);
+            this.mUniqueStrIdGen = new UniqueStrIdGen(UniqueStrIdGen.PlayerPrefix, 0);
+            this.mChildUniqueStrIdGen = new UniqueStrIdGen(UniqueStrIdGen.PlayerChildPrefix, 0);
+
+            this.mCurNum = 0;
+            this.mMaxNum = 10;
         }
 
         override protected void onTickExec(float delta)
@@ -29,7 +36,7 @@ namespace SDK.Lib
         public void addHero(PlayerMain hero)
         {
             this.mHero = hero as PlayerMain;
-            this.addEntity(this.mHero);
+            this.addPlayer(this.mHero);
         }
 
         public PlayerMain getHero()
@@ -39,7 +46,19 @@ namespace SDK.Lib
 
         override public void init()
         {
-            
+            base.init();
+            //this.startCreatOtherTimer();
+        }
+
+        public void addPlayer(Player player)
+        {
+            this.addEntity(player);
+        }
+
+        public void removePlayer(Player player)
+        {
+            this.removeEntity(player);
+            --mMaxNum;
         }
 
         public string genChildNewStrId()
@@ -81,6 +100,36 @@ namespace SDK.Lib
             if (null != this.mHero)
             {
                 this.mHero.emitSnowBlock();
+            }
+        }
+
+        protected void startCreatOtherTimer()
+        {
+            mRepeatTimer = new TimerItemBase();
+            mRepeatTimer.mInternal = 1.0f;
+            mRepeatTimer.mIsInfineLoop = true;
+            mRepeatTimer.mTimerDisp.setFuncObject(onRepeatTimerTick);
+            this.mRepeatTimer.startTimer();
+        }
+
+        protected void onRepeatTimerTick(TimerItemBase timer)
+        {
+            this.createOneOtherPlayer();
+        }
+
+        // 创建一个 Other Player
+        protected void createOneOtherPlayer()
+        {
+            if(null != this.mHero && this.mCurNum < this.mMaxNum)
+            {
+                UnityEngine.Vector3 pos = this.mHero.getPos() +  this.mHero.getRotate() * (UtilMath.UnitCircleRandom() * 10);
+                pos.y = 1.3f;
+
+                PlayerOther player = new PlayerOther();
+                player.setPos(pos);
+                player.init();
+
+                ++this.mCurNum;
             }
         }
     }

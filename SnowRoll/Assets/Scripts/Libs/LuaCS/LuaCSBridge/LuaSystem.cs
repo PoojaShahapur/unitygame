@@ -154,6 +154,11 @@ namespace SDK.Lib
             this.callLuaFunction("GlobalNS.GlobalEventCmd.onSceneLoaded");
         }
 
+        public void onPlayerMainLoaded()
+        {
+            this.callLuaFunction("GlobalNS.GlobalEventCmd.onPlayerMainLoaded");
+        }
+
         public void onSocketConnected()
         {
             

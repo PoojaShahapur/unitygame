@@ -40,8 +40,8 @@ namespace SDK.Lib
             //m_numAni = new NumAniParallel();
             //m_numAni.addOneNumAni(posAni);
             //posAni.setTime(5);
-            //posAni.setGO(m_num.getParentGo());
-            //posAni.destPos = m_num.getPos() + new Vector3(0, 3, 0);
+            //posAni.setGO(mNum.getParentGo());
+            //posAni.destPos = mNum.getPos() + new Vector3(0, 3, 0);
             //m_numAni.play();
 
             // 启动定时器
