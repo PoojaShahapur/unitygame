@@ -50,12 +50,12 @@
 
             if (aChild.getBallRadius() > bChild.getBallRadius())
             {
-                aChild.setBallRadius(aChild.getBallRadius() + bChild.getBallRadius());
+                aChild.setBallRadius(UtilMath.getNewRadiusByRadius(aChild.getBallRadius(), bChild.getBallRadius()));
                 bChild.dispose();
             }
             else
             {
-                bChild.setBallRadius(bChild.getBallRadius() + aChild.getBallRadius());
+                bChild.setBallRadius(UtilMath.getNewRadiusByRadius(bChild.getBallRadius(), aChild.getBallRadius()));
                 aChild.dispose();
             }
         }

@@ -28,31 +28,34 @@
         }
 
         // 被控制的时候向前移动，需要走这里
-        public void moveForwardAndUpdateDir()
+        override public void moveForward()
         {
-            //base.moveForward();
+            this.updateDir();   // 如果从空闲状态开始走，第一次需要更新一下方向
 
-            //if(BeingState.BSIdle == (this.mEntity as BeingEntity).getBeingState())
-            //{
-                this.updateDir();   // 如果从空闲状态开始走，第一次需要更新一下方向
-            //}
+            //(this.mEntity as BeingEntity).setBeingState(BeingState.eBSWalk);
 
-            (this.mEntity as BeingEntity).setBeingState(BeingState.eBSWalk);
-            this.setIsMoveToDest(true);
+            //this.setIsMoveToDest(true);
+            //this.mMoveWay = MoveWay.eIOControlMove;
 
-            this.mMoveWay = MoveWay.eIOControlMove;
+            base.moveForward();
         }
 
         // Parent Player 方向改变事件处理器
         public void handleParentOrientChanged(IDispatchObject dispObj)
         {
-            this.updateDir();
+            if ((this.mEntity as BeingEntity).canIOControlMoveForward())
+            {
+                this.updateDir();
+            }
         }
 
         // Parent Player 位置改变事件处理器
         public void handleParentPosChanged(IDispatchObject dispObj)
         {
-            this.moveForwardAndUpdateDir();
+            if ((this.mEntity as BeingEntity).canIOControlMoveForward())
+            {
+                this.moveForward();
+            }
         }
 
         // 方向停止改变
@@ -158,6 +161,7 @@
         protected UnityEngine.Vector3 CalculateForces()
         {
             UnityEngine.Vector3 steering = UnityEngine.Vector3.zero;
+            //UnityEngine.Vector3 direction;
 
             for (var i = 0; i < _neighbors.Count(); i++)
             {
@@ -165,7 +169,7 @@
 
                 if (other != this.mEntity)
                 {
-                    UnityEngine.Vector3 direction = other.getPos() - this.mEntity.getPos();
+                    //direction = other.getPos() - this.mEntity.getPos();
 
                     if (_drawNeighbors)
                     {

@@ -9,9 +9,11 @@ namespace SDK.Lib
         protected BeingState mBeingState;       // 当前的状态
         protected BeingSubState mBeingSubState; // 当前子状态
 
-        public float mMoveSpeed;     // 移动速度
-        public float mRotateSpeed;   // 旋转速度
-        public float mScaleSpeed;    // 缩放速度
+        protected float mMoveSpeed;     // 移动速度
+        protected float mRotateSpeed;   // 旋转速度
+        protected float mScaleSpeed;    // 缩放速度
+
+        protected float mMoveSpeedFactor;   // 移动速度因子
 
         protected float mBallRadius;    // 吃的大小，使用这个字段判断是否可以吃，以及吃后的大小
         protected BeingEntityAttack mAttack;
@@ -28,14 +30,15 @@ namespace SDK.Lib
             this.mBeingSubState = BeingSubState.eBSSNone;
 
             this.mMoveSpeed = 1;
-            this.mRotateSpeed = 5;
-            this.mScaleSpeed = 1;
+            this.mRotateSpeed = 10;
+            this.mScaleSpeed = 10;
 
             this.mBallRadius = 1;
 
             this.mMoveSpeed = Ctx.mInstance.mSnowBallCfg.mMoveSpeed_k / mScale.x + Ctx.mInstance.mSnowBallCfg.mMoveSpeed_b;
 
             this.mName = "";
+            this.mMoveSpeedFactor = 1;
         }
 
         public SkinModelSkelAnim skinAniModel
@@ -98,14 +101,6 @@ namespace SDK.Lib
             return null;
         }
 
-        public uint qwThisID
-        {
-            get
-            {
-                return 0;
-            }
-        }
-
         public void playFlyNum(int num)
         {
 
@@ -149,7 +144,7 @@ namespace SDK.Lib
 
         public float getMoveSpeed()
         {
-            return this.mMoveSpeed;
+            return this.mMoveSpeed * this.mMoveSpeedFactor;
         }
 
         public void setRotateSpeed(float value)
@@ -157,9 +152,19 @@ namespace SDK.Lib
             this.mRotateSpeed = value;
         }
 
+        public float getRotateSpeed()
+        {
+            return this.mRotateSpeed;
+        }
+
         public void setScaleSpeed(float value)
         {
             this.mScaleSpeed = value;
+        }
+
+        public float getScaleSpeed()
+        {
+            return this.mScaleSpeed;
         }
 
         virtual public void setDestPos(UnityEngine.Vector3 pos, bool immePos)
@@ -229,20 +234,23 @@ namespace SDK.Lib
             }
         }
 
-        public void setBallRadius(float size)
+        public void setBallRadius(float size, bool immScale = false)
         {
             if (0 == size) return;
 
-            this.mBallRadius = size;
-
-            if(UtilMath.isInvalidNum(this.mBallRadius))
+            if (this.mBallRadius != size)
             {
-                this.mBallRadius = 1;
+                this.mBallRadius = size;
 
-                Ctx.mInstance.mLogSys.log("BeingEntity::setBallRadius is InValid num", LogTypeId.eLogSplitMergeEmit);
+                if (UtilMath.isInvalidNum(this.mBallRadius))
+                {
+                    this.mBallRadius = 1;
+
+                    Ctx.mInstance.mLogSys.log("BeingEntity::setBallRadius is InValid num", LogTypeId.eLogSplitMergeEmit);
+                }
+
+                this.setDestScale(size, immScale);
             }
-
-            this.setDestScale(size, false);
         }
 
         public float getBallRadius()
@@ -271,7 +279,7 @@ namespace SDK.Lib
         // 减少质量
         public void reduceMassBy(float mass)
         {
-            float selfMass = UtilMath.getRadiusByMass(this.mBallRadius);
+            float selfMass = UtilMath.getMassByRadius(this.mBallRadius);
             selfMass -= mass;
             this.setBallRadius(UtilMath.getRadiusByMass(selfMass));
         }
@@ -279,7 +287,7 @@ namespace SDK.Lib
         // 获取分裂半径
         public float getSplitRadius()
         {
-            float selfMass = UtilMath.getRadiusByMass(this.mBallRadius);
+            float selfMass = UtilMath.getMassByRadius(this.mBallRadius);
             selfMass /= 2;
             float splitRadius = UtilMath.getRadiusByMass(selfMass);
             return splitRadius;
@@ -337,18 +345,11 @@ namespace SDK.Lib
             }
         }
 
-        public void setBeingState(BeingState state)
+        virtual public void setBeingState(BeingState state)
         {
             if (this.mBeingState != state)
             {
                 this.mBeingState = state;
-
-                if(this.mBeingState != BeingState.eBSIdle &&
-                   this.mBeingState != BeingState.eBSSeparation &&
-                   this.mBeingState != BeingState.eBSBirth)
-                {
-                    Ctx.mInstance.mLogSys.log("Test State", LogTypeId.eLogCommon);
-                }
             }
         }
 
@@ -416,7 +417,8 @@ namespace SDK.Lib
         public bool isNeedSeparate(BeingEntity other)
         {
             UnityEngine.Vector3 direction = other.getPos() - this.getPos();
-            if(direction.magnitude < this.getBallRadius() + other.getBallRadius())
+
+            if(direction.magnitude <= this.getBallRadius() + other.getBallRadius() + SnowBallCfg.msSeparateFactor)
             {
                 return true;
             }
@@ -470,6 +472,17 @@ namespace SDK.Lib
         virtual public bool canSplit()
         {
             return this.mBallRadius >= Ctx.mInstance.mSnowBallCfg.mCanSplitFactor * Ctx.mInstance.mSnowBallCfg.mInitSnowRadius;
+        }
+
+        // 是否可以 IO 控制向前移动
+        virtual public bool canIOControlMoveForward()
+        {
+            if (BeingState.eBSBirth != this.getBeingState())
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

@@ -96,15 +96,13 @@
         override public void addActorLocalOffset(UnityEngine.Vector3 DeltaLocation)
         {
             base.addActorLocalOffset(DeltaLocation);
-            (this.mEntity as Player).mPlayerSplitMerge.calcTargetPoint();
-            this.mPosChangedDisp.dispatchEvent(this);
+            this.onPosChanged();
         }
 
         override public void addActorLocalDestOffset(UnityEngine.Vector3 DeltaLocation)
         {
             base.addActorLocalDestOffset(DeltaLocation);
-            (this.mEntity as Player).mPlayerSplitMerge.calcTargetPoint();
-            this.mPosChangedDisp.dispatchEvent(this);
+            this.onPosChanged();
         }
 
         override public void addLocalRotation(UnityEngine.Vector3 DeltaRotation)
@@ -129,6 +127,13 @@
             this.moveForward();
 
             Ctx.mInstance.mLogSys.log(string.Format("Acceleration orient is x = {0}, y = {1}, z = {2}", acceleration.getOrient().eulerAngles.x, acceleration.getOrient().eulerAngles.y, acceleration.getOrient().eulerAngles.z), LogTypeId.eLogAcceleration);
+        }
+
+        // 主角不移动，通过中心点移动
+        override public void moveForward()
+        {
+            base.moveForward();
+            //this.onPosChanged();
         }
 
         public void addOrientChangedHandle(MAction<IDispatchObject> handle)
@@ -181,6 +186,14 @@
                 mEntity.getPos().z,
                 mEntity.getRotateEulerAngle().y
                 );
+        }
+
+        protected void onPosChanged()
+        {
+            //(this.mEntity as Player).mPlayerSplitMerge.calcTargetPoint();
+            this.mPosChangedDisp.dispatchEvent(this);
+
+            (this.mEntity as PlayerMain).onChildChanged();
         }
     }
 }

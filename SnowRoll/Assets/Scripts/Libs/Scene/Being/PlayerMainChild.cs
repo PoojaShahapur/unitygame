@@ -30,6 +30,20 @@
             this.mAttack.init();
         }
 
+        override public void setBeingState(BeingState state)
+        {
+            base.setBeingState(state);
+
+            if(BeingState.eBSBirth == this.mBeingState)
+            {
+                this.mMoveSpeedFactor = 5;
+            }
+            else
+            {
+                this.mMoveSpeedFactor = 1;
+            }
+        }
+
         public uint getLastMergedTime()
         {
             return this.mLastMergedTime;

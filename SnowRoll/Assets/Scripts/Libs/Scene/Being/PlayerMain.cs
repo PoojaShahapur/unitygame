@@ -7,7 +7,12 @@ namespace SDK.Lib
 	 */
     public class PlayerMain : Player
 	{
-		public PlayerMain()
+        // Child 的大小\数量\位置 发生改变触发事件
+        protected AddOnceEventDispatch mChildChangedDispatch;
+        // 位置改变量，主要是暂时移动 child，以后改通知为服务器 child 位置，就不用这样修改了
+        protected Vector3 mDeltaPos;
+
+        public PlayerMain()
 		{
             this.mTypeId = "PlayerMain";
             this.mEntityType = EntityType.ePlayerMain;
@@ -15,6 +20,8 @@ namespace SDK.Lib
             this.mMovement = new PlayerMainMovement(this);
             this.mAttack = new PlayerMainAttack(this);
             this.mPlayerSplitMerge = new PlayerMainSplitMerge(this);
+
+            this.mChildChangedDispatch = new AddOnceEventDispatch();
         }
 
         public override void onSkeletonLoaded()
@@ -128,6 +135,13 @@ namespace SDK.Lib
             base.onPreTick(delta);
         }
 
+        override public void setPos(UnityEngine.Vector3 pos)
+        {
+            Vector3 origPos = this.mPos;
+            base.setPos(pos);
+            this.mDeltaPos = this.mPos - origPos;
+        }
+
         override public void setDestPos(UnityEngine.Vector3 pos, bool immePos)
         {
             base.setDestPos(pos, immePos);
@@ -149,6 +163,22 @@ namespace SDK.Lib
             base.setName(name);
 
             this.mPlayerSplitMerge.setName();
+        }
+
+        public void addChildChangedHandle(ICalleeObject pThis, MAction<IDispatchObject> handle)
+        {
+            this.mChildChangedDispatch.addEventHandle(pThis, handle);
+        }
+
+        public void onChildChanged()
+        {
+            this.mPlayerSplitMerge.updateCenterPos();
+            this.mChildChangedDispatch.dispatchEvent(this);
+        }
+
+        public Vector3 getDeltaPos()
+        {
+            return this.mDeltaPos;
         }
     }
 }

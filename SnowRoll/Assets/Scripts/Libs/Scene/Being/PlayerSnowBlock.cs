@@ -11,6 +11,7 @@
             this.mEntityType = EntityType.ePlayerSnowBlock;
             this.mEntityUniqueId = Ctx.mInstance.mPlayerSnowBlockMgr.genNewStrId();
             this.mMovement = new PlayerSnowBlockMovement(this);
+            this.mAttack = new PlayerSnowBlockAttack(this);
 
             this.mMoveSpeed = 6;
         }

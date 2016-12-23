@@ -78,8 +78,7 @@
                     // 设置目标点移动
                     this.moveToDest(delta);
                 }
-                else if(MoveWay.eIOControlMove == this.mMoveWay ||
-                        MoveWay.eSeparateMove == this.mMoveWay)
+                else if(MoveWay.eSeparateMove == this.mMoveWay)
                 {
                     // 设置前向方向移动
                     this.moveForwardToDest(delta);
@@ -116,13 +115,11 @@
         // 向前移动
         virtual public void moveForward()
         {
-            if (BeingState.eBSWalk != (this.mEntity as BeingEntity).getBeingState())
-            {
-                (this.mEntity as BeingEntity).setBeingState(BeingState.eBSWalk);
+            (this.mEntity as BeingEntity).setBeingState(BeingState.eBSIOControlWalk);
 
-                this.setIsMoveToDest(true);
-                this.mMoveWay = MoveWay.eIOControlMove;
-            }
+            UnityEngine.Vector3 localMove = new UnityEngine.Vector3(0.0f, 0.0f, (mEntity as BeingEntity).getMoveSpeed() * Ctx.mInstance.mSystemTimeData.deltaSec);
+
+            this.addActorLocalDestOffset(localMove);
         }
 
         // 向前移动进行分离
@@ -153,7 +150,7 @@
         public void rotateLeft()
         {
             float delta = Ctx.mInstance.mSystemTimeData.deltaSec;
-            UnityEngine.Vector3 deltaRotation = new UnityEngine.Vector3(0.0f, (mEntity as BeingEntity).mRotateSpeed * delta, 0.0f);
+            UnityEngine.Vector3 deltaRotation = new UnityEngine.Vector3(0.0f, (mEntity as BeingEntity).getRotateSpeed() * delta, 0.0f);
             this.addLocalRotation(deltaRotation);
         }
 
@@ -163,7 +160,7 @@
             //(this.mEntity as BeingEntity).setBeingState(BeingState.BSWalk);
 
             float delta = Ctx.mInstance.mSystemTimeData.deltaSec;
-            UnityEngine.Vector3 deltaRotation = new UnityEngine.Vector3(0.0f, -(mEntity as BeingEntity).mRotateSpeed * delta, 0.0f);
+            UnityEngine.Vector3 deltaRotation = new UnityEngine.Vector3(0.0f, -(mEntity as BeingEntity).getRotateSpeed() * delta, 0.0f);
             this.addLocalRotation(deltaRotation);
         }
 
@@ -185,7 +182,7 @@
         // 控制向前移动
         public void moveForwardToDest(float delta)
         {
-            UnityEngine.Vector3 localMove = new UnityEngine.Vector3(0.0f, 0.0f, (mEntity as BeingEntity).mMoveSpeed * delta);
+            UnityEngine.Vector3 localMove = new UnityEngine.Vector3(0.0f, 0.0f, (mEntity as BeingEntity).getMoveSpeed() * delta);
             this.addActorLocalOffset(localMove);
         }
 
@@ -193,16 +190,16 @@
         public void moveToDest(float delta)
         {
             UtilApi.DrawLine(mEntity.getPos(), mDestPos, UnityEngine.Color.red);
-            // 新的移动
+
             float dist = 0.0f;
             dist = UnityEngine.Vector3.Distance(new UnityEngine.Vector3(mDestPos.x, 0f, mDestPos.z),
                     new UnityEngine.Vector3(mEntity.getPos().x, 0f, mEntity.getPos().z));
 
-            float deltaSpeed = (mEntity as BeingEntity).mMoveSpeed * delta;
+            float deltaSpeed = (mEntity as BeingEntity).getMoveSpeed() * delta;
 
             if (dist > deltaSpeed)
             {
-                UnityEngine.Vector3 localMove = new UnityEngine.Vector3(0.0f, 0.0f, (mEntity as BeingEntity).mMoveSpeed * delta);
+                UnityEngine.Vector3 localMove = new UnityEngine.Vector3(0.0f, 0.0f, (mEntity as BeingEntity).getMoveSpeed() * delta);
                 this.addActorLocalDestOffset(localMove);
             }
             else
@@ -218,7 +215,7 @@
             // 方向插值
             if (!UtilMath.isEqualVec3(mEntity.getRotateEulerAngle(), this.mDestRotate.eulerAngles))
             {
-                mEntity.setRotation(UnityEngine.Quaternion.Slerp(mEntity.getRotate(), this.mDestRotate, (mEntity as BeingEntity).mRotateSpeed * delta));
+                mEntity.setRotation(UnityEngine.Quaternion.Slerp(mEntity.getRotate(), this.mDestRotate, (mEntity as BeingEntity).getRotateSpeed() * delta));
             }
             else
             {
@@ -234,7 +231,7 @@
                 float dist = 0.0f;
                 dist = UnityEngine.Vector3.Distance(this.mDestScale, this.mEntity.getScale());
 
-                float deltaSpeed = (mEntity as BeingEntity).mScaleSpeed * delta;
+                float deltaSpeed = (mEntity as BeingEntity).getScaleSpeed() * delta;
 
                 UnityEngine.Vector3 scale = this.mDestScale - mEntity.getScale();
                 scale.Normalize();
@@ -390,7 +387,7 @@
 
         virtual public void movePause()
         {
-
+            (this.mEntity as BeingEntity).setBeingState(BeingState.eBSIdle);
         }
 
         virtual public void sendMoveMsg()

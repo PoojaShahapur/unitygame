@@ -10,6 +10,7 @@
         eBSRun,          // 跑状态(目前不用这个)
         eBSSeparation,   // 分离状态，出生后，不要都聚集在一起，停止的时候也不要都聚集在一起
         eBSBirth,        // 出生状态
+        eBSIOControlWalk,// 控制走状态
     }
 
     /**
@@ -49,7 +50,6 @@
     {
         eNone,          // 没有移动
         eAutoPathMove,  // 自动寻路
-        eIOControlMove, // IO 控制移动
         eSeparateMove,  // 分离移动
         eBirthMove,     // 出生移动
     }

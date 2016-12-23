@@ -38,14 +38,14 @@ namespace SDK.Lib
             : base(camera, go)
         {
             this.transform = camera.gameObject.GetComponent<Transform>();
-            (((actor as PlayerMain).mMovement) as PlayerMainMovement).addPosChangedHandle(onTargetOrientPosChanged);
+            (actor as PlayerMain).addChildChangedHandle(null, onTargetOrientPosChanged);
         }
 
         public void init()
         {
             //Ctx.mInstance.mTickMgr.addTick(this, TickPriority.eTPCamController);
 
-            Ctx.mInstance.mInputMgr.addMouseListener(MMouse.MouseLeftButton, EventId.MOUSEMove_EVENT, onTouchMove);
+            Ctx.mInstance.mInputMgr.addMouseListener(MMouse.MouseLeftButton, EventId.MOUSEMOVE_EVENT, onTouchMove);
             Ctx.mInstance.mInputMgr.addTouchListener(EventId.TOUCHMOVED_EVENT, onTouchMove);
 
             Vector3 eulerAngles = this.transform.eulerAngles;//当前物体的欧拉角  

@@ -31,11 +31,11 @@ namespace SDK.Lib
 #endif
             mEnableLogTypeList = new MList<LogTypeId>();
             mEnableLogTypeList.Add(LogTypeId.eLogCommon);
-            mEnableLogTypeList.Add(LogTypeId.eLogResLoader);
-            mEnableLogTypeList.Add(LogTypeId.eLogLocalFile);
-            mEnableLogTypeList.Add(LogTypeId.eLogTestRL);
+            //mEnableLogTypeList.Add(LogTypeId.eLogResLoader);
+            //mEnableLogTypeList.Add(LogTypeId.eLogLocalFile);
+            //mEnableLogTypeList.Add(LogTypeId.eLogTestRL);
             //mEnableLogTypeList.Add(LogTypeId.eLogAcceleration);
-            mEnableLogTypeList.Add(LogTypeId.eLogSplitMergeEmit);
+            //mEnableLogTypeList.Add(LogTypeId.eLogSplitMergeEmit);
 
             mEnableLog = true;
         }

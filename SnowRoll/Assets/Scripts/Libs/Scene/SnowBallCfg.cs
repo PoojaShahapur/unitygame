@@ -10,7 +10,6 @@
         public float mCanAttackRate;//可以吃的比率
         public float mInitSnowRadius;   // 初始雪球大小
         public float mMassFactor;       // 质量转换因子
-        public float mInvMassFactor;       // 质量转换因子
 
         public float mK;     // 目标点 K 因子
         public float mN;     // 目标点 N 因子
@@ -30,6 +29,8 @@
         //速度 v = k / m + b
         public float mMoveSpeed_k;
         public float mMoveSpeed_b;
+
+        public const float msSeparateFactor = 8;
 
         public SnowBallCfg()
         {
@@ -51,7 +52,6 @@
             this.mEmitRelDist = 10;
 
             this.mMassFactor = 1;
-            this.mInvMassFactor = 1 / this.mMassFactor;
 
             this.mMoveSpeed_k = 10.0f;
             this.mMoveSpeed_b = 10.0f;
@@ -65,7 +65,6 @@
 
             this.mInitSnowRadius = this.mXmlSnowBallCfg.mXmlItemInit.mRadius;
             this.mMassFactor = this.mXmlSnowBallCfg.mXmlItemInit.mMassFactor;
-            this.mInvMassFactor = 1 / this.mMassFactor;
 
             this.mK = this.mXmlSnowBallCfg.mXmlItemSplit.mK;
             this.mN = this.mXmlSnowBallCfg.mXmlItemSplit.mN;

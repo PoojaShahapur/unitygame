@@ -194,5 +194,10 @@
         {
 
         }
+
+        virtual public void updateCenterPos()
+        {
+
+        }
     }
 }

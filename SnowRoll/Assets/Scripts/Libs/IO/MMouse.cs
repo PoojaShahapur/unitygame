@@ -82,7 +82,7 @@
             {
                 this.mOnMousePressDispatch.addEventHandle(null, handle);
             }
-            else if (EventId.MOUSEMove_EVENT == evtID)
+            else if (EventId.MOUSEMOVE_EVENT == evtID)
             {
                 this.mOnMouseMoveDispatch.addEventHandle(null, handle);
             }
@@ -102,7 +102,7 @@
             {
                 this.mOnMousePressDispatch.removeEventHandle(null, handle);
             }
-            else if (EventId.MOUSEMove_EVENT == evtID)
+            else if (EventId.MOUSEMOVE_EVENT == evtID)
             {
                 this.mOnMouseMoveDispatch.removeEventHandle(null, handle);
             }
