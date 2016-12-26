@@ -22,7 +22,14 @@ namespace SDK.Lib
         {
             base.preInit();
 
-            //this.Start_Player();
+            if(null != this.mAnimFSM)
+            {
+                this.mAnimFSM.init();
+            }
+            if(null != this.mAnimatorControl)
+            {
+                this.mAnimatorControl.init();
+            }
             if (null != this.mPlayerSplitMerge)
             {
                 this.mPlayerSplitMerge.init();
@@ -72,7 +79,7 @@ namespace SDK.Lib
         {
             base.onPostTick(delta);
 
-            if(null != this.mPlayerSplitMerge)
+            if (null != this.mPlayerSplitMerge)
             {
                 this.mPlayerSplitMerge.onTick(delta);
             }

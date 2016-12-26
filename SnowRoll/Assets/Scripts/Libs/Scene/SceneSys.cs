@@ -146,12 +146,20 @@
 
         public UnityEngine.Vector3 adjustPosInRange(UnityEngine.Vector3 pos)
         {
-            if (pos.x > Ctx.mInstance.mSceneSys.getCurScene().getSceneCfg().getWidth())
+            if(pos.x < 0)
+            {
+                pos.x = 0;
+            }
+            else if (pos.x > Ctx.mInstance.mSceneSys.getCurScene().getSceneCfg().getWidth())
             {
                 pos.x = Ctx.mInstance.mSceneSys.getCurScene().getSceneCfg().getWidth();
             }
 
-            if (pos.z > Ctx.mInstance.mSceneSys.getCurScene().getSceneCfg().getDepth())
+            if (pos.z < 0)
+            {
+                pos.z = 0;
+            }
+            else if (pos.z > Ctx.mInstance.mSceneSys.getCurScene().getSceneCfg().getDepth())
             {
                 pos.z = Ctx.mInstance.mSceneSys.getCurScene().getSceneCfg().getDepth();
             }

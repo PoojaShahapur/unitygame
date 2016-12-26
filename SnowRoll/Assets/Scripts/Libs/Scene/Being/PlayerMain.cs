@@ -105,6 +105,8 @@ namespace SDK.Lib
             this.mMovement.init();
             this.mAttack.init();
             this.mPlayerSplitMerge.init();
+
+            //Ctx.mInstance.mGlobalDelegate.mMainChildMassChangedDispatch.addEventHandle(null, this.onChildMassChanged);
         }
 
         public override void postInit()
@@ -179,6 +181,12 @@ namespace SDK.Lib
         public Vector3 getDeltaPos()
         {
             return this.mDeltaPos;
+        }
+
+        // Child 质量发生变化
+        public void onChildMassChanged(IDispatchObject disp)
+        {
+            float totalRadius = this.mPlayerSplitMerge.getAllChildMass();
         }
     }
 }

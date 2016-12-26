@@ -21,6 +21,8 @@ namespace SDK.Lib
         protected HudItemBase mHud; // HUD
 
         protected string mName;     // 名字
+        public BeingAnimatorControl mAnimatorControl;
+        public AnimFSM mAnimFSM;
 
         public BeingEntity()
         {
@@ -129,11 +131,6 @@ namespace SDK.Lib
                 {
                     mRender.setPos(pos);
                 }
-
-                if (null != this.mHud)
-                {
-                    this.mHud.onPosChanged();
-                }
             }
         }
 
@@ -234,7 +231,7 @@ namespace SDK.Lib
             }
         }
 
-        public void setBallRadius(float size, bool immScale = false)
+        virtual public void setBallRadius(float size, bool immScale = false)
         {
             if (0 == size) return;
 
@@ -350,6 +347,11 @@ namespace SDK.Lib
             if (this.mBeingState != state)
             {
                 this.mBeingState = state;
+
+                if(null != this.mAnimFSM)
+                {
+                    this.mAnimFSM.MoveToState(AnimStateId.getStateIdByBeingState(this.mBeingState));
+                }
             }
         }
 

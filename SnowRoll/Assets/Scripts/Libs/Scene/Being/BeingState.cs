@@ -8,9 +8,11 @@
         eBSIdle,         // 空闲状态
         eBSWalk,         // 走状态
         eBSRun,          // 跑状态(目前不用这个)
+        eBSAttack,       // 攻击(吞食)
         eBSSeparation,   // 分离状态，出生后，不要都聚集在一起，停止的时候也不要都聚集在一起
         eBSBirth,        // 出生状态
         eBSIOControlWalk,// 控制走状态
+        eBSSplit,        // 分裂状态
     }
 
     /**

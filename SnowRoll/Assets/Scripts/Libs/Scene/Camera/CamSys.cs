@@ -7,8 +7,8 @@ namespace SDK.Lib
         protected UICamera mUiCam;            // 这个不是 UI 相机，这个是场景相机
 
         protected MCamera mLocalCamera;         // 这个是系统摄像机，主要进行裁剪使用的
-        protected Camera mMainCamera;          // 主相机
-        protected Camera mUguiCam;             // UGUI 相机
+        public Camera mMainCamera;          // 主相机
+        public Camera mUguiCam;             // UGUI 相机
         //protected ThirdCameraController mCameraController; // 摄像机控制器
         protected RoateCameraController mCameraController;
         protected CameraMan mCameraMan;        // 摄像机玩家

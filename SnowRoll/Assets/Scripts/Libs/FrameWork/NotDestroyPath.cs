@@ -12,7 +12,7 @@
 
         public const string ND_CV_UIFirstCanvas = "UIFirstCanvas";            // 这个是 UI ，需要屏幕自适应的
         public const string ND_CV_UISecondCanvas = "UISecondCanvas";          // 这个是 UI ，需要屏幕自适应的
-        public const string ND_CV_HudCanvas = "HudLayer";          // 这个是 UI ，需要屏幕自适应的
+        public const string ND_CV_HudCanvas = "HudCanvas";          // 这个是 HUD ，不需要屏幕自适应的
         public const string ND_CV_UICamera = "UICamera";
 
         // 界面层，层越小越在最后面显示

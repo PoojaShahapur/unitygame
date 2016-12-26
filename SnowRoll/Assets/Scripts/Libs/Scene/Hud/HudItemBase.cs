@@ -1,6 +1,4 @@
-﻿using UnityEngine.UI;
-
-namespace SDK.Lib
+﻿namespace SDK.Lib
 {
     /**
      * @brief HUD Item
@@ -22,8 +20,7 @@ namespace SDK.Lib
 
         public override void init()
         {
-            UILayer layer = Ctx.mInstance.mUiMgr.getLayer(UICanvasID.eHudCanvas, UILayerID.eBtmLayer);
-            this.pntGo = layer.getLayerGO();
+            this.pntGo = Ctx.mInstance.mUiMgr.mHudParent;
 
             base.init();
             this.load();
@@ -55,7 +52,11 @@ namespace SDK.Lib
                 this.mAuxPrefabLoader.setIsFakePos(true);
             }
 
-            this.mAuxPrefabLoader.syncLoad(mResPath);
+            this.mAuxPrefabLoader.asyncLoad(mResPath, onResLoaded);
+        }
+
+        public void onResLoaded(IDispatchObject dispObj)
+        {
             this.selfGo = this.mAuxPrefabLoader.getGameObject();
         }
 
@@ -74,11 +75,10 @@ namespace SDK.Lib
         // 位置发生改变
         public void onPosChanged()
         {
-            if (null != Ctx.mInstance.mCamSys.getMainCamera() && null != Ctx.mInstance.mCamSys.getUGuiCamera())
+            if (null != Ctx.mInstance.mCamSys.mMainCamera && null != Ctx.mInstance.mCamSys.mUguiCam)
             {
-                this.mPos = UtilApi.convPosFromSrcToDestCam(Ctx.mInstance.mCamSys.getMainCamera(), Ctx.mInstance.mCamSys.getUGuiCamera(), this.mEntity.getPos());
-                this.mPos = UtilApi.convPosFromWorldToLocal(this.getParentTransform(), this.mPos);
-                this.mPos.x += 10;
+                this.mPos = UtilApi.convWorldToUIPos(Ctx.mInstance.mUiMgr.mHudCanvas, Ctx.mInstance.mCamSys.mMainCamera, this.mEntity.getPos(), Ctx.mInstance.mCamSys.mUguiCam);
+
                 this.setPos(this.mPos);
             }
             else

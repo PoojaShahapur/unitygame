@@ -21,6 +21,10 @@ namespace SDK.Lib
         private List<UIFormID> mTmpList;
         private UniqueNumIdGen mUniqueNumIdGen;
 
+        public UnityEngine.Canvas mHudCanvas;
+        public UnityEngine.GameObject mHudParent;
+
+
         public UIMgr()
 		{
             this.mId2FormDic = new Dictionary<UIFormID, Form>();
@@ -35,6 +39,10 @@ namespace SDK.Lib
         public void init()
         {
             mUIAttrs.init();
+            this.findCanvasGO();
+
+            this.mHudParent = Ctx.mInstance.mUiMgr.getLayer(UICanvasID.eHudCanvas, UILayerID.eBtmLayer).getLayerGO();
+            this.mHudCanvas = Ctx.mInstance.mUiMgr.getCanvas(UICanvasID.eHudCanvas);
         }
 
         protected void createCanvas()
@@ -161,6 +169,18 @@ namespace SDK.Lib
         {
             addFormNoReady(form);
             form.onInit();
+        }
+
+        public UnityEngine.Canvas getCanvas(UICanvasID canvasID)
+        {
+            UnityEngine.Canvas canvas = null;
+
+            if (canvasID < UICanvasID.eCanvas_Total)
+            {
+                canvas = mCanvasList[(int)canvasID].getCanvas();
+            }
+
+            return canvas;
         }
 
         public UILayer getLayer(UICanvasID canvasID, UILayerID layerID)

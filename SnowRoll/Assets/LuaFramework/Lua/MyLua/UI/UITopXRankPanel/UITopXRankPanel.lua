@@ -43,8 +43,8 @@ function M:onReady()
 			GlobalNS.TopXRankPanelNS.TopXRankPanelPath.BtnDrop)
 		);
 
-    self.heroentity = GlobalNS.CSSystem.Ctx.mInstance.mPlayerMgr:getHero():getEntity();
-    self.heroentity:cellCall("reqRankData");
+    --self.heroentity = GlobalNS.CSSystem.Ctx.mInstance.mPlayerMgr:getHero():getEntity();
+    --self.heroentity:cellCall("reqRankData");
     --self:showTop10Rank();
 end
 

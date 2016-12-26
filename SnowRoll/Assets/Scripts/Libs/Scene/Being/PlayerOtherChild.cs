@@ -17,5 +17,19 @@
             mRender = new PlayerOtherChildRender(this);
             mRender.init();
         }
+
+        override public void setPos(UnityEngine.Vector3 pos)
+        {
+            base.setPos(pos);
+
+            // 如果 Hero ，没有移动的时候，才更新，如果 Hero 在移动，直接通过相机移动更新
+            if (!Ctx.mInstance.mPlayerMgr.isHeroMoving())
+            {
+                if (null != this.mHud)
+                {
+                    this.mHud.onPosChanged();
+                }
+            }
+        }
     }
 }

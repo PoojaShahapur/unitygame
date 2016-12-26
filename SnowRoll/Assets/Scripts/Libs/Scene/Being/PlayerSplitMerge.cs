@@ -199,5 +199,10 @@
         {
 
         }
+
+        virtual public float getAllChildMass()
+        {
+            return 0;
+        }
     }
 }

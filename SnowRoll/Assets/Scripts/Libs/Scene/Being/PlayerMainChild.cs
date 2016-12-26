@@ -30,6 +30,18 @@
             this.mAttack.init();
         }
 
+        override public void setBallRadius(float size, bool immScale = false)
+        {
+            float curRadius = this.mBallRadius;
+
+            base.setBallRadius(size, immScale);
+
+            if(0 != size && curRadius != this.mBallRadius && !UtilMath.isInvalidNum(size))
+            {
+                Ctx.mInstance.mGlobalDelegate.mMainChildMassChangedDispatch.dispatchEvent(this);
+            }
+        }
+
         override public void setBeingState(BeingState state)
         {
             base.setBeingState(state);

@@ -38,7 +38,7 @@ namespace SDK.Lib
         public const string SEPARATOR = "=";    // 分隔符
 
         public const string TEXT_IN_BTN = "Text";   // Button 组件中 Text GameObject 的名字
-        public const string MODEL_NAME = "Model";   // 模型 GameObject 的 name
+        public const string MODEL_NAME = "model";   // 模型 GameObject 的 name
         public const string COLLIDE_NAME = "Collide"; // 模型 GameObject 的 name
 
         public static GameObject[] FindGameObjectsWithTag(string tag)
@@ -811,7 +811,7 @@ namespace SDK.Lib
 
         public static void AddAnimatorComponent(GameObject go_, bool applyRootMotion = false)
         {
-            if (go_.GetComponent<Animator>() == null)
+            if (null == go_.GetComponent<Animator>())
             {
                 Animator animator = UtilApi.AddComponent<Animator>(go_);
                 animator.applyRootMotion = applyRootMotion;
@@ -933,7 +933,7 @@ namespace SDK.Lib
 
         public static int Range(int min, int max)
         {
-            UnityEngine.Random.seed = (int)UtilApi.getUTCSec();
+            UnityEngine.Random.InitState((int)UtilApi.getUTCSec());
             return UnityEngine.Random.Range(min, max);
         }
 
@@ -983,7 +983,7 @@ namespace SDK.Lib
          * @Param scale 就是 Canvas 组件所在的 GameObject 中 RectTransform 组件中的 Scale 因子
          * @param srcWorldPos 一定是世界坐标空间位置
          */
-        static public Vector3 convPosFromSrcToDestCam(Camera srcCam, Camera destCam, Vector3 srcWorldPos, float scale = 0.01173333f)
+        static public Vector3 convPosFromSrcToDestCam(Camera srcCam, Camera destCam, Vector3 srcWorldPos/*, float scale = 0.01173333f*/)
         {
             //Vector3 srcScreenPos = srcCam.WorldToScreenPoint(srcWorldPos);
             //srcScreenPos.z = 1.0f;
@@ -1005,14 +1005,19 @@ namespace SDK.Lib
             return destPos;
         }
 
-        // scale 主要是转向父节点有 Canvas 组建的 RectTransform 的时候，需要进行转换
-        static public Vector3 convPosFromWorldToLocal(Transform destTrans, Vector3 worldPos, float scale = 0.01173333f)
+        public static Vector2 convWorldToUIPos(Canvas canvas, Camera worldCamera, Vector3 worldPos, Camera uiCamera)
         {
-            // 这两个公式都可以转换世界坐标系到局部坐标系
-            Vector3 destPos = destTrans.InverseTransformVector(worldPos);
-            //Vector3 destPos = destTrans.worldToLocalMatrix * worldPos;
-            destPos *= scale;
-            return destPos;
+            Vector2 pos;
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas.transform as RectTransform,
+                worldCamera.WorldToScreenPoint(worldPos), uiCamera, out pos);
+
+            return pos;
+
+            //Vector3 srcScreenPos = worldCamera.WorldToScreenPoint(worldPos);
+            //Vector3 destPos = uiCamera.ScreenToWorldPoint(srcScreenPos);
+            //Vector3 destUIPos = canvas.transform.InverseTransformVector(destPos);
+
+            //return destUIPos;
         }
 
         static public void set(GameObject go, int preferredHeight)
@@ -1107,9 +1112,6 @@ namespace SDK.Lib
                     return "Android";
                 case RuntimePlatform.IPhonePlayer:
                     return "iOS";
-                case RuntimePlatform.WindowsWebPlayer:
-                case RuntimePlatform.OSXWebPlayer:
-                    return "WebPlayer";
                 case RuntimePlatform.WindowsPlayer:
                 case RuntimePlatform.WindowsEditor:
                     return "Windows";

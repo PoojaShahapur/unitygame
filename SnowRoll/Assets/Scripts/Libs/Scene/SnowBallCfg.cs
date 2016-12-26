@@ -30,11 +30,23 @@
         public float mMoveSpeed_k;
         public float mMoveSpeed_b;
 
+        // 吞食雪块计算公式 r = r + (1 + 1 / (10 + Mathf.Pow(r, A)))
+        public float mA;
+
+        //相机控制参数 计算公式见配置文件
+        public float mCameraDistance_Z; //初始相距相机z值
+        public float mCameraChangeFactor_Z;//变化因子
+        public float mLimitRadius; //临界半径
+        public float mCameraDistance_Y; //初始相距相机y值
+        public float mCameraChangeFactor_Y;//变化因子
+
+
         public const float msSeparateFactor = 8;
 
         public SnowBallCfg()
         {
             this.mCanAttackRate = 1.0f;
+            this.mA = 0.5f;
             this.mInitSnowRadius = 1;
 
             this.mK = 10;
@@ -55,6 +67,12 @@
 
             this.mMoveSpeed_k = 10.0f;
             this.mMoveSpeed_b = 10.0f;
+
+            this.mCameraDistance_Z = 10.0f;
+            this.mCameraChangeFactor_Z = 15.0f;
+            this.mLimitRadius = 50.0f;
+            this.mCameraDistance_Y = 0.5f;
+            this.mCameraChangeFactor_Y = 0.5f;
         }
 
         public void init()
@@ -62,6 +80,7 @@
             this.mXmlSnowBallCfg = XmlSnowBallCfg.loadAndRetXml<XmlSnowBallCfg>(XmlCfgID.eXmlSnowBallCfg);
 
             this.mCanAttackRate = this.mXmlSnowBallCfg.mXmlItemAttack.mFactor;
+            this.mA = this.mXmlSnowBallCfg.mXmlItemAttack.mA;
 
             this.mInitSnowRadius = this.mXmlSnowBallCfg.mXmlItemInit.mRadius;
             this.mMassFactor = this.mXmlSnowBallCfg.mXmlItemInit.mMassFactor;
@@ -83,6 +102,12 @@
 
             this.mMoveSpeed_k = this.mXmlSnowBallCfg.mXmlItemMoveSpeed.mMoveSpeed_k;
             this.mMoveSpeed_b = this.mXmlSnowBallCfg.mXmlItemMoveSpeed.mMoveSpeed_b;
+
+            this.mCameraDistance_Z = this.mXmlSnowBallCfg.mXmlItemCameraControl.mCameraDistance_Z;
+            this.mCameraChangeFactor_Z = this.mXmlSnowBallCfg.mXmlItemCameraControl.mCameraChangeFactor_Z;
+            this.mLimitRadius = this.mXmlSnowBallCfg.mXmlItemCameraControl.mLimitRadius;
+            this.mCameraDistance_Y = this.mXmlSnowBallCfg.mXmlItemCameraControl.mCameraDistance_Y;
+            this.mCameraChangeFactor_Y = this.mXmlSnowBallCfg.mXmlItemCameraControl.mCameraChangeFactor_Y;
         }
 
         public void dispose()

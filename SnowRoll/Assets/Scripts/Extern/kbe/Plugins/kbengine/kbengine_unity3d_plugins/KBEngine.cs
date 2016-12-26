@@ -1722,7 +1722,7 @@
 				entity.enterWorld();
 				
 				if(_args.isOnInitCallPropertysSetMethods)
-					entity.callPropertysSetMethods();
+					entity.callPropertysSetMethods();                
 			}
 			else
 			{
@@ -1750,9 +1750,14 @@
 
 					if(_args.isOnInitCallPropertysSetMethods)
 						entity.callPropertysSetMethods();
-				}
+                }
 			}
-		}
+
+            if (entity.isPlayer())
+            {
+                entity.cellCall("reqRankData");
+            }
+        }
 
 		/*
 			服务端使用优化的方式通知一个实体离开了世界(如果实体是当前玩家则玩家离开了space， 如果是其他实体则是其他实体离开了玩家的AOI)
@@ -2094,8 +2099,14 @@
 			
 			if(key == "_mapping")
 				addSpaceGeometryMapping(spaceID, value);
-			
-			Event.fireOut("onSetSpaceData", new object[]{spaceID, key, value});
+            //游戏剩余时间
+            if (key == "leftSeconds")
+            {
+                int leftsencods = Convert.ToInt32(value);
+                SDK.Lib.Ctx.mInstance.mLuaSystem.receiveToLua_KBE("notifyGameLeftSeconds", new object[] { leftsencods });
+            }
+
+            Event.fireOut("onSetSpaceData", new object[]{spaceID, key, value});
 		}
 
 		/*

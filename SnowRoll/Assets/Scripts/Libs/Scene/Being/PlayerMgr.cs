@@ -132,5 +132,19 @@ namespace SDK.Lib
                 ++this.mCurNum;
             }
         }
+
+        public bool isHeroMoving()
+        {
+            if (null != this.mHero)
+            {
+                return (BeingState.eBSWalk == this.mHero.getBeingState() ||
+                        BeingState.eBSSeparation == this.mHero.getBeingState() ||
+                        BeingState.eBSBirth == this.mHero.getBeingState() ||
+                        BeingState.eBSIOControlWalk == this.mHero.getBeingState()
+                    );
+            }
+
+            return false;
+        }
     }
 }

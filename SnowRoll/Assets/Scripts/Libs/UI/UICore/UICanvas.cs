@@ -16,9 +16,10 @@ namespace SDK.Lib
      */
     public class UICanvas
     {
-        protected string mGoName;              // GameObject 的名字
-        protected UICanvasID mCanvasID;        // CanvasID
-        protected MList<UILayer> mLayerList;     // Canvas 中的 Layer
+        protected string mGoName;               // GameObject 的名字
+        protected UICanvasID mCanvasID;         // CanvasID
+        protected MList<UILayer> mLayerList;    // Canvas 中的 Layer
+        protected UnityEngine.Canvas mCanvas;   // Canvas 组件
 
         public UICanvas(UICanvasID canvasID)
         {
@@ -79,11 +80,18 @@ namespace SDK.Lib
 
         public void findCanvasGO()
         {
+            this.mCanvas = UtilApi.TransFindChildByPObjAndPath(Ctx.mInstance.mLayerMgr.mPath2Go[NotDestroyPath.ND_CV_Root], mGoName).GetComponent<UnityEngine.Canvas>();
+
             int idx = 0;
             for (idx = 0; idx < (int)UILayerID.eMaxLayer; ++idx)
             {
                 mLayerList[idx].findLayerGOAndTrans();
             }
+        }
+
+        public UnityEngine.Canvas getCanvas()
+        {
+            return this.mCanvas;
         }
     }
 }

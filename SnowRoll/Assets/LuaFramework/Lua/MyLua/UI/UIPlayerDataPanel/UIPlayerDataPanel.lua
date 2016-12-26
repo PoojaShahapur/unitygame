@@ -14,8 +14,7 @@ GlobalNS.PlayerDataPanelNS[M.clsName] = M;
 
 function M:ctor()
 	self.mId = GlobalNS.UIFormID.eUIPlayerDataPanel;
-	self.mData = GlobalNS.new(GlobalNS.PlayerDataPanelNS.PlayerDataPanelData);
-    self.mTimer = GlobalNS.new(GlobalNS.TimerItemBase);
+	self.mData = GlobalNS.new(GlobalNS.PlayerDataPanelNS.PlayerDataPanelData);    
 end
 
 function M:dtor()
@@ -23,30 +22,51 @@ function M:dtor()
 end
 
 function M:onInit()
-    M.super.onInit(self);
-    self.mTimer:setTotalTime(100);
-    self.mTimer:setFuncObject(self, self.refreshMassAndTime);
-    self.mTimer:Start();
+    M.super.onInit(self);    
 end
 
 function M:onReady()
     M.super.onReady(self);
+    GlobalNS.CSSystem.Ctx.mInstance.mGlobalDelegate.mMainChildMassChangedDispatch:addEventHandle(nil, nil, self, self.refreshMass);
     
-    --self:refreshMassAndTime();    
+    self:refreshMass(); --加载完成主动刷新一次质量
 end
 
-function M:refreshMassAndTime()
+function M:refreshMass()
     --获取Mass_Text的Text组件
-    self.hero = GlobalNS.CSSystem.Ctx.mInstance.mPlayerMgr:getHero();
-    if self.hero ~= nil and self.mGuiWin ~= nil then
-        local mass = GlobalNS.UtilMath.getShowMass(self.hero:getScale().x);
-        self.mMass = GlobalNS.UtilApi.getComByPath(self.mGuiWin, "Mass_Text", "Text");
-        self.mMass.text = "重量：" .. mass;
-    
-        --获取Time_Text的Text组件
-        self.mMass = GlobalNS.UtilApi.getComByPath(self.mGuiWin, "Time_Text", "Text");
-        self.mMass.text = "时间：" .. "2:08";
+    local mass = GlobalNS.CSSystem.Ctx.mInstance.mPlayerMgr:getHero().mPlayerSplitMerge:getAllChildMass();
+    self.mMass = GlobalNS.UtilApi.getComByPath(self.mGuiWin, "Mass_Text", "Text");
+    self.mMass.text = "重量：" .. GlobalNS.UtilMath.getShowMass(mass);
+end
+
+function M:refreshLeftTime(leftseconds)
+    --获取Time_Text的Text组件
+    if self.mGuiWin == nil then
+        return;
     end
+    self.mMass = GlobalNS.UtilApi.getComByPath(self.mGuiWin, "Time_Text", "Text");
+    self.mMass.text = "时间：" .. self:getTimeText(leftseconds);
+end
+
+function M:getTimeText(leftseconds)
+    local min = leftseconds / 60;
+    min = math.floor(min);
+    local second = leftseconds % 60;
+
+    local timestr = "";
+    if min > 9 then
+        timestr = min .. ":";
+    else
+        timestr = "0" .. min .. ":";
+    end
+
+    if second > 9 then
+        timestr = timestr .. second;
+    else
+        timestr = timestr .. "0" .. second;
+    end
+
+    return timestr;
 end
 
 function M:onShow()
@@ -59,7 +79,7 @@ end
 
 function M:onExit()
     M.super.onExit(self);
-    self.mTimer:Stop();
+    GlobalNS.CSSystem.Ctx.mInstance.mGlobalDelegate.mMainChildMassChangedDispatch:removeEventHandle(nil, nil, self, self.refreshMass);
 end
 
 return M;

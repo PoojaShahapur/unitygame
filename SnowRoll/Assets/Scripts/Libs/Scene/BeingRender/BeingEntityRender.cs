@@ -44,7 +44,11 @@ namespace SDK.Lib
                 this.mAuxPrefabLoader.setIsFakePos(true);
             }
 
-            this.mAuxPrefabLoader.syncLoad(mResPath);
+            this.mAuxPrefabLoader.asyncLoad(mResPath, this.onResLoaded);
+        }
+
+        public void onResLoaded(IDispatchObject dispObj)
+        {
             this.selfGo = this.mAuxPrefabLoader.getGameObject();
         }
 

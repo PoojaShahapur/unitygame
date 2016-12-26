@@ -13,6 +13,7 @@ function M:dtor()
     GCtx.mNetCmdNotify_KBE:removeParamHandle("Client_notifyReliveSeconds", self, self.Client_notifyReliveSeconds);
     GCtx.mNetCmdNotify_KBE:removeParamHandle("handleSendAndGetMessage", self, self.handleSendAndGetMessage);
     GCtx.mNetCmdNotify_KBE:removeParamHandle("Client_notifyTop10RankInfoList", self, self.Client_notifyTop10RankInfoList);
+    GCtx.mNetCmdNotify_KBE:removeParamHandle("notifyGameLeftSeconds", self, self.notifyGameLeftSeconds);
 end
 
 function M:init()
@@ -20,6 +21,7 @@ function M:init()
     GCtx.mNetCmdNotify_KBE:addParamHandle("Client_notifyReliveSeconds", self, self.Client_notifyReliveSeconds);
     GCtx.mNetCmdNotify_KBE:addParamHandle("handleSendAndGetMessage", self, self.handleSendAndGetMessage);
     GCtx.mNetCmdNotify_KBE:addParamHandle("Client_notifyTop10RankInfoList", self, self.Client_notifyTop10RankInfoList);
+    GCtx.mNetCmdNotify_KBE:addParamHandle("notifyGameLeftSeconds", self, self.notifyGameLeftSeconds);
 end
 
 function M:dtor()
@@ -69,6 +71,16 @@ function M:Client_notifyTop10RankInfoList(params)
             form:onSetRankInfo(params);
         end
     end
+end
+
+function M:notifyGameLeftSeconds(params)
+    local leftseconds = params[0];
+    if GCtx.mUiMgr:hasForm(GlobalNS.UIFormID.eUIPlayerDataPanel) then
+        local form = GCtx.mUiMgr:getForm(GlobalNS.UIFormID.eUIPlayerDataPanel);
+        if nil ~= form and form:isVisible() then
+            form:refreshLeftTime(leftseconds);
+        end
+    end    
 end
 
 return M;

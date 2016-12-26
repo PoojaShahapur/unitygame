@@ -115,6 +115,7 @@
         public SnowBallCfg mSnowBallCfg;
 
         public HudSystem mHudSystem;
+        public GlobalDelegate mGlobalDelegate;
 
         public Ctx()
         {
@@ -253,17 +254,13 @@
             this.mPlayerSnowBlockMgr = new PlayerSnowBlockMgr();
             this.mSnowBallCfg = new SnowBallCfg();
             this.mHudSystem = new HudSystem();
+            this.mGlobalDelegate = new GlobalDelegate();
         }
 
         public void logicInit()
         {
             this.mLogSys.init();
-
-            this.mResizeMgr.addResizeObject(this.mUiMgr as IResizeObject);
-            this.mTickMgr.addTick(this.mInputMgr as ITickedObject);
             this.mInputMgr.init();
-
-            this.mUiMgr.findCanvasGO();
             this.mDataPlayer.m_dataPack.postConstruct();
 
             // 初始化重定向
@@ -288,14 +285,18 @@
             this.mPlayerSnowBlockMgr.init();
             this.mHudSystem.init();
             this.mPlayerMgr.init();
+            this.mGlobalDelegate.init();
 
             // 添加事件处理
             Ctx.mInstance.mCamSys.setUiCamera(Ctx.mInstance.mLayerMgr.mPath2Go[NotDestroyPath.ND_CV_App].AddComponent<UICamera>());
             Ctx.mInstance.mCamSys.setSceneCamera2UICamera();
 
+            this.mResizeMgr.addResizeObject(this.mUiMgr as IResizeObject);
+
             this.mTickMgr.addTick(this.mPlayerMgr as ITickedObject, TickPriority.eTPPlayerMgr);
             this.mTickMgr.addTick(this.mSnowBlockMgr as ITickedObject, TickPriority.eTPSnowBlockMgr);
             this.mTickMgr.addTick(this.mPlayerSnowBlockMgr as ITickedObject, TickPriority.eTPPlayerSnowBlockMgr);
+            this.mTickMgr.addTick(this.mInputMgr as ITickedObject, TickPriority.eTPInputMgr);
         }
 
         public void init()
@@ -320,6 +321,7 @@
             setNoDestroyObject_impl(NotDestroyPath.ND_CV_App, NotDestroyPath.ND_CV_Root);
             setNoDestroyObject_impl(NotDestroyPath.ND_CV_UIFirstCanvas, NotDestroyPath.ND_CV_Root);
             setNoDestroyObject_impl(NotDestroyPath.ND_CV_UISecondCanvas, NotDestroyPath.ND_CV_Root);
+            setNoDestroyObject_impl(NotDestroyPath.ND_CV_HudCanvas, NotDestroyPath.ND_CV_Root);
             setNoDestroyObject_impl(NotDestroyPath.ND_CV_UICamera, NotDestroyPath.ND_CV_Root);
             setNoDestroyObject_impl(NotDestroyPath.ND_CV_EventSystem, NotDestroyPath.ND_CV_Root);
             // NGUI 2.7.0 之前的版本，编辑器会将 width and height 作为 transform 的 local scale ，因此需要手工重置

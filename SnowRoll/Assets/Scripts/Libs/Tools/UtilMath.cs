@@ -824,6 +824,12 @@ namespace SDK.Lib
             return getRadiusByMass(getMassByRadius(radius1) + getMassByRadius(radius2));
         }
 
+        // 吞雪块后的半径是这个公式，这个特殊
+        public static float getEatSnowNewRadiusByRadius(float radius)
+        {
+            return radius * (1 + 1 / (10 + Mathf.Pow(radius, Ctx.mInstance.mSnowBallCfg.mA)));
+        }
+
         //客户端显示质量
         public static string getShowMass(float radius)
         {

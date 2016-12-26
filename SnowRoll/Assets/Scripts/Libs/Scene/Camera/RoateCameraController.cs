@@ -7,14 +7,8 @@ namespace SDK.Lib
      */
     public class RoateCameraController : CameraController
     {
-        public float distance_Z = 10.0f;//主相机与目标物体之间的水平距离
-        public float distance_Y = 0.5f;//主相机与目标物体之间的垂直距离   
         private float eulerAngles_x;
-        private float eulerAngles_y;
-
-        //初始位置
-        private float old_distance_Z = 10.0f;
-        private float old_distance_Y = 0.5f;
+        private float eulerAngles_y;        
 
         //水平滚动相关    
         public float xSpeed = 70.0f;//主相机水平方向旋转速度  
@@ -22,11 +16,7 @@ namespace SDK.Lib
         //垂直滚动相关  
         public int yMaxLimit = 90;//最大y（单位是角度） 
         public int yMinLimit = 10;//最小y（单位是角度） 
-        public float ySpeed = 70.0f;//主相机纵向旋转速度  
-
-        //滚轮相关  
-        public float MoveSensitivity = 15f;//鼠标滚轮灵敏度（备注：鼠标滚轮滚动后将调整相机与目标物体之间的间隔）
-        public float limit_radius_value = 50.0f;//超过后维持球大小不变
+        public float ySpeed = 70.0f;//主相机纵向旋转速度
 
         private float critical_value = 0.0f;
 
@@ -52,12 +42,9 @@ namespace SDK.Lib
             this.eulerAngles_x = eulerAngles.y;
             this.eulerAngles_y = eulerAngles.x;
 
-            old_distance_Y = distance_Y;
-            old_distance_Z = distance_Z;
-
             //critical_value = Mathf.Pow(limit_radius_value, MoveSensitivity);
             //critical_value2 = critical_value - Mathf.Pow(limit_radius_value2, Mathf.Abs(MoveSensitivity - MoveSensitivity2));
-            critical_value = Mathf.Log(limit_radius_value, MoveSensitivity);
+            critical_value = Ctx.mInstance.mSnowBallCfg.mCameraChangeFactor_Z * Mathf.Pow(Ctx.mInstance.mSnowBallCfg.mLimitRadius, 0.5f);
             Screen.sleepTimeout = SleepTimeout.NeverSleep;//设置屏幕永远亮着
         }
 
@@ -72,7 +59,7 @@ namespace SDK.Lib
 
             float xOffset = 0;
             xOffset = touch.getXOffset();
-            this.eulerAngles_x += ((xOffset * this.xSpeed) * this.distance_Z) * 0.02f;
+            this.eulerAngles_x += ((xOffset * this.xSpeed) * 10.0f) * 0.02f;
             float yOffset = 0;
             yOffset = touch.getYOffset();
             this.eulerAngles_y -= (yOffset * this.ySpeed) * 0.02f;
@@ -117,29 +104,12 @@ namespace SDK.Lib
         // Update is called once per frame 
         protected void LateUpdate()
         {
-            //if (CreatePlayer._Instace.player != null && CreatePlayer._Instace.player.GetComponent<Player>().controlType == ControlType.KeyBoardControl)
-            //{
-                PlayerMain playerMain = Ctx.mInstance.mPlayerMgr.getHero();
-                //if (CreatePlayer._Instace.GetIsJustCreate())
-                if (null != playerMain)
-                {
-                    ResetDefaultValue();
-                    //CreatePlayer._Instace.SetIsJustCreate(false);
-                    //playerMain.SetIsJustCreate(false);
-                }
-                SetCameraPosition();
-            //}
-        }
-
-        void ResetDefaultValue()
-        {
-            distance_Z = old_distance_Z;
-            distance_Y = old_distance_Y;
+            PlayerMain playerMain = Ctx.mInstance.mPlayerMgr.getHero();
+            SetCameraPosition();
         }
 
         private void SetCameraPosition()
         {
-            //if (CreatePlayer._Instace.player.GetComponent<Transform>() != null)
             PlayerMain playerMain = Ctx.mInstance.mPlayerMgr.getHero();
             if(null != playerMain)
             {
@@ -148,21 +118,20 @@ namespace SDK.Lib
                 //中心位置
                 Vector3 centerPos = playerMain.getPos();
                 //缩放参照距离
-                //float radius = 5;
                 float radius = playerMain.mPlayerSplitMerge.getMaxCameraLength();
-                //等比缩放相机位置
-                float cur_distance_Z = this.distance_Z * radius;
-                
-                cur_distance_Z = this.distance_Z + Mathf.Log(radius, MoveSensitivity) + radius;
-                if (radius > limit_radius_value)
+
+                //缩放相机距离
+                //float cur_distance_Z = this.distance_Z * radius;
+                float cur_distance_Z = Ctx.mInstance.mSnowBallCfg.mCameraDistance_Z + Ctx.mInstance.mSnowBallCfg.mCameraChangeFactor_Z * Mathf.Pow(radius, 0.5f) + radius;
+                if (radius > Ctx.mInstance.mSnowBallCfg.mLimitRadius)
                 {
-                    cur_distance_Z = this.distance_Z + critical_value + (radius - limit_radius_value) + radius;
+                    cur_distance_Z = Ctx.mInstance.mSnowBallCfg.mCameraDistance_Z + critical_value + (radius - Ctx.mInstance.mSnowBallCfg.mLimitRadius) + radius;
                 }
 
-                float cur_distance_Y = this.distance_Y * radius;
+                float cur_distance_Y = Ctx.mInstance.mSnowBallCfg.mCameraDistance_Y * radius * Ctx.mInstance.mSnowBallCfg.mCameraChangeFactor_Y;
 
-                //Ctx.mInstance.mLogSys.log("radius: " + radius + "      Z: " + cur_distance_Z + "       Y: " + cur_distance_Y + "   lim1: " + limit_radius_value);
-                
+                //Ctx.mInstance.mLogSys.log("radius: " + radius + "      Z: " + cur_distance_Z + "       Y: " + cur_distance_Y + "   log: " + Mathf.Log(Ctx.mInstance.mSnowBallCfg.mCameraChangeFactor_Z, radius));
+
                 //从目标物体处，到当前脚本所依附的对象（主相机）发射一个射线，如果中间有物体阻隔，则更改this.distance（这样做的目的是为了不被挡住）  
                 /*RaycastHit hitInfo = new RaycastHit();
                 if (Physics.Linecast(this.target.position, this.transform.position, out hitInfo, this.CollisionLayerMask))
@@ -172,13 +141,15 @@ namespace SDK.Lib
 
                 Vector3 vector = ((Vector3)(quaternion * new Vector3(0.0f, cur_distance_Y, -cur_distance_Z))) + centerPos;
                 //Ctx.mInstance.mLogSys.log("centerPos: " + centerPos + "   vector: " + vector);
-                //更改主相机的旋转角度和位置 
+                //更改主相机的旋转角度和位置
                 this.transform.rotation = quaternion;
-                this.transform.position = vector;     
+                this.transform.position = vector;
                 //旋转玩家角度，x轴不变
-                Vector3 eulerAngles_cam = this.transform.rotation.eulerAngles;
-                Vector3 eulerAngles = new Vector3(0, eulerAngles_cam.y, eulerAngles_cam.z);
-                playerMain.setDestRotate(eulerAngles, true);
+                //Vector3 eulerAngles_cam = this.transform.rotation.eulerAngles;
+                //Vector3 eulerAngles = new Vector3(0, eulerAngles_cam.y, eulerAngles_cam.z);
+                //playerMain.setDestRotate(eulerAngles, true);
+
+                Ctx.mInstance.mGlobalDelegate.mCameraOrientChanged.dispatchEvent(null);
             }
         }
 

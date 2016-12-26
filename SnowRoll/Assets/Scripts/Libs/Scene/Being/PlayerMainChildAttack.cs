@@ -17,11 +17,11 @@
 
             if (EntityType.eSnowBlock == bBeingEntity.getEntityType())
             {
-                this.eateSnowBlock(bBeingEntity);
+                this.eatSnowBlock(bBeingEntity);
             }
             else if (EntityType.ePlayerOther == bBeingEntity.getEntityType())
             {
-                this.eatePlayerOther(bBeingEntity);
+                this.eatPlayerOther(bBeingEntity);
             }
             else if (EntityType.ePlayerOtherChild == bBeingEntity.getEntityType())
             {
@@ -64,7 +64,7 @@
         }
 
         // 雪块
-        public void eateSnowBlock(BeingEntity bBeingEntity)
+        public void eatSnowBlock(BeingEntity bBeingEntity)
         {
             if (!MacroDef.DEBUG_NOTNET)
             {
@@ -73,7 +73,10 @@
             else
             {
                 // TODO:客户端自己模拟
-                float newRadius = UtilMath.getNewRadiusByRadius(this.mEntity.getBallRadius(), bBeingEntity.getBallRadius());
+                //float newRadius = UtilMath.getNewRadiusByRadius(this.mEntity.getBallRadius(), bBeingEntity.getBallRadius());
+
+                float newRadius = UtilMath.getEatSnowNewRadiusByRadius(this.mEntity.getBallRadius());
+
 
                 this.mEntity.setBallRadius(newRadius);
                 bBeingEntity.dispose();
@@ -81,7 +84,7 @@
         }
 
         // 玩家之间互吃
-        public void eatePlayerOther(BeingEntity bBeingEntity)
+        public void eatPlayerOther(BeingEntity bBeingEntity)
         {
             byte otherIsGod = (byte)bBeingEntity.getEntity().getDefinedProperty("isGod");
 

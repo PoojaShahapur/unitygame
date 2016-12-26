@@ -17,13 +17,26 @@
 
             Ctx.mInstance.mInputMgr.addKeyListener(InputKey.UpArrow, EventId.KEYPRESS_EVENT, onUpArrowPress);
             Ctx.mInstance.mInputMgr.addKeyListener(InputKey.UpArrow, EventId.KEYUP_EVENT, onUpArrowUp);
+            Ctx.mInstance.mInputMgr.addKeyListener(InputKey.W, EventId.KEYPRESS_EVENT, onUpArrowPress);
+            Ctx.mInstance.mInputMgr.addKeyListener(InputKey.W, EventId.KEYUP_EVENT, onUpArrowUp);
+
+            Ctx.mInstance.mInputMgr.addKeyListener(InputKey.DownArrow, EventId.KEYPRESS_EVENT, onDownArrowPress);
+            Ctx.mInstance.mInputMgr.addKeyListener(InputKey.DownArrow, EventId.KEYUP_EVENT, onDownArrowUp);
+            Ctx.mInstance.mInputMgr.addKeyListener(InputKey.S, EventId.KEYPRESS_EVENT, onDownArrowPress);
+            Ctx.mInstance.mInputMgr.addKeyListener(InputKey.S, EventId.KEYUP_EVENT, onDownArrowUp);
+
             //Ctx.mInstance.mInputMgr.addKeyListener(InputKey.L, EventId.KEYUP_EVENT, onStartUp);
             Ctx.mInstance.mInputMgr.addAccelerationListener(EventId.ACCELERATIONMOVED_EVENT, onAccelerationMovedHandle);
 
             Ctx.mInstance.mInputMgr.addKeyListener(InputKey.LeftArrow, EventId.KEYPRESS_EVENT, onLeftArrowPress);
             Ctx.mInstance.mInputMgr.addKeyListener(InputKey.LeftArrow, EventId.KEYUP_EVENT, onLeftArrowUp);
+            Ctx.mInstance.mInputMgr.addKeyListener(InputKey.A, EventId.KEYPRESS_EVENT, onLeftArrowPress);
+            Ctx.mInstance.mInputMgr.addKeyListener(InputKey.A, EventId.KEYUP_EVENT, onLeftArrowUp);
+
             Ctx.mInstance.mInputMgr.addKeyListener(InputKey.RightArrow, EventId.KEYPRESS_EVENT, onRightArrowPress);
             Ctx.mInstance.mInputMgr.addKeyListener(InputKey.RightArrow, EventId.KEYUP_EVENT, onRightArrowUp);
+            Ctx.mInstance.mInputMgr.addKeyListener(InputKey.D, EventId.KEYPRESS_EVENT, onRightArrowPress);
+            Ctx.mInstance.mInputMgr.addKeyListener(InputKey.D, EventId.KEYUP_EVENT, onRightArrowUp);
         }
 
         override public void init()
@@ -46,6 +59,8 @@
 
         protected void onUpArrowPress(IDispatchObject dispObj)
         {
+            UnityEngine.Quaternion quat = UtilMath.getRotateByOrient(UnityEngine.Vector3.forward);
+            (this.mEntity as BeingEntity).setDestRotate(quat.eulerAngles, true);
             this.moveForward();
         }
 
@@ -54,24 +69,42 @@
             this.stopMove();
         }
 
+        protected void onDownArrowPress(IDispatchObject dispObj)
+        {
+            UnityEngine.Quaternion quat = UtilMath.getRotateByOrient(UnityEngine.Vector3.back);
+            (this.mEntity as BeingEntity).setDestRotate(quat.eulerAngles, true);
+            this.moveForward();
+        }
+
+        protected void onDownArrowUp(IDispatchObject dispObj)
+        {
+            this.stopMove();
+        }
+
         protected void onLeftArrowPress(IDispatchObject dispObj)
         {
-            this.rotateLeft();
+            //this.rotateLeft();
+            UnityEngine.Quaternion quat = UtilMath.getRotateByOrient(UnityEngine.Vector3.left);
+            (this.mEntity as BeingEntity).setDestRotate(quat.eulerAngles, true);
+            this.moveForward();
         }
 
         protected void onLeftArrowUp(IDispatchObject dispObj)
         {
-
+            this.stopMove();
         }
 
         protected void onRightArrowPress(IDispatchObject dispObj)
         {
-            this.rotateRight();
+            //this.rotateRight();
+            UnityEngine.Quaternion quat = UtilMath.getRotateByOrient(UnityEngine.Vector3.right);
+            (this.mEntity as BeingEntity).setDestRotate(quat.eulerAngles, true);
+            this.moveForward();
         }
 
         protected void onRightArrowUp(IDispatchObject dispObj)
         {
-
+            this.stopMove();
         }
 
         //protected void onStartUp(IDispatchObject dispObj)

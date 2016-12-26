@@ -7,6 +7,9 @@
         public PlayerChild(Player parentPlayer)
         {
             this.mParentPlayer = parentPlayer;
+
+            this.mAnimatorControl = new BeingAnimatorControl(this);
+            this.mAnimFSM = new AnimFSM(this);
         }
 
         override public void dispose()
@@ -26,6 +29,8 @@
         public override void postInit()
         {
             base.postInit();
+
+            this.mAnimFSM.UpdateFSM();
 
             this.mHud = Ctx.mInstance.mHudSystem.createHud(this);
         }

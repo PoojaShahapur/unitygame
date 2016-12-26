@@ -44,7 +44,8 @@ end
 function M.onPlayerMainLoaded()
     --加载场景上的UI组件，主角加载完成后再加载UI，否则UI拿不到主角数据
     GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormID.eUIPlayerDataPanel);
-    GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormID.eUIForwardForce);
+    --GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormID.eUIForwardForce);
+    GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormID.eUIRockerPanel);
     GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormID.eUIOptionPanel);
     GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormID.eUITopXRankPanel);
 end
@@ -66,6 +67,7 @@ function M.requireFile(filePath)
 	return MLoader(filePath);
 end
 
+-- 用户昵称
 function M.getUserNickName()
     if GCtx.mUiMgr:hasForm(GlobalNS.UIFormID.eUIStartGame) then
         local form = GCtx.mUiMgr:getForm(GlobalNS.UIFormID.eUIStartGame);

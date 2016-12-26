@@ -217,6 +217,10 @@ public static class CustomSettings
         _GT(typeof(SDK.Lib.PlayerMgr)),
         _GT(typeof(SDK.Lib.PlayerMain)),
         _GT(typeof(SDK.Lib.RankInfo)),
+        _GT(typeof(SDK.Lib.SnowBallCfg)),
+        _GT(typeof(SDK.Lib.GlobalDelegate)),
+        _GT(typeof(SDK.Lib.AddOnceEventDispatch)),
+        _GT(typeof(SDK.Lib.PlayerSplitMerge)),
 
         //for KBEngine
         _GT(typeof(KBEngine.Entity)),

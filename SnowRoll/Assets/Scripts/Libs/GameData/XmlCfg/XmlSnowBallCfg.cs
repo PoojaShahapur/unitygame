@@ -88,10 +88,11 @@ namespace SDK.Lib
     public class XmlItemAttack : XmlItemBase
     {
         public float mFactor;
+        public float mA;
 
         public override void parseXml(SecurityElement xmlelem)
         {
-            UtilXml.getXmlAttrFloat(xmlelem, "Factor", ref mFactor);
+            UtilXml.getXmlAttrFloat(xmlelem, "A", ref mA);
         }
     }
 
@@ -111,6 +112,27 @@ namespace SDK.Lib
     }
 
     /**
+    * @brief 相机控制
+    */
+    public class XmlItemCameraControl : XmlItemBase
+    {
+        public float mCameraDistance_Z;
+        public float mCameraChangeFactor_Z;
+        public float mLimitRadius;
+        public float mCameraDistance_Y;
+        public float mCameraChangeFactor_Y;
+
+        public override void parseXml(SecurityElement xmlelem)
+        {
+            UtilXml.getXmlAttrFloat(xmlelem, "CameraDistance_Z", ref mCameraDistance_Z);
+            UtilXml.getXmlAttrFloat(xmlelem, "CameraChangeFactor_Z", ref mCameraChangeFactor_Z);
+            UtilXml.getXmlAttrFloat(xmlelem, "LimitRadius", ref mLimitRadius);
+            UtilXml.getXmlAttrFloat(xmlelem, "CameraDistance_Y", ref mCameraDistance_Y);
+            UtilXml.getXmlAttrFloat(xmlelem, "CameraChangeFactor_Y", ref mCameraChangeFactor_Y);
+        }
+    }
+
+    /**
      * @brief 雪块配置
      */
     public class XmlSnowBallCfg : XmlCfgBase
@@ -121,6 +143,7 @@ namespace SDK.Lib
         public XmlItemEmit mXmlItemEmit;
         public XmlItemAttack mXmlItemAttack;
         public XmlItemMoveSpeed mXmlItemMoveSpeed;
+        public XmlItemCameraControl mXmlItemCameraControl;
 
         public XmlSnowBallCfg()
         {
@@ -140,6 +163,10 @@ namespace SDK.Lib
             mXmlItemEmit = parseXml<XmlItemEmit>(snowBallBasicElem, "Emit")[0] as XmlItemEmit;
             mXmlItemAttack = parseXml<XmlItemAttack>(snowBallBasicElem, "Attack")[0] as XmlItemAttack;
             mXmlItemMoveSpeed = parseXml<XmlItemMoveSpeed>(snowBallBasicElem, "MoveSpeed")[0] as XmlItemMoveSpeed;
+
+            SecurityElement cameraBasicElem = null;
+            UtilXml.getXmlChild(this.mXmlConfig, "CameraBasic", ref cameraBasicElem);
+            mXmlItemCameraControl = parseXml<XmlItemCameraControl>(cameraBasicElem, "CameraControl")[0] as XmlItemCameraControl;
         }
     }
 }

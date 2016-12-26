@@ -317,5 +317,23 @@
             this.calcTargetLength();
             this.calcTargetPoint();
         }
+
+        override public float getAllChildMass()
+        {
+            float totlaMass = 0;
+            int total = this.mPlayerChildMgr.getEntityCount();
+            int index = 0;
+            Player player = null;
+
+            while (index < total)
+            {
+                player = this.mPlayerChildMgr.getEntityByIndex(index) as Player;
+                totlaMass += UtilMath.getMassByRadius(player.getBallRadius());
+
+                ++index;
+            }
+
+            return totlaMass;
+        }
     }
 }

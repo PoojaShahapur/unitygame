@@ -119,6 +119,15 @@ function M.init()
 			m_preFormModeWhenOpen = GlobalNS.PreFormModeWhenOpen.eNONE,
 			m_preFormModeWhenClose = GlobalNS.PreFormModeWhenClose.eNONE,
         };
+	M[GlobalNS.UIFormID.eUIRockerPanel] = {
+            m_widgetPath = "UI/UIRockerPanel/UIRockerPanel.prefab",
+            m_luaScriptPath = "MyLua.UI.UIRockerPanel.UIRockerPanel",
+			m_luaScriptTableName = "GlobalNS.UILua",
+			m_canvasId = GlobalNS.UICanvasID.eUIFirstCanvas,
+			m_layerId = GlobalNS.UILayerID.eUISecondLayer,
+			m_preFormModeWhenOpen = GlobalNS.PreFormModeWhenOpen.eNONE,
+			m_preFormModeWhenClose = GlobalNS.PreFormModeWhenClose.eNONE,
+        };
 	--[[替换占位符(勿删)--]]
 end
 
