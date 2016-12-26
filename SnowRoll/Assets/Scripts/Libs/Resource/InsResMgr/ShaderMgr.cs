@@ -13,9 +13,9 @@ namespace SDK.Lib
             mId2ShaderDic = new Dictionary<string, Shader>();
         }
 
-        public ShaderRes getAndSyncLoadRes(string path)
+        public ShaderRes getAndSyncLoadRes(string path, MAction<IDispatchObject> handle)
         {
-            return getAndSyncLoad<ShaderRes>(path);
+            return getAndSyncLoad<ShaderRes>(path, handle);
         }
 
         public ShaderRes getAndAsyncLoadRes(string path, MAction<IDispatchObject> handle)

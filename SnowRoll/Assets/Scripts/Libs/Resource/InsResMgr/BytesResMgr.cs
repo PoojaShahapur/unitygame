@@ -9,9 +9,9 @@ namespace SDK.Lib
 
         }
 
-        public BytesRes getAndSyncLoadRes(string path)
+        public BytesRes getAndSyncLoadRes(string path, MAction<IDispatchObject> handle)
         {
-            return getAndSyncLoad<BytesRes>(path);
+            return getAndSyncLoad<BytesRes>(path, handle);
         }
 
         public BytesRes getAndAsyncLoadRes(string path, MAction<IDispatchObject> handle)

@@ -7,9 +7,9 @@ namespace SDK.Lib
      */
     public class ControllerMgr : InsResMgrBase
     {
-        public ControllerRes getAndSyncLoadRes(string path)
+        public ControllerRes getAndSyncLoadRes(string path, MAction<IDispatchObject> handle)
         {
-            return getAndSyncLoad<ControllerRes>(path);
+            return getAndSyncLoad<ControllerRes>(path, handle);
         }
 
         public ControllerRes getAndAsyncLoadRes(string path, MAction<IDispatchObject> handle)

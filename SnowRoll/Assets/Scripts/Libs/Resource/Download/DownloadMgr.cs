@@ -12,16 +12,16 @@ namespace SDK.Lib
         protected DownloadData m_LoadData;
         protected DownloadItem m_retLoadItem;
         protected ResMsgRouteCB m_resMsgRouteCB;
-        protected List<string> m_zeroRefResIDList;      // 没有引用的资源 ID 列表
-        protected int m_loadingDepth;                   // 加载深度
+        protected List<string> mZeroRefResIDList;      // 没有引用的资源 ID 列表
+        protected int mLoadingDepth;                   // 加载深度
 
         public DownloadMgr()
         {
             m_maxParral = 8;
             m_curNum = 0;
             m_LoadData = new DownloadData();
-            m_zeroRefResIDList = new List<string>();
-            m_loadingDepth = 0;
+            mZeroRefResIDList = new List<string>();
+            mLoadingDepth = 0;
 
             this.addMsgRouteHandle(MsgRouteID.eMRIDLoadedWebRes, onMsgRouteResLoad);
         }
@@ -191,7 +191,7 @@ namespace SDK.Lib
         // 通用类型，需要自己设置很多参数
         public void load(DownloadParam param)
         {
-            ++m_loadingDepth;
+            ++mLoadingDepth;
             if (m_LoadData.m_path2LDItem.ContainsKey(param.mResUniqueId))
             {
                 downloadWithDownloading(param);
@@ -200,9 +200,9 @@ namespace SDK.Lib
             {
                 downloadWithNotDownload(param);
             }
-            --m_loadingDepth;
+            --mLoadingDepth;
 
-            if (m_loadingDepth == 0)
+            if (mLoadingDepth == 0)
             {
                 unloadNoRefResFromList();
             }
@@ -225,7 +225,7 @@ namespace SDK.Lib
                 m_LoadData.m_path2LDItem[resUniqueId].refCountResLoadResultNotify.refCount.decRef();
                 if (m_LoadData.m_path2LDItem[resUniqueId].refCountResLoadResultNotify.refCount.isNoRef())
                 {
-                    if (m_loadingDepth != 0)
+                    if (mLoadingDepth != 0)
                     {
                         addNoRefResID2List(resUniqueId);
                     }
@@ -261,20 +261,20 @@ namespace SDK.Lib
         // 添加无引用资源到 List
         protected void addNoRefResID2List(string resUniqueId)
         {
-            m_zeroRefResIDList.Add(resUniqueId);
+            mZeroRefResIDList.Add(resUniqueId);
         }
 
         // 卸载没有引用的资源列表中的资源
         protected void unloadNoRefResFromList()
         {
-            foreach (string path in m_zeroRefResIDList)
+            foreach (string path in mZeroRefResIDList)
             {
                 if (m_LoadData.m_path2LDItem[path].refCountResLoadResultNotify.refCount.isNoRef())
                 {
                     unloadNoRef(path);
                 }
             }
-            m_zeroRefResIDList.Clear();
+            mZeroRefResIDList.Clear();
         }
 
         // 不考虑引用计数，直接卸载

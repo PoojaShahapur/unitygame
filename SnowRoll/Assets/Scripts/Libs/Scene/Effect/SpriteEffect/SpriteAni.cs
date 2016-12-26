@@ -219,7 +219,7 @@
                     Ctx.mInstance.mAtlasMgr.unload(this.mAtlasScriptRes.getResUniqueId(), null);
                     this.mAtlasScriptRes = null;
                 }
-                this.mAtlasScriptRes = Ctx.mInstance.mAtlasMgr.getAndSyncLoad<AtlasScriptRes>(string.Format("{0}{1}", Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathSpriteAni], this.mTableBody.mAniResName));
+                this.mAtlasScriptRes = Ctx.mInstance.mAtlasMgr.getAndSyncLoad<AtlasScriptRes>(string.Format("{0}{1}", Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathSpriteAni], this.mTableBody.mAniResName), null);
             }
 
             this.mIsNeedReloadRes = false;

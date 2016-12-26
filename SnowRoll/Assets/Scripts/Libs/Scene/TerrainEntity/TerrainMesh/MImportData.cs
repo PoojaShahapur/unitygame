@@ -85,7 +85,7 @@ namespace SDK.Lib
 
         public void parseXml()
         {
-            m_textRes = Ctx.mInstance.mTextResMgr.getAndSyncLoadRes(string.Format("TerrainData/{0}.xml", mTerrainId));
+            m_textRes = Ctx.mInstance.mTextResMgr.getAndSyncLoadRes(string.Format("TerrainData/{0}.xml", mTerrainId), null);
             if (m_textRes != null)
             {
                 string text = m_textRes.getText("");

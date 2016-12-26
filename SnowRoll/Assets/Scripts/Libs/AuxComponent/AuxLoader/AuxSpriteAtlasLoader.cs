@@ -44,7 +44,7 @@
             {
                 mEvtHandle = new ResEventDispatch();
                 mEvtHandle.addEventHandle(null, evtHandle);
-                mSpriteAtlasRes = Ctx.mInstance.mSpriteMgr.getAndSyncLoadRes(path);
+                mSpriteAtlasRes = Ctx.mInstance.mSpriteMgr.getAndSyncLoadRes(path, null);
 
                 onTexLoaded(mSpriteAtlasRes);
             }

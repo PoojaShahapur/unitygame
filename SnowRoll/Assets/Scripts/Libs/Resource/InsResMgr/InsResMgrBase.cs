@@ -8,20 +8,20 @@ namespace SDK.Lib
      */
     public class InsResMgrBase
     {
-        public Dictionary<string, InsResBase> m_path2ResDic;
-        protected List<string> m_zeroRefResIDList;      // 没有引用的资源 ID 列表
-        protected int m_loadingDepth;          // 加载深度
+        public Dictionary<string, InsResBase> mPath2ResDic;
+        protected List<string> mZeroRefResIDList;      // 没有引用的资源 ID 列表
+        protected int mLoadingDepth;          // 加载深度
 
         public InsResMgrBase()
         {
-            m_path2ResDic = new Dictionary<string, InsResBase>();
-            m_zeroRefResIDList = new List<string>();
-            m_loadingDepth = 0;
+            mPath2ResDic = new Dictionary<string, InsResBase>();
+            mZeroRefResIDList = new List<string>();
+            mLoadingDepth = 0;
         }
 
-        public T getAndSyncLoad<T>(string path, bool isLoadAll = false) where T : InsResBase, new()
+        public T getAndSyncLoad<T>(string path, MAction<IDispatchObject> loadEventHandle, bool isLoadAll = false) where T : InsResBase, new()
         {
-            syncLoad<T>(path, isLoadAll);
+            syncLoad<T>(path, loadEventHandle, isLoadAll);
             string resUniqueId = LoadParam.convOrigPathToUniqueId(path);
             return getRes(resUniqueId) as T;
         }
@@ -64,12 +64,13 @@ namespace SDK.Lib
         }
 
         // 同步加载，立马加载完成，并且返回加载的资源， syncLoad 同步加载资源不能喝异步加载资源的接口同时去加载一个资源，如果异步加载一个资源，这个时候资源还没有加载完成，然后又同步加载一个资源，这个时候获取的资源是没有加载完成的，由于同步加载资源没有回调，因此即使同步加载的资源加载完成，也不可能获取加载完成事件
-        public void syncLoad<T>(string path, bool isLoadAll = false) where T : InsResBase, new()
+        public void syncLoad<T>(string path, MAction<IDispatchObject> loadEventHandle, bool isLoadAll = false) where T : InsResBase, new()
         {
             LoadParam param;
             param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
             param.setPath(path);
             // param.mLoadEventHandle = onLoadEventHandle;        // 这个地方是同步加载，因此不需要回调，如果写了，就会形成死循环， InsResBase 中的 init 又会调用 onLoadEventHandle 这个函数，这个函数是外部回调的函数，由于同步加载，没有回调，因此不要设置这个 param.mLoadEventHandle = onLoadEventHandle ，内部会自动调用
+            param.mLoadEventHandle = loadEventHandle;
             param.mLoadNeedCoroutine = false;
             param.mResNeedCoroutine = false;
             param.mIsLoadAll = isLoadAll;
@@ -90,35 +91,35 @@ namespace SDK.Lib
 
         protected void loadWithResCreatedAndLoad(LoadParam param)
         {
-            m_path2ResDic[param.mResUniqueId].refCountResLoadResultNotify.refCount.incRef();
-            if (m_path2ResDic[param.mResUniqueId].refCountResLoadResultNotify.resLoadState.hasLoaded())
+            mPath2ResDic[param.mResUniqueId].refCountResLoadResultNotify.refCount.incRef();
+            if (mPath2ResDic[param.mResUniqueId].refCountResLoadResultNotify.resLoadState.hasLoaded())
             {
                 if (param.mLoadEventHandle != null)
                 {
-                    param.mLoadEventHandle(m_path2ResDic[param.mResUniqueId]);        // 直接通知上层完成加载
+                    param.mLoadEventHandle(mPath2ResDic[param.mResUniqueId]);        // 直接通知上层完成加载
                 }
                 else if(null != param.mLuaTable && null != param.mLuaFunction)
                 {
-                    param.mLuaFunction.Call(param.mLuaTable, m_path2ResDic[param.mResUniqueId]);
+                    param.mLuaFunction.Call(param.mLuaTable, mPath2ResDic[param.mResUniqueId]);
                 }
                 else if(null != param.mLuaFunction)
                 {
-                    param.mLuaFunction.Call(m_path2ResDic[param.mResUniqueId]);
+                    param.mLuaFunction.Call(mPath2ResDic[param.mResUniqueId]);
                 }
             }
             else
             {
                 if (param.mLoadEventHandle != null)
                 {
-                    m_path2ResDic[param.mResUniqueId].refCountResLoadResultNotify.loadResEventDispatch.addEventHandle(null, param.mLoadEventHandle, param.mLuaTable, param.mLuaFunction);
+                    mPath2ResDic[param.mResUniqueId].refCountResLoadResultNotify.loadResEventDispatch.addEventHandle(null, param.mLoadEventHandle, param.mLuaTable, param.mLuaFunction);
                 }
             }
         }
 
         protected void loadWithResCreatedAndNotLoad<T>(LoadParam param, T resItem) where T : InsResBase, new()
         {
-            m_path2ResDic[param.mResUniqueId] = resItem;
-            m_path2ResDic[param.mResUniqueId].refCountResLoadResultNotify.resLoadState.setLoading();
+            mPath2ResDic[param.mResUniqueId] = resItem;
+            mPath2ResDic[param.mResUniqueId].refCountResLoadResultNotify.resLoadState.setLoading();
             param.mLoadEventHandle = onLoadEventHandle;
             Ctx.mInstance.mResLoadMgr.loadAsset(param);
         }
@@ -131,9 +132,9 @@ namespace SDK.Lib
 
         public virtual void load<T>(LoadParam param) where T : InsResBase, new()
         {
-            ++m_loadingDepth;
+            ++mLoadingDepth;
 
-            if (m_path2ResDic.ContainsKey(param.mResUniqueId))
+            if (mPath2ResDic.ContainsKey(param.mResUniqueId))
             {
                 loadWithResCreatedAndLoad(param);
             }
@@ -146,9 +147,9 @@ namespace SDK.Lib
                 loadWithNotResCreatedAndNotLoad<T>(param);
             }
 
-            --m_loadingDepth;
+            --mLoadingDepth;
 
-            if (m_loadingDepth == 0)
+            if (mLoadingDepth == 0)
             {
                 unloadNoRefResFromList();
             }
@@ -156,13 +157,13 @@ namespace SDK.Lib
 
         virtual public void unload(string resUniqueId, MAction<IDispatchObject> loadEventHandle)
         {
-            if (m_path2ResDic.ContainsKey(resUniqueId))
+            if (mPath2ResDic.ContainsKey(resUniqueId))
             {
-                m_path2ResDic[resUniqueId].refCountResLoadResultNotify.loadResEventDispatch.removeEventHandle(null, loadEventHandle);
-                m_path2ResDic[resUniqueId].refCountResLoadResultNotify.refCount.decRef();
-                if (m_path2ResDic[resUniqueId].refCountResLoadResultNotify.refCount.isNoRef())
+                mPath2ResDic[resUniqueId].refCountResLoadResultNotify.loadResEventDispatch.removeEventHandle(null, loadEventHandle);
+                mPath2ResDic[resUniqueId].refCountResLoadResultNotify.refCount.decRef();
+                if (mPath2ResDic[resUniqueId].refCountResLoadResultNotify.refCount.isNoRef())
                 {
-                    if (m_loadingDepth != 0)       // 如果加载深度不是 0 的，说明正在加载，不能卸载对象
+                    if (mLoadingDepth != 0)       // 如果加载深度不是 0 的，说明正在加载，不能卸载对象
                     {
                         addNoRefResID2List(resUniqueId);
                     }
@@ -177,29 +178,29 @@ namespace SDK.Lib
         // 添加无引用资源到 List
         protected void addNoRefResID2List(string resUniqueId)
         {
-            m_zeroRefResIDList.Add(resUniqueId);
+            mZeroRefResIDList.Add(resUniqueId);
         }
 
         // 卸载没有引用的资源列表中的资源
         protected void unloadNoRefResFromList()
         {
-            foreach (string path in m_zeroRefResIDList)
+            foreach (string path in mZeroRefResIDList)
             {
-                if (m_path2ResDic[path].refCountResLoadResultNotify.refCount.isNoRef())
+                if (mPath2ResDic[path].refCountResLoadResultNotify.refCount.isNoRef())
                 {
                     unloadNoRef(path);
                 }
             }
 
-            m_zeroRefResIDList.Clear();
+            mZeroRefResIDList.Clear();
         }
 
         protected void unloadNoRef(string resUniqueId)
         {
-            m_path2ResDic[resUniqueId].unload();
+            mPath2ResDic[resUniqueId].unload();
             // 卸载加载的原始资源
             Ctx.mInstance.mResLoadMgr.unload(resUniqueId, onLoadEventHandle);
-            m_path2ResDic.Remove(resUniqueId);
+            mPath2ResDic.Remove(resUniqueId);
             //UtilApi.UnloadUnusedAssets();           // 异步卸载共用资源
         }
 
@@ -208,13 +209,13 @@ namespace SDK.Lib
             ResItem res = dispObj as ResItem;
             string path = res.getResUniqueId();
 
-            if (m_path2ResDic.ContainsKey(path))
+            if (mPath2ResDic.ContainsKey(path))
             {
-                m_path2ResDic[path].refCountResLoadResultNotify.resLoadState.copyFrom(res.refCountResLoadResultNotify.resLoadState);
+                mPath2ResDic[path].refCountResLoadResultNotify.resLoadState.copyFrom(res.refCountResLoadResultNotify.resLoadState);
                 if (res.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
                 {
-                    m_path2ResDic[path].init(res);
-                    if (m_path2ResDic[path].bOrigResNeedImmeUnload)
+                    mPath2ResDic[path].init(res);
+                    if (mPath2ResDic[path].bOrigResNeedImmeUnload)
                     {
                         // 卸载资源
                         Ctx.mInstance.mResLoadMgr.unload(path, onLoadEventHandle);
@@ -222,7 +223,7 @@ namespace SDK.Lib
                 }
                 else
                 {
-                    m_path2ResDic[path].failed(res);
+                    mPath2ResDic[path].failed(res);
                     Ctx.mInstance.mResLoadMgr.unload(path, onLoadEventHandle);
                 }
             }
@@ -234,7 +235,7 @@ namespace SDK.Lib
 
         public object getRes(string path)
         {
-            return m_path2ResDic[path];
+            return mPath2ResDic[path];
         }
 
         // 卸载所有的资源
@@ -242,7 +243,7 @@ namespace SDK.Lib
         {
             // 卸载资源的时候保存的路径列表
             List<string> pathList = new List<string>();
-            foreach (KeyValuePair<string, InsResBase> kv in m_path2ResDic)
+            foreach (KeyValuePair<string, InsResBase> kv in mPath2ResDic)
             {
                 kv.Value.refCountResLoadResultNotify.loadResEventDispatch.clearEventHandle();
                 pathList.Add(kv.Key);

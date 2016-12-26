@@ -11,9 +11,9 @@ namespace SDK.Lib
 
         }
 
-        public MatRes getAndSyncLoadRes(string path)
+        public MatRes getAndSyncLoadRes(string path, MAction<IDispatchObject> handle)
         {
-            return getAndSyncLoad<MatRes>(path);
+            return getAndSyncLoad<MatRes>(path, handle);
         }
 
         public MatRes getAndAsyncLoadRes(string path, MAction<IDispatchObject> handle)

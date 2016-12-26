@@ -161,7 +161,7 @@ namespace SDK.Lib
 
             //Shader shader = Shader.Find("Mobile/Diffuse");
             //m_dynamicMat = new Material(shader);
-            MatRes mat = Ctx.mInstance.mMatMgr.getAndSyncLoadRes("Materials/Mesh/FrustumMesh");
+            MatRes mat = Ctx.mInstance.mMatMgr.getAndSyncLoadRes("Materials/Mesh/FrustumMesh", null);
             UtilApi.createMatIns(ref m_dynamicMat, mat.getMat());
 
             if (m_renderer != null)

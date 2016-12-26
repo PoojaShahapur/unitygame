@@ -79,8 +79,8 @@ namespace UnitTest
 
         public void testSyncLoadRefCount()
         {
-            PrefabRes aaa = Ctx.mInstance.mPrefabMgr.getAndSyncLoad<PrefabRes>("UI/UIChat/UIChat.prefab");
-            PrefabRes bbb = Ctx.mInstance.mPrefabMgr.getAndSyncLoad<PrefabRes>("UI/UIChat/UIChat.prefab");
+            PrefabRes aaa = Ctx.mInstance.mPrefabMgr.getAndSyncLoad<PrefabRes>("UI/UIChat/UIChat.prefab", null);
+            PrefabRes bbb = Ctx.mInstance.mPrefabMgr.getAndSyncLoad<PrefabRes>("UI/UIChat/UIChat.prefab", null);
         }
 
         public void testAsyncLoadUIPrefabRefCount()
@@ -176,7 +176,7 @@ namespace UnitTest
         protected void testScriptController()
         {
             string path = string.Format("{0}{1}", Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathSceneAnimatorController], "SelfCardAni.asset");
-            ControllerRes res = Ctx.mInstance.mControllerMgr.getAndSyncLoad<ControllerRes>(path);
+            ControllerRes res = Ctx.mInstance.mControllerMgr.getAndSyncLoad<ControllerRes>(path, null);
             RuntimeAnimatorController copyCom = res.InstantiateController();
             res.DestroyControllerInstance(copyCom);
             Ctx.mInstance.mControllerMgr.unload(res.getResUniqueId(), null);

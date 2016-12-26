@@ -9,9 +9,9 @@ namespace SDK.Lib
 
         }
 
-        public TextureRes getAndSyncLoadRes(string path)
+        public TextureRes getAndSyncLoadRes(string path, MAction<IDispatchObject> handle)
         {
-            return getAndSyncLoad<TextureRes>(path);
+            return getAndSyncLoad<TextureRes>(path, handle);
         }
 
         public TextureRes getAndAsyncLoadRes(string path, MAction<IDispatchObject> handle)

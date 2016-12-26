@@ -46,7 +46,7 @@ namespace SDK.Lib
             {
                 mEvtHandle = new ResEventDispatch();
                 mEvtHandle.addEventHandle(null, evtHandle);
-                mBytesRes = Ctx.mInstance.mBytesResMgr.getAndSyncLoadRes(path);
+                mBytesRes = Ctx.mInstance.mBytesResMgr.getAndSyncLoadRes(path, null);
                 onBytesLoaded(mBytesRes);
             }
         }
@@ -64,7 +64,7 @@ namespace SDK.Lib
             {
                 mEvtHandle = new ResEventDispatch();
                 mEvtHandle.addEventHandle(null, null, luaTable, luaFunction);
-                mBytesRes = Ctx.mInstance.mBytesResMgr.getAndSyncLoadRes(path);
+                mBytesRes = Ctx.mInstance.mBytesResMgr.getAndSyncLoadRes(path, null);
                 onBytesLoaded(mBytesRes);
             }
         }

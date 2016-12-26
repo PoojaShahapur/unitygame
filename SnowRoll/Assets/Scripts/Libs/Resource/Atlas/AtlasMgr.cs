@@ -20,7 +20,7 @@ namespace SDK.Lib
         // 加载图像
         public void loadImage(LoadParam param)
         {
-            if (!m_path2ResDic.ContainsKey(param.mResUniqueId))
+            if (!mPath2ResDic.ContainsKey(param.mResUniqueId))
             {
                 // 保存加载事件处理，因为这个时候资源还没有加载，这次调用仅仅是想加载 AtlasScriptRes ，不想直接回调事件处理函数
                 MAction<IDispatchObject> tmpLoadEventHandle = param.mLoadEventHandle;
@@ -41,7 +41,7 @@ namespace SDK.Lib
             }
             else
             {
-                (m_path2ResDic[param.mResUniqueId] as AtlasScriptRes).loadImage(param);
+                (mPath2ResDic[param.mResUniqueId] as AtlasScriptRes).loadImage(param);
             }
         }
 
@@ -77,16 +77,16 @@ namespace SDK.Lib
          */
         public ImageItem getImage(string atlasName, string spriteName)
         {
-            return (m_path2ResDic[atlasName] as AtlasScriptRes).getImage(spriteName);
+            return (mPath2ResDic[atlasName] as AtlasScriptRes).getImage(spriteName);
         }
 
         // 暂时没有实现
         public void unloadImage(string atlasName, string spriteName, MAction<IDispatchObject> loadEventHandle)
         {
-            if(m_path2ResDic.ContainsKey(atlasName))
+            if(mPath2ResDic.ContainsKey(atlasName))
             {
-                (m_path2ResDic[atlasName] as AtlasScriptRes).unloadImage(spriteName, loadEventHandle);
-                if (!(m_path2ResDic[atlasName] as AtlasScriptRes).bHasRefImageItem())        // 如果没有引用的 Image
+                (mPath2ResDic[atlasName] as AtlasScriptRes).unloadImage(spriteName, loadEventHandle);
+                if (!(mPath2ResDic[atlasName] as AtlasScriptRes).bHasRefImageItem())        // 如果没有引用的 Image
                 {
                     unload(atlasName, loadEventHandle);            // 卸载对应的资源
                 }

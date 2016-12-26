@@ -90,7 +90,7 @@ namespace SDK.Lib
          */
         public void loadHeightMap(string path_, bool async = false)
         {
-            TextureRes tex = Ctx.mInstance.mTexMgr.getAndSyncLoad<TextureRes>(path_);
+            TextureRes tex = Ctx.mInstance.mTexMgr.getAndSyncLoad<TextureRes>(path_, null);
             setHeightMapData(tex);
         }
 
@@ -294,7 +294,7 @@ namespace SDK.Lib
             {
                 mByteBuffer = new ByteBuffer();
                 mByteBuffer.dynBuffer.maxCapacity = 1000 * 1024 * 1024;
-                mBytesRes = Ctx.mInstance.mBytesResMgr.getAndSyncLoadRes(mHeightDataPath);
+                mBytesRes = Ctx.mInstance.mBytesResMgr.getAndSyncLoadRes(mHeightDataPath, null);
             }
 
             byte[] bytes = mBytesRes.getBytes("");

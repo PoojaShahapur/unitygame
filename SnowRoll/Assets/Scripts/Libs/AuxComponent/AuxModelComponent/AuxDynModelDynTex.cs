@@ -85,14 +85,14 @@ namespace SDK.Lib
                     this.mTexRes = null;
                 }
 
-                this.mTexRes = Ctx.mInstance.mTexMgr.getAndSyncLoad<TextureRes>(this.mTexPath);
+                this.mTexRes = Ctx.mInstance.mTexMgr.getAndSyncLoad<TextureRes>(this.mTexPath, null);
                 this.mMat.mainTexture = this.mTexRes.getTexture();
             }
             else if (this.mIsModelChanged)
             {
                 if (this.mTexRes == null)
                 {
-                    this.mTexRes = Ctx.mInstance.mTexMgr.getAndSyncLoad<TextureRes>(this.mTexPath);
+                    this.mTexRes = Ctx.mInstance.mTexMgr.getAndSyncLoad<TextureRes>(this.mTexPath, null);
                 }
 
                 this.mMat.mainTexture = this.mTexRes.getTexture();

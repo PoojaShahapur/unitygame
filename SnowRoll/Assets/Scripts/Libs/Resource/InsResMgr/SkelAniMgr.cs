@@ -9,9 +9,9 @@ namespace SDK.Lib
 
         }
 
-        public SkelAnimRes getAndSyncLoadRes(string path)
+        public SkelAnimRes getAndSyncLoadRes(string path, MAction<IDispatchObject> handle)
         {
-            return getAndSyncLoad<SkelAnimRes>(path);
+            return getAndSyncLoad<SkelAnimRes>(path, handle);
         }
 
         public SkelAnimRes getAndAsyncLoadRes(string path, MAction<IDispatchObject> handle)

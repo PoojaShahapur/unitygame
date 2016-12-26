@@ -125,13 +125,13 @@ namespace SDK.Lib
         // 加载漫反射材质
         public void loadDiffuseMat()
         {
-            m_diffuseMatRes = Ctx.mInstance.mMatMgr.getAndSyncLoad<MatRes>(m_difffuseMatName);
+            m_diffuseMatRes = Ctx.mInstance.mMatMgr.getAndSyncLoad<MatRes>(m_difffuseMatName, null);
             m_diffuseMat = m_diffuseMatRes.getMat();
 
             m_diffuseShader = Shader.Find(m_diffuseShaderName);
             m_diffuseMat.shader = m_diffuseShader;
 
-            m_diffuseTexRes = Ctx.mInstance.mTexMgr.getAndSyncLoad<TextureRes>(m_diffuseTexName);
+            m_diffuseTexRes = Ctx.mInstance.mTexMgr.getAndSyncLoad<TextureRes>(m_diffuseTexName, null);
             m_diffuseTex = m_diffuseTexRes.getTexture();
 
             if (m_diffuseMat.HasProperty("_MainTex"))
@@ -143,20 +143,20 @@ namespace SDK.Lib
         // 加载高光材质
         public void loadSpecularMat()
         {
-            m_specularMatRes = Ctx.mInstance.mMatMgr.getAndSyncLoad<MatRes>(m_specularMatName);
+            m_specularMatRes = Ctx.mInstance.mMatMgr.getAndSyncLoad<MatRes>(m_specularMatName, null);
             m_specularMat = m_specularMatRes.getMat();
 
             m_specularShader = Shader.Find(m_specularShaderName);
             m_specularMat.shader = m_specularShader;
 
-            m_diffuseTexRes = Ctx.mInstance.mTexMgr.getAndSyncLoad<TextureRes>(m_diffuseTexName);
+            m_diffuseTexRes = Ctx.mInstance.mTexMgr.getAndSyncLoad<TextureRes>(m_diffuseTexName, null);
             m_diffuseTex = m_diffuseTexRes.getTexture();
             if (m_splatMat.HasProperty("_MainTex"))
             {
                 m_specularMat.SetTexture("_MainTex", m_diffuseTex);
             }
 
-            m_normalTexRes = Ctx.mInstance.mTexMgr.getAndSyncLoad<TextureRes>(m_normalTexName);
+            m_normalTexRes = Ctx.mInstance.mTexMgr.getAndSyncLoad<TextureRes>(m_normalTexName, null);
             m_normalTex = m_normalTexRes.getTexture();
             if (m_splatMat.HasProperty("_BumpMap"))
             {
@@ -166,7 +166,7 @@ namespace SDK.Lib
 
         public void loadSplatDiffuseMat()
         {
-            m_splatMatRes = Ctx.mInstance.mMatMgr.getAndSyncLoad<MatRes>(m_splatMatName);
+            m_splatMatRes = Ctx.mInstance.mMatMgr.getAndSyncLoad<MatRes>(m_splatMatName, null);
             m_splatMat = m_splatMatRes.getMat();
 
             m_splatShader = Shader.Find(m_splatShaderName);

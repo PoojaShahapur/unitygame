@@ -98,7 +98,7 @@ namespace SDK.Lib
             {
                 mEvtHandle = new ResEventDispatch();
                 mEvtHandle.addEventHandle(null, evtHandle);
-                mPrefabRes = Ctx.mInstance.mPrefabMgr.getAndSyncLoadRes(path);
+                mPrefabRes = Ctx.mInstance.mPrefabMgr.getAndSyncLoadRes(path, null);
                 onPrefabLoaded(mPrefabRes);
             }
         }

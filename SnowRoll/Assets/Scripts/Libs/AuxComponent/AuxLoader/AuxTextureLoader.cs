@@ -47,7 +47,7 @@ namespace SDK.Lib
             {
                 mEvtHandle = new ResEventDispatch();
                 mEvtHandle.addEventHandle(null, evtHandle);
-                mTextureRes = Ctx.mInstance.mTexMgr.getAndSyncLoadRes(path);
+                mTextureRes = Ctx.mInstance.mTexMgr.getAndSyncLoadRes(path, null);
 
                 onTexLoaded(mTextureRes);
             }

@@ -7,9 +7,9 @@ namespace SDK.Lib
      */
     public class PrefabMgr : InsResMgrBase
     {
-        public PrefabRes getAndSyncLoadRes(string path)
+        public PrefabRes getAndSyncLoadRes(string path, MAction<IDispatchObject> handle)
         {
-            return getAndSyncLoad<PrefabRes>(path);
+            return getAndSyncLoad<PrefabRes>(path, handle);
         }
 
         public PrefabRes getAndAsyncLoadRes(string path, MAction<IDispatchObject> handle)

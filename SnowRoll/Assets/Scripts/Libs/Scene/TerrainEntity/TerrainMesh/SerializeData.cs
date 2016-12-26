@@ -146,7 +146,7 @@ namespace SDK.Lib
                 mByteBuffer = new ByteBuffer();
                 mByteBuffer.dynBuffer.maxCapacity = 1000 * 1024 * 1024;
                 string path = string.Format("TerrainData/{0}_{1}.bytes", "Map", mTerrainId);
-                m_byteRes = Ctx.mInstance.mBytesResMgr.getAndSyncLoadRes(path);
+                m_byteRes = Ctx.mInstance.mBytesResMgr.getAndSyncLoadRes(path, null);
             }
 
             byte[] bytes = m_byteRes.getBytes("");

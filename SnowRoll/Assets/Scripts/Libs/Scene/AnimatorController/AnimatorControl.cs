@@ -152,7 +152,7 @@ namespace SDK.Lib
                     }
                 }
 
-                this.mControlRes = Ctx.mInstance.mControllerMgr.getAndSyncLoad<ControllerRes>(this.mControlPath);
+                this.mControlRes = Ctx.mInstance.mControllerMgr.getAndSyncLoad<ControllerRes>(this.mControlPath, null);
             }
             if (this.mSelfGoChanged)
             {

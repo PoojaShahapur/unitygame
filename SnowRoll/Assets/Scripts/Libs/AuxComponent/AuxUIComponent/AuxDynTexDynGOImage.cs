@@ -68,7 +68,7 @@ namespace SDK.Lib
                     Ctx.mInstance.mPrefabMgr.unload(this.mPrefabRes.getResUniqueId(), null);
                     this.mPrefabRes = null;
                 }
-                this.mPrefabRes = Ctx.mInstance.mPrefabMgr.getAndSyncLoad<PrefabRes>(this.mPrefabPath);
+                this.mPrefabRes = Ctx.mInstance.mPrefabMgr.getAndSyncLoad<PrefabRes>(this.mPrefabPath, null);
                 this.mSelfGo = this.mPrefabRes.InstantiateObject(this.mPrefabPath, false, UtilMath.ZeroVec3, UtilMath.UnitQuat);
 
                 if (this.mIsNeedPlaceHolderGo && this.mPlaceHolderGo != null)

@@ -190,7 +190,7 @@ namespace SDK.Lib
                 m_renderer.enabled = true;
             }
 
-            MatRes mat = Ctx.mInstance.mMatMgr.getAndSyncLoadRes("Materials/Mesh/AABBMesh");
+            MatRes mat = Ctx.mInstance.mMatMgr.getAndSyncLoadRes("Materials/Mesh/AABBMesh", null);
 
             UtilApi.createMatIns(ref m_dynamicMat, mat.getMat());
 
