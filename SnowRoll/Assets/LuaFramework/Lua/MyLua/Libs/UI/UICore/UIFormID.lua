@@ -24,6 +24,7 @@ function M.init()
     this.eUITopXRankPanel = GCtx.mUiMgr.mUniqueNumIdGen:genNewId();
     this.eUIConsoleDlg = GCtx.mUiMgr.mUniqueNumIdGen:genNewId();
     this.eUIRockerPanel = GCtx.mUiMgr.mUniqueNumIdGen:genNewId();
+	this.eUIPack = GCtx.mUiMgr.mUniqueNumIdGen:genNewId();
     --[[替换占位符(勿删)--]]
 	this.eUICount = GCtx.mUiMgr.mUniqueNumIdGen:genNewId();
 end

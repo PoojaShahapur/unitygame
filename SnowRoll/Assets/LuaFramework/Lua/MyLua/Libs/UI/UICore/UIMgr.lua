@@ -97,7 +97,7 @@ end
 -- 仅仅加载 lua 脚本，不加载资源
 function M:loadFormScript(formId, param)
     if(self.mFormArr[formId] == nil) then
-        local codePath = GlobalNS.UIAttrSystem[formId].m_luaScriptPath;
+        local codePath = GlobalNS.UIAttrSystem[formId].mLuaScriptPath;
         local formCls = GlobalNS.ClassLoader.loadClass(codePath);
         self.mFormArr[formId] = GlobalNS.new(formCls, param);
         self.mFormArr[formId]:onInit();
@@ -114,7 +114,7 @@ function M:loadForm(formId, param)
 		local uiPrefabLoader = GlobalNS.new(GlobalNS.AuxUIPrefabLoader, "", true, true);
 		self.mFormId2LoadItemDic:Add(formId, uiPrefabLoader);
 		uiPrefabLoader:setFormId(formId);
-		uiPrefabLoader:asyncLoad(GlobalNS.UIAttrSystem[formId].m_widgetPath, self, self.onFormPrefabLoaded);
+		uiPrefabLoader:asyncLoad(GlobalNS.UIAttrSystem[formId].mWidgetPath, self, self.onFormPrefabLoaded);
     end
 end
 
@@ -188,7 +188,7 @@ end
 -- 弹出并且显示界面
 function M:popAndShowForm(formId)
     -- 显示之前隐藏的窗口
-    if(GlobalNS.UIAttrSystem[formId].m_preFormModeWhenClose == GlobalNS.PreFormModeWhenClose.eSHOW) then
+    if(GlobalNS.UIAttrSystem[formId].mPreFormModeWhenClose == GlobalNS.PreFormModeWhenClose.eSHOW) then
         local curFormIndex_ = self.mFormIdStack:pop();
         if(curFormIndex_ == nil) then
             self.mCurFormIndex = -1;
@@ -199,11 +199,11 @@ function M:popAndShowForm(formId)
 end
 
 function M:pushAndHideForm(formId)
-    if(GlobalNS.UIAttrSystem[formId].m_preFormModeWhenOpen == GlobalNS.PreFormModeWhenOpen.eCLOSE) then
+    if(GlobalNS.UIAttrSystem[formId].mPreFormModeWhenOpen == GlobalNS.PreFormModeWhenOpen.eCLOSE) then
         if(self.mCurFormIndex >= 0) then
             self:exitFormNoOpenPreForm(self.mCurFormIndex);
         end
-    elseif(GlobalNS.UIAttrSystem[formId].m_preFormModeWhenOpen == GlobalNS.PreFormModeWhenOpen.eHIDE) then
+    elseif(GlobalNS.UIAttrSystem[formId].mPreFormModeWhenOpen == GlobalNS.PreFormModeWhenOpen.eHIDE) then
         if(self.mCurFormIndex >= 0) then
             -- 将当前窗口 Id 保存
             self.mFormIdStack:push(self.mCurFormIndex);
@@ -244,7 +244,7 @@ end
 function M:onFormPrefabLoaded(dispObj)
 	local formId = dispObj:getFormId();
 	if(self.mFormArr[formId] ~= nil) then
-		local parent = self:getLayerGo(GlobalNS.UIAttrSystem[self.mFormArr[formId].mId].m_canvasId, GlobalNS.UIAttrSystem[self.mFormArr[formId].mId].m_layerId);
+		local parent = self:getLayerGo(GlobalNS.UIAttrSystem[self.mFormArr[formId].mId].mCanvasId, GlobalNS.UIAttrSystem[self.mFormArr[formId].mId].mLayerId);
         self.mFormArr[formId].mGuiWin = self.mFormId2LoadItemDic:value(formId):getSelfGo();
 		GlobalNS.UtilApi.SetParent(self.mFormArr[formId].mGuiWin, parent, false);
         GlobalNS.UtilApi.SetActive(self.mFormArr[formId].mGuiWin, false);     -- 加载完成后先隐藏，否则后面 showForm 判断会有问题
