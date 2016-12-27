@@ -4,12 +4,12 @@ namespace SDK.Lib
 {
     public class UIAttrSystem
     {
-        public Dictionary<UIFormID, UIAttrItem> mId2AttrDic;
+        public MDictionary<UIFormID, UIAttrItem> mId2AttrDic;
         protected LuaCSBridgeUICore m_luaCSBridgeUICore;
 
         public UIAttrSystem()
         {
-            mId2AttrDic = new Dictionary<UIFormID, UIAttrItem>();
+            mId2AttrDic = new MDictionary<UIFormID, UIAttrItem>();
 
             // ****************** Canvas_50 开始**********************
 

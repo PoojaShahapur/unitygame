@@ -3,14 +3,14 @@
     public class PlayerMainSplitMerge : PlayerSplitMerge
     {
         protected MList<MergeItem> mMergeList;
-        protected System.Collections.Generic.Dictionary<string, MergeItem> mMergeDic;
+        protected MDictionary<string, MergeItem> mMergeDic;
         protected MList<MergeItem> mTmpMergedList;  // 临时存放合并的列表
 
         public PlayerMainSplitMerge(Player mPlayer)
             : base(mPlayer)
         {
             mMergeList = new MList<MergeItem>();
-            mMergeDic = new System.Collections.Generic.Dictionary<string, MergeItem>();
+            mMergeDic = new MDictionary<string, MergeItem>();
             mTmpMergedList = new MList<MergeItem>();
         }
 
@@ -157,10 +157,7 @@
             }
 
             // 添加 Child 事件
-            ((this.mEntity as PlayerMain).mMovement as PlayerMainMovement).addOrientChangedHandle((child.mMovement as PlayerMainChildMovement).handleParentOrientChanged);
-            ((this.mEntity as PlayerMain).mMovement as PlayerMainMovement).addPosChangedHandle((child.mMovement as PlayerMainChildMovement).handleParentPosChanged);
-            ((this.mEntity as PlayerMain).mMovement as PlayerMainMovement).addOrientStopChangedHandle((child.mMovement as PlayerMainChildMovement).handleParentOrientStopChanged);
-            ((this.mEntity as PlayerMain).mMovement as PlayerMainMovement).addPosStopChangedHandle((child.mMovement as PlayerMainChildMovement).handleParentPosStopChanged);
+            (child.mMovement as PlayerMainChildMovement).addParentOrientChangedhandle();
         }
 
         override public MergeItem addMerge(PlayerChild aChild, PlayerChild bChild)
@@ -239,12 +236,15 @@
             UnityEngine.Vector3 startPos;
             UnityEngine.Vector3 endPos;
             float emitRadius = 1;
+            bool isEmited = false;
 
             while (idx < num)
             {
                 child = this.mPlayerChildMgr.getEntityByIndex(idx) as PlayerMainChild;
                 if (child.canEmitSnow())
                 {
+                    isEmited = true;
+
                     emitRadius = child.getEmitSnowSize();
                     child.reduceMassBy(Ctx.mInstance.mSnowBallCfg.mEmitSnowMass);
 
@@ -259,6 +259,11 @@
                 }
 
                 ++idx;
+            }
+
+            if(isEmited)
+            {
+                (this.mEntity as PlayerMain).onChildChanged();
             }
         }
 

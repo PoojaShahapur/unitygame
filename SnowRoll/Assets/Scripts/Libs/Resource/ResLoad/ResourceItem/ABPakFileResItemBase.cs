@@ -9,7 +9,12 @@ namespace SDK.Lib
     public class ABPakFileResItemBase : FileResItem
     {
         public PakItem m_pakItem;
-        public Dictionary<string, ABMemUnPakFileResItemBase> m_path2MemUnPakRes = new Dictionary<string, ABMemUnPakFileResItemBase>();       // 路径到 bytes 内容的字典，从文件加载一次就不再加载，保存这份引用
+        public MDictionary<string, ABMemUnPakFileResItemBase> mPath2MemUnPakRes;       // 路径到 bytes 内容的字典，从文件加载一次就不再加载，保存这份引用
+
+        public ABPakFileResItemBase()
+        {
+            mPath2MemUnPakRes = new MDictionary<string, ABMemUnPakFileResItemBase>();
+        }
 
         override public void init(LoadItem item)
         {
@@ -24,7 +29,7 @@ namespace SDK.Lib
 
         protected void initMemUnPak()
         {
-            foreach(ABMemUnPakFileResItemBase memUnPakFileResItem in m_path2MemUnPakRes.Values)
+            foreach(ABMemUnPakFileResItemBase memUnPakFileResItem in mPath2MemUnPakRes.Values)
             {
                 memUnPakFileResItem.initByPakRes();
             }

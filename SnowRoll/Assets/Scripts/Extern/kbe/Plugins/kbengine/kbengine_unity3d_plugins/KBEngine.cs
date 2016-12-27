@@ -1753,10 +1753,8 @@
                 }
 			}
 
-            if (entity.isPlayer())
-            {
-                entity.cellCall("reqRankData");
-            }
+            //进入场景后的逻辑处理
+            SDK.Lib.GlobalEventCmd.onEnterWorld();
         }
 
 		/*

@@ -113,9 +113,7 @@ namespace SDK.Lib
         {
             base.postInit();
 
-            this.mPlayerSplitMerge.startSplit();
-
-            Ctx.mInstance.mLuaSystem.onPlayerMainLoaded();
+            this.mPlayerSplitMerge.startSplit();            
         }
 
         override public void dispose()

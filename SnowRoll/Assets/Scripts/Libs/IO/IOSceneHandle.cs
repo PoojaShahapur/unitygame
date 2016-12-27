@@ -9,10 +9,11 @@ namespace SDK.Lib
      */
     public class IOSceneHandle
     {
-        protected Dictionary<string, Action<GameObject>> m_str2HandleDic = new Dictionary<string, Action<GameObject>>();
+        protected MDictionary<string, Action<GameObject>> m_str2HandleDic;
 
         public IOSceneHandle()
         {
+            m_str2HandleDic = new MDictionary<string, Action<GameObject>>();
             registerHandle();
         }
 

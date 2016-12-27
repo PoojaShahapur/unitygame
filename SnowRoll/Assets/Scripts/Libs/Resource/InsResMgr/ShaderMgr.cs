@@ -6,11 +6,11 @@ namespace SDK.Lib
 {
     public class ShaderMgr : InsResMgrBase
     {
-        public Dictionary<string, Shader> mId2ShaderDic;
+        public MDictionary<string, Shader> mId2ShaderDic;
 
         public ShaderMgr()
         {
-            mId2ShaderDic = new Dictionary<string, Shader>();
+            mId2ShaderDic = new MDictionary<string, Shader>();
         }
 
         public ShaderRes getAndSyncLoadRes(string path, MAction<IDispatchObject> handle)

@@ -5,11 +5,11 @@ namespace SDK.Lib
 {
     public class NetCmdDispHandle : ICalleeObject
     {
-        protected Dictionary<int, AddOnceEventDispatch> mId2HandleDic;
+        protected MDictionary<int, AddOnceEventDispatch> mId2HandleDic;
 
         public NetCmdDispHandle()
         {
-            mId2HandleDic = new Dictionary<int, AddOnceEventDispatch>();
+            mId2HandleDic = new MDictionary<int, AddOnceEventDispatch>();
         }
 
         public void addParamHandle(int paramId, MAction<IDispatchObject> handle)

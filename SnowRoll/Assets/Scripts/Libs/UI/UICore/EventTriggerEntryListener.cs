@@ -18,7 +18,7 @@ namespace SDK.Lib
         public VoidDelegate onSelect;
         public VoidDelegate onUpdateSelect;
         protected EventTrigger m_eventTrigger;
-        static public Dictionary<EventTrigger, EventTriggerEntryListener> sTrigger2Listener = new Dictionary<EventTrigger, EventTriggerEntryListener>();
+        static public MDictionary<EventTrigger, EventTriggerEntryListener> sTrigger2Listener = new MDictionary<EventTrigger, EventTriggerEntryListener>();
 
         static public EventTriggerEntryListener Get(GameObject go)
         {

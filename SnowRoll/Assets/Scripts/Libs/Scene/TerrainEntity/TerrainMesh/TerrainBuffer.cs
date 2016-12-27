@@ -6,9 +6,9 @@ namespace SDK.Lib
 {
     public class TerrainBuffer
     {
-        protected Dictionary<string, MVertexDataRecord> mVertBuff;
-        protected Dictionary<string, MAxisAlignedBox> mVertAABB;
-        protected Dictionary<string, MList<TerrainTileRender>> mTerrainTileRenderDic;
+        protected MDictionary<string, MVertexDataRecord> mVertBuff;
+        protected MDictionary<string, MAxisAlignedBox> mVertAABB;
+        protected MDictionary<string, MList<TerrainTileRender>> mTerrainTileRenderDic;
         protected TerrainMat mTerrainMat;
 
         protected SerializeData mSerializeData;
@@ -17,9 +17,9 @@ namespace SDK.Lib
 
         public TerrainBuffer()
         {
-            mVertBuff = new Dictionary<string, MVertexDataRecord>();
-            mVertAABB = new Dictionary<string, MAxisAlignedBox>();
-            mTerrainTileRenderDic = new Dictionary<string, MList<TerrainTileRender>>();
+            mVertBuff = new MDictionary<string, MVertexDataRecord>();
+            mVertAABB = new MDictionary<string, MAxisAlignedBox>();
+            mTerrainTileRenderDic = new MDictionary<string, MList<TerrainTileRender>>();
             mTerrainMat = new TerrainMat();
             mIsReadHeader = false;
             mMImportData = new MImportData();

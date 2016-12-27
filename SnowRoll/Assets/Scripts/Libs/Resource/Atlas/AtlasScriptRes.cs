@@ -11,11 +11,11 @@ namespace SDK.Lib
     {
         protected string mAtlasPath;       // 地图集的名字
         protected SOSpriteList mSoSpriteList;
-        protected Dictionary<string, ImageItem> mPath2Image;
+        protected MDictionary<string, ImageItem> mPath2Image;
 
         public AtlasScriptRes()
         {
-            this.mPath2Image = new Dictionary<string, ImageItem>();
+            this.mPath2Image = new MDictionary<string, ImageItem>();
         }
 
         public string atlasPath

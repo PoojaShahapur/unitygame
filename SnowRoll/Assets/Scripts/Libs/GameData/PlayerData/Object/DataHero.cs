@@ -7,10 +7,17 @@ namespace SDK.Lib
      */
     public class DataHero
     {
-        protected bool m_canReqAllHero = false;
+        protected bool mCanReqAllHero;
 
-        public List<HeroItem> m_heroList = new List<HeroItem>();
-        public Dictionary<uint, HeroItem> mId2HeroDic = new Dictionary<uint, HeroItem>();
+        public MList<HeroItem> mHeroList;
+        public MDictionary<uint, HeroItem> mId2HeroDic;
+
+        public DataHero()
+        {
+            this.mCanReqAllHero = false;
+            this.mHeroList = new MList<HeroItem>();
+            this.mId2HeroDic = new MDictionary<uint, HeroItem>();
+        }
 
         public void reqAllHero()
         {
@@ -20,7 +27,7 @@ namespace SDK.Lib
         // 所有 hero 的数据
         public void psstRetAllHeroInfoUserCmd(List<t_hero> infoList)
         {
-            m_heroList.Clear();
+            mHeroList.Clear();
             mId2HeroDic.Clear();
 
             HeroItem clientItem;
@@ -28,7 +35,7 @@ namespace SDK.Lib
             {
                 clientItem = new HeroItem();
                 clientItem.m_svrHero = item;
-                m_heroList.Add(clientItem);
+                mHeroList.Add(clientItem);
                 mId2HeroDic[clientItem.m_svrHero.occupation] = clientItem;
             }
         }
@@ -40,7 +47,7 @@ namespace SDK.Lib
             {
                 clientItem = new HeroItem();
                 clientItem.m_svrHero = info;
-                m_heroList.Add(clientItem);
+                mHeroList.Add(clientItem);
                 mId2HeroDic[clientItem.m_svrHero.occupation] = clientItem;
             }
             else
@@ -52,7 +59,7 @@ namespace SDK.Lib
 
         public HeroItem getJobInfo(int id)
         {
-            foreach (var item in m_heroList)
+            foreach (var item in mHeroList.list())
             {
                 if(item.m_svrHero.occupation == id)
                 {

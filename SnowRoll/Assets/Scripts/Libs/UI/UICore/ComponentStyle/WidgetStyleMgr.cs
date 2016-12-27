@@ -4,11 +4,11 @@ namespace SDK.Lib
 {
     public class WidgetStyleMgr
     {
-        protected Dictionary<WidgetStyleID, Dictionary<int, WidgetStyle>> m_style2Dic;
+        protected MDictionary<WidgetStyleID, MDictionary<int, WidgetStyle>> m_style2Dic;
 
         public WidgetStyleMgr()
         {
-            m_style2Dic = new Dictionary<WidgetStyleID, Dictionary<int, WidgetStyle>>();
+            m_style2Dic = new MDictionary<WidgetStyleID, MDictionary<int, WidgetStyle>>();
             registerStype();
         }
 
@@ -16,7 +16,7 @@ namespace SDK.Lib
         {
             if(!m_style2Dic.ContainsKey(widgetId))
             {
-                m_style2Dic[widgetId] = new Dictionary<int, WidgetStyle>();
+                m_style2Dic[widgetId] = new MDictionary<int, WidgetStyle>();
             }
             m_style2Dic[widgetId][comId] = style;
         }

@@ -12,13 +12,13 @@ namespace SDK.Lib
      */
     public class TableSys
 	{
-        private Dictionary<TableID, TableBase> mDicTable;
+        private MDictionary<TableID, TableBase> mDicTable;
 		private ResItem mRes;
         private ByteBuffer mByteArray;
 
 		public TableSys()
 		{
-			mDicTable = new Dictionary<TableID, TableBase>();
+			mDicTable = new MDictionary<TableID, TableBase>();
             mDicTable[TableID.TABLE_OBJECT] = new TableBase("ObjectBase_client.bytes", "ObjectBase_client");
             mDicTable[TableID.TABLE_CARD] = new TableBase("CardBase_client.bytes", "CardBase_client");
             mDicTable[TableID.TABLE_SKILL] = new TableBase("SkillBase_client.bytes", "SkillBase_client");    // 添加一个表的步骤三
@@ -108,7 +108,7 @@ namespace SDK.Lib
         // 根据路径查找表的 ID
         protected TableID getTableIDByPath(string path)
         {
-            foreach (KeyValuePair<TableID, TableBase> kv in mDicTable)
+            foreach (KeyValuePair<TableID, TableBase> kv in mDicTable.getData())
             {
                 if (Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathTablePath] + kv.Value.mResName == path)
                 {

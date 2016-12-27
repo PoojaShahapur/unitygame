@@ -18,7 +18,7 @@ namespace SDK.Lib
         public void sendTest()
         {
             //登录请求 POST 把参数写在字典用 通过www类来请求
-            Dictionary<string,string> dic = new Dictionary<string, string> ();
+            MDictionary<string,string> dic = new MDictionary<string, string> ();
             //参数
             dic.Add("action","0");
             dic.Add("usrname","xys");
@@ -28,10 +28,10 @@ namespace SDK.Lib
         }
 
         //POST请求
-        IEnumerator POST(string url, Dictionary<string,string> post)
+        IEnumerator POST(string url, MDictionary<string,string> post)
         {
             WWWForm form = new WWWForm();
-            foreach(KeyValuePair<string,string> post_arg in post)
+            foreach(KeyValuePair<string,string> post_arg in post.getData())
             {
                 form.AddField(post_arg.Key, post_arg.Value);
             }
@@ -81,10 +81,10 @@ namespace SDK.Lib
         public override void logout(string message, LogColor type = LogColor.LOG)
         {
             //注册请求 POST
-            Dictionary<string, string> dic = new Dictionary<string, string>();
+            MDictionary<string, string> dic = new MDictionary<string, string>();
             dic.Add("id", "1000");
-            dic.Add("charid", Ctx.mInstance.mDataPlayer.m_dataMain.m_dwUserTempID.ToString());
-            dic.Add("name", Ctx.mInstance.mDataPlayer.m_dataMain.mName);
+            dic.Add("charid", Ctx.mInstance.mDataPlayer.mDataMain.m_dwUserTempID.ToString());
+            dic.Add("name", Ctx.mInstance.mDataPlayer.mDataMain.mName);
             dic.Add("type", "1000");
             dic.Add("platform", "1000");
             dic.Add("version", "1000");

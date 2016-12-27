@@ -23,13 +23,13 @@ namespace SDK.Lib
         protected float mTerrainWorldSize;
         protected MImportData mDefaultImportData;
         protected MVector3 mOrigin;
-        protected Dictionary<int, MTerrainSlot> mTerrainSlots;
+        protected MDictionary<int, MTerrainSlot> mTerrainSlots;
         protected string mFilenamePrefix;
         protected string mFilenameExtension;
 
         public MTerrainGroup(ushort terrainSize, float terrainWorldSize)
         {
-            mTerrainSlots = new Dictionary<int, MTerrainSlot>();
+            mTerrainSlots = new MDictionary<int, MTerrainSlot>();
             mTerrainSize = terrainSize;
             mTerrainWorldSize = terrainWorldSize;
             mOrigin = MVector3.ZERO;
@@ -46,7 +46,7 @@ namespace SDK.Lib
             if (pos != mOrigin)
             {
                 mOrigin = pos;
-                foreach (KeyValuePair<int, MTerrainSlot> i in mTerrainSlots)
+                foreach (KeyValuePair<int, MTerrainSlot> i in mTerrainSlots.getData())
                 {
                     MTerrainSlot slot = i.Value;
                     if (slot.instance != null)
@@ -104,7 +104,7 @@ namespace SDK.Lib
 
         public void loadAllTerrains(bool synchronous)
         {
-            foreach (KeyValuePair<int, MTerrainSlot> i in mTerrainSlots)
+            foreach (KeyValuePair<int, MTerrainSlot> i in mTerrainSlots.getData())
             {
                 MTerrainSlot slot = i.Value;
                 loadTerrainImpl(slot, synchronous);
@@ -156,7 +156,7 @@ namespace SDK.Lib
 
         public void removeAllTerrains()
         {
-            foreach (KeyValuePair<int, MTerrainSlot> i in mTerrainSlots)
+            foreach (KeyValuePair<int, MTerrainSlot> i in mTerrainSlots.getData())
             {
                 i.Value.instance.dispose();
             }
@@ -428,7 +428,7 @@ namespace SDK.Lib
 
         public void update(bool synchronous)
         {
-            foreach (KeyValuePair<int, MTerrainSlot> i in mTerrainSlots)
+            foreach (KeyValuePair<int, MTerrainSlot> i in mTerrainSlots.getData())
             {
                 if (i.Value.instance != null)
                     i.Value.instance.update(true);
@@ -437,7 +437,7 @@ namespace SDK.Lib
 
         public void updateGeometry()
         {
-            foreach (KeyValuePair<int, MTerrainSlot> i in mTerrainSlots)
+            foreach (KeyValuePair<int, MTerrainSlot> i in mTerrainSlots.getData())
             {
                 if (i.Value.instance != null)
                     i.Value.instance.updateGeometry();
@@ -446,7 +446,7 @@ namespace SDK.Lib
 
         public void updateDerivedData(bool synchronous, byte typeMask)
         {
-            foreach (KeyValuePair<int, MTerrainSlot> i in mTerrainSlots)
+            foreach (KeyValuePair<int, MTerrainSlot> i in mTerrainSlots.getData())
             {
                 if (i.Value.instance != null)
                     i.Value.instance.updateDerivedData(true, 0);
@@ -458,7 +458,7 @@ namespace SDK.Lib
             if (newWorldSize != mTerrainWorldSize)
             {
                 mTerrainWorldSize = newWorldSize;
-                foreach (KeyValuePair<int, MTerrainSlot> i in mTerrainSlots)
+                foreach (KeyValuePair<int, MTerrainSlot> i in mTerrainSlots.getData())
                 {
                     if (i.Value.instance != null)
                     {
@@ -474,7 +474,7 @@ namespace SDK.Lib
             if (newTerrainSize != mTerrainSize)
             {
                 mTerrainSize = newTerrainSize;
-                foreach (KeyValuePair<int, MTerrainSlot> i in mTerrainSlots)
+                foreach (KeyValuePair<int, MTerrainSlot> i in mTerrainSlots.getData())
                 {
                     if (i.Value.instance != null)
                     {

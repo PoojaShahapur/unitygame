@@ -36,7 +36,7 @@ function M:refreshMass()
     --获取Mass_Text的Text组件
     local mass = GlobalNS.CSSystem.Ctx.mInstance.mPlayerMgr:getHero().mPlayerSplitMerge:getAllChildMass();
     self.mMass = GlobalNS.UtilApi.getComByPath(self.mGuiWin, "Mass_Text", "Text");
-    self.mMass.text = "重量：" .. GlobalNS.UtilMath.getShowMass(mass);
+    self.mMass.text = "重量：" .. GlobalNS.UtilMath.getShowMass(GlobalNS.UtilMath.getRadiusByMass(mass));
 end
 
 function M:refreshLeftTime(leftseconds)

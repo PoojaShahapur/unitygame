@@ -43,7 +43,7 @@ namespace SDK.Lib
         static MNameGenerator msNameGenerator = new MNameGenerator("Unnamed_");
         protected static MList<MNode> msQueuedUpdates = new MList<MNode>();
         protected MNode mParent;
-        protected Dictionary<string, MNode> mChildren;
+        protected MDictionary<string, MNode> mChildren;
 
         protected HashSet<MNode> mChildrenToUpdate;
         protected bool mNeedParentUpdate;
@@ -92,7 +92,7 @@ namespace SDK.Lib
             mListener = null;
 
             mName = msNameGenerator.generate();
-            mChildren = new Dictionary<string, MNode>();
+            mChildren = new MDictionary<string, MNode>();
             mChildrenToUpdate = new HashSet<MNode>();
             //selfGo = UtilApi.createGameObject(mName);
 
@@ -120,7 +120,7 @@ namespace SDK.Lib
             mInitialOrientation = MQuaternion.IDENTITY;
             mInitialScale = MVector3.UNIT_SCALE;
             mCachedTransformOutOfDate = true;
-            mChildren = new Dictionary<string, MNode>();
+            mChildren = new MDictionary<string, MNode>();
             mChildrenToUpdate = new HashSet<MNode>();
             mListener = null;
             //selfGo = UtilApi.createGameObject(mName);
@@ -300,12 +300,12 @@ namespace SDK.Lib
 
         public ushort numChildren()
         {
-            return (ushort)(mChildren.Count);
+            return (ushort)(mChildren.Count());
         }
 
         public MNode getChild(ushort index)
         {
-            if (index < mChildren.Count)
+            if (index < mChildren.Count())
             {
                 Dictionary<string, MNode>.Enumerator iter = mChildren.GetEnumerator();
                 while (index-- != 0) iter.MoveNext();
@@ -317,7 +317,7 @@ namespace SDK.Lib
 
         virtual public MNode removeChild(ushort index)
         {
-            if (index < mChildren.Count)
+            if (index < mChildren.Count())
             {
                 Dictionary<string, MNode>.Enumerator iter = mChildren.GetEnumerator();
                 while (index-- != 0) iter.MoveNext();

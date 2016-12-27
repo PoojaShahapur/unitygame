@@ -108,7 +108,7 @@ namespace Game.Login
 
             this.mDwUserID = cmd.dwUserID;
             Ctx.mInstance.mTimerMsgHandle.m_loginTempID = cmd.loginTempID;
-            Ctx.mInstance.mDataPlayer.m_dataMain.m_dwUserTempID = cmd.loginTempID;
+            Ctx.mInstance.mDataPlayer.mDataMain.m_dwUserTempID = cmd.loginTempID;
 
             string str = string.Format(Ctx.mInstance.mLangMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem5), this.mGateIP, this.mGatePort, this.mDwUserID, Ctx.mInstance.mTimerMsgHandle.m_loginTempID);
 

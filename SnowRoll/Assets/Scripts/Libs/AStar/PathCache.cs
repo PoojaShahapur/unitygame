@@ -15,11 +15,11 @@ namespace SDK.Lib
 
     public class PathCache
     {
-        Dictionary<int, Dictionary<int, CacheItem>> m_rowCol2PathMap;
+        protected MDictionary<int, MDictionary<int, CacheItem>> m_rowCol2PathMap;
 
         public PathCache()
         {
-            m_rowCol2PathMap = new Dictionary<int, Dictionary<int, CacheItem>>();
+            m_rowCol2PathMap = new MDictionary<int, MDictionary<int, CacheItem>>();
         }
 
         public void dispose()
@@ -37,7 +37,7 @@ namespace SDK.Lib
         {
             if(!m_rowCol2PathMap.ContainsKey(startId))
             {
-                m_rowCol2PathMap[startId] = new Dictionary<int, CacheItem>();
+                m_rowCol2PathMap[startId] = new MDictionary<int, CacheItem>();
             }
             if(!m_rowCol2PathMap[startId].ContainsKey(endId))
             {

@@ -5,16 +5,16 @@ namespace SDK.Lib
     public class EntityMgrBase : DelayHandleMgrBase, ITickedObject, IDelayHandleItem
     {
         protected MList<SceneEntityBase> mSceneEntityList;
-        protected Dictionary<string, SceneEntityBase> mId2EntityDic;
-        protected Dictionary<uint, SceneEntityBase> mThisId2EntityDic;
+        protected MDictionary<string, SceneEntityBase> mId2EntityDic;
+        protected MDictionary<uint, SceneEntityBase> mThisId2EntityDic;
         protected MList<SceneEntityBase> mBufferPool;
         protected UniqueStrIdGen mUniqueStrIdGen;
 
         public EntityMgrBase()
         {
             this.mSceneEntityList = new MList<SceneEntityBase>();
-            this.mId2EntityDic = new Dictionary<string, SceneEntityBase>();
-            this.mThisId2EntityDic = new Dictionary<uint, SceneEntityBase>();
+            this.mId2EntityDic = new MDictionary<string, SceneEntityBase>();
+            this.mThisId2EntityDic = new MDictionary<uint, SceneEntityBase>();
             this.mBufferPool = new MList<SceneEntityBase>();
         }
 

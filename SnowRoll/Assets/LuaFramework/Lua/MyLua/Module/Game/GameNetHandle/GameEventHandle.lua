@@ -12,16 +12,18 @@ function M:dtor()
 	GCtx.mNetCmdNotify_KBE:removeParamHandle("Client_onHelloCB", self, self.handleTest);
     GCtx.mNetCmdNotify_KBE:removeParamHandle("Client_notifyReliveSeconds", self, self.Client_notifyReliveSeconds);
     GCtx.mNetCmdNotify_KBE:removeParamHandle("handleSendAndGetMessage", self, self.handleSendAndGetMessage);
-    GCtx.mNetCmdNotify_KBE:removeParamHandle("Client_notifyTop10RankInfoList", self, self.Client_notifyTop10RankInfoList);
+    GCtx.mNetCmdNotify_KBE:removeParamHandle("notifyTop10RankInfoList", self, self.notifyTop10RankInfoList);
     GCtx.mNetCmdNotify_KBE:removeParamHandle("notifyGameLeftSeconds", self, self.notifyGameLeftSeconds);
+    GCtx.mNetCmdNotify_KBE:removeParamHandle("notifyResultRankInfoList", self, self.notifyResultRankInfoList);
 end
 
 function M:init()
 	GCtx.mNetCmdNotify_KBE:addParamHandle("Client_onHelloCB", self, self.handleTest);
     GCtx.mNetCmdNotify_KBE:addParamHandle("Client_notifyReliveSeconds", self, self.Client_notifyReliveSeconds);
     GCtx.mNetCmdNotify_KBE:addParamHandle("handleSendAndGetMessage", self, self.handleSendAndGetMessage);
-    GCtx.mNetCmdNotify_KBE:addParamHandle("Client_notifyTop10RankInfoList", self, self.Client_notifyTop10RankInfoList);
+    GCtx.mNetCmdNotify_KBE:addParamHandle("notifyTop10RankInfoList", self, self.notifyTop10RankInfoList);
     GCtx.mNetCmdNotify_KBE:addParamHandle("notifyGameLeftSeconds", self, self.notifyGameLeftSeconds);
+    GCtx.mNetCmdNotify_KBE:addParamHandle("notifyResultRankInfoList", self, self.notifyResultRankInfoList);
 end
 
 function M:dtor()
@@ -61,10 +63,12 @@ function M:Client_notifyReliveSeconds(params)
     local reliveseconds = params[0]; --param是C#的数组，从0开始
     local entityID = params[1];
     local form = GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormID.eUIRelivePanel);
-    form:Client_notifyReliveSeconds(reliveseconds, entityID);
+    if nil ~= form then 
+        form:Client_notifyReliveSeconds(reliveseconds, entityID);
+    end
 end
 
-function M:Client_notifyTop10RankInfoList(params)
+function M:notifyTop10RankInfoList(params)
     if GCtx.mUiMgr:hasForm(GlobalNS.UIFormID.eUITopXRankPanel) then
         local form = GCtx.mUiMgr:getForm(GlobalNS.UIFormID.eUITopXRankPanel);
         if nil ~= form and form:isVisible() then            
@@ -81,6 +85,16 @@ function M:notifyGameLeftSeconds(params)
             form:refreshLeftTime(leftseconds);
         end
     end    
+end
+
+function M:notifyResultRankInfoList(params)
+    GCtx.mUiMgr:exitForm(GlobalNS.UIFormID.eUIPlayerDataPanel);
+    GCtx.mUiMgr:exitForm(GlobalNS.UIFormID.eUIRockerPanel);
+    GCtx.mUiMgr:exitForm(GlobalNS.UIFormID.eUIOptionPanel);
+    GCtx.mUiMgr:exitForm(GlobalNS.UIFormID.eUITopXRankPanel);
+
+    GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormID.eUIRankListPanel);
+    GCtx.mGameData:setRankInfoList(params);
 end
 
 return M;

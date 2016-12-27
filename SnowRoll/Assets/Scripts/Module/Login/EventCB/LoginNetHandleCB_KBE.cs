@@ -114,6 +114,15 @@ namespace Game.Login
             KBEngine.Event.fireIn("login", stringAccount, stringPasswd, System.Text.Encoding.UTF8.GetBytes("kbengine_unity3d_demo"));
         }
 
+        public void relogin()
+        {
+            KBEngineApp.app.networkInterface().close();
+            info("connect to server...（重新连接到服务端...)");
+            KBEngine.Event.fireIn("login", stringAccount, stringPasswd, System.Text.Encoding.UTF8.GetBytes("kbengine_unity3d_demo"));
+            //KBEngineApp.app.login(stringAccount, stringPasswd, System.Text.Encoding.UTF8.GetBytes("kbengine_unity3d_demo"));
+            //Ctx.mInstance.mSceneEventCB.onLevelLoaded();
+        }
+
         public void createAccount()
         {
             info("connect to server...(连接到服务端...)");

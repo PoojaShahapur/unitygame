@@ -10,13 +10,13 @@ namespace SDK.Lib
     {
         protected AssetBundleManifest m_AssetBundleManifest;
         protected string[] m_Variants = { };
-        protected Dictionary<string, string[]> m_Dependencies;
+        protected MDictionary<string, string[]> m_Dependencies;
         protected AuxAssetBundleManifestLoader mAuxAssetBundleManifestLoader;
 
         public DepResMgr()
         {
             m_AssetBundleManifest = null;
-            m_Dependencies = new Dictionary<string, string[]>();
+            m_Dependencies = new MDictionary<string, string[]>();
         }
 
         public AssetBundleManifest AssetBundleManifestObject

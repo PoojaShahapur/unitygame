@@ -12,9 +12,9 @@
         public const string RunStr = "Run";
 
         public const int Attack = 3;    // 吞食
-        public const string AttackStr = "Attack";
+        public const string AttackStr = "eat";
 
         public const int Split = 4;    // 分裂
-        public const string SplitStr = "Split";
+        public const string SplitStr = "split";
     }
 }

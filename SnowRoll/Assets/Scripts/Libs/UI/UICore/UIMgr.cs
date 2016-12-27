@@ -11,14 +11,14 @@ namespace SDK.Lib
      */
     public class UIMgr : IResizeObject
 	{
-		private Dictionary<UIFormID, Form> mId2FormDic; //[id,form]
+		private MDictionary<UIFormID, Form> mId2FormDic; //[id,form]
         private MList<UICanvas> mCanvasList;
         public UIAttrSystem mUIAttrs;
 
-        private Dictionary<UIFormID, UILoadingItem> mId2CodeLoadingItemDic;         // 记录当前代码正在加载的项
-        private Dictionary<UIFormID, UILoadingItem> mId2WidgetLoadingItemDic;         // 记录当前窗口控件正在加载的项
+        private MDictionary<UIFormID, UILoadingItem> mId2CodeLoadingItemDic;         // 记录当前代码正在加载的项
+        private MDictionary<UIFormID, UILoadingItem> mId2WidgetLoadingItemDic;         // 记录当前窗口控件正在加载的项
 
-        private List<UIFormID> mTmpList;
+        private MList<UIFormID> mTmpList;
         private UniqueNumIdGen mUniqueNumIdGen;
 
         public UnityEngine.Canvas mHudCanvas;
@@ -27,11 +27,11 @@ namespace SDK.Lib
 
         public UIMgr()
 		{
-            this.mId2FormDic = new Dictionary<UIFormID, Form>();
+            this.mId2FormDic = new MDictionary<UIFormID, Form>();
             this.mUIAttrs = new UIAttrSystem();
-            this.mId2CodeLoadingItemDic = new Dictionary<UIFormID, UILoadingItem>();
-            this.mId2WidgetLoadingItemDic = new Dictionary<UIFormID, UILoadingItem>();
-            this.mTmpList = new List<UIFormID>();
+            this.mId2CodeLoadingItemDic = new MDictionary<UIFormID, UILoadingItem>();
+            this.mId2WidgetLoadingItemDic = new MDictionary<UIFormID, UILoadingItem>();
+            this.mTmpList = new MList<UIFormID>();
 
             createCanvas();
 		}
@@ -425,7 +425,7 @@ namespace SDK.Lib
                 mTmpList.Add(id);
             }
 
-            foreach (UIFormID id in mTmpList)
+            foreach (UIFormID id in mTmpList.list())
             {
                 exitForm(id);
             }
@@ -443,7 +443,7 @@ namespace SDK.Lib
                 }
             }
 
-            foreach (UIFormID id in mTmpList)
+            foreach (UIFormID id in mTmpList.list())
             {
                 exitForm(id, true);
             }

@@ -7,11 +7,11 @@ namespace SDK.Lib
      */
     public class FrameCollideMgr
     {
-        protected Dictionary<string, string> mId2Id;   // 记录同一帧中发生碰撞的两个对象
+        protected MDictionary<string, string> mId2Id;   // 记录同一帧中发生碰撞的两个对象
 
         public FrameCollideMgr()
         {
-            mId2Id = new Dictionary<string, string>();
+            mId2Id = new MDictionary<string, string>();
         }
 
         public void init()

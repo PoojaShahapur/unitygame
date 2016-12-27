@@ -9,7 +9,7 @@ namespace SDK.Lib
     {
         protected int mCurIndex;        // 当前的索引
         protected int mPreIndex;        // 之前的索引
-        protected Dictionary<MTerrainQuadTreeNode, bool>[] mTreeNode2VisibleDic;
+        protected MDictionary<MTerrainQuadTreeNode, bool>[] mTreeNode2VisibleDic;
         protected MList<MTerrainQuadTreeNode>[] mVisibleTreeNodeList;       // 当前可视化 TreeNode 列表
         protected MList<MTerrain> mWillRemoveTerrainList;
 
@@ -22,13 +22,13 @@ namespace SDK.Lib
         {
             mCurIndex = 0;
             mPreIndex = (mCurIndex + 1) % 2;
-            mTreeNode2VisibleDic = new Dictionary<MTerrainQuadTreeNode, bool>[2];
+            mTreeNode2VisibleDic = new MDictionary<MTerrainQuadTreeNode, bool>[2];
             mVisibleTreeNodeList = new MList<MTerrainQuadTreeNode>[2];
 
             int idx = 0;
             while(idx < 2)
             {
-                mTreeNode2VisibleDic[idx] = new Dictionary<MTerrainQuadTreeNode, bool>();
+                mTreeNode2VisibleDic[idx] = new MDictionary<MTerrainQuadTreeNode, bool>();
                 mVisibleTreeNodeList[idx] = new MList<MTerrainQuadTreeNode>();
                 ++idx;
             }

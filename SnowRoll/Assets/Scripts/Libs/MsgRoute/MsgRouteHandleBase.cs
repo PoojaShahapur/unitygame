@@ -4,13 +4,13 @@ namespace SDK.Lib
 {
     public class MsgRouteHandleBase : GObject, ICalleeObject
     {
-        public Dictionary<int, AddOnceEventDispatch> mId2HandleDic;
+        public MDictionary<int, AddOnceEventDispatch> mId2HandleDic;
 
         public MsgRouteHandleBase()
         {
             this.mTypeId = "MsgRouteHandleBase";
 
-            mId2HandleDic = new Dictionary<int, AddOnceEventDispatch>();
+            mId2HandleDic = new MDictionary<int, AddOnceEventDispatch>();
         }
 
         public void addMsgRouteHandle(MsgRouteID msgRouteID, MAction<IDispatchObject> handle)

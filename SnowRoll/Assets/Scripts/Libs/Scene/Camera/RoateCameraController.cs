@@ -140,7 +140,7 @@ namespace SDK.Lib
                 }*/
 
                 Vector3 vector = ((Vector3)(quaternion * new Vector3(0.0f, cur_distance_Y, -cur_distance_Z))) + centerPos;
-                //Ctx.mInstance.mLogSys.log("centerPos: " + centerPos + "   vector: " + vector);
+                //Ctx.mInstance.mLogSys.error("centerPos: " + centerPos + "   vector: " + vector);
                 //更改主相机的旋转角度和位置
                 this.transform.rotation = quaternion;
                 this.transform.position = vector;
@@ -149,7 +149,7 @@ namespace SDK.Lib
                 //Vector3 eulerAngles = new Vector3(0, eulerAngles_cam.y, eulerAngles_cam.z);
                 //playerMain.setDestRotate(eulerAngles, true);
 
-                Ctx.mInstance.mGlobalDelegate.mCameraOrientChanged.dispatchEvent(null);
+                Ctx.mInstance.mGlobalDelegate.mCameraOrientChangedDispatch.dispatchEvent(null);
             }
         }
 

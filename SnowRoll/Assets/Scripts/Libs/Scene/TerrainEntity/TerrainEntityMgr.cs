@@ -7,7 +7,7 @@ namespace SDK.Lib
      */
     public class TerrainEntityMgr : GObject
     {
-        protected Dictionary<uint, TerrainEntity> mId2TerrainEntityDic;     // 地图 Id 到 TerrainEntity Dic
+        protected MDictionary<uint, TerrainEntity> mId2TerrainEntityDic;     // 地图 Id 到 TerrainEntity Dic
 
         public TerrainEntityMgr()
         {
@@ -16,7 +16,7 @@ namespace SDK.Lib
 
         public void init()
         {
-            mId2TerrainEntityDic = new Dictionary<uint, TerrainEntity>();
+            mId2TerrainEntityDic = new MDictionary<uint, TerrainEntity>();
         }
 
         // 添加一个 Entity

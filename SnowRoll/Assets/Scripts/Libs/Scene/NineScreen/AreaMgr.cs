@@ -18,7 +18,7 @@ namespace SDK.Lib
         protected int mPreAreaIdx;        // 之前 Area 索引
         protected MList<int>[] mAreaIdList; // Area id 索引
         protected MList<int> mRemovedAreaIdList;
-        protected Dictionary<int, Area> mId2AreaDic; // Area id 到 Area 索引
+        protected MDictionary<int, Area> mId2AreaDic; // Area id 到 Area 索引
 
         public AreaMgr()
         {
@@ -40,7 +40,7 @@ namespace SDK.Lib
             mAreaIdList[mCurAreaIdx] = new MList<int>();
             mAreaIdList[mPreAreaIdx] = new MList<int>();
             mRemovedAreaIdList = new MList<int>();
-            mId2AreaDic = new Dictionary<int, Area>();
+            mId2AreaDic = new MDictionary<int, Area>();
         }
 
         public void addEntity(SceneEntityBase entity)

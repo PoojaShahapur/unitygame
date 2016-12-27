@@ -9,11 +9,11 @@ namespace SDK.Lib
     public class ServerVer : FileVerBase
     {
         // MiniVersion 必须每一次从服务器上下载
-        public Dictionary<string, FileVerInfo> mPath2HashDic;
+        public MDictionary<string, FileVerInfo> mPath2HashDic;
 
         public ServerVer()
         {
-            this.mPath2HashDic = new Dictionary<string, FileVerInfo>();
+            this.mPath2HashDic = new MDictionary<string, FileVerInfo>();
         }
 
         virtual public void loadMiniVerFile(string ver = "")

@@ -15,16 +15,16 @@
         /**
          * @breif 事件回调函数
          */
-        public void AnimEventCall(string funcName)
+        public void AnimEventCall(string param)
         {
             // 执行事件
-            if("eat" == funcName)
+            if(CVAnimState.AttackStr == param)
             {
-                this.mEntity.setBeingState(BeingState.eBSIdle);
+                //this.mEntity.setBeingState(BeingState.eBSIdle);
             }
-            else if ("split" == funcName)
+            else if (CVAnimState.SplitStr == param)
             {
-                this.mEntity.setBeingState(BeingState.eBSIdle);
+                //this.mEntity.setBeingState(BeingState.eBSIdle);
             }
         }
     }

@@ -21,9 +21,9 @@ namespace SDK.Lib
      */
     public class TerrainBufferSys
     {
-        protected Dictionary<string, TerrainBuffer> mTerrainBufferDic;
-        public TextRes m_textRes;
-        public Dictionary<int, Dictionary<int, ScenePageItem>> m_scenePageCfg;
+        protected MDictionary<string, TerrainBuffer> mTerrainBufferDic;
+        public TextRes mTextRes;
+        public MDictionary<int, MDictionary<int, ScenePageItem>> mScenePageCfg;
         public StreamWriter mStreamWriter;
 
         public TerrainVisibleCheck mTerrainVisibleCheck;
@@ -35,7 +35,7 @@ namespace SDK.Lib
 
         public void init()
         {
-            mTerrainBufferDic = new Dictionary<string, TerrainBuffer>();
+            mTerrainBufferDic = new MDictionary<string, TerrainBuffer>();
             mTerrainVisibleCheck = new TerrainVisibleCheck();
         }
 
@@ -46,10 +46,10 @@ namespace SDK.Lib
 
         public void loadNeedRes()
         {
-            m_textRes = Ctx.mInstance.mTextResMgr.getAndSyncLoadRes("TerrainData/Terrain.xml", null);
-            if (m_textRes != null)
+            mTextRes = Ctx.mInstance.mTextResMgr.getAndSyncLoadRes("TerrainData/Terrain.xml", null);
+            if (mTextRes != null)
             {
-                string text = m_textRes.getText("");
+                string text = mTextRes.getText("");
                 SecurityParser xmlDoc = new SecurityParser();
                 xmlDoc.LoadXml(text);
                 SecurityElement config = xmlDoc.ToXml();
@@ -148,19 +148,19 @@ namespace SDK.Lib
 
         public void loadSceneCfg(string path)
         {
-            if(m_scenePageCfg == null)
+            if(mScenePageCfg == null)
             {
-                m_scenePageCfg = new Dictionary<int, Dictionary<int, ScenePageItem>>();
+                mScenePageCfg = new MDictionary<int, MDictionary<int, ScenePageItem>>();
             }
             else
             {
-                m_scenePageCfg.Clear();
+                mScenePageCfg.Clear();
             }
 
-            m_textRes = Ctx.mInstance.mTextResMgr.getAndSyncLoadRes(string.Format("TerrainData/{0}.xml", path), null);
-            if (m_textRes != null)
+            mTextRes = Ctx.mInstance.mTextResMgr.getAndSyncLoadRes(string.Format("TerrainData/{0}.xml", path), null);
+            if (mTextRes != null)
             {
-                string text = m_textRes.getText("");
+                string text = mTextRes.getText("");
                 SecurityParser xmlDoc = new SecurityParser();
                 xmlDoc.LoadXml(text);
                 SecurityElement config = xmlDoc.ToXml();
@@ -175,24 +175,24 @@ namespace SDK.Lib
                     UtilXml.getXmlAttrStr(itemElem, "id", ref id);
                     UtilXml.getXmlAttrInt(itemElem, "x", ref x);
                     UtilXml.getXmlAttrInt(itemElem, "y", ref y);
-                    if(!m_scenePageCfg.ContainsKey(y))
+                    if(!mScenePageCfg.ContainsKey(y))
                     {
-                        m_scenePageCfg[y] = new Dictionary<int, ScenePageItem>();
+                        mScenePageCfg[y] = new MDictionary<int, ScenePageItem>();
                     }
-                    if (!m_scenePageCfg[y].ContainsKey(x))
+                    if (!mScenePageCfg[y].ContainsKey(x))
                     {
-                        m_scenePageCfg[y][x] = new ScenePageItem();
+                        mScenePageCfg[y][x] = new ScenePageItem();
                     }
-                    m_scenePageCfg[y][x].mId = id;
+                    mScenePageCfg[y][x].mId = id;
                 }
             }
         }
 
         public string getTerrainId(int x, int y)
         {
-            if(m_scenePageCfg.ContainsKey(y) && m_scenePageCfg[y].ContainsKey(x))
+            if(mScenePageCfg.ContainsKey(y) && mScenePageCfg[y].ContainsKey(x))
             {
-                return m_scenePageCfg[y][x].mId;
+                return mScenePageCfg[y][x].mId;
             }
 
             return "";

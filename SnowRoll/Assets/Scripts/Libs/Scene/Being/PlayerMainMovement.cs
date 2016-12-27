@@ -2,19 +2,9 @@
 {
     public class PlayerMainMovement : PlayerMovement
     {
-        protected AddOnceEventDispatch mOrientChangedDisp;     // 方向改变分发器
-        protected AddOnceEventDispatch mPosChangedDisp;        // 位置改变分发器
-        protected AddOnceEventDispatch mOrientStopChangedDisp; // 方向改变停止分发器
-        protected AddOnceEventDispatch mPosStopChangedDisp;    // 位置改变停止分发器
-
         public PlayerMainMovement(SceneEntityBase entity)
             : base(entity)
         {
-            this.mOrientChangedDisp = new AddOnceEventDispatch();
-            this.mPosChangedDisp = new AddOnceEventDispatch();
-            this.mOrientStopChangedDisp = new AddOnceEventDispatch();
-            this.mPosStopChangedDisp = new AddOnceEventDispatch();
-
             Ctx.mInstance.mInputMgr.addKeyListener(InputKey.UpArrow, EventId.KEYPRESS_EVENT, onUpArrowPress);
             Ctx.mInstance.mInputMgr.addKeyListener(InputKey.UpArrow, EventId.KEYUP_EVENT, onUpArrowUp);
             Ctx.mInstance.mInputMgr.addKeyListener(InputKey.W, EventId.KEYPRESS_EVENT, onUpArrowPress);
@@ -118,7 +108,7 @@
         {
             base.stopMove();
 
-            this.mOrientStopChangedDisp.dispatchEvent(this);
+            Ctx.mInstance.mGlobalDelegate.mMainOrientStopChangedDispatch.dispatchEvent(this);
         }
 
         override public void stopRotate()
@@ -142,14 +132,14 @@
         {
             base.addLocalRotation(DeltaRotation);
             (this.mEntity as Player).mPlayerSplitMerge.calcTargetPoint();
-            this.mOrientChangedDisp.dispatchEvent(this);
+            Ctx.mInstance.mGlobalDelegate.mMainOrientChangedDispatch.dispatchEvent(this);
         }
 
         override public void setDestRotate(UnityEngine.Vector3 destRotate)
         {
             base.setDestRotate(destRotate);
             (this.mEntity as Player).mPlayerSplitMerge.calcTargetPoint();
-            this.mOrientChangedDisp.dispatchEvent(this);
+            Ctx.mInstance.mGlobalDelegate.mMainOrientChangedDispatch.dispatchEvent(this);
         }
 
         protected void onAccelerationMovedHandle(IDispatchObject disoObj)
@@ -169,46 +159,6 @@
             //this.onPosChanged();
         }
 
-        public void addOrientChangedHandle(MAction<IDispatchObject> handle)
-        {
-            mOrientChangedDisp.addEventHandle(null, handle);
-        }
-
-        public void removeOrientChangedHandle(MAction<IDispatchObject> handle)
-        {
-            mOrientChangedDisp.removeEventHandle(null, handle);
-        }
-
-        public void addPosChangedHandle(MAction<IDispatchObject> handle)
-        {
-            mPosChangedDisp.addEventHandle(null, handle);
-        }
-
-        public void removePosChangedHandle(MAction<IDispatchObject> handle)
-        {
-            mPosChangedDisp.removeEventHandle(null, handle);
-        }
-
-        public void addOrientStopChangedHandle(MAction<IDispatchObject> handle)
-        {
-            mOrientStopChangedDisp.addEventHandle(null, handle);
-        }
-
-        public void removeOrientStopChangedHandle(MAction<IDispatchObject> handle)
-        {
-            mOrientStopChangedDisp.removeEventHandle(null, handle);
-        }
-
-        public void addPosStopChangedHandle(MAction<IDispatchObject> handle)
-        {
-            mPosStopChangedDisp.addEventHandle(null, handle);
-        }
-
-        public void removePosStopChangedHandle(MAction<IDispatchObject> handle)
-        {
-            mPosStopChangedDisp.removeEventHandle(null, handle);
-        }
-
         override public void sendMoveMsg()
         {
             // 移动后，更新 KBE 中的 Avatar 数据
@@ -223,8 +173,7 @@
 
         protected void onPosChanged()
         {
-            //(this.mEntity as Player).mPlayerSplitMerge.calcTargetPoint();
-            this.mPosChangedDisp.dispatchEvent(this);
+            Ctx.mInstance.mGlobalDelegate.mMainPosChangedDispatch.dispatchEvent(this);
 
             (this.mEntity as PlayerMain).onChildChanged();
         }

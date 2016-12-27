@@ -55,7 +55,7 @@ namespace SDK.Lib
         }
 
         // 这个主要是解析版本文件的
-        protected void loadFormText(string text, Dictionary<string, FileVerInfo> dic)
+        protected void loadFormText(string text, MDictionary<string, FileVerInfo> dic)
         {
             string[] lineSplitStr = { UtilApi.CR_LF };
             string[] equalSplitStr = { UtilApi.SEPARATOR };

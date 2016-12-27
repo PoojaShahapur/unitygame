@@ -33,7 +33,7 @@ namespace SDK.Lib
         public bool isUseSplatMap;
         public MList<LayerInstance> layerList;
         public string mAlphaTexName;
-        public TextRes m_textRes;
+        public TextRes mTextRes;
 
         public long x, y;
 
@@ -85,10 +85,10 @@ namespace SDK.Lib
 
         public void parseXml()
         {
-            m_textRes = Ctx.mInstance.mTextResMgr.getAndSyncLoadRes(string.Format("TerrainData/{0}.xml", mTerrainId), null);
-            if (m_textRes != null)
+            mTextRes = Ctx.mInstance.mTextResMgr.getAndSyncLoadRes(string.Format("TerrainData/{0}.xml", mTerrainId), null);
+            if (mTextRes != null)
             {
-                string text = m_textRes.getText("");
+                string text = mTextRes.getText("");
                 SecurityParser xmlDoc = new SecurityParser();
                 xmlDoc.LoadXml(text);
                 SecurityElement config = xmlDoc.ToXml();

@@ -8,14 +8,14 @@ namespace SDK.Lib
      */
     public class InsResMgrBase
     {
-        public Dictionary<string, InsResBase> mPath2ResDic;
-        protected List<string> mZeroRefResIDList;      // 没有引用的资源 ID 列表
+        public MDictionary<string, InsResBase> mPath2ResDic;
+        protected MList<string> mZeroRefResIDList;      // 没有引用的资源 ID 列表
         protected int mLoadingDepth;          // 加载深度
 
         public InsResMgrBase()
         {
-            mPath2ResDic = new Dictionary<string, InsResBase>();
-            mZeroRefResIDList = new List<string>();
+            mPath2ResDic = new MDictionary<string, InsResBase>();
+            mZeroRefResIDList = new MList<string>();
             mLoadingDepth = 0;
         }
 
@@ -184,7 +184,7 @@ namespace SDK.Lib
         // 卸载没有引用的资源列表中的资源
         protected void unloadNoRefResFromList()
         {
-            foreach (string path in mZeroRefResIDList)
+            foreach (string path in mZeroRefResIDList.list())
             {
                 if (mPath2ResDic[path].refCountResLoadResultNotify.refCount.isNoRef())
                 {

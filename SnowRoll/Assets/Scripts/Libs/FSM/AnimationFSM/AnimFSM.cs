@@ -31,27 +31,74 @@
 
         protected override FSMState CreateState(StateId state)
         {
+            FSMState retState = null;
+
             switch (state.GetId())
             {
                 case CVAnimState.Idle:
                 {
-                    return new AnimIdleFS(this, mEntity);
+                    if(mNoUsedId2State.ContainsKey(state.GetId()))
+                    {
+                        retState = mNoUsedId2State[state.GetId()];
+                    }
+                    else
+                    {
+                        retState = new AnimIdleFS(this, mEntity);
+                    }
+
+                    return retState;
                 }
                 case CVAnimState.Walk:
                 {
-                    return new AnimWalkFS(this, mEntity);
+                    if (mNoUsedId2State.ContainsKey(state.GetId()))
+                    {
+                        retState = mNoUsedId2State[state.GetId()];
+                    }
+                    else
+                    {
+                        retState = new AnimWalkFS(this, mEntity);
+                    }
+
+                    return retState;
                 }
                 case CVAnimState.Run:
                 {
-                    return new AnimRunFS(this, mEntity);
+                    if (mNoUsedId2State.ContainsKey(state.GetId()))
+                    {
+                        retState = mNoUsedId2State[state.GetId()];
+                    }
+                    else
+                    {
+                        retState = new AnimRunFS(this, mEntity);
+                    }
+
+                    return retState;
                 }
                 case CVAnimState.Attack:
                 {
-                    return new AnimAttackFS(this, mEntity);
+                    if (mNoUsedId2State.ContainsKey(state.GetId()))
+                    {
+                        retState = mNoUsedId2State[state.GetId()];
+                    }
+                    else
+                    {
+                        retState = new AnimAttackFS(this, mEntity);
+                    }
+
+                    return retState;
                 }
                 case CVAnimState.Split:
                 {
-                    return new AnimSplitFS(this, mEntity);
+                    if (mNoUsedId2State.ContainsKey(state.GetId()))
+                    {
+                        retState = mNoUsedId2State[state.GetId()];
+                    }
+                    else
+                    {
+                        retState = new AnimSplitFS(this, mEntity);
+                    }
+
+                    return retState;
                 }
                 default:
                 {

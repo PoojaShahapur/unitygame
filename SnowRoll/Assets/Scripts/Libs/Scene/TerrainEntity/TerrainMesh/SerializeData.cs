@@ -87,7 +87,7 @@ namespace SDK.Lib
      */
     public class SerializeData
     {
-        public Dictionary<string, SerializeHeader> m_headerDic;
+        public MDictionary<string, SerializeHeader> mHeaderDic;
         public int mHeaderSize;     // 总共的 Node 的个数
         public int mSizePerHeader;  // 每一个头部大小
         public int mTotalHeaderSize;// 总共头部的字节数
@@ -96,14 +96,14 @@ namespace SDK.Lib
         public string mTerrainId;
 
         public ByteBuffer mByteBuffer;
-        public BytesRes m_byteRes;
+        public BytesRes mByteRes;
         public SerializeBasic mSerializeBasic;
 
         public SerializeData()
         {
             mUniqueIdSize = 12;
             mOffsetSize = 4;
-            m_headerDic = new Dictionary<string, SerializeHeader>();
+            mHeaderDic = new MDictionary<string, SerializeHeader>();
             mSizePerHeader = 16;    // 12 个 UniqueId 4 个 offset
             mSerializeBasic = new SerializeBasic();
         }
@@ -120,12 +120,12 @@ namespace SDK.Lib
 
         public SerializeHeader getSerialHeader(string uniqueId)
         {
-            if(!m_headerDic.ContainsKey(uniqueId))
+            if(!mHeaderDic.ContainsKey(uniqueId))
             {
-                m_headerDic[uniqueId] = new SerializeHeader();
+                mHeaderDic[uniqueId] = new SerializeHeader();
             }
 
-            return m_headerDic[uniqueId];
+            return mHeaderDic[uniqueId];
         }
 
         public void calcHeaderSize()
@@ -146,10 +146,10 @@ namespace SDK.Lib
                 mByteBuffer = new ByteBuffer();
                 mByteBuffer.dynBuffer.maxCapacity = 1000 * 1024 * 1024;
                 string path = string.Format("TerrainData/{0}_{1}.bytes", "Map", mTerrainId);
-                m_byteRes = Ctx.mInstance.mBytesResMgr.getAndSyncLoadRes(path, null);
+                mByteRes = Ctx.mInstance.mBytesResMgr.getAndSyncLoadRes(path, null);
             }
 
-            byte[] bytes = m_byteRes.getBytes("");
+            byte[] bytes = mByteRes.getBytes("");
             if (bytes != null)
             {
                 mByteBuffer.clear();
@@ -163,9 +163,9 @@ namespace SDK.Lib
             {
                 serializeHeader = new SerializeHeader();
                 serializeHeader.deserialize(mByteBuffer, mUniqueIdSize, mOffsetSize);
-                if(!m_headerDic.ContainsKey(serializeHeader.mUniqueId))
+                if(!mHeaderDic.ContainsKey(serializeHeader.mUniqueId))
                 {
-                    m_headerDic[serializeHeader.mUniqueId] = serializeHeader;
+                    mHeaderDic[serializeHeader.mUniqueId] = serializeHeader;
                 }
                 ++idx;
             }
@@ -173,18 +173,18 @@ namespace SDK.Lib
 
         public void deserializeVertexData(string uniqueId, ref MVertexDataRecord record)
         {
-            if(m_headerDic.ContainsKey(uniqueId))
+            if(mHeaderDic.ContainsKey(uniqueId))
             {
-                mByteBuffer.setPos((uint)m_headerDic[uniqueId].mOffset);
+                mByteBuffer.setPos((uint)mHeaderDic[uniqueId].mOffset);
                 record.cpuVertexData.readVertData(mByteBuffer);
             }
         }
 
         public void deserializeAABB(string uniqueId, int offset, ref MAxisAlignedBox aabb)
         {
-            if (m_headerDic.ContainsKey(uniqueId))
+            if (mHeaderDic.ContainsKey(uniqueId))
             {
-                mByteBuffer.setPos((uint)(m_headerDic[uniqueId].mOffset + offset));
+                mByteBuffer.setPos((uint)(mHeaderDic[uniqueId].mOffset + offset));
                 mByteBuffer.readAABB(ref aabb);
             }
         }

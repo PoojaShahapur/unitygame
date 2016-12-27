@@ -12,11 +12,11 @@ namespace SDK.Lib
         public GameObject mGo;
         protected GameObject mSubGo;
 
-        protected Dictionary<string, ImageItem> m_path2Image = new Dictionary<string,ImageItem>();
+        protected MDictionary<string, ImageItem> mPath2Image;
 
         public AtlasGoRes()
         {
-
+            mPath2Image = new MDictionary<string, ImageItem>();
         }
 
         public override void unload()
@@ -26,20 +26,20 @@ namespace SDK.Lib
 
         public ImageItem getImage(string spriteName)
         {
-            if(!m_path2Image.ContainsKey(spriteName))
+            if(!mPath2Image.ContainsKey(spriteName))
             {
                 mSubGo = UtilApi.TransFindChildByPObjAndPath(mGo, spriteName);
                 Image image = UtilApi.getComByP<Image>(mSubGo);
                 ImageItem item = new ImageItem();
                 item.image = image.sprite;
-                m_path2Image[spriteName] = item;
+                mPath2Image[spriteName] = item;
             }
             else
             {
-                m_path2Image[spriteName].refCountResLoadResultNotify.refCount.incRef();
+                mPath2Image[spriteName].refCountResLoadResultNotify.refCount.incRef();
             }
 
-            return m_path2Image[spriteName];
+            return mPath2Image[spriteName];
         }
     }
 }

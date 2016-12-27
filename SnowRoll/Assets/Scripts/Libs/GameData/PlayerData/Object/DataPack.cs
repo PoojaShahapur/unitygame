@@ -8,13 +8,13 @@ namespace SDK.Lib
      */
     public class DataPack
     {
-        public List<DataItemObjectBase> mObjList;             // 道具列表
-        public Dictionary<uint, DataItemObjectBase> mId2ObjDic;       // 道具 thidid到 Obj 字典，加快查找
+        public MList<DataItemObjectBase> mObjList;             // 道具列表
+        public MDictionary<uint, DataItemObjectBase> mId2ObjDic;       // 道具 thidid到 Obj 字典，加快查找
 
         public DataPack()
         {
-            mObjList = new List<DataItemObjectBase>();
-            mId2ObjDic = new Dictionary<uint, DataItemObjectBase>();
+            mObjList = new MList<DataItemObjectBase>();
+            mId2ObjDic = new MDictionary<uint, DataItemObjectBase>();
         }
 
         // 添加测试数据

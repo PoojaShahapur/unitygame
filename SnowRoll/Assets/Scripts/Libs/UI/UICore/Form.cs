@@ -20,7 +20,7 @@ namespace SDK.Lib
 
         protected LuaCSBridgeForm mLuaCSBridgeForm;
         protected string mFormName;            // 这个是 Lua 中传的标识符，会传给 Lua 使用，客户端自己不用
-        protected Dictionary<GameObject, GOExtraInfo> mGo2Path;
+        protected MDictionary<GameObject, GOExtraInfo> mGo2Path;
 
 		public Form()
             : base()
@@ -34,7 +34,7 @@ namespace SDK.Lib
             m_alignVertial = (int)WindowAnchor.CENTER;
 			m_alignHorizontal = (int)WindowAnchor.CENTER;
 
-            mGo2Path = new Dictionary<GameObject, GOExtraInfo>();
+            mGo2Path = new MDictionary<GameObject, GOExtraInfo>();
 		}
 
         public UIFormID id

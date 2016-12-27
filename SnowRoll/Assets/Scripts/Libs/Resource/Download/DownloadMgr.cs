@@ -7,19 +7,19 @@ namespace SDK.Lib
      */
     public class DownloadMgr : MsgRouteHandleBase
     {
-        protected uint m_maxParral;                             // 最多同时加载的内容
-        protected uint m_curNum;                                // 当前加载的数量
-        protected DownloadData m_LoadData;
-        protected DownloadItem m_retLoadItem;
-        protected ResMsgRouteCB m_resMsgRouteCB;
+        protected uint mMaxParral;                             // 最多同时加载的内容
+        protected uint mCurNum;                                // 当前加载的数量
+        protected DownloadData mLoadData;
+        protected DownloadItem mRetLoadItem;
+        protected ResMsgRouteCB mResMsgRouteCB;
         protected List<string> mZeroRefResIDList;      // 没有引用的资源 ID 列表
         protected int mLoadingDepth;                   // 加载深度
 
         public DownloadMgr()
         {
-            m_maxParral = 8;
-            m_curNum = 0;
-            m_LoadData = new DownloadData();
+            mMaxParral = 8;
+            mCurNum = 0;
+            mLoadData = new DownloadData();
             mZeroRefResIDList = new List<string>();
             mLoadingDepth = 0;
 
@@ -29,8 +29,8 @@ namespace SDK.Lib
         public void init()
         {
             // 游戏逻辑处理
-            m_resMsgRouteCB = new ResMsgRouteCB();
-            Ctx.mInstance.mMsgRouteNotify.addOneDisp(m_resMsgRouteCB);
+            mResMsgRouteCB = new ResMsgRouteCB();
+            Ctx.mInstance.mMsgRouteNotify.addOneDisp(mResMsgRouteCB);
         }
 
         public void dispose()
@@ -46,7 +46,7 @@ namespace SDK.Lib
         // 是否有正在加载的 DownloadItem
         public bool hasDownloadItem(string resUniqueId)
         {
-            foreach (DownloadItem loadItem in m_LoadData.m_path2LDItem.Values)
+            foreach (DownloadItem loadItem in mLoadData.mPath2LDItem.Values)
             {
                 if (loadItem.getResUniqueId() == resUniqueId)
                 {
@@ -54,7 +54,7 @@ namespace SDK.Lib
                 }
             }
 
-            foreach (DownloadItem loadItem in m_LoadData.m_willLDItem)
+            foreach (DownloadItem loadItem in mLoadData.mWillLDItem)
             {
                 if (loadItem.getResUniqueId() == resUniqueId)
                 {
@@ -105,7 +105,7 @@ namespace SDK.Lib
 
         public DownloadItem getDownloadItem(string resUniqueId)
         {
-            foreach (DownloadItem loadItem in m_LoadData.m_path2LDItem.Values)
+            foreach (DownloadItem loadItem in mLoadData.mPath2LDItem.Values)
             {
                 if (loadItem.getResUniqueId() == resUniqueId)
                 {
@@ -113,7 +113,7 @@ namespace SDK.Lib
                 }
             }
 
-            foreach (DownloadItem loadItem in m_LoadData.m_willLDItem)
+            foreach (DownloadItem loadItem in mLoadData.mWillLDItem)
             {
                 if (loadItem.getResUniqueId() == resUniqueId)
                 {
@@ -147,19 +147,19 @@ namespace SDK.Lib
 
         protected void downloadWithDownloading(DownloadParam param)
         {
-            m_LoadData.m_path2LDItem[param.mResUniqueId].refCountResLoadResultNotify.refCount.incRef();
-            if (m_LoadData.m_path2LDItem[param.mResUniqueId].refCountResLoadResultNotify.resLoadState.hasLoaded())
+            mLoadData.mPath2LDItem[param.mResUniqueId].refCountResLoadResultNotify.refCount.incRef();
+            if (mLoadData.mPath2LDItem[param.mResUniqueId].refCountResLoadResultNotify.resLoadState.hasLoaded())
             {
                 if (param.mLoadEventHandle != null)
                 {
-                    param.mLoadEventHandle(m_LoadData.m_path2LDItem[param.mResUniqueId]);
+                    param.mLoadEventHandle(mLoadData.mPath2LDItem[param.mResUniqueId]);
                 }
             }
             else
             {
                 if (param.mLoadEventHandle != null)
                 {
-                    m_LoadData.m_path2LDItem[param.mResUniqueId].allLoadResEventDispatch.addEventHandle(null, param.mLoadEventHandle);
+                    mLoadData.mPath2LDItem[param.mResUniqueId].allLoadResEventDispatch.addEventHandle(null, param.mLoadEventHandle);
                 }
             }
 
@@ -172,16 +172,16 @@ namespace SDK.Lib
             {
                 DownloadItem loadItem = createDownloadItem(param);
 
-                if (m_curNum < m_maxParral)
+                if (mCurNum < mMaxParral)
                 {
                     // 先增加，否则退出的时候可能是先减 1 ，导致越界出现很大的值
-                    ++m_curNum;
-                    m_LoadData.m_path2LDItem[param.mResUniqueId] = loadItem;
-                    m_LoadData.m_path2LDItem[param.mResUniqueId].load();
+                    ++mCurNum;
+                    mLoadData.mPath2LDItem[param.mResUniqueId] = loadItem;
+                    mLoadData.mPath2LDItem[param.mResUniqueId].load();
                 }
                 else
                 {
-                    m_LoadData.m_willLDItem.Add(loadItem);
+                    mLoadData.mWillLDItem.Add(loadItem);
                 }
             }
 
@@ -192,7 +192,7 @@ namespace SDK.Lib
         public void load(DownloadParam param)
         {
             ++mLoadingDepth;
-            if (m_LoadData.m_path2LDItem.ContainsKey(param.mResUniqueId))
+            if (mLoadData.mPath2LDItem.ContainsKey(param.mResUniqueId))
             {
                 downloadWithDownloading(param);
             }
@@ -218,12 +218,12 @@ namespace SDK.Lib
         // 这个卸载有引用计数，如果有引用计数就卸载不了
         public void unload(string resUniqueId, MAction<IDispatchObject> loadEventHandle)
         {
-            if (m_LoadData.m_path2LDItem.ContainsKey(resUniqueId))
+            if (mLoadData.mPath2LDItem.ContainsKey(resUniqueId))
             {
                 // 移除事件监听器，因为很有可能移除的时候，资源还没加载完成，这个时候事件监听器中的处理函数列表还没有清理
-                m_LoadData.m_path2LDItem[resUniqueId].refCountResLoadResultNotify.loadResEventDispatch.removeEventHandle(null, loadEventHandle);
-                m_LoadData.m_path2LDItem[resUniqueId].refCountResLoadResultNotify.refCount.decRef();
-                if (m_LoadData.m_path2LDItem[resUniqueId].refCountResLoadResultNotify.refCount.isNoRef())
+                mLoadData.mPath2LDItem[resUniqueId].refCountResLoadResultNotify.loadResEventDispatch.removeEventHandle(null, loadEventHandle);
+                mLoadData.mPath2LDItem[resUniqueId].refCountResLoadResultNotify.refCount.decRef();
+                if (mLoadData.mPath2LDItem[resUniqueId].refCountResLoadResultNotify.refCount.isNoRef())
                 {
                     if (mLoadingDepth != 0)
                     {
@@ -241,7 +241,7 @@ namespace SDK.Lib
         public void unloadAll()
         {
             MList<string> resUniqueIdList = new MList<string>();
-            foreach (string resUniqueId in m_LoadData.m_path2LDItem.Keys)
+            foreach (string resUniqueId in mLoadData.mPath2LDItem.Keys)
             {
                 resUniqueIdList.Add(resUniqueId);
             }
@@ -269,7 +269,7 @@ namespace SDK.Lib
         {
             foreach (string path in mZeroRefResIDList)
             {
-                if (m_LoadData.m_path2LDItem[path].refCountResLoadResultNotify.refCount.isNoRef())
+                if (mLoadData.mPath2LDItem[path].refCountResLoadResultNotify.refCount.isNoRef())
                 {
                     unloadNoRef(path);
                 }
@@ -280,12 +280,12 @@ namespace SDK.Lib
         // 不考虑引用计数，直接卸载
         protected void unloadNoRef(string resUniqueId)
         {
-            if (m_LoadData.m_path2LDItem.ContainsKey(resUniqueId))
+            if (mLoadData.mPath2LDItem.ContainsKey(resUniqueId))
             {
-                m_LoadData.m_path2LDItem[resUniqueId].unload();
-                m_LoadData.m_path2LDItem[resUniqueId].reset();
-                m_LoadData.m_noUsedLDItem.Add(m_LoadData.m_path2LDItem[resUniqueId]);
-                m_LoadData.m_path2LDItem.Remove(resUniqueId);
+                mLoadData.mPath2LDItem[resUniqueId].unload();
+                mLoadData.mPath2LDItem[resUniqueId].reset();
+                mLoadData.mNoUsedLDItem.Add(mLoadData.mPath2LDItem[resUniqueId]);
+                mLoadData.mPath2LDItem.Remove(resUniqueId);
 
                 // 检查是否存在还没有执行的 LoadItem，如果存在就直接移除
                 removeWillLoadItem(resUniqueId);
@@ -298,7 +298,7 @@ namespace SDK.Lib
 
         public void removeWillLoadItem(string resUniqueId)
         {
-            foreach (DownloadItem loadItem in m_LoadData.m_willLDItem)
+            foreach (DownloadItem loadItem in mLoadData.mWillLDItem)
             {
                 if (loadItem.getResUniqueId() == resUniqueId)
                 {
@@ -324,15 +324,15 @@ namespace SDK.Lib
             item.allLoadResEventDispatch.dispatchEvent(item);
 
             releaseLoadItem(item);
-            --m_curNum;
+            --mCurNum;
             loadNextItem();
         }
 
         public void onLoaded(DownloadItem item)
         {
-            if (m_LoadData.m_path2LDItem.ContainsKey(item.getResUniqueId()))
+            if (mLoadData.mPath2LDItem.ContainsKey(item.getResUniqueId()))
             {
-                m_LoadData.m_path2LDItem[item.getResUniqueId()].init();
+                mLoadData.mPath2LDItem[item.getResUniqueId()].init();
             }
             else        // 如果资源已经没有使用的地方了
             {
@@ -343,47 +343,47 @@ namespace SDK.Lib
         public void onFailed(DownloadItem item)
         {
             string resUniqueId = item.getResUniqueId();
-            if (m_LoadData.m_path2LDItem.ContainsKey(resUniqueId))
+            if (mLoadData.mPath2LDItem.ContainsKey(resUniqueId))
             {
-                m_LoadData.m_path2LDItem[resUniqueId].failed();
+                mLoadData.mPath2LDItem[resUniqueId].failed();
             }
         }
 
         protected void releaseLoadItem(DownloadItem item)
         {
             item.reset();
-            m_LoadData.m_noUsedLDItem.Add(item);
-            m_LoadData.m_willLDItem.Remove(item);
-            m_LoadData.m_path2LDItem.Remove(item.getResUniqueId());
+            mLoadData.mNoUsedLDItem.Add(item);
+            mLoadData.mWillLDItem.Remove(item);
+            mLoadData.mPath2LDItem.Remove(item.getResUniqueId());
         }
 
         protected void loadNextItem()
         {
-            if (m_curNum < m_maxParral)
+            if (mCurNum < mMaxParral)
             {
-                if (m_LoadData.m_willLDItem.Count > 0)
+                if (mLoadData.mWillLDItem.Count > 0)
                 {
-                    string resUniqueId = (m_LoadData.m_willLDItem[0] as LoadItem).getResUniqueId();
-                    m_LoadData.m_path2LDItem[resUniqueId] = m_LoadData.m_willLDItem[0] as DownloadItem;
-                    m_LoadData.m_willLDItem.RemoveAt(0);
-                    m_LoadData.m_path2LDItem[resUniqueId].load();
+                    string resUniqueId = (mLoadData.mWillLDItem[0] as LoadItem).getResUniqueId();
+                    mLoadData.mPath2LDItem[resUniqueId] = mLoadData.mWillLDItem[0] as DownloadItem;
+                    mLoadData.mWillLDItem.RemoveAt(0);
+                    mLoadData.mPath2LDItem[resUniqueId].load();
 
-                    ++m_curNum;
+                    ++mCurNum;
                 }
             }
         }
 
         protected DownloadItem findDownloadItemFormPool()
         {
-            m_retLoadItem = null;
-            foreach (DownloadItem item in m_LoadData.m_noUsedLDItem)
+            mRetLoadItem = null;
+            foreach (DownloadItem item in mLoadData.mNoUsedLDItem)
             {
-                m_retLoadItem = item;
-                m_LoadData.m_noUsedLDItem.Remove(m_retLoadItem);
+                mRetLoadItem = item;
+                mLoadData.mNoUsedLDItem.Remove(mRetLoadItem);
                 break;
             }
 
-            return m_retLoadItem;
+            return mRetLoadItem;
         }
 
         // 资源加载完成，触发下一次加载

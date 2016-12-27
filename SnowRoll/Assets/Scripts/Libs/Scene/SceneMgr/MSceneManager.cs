@@ -36,7 +36,7 @@ namespace SDK.Lib
         }
 
         protected string mName;
-        protected Dictionary<string, MSceneNode> mSceneNodes;
+        protected MDictionary<string, MSceneNode> mSceneNodes;
         protected MSceneNode mSceneRoot;
         protected HashSet<MSceneNode> mAutoTrackingSceneNodes;
 
@@ -45,7 +45,7 @@ namespace SDK.Lib
         protected bool mResetIdentityView;
         protected bool mResetIdentityProj;
 
-        protected Dictionary<string, MCamera> mCameras;
+        protected MDictionary<string, MCamera> mCameras;
         protected bool mDisplayNodes;
         protected bool mShowBoundingBoxes;
         protected MList<MListener> mListeners;
@@ -64,9 +64,9 @@ namespace SDK.Lib
 
             mDisplayNodes = false;
             mShowBoundingBoxes = false;
-            mSceneNodes = new Dictionary<string, MSceneNode>();
+            mSceneNodes = new MDictionary<string, MSceneNode>();
             mAutoTrackingSceneNodes = new HashSet<MSceneNode>();
-            mCameras = new Dictionary<string, MCamera>();
+            mCameras = new MDictionary<string, MCamera>();
             mListeners = new MList<MListener>();
 
             if (MacroDef.MULTITHREADING_CULL)

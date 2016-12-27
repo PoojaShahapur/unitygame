@@ -22,16 +22,16 @@ namespace SDK.Lib
 	{
         private UILayerID mLayer;	                        // UIFormID.FirstLayer定义
         private Transform mLayerTrans;                     // 当前所在层根节点转换
-        private Dictionary<UIFormID, Form> mWinDic;        // 当前层所有的界面
+        private MDictionary<UIFormID, Form> mWinDic;        // 当前层所有的界面
         protected string mGoName;
 
         public UILayer(UILayerID layer) 
 		{
 			mLayer = layer;
-            mWinDic = new Dictionary<UIFormID, Form>();
+            mWinDic = new MDictionary<UIFormID, Form>();
 		}
 
-        public Dictionary<UIFormID, Form> winDic
+        public MDictionary<UIFormID, Form> winDic
 		{
             get
             {

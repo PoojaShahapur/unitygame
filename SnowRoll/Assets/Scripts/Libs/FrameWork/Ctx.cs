@@ -261,7 +261,7 @@
         {
             this.mLogSys.init();
             this.mInputMgr.init();
-            this.mDataPlayer.m_dataPack.postConstruct();
+            this.mDataPlayer.mDataPack.postConstruct();
 
             // 初始化重定向
             this.mResRedirect.init();

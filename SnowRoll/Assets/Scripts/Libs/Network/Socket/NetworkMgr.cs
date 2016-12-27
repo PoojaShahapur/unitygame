@@ -5,7 +5,7 @@ namespace SDK.Lib
     public class NetworkMgr
     {
         // 此处使用 Dictionary ，不适用 Hashable
-        public Dictionary<string, NetTCPClient> mId2ClientDic;
+        public MDictionary<string, NetTCPClient> mId2ClientDic;
         protected NetTCPClient mCurClient;
         protected NetThread mNetThread;
         public MMutex mVisitMutex;
@@ -14,7 +14,7 @@ namespace SDK.Lib
         public NetworkMgr()
         {
             mVisitMutex = new MMutex(false, "NetMutex");
-            mId2ClientDic = new Dictionary<string, NetTCPClient>();
+            mId2ClientDic = new MDictionary<string, NetTCPClient>();
             if (MacroDef.NET_MULTHREAD)
             {
                 startThread();

@@ -342,6 +342,12 @@ namespace SDK.Lib
             }
         }
 
+        // 获取 Hud 场景中的位置
+        virtual public UnityEngine.Vector3 getHudPos()
+        {
+            return this.mPos;
+        }
+
         virtual public void setBeingState(BeingState state)
         {
             if (this.mBeingState != state)

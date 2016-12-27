@@ -44,11 +44,11 @@ namespace SDK.Lib
      */
     public class ResRedirect
     {
-        protected Dictionary<string, ResRedirectItem> mOrigPath2ItemDic;
+        protected MDictionary<string, ResRedirectItem> mOrigPath2ItemDic;
 
         public ResRedirect()
         {
-            mOrigPath2ItemDic = new Dictionary<string, ResRedirectItem>();
+            mOrigPath2ItemDic = new MDictionary<string, ResRedirectItem>();
         }
 
         public void init()

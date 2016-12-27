@@ -2,8 +2,10 @@
 {
     public abstract class FSM
     {
-        public StateId mInitState;
-        public bool mUpdateOnlyWhenVisible;
+        protected MDictionary<int, FSMState> mNoUsedId2State;   // 当前没有使用的状态
+
+        protected StateId mInitState;
+        protected bool mUpdateOnlyWhenVisible;
 
         protected StateId mPreStateId;
         protected StateId mCurStateId;
@@ -13,12 +15,13 @@
 
         public FSM()
         {
-            mUpdateOnlyWhenVisible = true;
+            this.mNoUsedId2State = new MDictionary<int, FSMState>();
+            this.mUpdateOnlyWhenVisible = true;
         }
 
         virtual public void init()
         {
-            InitFSM();
+            this.InitFSM();
         }
 
         virtual public void dispose()
@@ -33,12 +36,17 @@
 
         public void MoveToState(StateId state)
         {
-            mCurState.OnStateExit();
-            mPreStateId = mCurStateId;
-            mCurStateId = state;
-            mPreState = mCurState;
-            mCurState = CreateState(state);
-            mCurState.OnStateEnter();
+            if (state != mCurStateId)
+            {
+                mNoUsedId2State[mCurStateId.GetId()] = mCurState;
+
+                mCurState.OnStateExit();
+                mPreStateId = mCurStateId;
+                mCurStateId = state;
+                mPreState = mCurState;
+                mCurState = CreateState(state);
+                mCurState.OnStateEnter();
+            }
         }
 
         protected abstract FSMState CreateState(StateId state);

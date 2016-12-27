@@ -39,8 +39,8 @@ namespace SDK.Lib
         {
             this.mAnimator = value;
 
-            this.AddEvent("eat", "eat", 0.9f);
-            this.AddEvent("split", "split", 1.033f);
+            this.AddEvent(CVAnimState.AttackStr, CVAnimState.AttackStr, 0.1f);
+            this.AddEvent(CVAnimState.SplitStr, CVAnimState.SplitStr, 0.1f);
         }
 
         public void enable()

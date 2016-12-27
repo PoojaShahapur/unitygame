@@ -56,7 +56,7 @@ namespace SDK.Lib
 
         public void loadAllUpdateFile()
         {
-            foreach (KeyValuePair<string, FileVerInfo> kv in Ctx.mInstance.mVersionSys.mServerVer.mPath2HashDic)
+            foreach (KeyValuePair<string, FileVerInfo> kv in Ctx.mInstance.mVersionSys.mServerVer.mPath2HashDic.getData())
             {
                 if(Ctx.mInstance.mVersionSys.mLocalVer.mPath2Ver_P_Dic.ContainsKey(kv.Key))
                 {

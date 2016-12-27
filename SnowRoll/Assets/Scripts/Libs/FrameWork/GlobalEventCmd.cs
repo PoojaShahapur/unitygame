@@ -9,5 +9,10 @@
         {
 
         }
+
+        static public void onEnterWorld()
+        {
+            Ctx.mInstance.mLuaSystem.onPlayerMainLoaded();
+        }
     }
 }

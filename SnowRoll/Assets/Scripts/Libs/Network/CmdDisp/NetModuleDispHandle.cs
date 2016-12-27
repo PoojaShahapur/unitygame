@@ -5,12 +5,12 @@ namespace SDK.Lib
 {
     public class NetModuleDispHandle
     {
-        protected Dictionary<int, AddOnceEventDispatch> mId2DispDic;
+        protected MDictionary<int, AddOnceEventDispatch> mId2DispDic;
         protected LuaCSBridgeNetDispHandle m_luaCSBridgeNetDispHandle;     // Lua 网络事件处理器
 
         public NetModuleDispHandle()
         {
-            mId2DispDic = new Dictionary<int, AddOnceEventDispatch>();
+            mId2DispDic = new MDictionary<int, AddOnceEventDispatch>();
         }
 
         public void addCmdHandle(int cmdId, NetCmdDispHandle callee, MAction<IDispatchObject> handle)

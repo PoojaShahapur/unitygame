@@ -14,7 +14,7 @@
 
         public void init()
         {
-            Ctx.mInstance.mGlobalDelegate.mCameraOrientChanged.addEventHandle(null, this.onCameraOrientChanged);
+            Ctx.mInstance.mGlobalDelegate.mCameraOrientChangedDispatch.addEventHandle(null, this.onCameraOrientChanged);
         }
 
         public void dispose()

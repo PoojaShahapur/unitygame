@@ -8,11 +8,11 @@ namespace SDK.Lib
      */
     public class LayerMgr
     {
-        public Dictionary<string, GameObject> mPath2Go;
+        public MDictionary<string, GameObject> mPath2Go;
 
         public LayerMgr()
         {
-            mPath2Go = new Dictionary<string, GameObject>();
+            mPath2Go = new MDictionary<string, GameObject>();
         }
     }
 }

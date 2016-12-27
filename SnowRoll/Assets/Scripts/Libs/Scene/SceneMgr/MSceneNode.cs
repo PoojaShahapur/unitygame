@@ -14,12 +14,12 @@ namespace SDK.Lib
         protected MVector3 mAutoTrackOffset;
         protected MVector3 mAutoTrackLocalDirection;
         protected bool mIsInSceneGraph;
-        protected Dictionary<string, MMovableObject> mObjectsByName;
+        protected MDictionary<string, MMovableObject> mObjectsByName;
         protected MList<MMovableObject> mObjectsList;
 
         public MSceneNode(string name = "")
         {
-            mObjectsByName = new Dictionary<string, MMovableObject>();
+            mObjectsByName = new MDictionary<string, MMovableObject>();
             mObjectsList = new MList<MMovableObject>();
         }
 
@@ -32,7 +32,7 @@ namespace SDK.Lib
             mYawFixed = false;
             mAutoTrackTarget = null;
             mIsInSceneGraph = false;
-            mObjectsByName = new Dictionary<string, MMovableObject>();
+            mObjectsByName = new MDictionary<string, MMovableObject>();
             mObjectsList = new MList<MMovableObject>();
             needUpdate();
         }
@@ -46,7 +46,7 @@ namespace SDK.Lib
             mYawFixed = false;
             mAutoTrackTarget = null;
             mIsInSceneGraph = false;
-            mObjectsByName = new Dictionary<string, MMovableObject>();
+            mObjectsByName = new MDictionary<string, MMovableObject>();
             mObjectsList = new MList<MMovableObject>();
             needUpdate();
         }
@@ -109,12 +109,12 @@ namespace SDK.Lib
 
         public ushort numAttachedObjects()
         {
-            return (ushort)(mObjectsByName.Count);
+            return (ushort)(mObjectsByName.Count());
         }
 
         public MMovableObject getAttachedObject(ushort index)
         {
-            if (index < mObjectsByName.Count)
+            if (index < mObjectsByName.Count())
             {
                 Dictionary<string, MMovableObject>.Enumerator iter = mObjectsByName.GetEnumerator();
                 while (index-- > 0) iter.MoveNext();
@@ -140,7 +140,7 @@ namespace SDK.Lib
 
         public MMovableObject detachObject(ushort index)
         {
-            if (index < mObjectsByName.Count)
+            if (index < mObjectsByName.Count())
             {
                 Dictionary<string, MMovableObject>.Enumerator iter = mObjectsByName.GetEnumerator();
                 while (index-- > 0) iter.MoveNext();
@@ -179,7 +179,7 @@ namespace SDK.Lib
 
         public void detachObject(MMovableObject obj)
         {
-            foreach (KeyValuePair<string, MMovableObject> kv in mObjectsByName)
+            foreach (KeyValuePair<string, MMovableObject> kv in mObjectsByName.getData())
             {
                 if (kv.Value == obj)
                 {
@@ -195,7 +195,7 @@ namespace SDK.Lib
 
         public void detachAllObjects()
         {
-            foreach (KeyValuePair<string, MMovableObject> kv in mObjectsByName)
+            foreach (KeyValuePair<string, MMovableObject> kv in mObjectsByName.getData())
             {
                 MMovableObject ret = kv.Value;
                 ret._notifyAttached((MSceneNode)null);
@@ -219,12 +219,12 @@ namespace SDK.Lib
         {
             mWorldAABB.setNull();
 
-            foreach (KeyValuePair<string, MMovableObject> kv in mObjectsByName)
+            foreach (KeyValuePair<string, MMovableObject> kv in mObjectsByName.getData())
             {
                 mWorldAABB.merge(kv.Value.getWorldBoundingBox(true));
             }
 
-            foreach (KeyValuePair<string, MNode> kv in mChildren)
+            foreach (KeyValuePair<string, MNode> kv in mChildren.getData())
             {
                 MSceneNode sceneChild = (MSceneNode)(kv.Value);
                 mWorldAABB.merge(sceneChild.mWorldAABB);
@@ -282,7 +282,7 @@ namespace SDK.Lib
         {
             base.updateFromParentImpl();
 
-            foreach (KeyValuePair<string, MMovableObject> kv in mObjectsByName)
+            foreach (KeyValuePair<string, MMovableObject> kv in mObjectsByName.getData())
             {
                 MMovableObject obj = kv.Value;
                 obj._notifyMoved();
@@ -331,7 +331,7 @@ namespace SDK.Lib
 
         public void removeAndDestroyAllChildren()
         {
-            foreach (KeyValuePair<string, MNode> kv in mChildren)
+            foreach (KeyValuePair<string, MNode> kv in mChildren.getData())
             {
                 MSceneNode sn = (MSceneNode)(kv.Value);
                 sn.removeAndDestroyAllChildren();
@@ -486,14 +486,14 @@ namespace SDK.Lib
 
         public void setVisible(bool visible, bool cascade)
         {
-            foreach (KeyValuePair<string, MMovableObject> kv in mObjectsByName)
+            foreach (KeyValuePair<string, MMovableObject> kv in mObjectsByName.getData())
             {
                 kv.Value.setVisible(visible);
             }
 
             if (cascade)
             {
-                foreach (KeyValuePair<string, MNode> kv in mChildren)
+                foreach (KeyValuePair<string, MNode> kv in mChildren.getData())
                 {
                     ((MSceneNode)kv.Value).setVisible(visible, cascade);
                 }

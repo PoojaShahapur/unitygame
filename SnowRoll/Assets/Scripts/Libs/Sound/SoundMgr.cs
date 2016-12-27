@@ -7,16 +7,16 @@ namespace SDK.Lib
      */
     public class SoundMgr 
     {
-        protected List<SoundItem> mAudioList;
-        protected Dictionary<string, SoundItem> mPath2SoundDic;
+        protected MList<SoundItem> mAudioList;
+        protected MDictionary<string, SoundItem> mPath2SoundDic;
         protected TimerItemBase mTimer;
-        protected List<SoundItem> mClearList;
+        protected MList<SoundItem> mClearList;
 
         public SoundMgr()
         {
-            this.mAudioList = new List<SoundItem>();
-            this.mPath2SoundDic = new Dictionary<string, SoundItem>();
-            this.mClearList = new List<SoundItem>();
+            this.mAudioList = new MList<SoundItem>();
+            this.mPath2SoundDic = new MDictionary<string, SoundItem>();
+            this.mClearList = new MList<SoundItem>();
         }
 
         public void play(SoundParam soundParam)
@@ -135,7 +135,7 @@ namespace SDK.Lib
         {
             bool hasNoLoop = false;
             // 遍历看有没有播放完成的
-            foreach(SoundItem sound in mAudioList)
+            foreach(SoundItem sound in mAudioList.list())
             {
                 if(sound.isEnd())
                 {
@@ -147,7 +147,7 @@ namespace SDK.Lib
                 }
             }
 
-            foreach(SoundItem sound in mClearList)
+            foreach(SoundItem sound in mClearList.list())
             {
                 unload(sound.mPath);
             }
@@ -193,7 +193,7 @@ namespace SDK.Lib
             }
 
             // 遍历看有没有播放完成的
-            foreach (SoundItem sound in mAudioList)
+            foreach (SoundItem sound in mAudioList.list())
             {
                 sound.unload();
             }

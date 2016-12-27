@@ -4,12 +4,12 @@ namespace SDK.Lib
 {
     public class XmlCfgMgr
     {
-        public Dictionary<XmlCfgID, XmlCfgBase> mId2CfgDic;        // 商城
+        public MDictionary<XmlCfgID, XmlCfgBase> mId2CfgDic;        // 商城
         private ResItem mRes;
 
         public XmlCfgMgr()
         {
-            mId2CfgDic = new Dictionary<XmlCfgID, XmlCfgBase>();
+            mId2CfgDic = new MDictionary<XmlCfgID, XmlCfgBase>();
         }
 
         protected void loadCfg<T>(XmlCfgID id) where T : XmlCfgBase, new()

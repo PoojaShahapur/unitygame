@@ -4,12 +4,12 @@ namespace SDK.Lib
 {
     public class EventDispatchGroup
     {
-        protected Dictionary<int, EventDispatch> mGroupID2DispatchDic;
+        protected MDictionary<int, EventDispatch> mGroupID2DispatchDic;
         protected bool mIsInLoop;       // 是否是在循环遍历中
 
         public EventDispatchGroup()
         {
-            this.mGroupID2DispatchDic = new Dictionary<int, EventDispatch>();
+            this.mGroupID2DispatchDic = new MDictionary<int, EventDispatch>();
             this.mIsInLoop = false;
         }
 

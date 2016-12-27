@@ -5,7 +5,12 @@
         public PlayerMainChildMovement(SceneEntityBase entity)
             : base(entity)
         {
+            Ctx.mInstance.mInputMgr.addKeyListener(InputKey.K, EventId.KEYUP_EVENT, onKUp);
+        }
 
+        protected void onKUp(IDispatchObject dispObj)
+        {
+            (this.mEntity as BeingEntity).setBeingState(BeingState.eBSAttack);
         }
 
         override public void init()
@@ -18,6 +23,8 @@
         override public void dispose()
         {
             base.dispose();
+
+            this.removeParentOrientChangedhandle();
         }
 
         override public void onTick(float delta)
@@ -84,6 +91,23 @@
             {
                 (this.mEntity as BeingEntity).setDestRotate((this.mEntity as PlayerChild).mParentPlayer.getRotateEulerAngle(), true);
             }
+        }
+
+        // 添加监听 Parent 方向位置改变事件
+        public void addParentOrientChangedhandle()
+        {
+            Ctx.mInstance.mGlobalDelegate.mMainOrientChangedDispatch.addEventHandle(null, this.handleParentOrientChanged);
+            Ctx.mInstance.mGlobalDelegate.mMainPosChangedDispatch.addEventHandle(null, this.handleParentPosChanged);
+            Ctx.mInstance.mGlobalDelegate.mMainOrientStopChangedDispatch.addEventHandle(null, this.handleParentOrientStopChanged);
+            Ctx.mInstance.mGlobalDelegate.mMainPosStopChangedDispatch.addEventHandle(null, this.handleParentPosStopChanged);
+        }
+
+        protected void removeParentOrientChangedhandle()
+        {
+            Ctx.mInstance.mGlobalDelegate.mMainOrientChangedDispatch.removeEventHandle(null, this.handleParentOrientChanged);
+            Ctx.mInstance.mGlobalDelegate.mMainPosChangedDispatch.removeEventHandle(null, this.handleParentPosChanged);
+            Ctx.mInstance.mGlobalDelegate.mMainOrientStopChangedDispatch.removeEventHandle(null, this.handleParentOrientStopChanged);
+            Ctx.mInstance.mGlobalDelegate.mMainPosStopChangedDispatch.removeEventHandle(null, this.handleParentPosStopChanged);
         }
 
         //---------------------- SteerForSeparation Start ---------------------------

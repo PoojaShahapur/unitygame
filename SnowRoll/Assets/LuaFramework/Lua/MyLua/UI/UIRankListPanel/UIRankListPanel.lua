@@ -15,7 +15,6 @@ GlobalNS.RankListPanelNS[M.clsName] = M;
 function M:ctor()
 	self.mId = GlobalNS.UIFormID.eUIRankListPanel;
 	self.mData = GlobalNS.new(GlobalNS.RankListPanelNS.RankListPanelData);
-    itemCount = 30;
 end
 
 function M:dtor()
@@ -30,15 +29,11 @@ function M:onInit()
 	self.mBackGameBtn = GlobalNS.new(GlobalNS.AuxButton);
 	self.mBackGameBtn:addEventHandle(self, self.onBtnClk);
 
+    --加载listitem prefab
+    self.mListitem_prefab = GlobalNS.new(GlobalNS.AuxPrefabLoader);
+
     --listitems数组
     self.listitems = { };
-
-    --排名信息
-    self.topN = { };
-    self.topN[1] = {m_isRobot=false, m_name="528", m_radius=1, m_swallownum=10};
-    for i=2,itemCount do
-        self.topN[i] = {m_isRobot=true, m_name="god", m_radius=i, m_swallownum=i+10};
-    end
 end
 
 function M:onReady()
@@ -54,19 +49,20 @@ function M:onReady()
     --获取ScrollRect下Grid中的RectTransform组件
     self.mRankGrid = GlobalNS.UtilApi.getComByPath(self.mScrollRect, "Grid", "RectTransform");
     
-    local gridHeight = itemCount * self.listitem_height - (itemCount - 1) * 2;
+    local gridHeight = GCtx.mGameData.ranklistCount * self.listitem_height - (GCtx.mGameData.ranklistCount - 1) * 2;
     self.mRankGrid.sizeDelta = Vector2.New(self.listitem_width, gridHeight);
     
     --获取MyRank的GameObject对象
     self.mMyRankArea = GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.RankBG, "MyRank");
 
     --加载listitem prefab
-    self.mListitem_prefab = GlobalNS.new(GlobalNS.AuxPrefabLoader);
-	self.mListitem_prefab:asyncLoad("UI/UIRankListPanel/ListItem.prefab", self, self.onPrefabLoaded);
+	self.mListitem_prefab:asyncLoad("UI/UIRankListPanel/ListItem.prefab", self, self.onPrefabLoaded); 
+    
+    self:updateUIData();
 end
 
 function M:onShow()
-    M.super.onShow(self);
+    M.super.onShow(self);    
 end
 
 function M:onHide()
@@ -78,14 +74,17 @@ function M:onExit()
 end
 
 function M:onBtnClk()
-	GCtx.mLogSys:log("Back Game Btn Touch", GlobalNS.LogTypeId.eLogCommon);
+    self:exit();
+	GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormID.eUIStartGame);
+    GlobalNS.CSSystem.Ctx.mInstance.mModuleSys:unloadModule(GlobalNS.CSSystem.ModuleID.GAMEMN);
+    GlobalNS.CSSystem.Ctx.mInstance.mModuleSys:loadModule(GlobalNS.CSSystem.ModuleID.LOGINMN);
 end
 
 function M:onPrefabLoaded(dispObj)
     --获取listitemprefab对象
     self.mListitemPrefab = self.mListitem_prefab:getPrefabTmpl();
     
-    for i=1, itemCount do
+    for i=1, GCtx.mGameData.ranklistCount do
         local y_pos = 197.5 - (self.listitem_height-2) * (i - 1);  --  197.5:第一个item的起始位置
         --用listitemprefab生成GameObject对象
         local listitem = GlobalNS.UtilApi.Instantiate(self.mListitemPrefab);
@@ -97,18 +96,17 @@ function M:onPrefabLoaded(dispObj)
 
         self.listitems[i] = listitem;
     end
-    
+
     --滚动到起始位置，默认会在中间
     GlobalNS.UtilApi.getComByPath(self.RankBG, "ScrollRect", "ScrollRect").verticalNormalizedPosition = 1;
 
-    self:SetMyRankInfo();
-    self:SetTopXRankInfo();
+    self:updateUIData();
 end
 
 --我的排名数据
 function M:SetMyRankInfo()
-    for i=1, itemCount do
-        if(not self.topN[i].m_isRobot) then
+    for i=1, GCtx.mGameData.ranklistCount do
+        if(GCtx.mGameData.rankinfolist[i].m_rank == GCtx.mGameData.myRank) then
             --排名
             local myRank = GlobalNS.UtilApi.getComByPath(self.mMyRankArea, "Rank", "Text");
             myRank.text = "" .. i;
@@ -121,15 +119,15 @@ function M:SetMyRankInfo()
 
             --用户名
             local myName = GlobalNS.UtilApi.getComByPath(self.mMyRankArea, "Name", "Text");
-            myName.text = self.topN[i].m_name;
+            myName.text = GCtx.mGameData.rankinfolist[i].m_name;
 
             --本轮质量
             local myMass = GlobalNS.UtilApi.getComByPath(self.mMyRankArea, "Mass", "Text");
-            myMass.text = self.topN[i].m_radius;
+            myMass.text = GlobalNS.UtilMath.getShowMass(GCtx.mGameData.rankinfolist[i].m_radius);
 
             --吞食数量
             local mySwallowNum = GlobalNS.UtilApi.getComByPath(self.mMyRankArea, "SwallowNum", "Text");
-            mySwallowNum.text = self.topN[i].m_swallownum;
+            mySwallowNum.text = GCtx.mGameData.rankinfolist[i].m_swallownum;
 
             break;
         end
@@ -138,8 +136,9 @@ end
 
 --排行榜数据
 function M:SetTopXRankInfo()
-    for i=1, itemCount do
+    for i=1, GCtx.mGameData.ranklistCount do
         local listitem = self.listitems[i].transform;
+        
         --排名
         local Rank = GlobalNS.UtilApi.getComByPath(listitem, "Rank", "Text");
         Rank.text = "" .. i;
@@ -151,15 +150,22 @@ function M:SetTopXRankInfo()
 
         --用户名
         local Name = GlobalNS.UtilApi.getComByPath(listitem, "Name", "Text");
-        Name.text = self.topN[i].m_name;
+        Name.text = GCtx.mGameData.rankinfolist[i].m_name;
 
         --本轮质量
         local Mass = GlobalNS.UtilApi.getComByPath(listitem, "Mass", "Text");
-        Mass.text = self.topN[i].m_radius;
+        Mass.text = GlobalNS.UtilMath.getShowMass(GCtx.mGameData.rankinfolist[i].m_radius);
 
         --吞食数量
         local SwallowNum = GlobalNS.UtilApi.getComByPath(listitem, "SwallowNum", "Text");
-        SwallowNum.text = self.topN[i].m_swallownum;   
+        SwallowNum.text = GCtx.mGameData.rankinfolist[i].m_swallownum;   
+    end
+end
+
+function M:updateUIData()
+    if #self.listitems == GCtx.mGameData.ranklistCount then        
+        self:SetMyRankInfo();
+        self:SetTopXRankInfo();
     end
 end
 

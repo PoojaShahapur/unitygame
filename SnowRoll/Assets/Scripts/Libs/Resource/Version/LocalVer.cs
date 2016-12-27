@@ -8,9 +8,9 @@ namespace SDK.Lib
      */
     public class LocalVer : FileVerBase
     {
-        public Dictionary<string, FileVerInfo> mPath2Ver_R_Dic;    // Resources 文件夹版本
-        public Dictionary<string, FileVerInfo> mPath2Ver_S_Dic;    // StreamingAssets 文件夹版本
-        public Dictionary<string, FileVerInfo> mPath2Ver_P_Dic;    // Persistent 文件夹版本
+        public MDictionary<string, FileVerInfo> mPath2Ver_R_Dic;    // Resources 文件夹版本
+        public MDictionary<string, FileVerInfo> mPath2Ver_S_Dic;    // StreamingAssets 文件夹版本
+        public MDictionary<string, FileVerInfo> mPath2Ver_P_Dic;    // Persistent 文件夹版本
 
         protected MDataStream mMiniDataStream;      // Mini 版本
         protected MDataStream mRDataStream;         // Resources 版本
@@ -19,9 +19,9 @@ namespace SDK.Lib
 
         public LocalVer()
         {
-            this.mPath2Ver_R_Dic = new Dictionary<string, FileVerInfo>();
-            this.mPath2Ver_S_Dic = new Dictionary<string, FileVerInfo>();
-            this.mPath2Ver_P_Dic = new Dictionary<string, FileVerInfo>();
+            this.mPath2Ver_R_Dic = new MDictionary<string, FileVerInfo>();
+            this.mPath2Ver_S_Dic = new MDictionary<string, FileVerInfo>();
+            this.mPath2Ver_P_Dic = new MDictionary<string, FileVerInfo>();
         }
 
         public void load()

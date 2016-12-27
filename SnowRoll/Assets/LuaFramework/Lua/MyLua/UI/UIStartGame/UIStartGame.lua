@@ -139,8 +139,9 @@ function M:onExit()
 end
 
 function M:getRandomNickName()
-    local nickname = "Bone";
-    return nickname;
+    local nickname = { "Bone", "哈哈哈", "红红火火", "吃豆人", "哆啦A梦"};
+    local index = math.random(5);
+    return nickname[index];
 end
 
 function M:loginOrCreateAccount(selectEnterMode)
@@ -156,7 +157,12 @@ function M:loginOrCreateAccount(selectEnterMode)
                GlobalNS.CSSystem.Ctx.mInstance.mLoginSys.mLoginNetHandleCB_KBE:setAccountAndPasswd(self.username, self.password);
          
                if SDK.Lib.SelectEnterMode.eLoginAccount == selectEnterMode then
-                  GlobalNS.CSSystem.Ctx.mInstance.mLoginSys.mLoginNetHandleCB_KBE:login();
+                  if not GCtx.mGameData.isRelogin then
+                      GlobalNS.CSSystem.Ctx.mInstance.mLoginSys.mLoginNetHandleCB_KBE:login();
+                      GCtx.mGameData.isRelogin = true;
+                  else
+                      GlobalNS.CSSystem.Ctx.mInstance.mLoginSys.mLoginNetHandleCB_KBE:relogin();
+                  end                  
                elseif SDK.Lib.SelectEnterMode.eCreateAccount == selectEnterMode then
                   GlobalNS.CSSystem.Ctx.mInstance.mLoginSys.mLoginNetHandleCB_KBE:createAccount();
                else
@@ -172,10 +178,7 @@ end
 
 function M:onNickNameBtnClk()
     --随机昵称
-    --self.inputText.text = self:getRandomNickName();
-
-    --测试  创建账户
-    self:loginOrCreateAccount(SDK.Lib.SelectEnterMode.eCreateAccount);
+    self.inputText.text = self:getRandomNickName();
 end
 
 function M:onStartGameBtnClk()

@@ -9,7 +9,7 @@ namespace SDK.Lib
     {
         protected LangID mLangID = LangID.zh_CN;                    // 当前语言，默认简体中文
         protected ArrayList mNodeList = null;                       // 整个的 xml 中 <t> 列表
-        protected Dictionary<LangID, LangAttrItem> mId2FileName;    // 语言到文件名字的映射
+        protected MDictionary<LangID, LangAttrItem> mId2FileName;    // 语言到文件名字的映射
         protected ArrayList mTmpEleList;                            // 临时的元素列表
         protected SecurityElement mTmpEle;                         // 临时的元素
         protected bool mIsLoaded = false;                          // 语言文件是否加载
@@ -20,7 +20,7 @@ namespace SDK.Lib
 
         public LangMgr()
         {
-            mId2FileName = new Dictionary<LangID, LangAttrItem>();
+            mId2FileName = new MDictionary<LangID, LangAttrItem>();
             mLoadMutex = new MMutex(false, "LangMgr_Mutex");
 
             mId2FileName[LangID.zh_CN] = new LangAttrItem();
