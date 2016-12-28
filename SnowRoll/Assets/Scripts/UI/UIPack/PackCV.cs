@@ -5,6 +5,6 @@
      */
     public class PackComPath
     {
-        public const string Group = "VScrollViewScrollbar/Viewport/Content";           // Group
+        public const string Group = "VGridScrollViewScrollbar/Viewport/Content";           // Group
     }
 }
