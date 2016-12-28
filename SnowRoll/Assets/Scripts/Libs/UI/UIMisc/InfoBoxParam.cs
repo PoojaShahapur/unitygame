@@ -21,7 +21,7 @@ namespace SDK.Lib
      */
     public class InfoBoxParam : IRecycle
     {
-        public UIFormID m_formID = UIFormID.eUITest;       // form 的 id
+        public UIFormId m_formID = UIFormId.eUITest;       // form 的 id
         public InfoBoxModeType m_infoBoxModeType = InfoBoxModeType.eMode_2;
         // 模式一
         public string m_inputTips;        // 输入框默认信息
@@ -33,7 +33,7 @@ namespace SDK.Lib
         public void resetDefault()
         {
             m_infoBoxModeType = InfoBoxModeType.eMode_2;
-            //m_formID = UIFormID.eUIInfo;
+            //m_formID = UIFormId.eUIInfo;
             m_midDesc = "";
             m_btnClkDisp = null;
         }

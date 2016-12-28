@@ -28,37 +28,37 @@ namespace SDK.Lib
             mLayerList = new MList<UILayer>();
 
             int idx = 0;
-            for (idx = 0; idx < (int)UILayerID.eMaxLayer; ++idx)
+            for (idx = 0; idx < (int)UILayerId.eMaxLayer; ++idx)
             {
-                mLayerList.Add(new UILayer((UILayerID)idx));
+                mLayerList.Add(new UILayer((UILayerId)idx));
             }
 
             if (UICanvasID.eFirstCanvas == mCanvasID)
             {
-                mLayerList[(int)UILayerID.eBtmLayer].goName = NotDestroyPath.ND_CV_UIBtmLayer_FirstCanvas;
-                mLayerList[(int)UILayerID.eFirstLayer].goName = NotDestroyPath.ND_CV_UIFirstLayer_FirstCanvas;
-                mLayerList[(int)UILayerID.eSecondLayer].goName = NotDestroyPath.ND_CV_UISecondLayer_FirstCanvas;
-                mLayerList[(int)UILayerID.eThirdLayer].goName = NotDestroyPath.ND_CV_UIThirdLayer_FirstCanvas;
-                mLayerList[(int)UILayerID.eForthLayer].goName = NotDestroyPath.ND_CV_UIForthLayer_FirstCanvas;
-                mLayerList[(int)UILayerID.eTopLayer].goName = NotDestroyPath.ND_CV_UITopLayer_FirstCanvas;
+                mLayerList[(int)UILayerId.eBtmLayer].goName = NotDestroyPath.ND_CV_UIBtmLayer_FirstCanvas;
+                mLayerList[(int)UILayerId.eFirstLayer].goName = NotDestroyPath.ND_CV_UIFirstLayer_FirstCanvas;
+                mLayerList[(int)UILayerId.eSecondLayer].goName = NotDestroyPath.ND_CV_UISecondLayer_FirstCanvas;
+                mLayerList[(int)UILayerId.eThirdLayer].goName = NotDestroyPath.ND_CV_UIThirdLayer_FirstCanvas;
+                mLayerList[(int)UILayerId.eForthLayer].goName = NotDestroyPath.ND_CV_UIForthLayer_FirstCanvas;
+                mLayerList[(int)UILayerId.eTopLayer].goName = NotDestroyPath.ND_CV_UITopLayer_FirstCanvas;
             }
             else if(UICanvasID.eSecondCanvas == mCanvasID)
             {
-                mLayerList[(int)UILayerID.eBtmLayer].goName = NotDestroyPath.ND_CV_UIBtmLayer_SecondCanvas;
-                mLayerList[(int)UILayerID.eFirstLayer].goName = NotDestroyPath.ND_CV_UIFirstLayer_SecondCanvas;
-                mLayerList[(int)UILayerID.eSecondLayer].goName = NotDestroyPath.ND_CV_UISecondLayer_SecondCanvas;
-                mLayerList[(int)UILayerID.eThirdLayer].goName = NotDestroyPath.ND_CV_UIThirdLayer_SecondCanvas;
-                mLayerList[(int)UILayerID.eForthLayer].goName = NotDestroyPath.ND_CV_UIForthLayer_SecondCanvas;
-                mLayerList[(int)UILayerID.eTopLayer].goName = NotDestroyPath.ND_CV_UITopLayer_SecondCanvas;
+                mLayerList[(int)UILayerId.eBtmLayer].goName = NotDestroyPath.ND_CV_UIBtmLayer_SecondCanvas;
+                mLayerList[(int)UILayerId.eFirstLayer].goName = NotDestroyPath.ND_CV_UIFirstLayer_SecondCanvas;
+                mLayerList[(int)UILayerId.eSecondLayer].goName = NotDestroyPath.ND_CV_UISecondLayer_SecondCanvas;
+                mLayerList[(int)UILayerId.eThirdLayer].goName = NotDestroyPath.ND_CV_UIThirdLayer_SecondCanvas;
+                mLayerList[(int)UILayerId.eForthLayer].goName = NotDestroyPath.ND_CV_UIForthLayer_SecondCanvas;
+                mLayerList[(int)UILayerId.eTopLayer].goName = NotDestroyPath.ND_CV_UITopLayer_SecondCanvas;
             }
             else if (UICanvasID.eHudCanvas == mCanvasID)
             {
-                mLayerList[(int)UILayerID.eBtmLayer].goName = NotDestroyPath.ND_CV_UIBtmLayer_HudCanvas;
-                mLayerList[(int)UILayerID.eFirstLayer].goName = NotDestroyPath.ND_CV_UIFirstLayer_HudCanvas;
-                mLayerList[(int)UILayerID.eSecondLayer].goName = NotDestroyPath.ND_CV_UISecondLayer_HudCanvas;
-                mLayerList[(int)UILayerID.eThirdLayer].goName = NotDestroyPath.ND_CV_UIThirdLayer_HudCanvas;
-                mLayerList[(int)UILayerID.eForthLayer].goName = NotDestroyPath.ND_CV_UIForthLayer_HudCanvas;
-                mLayerList[(int)UILayerID.eTopLayer].goName = NotDestroyPath.ND_CV_UITopLayer_HudCanvas;
+                mLayerList[(int)UILayerId.eBtmLayer].goName = NotDestroyPath.ND_CV_UIBtmLayer_HudCanvas;
+                mLayerList[(int)UILayerId.eFirstLayer].goName = NotDestroyPath.ND_CV_UIFirstLayer_HudCanvas;
+                mLayerList[(int)UILayerId.eSecondLayer].goName = NotDestroyPath.ND_CV_UISecondLayer_HudCanvas;
+                mLayerList[(int)UILayerId.eThirdLayer].goName = NotDestroyPath.ND_CV_UIThirdLayer_HudCanvas;
+                mLayerList[(int)UILayerId.eForthLayer].goName = NotDestroyPath.ND_CV_UIForthLayer_HudCanvas;
+                mLayerList[(int)UILayerId.eTopLayer].goName = NotDestroyPath.ND_CV_UITopLayer_HudCanvas;
             }
         }
 
@@ -83,7 +83,7 @@ namespace SDK.Lib
             this.mCanvas = UtilApi.TransFindChildByPObjAndPath(Ctx.mInstance.mLayerMgr.mPath2Go[NotDestroyPath.ND_CV_Root], mGoName).GetComponent<UnityEngine.Canvas>();
 
             int idx = 0;
-            for (idx = 0; idx < (int)UILayerID.eMaxLayer; ++idx)
+            for (idx = 0; idx < (int)UILayerId.eMaxLayer; ++idx)
             {
                 mLayerList[idx].findLayerGOAndTrans();
             }

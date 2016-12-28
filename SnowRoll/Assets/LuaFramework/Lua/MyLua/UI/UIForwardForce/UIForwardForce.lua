@@ -13,7 +13,7 @@ M.clsName = "UIForwardForce";
 GlobalNS.ForwardForceNS[M.clsName] = M;
 
 function M:ctor()
-	self.mId = GlobalNS.UIFormID.eUIForwardForce;
+	self.mId = GlobalNS.UIFormId.eUIForwardForce;
 	self.mData = GlobalNS.new(GlobalNS.ForwardForceNS.ForwardForceData);
 end
 

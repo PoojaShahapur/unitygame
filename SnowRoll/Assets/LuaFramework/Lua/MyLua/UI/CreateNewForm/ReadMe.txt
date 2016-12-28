@@ -11,6 +11,6 @@
 4. 双击CreateNewForm.py脚本，此时目录下生成新的界面目录，将其剪切后放置在上级UI目录下
 
 5. 测试自己的窗口是否成功。 修改LoginSys.cs文件中形如Ctx.mInstance.mLuaSystem.openForm(10002)代码，将10002替换为自己的界面id  
-   ★★★另：界面id从10000开始，在UIFormID.lua文件中查看自己的id
+   ★★★另：界面id从10000开始，在UIFormId.lua文件中查看自己的id
 
-6. ★★★注意：如果重复执行该脚本会在UIFormID.lua和UIAttrSystem.lua文件中多次添加数据，请手动删除★★★
+6. ★★★注意：如果重复执行该脚本会在UIFormId.lua和UIAttrSystem.lua文件中多次添加数据，请手动删除★★★

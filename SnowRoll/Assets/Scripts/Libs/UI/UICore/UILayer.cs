@@ -1,9 +1,8 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace SDK.Lib
 {
-    public enum UILayerID
+    public enum UILayerId
     {
         eBtmLayer,                   // 最低层啊，一般不放东西，以备不时之需，目前放模糊的界面
         eFirstLayer,                 // 第一层，聊天之类的主界面窗口
@@ -20,18 +19,18 @@ namespace SDK.Lib
      */
 	public class UILayer 
 	{
-        private UILayerID mLayer;	                        // UIFormID.FirstLayer定义
+        private UILayerId mLayer;	                        // UIFormId.FirstLayer定义
         private Transform mLayerTrans;                     // 当前所在层根节点转换
-        private MDictionary<UIFormID, Form> mWinDic;        // 当前层所有的界面
+        private MDictionary<UIFormId, Form> mWinDic;        // 当前层所有的界面
         protected string mGoName;
 
-        public UILayer(UILayerID layer) 
+        public UILayer(UILayerId layer) 
 		{
 			mLayer = layer;
-            mWinDic = new MDictionary<UIFormID, Form>();
+            mWinDic = new MDictionary<UIFormId, Form>();
 		}
 
-        public MDictionary<UIFormID, Form> winDic
+        public MDictionary<UIFormId, Form> winDic
 		{
             get
             {
@@ -77,7 +76,7 @@ namespace SDK.Lib
 			}
 		}
 
-        public UILayerID layerID
+        public UILayerId layerID
 		{
             get
             {

@@ -13,7 +13,7 @@ M.clsName = "UIRelivePanel";
 GlobalNS.RelivePanelNS[M.clsName] = M;
 
 function M:ctor()
-	self.mId = GlobalNS.UIFormID.eUIRelivePanel;
+	self.mId = GlobalNS.UIFormId.eUIRelivePanel;
 	self.mData = GlobalNS.new(GlobalNS.RelivePanelNS.RelivePanelData);
     self.mTimer = GlobalNS.new(GlobalNS.TimerItemBase);
 end

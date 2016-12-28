@@ -43,11 +43,11 @@ end
 -- 主角加载完成
 function M.onPlayerMainLoaded()
     --加载场景上的UI组件，主角加载完成后再加载UI，否则UI拿不到主角数据
-    GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormID.eUIPlayerDataPanel);
-    --GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormID.eUIForwardForce);
-    GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormID.eUIRockerPanel);
-    GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormID.eUIOptionPanel);
-    GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormID.eUITopXRankPanel);
+    GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormId.eUIPlayerDataPanel);
+    --GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormId.eUIForwardForce);
+    GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormId.eUIRockerPanel);
+    GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormId.eUIOptionPanel);
+    GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormId.eUITopXRankPanel);
 end
 
 -- 帧循环
@@ -69,8 +69,8 @@ end
 
 -- 用户昵称
 function M.getUserNickName()
-    if GCtx.mUiMgr:hasForm(GlobalNS.UIFormID.eUIStartGame) then
-        local form = GCtx.mUiMgr:getForm(GlobalNS.UIFormID.eUIStartGame);
+    if GCtx.mUiMgr:hasForm(GlobalNS.UIFormId.eUIStartGame) then
+        local form = GCtx.mUiMgr:getForm(GlobalNS.UIFormId.eUIStartGame);
         if nil ~= form and form:isVisible() then            
             return form.username;
         end

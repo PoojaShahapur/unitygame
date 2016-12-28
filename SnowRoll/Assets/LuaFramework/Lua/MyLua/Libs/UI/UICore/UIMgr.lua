@@ -4,7 +4,7 @@ MLoader("MyLua.Libs.Core.GObject");
 MLoader("MyLua.Libs.Core.ClassLoader");
 MLoader("MyLua.Libs.DataStruct.MStack");
 MLoader("MyLua.Libs.DataStruct.MDictionary");
-MLoader("MyLua.Libs.UI.UICore.UIFormID");
+MLoader("MyLua.Libs.UI.UICore.UIFormId");
 MLoader("MyLua.Libs.UI.UICore.UICanvas");
 MLoader("MyLua.Libs.AuxComponent.AuxLoader.AuxUIPrefabLoader");
 
@@ -27,8 +27,8 @@ function M:dtor()
 end
 
 function M:init()
-	-- UIFormID 初始化构造操作
-	GlobalNS.UIFormID.init();
+	-- UIFormId 初始化构造操作
+	GlobalNS.UIFormId.init();
 	-- 属性系统初始化
 	GlobalNS.UIAttrSystem.init();
 	self:initCanvas();

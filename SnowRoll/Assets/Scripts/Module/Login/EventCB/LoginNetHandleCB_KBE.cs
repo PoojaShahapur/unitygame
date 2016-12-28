@@ -77,13 +77,13 @@ namespace Game.Login
             labelColor = Color.red;
             labelMsg = s;
 
-            UILogin uiLogin = Ctx.mInstance.mUiMgr.getForm(UIFormID.eUILogin) as UILogin;
+            UILogin uiLogin = Ctx.mInstance.mUiMgr.getForm(UIFormId.eUILogin) as UILogin;
             if(null != uiLogin)
             {
                 uiLogin.err(s);
             }
 
-            UISelectRole uiSelectRole = Ctx.mInstance.mUiMgr.getForm(UIFormID.eUISelectRole) as UISelectRole;
+            UISelectRole uiSelectRole = Ctx.mInstance.mUiMgr.getForm(UIFormId.eUISelectRole) as UISelectRole;
             if(null != uiSelectRole)
             {
                 uiSelectRole.err(s);
@@ -95,13 +95,13 @@ namespace Game.Login
             labelColor = Color.green;
             labelMsg = s;
 
-            UILogin uiLogin = Ctx.mInstance.mUiMgr.getForm(UIFormID.eUILogin) as UILogin;
+            UILogin uiLogin = Ctx.mInstance.mUiMgr.getForm(UIFormId.eUILogin) as UILogin;
             if (null != uiLogin)
             {
                 uiLogin.info(s);
             }
 
-            UISelectRole uiSelectRole = Ctx.mInstance.mUiMgr.getForm(UIFormID.eUISelectRole) as UISelectRole;
+            UISelectRole uiSelectRole = Ctx.mInstance.mUiMgr.getForm(UIFormId.eUISelectRole) as UISelectRole;
             if (null != uiSelectRole)
             {
                 uiSelectRole.info(s);
@@ -204,9 +204,9 @@ namespace Game.Login
         {
             info("login is successfully!(登陆成功!)");
 
-            //Ctx.mInstance.mUiMgr.exitForm(UIFormID.eUILogin);
-            //Ctx.mInstance.mLuaSystem.exitForm((int)UIFormID.eUIStartGame);
-            //Ctx.mInstance.mUiMgr.loadAndShow(UIFormID.eUISelectRole);
+            //Ctx.mInstance.mUiMgr.exitForm(UIFormId.eUILogin);
+            //Ctx.mInstance.mLuaSystem.exitForm((int)UIFormId.eUIStartGame);
+            //Ctx.mInstance.mUiMgr.loadAndShow(UIFormId.eUISelectRole);
 
             ui_state = 1;
             //Application.LoadLevel("selavatars");
@@ -218,7 +218,7 @@ namespace Game.Login
             //Application.LoadLevel("login");
 
             ui_state = 0;
-            Ctx.mInstance.mUiMgr.loadAndShow(UIFormID.eUILogin);
+            Ctx.mInstance.mUiMgr.loadAndShow(UIFormId.eUILogin);
         }
 
         public void Loginapp_importClientMessages()
@@ -240,7 +240,7 @@ namespace Game.Login
         {
             ui_avatarList = avatarList;
 
-            UISelectRole uiSelectRole = Ctx.mInstance.mUiMgr.getForm(UIFormID.eUISelectRole) as UISelectRole;
+            UISelectRole uiSelectRole = Ctx.mInstance.mUiMgr.getForm(UIFormId.eUISelectRole) as UISelectRole;
             if (null != uiSelectRole)
             {
                 uiSelectRole.setAvatarList(ui_avatarList);

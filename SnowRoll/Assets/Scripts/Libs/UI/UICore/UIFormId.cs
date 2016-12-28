@@ -3,7 +3,7 @@ namespace SDK.Lib
 	/**
 	 * 界面ID定义
 	 */
-	public enum UIFormID
+	public enum UIFormId
 	{
         // 第二层
         eUITest,            // 测试界面

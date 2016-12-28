@@ -33,7 +33,7 @@ function M:setRankInfoList(args)
         };
     end
 
-    local form = GCtx.mUiMgr:getForm(GlobalNS.UIFormID.eUIRankListPanel);
+    local form = GCtx.mUiMgr:getForm(GlobalNS.UIFormId.eUIRankListPanel);
     if nil ~= form and form.mIsReady then
         form:updateUIData();
     end

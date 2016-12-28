@@ -14,7 +14,7 @@ M.clsName = "UIRockerPanel";
 GlobalNS.RockerPanelNS[M.clsName] = M;
 
 function M:ctor()
-	self.mId = GlobalNS.UIFormID.eUIRockerPanel;
+	self.mId = GlobalNS.UIFormId.eUIRockerPanel;
 	self.mData = GlobalNS.new(GlobalNS.RockerPanelNS.RockerPanelData);
 end
 
@@ -51,7 +51,7 @@ end
 
 function M:onBtnClk()
     --self:exit();
-	--GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormID.eUIForwardForce);
+	--GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormId.eUIForwardForce);
 end
 
 return M;

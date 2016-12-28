@@ -14,7 +14,7 @@ M.clsName = "UIDefaultForm";
 GlobalNS.DefaultFormNS[M.clsName] = M;
 
 function M:ctor()
-	self.mId = GlobalNS.UIFormID.eUIDefaultForm;
+	self.mId = GlobalNS.UIFormId.eUIDefaultForm;
 	self.mData = GlobalNS.new(GlobalNS.DefaultFormNS.DefaultFormData);
 end
 

@@ -64,7 +64,7 @@ namespace UnitTest
         {
             Scene scene = dispObj as Scene;
             //checkCamera();
-            //Ctx.mInstance.mUiMgr.loadAndShow((UIFormID)100);
+            //Ctx.mInstance.mUiMgr.loadAndShow((UIFormId)100);
             testSceneTerrain();
         }
 
@@ -96,7 +96,7 @@ namespace UnitTest
             Ctx.mInstance.mCamSys.setMainCamera(camera.GetComponent<Camera>());
             Ctx.mInstance.mCamSys.setCameraActor(man);
 
-            Ctx.mInstance.mUiMgr.loadAndShow(UIFormID.eUITerrainEdit);
+            Ctx.mInstance.mUiMgr.loadAndShow(UIFormId.eUITerrainEdit);
 
             //AuxTextLoader auxTextLoader = new AuxTextLoader();
             //auxTextLoader.syncLoad("Table/FrameTimerMgr.lua");

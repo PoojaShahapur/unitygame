@@ -14,7 +14,7 @@ M.clsName = "UIConsoleDlg";
 GlobalNS.ConsoleDlgNS[M.clsName] = M;
 
 function M:ctor()
-	self.mId = GlobalNS.UIFormID.eUIConsoleDlg;
+	self.mId = GlobalNS.UIFormId.eUIConsoleDlg;
 	self.mData = GlobalNS.new(GlobalNS.ConsoleDlgNS.ConsoleDlgData);
 end
 

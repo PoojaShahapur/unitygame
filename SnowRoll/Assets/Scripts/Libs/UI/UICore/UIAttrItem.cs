@@ -7,7 +7,7 @@
         public string mScriptTypeName;         // 脚本代码的名字空间和名字
 
         public UICanvasID mCanvasID;           // 在哪个 Canvas
-        public UILayerID mLayerID;             // 所在的 Layer
+        public UILayerId mLayerID;             // 所在的 Layer
         public byte mUiSceneType;              // 场景类型列表
 
         public bool mIsNeedLua;

@@ -96,8 +96,8 @@ namespace Game.UI
                     //Application.LoadLevel("world");
                     Ctx.mInstance.setSelAvatarDBID(selAvatarDBID);
 
-                    Ctx.mInstance.mUiMgr.exitForm(UIFormID.eUILogin);
-                    Ctx.mInstance.mUiMgr.exitForm(UIFormID.eUISelectRole);
+                    Ctx.mInstance.mUiMgr.exitForm(UIFormId.eUILogin);
+                    Ctx.mInstance.mUiMgr.exitForm(UIFormId.eUISelectRole);
 
                     Ctx.mInstance.mModuleSys.unloadModule(ModuleID.LOGINMN);
                     Ctx.mInstance.mModuleSys.loadModule(ModuleID.GAMEMN);

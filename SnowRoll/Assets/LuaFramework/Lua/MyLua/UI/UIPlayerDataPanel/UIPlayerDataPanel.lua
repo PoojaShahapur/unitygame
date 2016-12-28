@@ -13,7 +13,7 @@ M.clsName = "UIPlayerDataPanel";
 GlobalNS.PlayerDataPanelNS[M.clsName] = M;
 
 function M:ctor()
-	self.mId = GlobalNS.UIFormID.eUIPlayerDataPanel;
+	self.mId = GlobalNS.UIFormId.eUIPlayerDataPanel;
 	self.mData = GlobalNS.new(GlobalNS.PlayerDataPanelNS.PlayerDataPanelData);    
 end
 

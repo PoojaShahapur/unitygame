@@ -52,7 +52,7 @@ MLoader("MyLua.Libs.FrameHandle.TimerFunctionObject");
 
 -- UI
 MLoader("MyLua.Libs.UI.UICore.FormMode");
-MLoader("MyLua.Libs.UI.UICore.UIFormID");
+MLoader("MyLua.Libs.UI.UICore.UIFormId");
 MLoader("MyLua.Libs.UI.UICore.UILayer");
 MLoader("MyLua.Libs.UI.UICore.UICanvas");
 MLoader("MyLua.Libs.UI.UICore.Form");

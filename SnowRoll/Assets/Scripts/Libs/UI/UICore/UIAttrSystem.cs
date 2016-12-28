@@ -4,12 +4,12 @@ namespace SDK.Lib
 {
     public class UIAttrSystem
     {
-        public MDictionary<UIFormID, UIAttrItem> mId2AttrDic;
+        public MDictionary<UIFormId, UIAttrItem> mId2AttrDic;
         protected LuaCSBridgeUICore mLuaCSBridgeUICore;
 
         public UIAttrSystem()
         {
-            mId2AttrDic = new MDictionary<UIFormID, UIAttrItem>();
+            mId2AttrDic = new MDictionary<UIFormId, UIAttrItem>();
 
             // ****************** Canvas_50 开始**********************
 
@@ -24,10 +24,10 @@ namespace SDK.Lib
 
             // ****************** Canvas_100 开始 **********************
             // ****************** 第二层开始 ***********************
-            addAttrItem(UIFormID.eUILogin, UICanvasID.eSecondCanvas, UILayerID.eSecondLayer, "UILogin");
-            addAttrItem(UIFormID.eUISelectRole, UICanvasID.eSecondCanvas, UILayerID.eSecondLayer, "UISelectRole");
-            addAttrItem(UIFormID.eUITest, UICanvasID.eSecondCanvas, UILayerID.eSecondLayer, "UITest");
-            addAttrItem(UIFormID.eUITerrainEdit, UICanvasID.eSecondCanvas, UILayerID.eSecondLayer, "UITerrainEdit");
+            addAttrItem(UIFormId.eUILogin, UICanvasID.eSecondCanvas, UILayerId.eSecondLayer, "UILogin");
+            addAttrItem(UIFormId.eUISelectRole, UICanvasID.eSecondCanvas, UILayerId.eSecondLayer, "UISelectRole");
+            addAttrItem(UIFormId.eUITest, UICanvasID.eSecondCanvas, UILayerId.eSecondLayer, "UITest");
+            addAttrItem(UIFormId.eUITerrainEdit, UICanvasID.eSecondCanvas, UILayerId.eSecondLayer, "UITerrainEdit");
 
             // ****************** 第二层结束 ***********************
 
@@ -41,13 +41,13 @@ namespace SDK.Lib
             // ****************** Canvas_100 结束 **********************
         }
 
-        protected void addAttrItem(UIFormID formId, UICanvasID canvasId, UILayerID layerId, string formName)
+        protected void addAttrItem(UIFormId formId, UICanvasID canvasId, UILayerId layerId, string formName)
         {
             if (!mId2AttrDic.ContainsKey(formId))
             {
                 mId2AttrDic[formId] = new UIAttrItem();
                 mId2AttrDic[formId].mCanvasID = UICanvasID.eSecondCanvas;
-                mId2AttrDic[formId].mLayerID = UILayerID.eSecondLayer;
+                mId2AttrDic[formId].mLayerID = UILayerId.eSecondLayer;
                 mId2AttrDic[formId].addUISceneType(UISceneType.eUIScene_Game);
                 mId2AttrDic[formId].mWidgetPath = string.Format("{0}{1}/{2}{3}", Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathComUI], formName, formName, ".prefab");
                 mId2AttrDic[formId].mScriptTypeName = string.Format("Game.UI.{0}", formName);
@@ -64,7 +64,7 @@ namespace SDK.Lib
             mLuaCSBridgeUICore.loadLuaCfg();
         }
 
-        public string getPath(UIFormID id)
+        public string getPath(UIFormId id)
         {
             if (mId2AttrDic.ContainsKey(id))
             {
@@ -77,9 +77,9 @@ namespace SDK.Lib
         }
 
         // 通过路径获取
-        public UIFormID GetFormIDByPath(string resPath, ResPathType pathType)
+        public UIFormId GetFormIDByPath(string resPath, ResPathType pathType)
         {
-            foreach(UIFormID id in mId2AttrDic.Keys)
+            foreach(UIFormId id in mId2AttrDic.Keys)
             {
                 if (ResPathType.ePathComUI == pathType)
                 {
@@ -97,7 +97,7 @@ namespace SDK.Lib
                 }
             }
 
-            return (UIFormID)0;       // 默认返回最大值
+            return (UIFormId)0;       // 默认返回最大值
         }
     }
 }

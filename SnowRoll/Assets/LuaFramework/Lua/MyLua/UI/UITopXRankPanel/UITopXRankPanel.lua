@@ -14,7 +14,7 @@ M.clsName = "UITopXRankPanel";
 GlobalNS.TopXRankPanelNS[M.clsName] = M;
 
 function M:ctor()
-	self.mId = GlobalNS.UIFormID.eUITopXRankPanel;
+	self.mId = GlobalNS.UIFormId.eUITopXRankPanel;
 	self.mData = GlobalNS.new(GlobalNS.TopXRankPanelNS.TopXRankPanelData);
 
     self.itemCount = 10;
@@ -84,7 +84,7 @@ function M:showTop10Rank()
 end
 
 function M:onDropBtnClk()
-    GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormID.eUIConsoleDlg);
+    GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormId.eUIConsoleDlg);
 end
 
 function M:onShow()

@@ -13,7 +13,7 @@ M.clsName = "UIStartGame";
 GlobalNS.StartGameNS[M.clsName] = M;
 
 function M:ctor()
-	self.mId = GlobalNS.UIFormID.eUIStartGame;
+	self.mId = GlobalNS.UIFormId.eUIStartGame;
 	self.mData = GlobalNS.new(GlobalNS.StartGameNS.StartGameData);
 end
 
@@ -182,7 +182,7 @@ function M:onNickNameBtnClk()
 end
 
 function M:onStartGameBtnClk()
-    --GCtx.mUiMgr:exitForm(GlobalNS.UIFormID.eUIStartGame);
+    --GCtx.mUiMgr:exitForm(GlobalNS.UIFormId.eUIStartGame);
     --GlobalNS.CSSystem.Ctx.mInstance.mModuleSys:unloadModule(GlobalNS.CSSystem.ModuleID.LOGINMN);
     --GlobalNS.CSSystem.Ctx.mInstance.mModuleSys:loadModule(GlobalNS.CSSystem.ModuleID.GAMEMN);
     self:loginOrCreateAccount(SDK.Lib.SelectEnterMode.eLoginAccount);

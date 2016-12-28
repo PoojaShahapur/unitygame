@@ -5,6 +5,6 @@ namespace SDK.Lib
      */
     public interface IUIMgrLua
     {
-        void showForm(UIFormID ID);
+        void showForm(UIFormId ID);
     }
 }

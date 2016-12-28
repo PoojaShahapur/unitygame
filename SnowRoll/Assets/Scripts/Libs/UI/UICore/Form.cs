@@ -11,7 +11,7 @@ namespace SDK.Lib
         protected bool mExitMode;               // 关闭退出模式
 		protected bool mIsHideOnCreate;         // 创建后是否隐藏
         //protected bool m_bResLoaded;            // 资源加载进来
-        protected UIFormID mId;
+        protected UIFormId mId;
         protected bool mIsLoadWidgetRes;                // 是否应该加载窗口资源
         protected bool mIsReady;            // 是否准备就绪
 
@@ -37,7 +37,7 @@ namespace SDK.Lib
             mGo2Path = new MDictionary<GameObject, GOExtraInfo>();
 		}
 
-        public UIFormID id
+        public UIFormId id
         {
             get
             {
@@ -49,7 +49,7 @@ namespace SDK.Lib
             }
         }
 
-        public UIFormID getFormID()
+        public UIFormId getFormID()
         {
             return mId;
         }
@@ -181,7 +181,7 @@ namespace SDK.Lib
 
             if (mIsBlurBg)
             {
-                //Ctx.mInstance.mUiMgr.showForm(UIFormID.eUIBlurBg);        // 显示模糊背景界面
+                //Ctx.mInstance.mUiMgr.showForm(UIFormId.eUIBlurBg);        // 显示模糊背景界面
             }
 		    //adjustPosWithAlign();
 		}
@@ -196,7 +196,7 @@ namespace SDK.Lib
 
             if (mIsBlurBg)
             {
-                //Ctx.mInstance.mUiMgr.exitForm(UIFormID.eUIBlurBg);
+                //Ctx.mInstance.mUiMgr.exitForm(UIFormId.eUIBlurBg);
             }
 		}
 
@@ -210,7 +210,7 @@ namespace SDK.Lib
 
             if (mIsBlurBg)
             {
-                //Ctx.mInstance.mUiMgr.exitForm(UIFormID.eUIBlurBg);
+                //Ctx.mInstance.mUiMgr.exitForm(UIFormId.eUIBlurBg);
             }
 		}
 

@@ -43,12 +43,12 @@ namespace Game.Game
         // 加载 Main Scene UI
         protected void loadAllUIScene()
         {
-            Ctx.mInstance.mUiMgr.loadAndShow(UIFormID.eUITest);
+            Ctx.mInstance.mUiMgr.loadAndShow(UIFormId.eUITest);
         }
 
         protected void loadAllDZUIScene()
         {
-            Ctx.mInstance.mUiMgr.loadAndShow(UIFormID.eUITest);
+            Ctx.mInstance.mUiMgr.loadAndShow(UIFormId.eUITest);
         }
 
         // 第一次进入游戏场景初始化

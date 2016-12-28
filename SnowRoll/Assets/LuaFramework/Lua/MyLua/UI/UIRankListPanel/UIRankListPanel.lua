@@ -13,7 +13,7 @@ M.clsName = "UIRankListPanel";
 GlobalNS.RankListPanelNS[M.clsName] = M;
 
 function M:ctor()
-	self.mId = GlobalNS.UIFormID.eUIRankListPanel;
+	self.mId = GlobalNS.UIFormId.eUIRankListPanel;
 	self.mData = GlobalNS.new(GlobalNS.RankListPanelNS.RankListPanelData);
 end
 
@@ -75,7 +75,7 @@ end
 
 function M:onBtnClk()
     self:exit();
-	GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormID.eUIStartGame);
+	GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormId.eUIStartGame);
     GlobalNS.CSSystem.Ctx.mInstance.mModuleSys:unloadModule(GlobalNS.CSSystem.ModuleID.GAMEMN);
     GlobalNS.CSSystem.Ctx.mInstance.mModuleSys:loadModule(GlobalNS.CSSystem.ModuleID.LOGINMN);
 end

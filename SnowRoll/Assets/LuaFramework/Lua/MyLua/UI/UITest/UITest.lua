@@ -15,7 +15,7 @@ GlobalNS.TestNS[M.clsName] = M;
 function M:ctor()
     --print("M:ctor()");
     --print(tostring(self));
-	self.mId = GlobalNS.UIFormID.eUITest;
+	self.mId = GlobalNS.UIFormId.eUITest;
 	self.mData = GlobalNS.new(GlobalNS.TestNS.TestData);
 end
 

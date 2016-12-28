@@ -26,7 +26,7 @@ namespace UnitTest
             Ctx.mInstance.mCamSys.setMainCamera(UtilApi.GoFindChildByName("MainCamera").GetComponent<Camera>());
             m_plane = UtilApi.GoFindChildByName("Plane");
             UtilApi.addEventHandle(m_plane, onPlaneClick);
-            Ctx.mInstance.mUiMgr.loadAndShow((UIFormID)100);
+            Ctx.mInstance.mUiMgr.loadAndShow((UIFormId)100);
         }
 
         public void onPlaneClick(GameObject go)
@@ -34,7 +34,7 @@ namespace UnitTest
             m_currentPos = Ctx.mInstance.mCoordConv.getCurTouchScenePos();
             //Vector3 screenPos = UtilApi.convPosFromSceneToUICam(Ctx.mInstance.mCamSys.getMainCamera(), m_currentPos);
             Vector3 screenPos = UtilApi.convPosFromSrcToDestCam(Ctx.mInstance.mCamSys.getMainCamera(), Ctx.mInstance.mCamSys.getUGuiCamera(), m_currentPos);
-            Form form = Ctx.mInstance.mUiMgr.getForm((UIFormID)100);
+            Form form = Ctx.mInstance.mUiMgr.getForm((UIFormId)100);
             UtilApi.setRectPos(form.m_guiWin.m_uiRoot.GetComponent<RectTransform>(), screenPos);
         }
     }

@@ -14,7 +14,7 @@ M.clsName = "UIOptionPanel";
 GlobalNS.OptionPanelNS[M.clsName] = M;
 
 function M:ctor()
-	self.mId = GlobalNS.UIFormID.eUIOptionPanel;
+	self.mId = GlobalNS.UIFormId.eUIOptionPanel;
 	self.mData = GlobalNS.new(GlobalNS.OptionPanelNS.OptionPanelData);
 end
 

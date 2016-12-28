@@ -5,7 +5,7 @@
      */
     public class UILoadingItem
     {
-        public UIFormID mId;               // Form ID
+        public UIFormId mId;               // Form ID
         public string mResPath;            // 拖放的控件 path 
     }
 }

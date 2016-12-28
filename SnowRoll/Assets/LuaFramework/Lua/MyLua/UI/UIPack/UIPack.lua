@@ -13,7 +13,7 @@ M.clsName = "UIPack";
 GlobalNS.TestNS[M.clsName] = M;
 
 function M:ctor()
-	self.mId = GlobalNS.UIFormID.eUIPack;
+	self.mId = GlobalNS.UIFormId.eUIPack;
 	self.mData = GlobalNS.new(GlobalNS.PackNS.PackData);
 end
 

@@ -11,14 +11,14 @@ namespace SDK.Lib
      */
     public class UIMgr : IResizeObject
 	{
-		private MDictionary<UIFormID, Form> mId2FormDic; //[id,form]
+		private MDictionary<UIFormId, Form> mId2FormDic; //[id,form]
         private MList<UICanvas> mCanvasList;
         public UIAttrSystem mUIAttrs;
 
-        private MDictionary<UIFormID, UILoadingItem> mId2CodeLoadingItemDic;         // 记录当前代码正在加载的项
-        private MDictionary<UIFormID, UILoadingItem> mId2WidgetLoadingItemDic;         // 记录当前窗口控件正在加载的项
+        private MDictionary<UIFormId, UILoadingItem> mId2CodeLoadingItemDic;         // 记录当前代码正在加载的项
+        private MDictionary<UIFormId, UILoadingItem> mId2WidgetLoadingItemDic;         // 记录当前窗口控件正在加载的项
 
-        private MList<UIFormID> mTmpList;
+        private MList<UIFormId> mTmpList;
         private UniqueNumIdGen mUniqueNumIdGen;
 
         public UnityEngine.Canvas mHudCanvas;
@@ -27,11 +27,11 @@ namespace SDK.Lib
 
         public UIMgr()
 		{
-            this.mId2FormDic = new MDictionary<UIFormID, Form>();
+            this.mId2FormDic = new MDictionary<UIFormId, Form>();
             this.mUIAttrs = new UIAttrSystem();
-            this.mId2CodeLoadingItemDic = new MDictionary<UIFormID, UILoadingItem>();
-            this.mId2WidgetLoadingItemDic = new MDictionary<UIFormID, UILoadingItem>();
-            this.mTmpList = new MList<UIFormID>();
+            this.mId2CodeLoadingItemDic = new MDictionary<UIFormId, UILoadingItem>();
+            this.mId2WidgetLoadingItemDic = new MDictionary<UIFormId, UILoadingItem>();
+            this.mTmpList = new MList<UIFormId>();
 
             createCanvas();
 		}
@@ -41,7 +41,7 @@ namespace SDK.Lib
             mUIAttrs.init();
             this.findCanvasGO();
 
-            this.mHudParent = Ctx.mInstance.mUiMgr.getLayer(UICanvasID.eHudCanvas, UILayerID.eBtmLayer).getLayerGO();
+            this.mHudParent = Ctx.mInstance.mUiMgr.getLayer(UICanvasID.eHudCanvas, UILayerId.eBtmLayer).getLayerGO();
             this.mHudCanvas = Ctx.mInstance.mUiMgr.getCanvas(UICanvasID.eHudCanvas);
         }
 
@@ -69,8 +69,8 @@ namespace SDK.Lib
             }
         }
 
-        //public void loadAndShow<T>(UIFormID formId) where T : Form, new()
-        public void loadAndShow(UIFormID formId)
+        //public void loadAndShow<T>(UIFormId formId) where T : Form, new()
+        public void loadAndShow(UIFormId formId)
         {
             if (hasForm(formId))
             {
@@ -83,7 +83,7 @@ namespace SDK.Lib
         }
 
         // 显示一个 UI
-        public void showForm(UIFormID formId)
+        public void showForm(UIFormId formId)
 		{
             if (hasForm(formId))
             {
@@ -91,7 +91,7 @@ namespace SDK.Lib
             }
 		}
 
-        public void showFormInternal(UIFormID formId)
+        public void showFormInternal(UIFormId formId)
         {
             Form win = getForm(formId);
             if (win != null)
@@ -109,7 +109,7 @@ namespace SDK.Lib
         }
 		
         // 隐藏一个 UI
-        private void hideFormInternal(UIFormID formId)
+        private void hideFormInternal(UIFormId formId)
 		{
 			Form win = getForm(formId);
 			if (win != null)
@@ -123,7 +123,7 @@ namespace SDK.Lib
 		}
 
         // 退出一个 UI
-        public void exitForm(UIFormID formId, bool bForce = false)
+        public void exitForm(UIFormId formId, bool bForce = false)
 		{
 			Form win = getForm(formId);
 
@@ -140,7 +140,7 @@ namespace SDK.Lib
 			}
 		}
 
-        protected void exitFormInternal(UIFormID formId)
+        protected void exitFormInternal(UIFormId formId)
         {
             Form win = getForm(formId);
 
@@ -183,13 +183,13 @@ namespace SDK.Lib
             return canvas;
         }
 
-        public UILayer getLayer(UICanvasID canvasID, UILayerID layerID)
+        public UILayer getLayer(UICanvasID canvasID, UILayerId layerID)
         {
             UILayer layer = null;
 
             if (canvasID < UICanvasID.eCanvas_Total)
             {
-                if (layerID < UILayerID.eMaxLayer)
+                if (layerID < UILayerId.eMaxLayer)
                 {
                     layer = mCanvasList[(int)canvasID].layerList[(int)layerID];
                 }
@@ -209,8 +209,8 @@ namespace SDK.Lib
             form.init();        // 初始化
         }
 
-        //public T getForm<T>(UIFormID formId) where T : Form
-        public Form getForm(UIFormID formId)
+        //public T getForm<T>(UIFormId formId) where T : Form
+        public Form getForm(UIFormId formId)
         {
             if (mId2FormDic.ContainsKey(formId))
             {
@@ -222,14 +222,14 @@ namespace SDK.Lib
             }
         }
 
-        public bool hasForm(UIFormID formId)
+        public bool hasForm(UIFormId formId)
         {
             return (mId2FormDic.ContainsKey(formId));
         }
 
         // 这个事加载界面需要的代码
-        //public void loadForm<T>(UIFormID formId) where T : Form, new()
-        public void loadForm(UIFormID formId)
+        //public void loadForm<T>(UIFormId formId) where T : Form, new()
+        public void loadForm(UIFormId formId)
         {
             UIAttrItem attrItem = mUIAttrs.mId2AttrDic[formId];
             Form window = getForm(formId);
@@ -288,7 +288,7 @@ namespace SDK.Lib
         }
 
         // 加载窗口控件资源，窗口资源都是从文件加载
-        public void loadWidgetRes(UIFormID formId)
+        public void loadWidgetRes(UIFormId formId)
         {
             UIAttrItem attrItem = mUIAttrs.mId2AttrDic[formId];
             if (!mId2WidgetLoadingItemDic.ContainsKey(formId))                       // 如果什么都没有创建，第一次加载
@@ -322,7 +322,7 @@ namespace SDK.Lib
             }
             else if (res.refCountResLoadResultNotify.resLoadState.hasFailed())
             {
-                UIFormID formId = mUIAttrs.GetFormIDByPath(res.getLogicPath(), ResPathType.ePathCodePath);  // 获取 FormID
+                UIFormId formId = mUIAttrs.GetFormIDByPath(res.getLogicPath(), ResPathType.ePathCodePath);  // 获取 FormID
                 mId2CodeLoadingItemDic.Remove(formId);
             }
 		}
@@ -337,7 +337,7 @@ namespace SDK.Lib
             }
             else if (res.refCountResLoadResultNotify.resLoadState.hasFailed())
             {
-                UIFormID formId = mUIAttrs.GetFormIDByPath(res.getLogicPath(), ResPathType.ePathComUI);  // 获取 FormID
+                UIFormId formId = mUIAttrs.GetFormIDByPath(res.getLogicPath(), ResPathType.ePathComUI);  // 获取 FormID
                 mId2WidgetLoadingItemDic.Remove(formId);
             }
         }
@@ -345,7 +345,7 @@ namespace SDK.Lib
         // 代码资源加载完成处理
         public void onCodeloadedByRes(PrefabRes res)
         {
-            UIFormID ID = mUIAttrs.GetFormIDByPath(res.getLogicPath(), ResPathType.ePathCodePath);  // 获取 FormID
+            UIFormId ID = mUIAttrs.GetFormIDByPath(res.getLogicPath(), ResPathType.ePathCodePath);  // 获取 FormID
             mId2CodeLoadingItemDic.Remove(ID);
             addFormNoReady(mId2FormDic[ID]);
             onCodeLoadedByForm(mId2FormDic[ID]);
@@ -364,7 +364,7 @@ namespace SDK.Lib
         {
             string resUniqueId = res.getResUniqueId();
             string path = res.getLogicPath();
-            UIFormID formId = mUIAttrs.GetFormIDByPath(path, ResPathType.ePathComUI);  // 获取 FormID
+            UIFormId formId = mUIAttrs.GetFormIDByPath(path, ResPathType.ePathComUI);  // 获取 FormID
             mId2WidgetLoadingItemDic.Remove(formId);
 
             UIAttrItem attrItem = mUIAttrs.mId2AttrDic[formId];
@@ -410,7 +410,7 @@ namespace SDK.Lib
             int layerIdx = 0;
             for(canvasIdx = 0; canvasIdx < (int)UICanvasID.eCanvas_Total; ++canvasIdx)
             {
-                for (layerIdx = 0; layerIdx <= (int)UILayerID.eMaxLayer; ++layerIdx)
+                for (layerIdx = 0; layerIdx <= (int)UILayerId.eMaxLayer; ++layerIdx)
                 {
                     mCanvasList[canvasIdx].layerList[layerIdx].onStageReSize();
                 }
@@ -420,12 +420,12 @@ namespace SDK.Lib
         // 关闭所有显示的窗口
         public void exitAllWin()
         {
-            foreach(UIFormID id in mId2FormDic.Keys)
+            foreach(UIFormId id in mId2FormDic.Keys)
             {
                 mTmpList.Add(id);
             }
 
-            foreach (UIFormID id in mTmpList.list())
+            foreach (UIFormId id in mTmpList.list())
             {
                 exitForm(id);
             }
@@ -435,7 +435,7 @@ namespace SDK.Lib
         // 根据场景类型卸载 UI，强制卸载
         public void unloadUIBySceneType(UISceneType unloadSceneType, UISceneType loadSceneTpe)
         {
-            foreach (UIFormID id in mId2FormDic.Keys)
+            foreach (UIFormId id in mId2FormDic.Keys)
             {
                 if (mUIAttrs.mId2AttrDic[id].canUnloadUIBySceneType(unloadSceneType, loadSceneTpe))
                 {
@@ -443,7 +443,7 @@ namespace SDK.Lib
                 }
             }
 
-            foreach (UIFormID id in mTmpList.list())
+            foreach (UIFormId id in mTmpList.list())
             {
                 exitForm(id, true);
             }
