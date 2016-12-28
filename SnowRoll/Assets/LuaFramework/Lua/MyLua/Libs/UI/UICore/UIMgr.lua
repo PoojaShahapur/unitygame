@@ -56,7 +56,7 @@ end
 function M:getLayerGo(canvasId, layerId)
     -- 默认放在最底下的 Canvas，第二层
     if(canvasId == nil) then
-        canvasId = GlobalNS.UICanvasID.eUIFirstCanvas;
+        canvasId = GlobalNS.UICanvasId.eUIFirstCanvas;
     end
     if(layerId == nil) then
         layerId = GlobalNS.UILayerID.eUISecondLayer;

@@ -5,7 +5,7 @@ MLoader("MyLua.Libs.Core.GObject");
 MLoader("MyLua.Libs.UI.UICore.UILayer");
 
 local M = GlobalNS.StaticClass();
-M.clsName = "UICanvasID";
+M.clsName = "UICanvasId";
 GlobalNS[M.clsName] = M;
 
 function M.ctor()
