@@ -3,7 +3,7 @@
 namespace Game.UI
 {
     /**
-     * @brief 测试界面
+     * @brief 背包界面
      */
     public class UIPack : Form
     {
