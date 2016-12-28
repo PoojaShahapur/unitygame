@@ -5,7 +5,7 @@ namespace SDK.Lib
     public class UIAttrSystem
     {
         public MDictionary<UIFormID, UIAttrItem> mId2AttrDic;
-        protected LuaCSBridgeUICore m_luaCSBridgeUICore;
+        protected LuaCSBridgeUICore mLuaCSBridgeUICore;
 
         public UIAttrSystem()
         {
@@ -24,34 +24,10 @@ namespace SDK.Lib
 
             // ****************** Canvas_100 开始 **********************
             // ****************** 第二层开始 ***********************
-            mId2AttrDic[UIFormID.eUILogin] = new UIAttrItem();
-            mId2AttrDic[UIFormID.eUILogin].mCanvasID = UICanvasID.eSecondCanvas;
-            mId2AttrDic[UIFormID.eUILogin].mLayerID = UILayerID.eSecondLayer;
-            mId2AttrDic[UIFormID.eUILogin].addUISceneType(UISceneType.eUIScene_Game);
-            mId2AttrDic[UIFormID.eUILogin].mWidgetPath = string.Format("{0}{1}/{2}{3}", Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathComUI], "UILogin", "UILogin", ".prefab");
-            mId2AttrDic[UIFormID.eUILogin].mScriptTypeName = "Game.UI.UILogin";
-
-            mId2AttrDic[UIFormID.eUISelectRole] = new UIAttrItem();
-            mId2AttrDic[UIFormID.eUISelectRole].mCanvasID = UICanvasID.eSecondCanvas;
-            mId2AttrDic[UIFormID.eUISelectRole].mLayerID = UILayerID.eSecondLayer;
-            mId2AttrDic[UIFormID.eUISelectRole].addUISceneType(UISceneType.eUIScene_Game);
-            mId2AttrDic[UIFormID.eUISelectRole].mWidgetPath = string.Format("{0}{1}/{2}{3}", Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathComUI], "UISelectRole", "UISelectRole", ".prefab");
-            mId2AttrDic[UIFormID.eUISelectRole].mScriptTypeName = "Game.UI.UISelectRole";
-
-            mId2AttrDic[UIFormID.eUITest] = new UIAttrItem();
-            mId2AttrDic[UIFormID.eUITest].mCanvasID = UICanvasID.eSecondCanvas;
-            mId2AttrDic[UIFormID.eUITest].mLayerID = UILayerID.eTopLayer;
-            mId2AttrDic[UIFormID.eUITest].addUISceneType(UISceneType.eUIScene_Game);
-            mId2AttrDic[UIFormID.eUITest].mWidgetPath = string.Format("{0}{1}/{2}{3}", Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathComUI], "UITest", "UITest", ".prefab");
-            mId2AttrDic[UIFormID.eUITest].mScriptTypeName = "Game.UI.UITest";
-
-
-            mId2AttrDic[UIFormID.eUITerrainEdit] = new UIAttrItem();
-            mId2AttrDic[UIFormID.eUITerrainEdit].mCanvasID = UICanvasID.eSecondCanvas;
-            mId2AttrDic[UIFormID.eUITerrainEdit].mLayerID = UILayerID.eSecondLayer;
-            mId2AttrDic[UIFormID.eUITerrainEdit].addUISceneType(UISceneType.eUIScene_Game);
-            mId2AttrDic[UIFormID.eUITerrainEdit].mWidgetPath = string.Format("{0}{1}/{2}{3}", Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathComUI], "UITerrainEdit", "UITerrainEdit", ".prefab");
-            mId2AttrDic[UIFormID.eUITerrainEdit].mScriptTypeName = "Game.UI.UITerrainEdit";
+            addAttrItem(UIFormID.eUILogin, UICanvasID.eSecondCanvas, UILayerID.eSecondLayer, "UILogin");
+            addAttrItem(UIFormID.eUISelectRole, UICanvasID.eSecondCanvas, UILayerID.eSecondLayer, "UISelectRole");
+            addAttrItem(UIFormID.eUITest, UICanvasID.eSecondCanvas, UILayerID.eSecondLayer, "UITest");
+            addAttrItem(UIFormID.eUITerrainEdit, UICanvasID.eSecondCanvas, UILayerID.eSecondLayer, "UITerrainEdit");
 
             // ****************** 第二层结束 ***********************
 
@@ -65,14 +41,27 @@ namespace SDK.Lib
             // ****************** Canvas_100 结束 **********************
         }
 
+        protected void addAttrItem(UIFormID formId, UICanvasID canvasId, UILayerID layerId, string formName)
+        {
+            if (!mId2AttrDic.ContainsKey(formId))
+            {
+                mId2AttrDic[formId] = new UIAttrItem();
+                mId2AttrDic[formId].mCanvasID = UICanvasID.eSecondCanvas;
+                mId2AttrDic[formId].mLayerID = UILayerID.eSecondLayer;
+                mId2AttrDic[formId].addUISceneType(UISceneType.eUIScene_Game);
+                mId2AttrDic[formId].mWidgetPath = string.Format("{0}{1}/{2}{3}", Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathComUI], formName, formName, ".prefab");
+                mId2AttrDic[formId].mScriptTypeName = string.Format("Game.UI.{0}", formName);
+            }
+        }
+
         public void init()
         {
-            m_luaCSBridgeUICore = new LuaCSBridgeUICore(this);
+            mLuaCSBridgeUICore = new LuaCSBridgeUICore(this);
             // doFile 会重复执行文件中的内容，可能会覆盖之前表中的内容
             //Ctx.mInstance.mLuaSystem.doFile("MyLua/Libs/UI/UICore/UIAttrSystem.lua");
             //Ctx.mInstance.mLuaSystem.requireFile("MyLua.Libs.UI.UICore.UIAttrSystem");
             //Ctx.mInstance.mLuaSystem.requireFile("MyLua/Libs/UI/UICore/UIAttrSystem.lua");
-            m_luaCSBridgeUICore.loadLuaCfg();
+            mLuaCSBridgeUICore.loadLuaCfg();
         }
 
         public string getPath(UIFormID id)
