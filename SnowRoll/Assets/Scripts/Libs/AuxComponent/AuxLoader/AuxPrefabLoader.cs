@@ -328,7 +328,10 @@ namespace SDK.Lib
                 this.selfGo = mResInsEventDispatch.getInsGO();
             }
 
-            this.mInsEventDispatch.dispatchEvent(this);
+            if (null != this.mInsEventDispatch)
+            {
+                this.mInsEventDispatch.dispatchEvent(this);
+            }
         }
     }
 }

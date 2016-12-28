@@ -5,6 +5,7 @@
         protected string mResPath;
         protected AuxPrefabLoader mPrefabLoader;
         protected MList<AuxScrollViewItemBase> mItemList;
+        protected UnityEngine.GameObject mInsGo;
 
         public AuxScrollView()
         {
@@ -57,14 +58,15 @@
 
         virtual public UnityEngine.GameObject createResItem()
         {
-            UnityEngine.GameObject insGo = this.mPrefabLoader.InstantiateObject();
-            return null;
+            this.loadPrefabItem();
+            this.mPrefabLoader.InstantiateObject(this.onInstantiateObjectFinish);
+            return this.mInsGo;
         }
 
         public void onInstantiateObjectFinish(IDispatchObject dispObj)
         {
-            UnityEngine.GameObject insGo = this.mPrefabLoader.getGameObject();
-            UtilApi.SetParent(insGo, this.selfGo, false);
+            this.mInsGo = this.mPrefabLoader.getGameObject();
+            UtilApi.SetParent(this.mInsGo, this.selfGo, false);
         }
 
         public void addItem(AuxScrollViewItemBase item)
@@ -74,7 +76,6 @@
 
         public void updateItemList()
         {
-            UnityEngine.GameObject insGo = null;
             AuxScrollViewItemBase item = null;
             int idx = 0;
             int len = this.mItemList.Count();
@@ -83,10 +84,8 @@
             {
                 item = this.mItemList[idx];
 
-                insGo = this.mPrefabLoader.InstantiateObject();
-                item.setGo(insGo);
-
-                UtilApi.SetParent(insGo, this.selfGo, false);
+                this.mInsGo = this.createResItem();
+                item.setGo(this.mInsGo);
 
                 ++idx;
             }
