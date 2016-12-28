@@ -38,11 +38,11 @@ namespace SDK.Lib
         {
             get
             {
-                return mGuiWin.m_uiRoot.transform.localPosition.x;
+                return mGuiWin.mUiRoot.transform.localPosition.x;
             }
             set
             {
-                UtilApi.setPos(mGuiWin.m_uiRoot.transform, new Vector3(value, mGuiWin.m_uiRoot.transform.localPosition.y, mGuiWin.m_uiRoot.transform.localPosition.z));
+                UtilApi.setPos(mGuiWin.mUiRoot.transform, new Vector3(value, mGuiWin.mUiRoot.transform.localPosition.y, mGuiWin.mUiRoot.transform.localPosition.z));
             }
         }
 
@@ -50,11 +50,11 @@ namespace SDK.Lib
         {
             get
             {
-                return mGuiWin.m_uiRoot.transform.localPosition.y;
+                return mGuiWin.mUiRoot.transform.localPosition.y;
             }
             set
             {
-                UtilApi.setPos(mGuiWin.m_uiRoot.transform, new Vector3(mGuiWin.m_uiRoot.transform.localPosition.x, value, mGuiWin.m_uiRoot.transform.localPosition.z));
+                UtilApi.setPos(mGuiWin.mUiRoot.transform, new Vector3(mGuiWin.mUiRoot.transform.localPosition.x, value, mGuiWin.mUiRoot.transform.localPosition.z));
             }
         }
 
@@ -72,7 +72,7 @@ namespace SDK.Lib
 
         public bool IsVisible()
         {
-            return mGuiWin.m_uiRoot.activeSelf;
+            return mGuiWin.mUiRoot.activeSelf;
         }
 
         public bool IsResReady

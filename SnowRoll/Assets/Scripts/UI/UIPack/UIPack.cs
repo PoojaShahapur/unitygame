@@ -8,10 +8,12 @@ namespace Game.UI
     public class UIPack : Form
     {
         protected AuxLabel mLogText;
+        protected AuxScrollView mScrollView;
 
         public UIPack()
         {
             mLogText = new AuxLabel();
+            mScrollView = new AuxScrollView();
         }
 
         public override void onInit()
@@ -48,19 +50,20 @@ namespace Game.UI
 
         protected void findWidget()
         {
-            mLogText.setSelfGo(mGuiWin.m_uiRoot, "LogText");
+            mLogText.setSelfGo(mGuiWin.mUiRoot, "LogText");
+            mScrollView.setSelfGo(mGuiWin.mUiRoot, "LogText");
         }
 
         protected void addEventHandle()
         {
-            UtilApi.addEventHandle(mGuiWin.m_uiRoot, "BtnTest", onBtnClkTest);
+            UtilApi.addEventHandle(mGuiWin.mUiRoot, "BtnTest", onBtnClkTest);
         }
 
         protected void onBtnClkTest()
         {
             Ctx.mInstance.mUiMgr.exitForm(UIFormId.eUITest);
-            Ctx.mInstance.mModuleSys.unloadModule(ModuleID.LOGINMN);
-            Ctx.mInstance.mModuleSys.loadModule(ModuleID.GAMEMN);
+            Ctx.mInstance.mModuleSys.unloadModule(ModuleId.LOGINMN);
+            Ctx.mInstance.mModuleSys.loadModule(ModuleId.GAMEMN);
         }
     }
 }

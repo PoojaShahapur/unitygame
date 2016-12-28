@@ -43,19 +43,19 @@ namespace Game.UI
 
         protected void findWidget()
         {
-            mLogText = new AuxLabel(mGuiWin.m_uiRoot, "LogText");
+            mLogText = new AuxLabel(mGuiWin.mUiRoot, "LogText");
         }
 
         protected void addEventHandle()
         {
-            UtilApi.addEventHandle(mGuiWin.m_uiRoot, "BtnTest", onBtnClkTest);
+            UtilApi.addEventHandle(mGuiWin.mUiRoot, "BtnTest", onBtnClkTest);
         }
 
         protected void onBtnClkTest()
         {
             Ctx.mInstance.mUiMgr.exitForm(UIFormId.eUITest);
-            Ctx.mInstance.mModuleSys.unloadModule(ModuleID.LOGINMN);
-            Ctx.mInstance.mModuleSys.loadModule(ModuleID.GAMEMN);
+            Ctx.mInstance.mModuleSys.unloadModule(ModuleId.LOGINMN);
+            Ctx.mInstance.mModuleSys.loadModule(ModuleId.GAMEMN);
         }
     }
 }

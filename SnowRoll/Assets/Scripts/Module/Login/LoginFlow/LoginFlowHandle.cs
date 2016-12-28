@@ -254,7 +254,7 @@ namespace Game.Login
 
             Ctx.mInstance.mNetCmdNotify.isStopNetHandle = true;     // 停止网络消息处理
             // 进入场景
-            Ctx.mInstance.mModuleSys.loadModule(ModuleID.GAMEMN);
+            Ctx.mInstance.mModuleSys.loadModule(ModuleId.GAMEMN);
         }
     }
 }

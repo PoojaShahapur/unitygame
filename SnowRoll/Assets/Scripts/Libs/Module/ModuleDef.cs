@@ -14,7 +14,7 @@
         public const string AUTOUPDATEMN = "AutoUpdate";
     }
 
-    public enum ModuleID
+    public enum ModuleId
     {
         LOGINMN,
         GAMEMN,

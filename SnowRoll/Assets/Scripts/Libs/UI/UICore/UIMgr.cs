@@ -102,7 +102,7 @@ namespace SDK.Lib
                 }
                 if (!win.IsVisible())
                 {
-                    UtilApi.SetActive(win.mGuiWin.m_uiRoot, true);
+                    UtilApi.SetActive(win.mGuiWin.mUiRoot, true);
                     win.onShow();
                 }
             }
@@ -116,7 +116,7 @@ namespace SDK.Lib
 			{
 				if (win.IsVisible())
 				{
-                    UtilApi.SetActive(win.mGuiWin.m_uiRoot, false);
+                    UtilApi.SetActive(win.mGuiWin.mUiRoot, false);
 					win.onHide();
 				}
 			}
@@ -151,8 +151,8 @@ namespace SDK.Lib
                 layer.winDic.Remove(formId);
                 // 释放界面资源
                 win.onExit();
-                UtilApi.Destroy(win.mGuiWin.m_uiRoot);
-                win.mGuiWin.m_uiRoot = null;
+                UtilApi.Destroy(win.mGuiWin.mUiRoot);
+                win.mGuiWin.mUiRoot = null;
                 // 释放加载的资源
                 //string path = mUIAttrs.getPath(formId);
                 //if (path != null)
@@ -369,22 +369,22 @@ namespace SDK.Lib
 
             UIAttrItem attrItem = mUIAttrs.mId2AttrDic[formId];
             mId2FormDic[formId].isLoadWidgetRes = true;
-            mId2FormDic[formId].mGuiWin.m_uiRoot = res.InstantiateObject(attrItem.mWidgetPath, false,  UtilMath.ZeroVec3, UtilMath.UnitQuat);
+            mId2FormDic[formId].mGuiWin.mUiRoot = res.InstantiateObject(attrItem.mWidgetPath, false,  UtilMath.ZeroVec3, UtilMath.UnitQuat);
             if (attrItem.mIsNeedLua)
             {
-                mId2FormDic[formId].luaCSBridgeForm.gameObject = mId2FormDic[formId].mGuiWin.m_uiRoot;
+                mId2FormDic[formId].luaCSBridgeForm.gameObject = mId2FormDic[formId].mGuiWin.mUiRoot;
                 mId2FormDic[formId].luaCSBridgeForm.postInit();
             }
 
             // 设置位置
-            UtilApi.SetParent(mId2FormDic[formId].mGuiWin.m_uiRoot.transform, mCanvasList[(int)attrItem.mCanvasID].layerList[(int)attrItem.mLayerID].layerTrans, false);
+            UtilApi.SetParent(mId2FormDic[formId].mGuiWin.mUiRoot.transform, mCanvasList[(int)attrItem.mCanvasID].layerList[(int)attrItem.mLayerID].layerTrans, false);
 
             // 先设置再设置缩放，否则无效
-            mId2FormDic[formId].mGuiWin.m_uiRoot.transform.SetAsLastSibling();               // 放在最后
-            UtilApi.SetActive(mId2FormDic[formId].mGuiWin.m_uiRoot, false);      // 出发 onShow 事件
+            mId2FormDic[formId].mGuiWin.mUiRoot.transform.SetAsLastSibling();               // 放在最后
+            UtilApi.SetActive(mId2FormDic[formId].mGuiWin.mUiRoot, false);      // 出发 onShow 事件
             //if (m_dicForm[ID].hideOnCreate)
             //{
-            //    UtilApi.SetActive(m_dicForm[ID].mGuiWin.m_uiRoot, false);
+            //    UtilApi.SetActive(m_dicForm[ID].mGuiWin.mUiRoot, false);
             //}
             if (!mId2FormDic[formId].hideOnCreate)
             {

@@ -23,13 +23,13 @@ namespace Game.UI
         // 关联窗口
         protected void findWidget()
         {
-            m_btnExportScene = UtilApi.TransFindChildByPObjAndPath(mGuiWin.m_uiRoot, TerrainEditPath.BtnExportScene);
+            m_btnExportScene = UtilApi.TransFindChildByPObjAndPath(mGuiWin.mUiRoot, TerrainEditPath.BtnExportScene);
         }
 
         protected void addEventHandle()
         {
-            UtilApi.addEventHandle(mGuiWin.m_uiRoot, TerrainEditPath.BtnExportScene, onBtnExportSceneClk);
-            UtilApi.addEventHandle(mGuiWin.m_uiRoot, TerrainEditPath.BtnEnableLog, onBtnEnableLogClk);
+            UtilApi.addEventHandle(mGuiWin.mUiRoot, TerrainEditPath.BtnExportScene, onBtnExportSceneClk);
+            UtilApi.addEventHandle(mGuiWin.mUiRoot, TerrainEditPath.BtnEnableLog, onBtnEnableLogClk);
         }
 
         protected void onBtnExportSceneClk()

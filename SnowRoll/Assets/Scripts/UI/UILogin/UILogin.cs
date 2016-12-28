@@ -39,7 +39,7 @@ namespace Game.UI
         // 关联窗口
         protected void findWidget()
         {
-            AuxInputField lblName = new AuxInputField(mGuiWin.m_uiRoot, LoginComPath.PathLblName);
+            AuxInputField lblName = new AuxInputField(mGuiWin.mUiRoot, LoginComPath.PathLblName);
             lblName.text = "111111";      //zhanghao01---zhanghao09
 
             if(Ctx.mInstance.mSystemSetting.getString(SystemSetting.USERNAME) != default(string))
@@ -47,7 +47,7 @@ namespace Game.UI
                 lblName.text = Ctx.mInstance.mSystemSetting.getString(SystemSetting.USERNAME);
             }
 
-            AuxInputField lblPassWord = new AuxInputField(mGuiWin.m_uiRoot, LoginComPath.PathLblPassWord);
+            AuxInputField lblPassWord = new AuxInputField(mGuiWin.mUiRoot, LoginComPath.PathLblPassWord);
             lblPassWord.text = "1";
 
             if (Ctx.mInstance.mSystemSetting.getString(SystemSetting.PASSWORD) != default(string))
@@ -55,13 +55,13 @@ namespace Game.UI
                 lblPassWord.text = Ctx.mInstance.mSystemSetting.getString(SystemSetting.PASSWORD);
             }
 
-            this.mInfoLabel.setSelfGo(mGuiWin.m_uiRoot, LoginComPath.PathLabelInfo);
+            this.mInfoLabel.setSelfGo(mGuiWin.mUiRoot, LoginComPath.PathLabelInfo);
         }
 
         protected void addEventHandle()
         {
-            UtilApi.addEventHandle(mGuiWin.m_uiRoot, LoginComPath.PathBtnLogin, onLoginBtnClk);
-            UtilApi.addEventHandle(mGuiWin.m_uiRoot, LoginComPath.ButtonRegister, onCreateAccountBtnClk);
+            UtilApi.addEventHandle(mGuiWin.mUiRoot, LoginComPath.PathBtnLogin, onLoginBtnClk);
+            UtilApi.addEventHandle(mGuiWin.mUiRoot, LoginComPath.ButtonRegister, onCreateAccountBtnClk);
         }
 
         // 点击登陆处理
@@ -79,8 +79,8 @@ namespace Game.UI
         {
             if (Ctx.mInstance.mLoginSys.getLoginState() != LoginState.eLoginingLoginServer && Ctx.mInstance.mLoginSys.getLoginState() != LoginState.eLoginingGateServer)    // 如果没有正在登陆登陆服务器和网关服务器
             {
-                AuxInputField lblName = new AuxInputField(mGuiWin.m_uiRoot, LoginComPath.PathLblName);
-                AuxInputField lblPassWord = new AuxInputField(mGuiWin.m_uiRoot, LoginComPath.PathLblPassWord);
+                AuxInputField lblName = new AuxInputField(mGuiWin.mUiRoot, LoginComPath.PathLblName);
+                AuxInputField lblPassWord = new AuxInputField(mGuiWin.mUiRoot, LoginComPath.PathLblPassWord);
 
                 Ctx.mInstance.mSystemSetting.setString(SystemSetting.USERNAME, lblName.text);
                 Ctx.mInstance.mSystemSetting.setString(SystemSetting.PASSWORD, lblPassWord.text);
@@ -108,7 +108,7 @@ namespace Game.UI
                     }
                     else
                     {
-                        Ctx.mInstance.mModuleSys.loadModule(ModuleID.GAMEMN);
+                        Ctx.mInstance.mModuleSys.loadModule(ModuleId.GAMEMN);
                     }
                 }
                 else

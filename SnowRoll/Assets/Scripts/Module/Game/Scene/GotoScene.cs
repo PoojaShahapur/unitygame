@@ -57,7 +57,7 @@ namespace Game.Game
             if (Ctx.mInstance.mGameRunStage.ePreGameStage == EGameStage.eStage_Login)
             {
                 // 卸载登陆模块，关闭登陆界面
-                Ctx.mInstance.mModuleSys.unloadModule(ModuleID.LOGINMN);
+                Ctx.mInstance.mModuleSys.unloadModule(ModuleId.LOGINMN);
             }
         }
 

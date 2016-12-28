@@ -5,7 +5,7 @@
      */
     public interface IModuleSys
     {
-        void loadModule(ModuleID moduleID);
-        void unloadModule(ModuleID moduleID);
+        void loadModule(ModuleId moduleID);
+        void unloadModule(ModuleId moduleID);
     }
 }

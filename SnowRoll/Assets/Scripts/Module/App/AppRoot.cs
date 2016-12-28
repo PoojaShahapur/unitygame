@@ -68,12 +68,12 @@ public class AppRoot : MonoBehaviour
         // 加载模块
         if (MacroDef.PKG_RES_LOAD)
         {
-            Ctx.mInstance.mModuleSys.loadModule(ModuleID.AUTOUPDATEMN);
+            Ctx.mInstance.mModuleSys.loadModule(ModuleId.AUTOUPDATEMN);
         }
         else
         {
-            Ctx.mInstance.mModuleSys.loadModule(ModuleID.LOGINMN);
-            //Ctx.mInstance.mModuleSys.loadModule(ModuleID.GAMEMN);
+            Ctx.mInstance.mModuleSys.loadModule(ModuleId.LOGINMN);
+            //Ctx.mInstance.mModuleSys.loadModule(ModuleId.GAMEMN);
         }
     }
 }

@@ -203,7 +203,7 @@ public static class CustomSettings
         _GT(typeof(SDK.Lib.GkEncode)),
         //for ModuleSys
         _GT(typeof(SDK.Lib.ModuleSys)),
-        _GT(typeof(SDK.Lib.ModuleID)),
+        _GT(typeof(SDK.Lib.ModuleId)),
         _GT(typeof(SDK.Lib.SystemSetting)),
         _GT(typeof(SDK.Lib.LoginState)),
         _GT(typeof(SDK.Lib.SelectEnterMode)),

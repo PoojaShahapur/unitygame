@@ -38,7 +38,7 @@ namespace Game.AutoUpdate
         // 调用这个函数，说明打包信息加载完成
         protected void onPakSysCfgEnd()
         {
-            Ctx.mInstance.mModuleSys.loadModule(ModuleID.LOGINMN);
+            Ctx.mInstance.mModuleSys.loadModule(ModuleId.LOGINMN);
         }
 
         // 卸载模块

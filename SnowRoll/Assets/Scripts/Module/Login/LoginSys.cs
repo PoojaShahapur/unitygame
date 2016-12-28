@@ -18,7 +18,7 @@ namespace Game.Login
 
         public void Start()
         {
-            Ctx.mInstance.mModuleSys.unloadModule(ModuleID.AUTOUPDATEMN);
+            Ctx.mInstance.mModuleSys.unloadModule(ModuleId.AUTOUPDATEMN);
             this.registerScriptType();
             this.initGVar();
             //this.loadScene();

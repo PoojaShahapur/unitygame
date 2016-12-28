@@ -167,7 +167,7 @@ namespace SDK.Lib
             mIsReady = true;
             if (mIsHandleExitBtn)
             {
-                UtilApi.addEventHandle(mGuiWin.m_uiRoot, "BtnClose", onExitBtnClick); // 关闭事件
+                UtilApi.addEventHandle(mGuiWin.mUiRoot, "BtnClose", onExitBtnClick); // 关闭事件
             }
         }
 
@@ -216,7 +216,7 @@ namespace SDK.Lib
 
         public bool isVisible()
         {
-            return mGuiWin.m_uiRoot.activeSelf;        // 仅仅是自己是否可见
+            return mGuiWin.mUiRoot.activeSelf;        // 仅仅是自己是否可见
         }
 
         /*
@@ -277,7 +277,7 @@ namespace SDK.Lib
         {
             foreach(var path in btnList)
             {
-                addClick(mGuiWin.m_uiRoot, path);
+                addClick(mGuiWin.mUiRoot, path);
             }
         }
 
@@ -291,7 +291,7 @@ namespace SDK.Lib
             string[] pathArr = Ctx.mInstance.mLuaSystem.getTable2StrArray("BtnClickTable");
             foreach(var path in pathArr)
             {
-                addClick(mGuiWin.m_uiRoot, path);
+                addClick(mGuiWin.mUiRoot, path);
             }
         }
 

@@ -9,11 +9,11 @@ namespace SDK.Lib
      */
     public class ModuleSys : IModuleSys
     {
-        protected MDictionary<ModuleID, ModuleHandleItem> mType2ItemDic;
+        protected MDictionary<ModuleId, ModuleHandleItem> mType2ItemDic;
 
         public ModuleSys()
         {
-            mType2ItemDic = new MDictionary<ModuleID, ModuleHandleItem>();
+            mType2ItemDic = new MDictionary<ModuleId, ModuleHandleItem>();
             registerHandler();
         }
 
@@ -23,40 +23,40 @@ namespace SDK.Lib
 
             item = new ModuleHandleItem();
             item.mLoadEventHandle = onLoginLoadEventHandle;
-            item.m_moduleID = ModuleID.LOGINMN;
+            item.m_moduleID = ModuleId.LOGINMN;
             item.m_moduleLayerPath = ModulePath.LOGINMN;
             item.mPath = string.Format("{0}{1}{2}", Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathModule], ModuleName.LOGINMN, ".prefab");
             mType2ItemDic[item.m_moduleID] = item;
 
             item = new ModuleHandleItem();
             item.mLoadEventHandle = onGameLoadEventHandle;
-            item.m_moduleID = ModuleID.GAMEMN;
+            item.m_moduleID = ModuleId.GAMEMN;
             item.m_moduleLayerPath = ModulePath.GAMEMN;
             item.mPath = string.Format("{0}{1}{2}", Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathModule], ModuleName.GAMEMN, ".prefab");
             mType2ItemDic[item.m_moduleID] = item;
 
             item = new ModuleHandleItem();
             item.mLoadEventHandle = onAutoUpdateLoadEventHandle;
-            item.m_moduleID = ModuleID.AUTOUPDATEMN;
+            item.m_moduleID = ModuleId.AUTOUPDATEMN;
             item.m_moduleLayerPath = ModulePath.AUTOUPDATEMN;
             item.mPath = string.Format("{0}{1}{2}", Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathModule], ModuleName.AUTOUPDATEMN, ".prefab");
             mType2ItemDic[item.m_moduleID] = item;
         }
 
         // 加载游戏模块
-        public void loadModule(ModuleID moduleID)
+        public void loadModule(ModuleId moduleID)
         {
             if (!mType2ItemDic[moduleID].mIsLoaded)
             {
                 mType2ItemDic[moduleID].mIsLoaded = true;
 
-                if (ModuleID.LOGINMN == moduleID)
+                if (ModuleId.LOGINMN == moduleID)
                 {
                     Ctx.mInstance.mLoginSys = new LoginSys();
                     ((Ctx.mInstance.mLoginSys) as LoginSys).mLoginFlowHandle = new LoginFlowHandle();
                     ((Ctx.mInstance.mLoginSys) as LoginSys).Start();
                 }
-                else if(ModuleID.GAMEMN == moduleID)
+                else if(ModuleId.GAMEMN == moduleID)
                 {
                     Ctx.mInstance.mGameSys = new GameSys();
                     Ctx.mInstance.mGameSys.Start();
@@ -67,16 +67,16 @@ namespace SDK.Lib
             }
         }
 
-        public void unloadModule(ModuleID moduleID)
+        public void unloadModule(ModuleId moduleID)
         {
-            if (ModuleID.LOGINMN == moduleID)
+            if (ModuleId.LOGINMN == moduleID)
             {
                 if (Ctx.mInstance.mLoginSys != null)
                 {
                     Ctx.mInstance.mLoginSys.unload();
                 }
             }
-            else if (ModuleID.AUTOUPDATEMN == moduleID)
+            else if (ModuleId.AUTOUPDATEMN == moduleID)
             {
                 if (Ctx.mInstance.mAutoUpdate!= null)
                 {
@@ -99,12 +99,12 @@ namespace SDK.Lib
             ResItem res = dispObj as ResItem;
             if (res.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
             {
-                Ctx.mInstance.mLayerMgr.mPath2Go[ModulePath.LOGINMN] = res.InstantiateObject(mType2ItemDic[ModuleID.LOGINMN].mPath);
+                Ctx.mInstance.mLayerMgr.mPath2Go[ModulePath.LOGINMN] = res.InstantiateObject(mType2ItemDic[ModuleId.LOGINMN].mPath);
                 Ctx.mInstance.mLayerMgr.mPath2Go[ModulePath.LOGINMN].name = ModuleName.LOGINMN;
                 Ctx.mInstance.mLayerMgr.mPath2Go[ModulePath.LOGINMN].transform.parent = Ctx.mInstance.mLayerMgr.mPath2Go[NotDestroyPath.ND_CV_Root].transform;
 
                 // 立马卸载这个资源
-                Ctx.mInstance.mResLoadMgr.unload(mType2ItemDic[ModuleID.LOGINMN].mPath, onLoginLoadEventHandle);
+                Ctx.mInstance.mResLoadMgr.unload(mType2ItemDic[ModuleId.LOGINMN].mPath, onLoginLoadEventHandle);
             }
             else if (res.refCountResLoadResultNotify.resLoadState.hasFailed())
             {
@@ -117,7 +117,7 @@ namespace SDK.Lib
             ResItem res = dispObj as ResItem;
             if (res.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
             {
-                Ctx.mInstance.mLayerMgr.mPath2Go[ModulePath.GAMEMN] = res.InstantiateObject(mType2ItemDic[ModuleID.GAMEMN].mPath);
+                Ctx.mInstance.mLayerMgr.mPath2Go[ModulePath.GAMEMN] = res.InstantiateObject(mType2ItemDic[ModuleId.GAMEMN].mPath);
                 Ctx.mInstance.mLayerMgr.mPath2Go[ModulePath.GAMEMN].name = ModuleName.GAMEMN;
                 Ctx.mInstance.mLayerMgr.mPath2Go[NotDestroyPath.ND_CV_Game].transform.parent = Ctx.mInstance.mLayerMgr.mPath2Go[NotDestroyPath.ND_CV_Root].transform;
 
@@ -125,7 +125,7 @@ namespace SDK.Lib
                 UtilApi.DontDestroyOnLoad(Ctx.mInstance.mLayerMgr.mPath2Go[NotDestroyPath.ND_CV_Game]);
 
                 // 立马卸载这个资源
-                Ctx.mInstance.mResLoadMgr.unload(mType2ItemDic[ModuleID.GAMEMN].mPath, onGameLoadEventHandle);
+                Ctx.mInstance.mResLoadMgr.unload(mType2ItemDic[ModuleId.GAMEMN].mPath, onGameLoadEventHandle);
             }
             else if (res.refCountResLoadResultNotify.resLoadState.hasFailed())
             {
@@ -140,12 +140,12 @@ namespace SDK.Lib
             {
                 Ctx.mInstance.mLogSys.debugLog_1(LangItemID.eItem0, res.getLoadPath());
 
-                Ctx.mInstance.mLayerMgr.mPath2Go[ModulePath.AUTOUPDATEMN] = res.InstantiateObject(mType2ItemDic[ModuleID.AUTOUPDATEMN].mPath);
+                Ctx.mInstance.mLayerMgr.mPath2Go[ModulePath.AUTOUPDATEMN] = res.InstantiateObject(mType2ItemDic[ModuleId.AUTOUPDATEMN].mPath);
                 Ctx.mInstance.mLayerMgr.mPath2Go[ModulePath.AUTOUPDATEMN].name = ModuleName.AUTOUPDATEMN;
                 Ctx.mInstance.mLayerMgr.mPath2Go[ModulePath.AUTOUPDATEMN].transform.parent = Ctx.mInstance.mLayerMgr.mPath2Go[NotDestroyPath.ND_CV_Root].transform;
 
                 // 立马卸载这个资源
-                Ctx.mInstance.mResLoadMgr.unload(mType2ItemDic[ModuleID.AUTOUPDATEMN].mPath, onAutoUpdateLoadEventHandle);
+                Ctx.mInstance.mResLoadMgr.unload(mType2ItemDic[ModuleId.AUTOUPDATEMN].mPath, onAutoUpdateLoadEventHandle);
             }
             else if (res.refCountResLoadResultNotify.resLoadState.hasFailed())
             {
