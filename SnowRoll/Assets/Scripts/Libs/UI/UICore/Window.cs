@@ -7,42 +7,42 @@ namespace SDK.Lib
      */
     public class Window
     {
-        public GuiWin m_guiWin;      // 控件数据
-		protected bool m_draggable;
+        public GuiWin mGuiWin;      // 控件数据
+		protected bool mDraggable;
 
-		protected int m_hitYMax;	// 可点击范围 Y 的最大值
-		protected int m_alignVertial;
-		protected int m_alignHorizontal;
+		protected int mHitYMax;	// 可点击范围 Y 的最大值
+		protected int mAlignVertial;
+		protected int mAlignHorizontal;
 	
-		protected int m_marginLeft;
-		protected int m_marginTop;
-		protected int m_marginRight;
-		protected int m_marginBottom;
+		protected int mMarginLeft;
+		protected int mMarginTop;
+		protected int mMarginRight;
+		protected int mMarginBottom;
 
-        public int m_width;
-        public int m_height;
-        public UILayer m_uiLayer;
-        protected bool m_isResReady;            // 资源是否已经加载并初始化
+        public int mWidth;
+        public int mHeight;
+        public UILayer mUiLayer;
+        protected bool mIsResReady;            // 资源是否已经加载并初始化
 
         public Window()
         {
-            m_guiWin = new GuiWin();
-            m_draggable = true;
-            m_hitYMax = 30;
-            m_alignVertial = 0;
-            m_alignHorizontal = 0;
-            m_isResReady = false;
+            mGuiWin = new GuiWin();
+            mDraggable = true;
+            mHitYMax = 30;
+            mAlignVertial = 0;
+            mAlignHorizontal = 0;
+            mIsResReady = false;
         }
 
         public float x
         {
             get
             {
-                return m_guiWin.m_uiRoot.transform.localPosition.x;
+                return mGuiWin.m_uiRoot.transform.localPosition.x;
             }
             set
             {
-                UtilApi.setPos(m_guiWin.m_uiRoot.transform, new Vector3(value, m_guiWin.m_uiRoot.transform.localPosition.y, m_guiWin.m_uiRoot.transform.localPosition.z));
+                UtilApi.setPos(mGuiWin.m_uiRoot.transform, new Vector3(value, mGuiWin.m_uiRoot.transform.localPosition.y, mGuiWin.m_uiRoot.transform.localPosition.z));
             }
         }
 
@@ -50,11 +50,11 @@ namespace SDK.Lib
         {
             get
             {
-                return m_guiWin.m_uiRoot.transform.localPosition.y;
+                return mGuiWin.m_uiRoot.transform.localPosition.y;
             }
             set
             {
-                UtilApi.setPos(m_guiWin.m_uiRoot.transform, new Vector3(m_guiWin.m_uiRoot.transform.localPosition.x, value, m_guiWin.m_uiRoot.transform.localPosition.z));
+                UtilApi.setPos(mGuiWin.m_uiRoot.transform, new Vector3(mGuiWin.m_uiRoot.transform.localPosition.x, value, mGuiWin.m_uiRoot.transform.localPosition.z));
             }
         }
 
@@ -62,34 +62,34 @@ namespace SDK.Lib
         {
             get
             {
-                return m_uiLayer;
+                return mUiLayer;
             }
             set
             {
-                m_uiLayer = value;
+                mUiLayer = value;
             }
         }
 
         public bool IsVisible()
         {
-            return m_guiWin.m_uiRoot.activeSelf;
+            return mGuiWin.m_uiRoot.activeSelf;
         }
 
         public bool IsResReady
         {
             get
             {
-                return m_isResReady;
+                return mIsResReady;
             }
             set 
             {
-                m_isResReady = value;
+                mIsResReady = value;
             }
         }
 
         public GuiWin guiWin()
         {
-            return m_guiWin;
+            return mGuiWin;
         }
     }
 }

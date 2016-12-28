@@ -29,7 +29,7 @@ namespace Game.Game
             //Ctx.mInstance.mSnowBlockMgr.createAllSnowFood();
             // 创建所有的 Robot
             //Ctx.mInstance.mRobotMgr.createAllRobot();
-
+            Ctx.mInstance.mUiMgr.loadAndShow(UIFormId.eUIPack);
             runTest();
         }
 

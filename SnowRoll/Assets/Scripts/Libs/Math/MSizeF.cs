@@ -2,24 +2,24 @@
 {
     public class MSizeF
     {
-        protected float m_width;
-        protected float m_height;
+        protected float mWidth;
+        protected float mHeight;
 
         public MSizeF(float width, float height)
         {
-            m_width = width;
-            m_height = height;
+            mWidth = width;
+            mHeight = height;
         }
 
         public float Width
         {
             get
             {
-                return m_width;
+                return mWidth;
             }
             set
             {
-                m_width = value;
+                mWidth = value;
             }
         }
 
@@ -27,11 +27,11 @@
         {
             get
             {
-                return m_height;
+                return mHeight;
             }
             set
             {
-                m_height = value;
+                mHeight = value;
             }
         }
     }

@@ -7,7 +7,7 @@ namespace Game.UI
      */
     public class UITest : Form, IUITest
     {
-        public AuxLabel m_logText;
+        public AuxLabel mLogText;
 
         public override void onInit()
         {
@@ -43,12 +43,12 @@ namespace Game.UI
 
         protected void findWidget()
         {
-            m_logText = new AuxLabel(m_guiWin.m_uiRoot, "LogText");
+            mLogText = new AuxLabel(mGuiWin.m_uiRoot, "LogText");
         }
 
         protected void addEventHandle()
         {
-            UtilApi.addEventHandle(m_guiWin.m_uiRoot, "BtnTest", onBtnClkTest);
+            UtilApi.addEventHandle(mGuiWin.m_uiRoot, "BtnTest", onBtnClkTest);
         }
 
         protected void onBtnClkTest()

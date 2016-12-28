@@ -28,6 +28,7 @@ namespace SDK.Lib
             addAttrItem(UIFormId.eUISelectRole, UICanvasID.eSecondCanvas, UILayerId.eSecondLayer, "UISelectRole");
             addAttrItem(UIFormId.eUITest, UICanvasID.eSecondCanvas, UILayerId.eSecondLayer, "UITest");
             addAttrItem(UIFormId.eUITerrainEdit, UICanvasID.eSecondCanvas, UILayerId.eSecondLayer, "UITerrainEdit");
+            addAttrItem(UIFormId.eUIPack, UICanvasID.eSecondCanvas, UILayerId.eSecondLayer, "UIPack");
 
             // ****************** 第二层结束 ***********************
 

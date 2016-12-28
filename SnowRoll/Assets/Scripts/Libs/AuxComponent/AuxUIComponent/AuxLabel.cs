@@ -49,10 +49,14 @@ namespace SDK.Lib
         // ÐÞ¸Ä×é¼þ
         public void setSelfGo(GameObject pntNode, string path)
         {
-            this.mSelfGo = UtilApi.TransFindChildByPObjAndPath(pntNode, path);
-            this.mText = UtilApi.getComByP<Text>(pntNode, path);
+            this.selfGo = UtilApi.TransFindChildByPObjAndPath(pntNode, path);
+        }
 
-            if(this.mIsStrInvalid)
+        override protected void onSelfChanged()
+        {
+            this.mText = UtilApi.getComByP<Text>(this.mSelfGo);
+
+            if (this.mIsStrInvalid)
             {
                 this.mText.text = this.mStr;
             }

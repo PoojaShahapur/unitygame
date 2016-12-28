@@ -48,6 +48,7 @@ namespace Game.Game
             Ctx.mInstance.mScriptDynLoad.registerScriptType("Game.UI.UIBlurBg", typeof(UIBlurBg));
             Ctx.mInstance.mScriptDynLoad.registerScriptType("Game.UI.UITest", typeof(UITest));
             Ctx.mInstance.mScriptDynLoad.registerScriptType("Game.UI.UITerrainEdit", typeof(UITerrainEdit));
+            Ctx.mInstance.mScriptDynLoad.registerScriptType("Game.UI.UIPack", typeof(UIPack));
         }
     }
 }

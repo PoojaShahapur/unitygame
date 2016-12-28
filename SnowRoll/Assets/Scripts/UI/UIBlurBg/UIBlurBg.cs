@@ -41,7 +41,7 @@ namespace Game.UI
 
         protected void addEventHandle()
         {
-            UtilApi.addEventHandle(m_guiWin.m_uiRoot, "BtnBg", onClkBg);
+            UtilApi.addEventHandle(mGuiWin.m_uiRoot, "BtnBg", onClkBg);
         }
 
         // 点击背景处理

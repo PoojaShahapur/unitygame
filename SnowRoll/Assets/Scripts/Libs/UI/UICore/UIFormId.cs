@@ -18,6 +18,6 @@ namespace SDK.Lib
 
     public enum WinIdCnt
     {
-        eIDCnt = 500,           // 每一个窗口中可以占用的 ID 数量
+        eIdCnt = 500,           // 每一个窗口中可以占用的 ID 数量
     }
 }

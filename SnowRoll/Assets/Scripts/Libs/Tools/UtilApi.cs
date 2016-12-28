@@ -63,6 +63,7 @@ namespace SDK.Lib
         {
             Transform trans = null;
             trans = pObject.transform.Find(path);
+
             if (trans != null)
             {
                 return trans.gameObject;
@@ -89,13 +90,25 @@ namespace SDK.Lib
         // 从 Parent 获取一个组件
         static public T getComByP<T>(GameObject go) where T : Component
         {
-            return go.GetComponent<T>();
+            if (null != go)
+            {
+                return go.GetComponent<T>();
+            }
+
+            return null;
         }
 
         // 从 Parent 获取一个组件
         static public T getComByP<T>(string path) where T : Component
         {
-            return GameObject.Find(path).GetComponent<T>();
+            GameObject go = null;
+            go = GameObject.Find(path);
+            if (null != go)
+            {
+                return go.GetComponent<T>();
+            }
+
+            return null;
         }
 
         // 设置 Label 的显示
@@ -113,57 +126,98 @@ namespace SDK.Lib
         // 添加事件处理
         public static void addEventHandle(GameObject go, string path, UIEventListener.VoidDelegate handle)
         {
-            UIEventListener.Get(go.transform.Find(path).gameObject).onClick = handle;
+            if (null != go)
+            {
+                UIEventListener.Get(go.transform.Find(path).gameObject).onClick = handle;
+            }
         }
 
         public static void removeEventHandle(GameObject go, string path)
         {
-            UIEventListener.Get(go.transform.Find(path).gameObject).onClick = null;
+            if (null != go)
+            {
+                UIEventListener.Get(go.transform.Find(path).gameObject).onClick = null;
+            }
         }
 
         public static void addEventHandle(GameObject go, UIEventListener.VoidDelegate handle)
         {
-            UIEventListener.Get(go).onClick = handle;
+            if (null != go)
+            {
+                UIEventListener.Get(go).onClick = handle;
+            }
         }
 
         public static void addHoverHandle(GameObject go, UIEventListener.BoolDelegate handle)
         {
-            UIEventListener.Get(go).onHover = handle;
+            if (null != go)
+            {
+                UIEventListener.Get(go).onHover = handle;
+            }
         }
 
         public static void addPressHandle(GameObject go, UIEventListener.BoolDelegate handle)
         {
-            UIEventListener.Get(go).onPress = handle;
+            if (null != go)
+            {
+                UIEventListener.Get(go).onPress = handle;
+            }
         }
 
         public static void addDragOverHandle(GameObject go, UIEventListener.VoidDelegate handle)
         {
-            UIEventListener.Get(go).onDragOver = handle;
+            if (null != go)
+            {
+                UIEventListener.Get(go).onDragOver = handle;
+            }
         }
 
         public static void addDragOutHandle(GameObject go, UIEventListener.VoidDelegate handle)
         {
-            UIEventListener.Get(go).onDragOut = handle;
+            if (null != go)
+            {
+                UIEventListener.Get(go).onDragOut = handle;
+            }
         }
 
         public static void addEventHandle(GameObject go, string path, UnityAction handle)
         {
-            go.transform.Find(path).GetComponent<Button>().onClick.AddListener(handle);
+            if (null != go)
+            {
+                Transform transform = null;
+                transform = go.transform.Find(path);
+
+                if (null != transform)
+                {
+                    Button button = null;
+                    button = transform.GetComponent<Button>();
+
+                    if (null != button)
+                    {
+                        button.onClick.AddListener(handle);
+                    }
+                }
+            }
         }
 
         public static void addEventHandle(GameObject go, UnityAction handle)
         {
-            go.GetComponent<Button>().onClick.AddListener(handle);
+            if (null != go)
+            {
+                go.GetComponent<Button>().onClick.AddListener(handle);
+            }
         }
 
         // 给一个添加 EventTrigger 组件的 GameObject 添加单击事件
         public static void addEventTriggerHandle(GameObject go, LuaFunction handle)
         {
             EventTrigger trigger = go.GetComponent<EventTrigger>();
+
             if(trigger == null)
             {
                 trigger = UtilApi.AddComponent<EventTrigger>(go);
             }
+
             if(trigger != null)
             {
                 EventTrigger.Entry entry = new EventTrigger.Entry();
@@ -183,7 +237,10 @@ namespace SDK.Lib
 
         public static void addEventHandle(Button btn, UnityAction handle)
         {
-            btn.onClick.AddListener(handle);
+            if (null != btn)
+            {
+                btn.onClick.AddListener(handle);
+            }
         }
 
         public static void addEventHandle(Button btn, MAction<IDispatchObject> handle)
@@ -192,6 +249,7 @@ namespace SDK.Lib
             if (userData != null)
             {
                 AuxButton auxBtn = userData.getUserData();
+
                 if (auxBtn != null)
                 {
                     auxBtn.addEventHandle(null, handle, null, null);
@@ -201,15 +259,20 @@ namespace SDK.Lib
 
         public static void RemoveListener(Button btn, UnityAction handle)
         {
-            btn.onClick.RemoveListener(handle);
+            if (null != btn)
+            {
+                btn.onClick.RemoveListener(handle);
+            }
         }
 
         public static void RemoveListener(Button btn, MAction<IDispatchObject> handle)
         {
             AuxButtonUserData userData = btn.gameObject.GetComponent<AuxButtonUserData>();
+
             if (userData != null)
             {
                 AuxButton auxBtn = userData.getUserData();
+
                 if (auxBtn != null)
                 {
                     auxBtn.addEventHandle(null, handle, null, null);

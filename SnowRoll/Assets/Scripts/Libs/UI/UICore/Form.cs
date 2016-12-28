@@ -31,8 +31,8 @@ namespace SDK.Lib
             mIsReady = false;
             mIsBlurBg = false;
             mIsHandleExitBtn = false;
-            m_alignVertial = (int)WindowAnchor.CENTER;
-			m_alignHorizontal = (int)WindowAnchor.CENTER;
+            mAlignVertial = (int)WindowAnchor.CENTER;
+			mAlignHorizontal = (int)WindowAnchor.CENTER;
 
             mGo2Path = new MDictionary<GameObject, GOExtraInfo>();
 		}
@@ -167,7 +167,7 @@ namespace SDK.Lib
             mIsReady = true;
             if (mIsHandleExitBtn)
             {
-                UtilApi.addEventHandle(m_guiWin.m_uiRoot, "BtnClose", onExitBtnClick); // 关闭事件
+                UtilApi.addEventHandle(mGuiWin.m_uiRoot, "BtnClose", onExitBtnClick); // 关闭事件
             }
         }
 
@@ -216,7 +216,7 @@ namespace SDK.Lib
 
         public bool isVisible()
         {
-            return m_guiWin.m_uiRoot.activeSelf;        // 仅仅是自己是否可见
+            return mGuiWin.m_uiRoot.activeSelf;        // 仅仅是自己是否可见
         }
 
         /*
@@ -239,30 +239,30 @@ namespace SDK.Lib
 			MPointF ret = new MPointF(0, 0);
 			int widthStage = 0;
 			int heightStage = 0;
-            if (m_alignVertial == (int)WindowAnchor.CENTER)
+            if (mAlignVertial == (int)WindowAnchor.CENTER)
 			{
-                ret.y = (heightStage - this.m_height) / 2;
+                ret.y = (heightStage - this.mHeight) / 2;
 			}
-            else if (m_alignVertial == (int)WindowAnchor.TOP)
+            else if (mAlignVertial == (int)WindowAnchor.TOP)
 			{
-				ret.y = this.m_marginTop;
+				ret.y = this.mMarginTop;
 			}
 			else
 			{
-				ret.y = heightStage - this.m_height - this.m_marginBottom;
+				ret.y = heightStage - this.mHeight - this.mMarginBottom;
 			}
 			
-			if (m_alignHorizontal == (int)WindowAnchor.CENTER)
+			if (mAlignHorizontal == (int)WindowAnchor.CENTER)
 			{
-                ret.x = (widthStage - this.m_width) / 2;
+                ret.x = (widthStage - this.mWidth) / 2;
 			}
-			else if (m_alignHorizontal == (int)WindowAnchor.LEFT)
+			else if (mAlignHorizontal == (int)WindowAnchor.LEFT)
 			{
-				ret.x = m_marginLeft;
+				ret.x = mMarginLeft;
 			}
 			else
 			{
-                ret.x = widthStage - this.m_width - m_marginRight;
+                ret.x = widthStage - this.mWidth - mMarginRight;
 			}
 			return ret;
 		}
@@ -277,7 +277,7 @@ namespace SDK.Lib
         {
             foreach(var path in btnList)
             {
-                addClick(m_guiWin.m_uiRoot, path);
+                addClick(mGuiWin.m_uiRoot, path);
             }
         }
 
@@ -291,7 +291,7 @@ namespace SDK.Lib
             string[] pathArr = Ctx.mInstance.mLuaSystem.getTable2StrArray("BtnClickTable");
             foreach(var path in pathArr)
             {
-                addClick(m_guiWin.m_uiRoot, path);
+                addClick(mGuiWin.m_uiRoot, path);
             }
         }
 

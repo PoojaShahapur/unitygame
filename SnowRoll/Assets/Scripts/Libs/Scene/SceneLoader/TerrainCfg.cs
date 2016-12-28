@@ -4,14 +4,14 @@ namespace SDK.Lib
 {
     public class TerrainCfg
     {
-        protected float m_width;
-        protected float m_height;
+        protected float mWidth;
+        protected float mHeight;
 
         public float Width
         {
             get
             {
-                return m_width;
+                return mWidth;
             }
         }
 
@@ -19,7 +19,7 @@ namespace SDK.Lib
         {
             get
             {
-                return m_height;
+                return mHeight;
             }
         }
 
@@ -32,8 +32,8 @@ namespace SDK.Lib
             split[0] = ',';
             string[] strarr = attr.Split(split);
 
-            m_width = float.Parse(strarr[0]);
-            m_height = float.Parse(strarr[2]);
+            mWidth = float.Parse(strarr[0]);
+            mHeight = float.Parse(strarr[2]);
         }
     }
 }

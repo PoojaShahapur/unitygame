@@ -56,13 +56,13 @@ namespace Game.UI
         // 关联窗口
         protected void findWidget()
         {
-            this.mInfoLabel.setSelfGo(m_guiWin.m_uiRoot, SelectRoleComPath.PathLabelInfo);
-            this.mMainGroup.setSelfGo(m_guiWin.m_uiRoot, SelectRoleComPath.PathMainGroup);
-            this.mCreateGroup.setSelfGo(m_guiWin.m_uiRoot, SelectRoleComPath.PathCreateGroup);
+            this.mInfoLabel.setSelfGo(mGuiWin.m_uiRoot, SelectRoleComPath.PathLabelInfo);
+            this.mMainGroup.setSelfGo(mGuiWin.m_uiRoot, SelectRoleComPath.PathMainGroup);
+            this.mCreateGroup.setSelfGo(mGuiWin.m_uiRoot, SelectRoleComPath.PathCreateGroup);
 
-            this.mPlayerBtn.setSelfGo(m_guiWin.m_uiRoot, SelectRoleComPath.PathBtnRoleOne);
+            this.mPlayerBtn.setSelfGo(mGuiWin.m_uiRoot, SelectRoleComPath.PathBtnRoleOne);
             this.mNameInputField.setSelfGo(
-                m_guiWin.m_uiRoot, 
+                mGuiWin.m_uiRoot, 
                 SelectRoleComPath.PathBtnInputFieldName
                 );
 
@@ -71,12 +71,12 @@ namespace Game.UI
 
         protected void addEventHandle()
         {
-            UtilApi.addEventHandle(m_guiWin.m_uiRoot, SelectRoleComPath.PathBtnEnter, onEnterBtnClk);
-            UtilApi.addEventHandle(m_guiWin.m_uiRoot, SelectRoleComPath.PathBtnCreateRole, onCreateRoleBtnClk);
-            UtilApi.addEventHandle(m_guiWin.m_uiRoot, SelectRoleComPath.PathBtnDeleteRole, onDeleteRoleBtnClk);
+            UtilApi.addEventHandle(mGuiWin.m_uiRoot, SelectRoleComPath.PathBtnEnter, onEnterBtnClk);
+            UtilApi.addEventHandle(mGuiWin.m_uiRoot, SelectRoleComPath.PathBtnCreateRole, onCreateRoleBtnClk);
+            UtilApi.addEventHandle(mGuiWin.m_uiRoot, SelectRoleComPath.PathBtnDeleteRole, onDeleteRoleBtnClk);
 
-            UtilApi.addEventHandle(m_guiWin.m_uiRoot, SelectRoleComPath.PathBtnRoleOne, onSelectRoleBtnClick);
-            UtilApi.addEventHandle(m_guiWin.m_uiRoot, SelectRoleComPath.PathBtnCreateOk, onCreateOkBtnClk);
+            UtilApi.addEventHandle(mGuiWin.m_uiRoot, SelectRoleComPath.PathBtnRoleOne, onSelectRoleBtnClick);
+            UtilApi.addEventHandle(mGuiWin.m_uiRoot, SelectRoleComPath.PathBtnCreateOk, onCreateOkBtnClk);
         }
 
         public void onEnterBtnClk()
