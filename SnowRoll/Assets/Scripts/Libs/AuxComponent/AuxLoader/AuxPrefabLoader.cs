@@ -17,6 +17,7 @@ namespace SDK.Lib
 
         protected bool mIsSetFakePos;       // 是否初始化的时候设置到很远的位置
         protected bool mIsSetInitOrientPos; // 是否 Instantiate 的时候，设置初始化方向位置信息， UI 是不需要的，UI 的初始化信息都保存在 Prefab 里面，直接从 Prefab 里面读取就行了，如果设置了不对的位置信息，可能位置就不对了
+        protected ResInsEventDispatch mInsEventDispatch;
 
         public AuxPrefabLoader(string path = "", bool isNeedInsPrefab = true, bool isInsNeedCoroutine = true)
             : base(path)
@@ -273,6 +274,61 @@ namespace SDK.Lib
         public bool isClientDispose()
         {
             return false;
+        }
+
+        public UnityEngine.GameObject InstantiateObject(MAction<IDispatchObject> insHandle = null)
+        {
+            if(null == this.mInsEventDispatch && null != insHandle)
+            {
+                this.mInsEventDispatch = new ResInsEventDispatch();
+            }
+            if(null != insHandle)
+            {
+                this.mInsEventDispatch.addEventHandle(null, insHandle);
+            }
+
+            if (mIsInsNeedCoroutine)
+            {
+                if (null == this.mResInsEventDispatch)
+                {
+                    mResInsEventDispatch = new ResInsEventDispatch();
+                }
+                mResInsEventDispatch.addEventHandle(null, onInstantiateObjectFinish);
+
+                if (this.mIsSetFakePos)
+                {
+                    mPrefabRes.InstantiateObject(mPrefabRes.getPrefabName(), mIsSetInitOrientPos, UtilApi.FAKE_POS, UtilMath.UnitQuat, mResInsEventDispatch);
+                }
+                else
+                {
+                    mPrefabRes.InstantiateObject(mPrefabRes.getPrefabName(), mIsSetInitOrientPos, UtilMath.ZeroVec3, UtilMath.UnitQuat, mResInsEventDispatch);
+                }
+            }
+            else
+            {
+                if (this.mIsSetFakePos)
+                {
+                    this.selfGo = mPrefabRes.InstantiateObject(mPrefabRes.getPrefabName(), mIsSetInitOrientPos, UtilApi.FAKE_POS, UtilMath.UnitQuat);
+                }
+                else
+                {
+                    this.selfGo = mPrefabRes.InstantiateObject(mPrefabRes.getPrefabName(), mIsSetInitOrientPos, UtilMath.ZeroVec3, UtilMath.UnitQuat);
+                }
+
+                onInstantiateObjectFinish();
+            }
+
+            return this.selfGo;
+        }
+
+        public void onInstantiateObjectFinish(IDispatchObject dispObj = null)
+        {
+            if(null != dispObj)
+            {
+                this.selfGo = mResInsEventDispatch.getInsGO();
+            }
+
+            this.mInsEventDispatch.dispatchEvent(this);
         }
     }
 }
