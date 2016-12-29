@@ -13,7 +13,7 @@ namespace SDK.Lib
         protected string mExtName;             // 扩展名字
         protected string mLogicPath;
 
-        protected WWW m_w3File;
+        protected WWW mW3File;
         protected bool mLoadNeedCoroutine;     // 加载是否需要协同程序
 
         protected AssetBundle m_assetBundle;
@@ -80,7 +80,7 @@ namespace SDK.Lib
         {
             get
             {
-                return m_w3File;
+                return mW3File;
             }
         }
 
@@ -176,7 +176,7 @@ namespace SDK.Lib
         virtual public void reset()
         {
             mLoadPath = "";
-            m_w3File = null;
+            mW3File = null;
             mLoadNeedCoroutine = false;
         }
 
@@ -192,10 +192,10 @@ namespace SDK.Lib
                 path = Ctx.mInstance.mCfg.mWebIP + mLoadPath;
             }
             deleteFromCache(path);
-            m_w3File = WWW.LoadFromCacheOrDownload(path, 1);
+            mW3File = WWW.LoadFromCacheOrDownload(path, 1);
             // WWW::LoadFromCacheOrDownload 是加载 AssetBundles 使用的
-            //m_w3File = WWW.LoadFromCacheOrDownload(path, UnityEngine.Random.Range(0, int.MaxValue));
-            yield return m_w3File;
+            //mW3File = WWW.LoadFromCacheOrDownload(path, UnityEngine.Random.Range(0, int.MaxValue));
+            yield return mW3File;
 
             onWWWEnd();
         }
@@ -214,9 +214,9 @@ namespace SDK.Lib
         // 加载完成回调处理
         virtual protected void onWWWEnd()
         {
-            if (isLoadedSuccess(m_w3File))
+            if (isLoadedSuccess(mW3File))
             {
-                m_assetBundle = m_w3File.assetBundle;
+                m_assetBundle = mW3File.assetBundle;
 
                 m_nonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }

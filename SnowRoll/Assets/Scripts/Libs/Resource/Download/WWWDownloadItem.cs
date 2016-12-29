@@ -27,13 +27,13 @@ namespace SDK.Lib
             deleteFromCache(mDownloadVerPath);
             if (mResPackType == ResPackType.eBundleType)
             {
-                m_w3File = WWW.LoadFromCacheOrDownload(mDownloadNoVerPath, Convert.ToInt32(mVersion), 0);
+                mW3File = WWW.LoadFromCacheOrDownload(mDownloadNoVerPath, Convert.ToInt32(mVersion), 0);
             }
             else
             {
-                m_w3File = new WWW(mDownloadVerPath);
+                mW3File = new WWW(mDownloadVerPath);
             }
-            yield return m_w3File;
+            yield return mW3File;
 
             onWWWEnd();
         }
@@ -41,17 +41,17 @@ namespace SDK.Lib
         // 加载完成回调处理
         override protected void onWWWEnd()
         {
-            if (isLoadedSuccess(m_w3File))
+            if (isLoadedSuccess(mW3File))
             {
-                if(m_w3File.size > 0)
+                if(mW3File.size > 0)
                 {
-                    if (m_w3File.bytes != null)
+                    if (mW3File.bytes != null)
                     {
-                        mBytes = m_w3File.bytes;
+                        mBytes = mW3File.bytes;
                     }
-                    else if(m_w3File.text != null)
+                    else if(mW3File.text != null)
                     {
-                        mText = m_w3File.text;
+                        mText = mW3File.text;
                     }
                 }
 

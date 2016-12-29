@@ -21,7 +21,7 @@ namespace SDK.Lib
         protected string mDownloadNoVerPath;         // 下载目录，没有版本号
         protected string mDownloadVerPath;         // 下载目录，有版本号
 
-        protected WWW m_w3File;
+        protected WWW mW3File;
         protected DownloadType mDownloadType;   // 加载类型
         protected ResLoadType mResLoadType;
         protected ResPackType mResPackType;
@@ -66,7 +66,7 @@ namespace SDK.Lib
         virtual public void reset()
         {
             mLoadPath = "";
-            m_w3File = null;
+            mW3File = null;
             mDownloadType = DownloadType.eHttpWeb;
 
             mBytes = null;
@@ -100,7 +100,7 @@ namespace SDK.Lib
         {
             get
             {
-                return m_w3File;
+                return mW3File;
             }
         }
 
