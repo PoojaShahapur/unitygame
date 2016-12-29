@@ -11,7 +11,7 @@ namespace SDK.Lib
     {
         protected byte[] mBytes;
         protected string mText;
-        protected string mVersion = "";
+        protected string mVersion;
 
         protected string mLocalPath;            // 本地文件系统目录
         protected string mLoadPath;             // 加载目录
@@ -34,6 +34,7 @@ namespace SDK.Lib
 
         public DownloadItem()
         {
+            mVersion = "";
             mResLoadType = ResLoadType.eLoadWeb;
             m_refCountResLoadResultNotify = new RefCountResLoadResultNotify();
             mAllLoadResEventDispatch = new ResEventDispatch();

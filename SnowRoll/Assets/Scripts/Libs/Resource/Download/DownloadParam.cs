@@ -19,7 +19,7 @@ namespace SDK.Lib
         public string mLogicPath;
         public string mResUniqueId;
         public string mExtName;
-        public string mVersion = "";
+        public string mVersion;
 
         public MAction<IDispatchObject> mLoadEventHandle;
         public DownloadType mDownloadType;
@@ -42,6 +42,7 @@ namespace SDK.Lib
             mDownloadType = DownloadType.eHttpWeb;
             mIsWriteFile = true;
             mFileLen = 0;
+            mVersion = "";
         }
 
         public void setPath(string origPath)
