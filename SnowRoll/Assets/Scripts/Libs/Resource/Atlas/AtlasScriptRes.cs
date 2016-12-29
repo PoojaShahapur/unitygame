@@ -102,14 +102,14 @@ namespace SDK.Lib
             retImage.refCountResLoadResultNotify.resLoadState.setLoading();
             retImage.refCountResLoadResultNotify.refCount.incRef();
 
-            if (m_refCountResLoadResultNotify.resLoadState.hasLoaded())
+            if (mRefCountResLoadResultNotify.resLoadState.hasLoaded())
             {
                 if (param.mLoadEventHandle != null)
                 {
                     param.mLoadEventHandle(retImage);
                 }
             }
-            else if (m_refCountResLoadResultNotify.resLoadState.hasNotLoadOrLoading())
+            else if (mRefCountResLoadResultNotify.resLoadState.hasNotLoadOrLoading())
             {
                 if (param.mLoadEventHandle != null)
                 {
@@ -167,7 +167,7 @@ namespace SDK.Lib
                 {
                     if (obj.mPath == spriteName)
                     {
-                        createImage(spriteName, m_refCountResLoadResultNotify.resLoadState);
+                        createImage(spriteName, mRefCountResLoadResultNotify.resLoadState);
                         this.mPath2Image[obj.mPath].image = obj.mSprite;
                         break;
                     }

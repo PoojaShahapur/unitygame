@@ -2,7 +2,7 @@
 {
     public class InsResBase : IDispatchObject
     {
-        protected RefCountResLoadResultNotify m_refCountResLoadResultNotify;
+        protected RefCountResLoadResultNotify mRefCountResLoadResultNotify;
         public string mLoadPath;
         public string mOrigPath;
         public string mPrefabName;
@@ -21,7 +21,7 @@
             {
                 m_bOrigResNeedImmeUnload = false;
             }
-            m_refCountResLoadResultNotify = new RefCountResLoadResultNotify();
+            mRefCountResLoadResultNotify = new RefCountResLoadResultNotify();
         }
 
         public bool bOrigResNeedImmeUnload
@@ -74,7 +74,7 @@
         public void init(ResItem res)
         {
             initImpl(res);         // 内部初始化完成后，才分发事件
-            m_refCountResLoadResultNotify.onLoadEventHandle(this);
+            mRefCountResLoadResultNotify.onLoadEventHandle(this);
         }
 
         // 这个是内部初始化实现，初始化都重载这个，但是现在很多都是重在了
@@ -86,7 +86,7 @@
         virtual public void failed(ResItem res)
         {
             unload();
-            m_refCountResLoadResultNotify.onLoadEventHandle(this);
+            mRefCountResLoadResultNotify.onLoadEventHandle(this);
         }
 
         virtual public void unload()
@@ -98,22 +98,22 @@
         {
             get
             {
-                return m_refCountResLoadResultNotify;
+                return mRefCountResLoadResultNotify;
             }
             set
             {
-                m_refCountResLoadResultNotify = value;
+                mRefCountResLoadResultNotify = value;
             }
         }
 
         public bool hasSuccessLoaded()
         {
-            return m_refCountResLoadResultNotify.resLoadState.hasSuccessLoaded();
+            return mRefCountResLoadResultNotify.resLoadState.hasSuccessLoaded();
         }
 
         public bool hasFailed()
         {
-            return m_refCountResLoadResultNotify.resLoadState.hasFailed();
+            return mRefCountResLoadResultNotify.resLoadState.hasFailed();
         }
 
         public void setLoadParam(LoadParam param)

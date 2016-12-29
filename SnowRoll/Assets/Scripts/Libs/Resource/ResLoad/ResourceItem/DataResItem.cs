@@ -11,8 +11,8 @@
 
             mBytes = (item as DataLoadItem).mBytes;
 
-            m_refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
-            m_refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
+            mRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
+            mRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
 
         override public byte[] getBytes(string resName)

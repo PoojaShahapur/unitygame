@@ -47,7 +47,7 @@
             }
             else if (res.refCountResLoadResultNotify.resLoadState.hasFailed())
             {
-                m_refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
+                mRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
             }
         }
     }

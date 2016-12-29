@@ -11,11 +11,11 @@ namespace SDK.Lib
         protected Sprite m_image;
         protected AtlasScriptRes m_atlasScriptRes;
         protected string m_spriteName;
-        protected RefCountResLoadResultNotify m_refCountResLoadResultNotify;
+        protected RefCountResLoadResultNotify mRefCountResLoadResultNotify;
 
         public ImageItem()
         {
-            m_refCountResLoadResultNotify = new RefCountResLoadResultNotify();
+            mRefCountResLoadResultNotify = new RefCountResLoadResultNotify();
         }
 
         public Sprite image
@@ -58,25 +58,25 @@ namespace SDK.Lib
         {
             get
             {
-                return m_refCountResLoadResultNotify;
+                return mRefCountResLoadResultNotify;
             }
             set
             {
-                m_refCountResLoadResultNotify = value;
+                mRefCountResLoadResultNotify = value;
             }
         }
 
         public void init(AtlasScriptRes atlasScriptRes)
         {
             m_image = atlasScriptRes.getSprite(m_spriteName);
-            m_refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
-            m_refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
+            mRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
+            mRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
 
         public void failed(AtlasScriptRes atlasScriptRes)
         {
-            m_refCountResLoadResultNotify.resLoadState.setFailed();
-            m_refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
+            mRefCountResLoadResultNotify.resLoadState.setFailed();
+            mRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
 
         public void unloadImage()

@@ -88,14 +88,14 @@ namespace SDK.Lib
 
             if (isSuccess)
             {
-                m_refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
+                mRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }
             else
             {
-                m_refCountResLoadResultNotify.resLoadState.setFailed();
+                mRefCountResLoadResultNotify.resLoadState.setFailed();
             }
 
-            m_refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
+            mRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
 
         // 奇怪，Level 加载完成后立马获取里面的 GameObject ，有的时候可以，有的时候获取不到，因此间隔一帧后再获取
@@ -109,8 +109,8 @@ namespace SDK.Lib
 
             yield return new WaitForEndOfFrame();
 
-            m_refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
-            m_refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
+            mRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
+            mRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
 
         protected IEnumerator initAssetByCoroutine()
@@ -135,14 +135,14 @@ namespace SDK.Lib
             // asyncOpt.progress == 1.0f
             if (null != asyncOpt && asyncOpt.isDone)
             {
-                m_refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
+                mRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }
             else
             {
-                m_refCountResLoadResultNotify.resLoadState.setFailed();
+                mRefCountResLoadResultNotify.resLoadState.setFailed();
             }
 
-            m_refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
+            mRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
 
         public override void unload(bool unloadAllLoadedObjects = true)

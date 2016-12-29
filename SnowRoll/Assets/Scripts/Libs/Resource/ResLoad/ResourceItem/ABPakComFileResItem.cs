@@ -12,7 +12,7 @@ namespace SDK.Lib
         override public void init(LoadItem item)
         {
             base.init(item);
-            m_refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
+            mRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
 
         //override public GameObject InstantiateObject(string resName)

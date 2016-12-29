@@ -14,7 +14,7 @@ namespace SDK.Lib
         protected string mPrefabName;          // 预制名字
 
         protected bool mResNeedCoroutine;      // 资源是否需要协同程序
-        protected RefCountResLoadResultNotify m_refCountResLoadResultNotify;
+        protected RefCountResLoadResultNotify mRefCountResLoadResultNotify;
         protected bool mIsLoadAll;               // 是否加载所有的内容
         protected string mResUniqueId;          // 资源唯一 Id，查找资源的索引
         protected string mLogicPath;
@@ -22,7 +22,7 @@ namespace SDK.Lib
         public ResItem()
         {
             mIsLoadAll = false;
-            m_refCountResLoadResultNotify = new RefCountResLoadResultNotify();
+            mRefCountResLoadResultNotify = new RefCountResLoadResultNotify();
         }
 
         public ResPackType GetResPackType()
@@ -133,11 +133,11 @@ namespace SDK.Lib
         {
             get
             {
-                return m_refCountResLoadResultNotify;
+                return mRefCountResLoadResultNotify;
             }
             set
             {
-                m_refCountResLoadResultNotify = value;
+                mRefCountResLoadResultNotify = value;
             }
         }
 
@@ -179,15 +179,15 @@ namespace SDK.Lib
 
         virtual public void failed(LoadItem item)
         {
-            m_refCountResLoadResultNotify.resLoadState.setFailed();
-            m_refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
+            mRefCountResLoadResultNotify.resLoadState.setFailed();
+            mRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
 
         virtual public void reset()
         {
             mLoadPath = "";
-            m_refCountResLoadResultNotify.resLoadState.reset();
-            m_refCountResLoadResultNotify.refCount.refNum = 0;
+            mRefCountResLoadResultNotify.resLoadState.reset();
+            mRefCountResLoadResultNotify.refCount.refNum = 0;
         }
 
         // 卸载
@@ -244,7 +244,7 @@ namespace SDK.Lib
             mOrigPath = rhv.mOrigPath;
             mExtName = rhv.mExtName;
             mResNeedCoroutine = rhv.mResNeedCoroutine;
-            m_refCountResLoadResultNotify.copyFrom(rhv.refCountResLoadResultNotify);
+            mRefCountResLoadResultNotify.copyFrom(rhv.refCountResLoadResultNotify);
         }
 
         virtual public void setLoadParam(LoadParam param)
@@ -262,12 +262,12 @@ namespace SDK.Lib
 
         public bool hasSuccessLoaded()
         {
-            return m_refCountResLoadResultNotify.resLoadState.hasSuccessLoaded();
+            return mRefCountResLoadResultNotify.resLoadState.hasSuccessLoaded();
         }
 
         public bool hasFailed()
         {
-            return m_refCountResLoadResultNotify.resLoadState.hasFailed();
+            return mRefCountResLoadResultNotify.resLoadState.hasFailed();
         }
     }
 }

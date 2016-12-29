@@ -24,13 +24,13 @@ namespace SDK.Lib
 
             if (mBundle != null)
             {
-                m_refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
+                mRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }
             else
             {
-                m_refCountResLoadResultNotify.resLoadState.setFailed();
+                mRefCountResLoadResultNotify.resLoadState.setFailed();
             }
-            m_refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
+            mRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
 
         override protected IEnumerator initAssetByCoroutine()
@@ -46,14 +46,14 @@ namespace SDK.Lib
 
             if (mBundle != null)
             {
-                m_refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
+                mRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }
             else
             {
-                m_refCountResLoadResultNotify.resLoadState.setFailed();
+                mRefCountResLoadResultNotify.resLoadState.setFailed();
             }
 
-            m_refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
+            mRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
 
             clearInstanceListener();
         }
@@ -103,14 +103,14 @@ namespace SDK.Lib
             {
                 mObject = req.asset;
 
-                m_refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
+                mRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }
             else
             {
-                m_refCountResLoadResultNotify.resLoadState.setFailed();
+                mRefCountResLoadResultNotify.resLoadState.setFailed();
             }
 
-            m_refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
+            mRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
 
         override public GameObject InstantiateObject(string resName)

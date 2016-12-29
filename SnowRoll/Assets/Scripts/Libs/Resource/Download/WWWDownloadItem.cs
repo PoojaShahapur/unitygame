@@ -60,13 +60,13 @@ namespace SDK.Lib
                     writeFile();
                 }
 
-                m_refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
+                mRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }
             else
             {
-                m_refCountResLoadResultNotify.resLoadState.setFailed();
+                mRefCountResLoadResultNotify.resLoadState.setFailed();
             }
-            m_refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
+            mRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
     }
 }

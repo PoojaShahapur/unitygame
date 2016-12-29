@@ -25,8 +25,8 @@ namespace SDK.Lib
                 mAllPrefabObj = (item as ResourceLoadItem).getAllPrefabObject();
             }
 
-            m_refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
-            m_refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
+            mRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
+            mRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
 
         public UnityEngine.Object prefabObj()

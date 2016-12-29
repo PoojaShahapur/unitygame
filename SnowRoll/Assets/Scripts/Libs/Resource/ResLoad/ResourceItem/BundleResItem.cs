@@ -68,8 +68,8 @@ namespace SDK.Lib
             }
             */
 
-            m_refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
-            m_refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
+            mRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
+            mRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
 
         protected IEnumerator initAssetByCoroutine()
@@ -112,8 +112,8 @@ namespace SDK.Lib
             }
             */
 
-            m_refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
-            m_refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
+            mRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
+            mRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
 
             //yield return null;
             yield break;

@@ -20,7 +20,7 @@
             base.init(item);
             // 继续加载当前的关卡
             //loadLevel(mOrigPath);
-            m_refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
+            mRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
 
         //public void loadLevel(string resName)

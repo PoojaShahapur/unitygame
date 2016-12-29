@@ -161,7 +161,7 @@ namespace SDK.Lib
                     UtilPath.renameFile(origFile, saveFile);
                 }
 
-                m_refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
+                mRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
 
                 onRunTaskEnd();
             }
@@ -192,7 +192,7 @@ namespace SDK.Lib
                     fileStream = null;
                 }
 
-                m_refCountResLoadResultNotify.resLoadState.setFailed();
+                mRefCountResLoadResultNotify.resLoadState.setFailed();
 
                 onRunTaskEnd();
             }
@@ -340,11 +340,11 @@ namespace SDK.Lib
 
                 if (readedLength == contentLength)
                 {
-                    m_refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
+                    mRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
                 }
                 else
                 {
-                    m_refCountResLoadResultNotify.resLoadState.setFailed();
+                    mRefCountResLoadResultNotify.resLoadState.setFailed();
                 }
 
                 onRunTaskEnd();
@@ -376,7 +376,7 @@ namespace SDK.Lib
                     fileStream = null;
                 }
 
-                m_refCountResLoadResultNotify.resLoadState.setFailed();
+                mRefCountResLoadResultNotify.resLoadState.setFailed();
 
                 onRunTaskEnd();
             }
@@ -394,7 +394,7 @@ namespace SDK.Lib
         // 处理结果在这回调，然后分发给资源处理器，如果资源提前释放，就自动断开资源和加载器的事件分发就行了，不用在线程中处理了
         override public void handleResult()
         {
-            m_refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
+            mRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
     }
 }
