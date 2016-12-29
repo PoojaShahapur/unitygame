@@ -26,7 +26,7 @@ namespace SDK.Lib
         protected ResLoadType mResLoadType;
         protected ResPackType mResPackType;
 
-        protected RefCountResLoadResultNotify m_refCountResLoadResultNotify;
+        protected RefCountResLoadResultNotify mRefCountResLoadResultNotify;
         protected ResEventDispatch mAllLoadResEventDispatch;    // 事件分发器，这个是记录逻辑的事件分发器
 
         protected bool mIsWriteFile;
@@ -36,7 +36,7 @@ namespace SDK.Lib
         {
             mVersion = "";
             mResLoadType = ResLoadType.eLoadWeb;
-            m_refCountResLoadResultNotify = new RefCountResLoadResultNotify();
+            mRefCountResLoadResultNotify = new RefCountResLoadResultNotify();
             mAllLoadResEventDispatch = new ResEventDispatch();
         }
 
@@ -44,11 +44,11 @@ namespace SDK.Lib
         {
             get
             {
-                return m_refCountResLoadResultNotify;
+                return mRefCountResLoadResultNotify;
             }
             set
             {
-                m_refCountResLoadResultNotify = value;
+                mRefCountResLoadResultNotify = value;
             }
         }
 
@@ -119,12 +119,12 @@ namespace SDK.Lib
 
         public bool hasSuccessLoaded()
         {
-            return m_refCountResLoadResultNotify.resLoadState.hasSuccessLoaded();
+            return mRefCountResLoadResultNotify.resLoadState.hasSuccessLoaded();
         }
 
         public bool hasFailed()
         {
-            return m_refCountResLoadResultNotify.resLoadState.hasFailed();
+            return mRefCountResLoadResultNotify.resLoadState.hasFailed();
         }
 
         public void setLogicPath(string value)
@@ -224,7 +224,7 @@ namespace SDK.Lib
 
         virtual public void load()
         {
-            m_refCountResLoadResultNotify.resLoadState.setLoading();
+            mRefCountResLoadResultNotify.resLoadState.setLoading();
 
             mLocalPath = Path.Combine(MFileSys.getLocalWriteDir(), UtilLogic.getRelPath(mLoadPath));
             if (!string.IsNullOrEmpty(mVersion))
