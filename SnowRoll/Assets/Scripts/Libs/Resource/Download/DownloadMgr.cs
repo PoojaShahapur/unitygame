@@ -189,7 +189,7 @@ namespace SDK.Lib
         }
 
         // 通用类型，需要自己设置很多参数
-        public void load(DownloadParam param)
+        public void download(DownloadParam param)
         {
             ++mLoadingDepth;
             if (mLoadData.mPath2LDItem.ContainsKey(param.mResUniqueId))
@@ -211,12 +211,12 @@ namespace SDK.Lib
         public DownloadItem getAndDownload(DownloadParam param)
         {
             //param.resolvePath();
-            load(param);
+            download(param);
             return getDownloadItem(param.mResUniqueId);
         }
 
         // 这个卸载有引用计数，如果有引用计数就卸载不了
-        public void unload(string resUniqueId, MAction<IDispatchObject> loadEventHandle)
+        public void undownload(string resUniqueId, MAction<IDispatchObject> loadEventHandle)
         {
             if (mLoadData.mPath2LDItem.ContainsKey(resUniqueId))
             {
