@@ -5,15 +5,15 @@
      */
     public class TaskThread : MThread
     {
-        protected TaskQueue m_taskQueue;
-        protected MCondition m_condition;
-        protected ITask m_curTask;
+        protected TaskQueue mTaskQueue;
+        protected MCondition mCondition;
+        protected ITask mCurTask;
 
         public TaskThread(string name, TaskQueue taskQueue)
             : base(null, null)
         {
-            m_taskQueue = taskQueue;
-            m_condition = new MCondition(name);
+            mTaskQueue = taskQueue;
+            mCondition = new MCondition(name);
         }
 
         /**
@@ -23,23 +23,23 @@
         {
             while (!m_ExitFlag)
             {
-                m_curTask = m_taskQueue.pop();
-                if(m_curTask != default(ITask))
+                mCurTask = mTaskQueue.pop();
+                if(mCurTask != default(ITask))
                 {
-                    m_curTask.runTask();
+                    mCurTask.runTask();
                 }
                 else
                 {
-                    m_condition.wait();
+                    mCondition.wait();
                 }
             }
         }
 
         public bool notifySelf()
         {
-            if(m_condition.canEnterWait)
+            if(mCondition.canEnterWait)
             {
-                m_condition.notifyAll();
+                mCondition.notifyAll();
                 return true;
             }
 

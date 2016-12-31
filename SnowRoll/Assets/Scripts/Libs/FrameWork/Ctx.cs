@@ -268,7 +268,7 @@
             this.mResLoadMgr.init();
             this.mDownloadMgr.init();
 
-            this.mTaskQueue.m_pTaskThreadPool = this.mTaskThreadPool;
+            this.mTaskQueue.mTaskThreadPool = this.mTaskThreadPool;
             this.mTaskThreadPool.initThreadPool(2, this.mTaskQueue);
 
             this.mVersionSys.loadLocalVer();    // 加载版本文件
