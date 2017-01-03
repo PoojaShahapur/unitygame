@@ -15,6 +15,6 @@
         public const string AttackStr = "eat";
 
         public const int Split = 4;    // 分裂
-        public const string SplitStr = "split";
+        public const string SplitStr = "spit";
     }
 }

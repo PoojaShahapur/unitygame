@@ -23,13 +23,11 @@ end
 
 function M:onInit()
     M.super.onInit(self);
-	self.listitem_height = 75;
-    self.listitem_width = 1334;
     --返回游戏按钮
 	self.mBackGameBtn = GlobalNS.new(GlobalNS.AuxButton);
 	self.mBackGameBtn:addEventHandle(self, self.onBtnClk);
 
-    --加载listitem prefab
+    --listitem prefab
     self.mListitem_prefab = GlobalNS.new(GlobalNS.AuxPrefabLoader);
 
     --listitems数组
@@ -46,11 +44,9 @@ function M:onReady()
 
     --获取ScrollRect的GameObject对象
     self.mScrollRect = GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.RankBG, "ScrollRect");
-    --获取ScrollRect下Grid中的RectTransform组件
-    self.mRankGrid = GlobalNS.UtilApi.getComByPath(self.mScrollRect, "Grid", "RectTransform");
-    
-    local gridHeight = GCtx.mGameData.ranklistCount * self.listitem_height - (GCtx.mGameData.ranklistCount - 1) * 2;
-    self.mRankGrid.sizeDelta = Vector2.New(self.listitem_width, gridHeight);
+    local viewport =  GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.mScrollRect, "Viewport");
+    --获取ScrollRect下Content中的RectTransform组件
+    self.mRankContent = GlobalNS.UtilApi.getComByPath(viewport, "Content", "RectTransform");
     
     --获取MyRank的GameObject对象
     self.mMyRankArea = GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.RankBG, "MyRank");
@@ -75,9 +71,10 @@ end
 
 function M:onBtnClk()
     self:exit();
+    GlobalNS.CSSystem.Ctx.mInstance.mPlayerMgr:dispose();
 	GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormId.eUIStartGame);
-    GlobalNS.CSSystem.Ctx.mInstance.mModuleSys:unloadModule(GlobalNS.CSSystem.ModuleID.GAMEMN);
-    GlobalNS.CSSystem.Ctx.mInstance.mModuleSys:loadModule(GlobalNS.CSSystem.ModuleID.LOGINMN);
+    --GlobalNS.CSSystem.Ctx.mInstance.mModuleSys:unloadModule(GlobalNS.CSSystem.ModuleId.GAMEMN);
+    GlobalNS.CSSystem.Ctx.mInstance.mModuleSys:loadModule(GlobalNS.CSSystem.ModuleId.LOGINMN);
 end
 
 function M:onPrefabLoaded(dispObj)
@@ -85,11 +82,9 @@ function M:onPrefabLoaded(dispObj)
     self.mListitemPrefab = self.mListitem_prefab:getPrefabTmpl();
     
     for i=1, GCtx.mGameData.ranklistCount do
-        local y_pos = 197.5 - (self.listitem_height-2) * (i - 1);  --  197.5:第一个item的起始位置
         --用listitemprefab生成GameObject对象
         local listitem = GlobalNS.UtilApi.Instantiate(self.mListitemPrefab);
-        listitem.transform.position = Vector3.New(0, y_pos, 0);
-        listitem.transform.parent = self.mRankGrid;
+        listitem.transform.parent = self.mRankContent;
         listitem.transform.localScale = Vector3.New(1.0, 1.0, 1.0);
 
         listitem.name = "Item" .. i;
@@ -98,7 +93,7 @@ function M:onPrefabLoaded(dispObj)
     end
 
     --滚动到起始位置，默认会在中间
-    GlobalNS.UtilApi.getComByPath(self.RankBG, "ScrollRect", "ScrollRect").verticalNormalizedPosition = 1;
+    GlobalNS.UtilApi.GetComponent(self.mScrollRect, "ScrollRect").verticalNormalizedPosition = 1;
 
     self:updateUIData();
 end

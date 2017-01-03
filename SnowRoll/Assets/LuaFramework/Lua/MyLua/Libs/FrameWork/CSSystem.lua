@@ -17,7 +17,7 @@ function M.init()
 	this.MFileSys = SDK.Lib.MFileSys;
 	this.EEndian = SDK.Lib.EEndian;
 	this.GkEncode = SDK.Lib.GkEncode;
-    this.ModuleID = SDK.Lib.ModuleID;
+    this.ModuleId = SDK.Lib.ModuleId;
 end
 
 --[[

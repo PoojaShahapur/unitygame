@@ -89,7 +89,6 @@ end
 
 function M:notifyResultRankInfoList(params)
     GCtx.mUiMgr:exitForm(GlobalNS.UIFormId.eUIPlayerDataPanel);
-    GCtx.mUiMgr:exitForm(GlobalNS.UIFormId.eUIRockerPanel);
     GCtx.mUiMgr:exitForm(GlobalNS.UIFormId.eUIOptionPanel);
     GCtx.mUiMgr:exitForm(GlobalNS.UIFormId.eUITopXRankPanel);
 

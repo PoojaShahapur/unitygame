@@ -119,18 +119,18 @@ function M.init()
 			mPreFormModeWhenOpen = GlobalNS.PreFormModeWhenOpen.eNONE,
 			mPreFormModeWhenClose = GlobalNS.PreFormModeWhenClose.eNONE,
         };
-	M[GlobalNS.UIFormId.eUIRockerPanel] = {
-            mWidgetPath = "UI/UIRockerPanel/UIRockerPanel.prefab",
-            mLuaScriptPath = "MyLua.UI.UIRockerPanel.UIRockerPanel",
+	M[GlobalNS.UIFormId.eUIShop_SkinPanel] = {
+            mWidgetPath = "UI/UIPack/UIPack.prefab",
+            mLuaScriptPath = "MyLua.UI.UIPack.UIPack",
 			mLuaScriptTableName = "GlobalNS.UILua",
 			mCanvasId = GlobalNS.UICanvasId.eUIFirstCanvas,
 			mLayerId = GlobalNS.UILayerID.eUISecondLayer,
 			mPreFormModeWhenOpen = GlobalNS.PreFormModeWhenOpen.eNONE,
 			mPreFormModeWhenClose = GlobalNS.PreFormModeWhenClose.eNONE,
         };
-	M[GlobalNS.UIFormId.eUIPack] = {
-            mWidgetPath = "UI/UIRockerPanel/UIPack.prefab",
-            mLuaScriptPath = "MyLua.UI.UIPack.UIPack",
+	M[GlobalNS.UIFormId.eUIShop_SkinPanel] = {
+            mWidgetPath = "UI/UIShop_SkinPanel/UIShop_SkinPanel.prefab",
+            mLuaScriptPath = "MyLua.UI.UIShop_SkinPanel.UIShop_SkinPanel",
 			mLuaScriptTableName = "GlobalNS.UILua",
 			mCanvasId = GlobalNS.UICanvasId.eUIFirstCanvas,
 			mLayerId = GlobalNS.UILayerID.eUISecondLayer,

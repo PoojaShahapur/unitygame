@@ -24,10 +24,10 @@ namespace SDK.Lib
 
         public void dispose()
         {
-            if (this.mAnimator != null)
-            {
-                UtilApi.Destroy(this.mAnimator.runtimeAnimatorController);
-            }
+            //if (this.mAnimator != null)
+            //{
+            //    UtilApi.Destroy(this.mAnimator.runtimeAnimatorController);
+            //}
         }
 
         public Animator getAnimator()
@@ -39,8 +39,14 @@ namespace SDK.Lib
         {
             this.mAnimator = value;
 
-            this.AddEvent(CVAnimState.AttackStr, CVAnimState.AttackStr, 0.1f);
-            this.AddEvent(CVAnimState.SplitStr, CVAnimState.SplitStr, 0.1f);
+            this.addPlayerEvent();
+        }
+
+        // 添加 Player 动画事件
+        public void addPlayerEvent()
+        {
+            this.AddEvent(CVAnimState.AttackStr, CVAnimState.AttackStr);
+            this.AddEvent(CVAnimState.SplitStr, CVAnimState.SplitStr);
         }
 
         public void enable()
@@ -75,7 +81,10 @@ namespace SDK.Lib
 
         protected void SetInteger(int id, int value)
         {
-            this.mAnimator.SetInteger(id, value);
+            if (null != this.mAnimator)
+            {
+                this.mAnimator.SetInteger(id, value);
+            }
         }
 
         public void play(int value)
@@ -91,7 +100,7 @@ namespace SDK.Lib
         /**
          * @brief 给一个 Animator 中的 AnimationClip 添加事件，这个可以直接在编辑器 DopeSheet 或者直接在动画资源中直接添加
          */
-        public void AddEvent(string clipName, string stringParameter, float time)
+        public void AddEvent(string clipName, string stringParameter)
         {
             if (this.mAnimator == null)
             {
@@ -112,12 +121,13 @@ namespace SDK.Lib
             // animEvt.intParameter = 12345;            // 给整型参数
             // animEvt.objectReferenceParameter = act as Object;
             animEvt.stringParameter = stringParameter;          // 回调的时候，会作为参数回传回来
-            animEvt.time = time;
+            animEvt.messageOptions = SendMessageOptions.RequireReceiver;
 
             for (int idx = 0; idx < animClip.Length; ++idx)
             {
                 if (animClip[idx].name.Equals(clipName))
                 {
+                    animEvt.time = animClip[idx].length;
                     animClip[idx].AddEvent(animEvt);
                     break;
                 }

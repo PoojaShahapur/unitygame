@@ -25,7 +25,7 @@ namespace SDK.Lib
 
         virtual public void dispose()
         {
-
+            this.clearAll();
         }
 
         override protected void addObject(IDelayHandleItem entity, float priority = 0.0f)
@@ -201,6 +201,28 @@ namespace SDK.Lib
         public MList<SceneEntityBase> getSceneEntityList()
         {
             return this.mSceneEntityList;
+        }
+
+        public void clearAll()
+        {
+            incDepth();
+
+            int idx = 0;
+            int len = this.mSceneEntityList.Count();
+            SceneEntityBase entity = null;
+
+            while (idx < len)
+            {
+                entity = this.mSceneEntityList[idx];
+                if (!entity.isClientDispose())
+                {
+                    entity.dispose();
+                }
+
+                ++idx;
+            }
+
+            decDepth();
         }
     }
 }

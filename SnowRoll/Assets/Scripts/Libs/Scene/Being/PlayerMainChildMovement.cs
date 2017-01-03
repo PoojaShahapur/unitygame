@@ -5,12 +5,7 @@
         public PlayerMainChildMovement(SceneEntityBase entity)
             : base(entity)
         {
-            Ctx.mInstance.mInputMgr.addKeyListener(InputKey.K, EventId.KEYUP_EVENT, onKUp);
-        }
-
-        protected void onKUp(IDispatchObject dispObj)
-        {
-            (this.mEntity as BeingEntity).setBeingState(BeingState.eBSAttack);
+            Ctx.mInstance.mInputMgr.addKeyListener(InputKey.G, EventId.KEYUP_EVENT, onDownArrowUp);
         }
 
         override public void init()
@@ -108,6 +103,12 @@
             Ctx.mInstance.mGlobalDelegate.mMainPosChangedDispatch.removeEventHandle(null, this.handleParentPosChanged);
             Ctx.mInstance.mGlobalDelegate.mMainOrientStopChangedDispatch.removeEventHandle(null, this.handleParentOrientStopChanged);
             Ctx.mInstance.mGlobalDelegate.mMainPosStopChangedDispatch.removeEventHandle(null, this.handleParentPosStopChanged);
+        }
+
+        protected void onDownArrowUp(IDispatchObject dispObj)
+        {
+            //(this.mEntity as BeingEntity).setBeingState(BeingState.eBSAttack);
+            (this.mEntity as BeingEntity).setBeingState(BeingState.eBSSplit);
         }
 
         //---------------------- SteerForSeparation Start ---------------------------

@@ -2,7 +2,7 @@
 <!-- 雪球配置 -->
 <Config>
     <SnowBallBasic>
-		<!-- 雪球基本配置， Radius: 初始半径，MassFactor: 客户端显示质量倍数 M = k * m-->
+		<!-- 雪球基本配置， Radius: 初始半径，MassFactor: 客户端显示质量倍数 M = r ^ k-->
 		<Init Radius="1" MassFactor="3" />
 		<!-- 雪球分裂配置， K,N: AC=K*AB+N, CanSplitFactor: 达到的分裂倍数, Max: 最大的雪球数量, RelStartPos: 分裂开始的时候，距离多远开始， RelDist: 分裂需要运动的距离-->
 		<Split K="10" N="10" CanSplitFactor="5" Max="20" RelStartPos="1" RelDist="10" />
@@ -15,7 +15,7 @@
 		<!-- 速度系数 -->
 		<MoveSpeed MoveSpeed_k="20.0" MoveSpeed_b="10.0" />		
     </SnowBallBasic>
-
+		
 	<CameraBasic>
 		<!--相机控制参数 z：相机水平距离 y：相机垂直距离  注意参数为0的错误-->
 		<!--初始时：z=dis_z + factor_z * pow(r, 0.5) + r    超过临界半径后：z = dis_z + factor_z * pow(lim_r, 0.5) + (r - lim_r) + r-->
@@ -23,5 +23,38 @@
 		<CameraControl CameraDistance_Z="10.0" CameraChangeFactor_Z="6.0" LimitRadius="50.0" CameraDistance_Y="0.5" CameraChangeFactor_Y="0.05" />	
     </CameraBasic>
 	
-	<Map MinX="0" MinY="0" MaxX="0" MaxY="0" />
+	<ShopBasic>
+		<!--商店配置-->
+		<!--商店类型: 1.皮肤->SkinShop 2.圣衣->GodShop 3.……-->
+		<!--物品类型: 1.外形->Shape 2.鱼仔->Child 3.……-->
+		<!--ID：物品唯一ID，同类物品包含一个区间[a,b]-->
+		<!--Name：物品名-->
+		<!--NeedID：兑换所需道具ID-->
+		<!--NeedNum：兑换所需道具数量-->
+		<!--Hot：热销等标识，无标识配为：Hot=""-->
+		<!--Only：专属广告标识，无标识配为：Only=""-->
+		<SkinShop>
+			<!--皮肤商店-->
+			<Shape>
+				<Item ID="10001" Name="鲨鱼" NeedID="666" NeedNum="10" Hot="" Only="新年快乐"/>
+				<Item ID="10002" Name="鳄鱼" NeedID="666" NeedNum="10" Hot="" Only=""/>
+				<Item ID="10003" Name="螃蟹" NeedID="666" NeedNum="15" Hot="热销中" Only="元旦快乐"/>
+				<Item ID="10004" Name="龙虾" NeedID="888" NeedNum="30" Hot="" Only=""/>
+				<Item ID="10006" Name="金鱼" NeedID="888" NeedNum="20" Hot="热销中" Only=""/>
+			</Shape>
+			
+			<Child>
+				<Item ID="30001" Name="小鲨鱼" NeedID="666" NeedNum="10" Hot="" Only=""/>
+				<Item ID="30002" Name="小鳄鱼" NeedID="666" NeedNum="10" Hot="" Only="新年快乐"/>
+				<Item ID="30003" Name="小螃蟹" NeedID="666" NeedNum="15" Hot="热销中" Only="新年快乐"/>
+				<Item ID="30004" Name="小龙虾" NeedID="888" NeedNum="30" Hot="" Only=""/>
+				<Item ID="30005" Name="小龙人" NeedID="888" NeedNum="50" Hot="热销中" Only=""/>
+				<Item ID="30006" Name="小金鱼" NeedID="888" NeedNum="20" Hot="热销中" Only=""/>
+			</Child>
+		</SkinShop>
+		
+		<GodShop>
+			<!--圣衣商店-->
+		</GodShop>
+    </ShopBasic>
 </Config>

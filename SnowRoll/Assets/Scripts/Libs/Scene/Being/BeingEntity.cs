@@ -231,6 +231,15 @@ namespace SDK.Lib
             }
         }
 
+        // 设置前向旋转
+        public void setForwardRotate(UnityEngine.Vector3 rotate)
+        {
+            if (null != mMovement)
+            {
+                (mMovement as BeingEntityMovement).setForwardRotate(rotate);
+            }
+        }
+
         virtual public void setBallRadius(float size, bool immScale = false)
         {
             if (0 == size) return;

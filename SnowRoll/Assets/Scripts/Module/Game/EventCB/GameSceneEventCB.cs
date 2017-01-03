@@ -1,8 +1,8 @@
 ﻿using SDK.Lib;
+using UnityEngine;
 
 #if UNIT_TEST
 using UnitTest;
-using UnityEngine;
 #endif
 
 namespace Game.Game
@@ -29,7 +29,7 @@ namespace Game.Game
             //Ctx.mInstance.mSnowBlockMgr.createAllSnowFood();
             // 创建所有的 Robot
             //Ctx.mInstance.mRobotMgr.createAllRobot();
-            Ctx.mInstance.mUiMgr.loadAndShow(UIFormId.eUIPack);
+            //Ctx.mInstance.mUiMgr.loadAndShow(UIFormId.eUIPack);
             runTest();
         }
 

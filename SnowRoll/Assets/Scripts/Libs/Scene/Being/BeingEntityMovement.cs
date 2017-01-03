@@ -390,6 +390,11 @@
             (this.mEntity as BeingEntity).setBeingState(BeingState.eBSIdle);
         }
 
+        virtual public void setForwardRotate(UnityEngine.Vector3 rotate)
+        {
+
+        }
+
         virtual public void sendMoveMsg()
         {
             // 移动后，更新 KBE 中的 Avatar 数据

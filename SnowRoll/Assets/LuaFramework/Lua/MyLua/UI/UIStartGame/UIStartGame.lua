@@ -140,7 +140,7 @@ end
 
 function M:getRandomNickName()
     local nickname = { "Bone", "哈哈哈", "红红火火", "吃豆人", "哆啦A梦"};
-    local index = math.random(5);
+    local index = math.random(1, 5);
     return nickname[index];
 end
 
@@ -168,7 +168,7 @@ function M:loginOrCreateAccount(selectEnterMode)
                else
                end
             else
-               GlobalNS.CSSystem.Ctx.mInstance.mModuleSys:loadModule(SDK.Lib.ModuleID.GAMEMN);
+               GlobalNS.CSSystem.Ctx.mInstance.mModuleSys:loadModule(SDK.Lib.ModuleId.GAMEMN);
             end
          else
              GCtx.mLogSys:log("account or password is error, length < 6!(账号或者密码错误，长度必须大于5!)", GlobalNS.LogTypeId.eLogCommon);
@@ -183,8 +183,8 @@ end
 
 function M:onStartGameBtnClk()
     --GCtx.mUiMgr:exitForm(GlobalNS.UIFormId.eUIStartGame);
-    --GlobalNS.CSSystem.Ctx.mInstance.mModuleSys:unloadModule(GlobalNS.CSSystem.ModuleID.LOGINMN);
-    --GlobalNS.CSSystem.Ctx.mInstance.mModuleSys:loadModule(GlobalNS.CSSystem.ModuleID.GAMEMN);
+    --GlobalNS.CSSystem.Ctx.mInstance.mModuleSys:unloadModule(GlobalNS.CSSystem.ModuleId.LOGINMN);
+    --GlobalNS.CSSystem.Ctx.mInstance.mModuleSys:loadModule(GlobalNS.CSSystem.ModuleId.GAMEMN);
     self:loginOrCreateAccount(SDK.Lib.SelectEnterMode.eLoginAccount);
 end
 
@@ -227,7 +227,9 @@ function M:onRankBtnClk()
 end
 
 function M:onShopBtnClk()
-    GCtx.mLogSys:log("Shop Btn Touch", GlobalNS.LogTypeId.eLogCommon);
+    GCtx.mGoodsData:init();--打开商店时加载配置
+    GCtx.mGoodsData.CurrentShopType = GlobalNS.UIFormId.eUIShop_SkinPanel;
+    GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormId.eUIShop_SkinPanel);
 end
 
 return M;

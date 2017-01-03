@@ -222,6 +222,9 @@ public static class CustomSettings
         _GT(typeof(SDK.Lib.AddOnceEventDispatch)),
         _GT(typeof(SDK.Lib.PlayerSplitMerge)),
 
+        //for Shop
+        _GT(typeof(SDK.Lib.XmlItemGoods)),
+
         //for KBEngine
         _GT(typeof(KBEngine.Entity)),
 

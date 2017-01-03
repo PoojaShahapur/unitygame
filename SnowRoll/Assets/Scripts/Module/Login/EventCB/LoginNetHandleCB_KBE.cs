@@ -26,9 +26,16 @@ namespace Game.Login
         private UInt64 selAvatarDBID = 0;
         public bool showReliveGUI = false;
 
+        private bool isrelogin = false;
+
         public LoginNetHandleCB_KBE()
         {
             
+        }
+
+        public bool getIsRelogin()
+        {
+            return isrelogin;
         }
 
         public void setAccountAndPasswd(string account, string passwd)
@@ -110,12 +117,14 @@ namespace Game.Login
 
         public void login()
         {
+            isrelogin = false;
             info("connect to server...(连接到服务端...)");
             KBEngine.Event.fireIn("login", stringAccount, stringPasswd, System.Text.Encoding.UTF8.GetBytes("kbengine_unity3d_demo"));
         }
 
         public void relogin()
         {
+            isrelogin = true;
             KBEngineApp.app.networkInterface().close();
             info("connect to server...（重新连接到服务端...)");
             KBEngine.Event.fireIn("login", stringAccount, stringPasswd, System.Text.Encoding.UTF8.GetBytes("kbengine_unity3d_demo"));
@@ -204,9 +213,9 @@ namespace Game.Login
         {
             info("login is successfully!(登陆成功!)");
 
-            //Ctx.mInstance.mUiMgr.exitForm(UIFormId.eUILogin);
-            //Ctx.mInstance.mLuaSystem.exitForm((int)UIFormId.eUIStartGame);
-            //Ctx.mInstance.mUiMgr.loadAndShow(UIFormId.eUISelectRole);
+            //Ctx.mInstance.mUiMgr.exitForm(UIFormID.eUILogin);
+            //Ctx.mInstance.mLuaSystem.exitForm((int)UIFormID.eUIStartGame);
+            //Ctx.mInstance.mUiMgr.loadAndShow(UIFormID.eUISelectRole);
 
             ui_state = 1;
             //Application.LoadLevel("selavatars");

@@ -40,6 +40,9 @@
         public float mCameraDistance_Y; //初始相距相机y值
         public float mCameraChangeFactor_Y;//变化因子
 
+        //商店
+        public XmlItemGoods[] shape; //外形
+        public XmlItemGoods[] child; //鱼仔
 
         public const float msSeparateFactor = 8;
 
@@ -108,6 +111,9 @@
             this.mLimitRadius = this.mXmlSnowBallCfg.mXmlItemCameraControl.mLimitRadius;
             this.mCameraDistance_Y = this.mXmlSnowBallCfg.mXmlItemCameraControl.mCameraDistance_Y;
             this.mCameraChangeFactor_Y = this.mXmlSnowBallCfg.mXmlItemCameraControl.mCameraChangeFactor_Y;
+
+            this.shape = this.mXmlSnowBallCfg.mXmlShop.shape;
+            this.child = this.mXmlSnowBallCfg.mXmlShop.child;
         }
 
         public void dispose()

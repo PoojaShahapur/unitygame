@@ -45,7 +45,6 @@ function M.onPlayerMainLoaded()
     --加载场景上的UI组件，主角加载完成后再加载UI，否则UI拿不到主角数据
     GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormId.eUIPlayerDataPanel);
     --GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormId.eUIForwardForce);
-    GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormId.eUIRockerPanel);
     GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormId.eUIOptionPanel);
     GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormId.eUITopXRankPanel);
 end

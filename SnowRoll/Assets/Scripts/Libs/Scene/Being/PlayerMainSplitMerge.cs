@@ -251,6 +251,7 @@
                     startPos = child.getPos() + child.getRotate() * new UnityEngine.Vector3(0, 0, child.getBallRadius() + emitRadius + Ctx.mInstance.mSnowBallCfg.mEmitRelStartPos);
                     endPos = startPos + child.getRotate() * new UnityEngine.Vector3(0, 0, Ctx.mInstance.mSnowBallCfg.mEmitRelDist);
 
+                    child.setBeingState(BeingState.eBSSplit);
                     Ctx.mInstance.mPlayerSnowBlockMgr.emitOne(startPos, endPos, child.getRotate(), emitRadius);
                 }
                 else

@@ -39,6 +39,12 @@ namespace SDK.Lib
             this.addPlayer(this.mHero);
         }
 
+        public void removeHero()
+        {
+            this.removePlayer(this.mHero);
+            this.mHero = null;
+        }
+
         public PlayerMain getHero()
         {
             return mHero;

@@ -37,10 +37,10 @@ namespace Game.Login
             this.mLoginNetHandleCB_KBE = new LoginNetHandleCB_KBE();
             this.mLoginNetHandleCB_KBE.init();
 
-            //Ctx.mInstance.mUiMgr.loadAndShow(UIFormId.eUILogin);
-            //Ctx.mInstance.mUiMgr.loadAndShow(UIFormId.eUISelectRole);
-            //Ctx.mInstance.mLuaSystem.openForm((int)UIFormId.eUIStartGame);//参数：UIFormId.lua中genNewId()
-            Ctx.mInstance.mUiMgr.loadAndShow(UIFormId.eUITest);
+            //Ctx.mInstance.mUiMgr.loadAndShow(UIFormID.eUILogin);
+            //Ctx.mInstance.mUiMgr.loadAndShow(UIFormID.eUISelectRole);
+            Ctx.mInstance.mLuaSystem.openForm((int)UIFormId.eUIStartGame_Lua);//参数：UIFormID.lua中genNewId()
+            //Ctx.mInstance.mUiMgr.loadAndShow(UIFormID.eUITest);
         }
 
         // 加载登陆常见

@@ -20,7 +20,7 @@ SubShader {
 		
 	
 CGPROGRAM
-#pragma surface surf Lambert alpha:blend
+#pragma surface surf Lambert alphatest:_Cutoff
 
 sampler2D _MainTex;
 sampler2D _NormalTex;
@@ -62,8 +62,11 @@ void surf (Input IN, inout SurfaceOutput o) {
 	float3 normalMap = UnpackNormal(tex2D(_NormalTex, uvmo));
 
 	c.rgb *= tex2D(_Detail,IN.uv_Detail).rgb * unity_ColorSpaceDouble.r;
-	o.Albedo = c.rgb * c2.rgb;
-	o.Alpha = c.a*_liangdu1+c2.a*_liangdu2;
+
+	//o.Albedo = c.rgb * c2.rgb;
+	o.Albedo = lerp(c.rgb, c2.rgb, _liangdu2);
+	o.Alpha = c.a*_liangdu1;
+
 	o.Normal = normalMap.rgb;
 }
 ENDCG

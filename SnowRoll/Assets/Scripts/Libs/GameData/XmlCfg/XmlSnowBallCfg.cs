@@ -133,6 +133,40 @@ namespace SDK.Lib
     }
 
     /**
+    * @brief 商店管理
+    */
+    public class XmlShop
+    {
+        //外形
+        public XmlItemGoods[] shape;
+        //鱼仔
+        public XmlItemGoods[] child;
+    }
+
+    /**
+    * @brief 物品配置
+    */
+    public class XmlItemGoods : XmlItemBase
+    {
+        public uint mID;
+        public string mName;
+        public uint mNeedID;
+        public uint mNeedNum;
+        public string mHot;
+        public string mOnly;
+
+        public override void parseXml(SecurityElement xmlelem)
+        {
+            UtilXml.getXmlAttrUInt(xmlelem, "ID", ref mID);
+            UtilXml.getXmlAttrStr(xmlelem, "Name", ref mName);
+            UtilXml.getXmlAttrUInt(xmlelem, "NeedID", ref mNeedID);
+            UtilXml.getXmlAttrUInt(xmlelem, "NeedNum", ref mNeedNum);
+            UtilXml.getXmlAttrStr(xmlelem, "Hot", ref mHot);
+            UtilXml.getXmlAttrStr(xmlelem, "Only", ref mOnly);
+        }
+    }
+
+    /**
      * @brief 雪块配置
      */
     public class XmlSnowBallCfg : XmlCfgBase
@@ -144,10 +178,12 @@ namespace SDK.Lib
         public XmlItemAttack mXmlItemAttack;
         public XmlItemMoveSpeed mXmlItemMoveSpeed;
         public XmlItemCameraControl mXmlItemCameraControl;
+        public XmlShop mXmlShop;
 
         public XmlSnowBallCfg()
         {
             this.mPath = string.Format("{0}{1}", Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathXmlCfg], "SnowBall.xml");
+            this.mXmlShop = new XmlShop();
         }
 
         public override void parseXml(string str)
@@ -167,6 +203,50 @@ namespace SDK.Lib
             SecurityElement cameraBasicElem = null;
             UtilXml.getXmlChild(this.mXmlConfig, "CameraBasic", ref cameraBasicElem);
             mXmlItemCameraControl = parseXml<XmlItemCameraControl>(cameraBasicElem, "CameraControl")[0] as XmlItemCameraControl;
+
+            //解析商店配置
+            parseShopItems();
+        }
+
+        private void parseShopItems()
+        {
+            SecurityElement ShopBasicElem = null;
+            UtilXml.getXmlChild(this.mXmlConfig, "ShopBasic", ref ShopBasicElem);
+
+            parseSkinItems(ShopBasicElem); //皮肤商店
+            parseGodItems(ShopBasicElem); //圣衣商店
+        }
+
+        private void parseSkinItems(SecurityElement ShopBasicElem)
+        {
+            SecurityElement SkinShopElem = null;
+            UtilXml.getXmlChild(ShopBasicElem, "SkinShop", ref SkinShopElem);
+
+            //外形
+            SecurityElement ShapeElem = null;
+            UtilXml.getXmlChild(SkinShopElem, "Shape", ref ShapeElem);
+            int count = ShapeElem.Children.Count;
+            mXmlShop.shape = new XmlItemGoods[count];
+            for (int i = 0; i < count; ++i)
+            {
+                mXmlShop.shape[i] = parseXml<XmlItemGoods>(ShapeElem, "Item")[i] as XmlItemGoods;
+            }
+
+            //鱼仔
+            SecurityElement ChildElem = null;
+            UtilXml.getXmlChild(SkinShopElem, "Child", ref ChildElem);
+            count = ChildElem.Children.Count;
+            mXmlShop.child = new XmlItemGoods[count];
+            for (int i = 0; i < count; ++i)
+            {
+                mXmlShop.child[i] = parseXml<XmlItemGoods>(ChildElem, "Item")[i] as XmlItemGoods;
+            }
+        }
+
+        private void parseGodItems(SecurityElement ShopBasicElem)
+        {
+            SecurityElement SkinShopElem = null;
+            UtilXml.getXmlChild(ShopBasicElem, "GodShop", ref SkinShopElem);
         }
     }
 }

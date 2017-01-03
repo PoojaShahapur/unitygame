@@ -20,11 +20,11 @@
             // 执行事件
             if(CVAnimState.AttackStr == param)
             {
-                //this.mEntity.setBeingState(BeingState.eBSIdle);
+                this.mEntity.setBeingState(BeingState.eBSIdle);
             }
             else if (CVAnimState.SplitStr == param)
             {
-                //this.mEntity.setBeingState(BeingState.eBSIdle);
+                this.mEntity.setBeingState(BeingState.eBSIdle);
             }
         }
     }

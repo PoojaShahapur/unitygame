@@ -76,6 +76,7 @@
                 //float newRadius = UtilMath.getNewRadiusByRadius(this.mEntity.getBallRadius(), bBeingEntity.getBallRadius());
 
                 float newRadius = UtilMath.getEatSnowNewRadiusByRadius(this.mEntity.getBallRadius());
+
                 this.mEntity.setBeingState(BeingState.eBSAttack);
                 this.mEntity.setBallRadius(newRadius);
                 bBeingEntity.dispose();
@@ -131,6 +132,7 @@
             {
                 float newRadius = UtilMath.getNewRadiusByRadius(this.mEntity.getBallRadius(), bBeingEntity.getBallRadius());
 
+                this.mEntity.setBeingState(BeingState.eBSAttack);
                 this.mEntity.setBallRadius(newRadius);
                 bBeingEntity.dispose();
             }

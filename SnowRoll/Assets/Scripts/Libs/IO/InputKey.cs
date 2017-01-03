@@ -864,7 +864,13 @@ namespace SDK.Lib
          */
         public bool keyJustPressed()
         {
-            return this.mJustPressed;
+            //return this.mJustPressed;
+            if (Input.GetKey(this.mKeyCode))
+            {
+                return true;
+            }
+
+            return false;
         }
 
         /**
@@ -872,7 +878,13 @@ namespace SDK.Lib
          */
         public bool keyJustReleased()
         {
-            return this.mJustReleased;
+            //return this.mJustReleased;
+            if (Input.GetKeyUp(this.mKeyCode))
+            {
+                return true;
+            }
+
+            return false;
         }
 
         /**
@@ -880,7 +892,13 @@ namespace SDK.Lib
          */
         public bool isKeyDown()
         {
-            return this.mKeyState;
+            //return this.mKeyState;
+            if (Input.GetKeyDown(this.mKeyCode))
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

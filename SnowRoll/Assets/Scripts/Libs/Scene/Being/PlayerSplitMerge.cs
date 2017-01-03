@@ -28,7 +28,13 @@
 
         virtual public void dispose()
         {
+            if (null != mPlayerChildMgr)
+            {
+                mPlayerChildMgr.dispose();
+                mPlayerChildMgr = null;
+            }
 
+            mEntity = null;
         }
 
         public virtual void onTick(float delta)
@@ -75,32 +81,35 @@
         public float getMaxCameraLength()
         {
             float length = 0;
-            UnityEngine.Vector3 center = Ctx.mInstance.mPlayerMgr.getHero().getPos(); ; //中心
-            int total = this.mPlayerChildMgr.getEntityCount();
-            int index = 0;
-            Player player = null;
+            if(null != this.mPlayerChildMgr)
+            {
+                UnityEngine.Vector3 center = Ctx.mInstance.mPlayerMgr.getHero().getPos(); ; //中心
+                int total = this.mPlayerChildMgr.getEntityCount();
+                int index = 0;
+                Player player = null;
 
-            if (1 == total)//只有一个根据直径缩放
-            {
-                player = this.mPlayerChildMgr.getEntityByIndex(index) as Player;
-                length = player.getScale().x * 2;
-            }
-            else//多个根据中心到最远子物体的距离与最大鱼直径之和缩放
-            {
-                float maxradius = 0;
-                while (index < total)
+                if (1 == total)//只有一个根据直径缩放
                 {
                     player = this.mPlayerChildMgr.getEntityByIndex(index) as Player;
-                    if(maxradius < player.getBallRadius() * 2)//直径
-                    {
-                        maxradius = player.getBallRadius() * 2;
-                    }
-                    float templen = UtilMath.Sqrt(UtilMath.Sqr(center.x - player.getPos().x) + UtilMath.Sqr(center.z - player.getPos().z));
-                    if (templen > length) length = templen;
-                    ++index;
+                    length = player.getScale().x * 2;
                 }
+                else//多个根据中心到最远子物体的距离与最大鱼直径之和缩放
+                {
+                    float maxradius = 0;
+                    while (index < total)
+                    {
+                        player = this.mPlayerChildMgr.getEntityByIndex(index) as Player;
+                        if (maxradius < player.getBallRadius() * 2)//直径
+                        {
+                            maxradius = player.getBallRadius() * 2;
+                        }
+                        float templen = UtilMath.Sqrt(UtilMath.Sqr(center.x - player.getPos().x) + UtilMath.Sqr(center.z - player.getPos().z));
+                        if (templen > length) length = templen;
+                        ++index;
+                    }
 
-                length += maxradius;
+                    length += maxradius;
+                }
             }
 
             return 0 == length ? 5 : length;
