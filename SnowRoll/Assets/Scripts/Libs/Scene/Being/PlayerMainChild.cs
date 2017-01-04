@@ -77,5 +77,50 @@
         {
             return UtilLogic.canMerge(this.mLastMergedTime);
         }
+
+        override public bool canMergeWithOther(BeingEntity other)
+        {
+            bool ret = false;
+
+            if(EntityType.ePlayerMainChild == other.getEntityType())
+            {
+                float bigRadius = 0;
+
+                // 判断半径
+                if (this.mBallRadius > other.getBallRadius())
+                {
+                    bigRadius = this.mBallRadius;
+                }
+                else
+                {
+                    bigRadius = other.getBallRadius();
+                }
+
+                // 判断中心点距离
+                if (UtilMath.squaredDistance(this.mPos, other.getPos()) <= this.mBallRadius * this.mBallRadius)
+                {
+                    ret = true;
+                }
+            }
+
+            return ret;
+        }
+
+        override public void mergeWithOther(BeingEntity bBeingEntity)
+        {
+            PlayerMainChild aChild = this;
+            PlayerMainChild bChild = bBeingEntity as PlayerMainChild;
+
+            if (aChild.getBallRadius() > bChild.getBallRadius())
+            {
+                aChild.setBallRadius(UtilMath.getNewRadiusByRadius(aChild.getBallRadius(), bChild.getBallRadius()));
+                bChild.dispose();
+            }
+            else
+            {
+                bChild.setBallRadius(UtilMath.getNewRadiusByRadius(bChild.getBallRadius(), aChild.getBallRadius()));
+                aChild.dispose();
+            }
+        }
     }
 }

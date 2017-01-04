@@ -29,6 +29,7 @@ namespace SDK.Lib
             addAttrItem(UIFormId.eUITest, UICanvasID.eSecondCanvas, UILayerId.eSecondLayer, "UITest");
             addAttrItem(UIFormId.eUITerrainEdit, UICanvasID.eSecondCanvas, UILayerId.eSecondLayer, "UITerrainEdit");
             addAttrItem(UIFormId.eUIPack, UICanvasID.eSecondCanvas, UILayerId.eSecondLayer, "UIPack");
+            addAttrItem(UIFormId.eUIJoyStick, UICanvasID.eFirstCanvas, UILayerId.eSecondLayer, "UIJoyStick");
 
             // ****************** 第二层结束 ***********************
 
@@ -47,8 +48,8 @@ namespace SDK.Lib
             if (!mId2AttrDic.ContainsKey(formId))
             {
                 mId2AttrDic[formId] = new UIAttrItem();
-                mId2AttrDic[formId].mCanvasID = UICanvasID.eSecondCanvas;
-                mId2AttrDic[formId].mLayerID = UILayerId.eSecondLayer;
+                mId2AttrDic[formId].mCanvasID = canvasId > UICanvasID.eCanvas_Total ? UICanvasID.eSecondCanvas : canvasId;
+                mId2AttrDic[formId].mLayerID = layerId > UILayerId.eMaxLayer ? UILayerId.eSecondLayer : layerId;
                 mId2AttrDic[formId].addUISceneType(UISceneType.eUIScene_Game);
                 mId2AttrDic[formId].mWidgetPath = string.Format("{0}{1}/{2}{3}", Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathComUI], formName, formName, ".prefab");
                 mId2AttrDic[formId].mScriptTypeName = string.Format("Game.UI.{0}", formName);

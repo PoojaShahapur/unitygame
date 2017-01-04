@@ -14,6 +14,7 @@
         private AddOnceEventDispatch mOnMouseUpDispatch;
         private AddOnceEventDispatch mOnMousePressDispatch;
         private AddOnceEventDispatch mOnMouseMoveDispatch;
+        private AddOnceEventDispatch mOnMousePressMoveDispatch;
         private AddOnceEventDispatch mOnMouseCanceledDispatch;
 
         static public MMouse GetMouse(int button)
@@ -29,6 +30,7 @@
             this.mOnMouseUpDispatch = new AddOnceEventDispatch();
             this.mOnMousePressDispatch = new AddOnceEventDispatch();
             this.mOnMouseMoveDispatch = new AddOnceEventDispatch();
+            this.mOnMousePressMoveDispatch = new AddOnceEventDispatch();
             this.mOnMouseCanceledDispatch = new AddOnceEventDispatch();
         }
 
@@ -56,9 +58,16 @@
                 this.mLastPos = this.mPos;
                 this.mPos = UnityEngine.Input.mousePosition;
 
-                this.handleMousePress();
+                if (this.isPosChanged())
+                {
+                    this.handleMousePressMove();
+                }
+                else
+                {
+                    this.handleMousePress();
+                }
             }
-            else
+            else if(this.isPosChanged())     // 位置不相等的时候，就是移动
             {
                 // 鼠标移动
                 this.mLastPos = this.mPos;
@@ -86,6 +95,10 @@
             {
                 this.mOnMouseMoveDispatch.addEventHandle(null, handle);
             }
+            else if (EventId.MOUSEPRESS_MOVE_EVENT == evtID)
+            {
+                this.mOnMousePressMoveDispatch.addEventHandle(null, handle);
+            }
         }
 
         public void removeMouseListener(EventId evtID, MAction<IDispatchObject> handle)
@@ -106,6 +119,10 @@
             {
                 this.mOnMouseMoveDispatch.removeEventHandle(null, handle);
             }
+            else if (EventId.MOUSEPRESS_MOVE_EVENT == evtID)
+            {
+                this.mOnMousePressMoveDispatch.removeEventHandle(null, handle);
+            }
         }
 
         // 是否还有需要处理的事件
@@ -120,6 +137,10 @@
                 return true;
             }
             if (this.mOnMousePressDispatch.hasEventHandle())
+            {
+                return true;
+            }
+            if (this.mOnMousePressMoveDispatch.hasEventHandle())
             {
                 return true;
             }
@@ -158,6 +179,17 @@
                 if (null != this.mOnMouseMoveDispatch)
                 {
                     this.mOnMouseMoveDispatch.dispatchEvent(this);
+                }
+            }
+        }
+
+        public void handleMousePressMove()
+        {
+            if (this.isPosChanged())
+            {
+                if (null != this.mOnMousePressMoveDispatch)
+                {
+                    this.mOnMousePressMoveDispatch.dispatchEvent(this);
                 }
             }
         }

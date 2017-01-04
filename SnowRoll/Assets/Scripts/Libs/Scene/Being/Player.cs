@@ -6,6 +6,8 @@ namespace SDK.Lib
 	public class Player : BeingEntity
 	{
         public PlayerSplitMerge mPlayerSplitMerge;
+        // 位置改变量，主要是暂时移动 child，以后改通知为服务器 child 位置，就不用这样修改了
+        protected UnityEngine.Vector3 mDeltaPos;
 
         public Player()
 		{
@@ -79,19 +81,59 @@ namespace SDK.Lib
         {
             base.onPostTick(delta);
 
+            //if (null != this.mPlayerSplitMerge)
+            //{
+            //    this.mPlayerSplitMerge.onTick(delta);
+            //}
+        }
+
+        override public void setPos(UnityEngine.Vector3 pos)
+        {
+            UnityEngine.Vector3 origPos = this.mPos;
+            base.setPos(pos);
+            this.mDeltaPos = this.mPos - origPos;
+        }
+
+        override public void setDestPos(UnityEngine.Vector3 pos, bool immePos)
+        {
+            base.setDestPos(pos, immePos);
+
+            // 调整 Child 的位置
             if (null != this.mPlayerSplitMerge)
             {
-                this.mPlayerSplitMerge.onTick(delta);
+                this.mPlayerSplitMerge.setDestPos(pos, immePos);
             }
+        }
+
+        public UnityEngine.Vector3 getDeltaPos()
+        {
+            return this.mDeltaPos;
         }
 
         override public bool canEatOther(BeingEntity other)
         {
             bool ret = false;
-            // 雪快必然可以被吃掉
-            if(other.getEntityType() == EntityType.eSnowBlock)
+
+            // 雪快必然可以被吃掉，玩家吐出的雪块也必然可以被吃
+            if (other.getEntityType() == EntityType.eSnowBlock ||
+                other.getEntityType() == EntityType.ePlayerSnowBlock)
             {
-                ret = true;
+                float bigRadius = 0;
+
+                if (this.mBallRadius > other.getBallRadius())
+                {
+                    bigRadius = this.mBallRadius;
+                }
+                else
+                {
+                    bigRadius = other.getBallRadius();
+                }
+                
+                // 判断中心点距离
+                if (UtilMath.squaredDistance(this.mPos, other.getPos()) <= bigRadius * bigRadius)
+                {
+                    ret = true;
+                }
             }
             else
             {
@@ -120,6 +162,14 @@ namespace SDK.Lib
             }
 
             return null;
+        }
+
+        public void addSplitChild(PlayerChild playerChild)
+        {
+            if(null != this.mPlayerSplitMerge)
+            {
+                this.mPlayerSplitMerge.addSplitChild(playerChild);
+            }
         }
     }
 }

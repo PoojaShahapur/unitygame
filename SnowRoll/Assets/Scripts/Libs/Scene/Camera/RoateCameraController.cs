@@ -28,14 +28,16 @@ namespace SDK.Lib
             : base(camera, go)
         {
             this.transform = camera.gameObject.GetComponent<Transform>();
-            (actor as PlayerMain).addChildChangedHandle(null, onTargetOrientPosChanged);
+            Ctx.mInstance.mGlobalDelegate.addMainChildChangedHandle(null, onTargetOrientPosChanged);
+
+            this.onTargetOrientPosChanged(null);
         }
 
         public void init()
         {
             //Ctx.mInstance.mTickMgr.addTick(this, TickPriority.eTPCamController);
 
-            Ctx.mInstance.mInputMgr.addMouseListener(MMouse.MouseLeftButton, EventId.MOUSEMOVE_EVENT, onTouchMove);
+            Ctx.mInstance.mInputMgr.addMouseListener(MMouse.MouseLeftButton, EventId.MOUSEPRESS_MOVE_EVENT, onTouchMove);
             Ctx.mInstance.mInputMgr.addTouchListener(EventId.TOUCHMOVED_EVENT, onTouchMove);
 
             Vector3 eulerAngles = this.transform.eulerAngles;//当前物体的欧拉角  
@@ -56,61 +58,31 @@ namespace SDK.Lib
         public void onTouchMove(IDispatchObject dispObj)
         {
             MMouseOrTouch touch = dispObj as MMouseOrTouch;
+            //左屏控制摇杆，右屏控制相机
+            if(touch.mPos.x >= Screen.width / 2)
+            {
+                float xOffset = 0;
+                xOffset = touch.getXOffset();
+                this.eulerAngles_x += ((xOffset * this.xSpeed) * 10.0f) * 0.02f;
+                float yOffset = 0;
+                yOffset = touch.getYOffset();
+                this.eulerAngles_y -= (yOffset * this.ySpeed) * 0.02f;
 
-            float xOffset = 0;
-            xOffset = touch.getXOffset();
-            this.eulerAngles_x += ((xOffset * this.xSpeed) * 10.0f) * 0.02f;
-            float yOffset = 0;
-            yOffset = touch.getYOffset();
-            this.eulerAngles_y -= (yOffset * this.ySpeed) * 0.02f;
+                //Ctx.mInstance.mLogSys.log(string.Format("xOffset is {0}, yOffset is {1}", xOffset, yOffset), LogTypeId.eLogCommon);
 
-            //Ctx.mInstance.mLogSys.log(string.Format("xOffset is {0}, yOffset is {1}", xOffset, yOffset), LogTypeId.eLogCommon);
-
-            this.LateUpdate();
+                this.setCameraPosAndTargetOrient();
+            }            
         }
 
         public void onTargetOrientPosChanged(IDispatchObject dispObj)
         {
-            this.LateUpdate();
+            this.SetCameraPosition(true);
         }
 
-        //public void onTick(float delta)
-        //{
-        //    this.Update();
-        //}
-
-        //public void Update()
-        //{
-        //    //if (Input.mousePosition.x >= fward_force_Op_x_min && Input.mousePosition.x <= fward_force_Op_x_max &&
-        //    //   Input.mousePosition.y >= fward_force_Op_y_min && Input.mousePosition.y <= fward_force_Op_y_max)
-        //    //{
-        //    //Debug.Log("触摸在ui上 " + " x: " + Input.mousePosition.x + " y: " + Input.mousePosition.y + "  x_min: " + fward_force_Op_x_min + "  x_max: " + fward_force_Op_x_max + "  y_min: " + fward_force_Op_y_min + "  y_max: " + fward_force_Op_y_max);
-        //    //}
-        //    //else
-        //    //{
-        //    float xOffset = 0;
-        //    xOffset = Input.GetAxis("Mouse X");
-        //    this.eulerAngles_x += ((xOffset * this.xSpeed) * this.distance_Z) * 0.02f;
-        //    float yOffset = Input.GetAxis("Mouse Y");
-        //    this.eulerAngles_y -= (yOffset * this.ySpeed) * 0.02f;
-
-        //    Ctx.mInstance.mLogSys.log(string.Format("xOffset is {0}, yOffset is {1}", xOffset, yOffset) , LogTypeId.eLogCommon);
-
-        //    //}
-
-        //    this.LateUpdate();
-        //}
-
-        // Update is called once per frame 
-        protected void LateUpdate()
+        private void SetCameraPosition(bool isDispMove = false)
         {
             PlayerMain playerMain = Ctx.mInstance.mPlayerMgr.getHero();
-            SetCameraPosition();
-        }
 
-        private void SetCameraPosition()
-        {
-            PlayerMain playerMain = Ctx.mInstance.mPlayerMgr.getHero();
             if(null != playerMain)
             {
                 this.eulerAngles_y = ClampAngle(this.eulerAngles_y, (float)this.yMinLimit, (float)this.yMaxLimit);
@@ -144,14 +116,34 @@ namespace SDK.Lib
                 //更改主相机的旋转角度和位置
                 this.transform.rotation = quaternion;
                 this.transform.position = vector;
+
+                if (isDispMove)
+                {
+                    Ctx.mInstance.mGlobalDelegate.mCameraOrientChangedDispatch.dispatchEvent(null);
+                }
+            }
+        }
+
+        // 更新目标点方向
+        protected void setTargetOrient()
+        {
+            PlayerMain playerMain = Ctx.mInstance.mPlayerMgr.getHero();
+
+            if (null != playerMain)
+            {
                 //旋转玩家角度，x轴不变
                 Vector3 eulerAngles_cam = this.transform.rotation.eulerAngles;
                 Vector3 eulerAngles = new Vector3(0, eulerAngles_cam.y, eulerAngles_cam.z);
                 playerMain.setDestRotate(eulerAngles, true);
                 playerMain.setForwardRotate(eulerAngles);
-
-                Ctx.mInstance.mGlobalDelegate.mCameraOrientChangedDispatch.dispatchEvent(null);
             }
+        }
+
+        protected void setCameraPosAndTargetOrient()
+        {
+            this.SetCameraPosition();
+            this.setTargetOrient();
+            Ctx.mInstance.mGlobalDelegate.mCameraOrientChangedDispatch.dispatchEvent(null);
         }
 
         //把角度限制到给定范围内 

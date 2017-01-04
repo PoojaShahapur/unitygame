@@ -140,6 +140,11 @@
             
         }
 
+        virtual public void addSplitChild(PlayerChild playerChild)
+        {
+
+        }
+
         protected void calcTargetLength()
         {
             this.mTargetLength = mRangeBox.getHalfZ() * Ctx.mInstance.mSnowBallCfg.mK + Ctx.mInstance.mSnowBallCfg.mN;
@@ -157,7 +162,7 @@
         // 计算目标点
         public void calcTargetPoint()
         {
-            if (this.mTargetLength > 0)
+            if (this.mTargetLength > 0 && mEntity != null)
             {
                 this.mTargetPoint = mEntity.getPos() + mEntity.getRotate() * new UnityEngine.Vector3(0, 0, this.mTargetLength);
 

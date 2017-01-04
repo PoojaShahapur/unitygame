@@ -68,6 +68,11 @@
             base.onTick(delta);
         }
 
+        public UnityEngine.Quaternion getForwardRotate()
+        {
+            return mForwardRotate;
+        }
+
         protected void onUpArrowPress(IDispatchObject dispObj)
         {
             this.updateOrient();

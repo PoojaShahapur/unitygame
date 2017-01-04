@@ -10,7 +10,15 @@
 
         override public void overlapToEnter(BeingEntity bBeingEntity, UnityEngine.Collision collisionInfo)
         {
-            if (UtilApi.isInFakePos(this.mEntity.getPos()))
+            if (!(this.mEntity as BeingEntity).canInterActive(bBeingEntity))
+            {
+                return;
+            }
+        }
+
+        override public void overlapToStay(BeingEntity bBeingEntity, UnityEngine.Collision collisionInfo)
+        {
+            if (!(this.mEntity as BeingEntity).canInterActive(bBeingEntity))
             {
                 return;
             }
@@ -41,17 +49,9 @@
             }
         }
 
-        override public void overlapToStay(BeingEntity bBeingEntity, UnityEngine.Collision collisionInfo)
-        {
-            if (UtilApi.isInFakePos(this.mEntity.getPos()))
-            {
-                return;
-            }
-        }
-
         override public void overlapToExit(BeingEntity bBeingEntity, UnityEngine.Collision collisionInfo)
         {
-            if (UtilApi.isInFakePos(this.mEntity.getPos()))
+            if (!(this.mEntity as BeingEntity).canInterActive(bBeingEntity))
             {
                 return;
             }
@@ -59,27 +59,32 @@
             // 如果和 PlayerMainChild 碰撞
             if (EntityType.ePlayerMainChild == bBeingEntity.getEntityType())
             {
-                (this.mEntity as PlayerMainChild).mParentPlayer.mPlayerSplitMerge.removeMerge(this.mEntity as PlayerChild, bBeingEntity as PlayerChild);
+                //(this.mEntity as PlayerMainChild).mParentPlayer.mPlayerSplitMerge.removeMerge(this.mEntity as PlayerChild, bBeingEntity as PlayerChild);
             }
         }
 
         // 雪块
         public void eatSnowBlock(BeingEntity bBeingEntity)
         {
-            if (!MacroDef.DEBUG_NOTNET)
+            if (this.mEntity.canEatOther(bBeingEntity))
             {
-                this.mEntity.cellCall("eatSnowBlock", bBeingEntity.getId());
-            }
-            else
-            {
-                // TODO:客户端自己模拟
-                //float newRadius = UtilMath.getNewRadiusByRadius(this.mEntity.getBallRadius(), bBeingEntity.getBallRadius());
+                bBeingEntity.setClientDispose(true);
 
-                float newRadius = UtilMath.getEatSnowNewRadiusByRadius(this.mEntity.getBallRadius());
+                if (!MacroDef.DEBUG_NOTNET)
+                {
+                    this.mEntity.cellCall("eatSnowBlock", bBeingEntity.getId());
+                }
+                else
+                {
+                    // TODO:客户端自己模拟
+                    //float newRadius = UtilMath.getNewRadiusByRadius(this.mEntity.getBallRadius(), bBeingEntity.getBallRadius());
 
-                this.mEntity.setBeingState(BeingState.eBSAttack);
-                this.mEntity.setBallRadius(newRadius);
-                bBeingEntity.dispose();
+                    float newRadius = UtilMath.getEatSnowNewRadiusByRadius(this.mEntity.getBallRadius());
+
+                    this.mEntity.setBeingState(BeingState.eBSAttack);
+                    this.mEntity.setBallRadius(newRadius);
+                    bBeingEntity.dispose();
+                }
             }
         }
 
@@ -90,6 +95,7 @@
 
             if (this.mEntity.canEatOther(bBeingEntity) && 0 == otherIsGod)
             {
+                bBeingEntity.setClientDispose(true);
                 this.mEntity.cellCall("eatSnowBlock", bBeingEntity.getId());
             }
         }
@@ -106,6 +112,8 @@
 
             if (this.mEntity.canEatOther(bBeingEntity) && 0 == otherIsGod)
             {
+                bBeingEntity.setClientDispose(true);
+
                 if (!MacroDef.DEBUG_NOTNET)
                 {
                     this.mEntity.cellCall("eatSnowBlock", bBeingEntity.getId());
@@ -124,6 +132,8 @@
         // 吃玩家吐出的雪块
         public void eatPlayerSnowBlock(BeingEntity bBeingEntity)
         {
+            bBeingEntity.setClientDispose(true);
+
             if (!MacroDef.DEBUG_NOTNET)
             {
 
@@ -141,9 +151,15 @@
         // 碰撞 PlayerMainChild
         public void eatPlayerMainChild(BeingEntity bBeingEntity, UnityEngine.Collision collisionInfo)
         {
+            // 如果可以合并
             if (this.mEntity.canMerge() && bBeingEntity.canMerge())
             {
-                (this.mEntity as PlayerMainChild).mParentPlayer.mPlayerSplitMerge.addMerge(this.mEntity as PlayerChild, bBeingEntity as PlayerChild);
+                //(this.mEntity as PlayerMainChild).mParentPlayer.mPlayerSplitMerge.addMerge(this.mEntity as PlayerChild, bBeingEntity as PlayerChild);
+                // 如果现在能进行合并
+                if(this.mEntity.canMergeWithOther(bBeingEntity))
+                {
+                    this.mEntity.mergeWithOther(bBeingEntity);
+                }
             }
             else if (this.mEntity.isNeedReduceSpeed() || bBeingEntity.isNeedReduceSpeed())
             {

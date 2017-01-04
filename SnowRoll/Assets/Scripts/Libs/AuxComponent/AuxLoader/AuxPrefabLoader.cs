@@ -266,7 +266,7 @@ namespace SDK.Lib
             return ret;
         }
 
-        public void setClientDispose()
+        public void setClientDispose(bool isDispose)
         {
 
         }

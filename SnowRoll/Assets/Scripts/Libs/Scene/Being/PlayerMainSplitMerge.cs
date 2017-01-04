@@ -14,12 +14,11 @@
             mTmpMergedList = new MList<MergeItem>();
         }
 
-        public override void onTick(float delta)
-        {
-            base.onTick(delta);
-
-            this.onMergeTick(delta);
-        }
+        //public override void onTick(float delta)
+        //{
+            //base.onTick(delta);
+            //this.onMergeTick(delta);
+        //}
 
         protected void onMergeTick(float delta)
         {
@@ -160,6 +159,11 @@
             (child.mMovement as PlayerMainChildMovement).addParentOrientChangedhandle();
         }
 
+        override public void addSplitChild(PlayerChild playerChild)
+        {
+
+        }
+
         override public MergeItem addMerge(PlayerChild aChild, PlayerChild bChild)
         {
             string keyOne;
@@ -276,7 +280,7 @@
             while (index < total)
             {
                 player = this.mPlayerChildMgr.getEntityByIndex(index) as Player;
-                player.setDestPos(player.getPos() + (this.mEntity as PlayerMain).getDeltaPos(), immePos);
+                player.setDestPos(player.getPos() + (this.mEntity as Player).getDeltaPos(), immePos);
                 ++index;
             }
 

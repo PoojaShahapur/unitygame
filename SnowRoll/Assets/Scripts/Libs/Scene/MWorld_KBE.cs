@@ -170,6 +170,12 @@ public class MWorld_KBE
             return;
 
         player.setDestPos(entity.position, true);
+
+        if (entity.isPlayer())
+        {
+            // 主角需要出发一次事件，更新相机
+            Ctx.mInstance.mGlobalDelegate.mMainChildChangedDispatch.dispatchEvent(null);
+        }
     }
 
     public void updatePosition(KBEngine.Entity entity)

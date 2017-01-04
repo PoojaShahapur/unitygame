@@ -50,7 +50,7 @@
                         delFromDelayAddList(delayObject);
                     }
 
-                    delayObject.setClientDispose();
+                    delayObject.setClientDispose(true);
 
                     DelayHandleObject delayHandleObject = new DelayHandleObject();
                     delayHandleObject.mDelayParam = new DelayDelParam();

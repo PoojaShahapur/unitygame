@@ -193,7 +193,7 @@ namespace SDK.Lib
             this.mDisposed = false;
         }
 
-        public void setClientDispose()
+        public void setClientDispose(bool isDispose)
         {
 
         }

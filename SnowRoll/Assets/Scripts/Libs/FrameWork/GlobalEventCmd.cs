@@ -12,6 +12,7 @@
 
         static public void onEnterWorld()
         {
+            Ctx.mInstance.mUiMgr.loadAndShow(UIFormId.eUIJoyStick);
             Ctx.mInstance.mLuaSystem.onPlayerMainLoaded();
         }
     }

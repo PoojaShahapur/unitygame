@@ -62,7 +62,7 @@ function M:getLayerGo(canvasId, layerId)
         layerId = GlobalNS.UILayerID.eUISecondLayer;
     end
     GlobalNS.UtilApi.assert(canvasId < self.m_canvasList:Count());
-    return self.m_canvasList:at(0):getLayerGo(layerId);
+    return self.m_canvasList:at(canvasId):getLayerGo(layerId);
 end
 
 function M:showForm(formId)

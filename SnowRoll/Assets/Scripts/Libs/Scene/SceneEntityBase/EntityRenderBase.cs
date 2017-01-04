@@ -12,7 +12,7 @@
             mEntity = entity_;
         }
 
-        virtual public void setClientDispose()
+        virtual public void setClientDispose(bool isDispose)
         {
 
         }

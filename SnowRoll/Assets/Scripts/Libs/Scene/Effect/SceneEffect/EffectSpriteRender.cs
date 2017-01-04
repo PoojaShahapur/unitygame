@@ -36,10 +36,10 @@ namespace SDK.Lib
             }
         }
 
-        override public void setClientDispose()
+        override public void setClientDispose(bool isDispose)
         {
-            base.setClientDispose();
-            m_spriteRender.setClientDispose();
+            base.setClientDispose(isDispose);
+            m_spriteRender.setClientDispose(isDispose);
         }
 
         override public GameObject gameObject()

@@ -123,13 +123,13 @@ namespace SDK.Lib
             return this.mIsVisible;
         }
 
-        virtual public void setClientDispose()
+        virtual public void setClientDispose(bool isDispose)
         {
-            this.mIsClientDispose = true;
+            this.mIsClientDispose = isDispose;
 
             if(null != mRender)
             {
-                mRender.setClientDispose();
+                mRender.setClientDispose(isDispose);
             }
         }
 

@@ -34,5 +34,18 @@
                 ++idx;
             }
         }
+
+        override public void setDestPos(UnityEngine.Vector3 pos, bool immePos)
+        {
+            int total = this.mPlayerChildMgr.getEntityCount();
+            int index = 0;
+            Player player = null;
+            while (index < total)
+            {
+                player = this.mPlayerChildMgr.getEntityByIndex(index) as Player;
+                player.setDestPos(player.getPos() + (this.mEntity as Player).getDeltaPos(), immePos);
+                ++index;
+            }
+        }
     }
 }

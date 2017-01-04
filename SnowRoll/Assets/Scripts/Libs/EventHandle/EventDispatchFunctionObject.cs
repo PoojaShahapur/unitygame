@@ -127,9 +127,9 @@ namespace SDK.Lib
             }
         }
 
-        public void setClientDispose()
+        public void setClientDispose(bool isDispose)
         {
-            this.mIsClientDispose = true;
+            this.mIsClientDispose = isDispose;
         }
 
         public bool isClientDispose()

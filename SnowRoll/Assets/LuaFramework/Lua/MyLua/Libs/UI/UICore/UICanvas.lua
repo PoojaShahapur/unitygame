@@ -71,7 +71,7 @@ function M:init()
 end
 
 function M:getLayerGo(layerId)
-	return self.mLayerList:at(0):getLayerGo();
+	return self.mLayerList:at(layerId):getLayerGo();
 end
 
 return M;

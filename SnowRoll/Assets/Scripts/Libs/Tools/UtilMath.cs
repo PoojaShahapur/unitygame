@@ -700,6 +700,16 @@ namespace SDK.Lib
             return UnityEngine.Vector3.Distance(a, b);
         }
 
+        public static float squaredDistance(Vector3 a, Vector3 b)
+        {
+            float len = 0;
+
+            Vector3 distVec = a - b;
+            len = distVec.sqrMagnitude;
+
+            return len;
+        }
+
         // 获取单位前向向量
         public Vector3 getNormalForwardVector(Transform transform)
         {

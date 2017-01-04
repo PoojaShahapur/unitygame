@@ -83,7 +83,7 @@ namespace SDK.Lib
         //    ani.dispose();
         //}
 
-        public void setClientDispose()
+        public void setClientDispose(bool isDispose)
         {
 
         }

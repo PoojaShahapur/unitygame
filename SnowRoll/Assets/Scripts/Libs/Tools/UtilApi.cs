@@ -413,6 +413,7 @@ namespace SDK.Lib
         {
             // 每一个 GameObject 只能有一个 Image 组件
             Image image = go_.GetComponent<Image>();
+
             if (image != null && image.sprite != null)
             {
                 if (image.sprite.texture != null)
@@ -425,6 +426,7 @@ namespace SDK.Lib
             int childCount = go_.transform.childCount;
             int idx = 0;
             Transform childTrans = null;
+
             for (idx = 0; idx < childCount; ++idx)
             {
                 childTrans = go_.transform.GetChild(idx);
@@ -436,6 +438,7 @@ namespace SDK.Lib
         public static bool CheckComponent<T>(GameObject go_)
         {
             T com = go_.GetComponent<T>();
+
             if (com != null)
             {
                 return true;
@@ -444,9 +447,11 @@ namespace SDK.Lib
             int childCount = go_.transform.childCount;
             int idx = 0;
             Transform childTrans = null;
+
             for (idx = 0; idx < childCount; ++idx)
             {
                 childTrans = go_.transform.GetChild(idx);
+
                 if(UtilApi.CheckComponent<T>(childTrans.gameObject))
                 {
                     return true;
@@ -467,11 +472,13 @@ namespace SDK.Lib
                     (obj as GameObject).transform.SetParent(null);      // 这个仅仅是移除场景中
                     UtilApi.DestroyTexMat(obj as GameObject);
                 }
+
                 UnityEngine.Object.Destroy(obj);
                 obj = null;
             }
             else
             {
+
             }
         }
 
@@ -509,6 +516,7 @@ namespace SDK.Lib
         public static void DestroyTexMat(UnityEngine.GameObject go_)
         {
             Material mat = go_.GetComponent<Material>();
+
             if(mat != null)
             {
                 if (mat.mainTexture != null)
@@ -521,6 +529,7 @@ namespace SDK.Lib
             }
 
             Image image = go_.GetComponent<Image>();
+
             if(image != null)
             {
                 if(image.sprite != null)
@@ -539,6 +548,7 @@ namespace SDK.Lib
             int childCount = go_.transform.childCount;
             int idx = 0;
             Transform childTrans = null;
+
             for (idx = 0; idx < childCount; ++idx)
             {
                 childTrans = go_.transform.GetChild(idx);
@@ -549,19 +559,25 @@ namespace SDK.Lib
         public static void CleanTex(UnityEngine.GameObject go_)
         {
             if (go_ == null)
+            {
                 return;
+            }
+
             Image image = go_.GetComponent<Image>();
+
             if (image != null)
             {
                 if (image.sprite != null)
                 {
                     ImageItem imageItem = Ctx.mInstance.mAtlasMgr.getAndSyncLoadImage(CVAtlasName.ShopDyn, image.sprite.name);
+
                     if (imageItem != null && imageItem.image != null)
                     {
                         if (image.sprite.texture != null)
                         {
                             UtilApi.UnloadAsset(image.sprite.texture);
                         }
+
                         image.sprite = null;
                         image = null;
                     }          
@@ -571,6 +587,7 @@ namespace SDK.Lib
             int childCount = go_.transform.childCount;
             int idx = 0;
             Transform childTrans = null;
+
             for (idx = 0; idx < childCount; ++idx)
             {
                 childTrans = go_.transform.GetChild(idx);

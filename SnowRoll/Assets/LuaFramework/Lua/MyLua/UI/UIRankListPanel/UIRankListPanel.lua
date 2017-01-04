@@ -102,6 +102,13 @@ end
 function M:SetMyRankInfo()
     for i=1, GCtx.mGameData.ranklistCount do
         if(GCtx.mGameData.rankinfolist[i].m_rank == GCtx.mGameData.myRank) then
+
+            --荣誉
+            local myHoner = GlobalNS.UtilApi.getComByPath(self.mMyRankArea, "Honer", "Image");
+            --myAvatar.Name = "Avatar/DefaultAvatar";
+            --Sprite avatarSprite = Resources.Load("Avatar/DefaultAvatar", typeof(Sprite)) as Sprite;
+            --myAvatar.overrideSprite = avatarSprite;
+
             --排名
             local myRank = GlobalNS.UtilApi.getComByPath(self.mMyRankArea, "Rank", "Text");
             myRank.text = "" .. i;
@@ -134,6 +141,11 @@ function M:SetTopXRankInfo()
     for i=1, GCtx.mGameData.ranklistCount do
         local listitem = self.listitems[i].transform;
         
+        --荣誉
+        local Honer = GlobalNS.UtilApi.getComByPath(listitem, "Honer", "Image");
+        --Sprite avatarSprite = Resources.Load("Avatar/DefaultAvatar", typeof(Sprite)) as Sprite;
+        --Avatar.overrideSprite = avatarSprite;
+
         --排名
         local Rank = GlobalNS.UtilApi.getComByPath(listitem, "Rank", "Text");
         Rank.text = "" .. i;

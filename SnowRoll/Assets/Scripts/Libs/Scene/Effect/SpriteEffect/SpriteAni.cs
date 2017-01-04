@@ -136,9 +136,9 @@
             this.mLoopType = type;
         }
 
-        virtual public void setClientDispose()
+        virtual public void setClientDispose(bool isDispose)
         {
-            this.mIsClientDispose = true;
+            this.mIsClientDispose = isDispose;
         }
 
         virtual public bool isClientDispose()

@@ -393,22 +393,41 @@ namespace SDK.Lib
             this.mBeingSubState = BeingSubState.eBSSNone;
         }
 
+        // 是否可以吃掉对方
         virtual public bool canEatOther(BeingEntity other)
         {
             bool ret = false;
 
+            // 判断半径
             if(this.mBallRadius > other.getBallRadius())
             {
                 if (this.mBallRadius >= other.getBallRadius() * Ctx.mInstance.mSnowBallCfg.mCanAttackRate)
                 {
-                    ret = true;
+                    // 判断中心点距离
+                    if(UtilMath.squaredDistance(this.mPos, other.getPos()) <= this.mBallRadius * this.mBallRadius)
+                    {
+                        ret = true;
+                    }
                 }
             }
-            else if(this.mBallRadius < other.getBallRadius())
+
+            return ret;
+        }
+
+        // 是否可以被吃掉
+        virtual public bool canEatByOther(BeingEntity other)
+        {
+            bool ret = false;
+
+            if (this.mBallRadius < other.getBallRadius())
             {
                 if (this.mBallRadius * Ctx.mInstance.mSnowBallCfg.mCanAttackRate <= other.getBallRadius())
                 {
-                    ret = true;
+                    // 判断中心点距离
+                    if (UtilMath.squaredDistance(this.mPos, other.getPos()) <= other.getBallRadius() * other.getBallRadius())
+                    {
+                        ret = true;
+                    }
                 }
             }
 
@@ -500,6 +519,42 @@ namespace SDK.Lib
             }
 
             return false;
+        }
+
+        // 是否可以交互
+        public bool canInterActive(BeingEntity bBeingEntity)
+        {
+            bool can = true;
+
+            if (UtilApi.isInFakePos(this.getPos()))
+            {
+                can = false;
+            }
+            else if(this.isClientDispose())
+            {
+                can = false;
+            }
+            else if(UtilApi.isInFakePos(bBeingEntity.getPos()))
+            {
+                can = false;
+            }
+            else if(bBeingEntity.isClientDispose())
+            {
+                can = false;
+            }
+
+            return can;
+        }
+
+        // 是否可以与其它的进行合并
+        virtual public bool canMergeWithOther(BeingEntity bBeingEntity)
+        {
+            return false;
+        }
+
+        virtual public void mergeWithOther(BeingEntity bBeingEntity)
+        {
+
         }
     }
 }
