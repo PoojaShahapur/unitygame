@@ -309,5 +309,10 @@ namespace SDK.Lib
             // 传递参数必须要 (object)param ，不能 param
             this.callLuaFunction("GlobalNS.GlobalEventCmd.onReceiveToLua_KBE", msgname, (object)param);
         }
+
+        public void PrintConsoleMessage(string msg)
+        {
+            receiveToLua_KBE("handleSendAndGetMessage", new object[] { msg });
+        }
     }
 }

@@ -47,7 +47,7 @@
         {
             base.postInit();
 
-            this.mAnimFSM.UpdateFSM();
+            //this.mAnimFSM.UpdateFSM();
 
             this.mHud = Ctx.mInstance.mHudSystem.createHud(this);
         }

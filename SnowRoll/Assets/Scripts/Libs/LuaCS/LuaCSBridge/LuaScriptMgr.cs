@@ -223,17 +223,22 @@ namespace SDK.Lib
                 loader.AddBundle("lua/lua_mylua_test_teststr.unity3d");
                 loader.AddBundle("lua/lua_mylua_test_testtable.unity3d");
                 loader.AddBundle("lua/lua_mylua_test_testui.unity3d");
-                loader.AddBundle("lua/lua_mylua_ui_createnewform_defaultform.unity3d");
 
-                loader.AddBundle("lua/lua_mylua_ui_uiforwardforce.unity3d");
+                loader.AddBundle("lua/lua_mylua_ui_uisettingspanel.unity3d");
                 loader.AddBundle("lua/lua_mylua_ui_uioptionpanel.unity3d");
                 loader.AddBundle("lua/lua_mylua_ui_uiplayerdatapanel.unity3d");
                 loader.AddBundle("lua/lua_mylua_ui_uiranklistpanel.unity3d");
 
                 loader.AddBundle("lua/lua_mylua_ui_uirelivepanel.unity3d");
                 loader.AddBundle("lua/lua_mylua_ui_uistartgame.unity3d");
-                loader.AddBundle("lua/lua_mylua_ui_uitest.unity3d");
+                //loader.AddBundle("lua/lua_mylua_ui_uitest.unity3d");
                 loader.AddBundle("lua/lua_mylua_ui_uitopxrankpanel.unity3d");
+                loader.AddBundle("lua/lua_mylua_ui_uishop_skinpanel.unity3d");
+
+                loader.AddBundle("lua/lua_mylua_ui_uipack.unity3d");
+                loader.AddBundle("lua/lua_mylua_ui_uiconsoledlg.unity3d");
+
+                loader.AddBundle("lua/lua_mylua_libs_gamedata.unity3d");
                 //--------------------------MyLua End --------------------------------
             }
         }

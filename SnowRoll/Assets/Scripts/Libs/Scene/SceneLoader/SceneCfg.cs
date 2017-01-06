@@ -27,6 +27,17 @@ namespace SDK.Lib
             }
         }
 
+        public void initSize()
+        {
+            this.mWidth = Ctx.mInstance.mSnowBallCfg.mXmlSnowBallCfg.mXmlItemMap.mWidth;
+            this.mDepth = Ctx.mInstance.mSnowBallCfg.mXmlSnowBallCfg.mXmlItemMap.mWidth;
+        }
+
+        public void dispose()
+        {
+
+        }
+
         public void addSceneNode(SceneNodeCfg node)
         {
             this.mSceneNodeCfgArr.Add(node);

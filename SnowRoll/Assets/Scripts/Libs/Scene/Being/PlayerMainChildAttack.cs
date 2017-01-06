@@ -72,7 +72,8 @@
 
                 if (!MacroDef.DEBUG_NOTNET)
                 {
-                    this.mEntity.cellCall("eatSnowBlock", bBeingEntity.getId());
+                    this.mEntity.cellCall("eatSnowBlock", bBeingEntity.getThisId());
+                    //(this.mEntity as PlayerChild).mParentPlayer.cellCall("eatSnowBlock", bBeingEntity.getThisId());
                 }
                 else
                 {
@@ -96,7 +97,8 @@
             if (this.mEntity.canEatOther(bBeingEntity) && 0 == otherIsGod)
             {
                 bBeingEntity.setClientDispose(true);
-                this.mEntity.cellCall("eatSnowBlock", bBeingEntity.getId());
+                this.mEntity.cellCall("eatSnowBlock", bBeingEntity.getThisId());
+                //(this.mEntity as PlayerChild).mParentPlayer.cellCall("eatSnowBlock", bBeingEntity.getThisId());
             }
         }
 
@@ -116,7 +118,8 @@
 
                 if (!MacroDef.DEBUG_NOTNET)
                 {
-                    this.mEntity.cellCall("eatSnowBlock", bBeingEntity.getId());
+                    this.mEntity.cellCall("eatSnowBlock", bBeingEntity.getThisId());
+                    //(this.mEntity as PlayerChild).mParentPlayer.cellCall("eatSnowBlock", bBeingEntity.getThisId());
                 }
                 else
                 {
@@ -136,7 +139,8 @@
 
             if (!MacroDef.DEBUG_NOTNET)
             {
-
+                this.mEntity.cellCall("eatSnowBlock", bBeingEntity.getThisId());
+                //Ctx.mInstance.mPlayerMgr.getHero().cellCall("eatSnowBlock", bBeingEntity.getThisId());
             }
             else
             {
@@ -158,7 +162,11 @@
                 // 如果现在能进行合并
                 if(this.mEntity.canMergeWithOther(bBeingEntity))
                 {
-                    this.mEntity.mergeWithOther(bBeingEntity);
+                    bBeingEntity.setClientDispose(true);
+                    this.mEntity.setClientDispose(true);
+
+                    //this.mEntity.mergeWithOther(bBeingEntity);
+                    Game.Game.ReqSceneInteractive.sendMerge(this.mEntity, bBeingEntity);
                 }
             }
             else if (this.mEntity.isNeedReduceSpeed() || bBeingEntity.isNeedReduceSpeed())

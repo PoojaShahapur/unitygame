@@ -7,11 +7,21 @@
         protected int mCurWidth;       // 现在宽度
         protected int mCurHeight;
 
-        protected MList<IResizeObject> m_ResizeLst;
+        protected MList<IResizeObject> mResizeList;
 
         public ResizeMgr()
         {
-            m_ResizeLst = new MList<IResizeObject>();
+            mResizeList = new MList<IResizeObject>();
+        }
+
+        public void init()
+        {
+
+        }
+
+        public void dispose()
+        {
+            this.mResizeList.Clear();
         }
 
         override protected void addObject(IDelayHandleItem delayObject, float priority = 0.0f)
@@ -40,17 +50,17 @@
 
         public void addResizeObject(IResizeObject obj, float priority = 0)
         {
-            if (m_ResizeLst.IndexOf(obj) == -1)
+            if (mResizeList.IndexOf(obj) == -1)
             {
-                m_ResizeLst.Add(obj);
+                mResizeList.Add(obj);
             }
         }
 
         public void removeResizeObject(IResizeObject obj)
         {
-            if (m_ResizeLst.IndexOf(obj) != -1)
+            if (mResizeList.IndexOf(obj) != -1)
             {
-                m_ResizeLst.Remove(obj);
+                mResizeList.Remove(obj);
             }
         }
 
@@ -69,7 +79,7 @@
 
         public void onResize(int viewWidth, int viewHeight)
         {
-            foreach (IResizeObject resizeObj in m_ResizeLst.list())
+            foreach (IResizeObject resizeObj in mResizeList.list())
             {
                 resizeObj.onResize(viewWidth, viewHeight);
             }

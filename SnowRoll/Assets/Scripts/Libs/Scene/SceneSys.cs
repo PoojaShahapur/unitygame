@@ -50,7 +50,9 @@
 
             // 加载新的场景
             mScene = new Scene();
+            mScene.getSceneCfg().initSize();
             mScene.file = Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathScene] + filename;
+
             if(func != null)
             {
                 mOnSceneLoadedDisp.addEventHandle(null, func);

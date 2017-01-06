@@ -19,12 +19,12 @@ function M.init()
     this.eUIRankListPanel = GCtx.mUiMgr.mUniqueNumIdGen:genNewId();
     this.eUIRelivePanel = GCtx.mUiMgr.mUniqueNumIdGen:genNewId();
     this.eUIPlayerDataPanel = GCtx.mUiMgr.mUniqueNumIdGen:genNewId();
-    this.eUIForwardForce = GCtx.mUiMgr.mUniqueNumIdGen:genNewId();
     this.eUIOptionPanel = GCtx.mUiMgr.mUniqueNumIdGen:genNewId();
     this.eUITopXRankPanel = GCtx.mUiMgr.mUniqueNumIdGen:genNewId();
     this.eUIConsoleDlg = GCtx.mUiMgr.mUniqueNumIdGen:genNewId();
 	this.eUIShop_SkinPanel = GCtx.mUiMgr.mUniqueNumIdGen:genNewId();
 	this.eUIPack = GCtx.mUiMgr.mUniqueNumIdGen:genNewId();
+    this.eUISettingsPanel = GCtx.mUiMgr.mUniqueNumIdGen:genNewId();
     --[[替换占位符(勿删)--]]
 	this.eUICount = GCtx.mUiMgr.mUniqueNumIdGen:genNewId();
 end

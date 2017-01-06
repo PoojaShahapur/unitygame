@@ -167,6 +167,21 @@ namespace SDK.Lib
     }
 
     /**
+     * @brief 地图配置
+     */
+    public class XmlItemMap : XmlItemBase
+    {
+        public uint mWidth;
+        public uint mHeight;
+
+        public override void parseXml(SecurityElement xmlelem)
+        {
+            UtilXml.getXmlAttrUInt(xmlelem, "Width", ref mWidth);
+            UtilXml.getXmlAttrUInt(xmlelem, "Height", ref mHeight);
+        }
+    }
+
+    /**
      * @brief 雪块配置
      */
     public class XmlSnowBallCfg : XmlCfgBase
@@ -179,6 +194,7 @@ namespace SDK.Lib
         public XmlItemMoveSpeed mXmlItemMoveSpeed;
         public XmlItemCameraControl mXmlItemCameraControl;
         public XmlShop mXmlShop;
+        public XmlItemMap mXmlItemMap;
 
         public XmlSnowBallCfg()
         {
@@ -206,6 +222,9 @@ namespace SDK.Lib
 
             //解析商店配置
             parseShopItems();
+
+            // 地图配置
+            mXmlItemMap = parseXml<XmlItemMap>(this.mXmlConfig, "Map")[0] as XmlItemMap;
         }
 
         private void parseShopItems()

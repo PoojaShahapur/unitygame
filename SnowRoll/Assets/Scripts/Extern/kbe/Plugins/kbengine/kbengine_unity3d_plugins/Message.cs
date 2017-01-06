@@ -145,8 +145,7 @@
 
                 SDK.Lib.Ctx.mInstance.mLuaSystem.receiveToLua_KBE(name, param);
             }
-
-            SDK.Lib.Ctx.mInstance.mLuaSystem.receiveToLua_KBE("handleSendAndGetMessage", new object[] { "<color=#0000FF>[S->C]: </color>" + name });
+            SDK.Lib.Ctx.mInstance.mLuaSystem.PrintConsoleMessage("<color=#0000FF>[S->C]: </color>" + name);
         }
     }
 } 

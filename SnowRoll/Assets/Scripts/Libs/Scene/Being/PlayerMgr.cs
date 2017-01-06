@@ -83,10 +83,12 @@ namespace SDK.Lib
         // 进行分裂
         public void startSplit()
         {
-            if(null != this.mHero)
-            {
-                this.mHero.mPlayerSplitMerge.startSplit();
-            }
+            //if(null != this.mHero)
+            //{
+            //    this.mHero.mPlayerSplitMerge.startSplit();
+            //}
+
+            Game.Game.ReqSceneInteractive.sendSplit();
         }
 
         public void setPlayerTargetPos(UnityEngine.Vector3 pos)
@@ -103,10 +105,12 @@ namespace SDK.Lib
         // 吐雪球
         public void emitSnowBlock()
         {
-            if (null != this.mHero)
-            {
-                this.mHero.emitSnowBlock();
-            }
+            //if (null != this.mHero)
+            //{
+            //    this.mHero.emitSnowBlock();
+            //}
+
+            Game.Game.ReqSceneInteractive.sendShit();
         }
 
         protected void startCreatOtherTimer()

@@ -50,6 +50,7 @@ namespace Game.Game
             Ctx.mInstance.mScriptDynLoad.registerScriptType("Game.UI.UITerrainEdit", typeof(UITerrainEdit));
             Ctx.mInstance.mScriptDynLoad.registerScriptType("Game.UI.UIPack", typeof(UIPack));
             Ctx.mInstance.mScriptDynLoad.registerScriptType("Game.UI.UIJoyStick", typeof(UIJoyStick));
+            Ctx.mInstance.mScriptDynLoad.registerScriptType("Game.UI.UIForwardForce", typeof(UIForwardForce));
         }
     }
 }

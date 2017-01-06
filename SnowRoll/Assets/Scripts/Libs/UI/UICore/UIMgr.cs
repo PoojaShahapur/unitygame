@@ -45,6 +45,11 @@ namespace SDK.Lib
             this.mHudCanvas = Ctx.mInstance.mUiMgr.getCanvas(UICanvasID.eHudCanvas);
         }
 
+        public void dispose()
+        {
+            
+        }
+
         protected void createCanvas()
         {
             mCanvasList = new MList<UICanvas>();

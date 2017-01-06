@@ -214,6 +214,10 @@ namespace SDK.Lib
             while (idx < len)
             {
                 entity = this.mSceneEntityList[idx];
+
+                this.mId2EntityDic.Remove(entity.getEntityUniqueId());
+                this.mThisId2EntityDic.Remove(entity.getThisId());
+
                 if (!entity.isClientDispose())
                 {
                     entity.dispose();

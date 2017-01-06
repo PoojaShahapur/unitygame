@@ -1550,7 +1550,7 @@
 			ScriptModule sm = EntityDef.moduledefs[entity.className];
 			Dictionary<UInt16, Property> pdatas = sm.idpropertys;
 
-			while(stream.length() > 0)
+            while (stream.length() > 0)
 			{
 				UInt16 utype = 0;
 				
@@ -1570,10 +1570,10 @@
 				object val = propertydata.utype.createFromStream(stream);
 				object oldval = entity.getDefinedPropertyByUType(utype);
 
-				 // Dbg.DEBUG_MSG("KBEngine::Client_onUpdatePropertys: " + entity.className + "(id=" + eid  + " " + 
-				 // propertydata.name + "=" + val + "), hasSetMethod=" + setmethod + "!");
-			
-				entity.setDefinedPropertyByUType(utype, val);
+                // Dbg.DEBUG_MSG("KBEngine::Client_onUpdatePropertys: " + entity.className + "(id=" + eid  + " " + 
+                // propertydata.name + "=" + val + "), hasSetMethod=" + setmethod + "!");
+
+                entity.setDefinedPropertyByUType(utype, val);
 				if(setmethod != null)
 				{
 					if(propertydata.isBase())
@@ -1931,37 +1931,8 @@
 			
 			if(posHasChanged || dirHasChanged)
 			{
-				playerEntity._entityLastLocalPos = position;
-				playerEntity._entityLastLocalDir = direction;
-
-				Bundle bundle = Bundle.createObject();
-				bundle.newMessage(Message.messages["Baseapp_onUpdateDataFromClient"]);
-				bundle.writeFloat(position.x);
-				bundle.writeFloat(position.y);
-				bundle.writeFloat(position.z);
-				
-				double x = ((double)direction.x / 360 * (System.Math.PI * 2));
-				double y = ((double)direction.y / 360 * (System.Math.PI * 2));
-				double z = ((double)direction.z / 360 * (System.Math.PI * 2));
-				
-				// 根据弧度转角度公式会出现负数
-				// unity会自动转化到0~360度之间，这里需要做一个还原
-				if(x - System.Math.PI > 0.0)
-					x -= System.Math.PI * 2;
-
-				if(y - System.Math.PI > 0.0)
-					y -= System.Math.PI * 2;
-				
-				if(z - System.Math.PI > 0.0)
-					z -= System.Math.PI * 2;
-				
-				bundle.writeFloat((float)x);
-				bundle.writeFloat((float)y);
-				bundle.writeFloat((float)z);
-				bundle.writeUint8((Byte)(playerEntity.isOnGround == true ? 1 : 0));
-				bundle.writeUint32(spaceID);
-				bundle.send(_networkInterface);
-			}
+                Game.Game.ReqSceneInteractive.sendPlayerMove(playerEntity, spaceID, _networkInterface);
+            }
 
 			// 开始同步所有被控制了的entity的位置
 			for (int i = 0; i < _controlledEntities.Count; ++i)

@@ -62,7 +62,7 @@ Shader "PA/ParticleField/MeshUnlit"
 				// sample the texture
 				fixed4 col = tex2D(_MainTex, i.tex) * i.color;
 				// apply fog
-				UNITY_APPLY_FOG(i.fogCoord, col);
+				//UNITY_APPLY_FOG(i.fogCoord, col);
 				return col;
 			}
 			ENDCG

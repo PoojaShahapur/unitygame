@@ -19,6 +19,16 @@ namespace SDK.Lib
             this.mClearList = new MList<SoundItem>();
         }
 
+        public void init()
+        {
+
+        }
+
+        public void dispose()
+        {
+
+        }
+
         public void play(SoundParam soundParam)
         {
             if (!soundParam.mIsLoop)

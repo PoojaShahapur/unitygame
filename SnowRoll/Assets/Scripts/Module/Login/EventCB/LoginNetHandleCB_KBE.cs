@@ -84,7 +84,7 @@ namespace Game.Login
             labelColor = Color.red;
             labelMsg = s;
 
-            UILogin uiLogin = Ctx.mInstance.mUiMgr.getForm(UIFormId.eUILogin) as UILogin;
+            /*UILogin uiLogin = Ctx.mInstance.mUiMgr.getForm(UIFormId.eUILogin) as UILogin;
             if(null != uiLogin)
             {
                 uiLogin.err(s);
@@ -94,7 +94,8 @@ namespace Game.Login
             if(null != uiSelectRole)
             {
                 uiSelectRole.err(s);
-            }
+            }*/
+            Ctx.mInstance.mLuaSystem.openForm((int)UIFormId.eUIStartGame_Lua);
         }
 
         public void info(string s)
@@ -249,11 +250,12 @@ namespace Game.Login
         {
             ui_avatarList = avatarList;
 
-            UISelectRole uiSelectRole = Ctx.mInstance.mUiMgr.getForm(UIFormId.eUISelectRole) as UISelectRole;
+            /*UISelectRole uiSelectRole = Ctx.mInstance.mUiMgr.getForm(UIFormId.eUISelectRole) as UISelectRole;
             if (null != uiSelectRole)
             {
                 uiSelectRole.setAvatarList(ui_avatarList);
-            }
+            }*/
+            Ctx.mInstance.mLuaSystem.openForm((int)UIFormId.eUIStartGame_Lua);
         }
 
         public void onCreateAvatarResult(Byte retcode, object info, Dictionary<UInt64, Dictionary<string, object>> avatarList)

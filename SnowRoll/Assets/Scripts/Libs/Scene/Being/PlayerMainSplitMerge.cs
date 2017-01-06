@@ -105,9 +105,9 @@
                 }
 
                 // 设置自己到中心点
-                this.mEntity.setPos(this.mRangeBox.getCenter().toNative());
-                this.calcTargetLength();
-                this.calcTargetPoint();
+                //this.mEntity.setPos(this.mRangeBox.getCenter().toNative());
+                //this.calcTargetLength();
+                //this.calcTargetPoint();
 
                 (this.mEntity as PlayerMain).onChildChanged();
             }
@@ -159,10 +159,12 @@
             (child.mMovement as PlayerMainChildMovement).addParentOrientChangedhandle();
         }
 
-        override public void addSplitChild(PlayerChild playerChild)
-        {
-
-        }
+        //override public void addSplitChild(PlayerChild playerChild)
+        //{
+        //    // 添加 Child 事件
+        //    (playerChild.mMovement as PlayerMainChildMovement).addParentOrientChangedhandle();
+        //    (this.mEntity as PlayerMain).onChildChanged();
+        //}
 
         override public MergeItem addMerge(PlayerChild aChild, PlayerChild bChild)
         {

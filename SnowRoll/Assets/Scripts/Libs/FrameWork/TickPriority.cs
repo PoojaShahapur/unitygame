@@ -13,5 +13,6 @@
         public static float eTPCamController = 10;   // 相机控制器
         public static float eTPInputMgr = 10000;   // 相机控制器
         public static float eTPJoyStick = 1f;   // 摇杆控制器
+        public static float eTPForwardForce = 1f;   // 反重力控制器
     }
 }

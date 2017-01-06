@@ -30,6 +30,7 @@ namespace SDK.Lib
             addAttrItem(UIFormId.eUITerrainEdit, UICanvasID.eSecondCanvas, UILayerId.eSecondLayer, "UITerrainEdit");
             addAttrItem(UIFormId.eUIPack, UICanvasID.eSecondCanvas, UILayerId.eSecondLayer, "UIPack");
             addAttrItem(UIFormId.eUIJoyStick, UICanvasID.eFirstCanvas, UILayerId.eSecondLayer, "UIJoyStick");
+            addAttrItem(UIFormId.eUIForwardForce, UICanvasID.eFirstCanvas, UILayerId.eSecondLayer, "UIForwardForce");
 
             // ****************** 第二层结束 ***********************
 

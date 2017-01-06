@@ -19,6 +19,16 @@ namespace SDK.Lib
             mLoadingDepth = 0;
         }
 
+        virtual public void init()
+        {
+
+        }
+
+        virtual public void dispose()
+        {
+            this.unloadAll();
+        }
+
         public T getAndSyncLoad<T>(string path, MAction<IDispatchObject> loadEventHandle, bool isLoadAll = false) where T : InsResBase, new()
         {
             syncLoad<T>(path, loadEventHandle, isLoadAll);
@@ -215,7 +225,7 @@ namespace SDK.Lib
                 if (res.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
                 {
                     mPath2ResDic[path].init(res);
-                    if (mPath2ResDic[path].bOrigResNeedImmeUnload)
+                    if (mPath2ResDic[path].isOrigResNeedImmeUnload)
                     {
                         // 卸载资源
                         Ctx.mInstance.mResLoadMgr.unload(path, onLoadEventHandle);

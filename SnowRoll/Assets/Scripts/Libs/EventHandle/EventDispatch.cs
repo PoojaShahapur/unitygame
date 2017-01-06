@@ -143,7 +143,7 @@ namespace SDK.Lib
 
                 if (this.mLuaCSBridgeDispatch != null)
                 {
-                this.mLuaCSBridgeDispatch.handleGlobalEvent(this.mEventId, dispatchObject);
+                    this.mLuaCSBridgeDispatch.handleGlobalEvent(this.mEventId, dispatchObject);
                 }
 
                 decDepth();

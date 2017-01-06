@@ -9,30 +9,30 @@
         protected string mResUniqueId;
         protected string mLogicPath;
 
-        protected bool m_bOrigResNeedImmeUnload;        // 原始资源是否需要立刻卸载
+        protected bool mIsOrigResNeedImmeUnload;        // 原始资源是否需要立刻卸载
 
         public InsResBase()
         {
             if (MacroDef.PKG_RES_LOAD)
             {
-                m_bOrigResNeedImmeUnload = false;
+                mIsOrigResNeedImmeUnload = false;
             }
             else
             {
-                m_bOrigResNeedImmeUnload = false;
+                mIsOrigResNeedImmeUnload = false;
             }
             mRefCountResLoadResultNotify = new RefCountResLoadResultNotify();
         }
 
-        public bool bOrigResNeedImmeUnload
+        public bool isOrigResNeedImmeUnload
         {
             get
             {
-                return m_bOrigResNeedImmeUnload;
+                return mIsOrigResNeedImmeUnload;
             }
             set
             {
-                m_bOrigResNeedImmeUnload = value;
+                mIsOrigResNeedImmeUnload = value;
             }
         }
 

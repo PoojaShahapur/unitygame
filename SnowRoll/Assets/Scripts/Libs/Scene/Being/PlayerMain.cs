@@ -15,72 +15,6 @@ namespace SDK.Lib
             this.mPlayerSplitMerge = new PlayerMainSplitMerge(this);
         }
 
-        public override void onSkeletonLoaded()
-        {
-            base.onSkeletonLoaded();
-
-            //Transform tran = mSkinAniModel.transform.FindChild("Reference/Hips");
-            //if(tran)
-            //{
-                //Ctx.mInstance.mCamSys.m_sceneCam.setTarget(tran);
-            //}
-        }
-
-        public void evtMove()
-        {
-            //if (mSkinAniModel.animSys.animator && Camera.main)
-            //{
-            //    Do(mSkinAniModel.transform, Camera.main.transform, ref speed, ref direction);
-            //    mSkinAniModel.animSys.Do(speed * 6, direction * 180);
-            //}
-        }
-
-        public void Do(UnityEngine.Transform root, UnityEngine.Transform camera, ref float speed, ref float direction)
-        {
-            UnityEngine.Vector3 rootDirection = root.forward;
-            float horizontal = UnityEngine.Input.GetAxis("Horizontal");
-            float vertical = UnityEngine.Input.GetAxis("Vertical");
-
-            UnityEngine.Vector3 stickDirection = new UnityEngine.Vector3(horizontal, 0, vertical);
-
-            // Get camera rotation.    
-
-            UnityEngine.Vector3 CameraDirection = camera.forward;
-            CameraDirection.y = 0.0f; // kill Y
-            UnityEngine.Quaternion referentialShift = UnityEngine.Quaternion.FromToRotation(UnityEngine.Vector3.forward, CameraDirection);
-
-            // Convert joystick input in Worldspace coordinates
-            UnityEngine.Vector3 moveDirection = referentialShift * stickDirection;
-
-            UnityEngine.Vector2 speedVec = new UnityEngine.Vector2(horizontal, vertical);
-            speed = UnityEngine.Mathf.Clamp(speedVec.magnitude, 0, 1);
-
-            if (speed > 0.01f) // dead zone
-            {
-                UnityEngine.Vector3 axis = UnityEngine.Vector3.Cross(rootDirection, moveDirection);
-                direction = UnityEngine.Vector3.Angle(rootDirection, moveDirection) / 180.0f * (axis.y < 0 ? -1 : 1);
-            }
-            else
-            {
-                direction = 0.0f;
-            }
-        }
-
-        // 主角随机移动
-        override protected void initSteerings()
-        {
-            // 初始化 vehicle
-            //aiController.vehicle.MaxSpeed = 10;
-            //aiController.vehicle.setSpeed(5);
-
-            //// 初始化 Steerings
-            //aiController.vehicle.Steerings = new Steering[1];
-            //aiController.vehicle.Steerings[0] = new SteerForWander();
-            //aiController.vehicle.Steerings[0].Vehicle = aiController.vehicle as Vehicle;
-            //(aiController.vehicle.Steerings[0] as SteerForWander).MaxLatitudeSide = 100;
-            //(aiController.vehicle.Steerings[0] as SteerForWander).MaxLatitudeUp = 100;
-        }
-
         override public void initRender()
         {
             mRender = new PlayerMainRender(this);
@@ -104,7 +38,7 @@ namespace SDK.Lib
         {
             base.postInit();
 
-            this.mPlayerSplitMerge.startSplit();            
+            //this.mPlayerSplitMerge.startSplit();            
         }
 
         override public void dispose()

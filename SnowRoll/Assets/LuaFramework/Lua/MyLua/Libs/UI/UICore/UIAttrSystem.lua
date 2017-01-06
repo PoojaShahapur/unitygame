@@ -83,15 +83,6 @@ function M.init()
 			mPreFormModeWhenOpen = GlobalNS.PreFormModeWhenOpen.eNONE,
 			mPreFormModeWhenClose = GlobalNS.PreFormModeWhenClose.eNONE,
         };
-	M[GlobalNS.UIFormId.eUIForwardForce] = {
-            mWidgetPath = "UI/UIForwardForce/UIForwardForce.prefab",
-            mLuaScriptPath = "MyLua.UI.UIForwardForce.UIForwardForce",
-			mLuaScriptTableName = "GlobalNS.UILua",
-			mCanvasId = GlobalNS.UICanvasId.eUIFirstCanvas,
-			mLayerId = GlobalNS.UILayerID.eUISecondLayer,
-			mPreFormModeWhenOpen = GlobalNS.PreFormModeWhenOpen.eNONE,
-			mPreFormModeWhenClose = GlobalNS.PreFormModeWhenClose.eNONE,
-        };
 	M[GlobalNS.UIFormId.eUIOptionPanel] = {
             mWidgetPath = "UI/UIOptionPanel/UIOptionPanel.prefab",
             mLuaScriptPath = "MyLua.UI.UIOptionPanel.UIOptionPanel",
@@ -131,6 +122,15 @@ function M.init()
 	M[GlobalNS.UIFormId.eUIShop_SkinPanel] = {
             mWidgetPath = "UI/UIShop_SkinPanel/UIShop_SkinPanel.prefab",
             mLuaScriptPath = "MyLua.UI.UIShop_SkinPanel.UIShop_SkinPanel",
+			mLuaScriptTableName = "GlobalNS.UILua",
+			mCanvasId = GlobalNS.UICanvasId.eUIFirstCanvas,
+			mLayerId = GlobalNS.UILayerID.eUISecondLayer,
+			mPreFormModeWhenOpen = GlobalNS.PreFormModeWhenOpen.eNONE,
+			mPreFormModeWhenClose = GlobalNS.PreFormModeWhenClose.eNONE,
+        };
+	M[GlobalNS.UIFormId.eUISettingsPanel] = {
+            mWidgetPath = "UI/UISettingsPanel/UISettingsPanel.prefab",
+            mLuaScriptPath = "MyLua.UI.UISettingsPanel.UISettingsPanel",
 			mLuaScriptTableName = "GlobalNS.UILua",
 			mCanvasId = GlobalNS.UICanvasId.eUIFirstCanvas,
 			mLayerId = GlobalNS.UILayerID.eUISecondLayer,

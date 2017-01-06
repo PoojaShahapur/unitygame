@@ -138,11 +138,6 @@
             this.mLogSys = new LogSys();
         }
 
-        public void dispose()
-        {
-            mInstance = null;
-        }
-
         protected void constructInit()
         {
             MFileSys.init();            // 初始化本地文件系统的一些数据
@@ -286,17 +281,13 @@
             this.mHudSystem.init();
             this.mPlayerMgr.init();
             this.mGlobalDelegate.init();
+            this.mNetMgr.dispose();
 
             // 添加事件处理
             Ctx.mInstance.mCamSys.setUiCamera(Ctx.mInstance.mLayerMgr.mPath2Go[NotDestroyPath.ND_CV_App].AddComponent<UICamera>());
             Ctx.mInstance.mCamSys.setSceneCamera2UICamera();
 
-            this.mResizeMgr.addResizeObject(this.mUiMgr as IResizeObject);
-
-            this.mTickMgr.addTick(this.mPlayerMgr as ITickedObject, TickPriority.eTPPlayerMgr);
-            this.mTickMgr.addTick(this.mSnowBlockMgr as ITickedObject, TickPriority.eTPSnowBlockMgr);
-            this.mTickMgr.addTick(this.mPlayerSnowBlockMgr as ITickedObject, TickPriority.eTPPlayerSnowBlockMgr);
-            this.mTickMgr.addTick(this.mInputMgr as ITickedObject, TickPriority.eTPInputMgr);
+            this.addEventHandle();
         }
 
         public void init()
@@ -311,6 +302,51 @@
             initBasicCfg();
             // 添加 KBEngine组件
             this.mClientApp = this.mLayerMgr.mPath2Go[NotDestroyPath.ND_CV_Root].AddComponent<clientapp>();
+        }
+
+
+        public void dispose()
+        {
+            this.mResizeMgr.dispose();
+            this.mTickMgr.dispose();
+            this.mPlayerMgr.dispose();
+            this.mSnowBlockMgr.dispose();
+            this.mPlayerSnowBlockMgr.dispose();
+            this.mInputMgr.dispose();
+            this.mUiMgr.dispose();
+
+            // 等待网络关闭
+            this.mNetMgr.dispose();
+            // 卸载所有的模型
+            this.mModelMgr.dispose();
+            // 卸载所有的材质
+            this.mMatMgr.dispose();
+            // 卸载所有的纹理
+            this.mTexMgr.dispose();
+            // 卸载音乐
+            this.mSoundMgr.dispose();
+            // 场景卸载
+            this.mSceneSys.dispose();
+            // 关闭日志设备
+            this.mLogSys.dispose();
+        }
+
+        public void quitApp()
+        {
+            this.dispose();
+
+            // 释放自己
+            mInstance = null;
+        }
+
+        protected void addEventHandle()
+        {
+            this.mResizeMgr.addResizeObject(this.mUiMgr as IResizeObject);
+
+            this.mTickMgr.addTick(this.mPlayerMgr as ITickedObject, TickPriority.eTPPlayerMgr);
+            this.mTickMgr.addTick(this.mSnowBlockMgr as ITickedObject, TickPriority.eTPSnowBlockMgr);
+            this.mTickMgr.addTick(this.mPlayerSnowBlockMgr as ITickedObject, TickPriority.eTPPlayerSnowBlockMgr);
+            this.mTickMgr.addTick(this.mInputMgr as ITickedObject, TickPriority.eTPInputMgr);
         }
 
         public void setNoDestroyObject()
@@ -358,21 +394,6 @@
             BasicConfig basicCfg = this.mLayerMgr.mPath2Go[NotDestroyPath.ND_CV_Root].GetComponent<BasicConfig>();
             //mCfg.mIp = basicCfg.getIp();
             this.mCfg.mZone = basicCfg.getPort();
-        }
-
-        // 卸载所有的资源
-        public void unloadAll()
-        {
-            // 卸载所有的模型
-            this.mModelMgr.unloadAll();
-            // 卸载所有的材质
-            this.mMatMgr.unloadAll();
-            // 卸载所有的纹理
-            this.mTexMgr.unloadAll();
-            // 卸载音乐
-            this.mSoundMgr.unloadAll();
-            // 场景卸载
-            this.mSceneSys.unloadAll();
         }
 
         protected System.UInt64 selAvatarDBID = 0;

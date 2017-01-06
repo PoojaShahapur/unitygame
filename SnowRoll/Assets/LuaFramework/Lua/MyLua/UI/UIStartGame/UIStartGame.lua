@@ -207,7 +207,7 @@ function M:onSignBtnClk()
 end
 
 function M:onSettingBtnClk()
-    GCtx.mLogSys:log("Setting Btn Touch", GlobalNS.LogTypeId.eLogCommon);
+    GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormId.eUISettingsPanel);
 end
 
 function M:onShareBtnClk()

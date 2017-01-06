@@ -115,7 +115,6 @@ namespace Game.UI
         {
             if (isTouchBegin)
             {
-                isStop = true;
                 SetOldPos(CurMousePos);
             }
 
@@ -125,6 +124,7 @@ namespace Game.UI
             }
 
             //拖动摇杆放开后按最后的方向继续移动，直到点击停止
+            SDK.Lib.Ctx.mInstance.mLuaSystem.PrintConsoleMessage("<color=#0000FF>[Move State]: </color>" + isStop + " , " + isTouchMove);
             if (!isStop && !isTouchMove)
             {
                 Move(MoveVec);
@@ -134,9 +134,10 @@ namespace Game.UI
         public void onTouchBegin(IDispatchObject dispObj)
         {
             MMouseOrTouch touch = dispObj as MMouseOrTouch;
-            isStop = true;
+            
             if (touch.mPos.x < Screen.width / 2)
             {
+                isStop = true;
                 CurMousePos = touch.mPos;
                 isTouchBegin = true;
                 isTouchEnd = false;
@@ -181,7 +182,8 @@ namespace Game.UI
 
         private void SetOldPos(Vector2 Pos)
         {
-            Ctx.mInstance.mPlayerMgr.getHero().stopMove();
+            if (OldMousePos.Equals(Pos)) return;
+            
             OldMousePos = Pos;
             if (Pos.x > HalfWidth)
             {
@@ -189,6 +191,9 @@ namespace Game.UI
             }
             else
             {
+                SDK.Lib.Ctx.mInstance.mLuaSystem.PrintConsoleMessage("<color=#0000FF>[Move State]: </color> Stop");
+                Ctx.mInstance.mPlayerMgr.getHero().stopMove();
+
                 //防止摇杆出了屏幕
                 if (Pos.x < HalfBGWidth + HalfJoyWidth) Pos.x = HalfBGWidth + HalfJoyWidth;
                 if (Pos.x > HalfWidth - HalfBGWidth - HalfJoyWidth) Pos.x = HalfWidth - HalfBGWidth - HalfJoyWidth;
@@ -230,7 +235,7 @@ namespace Game.UI
                     StillTouch = true;
                     Vector3 JPos = Ctx.mInstance.mCamSys.mUguiCam.ScreenToWorldPoint(new Vector3(Pos.x, Pos.y, 100f));
 
-                    if (Mathf.Pow(JPos.x - BackGrounds.position.x, 2) + Mathf.Pow(JPos.y - BackGrounds.position.y, 2) > 0.2f)
+                    if (Mathf.Pow(JPos.x - BackGrounds.position.x, 2) + Mathf.Pow(JPos.y - BackGrounds.position.y, 2) > 0.1f)
                     {
                         isStop = false;
                         MoveVec = new Vector2(JPos.x - BackGrounds.position.x, JPos.y - BackGrounds.position.y).normalized;
@@ -265,6 +270,7 @@ namespace Game.UI
                     else
                     {
                         Joystick.position = new Vector3(JPos.x, JPos.y, Joystick.position.z);
+                        Move(MoveVec);
                     }
                 }
             }
@@ -273,7 +279,7 @@ namespace Game.UI
         private void Move(Vector2 MoveVec)
         {
             Ctx.mInstance.mPlayerMgr.getHero().moveForwardByOrient(MoveVec);
-            Debug.Log("MoveVec: " + MoveVec);
+            SDK.Lib.Ctx.mInstance.mLuaSystem.PrintConsoleMessage("<color=#0000FF>[MoveVec]: </color>" + MoveVec.x + " , " + MoveVec.y);
         }
 
         public void setClientDispose(bool isDispose)

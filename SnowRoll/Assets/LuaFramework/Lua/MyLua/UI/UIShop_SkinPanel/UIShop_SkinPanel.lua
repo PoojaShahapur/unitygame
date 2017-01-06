@@ -7,6 +7,7 @@ MLoader("MyLua.Libs.AuxComponent.AuxUIComponent.AuxButton");
 MLoader("MyLua.UI.UIShop_SkinPanel.Shop_SkinPanelNS");
 MLoader("MyLua.UI.UIShop_SkinPanel.Shop_SkinPanelData");
 MLoader("MyLua.UI.UIShop_SkinPanel.Shop_SkinPanelCV");
+MLoader("MyLua.UI.UIShop_SkinPanel.GoodsItemData");
 
 --UI区
 local M = GlobalNS.Class(GlobalNS.Form);
@@ -89,7 +90,16 @@ function M:onReady()
 
     --底部
     local BottomBG = GlobalNS.UtilApi.TransFindChildByPObjAndPath(BG, "BottomBGImage");
-	self.mBackBtn:setSelfGo(GlobalNS.UtilApi.TransFindChildByPObjAndPath(BottomBG, "Back_BtnTouch"));    
+	self.mBackBtn:setSelfGo(GlobalNS.UtilApi.TransFindChildByPObjAndPath(BottomBG, "Back_BtnTouch"));
+
+    --货币
+    if not GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:hasKey(GCtx.mGoodsData.HaiXingId) then
+        self:refreshGoldNum(10000, 10000);
+    else
+        local haixing = GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:getInt(GCtx.mGoodsData.HaiXingId);
+        local zhenzhu = GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:getInt(GCtx.mGoodsData.ZhenZhuId);
+        self:refreshGoldNum(haixing, zhenzhu);
+    end
 end
 
 function M:onShow()
@@ -127,19 +137,22 @@ end
 
 function M:onShapeBtnClk()
     self.StateText.text = "正在出售";
-    GCtx.mGoodsData:getGoodsItems(GCtx.mGoodsData.CurrentShopType, 1);
+    GCtx.mGoodsData.CurrentGoodsType = 1;
+    GCtx.mGoodsData:getGoodsItems(GCtx.mGoodsData.CurrentShopType, GCtx.mGoodsData.CurrentGoodsType);
 end
 
 function M:onChildBtnClk()
     self.StateText.text = "正在出售";
-    GCtx.mGoodsData:getGoodsItems(GCtx.mGoodsData.CurrentShopType, 2);
+    GCtx.mGoodsData.CurrentGoodsType = 2;
+    GCtx.mGoodsData:getGoodsItems(GCtx.mGoodsData.CurrentShopType, GCtx.mGoodsData.CurrentGoodsType);
 end
 
 function M:onPrefabLoaded(dispObj)
     --获取goodsitem prefab对象
     self.mGoodsItemPrefab = self.mGoodsitem_prefab:getPrefabTmpl();
     self.isPrefabLoaded = true;
-    GCtx.mGoodsData:getGoodsItems(GCtx.mGoodsData.CurrentShopType, 1); --初始打开
+    GCtx.mGoodsData.CurrentGoodsType = 1;
+    GCtx.mGoodsData:getGoodsItems(GCtx.mGoodsData.CurrentShopType, GCtx.mGoodsData.CurrentGoodsType); --初始打开
 end
 
 function M:CreateGoodsItem(isOwn)
@@ -150,25 +163,16 @@ function M:CreateGoodsItem(isOwn)
     --清空
     for i=1, #self.goodsitems do
         local goodsitem = self.goodsitems[i];
-        GlobalNS.UtilApi.Destroy(goodsitem);
+        GlobalNS.UtilApi.Destroy(goodsitem.m_go);
     end
     self.goodsitems = {};
 
     --重新生成
     for i=1, GCtx.mGoodsData.goodsCount do
+        local goodsitem = GlobalNS.new(GlobalNS.GoodsItemData);
+        
         --用goodsitem prefab生成GameObject对象
-        local goodsitem = GlobalNS.UtilApi.Instantiate(self.mGoodsItemPrefab);
-        goodsitem.transform.parent = self.GoodsContentRect;
-        goodsitem.transform.localScale = Vector3.New(1.0, 1.0, 1.0);
-        goodsitem.name = "GoodsItem" .. i;
-
-        --[[local buyItemBtn = GlobalNS.UtilApi.TransFindChildByPObjAndPath(goodsitem, "BuyItem_BtnTouch");        
-        if isOwn then
-            buyItemBtn:addEventHandle(self, self.onUseBtnClk);
-        else
-            buyItemBtn:addEventHandle(self, self.onBuyBtnClk);
-        end]]--
-
+        goodsitem:init(self.mGoodsItemPrefab, self.GoodsContentRect, i, isOwn);
         self.goodsitems[i] = goodsitem;
     end
 
@@ -196,10 +200,10 @@ end
 --物品数据
 function M:SetGoodsItems(isOwn)
     for i=1, GCtx.mGoodsData.goodsCount do
-        local goodsitem = self.goodsitems[i].transform;
+        local goodsitem = self.goodsitems[i].m_go.transform;
         
         --热卖标识
-        local HotImage = GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.goodsitems[i], "HotImage");
+        local HotImage = GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.goodsitems[i].m_go, "HotImage");
         local Hot = GlobalNS.UtilApi.getComByPath(HotImage, "HotText", "Text");
         Hot.text = GCtx.mGoodsData.goodsitems[i].m_hot;
 
@@ -210,10 +214,10 @@ function M:SetGoodsItems(isOwn)
 
         --物品名
         local Name = GlobalNS.UtilApi.getComByPath(goodsitem, "GoodsName", "Text");
-        Name.text = GCtx.mGoodsData.goodsitems[i].m_goodsName;
+        Name.text = GCtx.mGoodsData.goodsitems[i].m_goodsName;        
 
         --材料数量
-        local BuyItemBtn = GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.goodsitems[i], "BuyItem_BtnTouch");
+        local BuyItemBtn = GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.goodsitems[i].m_go, "BuyItem_BtnTouch");
         if isOwn then --已拥有物品
             local usingStr = "使用";
             if GCtx.mGoodsData.goodsitems[i].m_needNum == 0 then
@@ -228,10 +232,24 @@ function M:SetGoodsItems(isOwn)
         end
 
         --专属标识
-        local OnlyImage = GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.goodsitems[i], "OnlyImage");
+        local OnlyImage = GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.goodsitems[i].m_go, "OnlyImage");
         local Only = GlobalNS.UtilApi.getComByPath(OnlyImage, "OnlyText", "Text");
         Only.text = GCtx.mGoodsData.goodsitems[i].m_only;
+
+        --商品数据
+        self.goodsitems[i].m_Id = GCtx.mGoodsData.goodsitems[i].m_goodsID;
+        self.goodsitems[i].m_Name = GCtx.mGoodsData.goodsitems[i].m_goodsName;
+        self.goodsitems[i].m_NeedId = GCtx.mGoodsData.goodsitems[i].m_needID;
+        self.goodsitems[i].m_NeedNum = GCtx.mGoodsData.goodsitems[i].m_needNum;
     end
+end
+
+function M:refreshGoldNum(HaiXingNum, ZhenZhuNum)
+	GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:setInt(GCtx.mGoodsData.HaiXingId, HaiXingNum);
+    GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:setInt(GCtx.mGoodsData.ZhenZhuId, ZhenZhuNum);
+
+    self.HaiXingNumText.text = HaiXingNum;
+    self.ZhenZhuNumText.text = ZhenZhuNum;
 end
 
 function M:onBackBtnClk()

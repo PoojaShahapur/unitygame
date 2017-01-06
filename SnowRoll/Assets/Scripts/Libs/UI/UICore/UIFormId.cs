@@ -12,6 +12,7 @@ namespace SDK.Lib
         eUISelectRole,      // 选择角色窗口
         eUIPack,            // 背包界面
         eUIJoyStick,        // 摇杆
+        eUIForwardForce,    // 反重力
 
         // Lua 界面 Id 定义开始
         eUIStartGame_Lua = 10001,       // Lua中的界面

@@ -3,28 +3,18 @@
     public class PlayerMainMovement : PlayerMovement
     {
         protected UnityEngine.Quaternion mForwardRotate;     // 记录当前的前向
-        protected UnityEngine.Quaternion mRotate0;
-        protected UnityEngine.Quaternion mRotate1;
-        protected UnityEngine.Quaternion mRotate2;
-        protected UnityEngine.Quaternion mRotate3;
-        protected UnityEngine.Quaternion mRotate4;
-        protected UnityEngine.Quaternion mRotate5;
-        protected UnityEngine.Quaternion mRotate6;
-        protected UnityEngine.Quaternion mRotate7;
+        protected UnityEngine.Quaternion mRotate;
+
+        protected bool isUpPress = false;
+        protected bool isDownPress = false;
+        protected bool isLeftPress = false;
+        protected bool isRightPress = false;
 
         public PlayerMainMovement(SceneEntityBase entity)
             : base(entity)
         {
             this.mForwardRotate = UnityEngine.Quaternion.identity;
-            this.mRotate0 = UnityEngine.Quaternion.identity;
-            this.mRotate1 = UnityEngine.Quaternion.Euler(new UnityEngine.Vector3(0, 45, 0));
-            this.mRotate2 = UnityEngine.Quaternion.Euler(new UnityEngine.Vector3(0, 90, 0));
-            this.mRotate3 = UnityEngine.Quaternion.Euler(new UnityEngine.Vector3(0, 135, 0));
-
-            this.mRotate4 = UnityEngine.Quaternion.Euler(new UnityEngine.Vector3(0, 180, 0));
-            this.mRotate5 = UnityEngine.Quaternion.Euler(new UnityEngine.Vector3(0, 225, 0));
-            this.mRotate6 = UnityEngine.Quaternion.Euler(new UnityEngine.Vector3(0, 270, 0));
-            this.mRotate7 = UnityEngine.Quaternion.Euler(new UnityEngine.Vector3(0, 315, 0));
+            this.mRotate = UnityEngine.Quaternion.identity;
 
             Ctx.mInstance.mInputMgr.addKeyListener(InputKey.UpArrow, EventId.KEYPRESS_EVENT, onUpArrowPress);
             Ctx.mInstance.mInputMgr.addKeyListener(InputKey.UpArrow, EventId.KEYUP_EVENT, onUpArrowUp);
@@ -66,6 +56,7 @@
             UtilApi.DrawLine(this.mEntity.getPos(), (this.mEntity as Player).mPlayerSplitMerge.getTargetPoint(), UnityEngine.Color.red);
 
             base.onTick(delta);
+            OnMove();
         }
 
         public UnityEngine.Quaternion getForwardRotate()
@@ -75,47 +66,69 @@
 
         protected void onUpArrowPress(IDispatchObject dispObj)
         {
-            this.updateOrient();
-            this.moveForward();
+            isUpPress = true;
         }
 
         protected void onUpArrowUp(IDispatchObject dispObj)
         {
-            this.stopMove();
+            isUpPress = false;
         }
 
         protected void onDownArrowPress(IDispatchObject dispObj)
         {
-            this.updateOrient();
-            this.moveForward();
+            isDownPress = true;
         }
 
         protected void onDownArrowUp(IDispatchObject dispObj)
         {
-            this.stopMove();
+            isDownPress = false;
         }
 
         protected void onLeftArrowPress(IDispatchObject dispObj)
         {
-            this.updateOrient();
-            this.moveForward();
+            isLeftPress = true;
         }
 
         protected void onLeftArrowUp(IDispatchObject dispObj)
         {
-            this.stopMove();
+            isLeftPress = false;
         }
 
         protected void onRightArrowPress(IDispatchObject dispObj)
         {
-            this.updateOrient();
-            this.moveForward();
+            isRightPress = true;
         }
 
         protected void onRightArrowUp(IDispatchObject dispObj)
         {
-            this.stopMove();
+            isRightPress = false;
         }
+
+        protected void OnMove()
+        {
+            if (!UtilPath.isWindowsRuntime()) return;
+            if (!isUpPress && !isDownPress && !isLeftPress && !isRightPress)
+                return;
+
+            float x = UnityEngine.Input.GetAxis("Horizontal");
+            float y = UnityEngine.Input.GetAxis("Vertical");
+
+            float roate = 0;            
+            roate = UtilMath.ATan2(x, y);
+            
+            if (0 == x && 0 == y)
+            {
+                this.updateOrient();
+                this.stopMove();
+            }
+            else
+            {
+                this.mRotate = UnityEngine.Quaternion.Euler(new UnityEngine.Vector3(0, roate * UtilMath.fRad2Deg, 0));
+
+                this.updateOrient();
+                this.moveForward();
+            }            
+        }        
 
         //protected void onStartUp(IDispatchObject dispObj)
         //{
@@ -140,68 +153,8 @@
         protected void updateOrient()
         {
             UnityEngine.Quaternion quat = mForwardRotate;
-
-            if (Ctx.mInstance.mInputMgr.keyJustPressed(InputKey.UpArrow))
-            {
-                if (Ctx.mInstance.mInputMgr.keyJustPressed(InputKey.LeftArrow))
-                {
-                    quat = mForwardRotate * mRotate7;
-                }
-                else if (Ctx.mInstance.mInputMgr.keyJustPressed(InputKey.RightArrow))
-                {
-                    quat = mForwardRotate * mRotate1;
-                }
-                else
-                {
-                    quat = mForwardRotate;
-                }
-            }
-            else if (Ctx.mInstance.mInputMgr.keyJustPressed(InputKey.DownArrow))
-            {
-                if (Ctx.mInstance.mInputMgr.keyJustPressed(InputKey.LeftArrow))
-                {
-                    quat = mForwardRotate * mRotate5;
-                }
-                else if (Ctx.mInstance.mInputMgr.keyJustPressed(InputKey.RightArrow))
-                {
-                    quat = mForwardRotate * mRotate3;
-                }
-                else
-                {
-                    quat = mForwardRotate * mRotate4;
-                }
-            }
-            else if (Ctx.mInstance.mInputMgr.keyJustPressed(InputKey.LeftArrow))
-            {
-                if (Ctx.mInstance.mInputMgr.keyJustPressed(InputKey.UpArrow))
-                {
-                    quat = mForwardRotate * mRotate7;
-                }
-                else if (Ctx.mInstance.mInputMgr.keyJustPressed(InputKey.DownArrow))
-                {
-                    quat = mForwardRotate * mRotate5;
-                }
-                else
-                {
-                    quat = mForwardRotate * mRotate6;
-                }
-            }
-            else if (Ctx.mInstance.mInputMgr.keyJustPressed(InputKey.RightArrow))
-            {
-                if (Ctx.mInstance.mInputMgr.keyJustPressed(InputKey.UpArrow))
-                {
-                    quat = mForwardRotate * mRotate1;
-                }
-                else if (Ctx.mInstance.mInputMgr.keyJustPressed(InputKey.DownArrow))
-                {
-                    quat = mForwardRotate * mRotate3;
-                }
-                else
-                {
-                    quat = mForwardRotate * mRotate2;
-                }
-            }
-
+            
+            quat = mForwardRotate * mRotate;
             (this.mEntity as BeingEntity).setDestRotate(quat.eulerAngles, true);
         }
 

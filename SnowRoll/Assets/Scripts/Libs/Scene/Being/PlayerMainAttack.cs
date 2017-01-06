@@ -61,7 +61,7 @@
         // 雪块
         public void eateSnowBlock(BeingEntity bBeingEntity)
         {
-            this.mEntity.cellCall("eatSnowBlock", bBeingEntity.getId());
+            this.mEntity.cellCall("eatSnowBlock", bBeingEntity.getThisId());
         }
 
         // 玩家之间互吃
@@ -71,7 +71,7 @@
 
             if (this.mEntity.canEatOther(bBeingEntity) && 0 == otherIsGod)
             {
-                this.mEntity.cellCall("eatSnowBlock", bBeingEntity.getId());
+                this.mEntity.cellCall("eatSnowBlock", bBeingEntity.getThisId());
             }
         }
     }

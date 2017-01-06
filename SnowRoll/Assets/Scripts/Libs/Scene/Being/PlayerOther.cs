@@ -25,7 +25,7 @@ namespace SDK.Lib
             this.mAttack.init();
             this.mPlayerSplitMerge.init();
 
-            this.mPlayerSplitMerge.startSplit();
+            //this.mPlayerSplitMerge.startSplit();
         }
 
         override public void initRender()

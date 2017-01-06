@@ -39,7 +39,7 @@ function M:handleSendAndGetMessage(params)
     if not self:filterMessage(msgName) then
         if GCtx.mUiMgr:hasForm(GlobalNS.UIFormId.eUIConsoleDlg) then
         local form = GCtx.mUiMgr:getForm(GlobalNS.UIFormId.eUIConsoleDlg);
-            if nil ~= form and form:isVisible() then
+            if nil ~= form and form.mIsReady then
                 form:onSetLogText(msgName);
             end
         end
@@ -71,7 +71,7 @@ end
 function M:notifyTop10RankInfoList(params)
     if GCtx.mUiMgr:hasForm(GlobalNS.UIFormId.eUITopXRankPanel) then
         local form = GCtx.mUiMgr:getForm(GlobalNS.UIFormId.eUITopXRankPanel);
-        if nil ~= form and form:isVisible() then            
+        if nil ~= form and form.mIsReady then            
             form:onSetRankInfo(params);
         end
     end
@@ -81,7 +81,7 @@ function M:notifyGameLeftSeconds(params)
     local leftseconds = params[0];
     if GCtx.mUiMgr:hasForm(GlobalNS.UIFormId.eUIPlayerDataPanel) then
         local form = GCtx.mUiMgr:getForm(GlobalNS.UIFormId.eUIPlayerDataPanel);
-        if nil ~= form and form:isVisible() then
+        if nil ~= form and form.mIsReady then
             form:refreshLeftTime(leftseconds);
         end
     end    

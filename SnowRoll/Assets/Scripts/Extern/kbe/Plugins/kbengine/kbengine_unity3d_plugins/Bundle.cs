@@ -40,7 +40,7 @@
 
 			_curMsgStreamIndex = 0;
 
-            SDK.Lib.Ctx.mInstance.mLuaSystem.receiveToLua_KBE("handleSendAndGetMessage", new object[] { "<color=#006400>[C->S]: </color>" + mt.name });
+            SDK.Lib.Ctx.mInstance.mLuaSystem.PrintConsoleMessage("<color=#006400>[C->S]: </color>" + mt.name);
         }
 		
 		public void writeMsgLength()

@@ -30,12 +30,13 @@ namespace SDK.Lib
             Application.RegisterLogCallbackThreaded(onDebugLogCallbackThreadHandler);
 #endif
             mEnableLogTypeList = new MList<LogTypeId>();
-            mEnableLogTypeList.Add(LogTypeId.eLogCommon);
+            //mEnableLogTypeList.Add(LogTypeId.eLogCommon);
             //mEnableLogTypeList.Add(LogTypeId.eLogResLoader);
             //mEnableLogTypeList.Add(LogTypeId.eLogLocalFile);
             //mEnableLogTypeList.Add(LogTypeId.eLogTestRL);
             //mEnableLogTypeList.Add(LogTypeId.eLogAcceleration);
             //mEnableLogTypeList.Add(LogTypeId.eLogSplitMergeEmit);
+            mEnableLogTypeList.Add(LogTypeId.eLogSceneInterActive);
 
             mEnableLog = true;
         }
@@ -50,7 +51,7 @@ namespace SDK.Lib
         // 析构
         public void dispose()
         {
-
+            this.closeDevice();
         }
 
         public void setEnableLog(bool value)
@@ -353,7 +354,7 @@ namespace SDK.Lib
             }
         }
 
-        public void closeDevice()
+        protected void closeDevice()
         {
             foreach (LogDeviceBase logDevice in mLogDeviceList.list())
             {

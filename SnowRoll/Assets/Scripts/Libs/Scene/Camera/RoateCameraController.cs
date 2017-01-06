@@ -11,12 +11,12 @@ namespace SDK.Lib
         private float eulerAngles_y;        
 
         //水平滚动相关    
-        public float xSpeed = 70.0f;//主相机水平方向旋转速度  
+        public float xSpeed = 35.0f;//主相机水平方向旋转速度  
 
         //垂直滚动相关  
         public int yMaxLimit = 90;//最大y（单位是角度） 
         public int yMinLimit = 10;//最小y（单位是角度） 
-        public float ySpeed = 70.0f;//主相机纵向旋转速度
+        public float ySpeed = 35.0f;//主相机纵向旋转速度
 
         private float critical_value = 0.0f;
 
@@ -63,7 +63,7 @@ namespace SDK.Lib
             {
                 float xOffset = 0;
                 xOffset = touch.getXOffset();
-                this.eulerAngles_x += ((xOffset * this.xSpeed) * 10.0f) * 0.02f;
+                this.eulerAngles_x += (xOffset * this.xSpeed) * 0.02f;
                 float yOffset = 0;
                 yOffset = touch.getYOffset();
                 this.eulerAngles_y -= (yOffset * this.ySpeed) * 0.02f;

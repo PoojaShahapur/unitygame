@@ -140,10 +140,10 @@
             
         }
 
-        virtual public void addSplitChild(PlayerChild playerChild)
-        {
+        //virtual public void addSplitChild(PlayerChild playerChild)
+        //{
 
-        }
+        //}
 
         protected void calcTargetLength()
         {

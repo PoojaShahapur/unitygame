@@ -81,6 +81,11 @@ namespace SDK.Lib
         {
             base.onPostTick(delta);
 
+            if (null != this.mAnimFSM)
+            {
+                this.mAnimFSM.UpdateFSM();
+            }
+
             //if (null != this.mPlayerSplitMerge)
             //{
             //    this.mPlayerSplitMerge.onTick(delta);
@@ -164,12 +169,12 @@ namespace SDK.Lib
             return null;
         }
 
-        public void addSplitChild(PlayerChild playerChild)
-        {
-            if(null != this.mPlayerSplitMerge)
-            {
-                this.mPlayerSplitMerge.addSplitChild(playerChild);
-            }
-        }
+        //public void addSplitChild(PlayerChild playerChild)
+        //{
+        //    if(null != this.mPlayerSplitMerge)
+        //    {
+        //        this.mPlayerSplitMerge.addSplitChild(playerChild);
+        //    }
+        //}
     }
 }

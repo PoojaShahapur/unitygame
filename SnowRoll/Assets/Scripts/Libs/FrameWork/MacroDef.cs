@@ -10,7 +10,7 @@
 
         // 宏定义开始
         // 调试不需要网络
-        static public bool DEBUG_NOTNET = true;
+        static public bool DEBUG_NOTNET = false;
 
         // 网络处理多线程，主要是调试的时候使用单线程，方便调试，运行的时候使用多线程
         static public bool NET_MULTHREAD = true;

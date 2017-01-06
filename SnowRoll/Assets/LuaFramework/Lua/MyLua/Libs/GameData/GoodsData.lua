@@ -6,7 +6,14 @@ M.clsName = "GoodsData";
 GlobalNS[M.clsName] = M;
 
 function M:ctor(...)
+    --商品类别
     self.CurrentShopType = GlobalNS.UIFormId.eUIShop_SkinPanel;
+    self.CurrentGoodsType = 1;
+
+    --货币ID
+    self.HaiXingId = "666";
+    self.ZhenZhuId = "888";
+
     self.goodsCount = 0; --物品数量
     self.goodsitems = {}; --物品
 
@@ -95,7 +102,17 @@ function M:SetGoodsItemsFromServer(goodsType, args)
     end    
 end
 
-return M;
+function M:BuyItem(goodsId)
+    if self.CurrentShopType == GlobalNS.UIFormId.eUIShop_SkinPanel then
+        if self.CurrentGoodsType == 1 then
+            
+        else
+            
+        end
+    else
+    end
+end
 
+return M;
 
 --endregion

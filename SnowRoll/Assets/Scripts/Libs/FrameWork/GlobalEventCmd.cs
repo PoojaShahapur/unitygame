@@ -12,7 +12,22 @@
 
         static public void onEnterWorld()
         {
-            Ctx.mInstance.mUiMgr.loadAndShow(UIFormId.eUIJoyStick);
+            //操作模式在UISettingsPanel.lua中设置
+            if (Ctx.mInstance.mSystemSetting.hasKey("OptionModel"))
+            {
+                if(Ctx.mInstance.mSystemSetting.getInt("OptionModel") == 1)
+                {
+                    Ctx.mInstance.mUiMgr.loadAndShow(UIFormId.eUIJoyStick);
+                }
+                else
+                {
+                    Ctx.mInstance.mUiMgr.loadAndShow(UIFormId.eUIForwardForce);
+                }
+            }
+            else
+            {
+                Ctx.mInstance.mUiMgr.loadAndShow(UIFormId.eUIJoyStick);
+            }
             Ctx.mInstance.mLuaSystem.onPlayerMainLoaded();
         }
     }

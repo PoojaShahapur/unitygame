@@ -678,6 +678,12 @@ namespace SDK.Lib
             return Application.platform == RuntimePlatform.Android;
         }
 
+        // windows 运行时
+        static public bool isWindowsRuntime()
+        {
+            return Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsEditor;
+        }
+
         // 是否是 StreamingAssetsPath 目录
         static public bool isStreamingAssetsPath(string path)
         {

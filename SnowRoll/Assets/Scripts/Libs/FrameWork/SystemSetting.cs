@@ -17,12 +17,31 @@ namespace SDK.Lib
 
         public string getString(string key)
         {
-            if (PlayerPrefs.HasKey(key))
+            if (hasKey(key))
             {
                 return PlayerPrefs.GetString(key);
             }
 
             return default(string);
+        }
+
+        public void setInt(string key, int value)
+        {
+            PlayerPrefs.SetInt(key, value);
+        }
+
+        public int getInt(string key)
+        {
+            if(hasKey(key))
+            {
+                return PlayerPrefs.GetInt(key);
+            }
+            return 0;
+        }
+
+        public bool hasKey(string key)
+        {
+            return PlayerPrefs.HasKey(key);
         }
     }
 }

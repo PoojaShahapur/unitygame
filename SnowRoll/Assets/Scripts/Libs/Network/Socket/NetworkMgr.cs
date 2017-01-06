@@ -21,6 +21,16 @@ namespace SDK.Lib
             }
         }
 
+        public void init()
+        {
+
+        }
+
+        public void dispose()
+        {
+            this.closeNet();
+        }
+
         /**
          *@brief 启动线程
          */
@@ -174,15 +184,16 @@ namespace SDK.Lib
             }
         }
 
-        // 关闭 App ，需要等待子线程结束
-        public void quipApp()
+        // 关闭网络 ，需要等待子线程结束
+        public void closeNet()
         {
-            closeCurSocket();
             if (MacroDef.NET_MULTHREAD)
             {
                 mNetThread.ExitFlag = true;        // 设置退出标志
                 mNetThread.join();                 // 等待线程结束
             }
+
+            closeCurSocket();
         }
 
         public void sendAndRecData()

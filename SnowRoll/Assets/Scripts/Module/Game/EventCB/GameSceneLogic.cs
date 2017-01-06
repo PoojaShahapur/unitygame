@@ -69,11 +69,6 @@ namespace Game.Game
             }
         }
 
-        private void onAxisDown()
-        {
-            Ctx.mInstance.mPlayerMgr.getHero().evtMove();
-        }
-
         public void loadUI()
         {
             //LoadParam param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();

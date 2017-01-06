@@ -400,6 +400,11 @@
         {
             return this.mEntity_SDK;
         }
+
+        public void setEntity_SDK(SDK.Lib.SceneEntityBase value)
+        {
+            this.mEntity_SDK = value;
+        }
     }
     
 }

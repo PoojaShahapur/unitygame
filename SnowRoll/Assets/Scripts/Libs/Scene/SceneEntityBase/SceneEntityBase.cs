@@ -10,7 +10,6 @@ namespace SDK.Lib
         protected EntityRenderBase mRender;
         protected bool mIsClientDispose;        // 客户端已经释放这个对象，但是由于在遍历中，等着遍历结束再删除，所有多这个对象的操作都是无效的
         protected MVector3 mWorldPos;   // 世界空间
-        protected uint mId;             // 唯一 Id
         protected Area mArea;           // 服务器区域
         protected MDistrict mDistrict;  // 裁剪区域
         protected bool mIsInSceneGraph; // 是否在场景图中，如果不在场景图中，肯定不可见，不管是否在可视范围内
@@ -25,6 +24,7 @@ namespace SDK.Lib
         public SceneEntityMovement mMovement;    // 移动组件
 
         protected bool mIsVisible;          // 是否可见
+        protected uint mThisId;             // 唯一 Id
 
         public SceneEntityBase()
         {
@@ -51,6 +51,7 @@ namespace SDK.Lib
         //    }
         //}
 
+        // 这个接口调用之前，一定要先设置 ThisId ，调用 setThisId，必须先设置这个
         virtual public void init()
         {
             this.preInit();
@@ -86,16 +87,22 @@ namespace SDK.Lib
                 mRender.dispose();
                 mRender = null;
             }
+
+            if(null != this.mEntity_KBE)
+            {
+                this.mEntity_KBE.setEntity_SDK(null);
+            }
         }
 
         public void setThisId(uint thisId)
         {
-            mId = thisId;
+            this.mThisId = (uint)thisId;
         }
 
         public uint getThisId()
         {
-            return mId;
+            // this.mThisId 这个需要单独保存，不要从 mEntity_KBE 获取，因为只有 PlayerMain 才有 Avatar , 其它 PlayerOther 是没有 Avatar 的
+            return this.mThisId;
         }
 
         virtual public void show()
@@ -405,11 +412,6 @@ namespace SDK.Lib
                 this.setPos(new Vector3(mEntity_KBE.position.x, 1.3f, mEntity_KBE.position.z));
                 this.setRotation(Quaternion.Euler(new Vector3(mEntity_KBE.direction.y, mEntity_KBE.direction.z, mEntity_KBE.direction.x)));
             }
-        }
-
-        public System.Int32 getId()
-        {
-            return mEntity_KBE.id;
         }
 
         public KBEngine.Entity getEntity()

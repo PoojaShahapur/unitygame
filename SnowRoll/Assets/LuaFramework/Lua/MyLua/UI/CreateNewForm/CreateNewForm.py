@@ -10,14 +10,14 @@ import time
 spaceholder = "--[[替换占位符(勿删)--]]"
 UIFormIDStr =     """this.eUIDefaultForm = GCtx.mUiMgr.mUniqueNumIdGen:genNewId();
     --[[替换占位符(勿删)--]]"""
-UIAttrSystemStr = """M[GlobalNS.UIFormID.eUIDefaultForm] = {
-            m_widgetPath = "UI/UIDefaultForm/UIDefaultForm.prefab",
-            m_luaScriptPath = "MyLua.UI.UIDefaultForm.UIDefaultForm",
-			m_luaScriptTableName = "GlobalNS.UILua",
-			m_canvasId = GlobalNS.UICanvasID.eUIFirstCanvas,
-			m_layerId = GlobalNS.UILayerID.eUISecondLayer,
-			m_preFormModeWhenOpen = GlobalNS.PreFormModeWhenOpen.eNONE,
-			m_preFormModeWhenClose = GlobalNS.PreFormModeWhenClose.eNONE,
+UIAttrSystemStr = """M[GlobalNS.UIFormId.eUIDefaultForm] = {
+            mWidgetPath = "UI/UIDefaultForm/UIDefaultForm.prefab",
+            mLuaScriptPath = "MyLua.UI.UIDefaultForm.UIDefaultForm",
+			mLuaScriptTableName = "GlobalNS.UILua",
+			mCanvasId = GlobalNS.UICanvasId.eUIFirstCanvas,
+			mLayerId = GlobalNS.UILayerID.eUISecondLayer,
+			mPreFormModeWhenOpen = GlobalNS.PreFormModeWhenOpen.eNONE,
+			mPreFormModeWhenClose = GlobalNS.PreFormModeWhenClose.eNONE,
         };
 	--[[替换占位符(勿删)--]]"""
 

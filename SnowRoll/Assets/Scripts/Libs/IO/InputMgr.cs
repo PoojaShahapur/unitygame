@@ -9,7 +9,7 @@ namespace SDK.Lib
     public class InputMgr : ITickedObject, IDelayHandleItem
     {
         public MControlScheme mCurrentScheme = MControlScheme.Mouse;
-        public bool mAllowMultiTouch = false;
+        public bool mAllowMultiTouch = true;
         public int mCurrentTouchID = -1;
         public MTouch mCurrentTouch = null;
 
@@ -82,7 +82,7 @@ namespace SDK.Lib
         {
             this.mCurrentScheme = MControlScheme.Touch;
 
-            for (int i = 0; i < Input.touchCount && i < 1; ++i)
+            for (int i = 0; i < Input.touchCount; ++i)
             {
                 Touch touch = Input.GetTouch(i);
 
@@ -186,14 +186,18 @@ namespace SDK.Lib
         public void addTouchListener(EventId evtID, MAction<IDispatchObject> handle)
         {
             MTouch touch = MTouch.GetTouch(1);
+            MTouch touch2 = MTouch.GetTouch(2);
 
             touch.addTouchListener(evtID, handle);
+            touch2.addTouchListener(evtID, handle);
         }
 
         public void removeTouchListener(EventId evtID, MAction<IDispatchObject> handle)
         {
             MTouch touch = MTouch.GetTouch(1);
+            MTouch touch2 = MTouch.GetTouch(2);
             touch.removeTouchListener(evtID, handle);
+            touch2.removeTouchListener(evtID, handle);
         }
 
         public void addAccelerationListener(EventId evtID, MAction<IDispatchObject> handle)
