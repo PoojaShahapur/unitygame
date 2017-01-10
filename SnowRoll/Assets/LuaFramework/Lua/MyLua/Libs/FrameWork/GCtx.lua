@@ -1,6 +1,7 @@
 MLoader("MyLua.Libs.Core.Prequisites");
 MLoader("MyLua.Libs.GameData.GameData");
 MLoader("MyLua.Libs.GameData.GoodsData");
+MLoader("MyLua.Libs.GameData.SignData");
 MLoader("MyLua.Libs.Network.NetMgr");
 
 -- 全局变量表，自己定义的所有的变量都放在 GCtx 表中，不放在 GlobalNS 表中
@@ -33,6 +34,7 @@ function M.preInit()
 
     this.mGameData = GlobalNS.new(GlobalNS.GameData);
     this.mGoodsData = GlobalNS.new(GlobalNS.GoodsData);
+    this.mSignData = GlobalNS.new(GlobalNS.SignData);
 end
 
 function M.interInit()

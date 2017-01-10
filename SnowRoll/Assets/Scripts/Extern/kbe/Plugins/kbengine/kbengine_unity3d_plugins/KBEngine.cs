@@ -193,6 +193,25 @@
 		{
 			return _args;
 		}
+
+        public void setServerIP()
+        {
+            if (SDK.Lib.Ctx.mInstance.mSystemSetting.hasKey("ServerAddr"))
+            {
+                if (SDK.Lib.Ctx.mInstance.mSystemSetting.getInt("ServerAddr") == 1)
+                {
+                    _args.ip = "192.168.96.14";
+                }
+                else
+                {
+                    _args.ip = "192.168.96.241";
+                }
+            }
+            else
+            {
+                _args.ip = "192.168.96.14";
+            }
+        }
 		
         public virtual void destroy()
         {
@@ -1659,8 +1678,8 @@
 		public void Client_onEntityEnterWorld(MemoryStream stream)
 		{
 			Int32 eid = stream.readInt32();
-			if(entity_id > 0 && entity_id != eid)
-				_entityIDAliasIDList.Add(eid);
+			//if(entity_id > 0 && entity_id != eid)
+			//	_entityIDAliasIDList.Add(eid);
 			
 			UInt16 uentityType;
 			if(EntityDef.idmoduledefs.Count > 255)
@@ -1669,11 +1688,17 @@
 				uentityType = stream.readUint8();
 			
 			sbyte isOnGround = 1;
-			
-			if(stream.length() > 0)
-				isOnGround = stream.readInt8();
-			
-			string entityType = EntityDef.idmoduledefs[uentityType].name;
+
+            //if(stream.length() > 0)
+            //	isOnGround = stream.readInt8();
+
+            // 是否是自己分裂的 Ball
+            isOnGround = stream.readInt8();
+
+            if (entity_id > 0 && entity_id != eid && isOnGround == 0)
+            	_entityIDAliasIDList.Add(eid);
+
+            string entityType = EntityDef.idmoduledefs[uentityType].name;
 			// Dbg.DEBUG_MSG("KBEngine::Client_onEntityEnterWorld: " + entityType + "(" + eid + "), spaceID(" + KBEngineApp.app.spaceID + ")!");
 			
 			Entity entity = null;
@@ -2063,7 +2088,7 @@
 		*/
 		public void Client_setSpaceData(UInt32 spaceID, string key, string value)
 		{
-			Dbg.DEBUG_MSG("KBEngine::Client_setSpaceData: spaceID(" + spaceID + "), key(" + key + "), value(" + value + ")!");
+			//Dbg.DEBUG_MSG("KBEngine::Client_setSpaceData: spaceID(" + spaceID + "), key(" + key + "), value(" + value + ")!");
 			_spacedatas[key] = value;
 			
 			if(key == "_mapping")

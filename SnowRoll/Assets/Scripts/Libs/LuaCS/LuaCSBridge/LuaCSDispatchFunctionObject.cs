@@ -10,13 +10,13 @@
 
         public void call(IDispatchObject dispObj)
         {
-            if(m_luaTable != null && m_luaFunc != null)
+            if(mLuaTable != null && mLuaFunc != null)
             {
                 this.callClassMethod("", "", dispObj);
             }
-            else if(m_luaFunc != null)
+            else if(mLuaFunc != null)
             {
-                m_luaFunc.Call(dispObj);
+                mLuaFunc.Call(dispObj);
             }
         }
     }

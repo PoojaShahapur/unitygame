@@ -17,7 +17,7 @@ namespace SDK.Lib
         {
             string path = "LuaScript/DataStruct/NetMsgData.lua";
             Ctx.mInstance.mLuaSystem.doFile(path);
-            m_luaTable = Ctx.mInstance.mLuaSystem.getLuaTable(mTableName);
+            mLuaTable = Ctx.mInstance.mLuaSystem.getLuaTable(mTableName);
             // 设置系统字节序
             setSysEndian((int)SystemEndian.msLocalEndian);
         }
@@ -28,7 +28,7 @@ namespace SDK.Lib
             callClassMethod("", LuaCSBridgeByteBuffer.CLEAR);       // 清除字节缓冲区
             for(int idx = 0; idx < bu.dynBuffer.size; ++idx)
             {
-                //m_luaTable[idx] = bu.dynBuff.buff[idx];               // 这样是直接加入表中
+                //mLuaTable[idx] = bu.dynBuff.buff[idx];               // 这样是直接加入表中
                 //CallClassMethod("writeInt8", bu.dynBuff.buff[idx]);         // 写入每一个字节到缓冲区中，直接传递数字类型调用函数，这个数字会被作为 UserData ，如果传递数字，需要传递字符串才行
                 //object ret = CallClassMethod("writeInt8", bu.dynBuff.buff[idx].ToString());
                 //int aaa = 10;

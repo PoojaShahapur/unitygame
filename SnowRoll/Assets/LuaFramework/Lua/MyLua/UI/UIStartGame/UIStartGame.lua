@@ -66,6 +66,7 @@ function M:onReady()
     M.super.onReady(self);
     self:initForm(); --初始化组件
     self:setUsernameAndPassword();--设置用户名密码
+    GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:SetServerIP();
 end
 
 function M:initForm()
@@ -203,7 +204,7 @@ function M:onDropBtnClk()
 end
 
 function M:onSignBtnClk()
-    GCtx.mLogSys:log("Sign Btn Touch", GlobalNS.LogTypeId.eLogCommon);
+    GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormId.eUISignPanel);
 end
 
 function M:onSettingBtnClk()
@@ -211,7 +212,7 @@ function M:onSettingBtnClk()
 end
 
 function M:onShareBtnClk()
-    GCtx.mLogSys:log("Share Btn Touch", GlobalNS.LogTypeId.eLogCommon);
+    GCtx.mGameData:ShowRollMessage("hello world");
 end
 
 function M:onCorpsBtnClk()

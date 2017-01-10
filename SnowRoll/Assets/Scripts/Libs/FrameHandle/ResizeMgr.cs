@@ -26,7 +26,7 @@
 
         override protected void addObject(IDelayHandleItem delayObject, float priority = 0.0f)
         {
-            if(this.bInDepth())
+            if(this.isInDepth())
             {
                 base.addObject(delayObject, priority);
             }
@@ -38,7 +38,7 @@
 
         override protected void removeObject(IDelayHandleItem delayObject)
         {
-            if(this.bInDepth())
+            if(this.isInDepth())
             {
                 base.removeObject(delayObject);
             }

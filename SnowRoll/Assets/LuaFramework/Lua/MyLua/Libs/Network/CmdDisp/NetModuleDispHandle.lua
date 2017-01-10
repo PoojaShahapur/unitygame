@@ -1,4 +1,4 @@
-﻿local M = GlobalNS.Class(GlobalNS.GObject);
+local M = GlobalNS.Class(GlobalNS.GObject);
 M.clsName = "NetModuleDispHandle";
 GlobalNS[M.clsName] = M;
 

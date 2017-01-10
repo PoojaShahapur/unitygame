@@ -29,7 +29,7 @@ namespace SDK.Lib
 
         override protected void addObject(IDelayHandleItem delayObject, float priority = 0.0f)
         {
-            if (bInDepth())
+            if (isInDepth())
             {
                 base.addObject(delayObject, priority);
             }
@@ -81,7 +81,7 @@ namespace SDK.Lib
 
         override protected void removeObject(IDelayHandleItem delayObject)
         {
-            if (bInDepth())
+            if (isInDepth())
             {
                 base.removeObject(delayObject);
             }

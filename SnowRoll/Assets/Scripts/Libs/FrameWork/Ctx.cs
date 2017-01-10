@@ -281,7 +281,6 @@
             this.mHudSystem.init();
             this.mPlayerMgr.init();
             this.mGlobalDelegate.init();
-            this.mNetMgr.dispose();
 
             // 添加事件处理
             Ctx.mInstance.mCamSys.setUiCamera(Ctx.mInstance.mLayerMgr.mPath2Go[NotDestroyPath.ND_CV_App].AddComponent<UICamera>());
@@ -311,6 +310,7 @@
             this.mTickMgr.dispose();
             this.mPlayerMgr.dispose();
             this.mSnowBlockMgr.dispose();
+            this.mPlayerSnowBlockMgr.dispose();
             this.mPlayerSnowBlockMgr.dispose();
             this.mInputMgr.dispose();
             this.mUiMgr.dispose();

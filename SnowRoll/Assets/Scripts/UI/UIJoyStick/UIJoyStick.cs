@@ -123,8 +123,7 @@ namespace Game.UI
                 SetPos(CurMousePos);
             }
 
-            //拖动摇杆放开后按最后的方向继续移动，直到点击停止
-            SDK.Lib.Ctx.mInstance.mLuaSystem.PrintConsoleMessage("<color=#0000FF>[Move State]: </color>" + isStop + " , " + isTouchMove);
+            //拖动摇杆放开后按最后的方向继续移动，直到点击停止            
             if (!isStop && !isTouchMove)
             {
                 Move(MoveVec);
@@ -191,7 +190,6 @@ namespace Game.UI
             }
             else
             {
-                SDK.Lib.Ctx.mInstance.mLuaSystem.PrintConsoleMessage("<color=#0000FF>[Move State]: </color> Stop");
                 Ctx.mInstance.mPlayerMgr.getHero().stopMove();
 
                 //防止摇杆出了屏幕
@@ -279,7 +277,6 @@ namespace Game.UI
         private void Move(Vector2 MoveVec)
         {
             Ctx.mInstance.mPlayerMgr.getHero().moveForwardByOrient(MoveVec);
-            SDK.Lib.Ctx.mInstance.mLuaSystem.PrintConsoleMessage("<color=#0000FF>[MoveVec]: </color>" + MoveVec.x + " , " + MoveVec.y);
         }
 
         public void setClientDispose(bool isDispose)

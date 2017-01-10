@@ -25,6 +25,10 @@ function M.init()
 	this.eUIShop_SkinPanel = GCtx.mUiMgr.mUniqueNumIdGen:genNewId();
 	this.eUIPack = GCtx.mUiMgr.mUniqueNumIdGen:genNewId();
     this.eUISettingsPanel = GCtx.mUiMgr.mUniqueNumIdGen:genNewId();
+    this.eUIMessagePanel = GCtx.mUiMgr.mUniqueNumIdGen:genNewId();
+    this.eUISignPanel = GCtx.mUiMgr.mUniqueNumIdGen:genNewId();
+    this.eUIDayAwardPanel = GCtx.mUiMgr.mUniqueNumIdGen:genNewId();
+    this.eUIOtherAwardPanel = GCtx.mUiMgr.mUniqueNumIdGen:genNewId();
     --[[替换占位符(勿删)--]]
 	this.eUICount = GCtx.mUiMgr.mUniqueNumIdGen:genNewId();
 end

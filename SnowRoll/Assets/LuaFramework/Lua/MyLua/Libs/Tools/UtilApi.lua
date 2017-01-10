@@ -121,6 +121,10 @@ function M.SetSiblingIndexToLastTwoByGo(go, index)
     go.transform:SetSiblingIndex(go.transform.parent.childCount - 1);
 end
 
+function M.addToggleHandle(go, table, method)
+    GlobalNS.CSSystem.addToggleHandle(go, table, method);
+end
+
 function M.getChildCount(trans)
     return trans.childCount;
 end
@@ -179,7 +183,7 @@ function M.enableBtn(go)
     end
 end
 
-function M.disableBtn()
+function M.disableBtn(go)
     local btn = M.GetComponent(go, 'Button');
     if(btn ~= nil) then
         btn.interactable = false;

@@ -94,6 +94,10 @@ function M.SetRectTransformParent(child, parent, worldPositionStays)
     this.UtilApi.SetRectTransParent(child, parent, worldPositionStays);
 end
 
+function M.addToggleHandle(go, table, method)
+    this.UtilApi.addToggleHandle(go, table, method);
+end
+
 function M.buildByteBuffer()
 	return this.Ctx.mInstance.mFactoryBuild:buildByteBuffer();
 end

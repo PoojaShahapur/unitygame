@@ -21,7 +21,6 @@ namespace SDK.Lib
         protected UnityEngine.Vector3 mPos;         // 当前位置信息
         protected UnityEngine.Quaternion mRotate;   // 当前方向信息
         protected UnityEngine.Vector3 mScale;         // 当前缩放信息
-        public SceneEntityMovement mMovement;    // 移动组件
 
         protected bool mIsVisible;          // 是否可见
         protected uint mThisId;             // 唯一 Id
@@ -92,6 +91,8 @@ namespace SDK.Lib
             {
                 this.mEntity_KBE.setEntity_SDK(null);
             }
+
+            this.setClientDispose(true);
         }
 
         public void setThisId(uint thisId)
@@ -259,8 +260,9 @@ namespace SDK.Lib
         {
             if (!UtilMath.isEqualVec3(this.mPos, pos))
             {
+                pos = Ctx.mInstance.mSceneSys.adjustPosInRange(pos);
+
                 this.mPos = pos;
-                this.mPos.y = 1.3f;     // TODO: 先固定
 
                 if (null != mRender)
                 {
@@ -409,7 +411,7 @@ namespace SDK.Lib
         {
             if (null != this.mEntity_KBE)
             {
-                this.setPos(new Vector3(mEntity_KBE.position.x, 1.3f, mEntity_KBE.position.z));
+                this.setPos(new Vector3(mEntity_KBE.position.x, mEntity_KBE.position.y, mEntity_KBE.position.z));
                 this.setRotation(Quaternion.Euler(new Vector3(mEntity_KBE.direction.y, mEntity_KBE.direction.z, mEntity_KBE.direction.x)));
             }
         }

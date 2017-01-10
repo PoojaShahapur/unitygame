@@ -19,6 +19,7 @@
         {
             base.dispose();
 
+            Ctx.mInstance.mInputMgr.removeKeyListener(InputKey.G, EventId.KEYUP_EVENT, onDownArrowUp);
             this.removeParentOrientChangedhandle();
         }
 

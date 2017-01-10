@@ -160,7 +160,7 @@
             processDelayObjects();
         }
 
-        public bool bInDepth()
+        public bool isInDepth()
         {
             return this.mLoopDepth > 0;
         }

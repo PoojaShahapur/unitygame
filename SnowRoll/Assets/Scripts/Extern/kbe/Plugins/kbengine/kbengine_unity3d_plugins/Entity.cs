@@ -405,6 +405,15 @@
         {
             this.mEntity_SDK = value;
         }
+
+        // radius 这个半径是上一次的值，需要重新获取一次才行
+        virtual public void set_radius(float radius)
+        {
+            if (null != this.mEntity_SDK)
+            {
+                radius = (float)getDefinedProperty("radius");
+                (this.mEntity_SDK as SDK.Lib.BeingEntity).setBallRadius(radius);
+            }
+        }
     }
-    
 }

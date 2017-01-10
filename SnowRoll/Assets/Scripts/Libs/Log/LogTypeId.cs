@@ -12,5 +12,6 @@
         eLogAcceleration,   // 重力
         eLogSplitMergeEmit,         // 分裂融合
         eLogSceneInterActive,       // 场景交互
+        eLogBeingMove,       // Being 移动
     }
 }

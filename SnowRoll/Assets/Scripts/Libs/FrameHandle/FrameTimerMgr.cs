@@ -19,7 +19,7 @@ namespace SDK.Lib
             // 检查当前是否已经在队列中
             if (this.mTimerLists.IndexOf(delayObject as FrameTimerItem) == -1)
             {
-                if (bInDepth())
+                if (isInDepth())
                 {
                     base.addObject(delayObject, priority);
                 }
@@ -36,7 +36,7 @@ namespace SDK.Lib
             if (this.mTimerLists.IndexOf(delayObject as FrameTimerItem) != -1)
             {
                 (delayObject as FrameTimerItem).mDisposed = true;
-                if (bInDepth())
+                if (isInDepth())
                 {
                     base.addObject(delayObject);
                 }

@@ -33,7 +33,10 @@
                         {
                             if (!Ctx.mInstance.mFrameCollideMgr.isOrAddCollidedInCurFrame(aBeingEntity.getEntityUniqueId(), bBeingEntity.getEntityUniqueId()))
                             {
-                                aBeingEntity.overlapToEnter(bBeingEntity, collisionInfo);
+                                if ((aBeingEntity as BeingEntity).canInterActive(bBeingEntity))
+                                {
+                                    aBeingEntity.overlapToEnter(bBeingEntity, collisionInfo);
+                                }
                             }
                         }
                     }
@@ -57,7 +60,10 @@
                         {
                             if (!Ctx.mInstance.mFrameCollideMgr.isOrAddCollidedInCurFrame(aBeingEntity.getEntityUniqueId(), bBeingEntity.getEntityUniqueId()))
                             {
-                                aBeingEntity.overlapToStay(bBeingEntity, collisionInfo);
+                                if ((aBeingEntity as BeingEntity).canInterActive(bBeingEntity))
+                                {
+                                    aBeingEntity.overlapToStay(bBeingEntity, collisionInfo);
+                                }
                             }
                         }
                     }
@@ -81,7 +87,10 @@
                         {
                             if (!Ctx.mInstance.mFrameCollideMgr.isOrAddCollidedInCurFrame(aBeingEntity.getEntityUniqueId(), bBeingEntity.getEntityUniqueId()))
                             {
-                                aBeingEntity.overlapToExit(bBeingEntity, collisionInfo);
+                                if ((aBeingEntity as BeingEntity).canInterActive(bBeingEntity))
+                                {
+                                    aBeingEntity.overlapToExit(bBeingEntity, collisionInfo);
+                                }
                             }
                         }
                     }

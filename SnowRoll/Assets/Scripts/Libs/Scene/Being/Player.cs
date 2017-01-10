@@ -53,9 +53,11 @@ namespace SDK.Lib
         override public void onDestroy()
         {
             base.onDestroy();
+
             if (null != this.mPlayerSplitMerge)
             {
                 this.mPlayerSplitMerge.dispose();
+                this.mPlayerSplitMerge = null;
             }
         }
 
@@ -86,10 +88,10 @@ namespace SDK.Lib
                 this.mAnimFSM.UpdateFSM();
             }
 
-            //if (null != this.mPlayerSplitMerge)
-            //{
-            //    this.mPlayerSplitMerge.onTick(delta);
-            //}
+            if (null != this.mPlayerSplitMerge)
+            {
+                this.mPlayerSplitMerge.onTick(delta);
+            }
         }
 
         override public void setPos(UnityEngine.Vector3 pos)
@@ -104,10 +106,10 @@ namespace SDK.Lib
             base.setDestPos(pos, immePos);
 
             // 调整 Child 的位置
-            if (null != this.mPlayerSplitMerge)
-            {
-                this.mPlayerSplitMerge.setDestPos(pos, immePos);
-            }
+            //if (null != this.mPlayerSplitMerge)
+            //{
+            //    this.mPlayerSplitMerge.setDestPos(pos, immePos);
+            //}
         }
 
         public UnityEngine.Vector3 getDeltaPos()

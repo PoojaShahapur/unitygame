@@ -43,5 +43,10 @@ namespace SDK.Lib
         {
             return PlayerPrefs.HasKey(key);
         }
+
+        public void SetServerIP()
+        {
+            KBEngine.KBEngineApp.app.setServerIP();
+        }
     }
 }

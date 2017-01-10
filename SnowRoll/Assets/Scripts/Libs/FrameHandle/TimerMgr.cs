@@ -20,7 +20,7 @@ namespace SDK.Lib
             // 检查当前是否已经在队列中
             if (this.mTimerList.IndexOf(delayObject as TimerItemBase) == -1)
             {
-                if (bInDepth())
+                if (isInDepth())
                 {
                     base.addObject(delayObject, priority);
                 }
@@ -37,7 +37,7 @@ namespace SDK.Lib
             if (this.mTimerList.IndexOf(delayObject as TimerItemBase) != -1)
             {
                 (delayObject as TimerItemBase).mDisposed = true;
-                if (bInDepth())
+                if (isInDepth())
                 {
                     base.removeObject(delayObject);
                 }

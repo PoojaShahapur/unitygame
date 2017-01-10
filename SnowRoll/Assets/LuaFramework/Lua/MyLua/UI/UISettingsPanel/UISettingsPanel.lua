@@ -36,6 +36,11 @@ function M:onReady()
 			GlobalNS.SettingsPanelNS.SettingsPanelPath.CloseBtn)
 		);
 
+    self:setOptModel();
+    self:setServerAddr();
+end
+
+function M:setOptModel()
     local OpModel = GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.mGuiWin, "OptModel");
     self.JoyStickOp = GlobalNS.UtilApi.getComByPath(OpModel, "JoyStick", "Toggle");
     self.GravityOp = GlobalNS.UtilApi.getComByPath(OpModel, "Gravity", "Toggle");
@@ -51,6 +56,25 @@ function M:onReady()
     else
         self.JoyStickOp.isOn = true;
         self.GravityOp.isOn = false;
+    end
+end
+
+function M:setServerAddr()
+    local ServerAddr = GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.mGuiWin, "ServerAddr");
+    self.Server1 = GlobalNS.UtilApi.getComByPath(ServerAddr, "Server1", "Toggle");
+    self.Server2 = GlobalNS.UtilApi.getComByPath(ServerAddr, "Server2", "Toggle");
+
+    if GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:hasKey("ServerAddr") then
+        if GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:getInt("ServerAddr") == 1 then
+            self.Server1.isOn = true;
+            self.Server2.isOn = false;
+        else
+            self.Server1.isOn = false;
+            self.Server2.isOn = true;
+        end
+    else
+        self.Server1.isOn = true;
+        self.Server2.isOn = false;
     end
 end
 
@@ -72,6 +96,13 @@ function M:onCloseBtnClk()
     else
         GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:setInt("OptionModel", 2);
     end
+
+    if self.Server1.isOn then
+        GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:setInt("ServerAddr", 1);
+    else
+        GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:setInt("ServerAddr", 2);
+    end
+    GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:SetServerIP();
 
 	self:exit();
 end

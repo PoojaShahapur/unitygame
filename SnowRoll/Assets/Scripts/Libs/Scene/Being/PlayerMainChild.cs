@@ -122,5 +122,10 @@
                 aChild.dispose();
             }
         }
+
+        override public void addParentOrientChangedhandle()
+        {
+            (this.mMovement as PlayerMainChildMovement).addParentOrientChangedhandle();
+        }
     }
 }

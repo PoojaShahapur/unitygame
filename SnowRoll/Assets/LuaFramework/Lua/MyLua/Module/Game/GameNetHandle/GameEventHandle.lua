@@ -46,7 +46,7 @@ function M:handleSendAndGetMessage(params)
     end    
 end
 
-function M:filterMessage(msgname) --ÏûÏ¢¹ıÂË
+function M:filterMessage(msgname) --æ¶ˆæ¯è¿‡æ»¤
     if string.find(msgname, "Client_onUpdateBasePosXZ") ~= nil or
        string.find(msgname, "Baseapp_onUpdateDataFromClient") ~= nil or
        string.find(msgname, "Client_onUpdateData_xyz") ~= nil or
@@ -60,7 +60,7 @@ function M:filterMessage(msgname) --ÏûÏ¢¹ıÂË
 end
 
 function M:Client_notifyReliveSeconds(params)
-    local reliveseconds = params[0]; --paramÊÇC#µÄÊı×é£¬´Ó0¿ªÊ¼
+    local reliveseconds = params[0]; --paramæ˜¯C#çš„æ•°ç»„ï¼Œä»0å¼€å§‹
     local entityID = params[1];
     local form = GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormId.eUIRelivePanel);
     if nil ~= form then 

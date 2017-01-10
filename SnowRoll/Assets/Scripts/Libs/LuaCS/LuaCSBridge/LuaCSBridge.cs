@@ -1,7 +1,4 @@
-﻿using UnityEngine;
-using LuaInterface;
-using System;
-using UnityEngine.UI;
+﻿using LuaInterface;
 
 namespace SDK.Lib
 {
@@ -10,35 +7,35 @@ namespace SDK.Lib
      */
     public class LuaCSBridge
     {
-        protected string m_luaFile;         // Lua 文件名字
+        protected string mLuaFile;         // Lua 文件名字
         protected string mTableName;       // 表的名字
-        protected string m_funcName;        // 函数名字
-        protected LuaTable m_luaTable;       // Lua 中的 Form
-        protected LuaFunction m_luaFunc;    // lua 函数
-        //protected LuaTable m_moduleEnv;   // 执行模块的环境
+        protected string mFuncName;        // 函数名字
+        protected LuaTable mLuaTable;       // Lua 中的 Form
+        protected LuaFunction mLuaFunc;    // lua 函数
+        //protected LuaTable mModuleEnv;   // 执行模块的环境
 
         /**
          * @brief 表的名字
          */
         public LuaCSBridge(string luaFile, string tableName, string funcName = "")
         {
-            m_luaFile = luaFile;
+            mLuaFile = luaFile;
             mTableName = tableName;
-            m_funcName = funcName;
+            mFuncName = funcName;
         }
 
         virtual public void dispose()
         {
-            if (null != m_luaTable)
+            if (null != mLuaTable)
             {
-                m_luaTable.Dispose();
-                m_luaTable = null;
+                mLuaTable.Dispose();
+                mLuaTable = null;
             }
 
-            if (null != m_luaFunc)
+            if (null != mLuaFunc)
             {
-                m_luaFunc.Dispose();
-                m_luaFunc = null;
+                mLuaFunc.Dispose();
+                mLuaFunc = null;
             }
 
             LuaFramework.Util.ClearMemory();
@@ -48,47 +45,47 @@ namespace SDK.Lib
 
         public void setTable(LuaTable luaTable)
         {
-            m_luaTable = luaTable;
+            mLuaTable = luaTable;
         }
 
         public void setFunction(LuaFunction function)
         {
-            m_luaFunc = function;
+            mLuaFunc = function;
         }
 
         public void setFunctor(LuaTable luaTable, LuaFunction function)
         {
-            m_luaTable = luaTable;
-            m_luaFunc = function;
+            mLuaTable = luaTable;
+            mLuaFunc = function;
         }
 
         public bool isTableEqual(LuaTable luaTable)
         {
-            return m_luaTable.Equals(luaTable);
+            return mLuaTable.Equals(luaTable);
         }
 
         public bool isFunctionEqual(LuaFunction luaFunction)
         {
-            return m_luaFunc.Equals(luaFunction);
+            return mLuaFunc.Equals(luaFunction);
         }
 
         public bool isFunctorEqual(LuaTable luaTable, LuaFunction function)
         {
-            return m_luaTable.Equals(luaTable) && m_luaFunc.Equals(function);
+            return mLuaTable.Equals(luaTable) && mLuaFunc.Equals(function);
         }
 
         public bool isValid()
         {
-            return m_luaTable != null || m_luaFunc != null;
+            return mLuaTable != null || mLuaFunc != null;
         }
 
         public void setLuaFile(string luaFile)
         {
             if (!string.IsNullOrEmpty(luaFile))
             {
-                if (m_luaFile != luaFile)
+                if (mLuaFile != luaFile)
                 {
-                    m_luaFile = luaFile;
+                    mLuaFile = luaFile;
                     loadTable();
                 }
             }
@@ -110,9 +107,9 @@ namespace SDK.Lib
         {
             if (!string.IsNullOrEmpty(funcName))
             {
-                if (m_funcName != funcName)
+                if (mFuncName != funcName)
                 {
-                    m_funcName = funcName;
+                    mFuncName = funcName;
                     loadFunction();
                 }
             }
@@ -121,7 +118,7 @@ namespace SDK.Lib
         public void setTableAndFunctionName(string tableName, string funcName)
         {
             mTableName = tableName;
-            m_funcName = funcName;
+            mFuncName = funcName;
             loadTableAndFunction();
         }
 
@@ -132,22 +129,22 @@ namespace SDK.Lib
 
         public void loadTable()
         {
-            if (!string.IsNullOrEmpty(m_luaFile))
+            if (!string.IsNullOrEmpty(mLuaFile))
             {
-                //this.m_luaTable = this.DoFile(m_luaFile)[0] as LuaTable;        // 加载 lua 脚本
-                m_luaTable = Ctx.mInstance.mLuaSystem.loadModule(m_luaFile);   // 加载 lua 脚本
+                //this.mLuaTable = this.DoFile(mLuaFile)[0] as LuaTable;        // 加载 lua 脚本
+                mLuaTable = Ctx.mInstance.mLuaSystem.loadModule(mLuaFile);   // 加载 lua 脚本
             }
             else if (!string.IsNullOrEmpty(mTableName))
             {
-                m_luaTable = Ctx.mInstance.mLuaSystem.getLuaTable(mTableName);
+                mLuaTable = Ctx.mInstance.mLuaSystem.getLuaTable(mTableName);
             }
         }
 
         public void loadFunction()
         {
-            if (m_luaTable != null && !string.IsNullOrEmpty(m_funcName))
+            if (mLuaTable != null && !string.IsNullOrEmpty(mFuncName))
             {
-                m_luaFunc = m_luaTable[m_funcName] as LuaFunction;
+                mLuaFunc = mLuaTable[mFuncName] as LuaFunction;
             }
         }
 
@@ -181,9 +178,9 @@ namespace SDK.Lib
             setTableName(tableName_);
             setFunctionName(funcName_);
 
-            if(m_luaFunc != null)
+            if(mLuaFunc != null)
             {
-                return m_luaFunc.Call(args);
+                return mLuaFunc.Call(args);
             }
 
             return null;
@@ -200,11 +197,11 @@ namespace SDK.Lib
             if (!String.IsNullOrEmpty(mTableName))  // 如果在 _G 表中
             {
                 fullFuncName = mTableName + "." + funcName_;
-                return Ctx.mInstance.mLuaSystem.CallLuaFunction(fullFuncName, m_luaTable, args);
+                return Ctx.mInstance.mLuaSystem.CallLuaFunction(fullFuncName, mLuaTable, args);
             }
             else
             {
-                LuaFunction luaFunc = m_luaTable["call"] as LuaFunction;
+                LuaFunction luaFunc = mLuaTable["call"] as LuaFunction;
                 if(luaFunc != null)
                 {
                     luaFunc.Call(args);
@@ -218,7 +215,7 @@ namespace SDK.Lib
             setTableName(tableName_);
             setFunctionName(funcName_);
 
-            if (m_luaFunc != null && m_luaTable != null)
+            if (mLuaFunc != null && mLuaTable != null)
             {
                 // object[] args
                 // (1) 数组类型 args
@@ -250,27 +247,27 @@ namespace SDK.Lib
 
 
                 // 如果这样调用，args 会将每一个元素压入堆栈，在 lua 中访问的时候，需要这样 function handle(...) ，然后获取每一个参数。
-                //return m_luaFunc.Call(m_luaTable, args);
+                //return mLuaFunc.Call(mLuaTable, args);
                 // 如果这样调用，args 将会以 userdata 的形式作为一个元素压入 lua 的堆栈，在 lua 中获取的时候，使用 function handle(params)，要使用类似 CS 数组访问的形式，例如 params[0]，而不是 Lua 中表的访问形式，例如 params[1] 下表从 1 开始
-                return m_luaFunc.Call(m_luaTable, (object)args);
+                return mLuaFunc.Call(mLuaTable, (object)args);
 
 
                 // 如果这样调用，args 也将会数组中的每一个元素压入 lua 堆栈，而不是将其作为 userdata 压入堆栈
                 //object[] oneArgs = new object[args.Length + 1];
-                //oneArgs[0] = m_luaTable;
+                //oneArgs[0] = mLuaTable;
                 //int idx = 0;
                 //while(idx < args.Length)
                 //{
                 //    oneArgs[idx + 1] = args[idx];
                 //    ++idx;
                 //}
-                //return m_luaFunc.Call(oneArgs);
+                //return mLuaFunc.Call(oneArgs);
 
                 // 这样调用，testArgs 会以 t.IsArray 数组形式，直接作为 userdata 压入 lua ，在 lua 中获取的时候，要使用类似 CS 数组访问的形式，例如 testArgs[0]，而不是 Lua 中表的访问形式，例如 testArgs[1] 下表从 1 开始
                 //object testArgs = new object[2];
                 //(testArgs as object[])[0] = new AuxPrefabLoader();
                 //(testArgs as object[])[1] = new AuxPrefabLoader();
-                //return m_luaFunc.Call(testArgs);
+                //return mLuaFunc.Call(testArgs);
             }
 
             return null;
@@ -295,9 +292,9 @@ namespace SDK.Lib
 
             return Ctx.mInstance.mLuaSystem.lua[fullMemberName];
             */
-            if (m_luaTable != null)
+            if (mLuaTable != null)
             {
-                return m_luaTable[memberName_];
+                return mLuaTable[memberName_];
             }
 
             return null;

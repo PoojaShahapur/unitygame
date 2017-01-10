@@ -26,11 +26,12 @@ namespace SDK.Lib
         virtual public void dispose()
         {
             this.clearAll();
+            this.mBufferPool.Clear();   // 清理缓冲池
         }
 
         override protected void addObject(IDelayHandleItem entity, float priority = 0.0f)
         {
-            if (bInDepth())
+            if (isInDepth())
             {
                 base.addObject(entity);
             }
@@ -45,7 +46,7 @@ namespace SDK.Lib
 
         override protected void removeObject(IDelayHandleItem entity)
         {
-            if (bInDepth())
+            if (isInDepth())
             {
                 base.removeObject(entity);
             }
@@ -215,13 +216,11 @@ namespace SDK.Lib
             {
                 entity = this.mSceneEntityList[idx];
 
-                this.mId2EntityDic.Remove(entity.getEntityUniqueId());
-                this.mThisId2EntityDic.Remove(entity.getThisId());
-
-                if (!entity.isClientDispose())
-                {
+                // 必然释放
+                // if (!entity.isClientDispose())
+                //{
                     entity.dispose();
-                }
+                //}
 
                 ++idx;
             }

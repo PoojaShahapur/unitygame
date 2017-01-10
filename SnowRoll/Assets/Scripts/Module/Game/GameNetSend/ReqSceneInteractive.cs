@@ -71,52 +71,59 @@ namespace Game.Game
 
                 int idx = 0;
                 int len = playerChildMgr.getEntityCount();
-                PlayerChild playerChild = null;
-                KBEngine.Entity kbeEntity = null;
-                System.Int32 eid = 0;
-
-                bundle.writeUint32((uint)len);
-
-                while (idx < len)
+                if (len > 0)
                 {
-                    playerChild = playerChildMgr.getEntityByIndex(idx) as PlayerChild;
-                    kbeEntity = playerChild.getEntity();
-                    eid = kbeEntity.id;
+                    PlayerChild playerChild = null;
+                    KBEngine.Entity kbeEntity = null;
+                    System.Int32 eid = 0;
 
-                    position = playerChild.getPos();
-                    direction = playerChild.getRotate().eulerAngles;
+                    bundle.writeUint32((uint)len);
 
-                    bundle.writeInt32(eid);
+                    while (idx < len)
+                    {
+                        playerChild = playerChildMgr.getEntityByIndex(idx) as PlayerChild;
+                        kbeEntity = playerChild.getEntity();
+                        eid = kbeEntity.id;
 
-                    bundle.writeFloat(position.x);
-                    bundle.writeFloat(position.y);
-                    bundle.writeFloat(position.z);
+                        position = playerChild.getPos();
+                        direction = playerChild.getRotate().eulerAngles;
 
-                    double x = ((double)direction.x / 360 * (System.Math.PI * 2));
-                    double y = ((double)direction.y / 360 * (System.Math.PI * 2));
-                    double z = ((double)direction.z / 360 * (System.Math.PI * 2));
+                        bundle.writeInt32(eid);
 
-                    // 根据弧度转角度公式会出现负数
-                    // unity会自动转化到0~360度之间，这里需要做一个还原
-                    if (x - System.Math.PI > 0.0)
-                        x -= System.Math.PI * 2;
+                        bundle.writeFloat(position.x);
+                        bundle.writeFloat(position.y);
+                        bundle.writeFloat(position.z);
 
-                    if (y - System.Math.PI > 0.0)
-                        y -= System.Math.PI * 2;
+                        double x = ((double)direction.x / 360 * (System.Math.PI * 2));
+                        double y = ((double)direction.y / 360 * (System.Math.PI * 2));
+                        double z = ((double)direction.z / 360 * (System.Math.PI * 2));
 
-                    if (z - System.Math.PI > 0.0)
-                        z -= System.Math.PI * 2;
+                        // 根据弧度转角度公式会出现负数
+                        // unity会自动转化到0~360度之间，这里需要做一个还原
+                        if (x - System.Math.PI > 0.0)
+                            x -= System.Math.PI * 2;
 
-                    bundle.writeFloat((float)x);
-                    bundle.writeFloat((float)y);
-                    bundle.writeFloat((float)z);
-                    bundle.writeUint8((System.Byte)(kbeEntity.isOnGround == true ? 1 : 0));
-                    bundle.writeUint32(spaceID);
+                        if (y - System.Math.PI > 0.0)
+                            y -= System.Math.PI * 2;
 
-                    ++idx;
+                        if (z - System.Math.PI > 0.0)
+                            z -= System.Math.PI * 2;
+
+                        bundle.writeFloat((float)x);
+                        bundle.writeFloat((float)y);
+                        bundle.writeFloat((float)z);
+                        bundle.writeUint8((System.Byte)(kbeEntity.isOnGround == true ? 1 : 0));
+                        bundle.writeUint32(spaceID);
+
+                        Ctx.mInstance.mLogSys.log(
+                            string.Format("Send Move PosX = {0}, PosY = {1}, PosZ = {2}", position.x, position.y, position.z),
+                            LogTypeId.eLogBeingMove);
+
+                        ++idx;
+                    }
+
+                    bundle.send(_networkInterface);
                 }
-
-                bundle.send(_networkInterface);
             }
         }
 
@@ -200,7 +207,7 @@ namespace Game.Game
                     pos = playerChild.getPos();
                     initPos = pos + playerChild.getRotate() * new UnityEngine.Vector3(0, 0, playerChild.getBallRadius() + splitRadius + Ctx.mInstance.mSnowBallCfg.mSplitRelStartPos);
 
-                    toPos = initPos + playerChild.getRotate() * new UnityEngine.Vector3(0, 0, Ctx.mInstance.mSnowBallCfg.mSplitRelDist + 30);
+                    toPos = initPos + playerChild.getRotate() * new UnityEngine.Vector3(0, 0, Ctx.mInstance.mSnowBallCfg.mSplitRelDist);
 
                     info = new Dictionary<string, object>();
                     listinfos.Add(info);

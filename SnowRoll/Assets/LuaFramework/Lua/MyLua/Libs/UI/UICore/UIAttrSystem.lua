@@ -137,6 +137,42 @@ function M.init()
 			mPreFormModeWhenOpen = GlobalNS.PreFormModeWhenOpen.eNONE,
 			mPreFormModeWhenClose = GlobalNS.PreFormModeWhenClose.eNONE,
         };
+	M[GlobalNS.UIFormId.eUIMessagePanel] = {
+            mWidgetPath = "UI/UIMessagePanel/UIMessagePanel.prefab",
+            mLuaScriptPath = "MyLua.UI.UIMessagePanel.UIMessagePanel",
+			mLuaScriptTableName = "GlobalNS.UILua",
+			mCanvasId = GlobalNS.UICanvasId.eUIFirstCanvas,
+			mLayerId = GlobalNS.UILayerID.eUISecondLayer,
+			mPreFormModeWhenOpen = GlobalNS.PreFormModeWhenOpen.eNONE,
+			mPreFormModeWhenClose = GlobalNS.PreFormModeWhenClose.eNONE,
+        };
+	M[GlobalNS.UIFormId.eUISignPanel] = {
+            mWidgetPath = "UI/UISignPanel/UISignPanel.prefab",
+            mLuaScriptPath = "MyLua.UI.UISignPanel.UISignPanel",
+			mLuaScriptTableName = "GlobalNS.UILua",
+			mCanvasId = GlobalNS.UICanvasId.eUIFirstCanvas,
+			mLayerId = GlobalNS.UILayerID.eUISecondLayer,
+			mPreFormModeWhenOpen = GlobalNS.PreFormModeWhenOpen.eNONE,
+			mPreFormModeWhenClose = GlobalNS.PreFormModeWhenClose.eNONE,
+        };
+    M[GlobalNS.UIFormId.eUIDayAwardPanel] = {
+            mWidgetPath = "UI/UISignPanel/UIDayAwardPanel.prefab",
+            mLuaScriptPath = "MyLua.UI.UISignPanel.UIDayAwardPanel",
+			mLuaScriptTableName = "GlobalNS.UILua",
+			mCanvasId = GlobalNS.UICanvasId.eUIFirstCanvas,
+			mLayerId = GlobalNS.UILayerID.eUISecondLayer,
+			mPreFormModeWhenOpen = GlobalNS.PreFormModeWhenOpen.eNONE,
+			mPreFormModeWhenClose = GlobalNS.PreFormModeWhenClose.eNONE,
+        };
+    M[GlobalNS.UIFormId.eUIOtherAwardPanel] = {
+            mWidgetPath = "UI/UISignPanel/UIOtherAwardPanel.prefab",
+            mLuaScriptPath = "MyLua.UI.UISignPanel.UIOtherAwardPanel",
+			mLuaScriptTableName = "GlobalNS.UILua",
+			mCanvasId = GlobalNS.UICanvasId.eUIFirstCanvas,
+			mLayerId = GlobalNS.UILayerID.eUISecondLayer,
+			mPreFormModeWhenOpen = GlobalNS.PreFormModeWhenOpen.eNONE,
+			mPreFormModeWhenClose = GlobalNS.PreFormModeWhenClose.eNONE,
+        };
 	--[[替换占位符(勿删)--]]
 end
 

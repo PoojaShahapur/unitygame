@@ -408,6 +408,21 @@ namespace SDK.Lib
             );
         }
 
+        //添加Toggle的onValueChanged事件
+        public static void addToggleHandle(GameObject go, LuaTable table, LuaFunction handle)
+        {
+            Toggle toggle = go.GetComponent<Toggle>();
+
+            if (toggle != null)
+            {
+                toggle.onValueChanged.AddListener(
+                    delegate (bool isOn)
+                    {
+                        handle.Call(table, isOn);
+                    });
+            }
+        }
+
         // 深度遍历移除 Sprite Image
         public static void DestroyComponent(GameObject go_)
         {
@@ -975,6 +990,12 @@ namespace SDK.Lib
         public static bool isAddressEqual(System.Object a, System.Object b)
         {
             return object.ReferenceEquals(a, b);
+        }
+
+        // 判断两个函数是否相等，不能使用 isAddressEqual 判断函数是否相等
+        public static bool isDelegateEqual(ref MAction<IDispatchObject> a, ref MAction<IDispatchObject> b)
+        {
+            return a == b;
         }
 
         // 判断向量是否相等

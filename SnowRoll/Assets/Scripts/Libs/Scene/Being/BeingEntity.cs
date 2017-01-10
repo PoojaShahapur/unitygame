@@ -16,6 +16,7 @@ namespace SDK.Lib
         protected float mMoveSpeedFactor;   // 移动速度因子
 
         protected float mBallRadius;    // 吃的大小，使用这个字段判断是否可以吃，以及吃后的大小
+        public SceneEntityMovement mMovement;    // 移动组件
         protected BeingEntityAttack mAttack;
         protected int reliveseconds; // 复活时间
         protected HudItemBase mHud; // HUD
@@ -115,22 +116,19 @@ namespace SDK.Lib
             if (null != this.mHud)
             {
                 this.mHud.dispose();
+                this.mHud = null;
             }
-        }
 
-        override public void setPos(UnityEngine.Vector3 pos)
-        {
-            if (!UtilMath.isEqualVec3(this.mPos, pos))
+            if (null != this.mMovement)
             {
-                pos = Ctx.mInstance.mSceneSys.adjustPosInRange(pos);
+                this.mMovement.dispose();
+                this.mMovement = null;
+            }
 
-                this.mPos = pos;
-                this.mPos.y = 1.3f;     // TODO: 先固定
-
-                if (null != mRender)
-                {
-                    mRender.setPos(pos);
-                }
+            if (null != this.mAttack)
+            {
+                this.mAttack.dispose();
+                this.mAttack = null;
             }
         }
 
@@ -496,8 +494,7 @@ namespace SDK.Lib
         // 是否可以吐积雪块
         virtual public bool canEmitSnow()
         {
-            //return this.mBallRadius >= Ctx.mInstance.mSnowBallCfg.mEmitSnowRadius;
-            return true;
+            return this.mBallRadius >= Ctx.mInstance.mSnowBallCfg.mEmitSnowRadius;
         }
 
         virtual public float getEmitSnowSize()
@@ -508,8 +505,7 @@ namespace SDK.Lib
         // 是否可以分裂
         virtual public bool canSplit()
         {
-            //return this.mBallRadius >= Ctx.mInstance.mSnowBallCfg.mCanSplitFactor * Ctx.mInstance.mSnowBallCfg.mInitSnowRadius;
-            return true;
+            return this.mBallRadius >= Ctx.mInstance.mSnowBallCfg.mCanSplitFactor * Ctx.mInstance.mSnowBallCfg.mInitSnowRadius;
         }
 
         // 是否可以 IO 控制向前移动
@@ -555,6 +551,11 @@ namespace SDK.Lib
         }
 
         virtual public void mergeWithOther(BeingEntity bBeingEntity)
+        {
+
+        }
+
+        virtual public void addParentOrientChangedhandle()
         {
 
         }

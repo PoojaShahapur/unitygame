@@ -169,7 +169,10 @@ public class MWorld_KBE
         if (player == null)
             return;
 
-        player.setDestPos(entity.position, true);
+        if (EntityType.ePlayerMain != player.getEntityType())
+        {
+            player.setDestPos(entity.position, true);
+        }
 
         if (entity.isPlayer())
         {
@@ -191,8 +194,22 @@ public class MWorld_KBE
         if (player == null)
             return;
 
-        player.setDestPos(entity.position, false);
+        if (EntityType.ePlayerMainChild == player.getEntityType())
+        {
+            player.setDestPos(entity.position, true);
+        }
+        else
+        {
+            player.setDestPos(entity.position, false);
+        }
         //player.isOnGround = entity.isOnGround;
+
+        if (EntityType.ePlayerMainChild == player.getEntityType())
+        {
+            Ctx.mInstance.mLogSys.log(
+                        string.Format("Update Move PosX = {0}, PosY = {1}, PosZ = {2}", entity.position.x, entity.position.y, entity.position.z),
+                        LogTypeId.eLogBeingMove);
+        }
     }
 
     public void onControlled(KBEngine.Entity entity, bool isControlled)

@@ -45,7 +45,7 @@ namespace SDK.Lib
         {
             base.dispose();
 
-            Ctx.mInstance.mPlayerMgr.removePlayer(this);
+            Ctx.mInstance.mPlayerMgr.removeHero();
         }
 
         override public void autoHandle()

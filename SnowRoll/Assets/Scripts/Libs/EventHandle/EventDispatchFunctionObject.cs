@@ -83,8 +83,9 @@ namespace SDK.Lib
             }
             if (handle != null)
             {
-                ret = UtilApi.isAddressEqual(this.mHandle, handle);
-                if(!ret)
+                //ret = UtilApi.isAddressEqual(this.mHandle, handle);
+                ret = UtilApi.isDelegateEqual(ref this.mHandle, ref handle);
+                if (!ret)
                 {
                     return ret;
                 }

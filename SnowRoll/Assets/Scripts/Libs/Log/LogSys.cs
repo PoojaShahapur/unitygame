@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace SDK.Lib
@@ -36,7 +35,8 @@ namespace SDK.Lib
             //mEnableLogTypeList.Add(LogTypeId.eLogTestRL);
             //mEnableLogTypeList.Add(LogTypeId.eLogAcceleration);
             //mEnableLogTypeList.Add(LogTypeId.eLogSplitMergeEmit);
-            mEnableLogTypeList.Add(LogTypeId.eLogSceneInterActive);
+            //mEnableLogTypeList.Add(LogTypeId.eLogSceneInterActive);
+            mEnableLogTypeList.Add(LogTypeId.eLogBeingMove);
 
             mEnableLog = true;
         }

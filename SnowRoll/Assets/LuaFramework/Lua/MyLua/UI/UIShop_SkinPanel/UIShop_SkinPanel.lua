@@ -43,7 +43,8 @@ function M:onInit()
     self.mShapeBtn = GlobalNS.new(GlobalNS.AuxButton);
 	self.mShapeBtn:addEventHandle(self, self.onShapeBtnClk);
     self.mChildBtn = GlobalNS.new(GlobalNS.AuxButton);
-	self.mChildBtn:addEventHandle(self, self.onChildBtnClk);    
+	self.mChildBtn:addEventHandle(self, self.onChildBtnClk);
+    self.mFilterToggle = nil;
     --goodsitem prefab
     self.mGoodsitem_prefab = GlobalNS.new(GlobalNS.AuxPrefabLoader);
     self.isPrefabLoaded = false;
@@ -79,12 +80,16 @@ function M:onReady()
     self.mShapeBtn:setSelfGo(GlobalNS.UtilApi.TransFindChildByPObjAndPath(Middle_TopPanel, "Shape_BtnTouch"));
     self.mChildBtn:setSelfGo(GlobalNS.UtilApi.TransFindChildByPObjAndPath(Middle_TopPanel, "Child_BtnTouch"));
     self.StateText = GlobalNS.UtilApi.getComByPath(Middle_TopPanel, "StateText", "Text");
+
+    self.mFilterToggle = GlobalNS.UtilApi.TransFindChildByPObjAndPath(Middle_TopPanel, "FilterToggle")
+    GlobalNS.UtilApi.addToggleHandle(self.mFilterToggle, self, self.onValueChanged);
     --[[下拉列表待补充]]--
 
     self.scrollrect = GlobalNS.UtilApi.TransFindChildByPObjAndPath(MiddlePanel, "ScrollRect");
     local viewport =  GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.scrollrect, "Viewport");
     self.GoodsContentRect = GlobalNS.UtilApi.getComByPath(viewport, "Content", "RectTransform");
     self.Tip = GlobalNS.UtilApi.TransFindChildByPObjAndPath(MiddlePanel, "Tip");
+    self.Tip:SetActive(false);
     --加载goodsitems
 	self.mGoodsitem_prefab:asyncLoad("UI/UIShop_SkinPanel/GoodsItem.prefab", self, self.onPrefabLoaded);    
 
@@ -253,7 +258,22 @@ function M:refreshGoldNum(HaiXingNum, ZhenZhuNum)
 end
 
 function M:onBackBtnClk()
+    --清空
+    for i=1, #self.goodsitems do
+        local goodsitem = self.goodsitems[i];
+        GlobalNS.UtilApi.Destroy(goodsitem.m_go);
+    end
+    self.goodsitems = {};
+
 	self:exit();
+end
+
+function M:onValueChanged(check)
+    if check then
+        GCtx.mLogSys:log("true", GlobalNS.LogTypeId.eLogCommon);
+    else
+        GCtx.mLogSys:log("false", GlobalNS.LogTypeId.eLogCommon);
+    end
 end
 
 return M;

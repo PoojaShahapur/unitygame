@@ -25,10 +25,7 @@
             Ctx.mInstance.mInputMgr.addKeyListener(InputKey.DownArrow, EventId.KEYUP_EVENT, onDownArrowUp);
             Ctx.mInstance.mInputMgr.addKeyListener(InputKey.S, EventId.KEYPRESS_EVENT, onDownArrowPress);
             Ctx.mInstance.mInputMgr.addKeyListener(InputKey.S, EventId.KEYUP_EVENT, onDownArrowUp);
-
-            //Ctx.mInstance.mInputMgr.addKeyListener(InputKey.L, EventId.KEYUP_EVENT, onStartUp);
-            Ctx.mInstance.mInputMgr.addAccelerationListener(EventId.ACCELERATIONMOVED_EVENT, onAccelerationMovedHandle);
-
+            
             Ctx.mInstance.mInputMgr.addKeyListener(InputKey.LeftArrow, EventId.KEYPRESS_EVENT, onLeftArrowPress);
             Ctx.mInstance.mInputMgr.addKeyListener(InputKey.LeftArrow, EventId.KEYUP_EVENT, onLeftArrowUp);
             Ctx.mInstance.mInputMgr.addKeyListener(InputKey.A, EventId.KEYPRESS_EVENT, onLeftArrowPress);
@@ -108,26 +105,19 @@
         {
             if (!UtilPath.isWindowsRuntime()) return;
             if (!isUpPress && !isDownPress && !isLeftPress && !isRightPress)
+            {
                 return;
+            }                
 
             float x = UnityEngine.Input.GetAxis("Horizontal");
             float y = UnityEngine.Input.GetAxis("Vertical");
 
             float roate = 0;            
             roate = UtilMath.ATan2(x, y);
-            
-            if (0 == x && 0 == y)
-            {
-                this.updateOrient();
-                this.stopMove();
-            }
-            else
-            {
-                this.mRotate = UnityEngine.Quaternion.Euler(new UnityEngine.Vector3(0, roate * UtilMath.fRad2Deg, 0));
 
-                this.updateOrient();
-                this.moveForward();
-            }            
+            this.mRotate = UnityEngine.Quaternion.Euler(new UnityEngine.Vector3(0, roate * UtilMath.fRad2Deg, 0));
+            this.updateOrient();
+            this.moveForward();
         }        
 
         //protected void onStartUp(IDispatchObject dispObj)
