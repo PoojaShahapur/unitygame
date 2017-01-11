@@ -69,6 +69,11 @@ namespace SDK.Lib
                 mEvtHandle.addEventHandle(null, evtHandle);
                 mTextureRes = Ctx.mInstance.mTexMgr.getAndAsyncLoadRes(path, onTexLoaded);
             }
+            else if(this.hasSuccessLoaded() || this.hasFailed())
+            {
+                if (null != evtHandle)
+                    evtHandle(this);
+            }
         }
 
         public void onTexLoaded(IDispatchObject dispObj)

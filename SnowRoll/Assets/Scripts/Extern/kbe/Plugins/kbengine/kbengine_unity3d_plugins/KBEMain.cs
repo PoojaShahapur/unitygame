@@ -83,6 +83,8 @@ public class KBEMain : MonoBehaviour
             KBEngineApp.app = null;
         }
 		MonoBehaviour.print("clientapp::OnDestroy(): end");
+
+        SDK.Lib.Ctx.mInstance.onKBEQuit();
 	}
 	
 	void FixedUpdate () 

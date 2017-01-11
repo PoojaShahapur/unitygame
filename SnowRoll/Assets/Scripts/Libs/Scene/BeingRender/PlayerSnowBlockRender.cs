@@ -12,7 +12,7 @@ namespace SDK.Lib
 
         override public void onInit()
         {
-            this.mResPath = "World/Model/SnowBlockTest.prefab";
+            this.mResPath = "World/Model/SnowBlockTest1.prefab";
         }
 
         override protected void onSelfChanged()

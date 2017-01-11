@@ -31,6 +31,10 @@ namespace SDK.Lib
         public static Vector3 ZeroVec3 = Vector3.zero;
         public static Quaternion UnitQuat = new Quaternion(0, 0, 0, 1);
 
+        public static bool mIsLimitXRotate = true;     // 是否显示 X 轴旋转
+        public static bool mIsLimitYRotate = false;     // 是否显示 Y 轴旋转
+        public static bool mIsLimitZRotate = true;     // 是否显示 Z 轴旋转
+
         public UtilMath( int trigTableSize )
         {
             msAngleUnit = AngleUnit.AU_DEGREE;

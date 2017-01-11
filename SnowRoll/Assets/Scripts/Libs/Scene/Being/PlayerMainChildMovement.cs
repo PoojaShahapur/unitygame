@@ -5,7 +5,7 @@
         public PlayerMainChildMovement(SceneEntityBase entity)
             : base(entity)
         {
-            Ctx.mInstance.mInputMgr.addKeyListener(InputKey.G, EventId.KEYUP_EVENT, onDownArrowUp);
+            Ctx.mInstance.mInputMgr.addKeyListener(InputKey.G, EventId.KEYUP_EVENT, onTestKeyUp);
         }
 
         override public void init()
@@ -17,10 +17,10 @@
 
         override public void dispose()
         {
-            base.dispose();
-
-            Ctx.mInstance.mInputMgr.removeKeyListener(InputKey.G, EventId.KEYUP_EVENT, onDownArrowUp);
+            Ctx.mInstance.mInputMgr.removeKeyListener(InputKey.G, EventId.KEYUP_EVENT, onTestKeyUp);
             this.removeParentOrientChangedhandle();
+
+            base.dispose();
         }
 
         override public void onTick(float delta)
@@ -81,11 +81,11 @@
             {
                 targetPoint = (this.mEntity as PlayerChild).mParentPlayer.mPlayerSplitMerge.getTargetPoint();
                 UnityEngine.Quaternion retQuat = UtilMath.getRotateByStartAndEndPoint(this.mEntity.getPos(), targetPoint);
-                (this.mEntity as BeingEntity).setDestRotate(retQuat.eulerAngles, true);
+                (this.mEntity as BeingEntity).setDestRotate(retQuat.eulerAngles, false);
             }
             else
             {
-                (this.mEntity as BeingEntity).setDestRotate((this.mEntity as PlayerChild).mParentPlayer.getRotateEulerAngle(), true);
+                (this.mEntity as BeingEntity).setDestRotate((this.mEntity as PlayerChild).mParentPlayer.getRotateEulerAngle(), false);
             }
         }
 
@@ -106,10 +106,11 @@
             Ctx.mInstance.mGlobalDelegate.mMainPosStopChangedDispatch.removeEventHandle(null, this.handleParentPosStopChanged);
         }
 
-        protected void onDownArrowUp(IDispatchObject dispObj)
+        protected void onTestKeyUp(IDispatchObject dispObj)
         {
             //(this.mEntity as BeingEntity).setBeingState(BeingState.eBSAttack);
-            (this.mEntity as BeingEntity).setBeingState(BeingState.eBSSplit);
+            //(this.mEntity as BeingEntity).setBeingState(BeingState.eBSSplit);
+            (this.mEntity as BeingEntity).setTexture("Materials/Textures/Terrain/haidi02.png");
         }
 
         //---------------------- SteerForSeparation Start ---------------------------

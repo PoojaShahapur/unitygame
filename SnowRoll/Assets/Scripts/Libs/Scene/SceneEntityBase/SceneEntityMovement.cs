@@ -20,7 +20,7 @@
 
         virtual public void dispose()
         {
-
+            this.mEntity = null;
         }
 
         virtual public void onTick(float delta)

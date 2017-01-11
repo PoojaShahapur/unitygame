@@ -36,7 +36,8 @@ namespace SDK.Lib
             //mEnableLogTypeList.Add(LogTypeId.eLogAcceleration);
             //mEnableLogTypeList.Add(LogTypeId.eLogSplitMergeEmit);
             //mEnableLogTypeList.Add(LogTypeId.eLogSceneInterActive);
-            mEnableLogTypeList.Add(LogTypeId.eLogBeingMove);
+            mEnableLogTypeList.Add(LogTypeId.eLogKBE);
+            //mEnableLogTypeList.Add(LogTypeId.eLogBeingMove);
 
             mEnableLog = true;
         }

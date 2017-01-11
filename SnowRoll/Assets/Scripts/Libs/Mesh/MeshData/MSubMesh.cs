@@ -5,23 +5,23 @@
      */
     public class MSubMesh
     {
-        protected MMesh m_parentMesh;            // Parent Mesh 
-		protected MSubGeometryBase m_subGeometry;   // 显示的子 Geometry
-        protected MeshRender m_meshRender;      // SubMesh 渲染器，和 Mesh 渲染器是一样的
-        protected float m_xPos;     // X 位置，记录位置调试使用
-        protected float m_zPos;     // Z 位置，记录位置调试使用
-        protected int m_xTile;      // Tile 的 X 位置，调试使用
-        protected int m_zTile;      // Tile 的 Z 位置，调试使用
+        protected MMesh mParentMesh;            // Parent Mesh 
+		protected MSubGeometryBase mSubGeometry;   // 显示的子 Geometry
+        protected MeshRender mMeshRender;      // SubMesh 渲染器，和 Mesh 渲染器是一样的
+        protected float mXPos;     // X 位置，记录位置调试使用
+        protected float mZPos;     // Z 位置，记录位置调试使用
+        protected int mXTile;      // Tile 的 X 位置，调试使用
+        protected int mZTile;      // Tile 的 Z 位置，调试使用
 
         public MSubMesh(MSubGeometryBase subGeometry_ = null, MeshRender meshRender_ = null)
         {
-            m_xPos = 0;
-            m_zPos = 0;
-            m_xTile = 0;
-            m_zTile = 0;
+            mXPos = 0;
+            mZPos = 0;
+            mXTile = 0;
+            mZTile = 0;
 
-            m_subGeometry = subGeometry_;
-            m_meshRender = meshRender_;
+            mSubGeometry = subGeometry_;
+            mMeshRender = meshRender_;
         }
 
         /**
@@ -29,7 +29,7 @@
          */
         public void setSubGeometry(MSubGeometryBase subGeometry_)
         {
-            m_subGeometry = subGeometry_;
+            mSubGeometry = subGeometry_;
         }
 
         /**
@@ -37,7 +37,7 @@
          */
         public void setMeshRender(MeshRender meshRender_)
         {
-            m_meshRender = meshRender_;
+            mMeshRender = meshRender_;
         }
 
         /**
@@ -45,10 +45,10 @@
          */
         public void setTileXZ(int xTile, int zTile)
         {
-            m_xTile = xTile;
-            m_zTile = zTile;
+            mXTile = xTile;
+            mZTile = zTile;
 
-            m_meshRender.setTileXZ(xTile, zTile);
+            mMeshRender.setTileXZ(xTile, zTile);
         }
 
         /**
@@ -56,12 +56,12 @@
          */
         public void moveToPos(int xPos, int zPos)
         {
-            m_xPos = xPos;
-            m_zPos = zPos;
+            mXPos = xPos;
+            mZPos = zPos;
 
-            if (m_meshRender != null)
+            if (mMeshRender != null)
             {
-                m_meshRender.moveToPos(xPos, zPos);
+                mMeshRender.moveToPos(xPos, zPos);
             }
         }
 
@@ -70,9 +70,9 @@
          */
         public void show()
         {
-            if (m_meshRender != null)
+            if (mMeshRender != null)
             {
-                m_meshRender.show();
+                mMeshRender.show();
             }
         }
 
@@ -81,12 +81,12 @@
          */
         public void hide()
         {
-            m_meshRender.hide();
+            mMeshRender.hide();
         }
 
         public MAxisAlignedBox getAABox()
         {
-            return m_subGeometry.getAABox();
+            return mSubGeometry.getAABox();
         }
     }
 }

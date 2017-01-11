@@ -5,24 +5,24 @@
  */
 public class HandleMesh : MonoBehaviour
 {
-    public Vector3[] m_vertices;
-    public Vector2[] m_uv;
+    public Vector3[] mVertices;
+    public Vector2[] mUv;
     public Color[] mColor;
-    public Vector3[] m_normals;
-    public int[] m_triangles;
+    public Vector3[] mNormals;
+    public int[] mTriangles;
 
-    protected Mesh m_mesh;
-    protected MeshFilter m_meshFilter;
-    MeshRenderer m_renderer;
-    Material m_dynamicMat;
+    protected Mesh mMesh;
+    protected MeshFilter mMeshFilter;
+    MeshRenderer mRenderer;
+    Material mDynamicMat;
 
     protected bool m_bUpdated;
 
     void Start()
     {
         m_bUpdated = false;
-        m_mesh = new Mesh();
-        m_vertices = new Vector3[4]
+        mMesh = new Mesh();
+        mVertices = new Vector3[4]
         {
             new Vector3(0, 0, 0), // 左下
             new Vector3(1, 0, 0), // 右下
@@ -30,7 +30,7 @@ public class HandleMesh : MonoBehaviour
             new Vector3(1, 1, 0), // 右上
         };
 
-        m_uv = new Vector2[4] // 顶点映射的uv位置
+        mUv = new Vector2[4] // 顶点映射的uv位置
         {
             new Vector3(0, 0), // 顶点0的纹理坐标
             new Vector3(1, 0),
@@ -39,14 +39,14 @@ public class HandleMesh : MonoBehaviour
         };
 
         // 左手系
-        //m_triangles = new int[6] // 两个三角面的连接
+        //mTriangles = new int[6] // 两个三角面的连接
         //{
         //    0, 1, 2,// 通过顶点012连接形成的三角面
         //    1, 3, 2,// 通过顶点132连接形成的三角面
         //};
 
         // 右手系
-        m_triangles = new int[6] // 两个三角面的连接
+        mTriangles = new int[6] // 两个三角面的连接
         {
             0, 2, 3,// 通过顶点012连接形成的三角面
             0, 3, 1,// 通过顶点132连接形成的三角面
@@ -75,45 +75,45 @@ public class HandleMesh : MonoBehaviour
     protected void fill()
     {
         // 清除mesh信息，下面可以做相应的mesh动画
-        m_mesh.Clear();
-        m_mesh.vertices = m_vertices;
-        m_mesh.uv = m_uv;
-        m_mesh.colors = mColor;
-        m_mesh.normals = m_normals;
-        m_mesh.triangles = m_triangles;
-        m_mesh.RecalculateNormals();
-        m_mesh.RecalculateBounds();
+        mMesh.Clear();
+        mMesh.vertices = mVertices;
+        mMesh.uv = mUv;
+        mMesh.colors = mColor;
+        mMesh.normals = mNormals;
+        mMesh.triangles = mTriangles;
+        mMesh.RecalculateNormals();
+        mMesh.RecalculateBounds();
 
-        if (m_meshFilter == null)
+        if (mMeshFilter == null)
         {
-            m_meshFilter = gameObject.GetComponent<MeshFilter>();
+            mMeshFilter = gameObject.GetComponent<MeshFilter>();
         }
-        if (m_meshFilter == null)
+        if (mMeshFilter == null)
         {
-            m_meshFilter = gameObject.AddComponent<MeshFilter>();
-        }
-
-        GetComponent<MeshFilter>().mesh = m_mesh;
-        if (m_renderer == null)
-        {
-            m_renderer = gameObject.GetComponent<MeshRenderer>();
+            mMeshFilter = gameObject.AddComponent<MeshFilter>();
         }
 
-        if (m_renderer == null)
+        GetComponent<MeshFilter>().mesh = mMesh;
+        if (mRenderer == null)
         {
-            m_renderer = gameObject.AddComponent<MeshRenderer>();
+            mRenderer = gameObject.GetComponent<MeshRenderer>();
+        }
+
+        if (mRenderer == null)
+        {
+            mRenderer = gameObject.AddComponent<MeshRenderer>();
 #if UNITY_EDITOR
-            m_renderer.enabled = true;
+            mRenderer.enabled = true;
 #endif
         }
 
         Shader shader = Shader.Find("Mobile/Diffuse");
         //Shader shader = Shader.Find("Standard");
-        m_dynamicMat = new Material(shader);
-        //m_dynamicMat.mainTexture = mTexture;
-        if (m_renderer != null)
+        mDynamicMat = new Material(shader);
+        //mDynamicMat.mainTexture = mTexture;
+        if (mRenderer != null)
         {
-            m_renderer.sharedMaterials = new Material[] { m_dynamicMat };
+            mRenderer.sharedMaterials = new Material[] { mDynamicMat };
         }
     }
 }

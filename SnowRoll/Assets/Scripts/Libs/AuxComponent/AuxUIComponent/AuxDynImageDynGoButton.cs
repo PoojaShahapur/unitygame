@@ -52,9 +52,10 @@ namespace SDK.Lib
 
         public override void dispose()
         {
-            base.dispose();
             this.mAuxDynImageDynGOImage.imageLoadedDisp.removeEventHandle(null, updateBtnCom);
             this.mAuxDynImageDynGOImage.dispose();
+
+            base.dispose();
         }
 
         override public void syncUpdateCom()

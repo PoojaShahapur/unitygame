@@ -1,6 +1,6 @@
 ﻿namespace SDK.Lib
 {
-    public class PlayerMainChildRender : PlayerRender
+    public class PlayerMainChildRender : PlayerChildRender
     {
         public PlayerMainChildRender(SceneEntityBase entity_)
             : base(entity_)

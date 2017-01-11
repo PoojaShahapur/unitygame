@@ -19,6 +19,7 @@ namespace SDK.Lib
         {
             mRender = new PlayerMainRender(this);
             mRender.init();
+            //this.mRender = null;        // 不需要渲染器
         }
 
         public override void preInit()

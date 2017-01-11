@@ -5,7 +5,7 @@
      */
     public class SimpleMesh : MMesh
     {
-        protected SimpleSubGeometry m_subGeometry;            // SubGeometry 数据
+        protected SimpleSubGeometry mSubGeometry;            // SubGeometry 数据
 
         public SimpleMesh(MGeometry geometry, MeshRender meshRender_)
             : base(geometry, meshRender_)
@@ -15,10 +15,10 @@
 
         public void buildMesh()
         {
-            m_subGeometry = new SimpleSubGeometry();
-            this.getGeometry().addSubGeometry(m_subGeometry);
+            mSubGeometry = new SimpleSubGeometry();
+            this.getGeometry().addSubGeometry(mSubGeometry);
 
-            m_subGeometry.buildGeometry();
+            mSubGeometry.buildGeometry();
         }
     }
 }

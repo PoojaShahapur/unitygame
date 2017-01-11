@@ -16,6 +16,7 @@ namespace SDK.Lib
         override public void dispose()
         {
             this.mAuxDynImageStaticGOImage.dispose();
+
             base.dispose();
         }
 

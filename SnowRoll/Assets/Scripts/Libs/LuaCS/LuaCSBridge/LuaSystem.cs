@@ -18,11 +18,13 @@ namespace SDK.Lib
         //protected LuaTable mProcessSys;
         protected bool mIsNeedUpdate;           // 是否需要更新 Lua
         protected MDataStream mDataStream;
+        protected bool mIsLuaInited;            // Lua 脚本是否初始化完成
 
         public LuaSystem()
         {
             mLuaScriptMgr = LuaScriptMgr.getSinglePtr();
             mIsNeedUpdate = true;
+            mIsLuaInited = false;
         }
 
         public void init()
@@ -56,6 +58,11 @@ namespace SDK.Lib
         public void setNeedUpdate(bool value)
         {
             mIsNeedUpdate = value;
+        }
+
+        public void setLuaInited(bool value)
+        {
+            this.mIsLuaInited = value;
         }
 
         public object[] callLuaFunction(string name, params object[] args)
@@ -176,9 +183,12 @@ namespace SDK.Lib
 
         public void advance(float delta)
         {
-            //if (mIsNeedUpdate)
+            if (this.mIsLuaInited)
             {
+                //if (mIsNeedUpdate)
+                //{
                 this.callLuaFunction("GlobalNS.GlobalEventCmd.onAdvance", delta);
+                //}
             }
         }
 

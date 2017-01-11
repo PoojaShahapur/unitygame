@@ -40,6 +40,7 @@ namespace SDK.Lib
         public const string TEXT_IN_BTN = "Text";   // Button 组件中 Text GameObject 的名字
         public const string MODEL_NAME = "model";   // 模型 GameObject 的 name
         public const string COLLIDE_NAME = "Collide"; // 模型 GameObject 的 name
+        public const string MODEL_RENDER_NAME = "model/body";   // 模型 GameObject 的 MeshRender 名字
 
         public static GameObject[] FindGameObjectsWithTag(string tag)
         {
@@ -1403,6 +1404,102 @@ namespace SDK.Lib
             if (0 == mode)
             {
                 Screen.sleepTimeout = SleepTimeout.NeverSleep;
+            }
+        }
+
+        /**
+         * @brief 静态批处理合并
+         * @url http://blog.csdn.net/qinyuanpei/article/details/48262583
+         */
+        static void CombineMeshs(GameObject[] gameObjects)
+        {
+            //在编辑器下选中的所有物体
+            object[] objs = gameObjects;
+            if (objs.Length <= 0)
+            {
+                return;
+            }
+
+            //网格信息数组
+            MeshFilter[] meshFilters = new MeshFilter[objs.Length];
+            //渲染器数组
+            MeshRenderer[] meshRenderers = new MeshRenderer[objs.Length];
+            //合并实例数组
+            CombineInstance[] combines = new CombineInstance[objs.Length];
+            //材质数组
+            Material[] mats = new Material[objs.Length];
+
+            for (int i = 0; i < objs.Length; i++)
+            {
+                //获取网格信息
+                meshFilters[i] = ((GameObject)objs[i]).GetComponent<MeshFilter>();
+                //获取渲染器
+                meshRenderers[i] = ((GameObject)objs[i]).GetComponent<MeshRenderer>();
+
+                //获取材质
+                mats[i] = meshRenderers[i].sharedMaterial;
+                //合并实例           
+                combines[i].mesh = meshFilters[i].sharedMesh;
+                combines[i].transform = meshFilters[i].transform.localToWorldMatrix;
+            }
+
+            //创建新物体
+            GameObject go = new GameObject();
+            go.name = "CombinedMesh_" + ((GameObject)objs[0]).name;
+
+            //设置网格信息
+            MeshFilter filter = go.transform.GetComponent<MeshFilter>();
+            if (filter == null)
+            {
+                filter = go.AddComponent<MeshFilter>();
+            }
+            filter.sharedMesh = new Mesh();
+            filter.sharedMesh.CombineMeshes(combines, false);
+
+            //设置渲染器
+            MeshRenderer render = go.transform.GetComponent<MeshRenderer>();
+            if (render == null)
+            {
+                render = go.AddComponent<MeshRenderer>();
+            }
+            //设置材质
+            render.sharedMaterials = mats;
+        }
+
+        // 指定纹理的名字设置材质
+        static public void SetTexture(Material material, string propertyName, Texture texture)
+        {
+            if(null != material && null != texture && !string.IsNullOrEmpty(propertyName))
+            {
+                material.SetTexture(propertyName, texture);
+            }
+        }
+
+        // 直接设置 Shader 中指定的 MainTexture
+        static public void setMainTexture(Material material, Texture texture)
+        {
+            if (null != material && null != texture)
+            {
+                material.mainTexture = texture;
+            }
+        }
+
+        // 直接设置 Shader 中指定的 MainTexture
+        static public void setGameObjectMainTexture(GameObject go, Texture texture)
+        {
+            if(null != go)
+            {
+                MeshRenderer renderer = go.GetComponent<MeshRenderer>();
+
+                if(null != renderer)
+                {
+                    Material material = renderer.sharedMaterial;
+                    //Material material = renderer.material;
+                    if (null != material && null != texture)
+                    {
+                        material.mainTexture = texture;
+                    }
+                }
             }
         }
     }

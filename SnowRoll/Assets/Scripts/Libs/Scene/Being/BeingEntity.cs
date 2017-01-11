@@ -16,6 +16,8 @@ namespace SDK.Lib
         protected float mMoveSpeedFactor;   // 移动速度因子
 
         protected float mBallRadius;    // 吃的大小，使用这个字段判断是否可以吃，以及吃后的大小
+        protected float mMass;          // 质量
+
         public SceneEntityMovement mMovement;    // 移动组件
         protected BeingEntityAttack mAttack;
         protected int reliveseconds; // 复活时间
@@ -111,8 +113,6 @@ namespace SDK.Lib
 
         public override void onDestroy()
         {
-            base.onDestroy();
-
             if (null != this.mHud)
             {
                 this.mHud.dispose();
@@ -130,6 +130,8 @@ namespace SDK.Lib
                 this.mAttack.dispose();
                 this.mAttack = null;
             }
+
+            base.onDestroy();
         }
 
         public void setMoveSpeed(float value)
@@ -238,22 +240,30 @@ namespace SDK.Lib
             }
         }
 
-        virtual public void setBallRadius(float size, bool immScale = false)
+        virtual public void setBallRadius(float size, bool immScale = false, bool isCalcMass = false)
         {
-            if (0 == size) return;
-
-            if (this.mBallRadius != size)
+            if (this.mBallRadius != size && size > 0 && !UtilMath.isInvalidNum(size))
             {
                 this.mBallRadius = size;
-
-                if (UtilMath.isInvalidNum(this.mBallRadius))
-                {
-                    this.mBallRadius = 1;
-
-                    Ctx.mInstance.mLogSys.log("BeingEntity::setBallRadius is InValid num", LogTypeId.eLogSplitMergeEmit);
-                }
-
                 this.setDestScale(size, immScale);
+
+                if(isCalcMass)
+                {
+                    this.mMass = UtilMath.getMassByRadius(this.mBallRadius);
+                }
+            }
+        }
+
+        public void setMass(float mass, bool isCalcRadius = true)
+        {
+            if(this.mMass != mass && mass > 0 && !UtilMath.isInvalidNum(mass))
+            {
+                this.mMass = mass;
+
+                if(isCalcRadius)
+                {
+                    this.setBallRadius(UtilMath.getRadiusByMass(this.mMass));
+                }
             }
         }
 
@@ -320,7 +330,10 @@ namespace SDK.Lib
 
         override public void loadRenderRes()
         {
-            mRender.load();
+            if (null != this.mRender)
+            {
+                this.mRender.load();
+            }
         }
 
         override public void onTick(float delta)
@@ -558,6 +571,15 @@ namespace SDK.Lib
         virtual public void addParentOrientChangedhandle()
         {
 
+        }
+
+        // 设置纹理
+        virtual public void setTexture(string path)
+        {
+            if(null != this.mRender)
+            {
+                (this.mRender as BeingEntityRender).setTexture(path);
+            }
         }
     }
 }

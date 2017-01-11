@@ -301,18 +301,18 @@ public class MWorld_KBE
     public void set_moveSpeed(KBEngine.Entity entity, object v)
     {
         return; //取消速度同步
-        float fspeed = ((float)(Byte)v) / 10f;
+        //float fspeed = ((float)(Byte)v) / 10f;
 
-        //if (entity.renderObj != null)
-        //{
-        //    ((UnityEngine.GameObject)entity.renderObj).GetComponent<GameEntity>().speed = fspeed;
-        //}
+        ////if (entity.renderObj != null)
+        ////{
+        ////    ((UnityEngine.GameObject)entity.renderObj).GetComponent<GameEntity>().speed = fspeed;
+        ////}
 
-        Player player = entity.getEntity_SDK() as Player;
-        if (player == null)
-            return;
+        //Player player = entity.getEntity_SDK() as Player;
+        //if (player == null)
+        //    return;
 
-        player.setMoveSpeed(fspeed);
+        //player.setMoveSpeed(fspeed);
     }
 
     public void set_modelScale(KBEngine.Entity entity, object v)

@@ -86,12 +86,13 @@ namespace SDK.Lib
 
         override public void dispose()
         {
-            base.dispose();
             if (this.mTexRes != null)
             {
                 Ctx.mInstance.mTexMgr.unload(this.mTexRes.getResUniqueId(), null);
                 this.mTexRes = null;
             }
+
+            base.dispose();
         }
 
         // 同步更新显示

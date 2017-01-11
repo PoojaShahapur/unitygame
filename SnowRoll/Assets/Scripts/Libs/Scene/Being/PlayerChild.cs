@@ -4,6 +4,7 @@
     {
         public Player mParentPlayer; // Parent 
         protected UnityEngine.Vector3 mHudPos;
+        protected string mTexPath;  // 纹理目录
 
         public PlayerChild(Player parentPlayer)
         {
@@ -11,6 +12,7 @@
 
             this.mAnimatorControl = new BeingAnimatorControl(this);
             this.mAnimFSM = new AnimFSM(this);
+            this.mTexPath = "";
         }
 
         override public void dispose()
@@ -22,8 +24,6 @@
 
         public override void onDestroy()
         {
-            base.onDestroy();
-
             if(null != this.mAnimatorControl)
             {
                 this.mAnimatorControl.dispose();
@@ -34,6 +34,8 @@
                 this.mAnimFSM.dispose();
                 this.mAnimFSM = null;
             }
+
+            base.onDestroy();
         }
 
         override public void autoHandle()
@@ -58,6 +60,16 @@
             this.mHudPos.y += this.mBallRadius;
 
             return this.mHudPos;
+        }
+
+        override public void setTexture(string path)
+        {
+            if(path != mTexPath)
+            {
+                this.mTexPath = path;
+
+                base.setTexture(this.mTexPath);
+            }
         }
     }
 }

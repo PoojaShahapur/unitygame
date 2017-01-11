@@ -52,13 +52,13 @@ namespace SDK.Lib
 
         override public void onDestroy()
         {
-            base.onDestroy();
-
             if (null != this.mPlayerSplitMerge)
             {
                 this.mPlayerSplitMerge.dispose();
                 this.mPlayerSplitMerge = null;
             }
+
+            base.onDestroy();
         }
 
         override public void autoHandle()

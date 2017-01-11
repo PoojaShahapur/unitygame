@@ -348,6 +348,19 @@
 
         virtual public void setDestRotate(UnityEngine.Vector3 destRotate)
         {
+            if (UtilMath.mIsLimitXRotate)
+            {
+                destRotate.x = 0;
+            }
+            if (UtilMath.mIsLimitYRotate)
+            {
+                destRotate.y = 0;
+            }
+            if (UtilMath.mIsLimitZRotate)
+            {
+                destRotate.z = 0;
+            }
+
             this.mDestRotate = UnityEngine.Quaternion.Euler(destRotate);
 
             if (!UtilMath.isEqualVec3(mEntity.getRotateEulerAngle(), destRotate))

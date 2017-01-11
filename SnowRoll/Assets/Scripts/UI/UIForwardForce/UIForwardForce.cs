@@ -127,7 +127,7 @@ namespace Game.UI
             else
             {
                 Move(MoveVec);
-            }            
+            }
         }
 
         public void onTouchBegin(IDispatchObject dispObj)

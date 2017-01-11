@@ -7,28 +7,28 @@ namespace SDK.Lib
      */
     public class TerrainMat
     {
-        protected MatRes m_diffuseMatRes;           // 漫反射材质资源
-        protected MatRes m_specularMatRes;          // 高光材质资源
-        protected TextureRes m_diffuseTexRes;       // 漫反射纹理资源
-        protected TextureRes m_hightTexRes;         // 高度纹理资源
-        protected TextureRes m_normalTexRes;        // 法向量纹理资源
+        protected MatRes mDiffuseMatRes;           // 漫反射材质资源
+        protected MatRes mSpecularMatRes;          // 高光材质资源
+        protected TextureRes mDiffuseTexRes;       // 漫反射纹理资源
+        protected TextureRes mHightTexRes;         // 高度纹理资源
+        protected TextureRes mNormalTexRes;        // 法向量纹理资源
 
-        protected Material m_diffuseMat;            // 漫反射材质
-        protected Material m_specularMat;           // 高光材质
-        protected Texture m_diffuseTex;             // 漫反射纹理
-        protected Texture m_heightTex;              // 高度纹理
-        protected Texture m_normalTex;              // 法向量纹理
-        protected Shader m_diffuseShader;                  // 动态材质使用的纹理
-        protected Shader m_specularShader;                  // 动态材质使用的纹理
+        protected Material mDiffuseMat;            // 漫反射材质
+        protected Material mSpecularMat;           // 高光材质
+        protected Texture mDiffuseTex;             // 漫反射纹理
+        protected Texture mHeightTex;              // 高度纹理
+        protected Texture mNormalTex;              // 法向量纹理
+        protected Shader mDiffuseShader;                  // 动态材质使用的纹理
+        protected Shader mSpecularShader;                  // 动态材质使用的纹理
 
-        protected Material m_splatMat;
-        protected Texture m_splat0Tex;
-        protected Texture m_splat1Tex;
-        protected Texture m_splat2Tex;
-        protected Texture m_splat3Tex;
-        protected Texture m_controlTex;
-        protected Shader m_splatShader;
-        protected MatRes m_splatMatRes;
+        protected Material mSplatMat;
+        protected Texture mSplat0Tex;
+        protected Texture mSplat1Tex;
+        protected Texture mSplat2Tex;
+        protected Texture mSplat3Tex;
+        protected Texture mControlTex;
+        protected Shader mSplatShader;
+        protected MatRes mSplatMatRes;
         //protected TextureRes m_splat0TexRes;
         //protected TextureRes m_splat1TexRes;
         //protected TextureRes m_splat2TexRes;
@@ -41,43 +41,43 @@ namespace SDK.Lib
         protected AuxTextureLoader mSplat3TexRes;
         protected AuxTextureLoader mControlTexRes;
 
-        protected string m_matPreStr;               // 材质前缀字符
-        protected string m_difffuseMatName;         // 材质的名字
-        protected string m_specularMatName;         // 材质的名字
-        protected string m_diffuseShaderName;              // shader 的名字
-        protected string m_specularShaderName;              // shader 的名字
-        protected string m_diffuseTexName;          // 漫反射纹理名字
-        protected string m_heightTexName;           // 高度纹理名字
-        protected string m_normalTexName;           // 法向量纹理名字
+        protected string mMatPreStr;               // 材质前缀字符
+        protected string mDifffuseMatName;         // 材质的名字
+        protected string mSpecularMatName;         // 材质的名字
+        protected string mDiffuseShaderName;              // shader 的名字
+        protected string mSpecularShaderName;              // shader 的名字
+        protected string mDiffuseTexName;          // 漫反射纹理名字
+        protected string mHeightTexName;           // 高度纹理名字
+        protected string mNormalTexName;           // 法向量纹理名字
 
-        protected string m_splatMatName;
-        protected string m_splatShaderName;
-        protected string m_splat0TexName;
-        protected string m_splat1TexName;
-        protected string m_splat2TexName;
-        protected string m_splat3TexName;
-        protected string m_controlTexName;
+        protected string mSplatMatName;
+        protected string mSplatShaderName;
+        protected string mSplat0TexName;
+        protected string mSplat1TexName;
+        protected string mSplat2TexName;
+        protected string mSplat3TexName;
+        protected string mControlTexName;
 
         protected Vector4 mUVMultiplier;
 
         public TerrainMat()
         {
-            m_difffuseMatName = "Materials/Terrain/TerrainDiffuse";
-            m_specularMatName = "Materials/Terrain/TerrainBumpSpecular";
-            m_matPreStr = "Dyn_";
-            m_diffuseShaderName = "My/Terrain/Diffuse";
-            m_specularShaderName = "Mobile/Bumped Specular (1 Directional Light)";
-            m_diffuseTexName = "Materials/Textures/Terrain/TerrainDiffuse_1.jpg";
-            m_heightTexName = "Materials/Textures/Terrain/terrain.png";
-            m_normalTexName = "Materials/Textures/Terrain/terrain_normal.jpg";
+            mDifffuseMatName = "Materials/Terrain/TerrainDiffuse";
+            mSpecularMatName = "Materials/Terrain/TerrainBumpSpecular";
+            mMatPreStr = "Dyn_";
+            mDiffuseShaderName = "My/Terrain/Diffuse";
+            mSpecularShaderName = "Mobile/Bumped Specular (1 Directional Light)";
+            mDiffuseTexName = "Materials/Textures/Terrain/TerrainDiffuse_1.jpg";
+            mHeightTexName = "Materials/Textures/Terrain/terrain.png";
+            mNormalTexName = "Materials/Textures/Terrain/terrain_normal.jpg";
 
-            m_splatMatName = "Materials/Terrain/TerrainSplatDiffuse";
-            m_splatShaderName = "My/Terrain/TerrainSplatDiffuse";
-            m_splat0TexName = "Materials/Textures/Terrain/TerrainSplat_0.jpg";
-            m_splat1TexName = "Materials/Textures/Terrain/TerrainSplat_1.jpg";
-            m_splat2TexName = "Materials/Textures/Terrain/TerrainSplat_2.jpg";
-            m_splat3TexName = "Materials/Textures/Terrain/TerrainSplat_3.jpg";
-            m_controlTexName = "Materials/Textures/Terrain/TerrainControl.png";
+            mSplatMatName = "Materials/Terrain/TerrainSplatDiffuse";
+            mSplatShaderName = "My/Terrain/TerrainSplatDiffuse";
+            mSplat0TexName = "Materials/Textures/Terrain/TerrainSplat_0.jpg";
+            mSplat1TexName = "Materials/Textures/Terrain/TerrainSplat_1.jpg";
+            mSplat2TexName = "Materials/Textures/Terrain/TerrainSplat_2.jpg";
+            mSplat3TexName = "Materials/Textures/Terrain/TerrainSplat_3.jpg";
+            mControlTexName = "Materials/Textures/Terrain/TerrainControl.png";
         }
 
         public void initSplatPath(MImportData importData)
@@ -85,26 +85,26 @@ namespace SDK.Lib
             Vector4 vec = new Vector4(0, 0, 0, 0);
             if (importData.layerList.length() > 0)
             {
-                m_splat0TexName = importData.layerList[0].textureName;
+                mSplat0TexName = importData.layerList[0].textureName;
                 vec.x = Ctx.mInstance.mTerrainGlobalOption.mTerrainSize / importData.layerList[0].worldSize;
             }
             if (importData.layerList.length() > 1)
             {
-                m_splat1TexName = importData.layerList[1].textureName;
+                mSplat1TexName = importData.layerList[1].textureName;
                 vec.y = Ctx.mInstance.mTerrainGlobalOption.mTerrainSize / importData.layerList[1].worldSize;
             }
             if (importData.layerList.length() > 2)
             {
-                m_splat2TexName = importData.layerList[2].textureName;
+                mSplat2TexName = importData.layerList[2].textureName;
                 vec.z = Ctx.mInstance.mTerrainGlobalOption.mTerrainSize / importData.layerList[2].worldSize;
             }
             if (importData.layerList.length() > 3)
             {
-                m_splat3TexName = importData.layerList[3].textureName;
+                mSplat3TexName = importData.layerList[3].textureName;
                 vec.w = Ctx.mInstance.mTerrainGlobalOption.mTerrainSize / importData.layerList[3].worldSize;
             }
             setUVMultiplier(vec);
-            m_controlTexName = importData.mAlphaTexName;
+            mControlTexName = importData.mAlphaTexName;
         }
 
         public void setUVMultiplier(float value)
@@ -119,168 +119,168 @@ namespace SDK.Lib
 
         public void setDiffuseMap(string path)
         {
-            m_diffuseTexName = path;
+            mDiffuseTexName = path;
         }
 
         // 加载漫反射材质
         public void loadDiffuseMat()
         {
-            m_diffuseMatRes = Ctx.mInstance.mMatMgr.getAndSyncLoad<MatRes>(m_difffuseMatName, null);
-            m_diffuseMat = m_diffuseMatRes.getMat();
+            mDiffuseMatRes = Ctx.mInstance.mMatMgr.getAndSyncLoad<MatRes>(mDifffuseMatName, null);
+            mDiffuseMat = mDiffuseMatRes.getMat();
 
-            m_diffuseShader = Shader.Find(m_diffuseShaderName);
-            m_diffuseMat.shader = m_diffuseShader;
+            mDiffuseShader = Shader.Find(mDiffuseShaderName);
+            mDiffuseMat.shader = mDiffuseShader;
 
-            m_diffuseTexRes = Ctx.mInstance.mTexMgr.getAndSyncLoad<TextureRes>(m_diffuseTexName, null);
-            m_diffuseTex = m_diffuseTexRes.getTexture();
+            mDiffuseTexRes = Ctx.mInstance.mTexMgr.getAndSyncLoad<TextureRes>(mDiffuseTexName, null);
+            mDiffuseTex = mDiffuseTexRes.getTexture();
 
-            if (m_diffuseMat.HasProperty("_MainTex"))
+            if (mDiffuseMat.HasProperty("_MainTex"))
             {
-                m_diffuseMat.SetTexture("_MainTex", m_diffuseTex);
+                mDiffuseMat.SetTexture("_MainTex", mDiffuseTex);
             }
         }
 
         // 加载高光材质
         public void loadSpecularMat()
         {
-            m_specularMatRes = Ctx.mInstance.mMatMgr.getAndSyncLoad<MatRes>(m_specularMatName, null);
-            m_specularMat = m_specularMatRes.getMat();
+            mSpecularMatRes = Ctx.mInstance.mMatMgr.getAndSyncLoad<MatRes>(mSpecularMatName, null);
+            mSpecularMat = mSpecularMatRes.getMat();
 
-            m_specularShader = Shader.Find(m_specularShaderName);
-            m_specularMat.shader = m_specularShader;
+            mSpecularShader = Shader.Find(mSpecularShaderName);
+            mSpecularMat.shader = mSpecularShader;
 
-            m_diffuseTexRes = Ctx.mInstance.mTexMgr.getAndSyncLoad<TextureRes>(m_diffuseTexName, null);
-            m_diffuseTex = m_diffuseTexRes.getTexture();
-            if (m_splatMat.HasProperty("_MainTex"))
+            mDiffuseTexRes = Ctx.mInstance.mTexMgr.getAndSyncLoad<TextureRes>(mDiffuseTexName, null);
+            mDiffuseTex = mDiffuseTexRes.getTexture();
+            if (mSplatMat.HasProperty("_MainTex"))
             {
-                m_specularMat.SetTexture("_MainTex", m_diffuseTex);
+                mSpecularMat.SetTexture("_MainTex", mDiffuseTex);
             }
 
-            m_normalTexRes = Ctx.mInstance.mTexMgr.getAndSyncLoad<TextureRes>(m_normalTexName, null);
-            m_normalTex = m_normalTexRes.getTexture();
-            if (m_splatMat.HasProperty("_BumpMap"))
+            mNormalTexRes = Ctx.mInstance.mTexMgr.getAndSyncLoad<TextureRes>(mNormalTexName, null);
+            mNormalTex = mNormalTexRes.getTexture();
+            if (mSplatMat.HasProperty("_BumpMap"))
             {
-                m_specularMat.SetTexture("_BumpMap", m_normalTex);
+                mSpecularMat.SetTexture("_BumpMap", mNormalTex);
             }
         }
 
         public void loadSplatDiffuseMat()
         {
-            m_splatMatRes = Ctx.mInstance.mMatMgr.getAndSyncLoad<MatRes>(m_splatMatName, null);
-            m_splatMat = m_splatMatRes.getMat();
+            mSplatMatRes = Ctx.mInstance.mMatMgr.getAndSyncLoad<MatRes>(mSplatMatName, null);
+            mSplatMat = mSplatMatRes.getMat();
 
-            m_splatShader = Shader.Find(m_splatShaderName);
-            m_splatMat.shader = m_splatShader;
+            mSplatShader = Shader.Find(mSplatShaderName);
+            mSplatMat.shader = mSplatShader;
 
             /*
-            m_splat0TexRes = Ctx.mInstance.mTexMgr.getAndSyncLoad<TextureRes>(m_splat0TexName);
-            m_splat0Tex = m_splat0TexRes.getTexture();
-            if (m_splatMat.HasProperty("_MainTex"))
+            m_splat0TexRes = Ctx.mInstance.mTexMgr.getAndSyncLoad<TextureRes>(mSplat0TexName);
+            mSplat0Tex = m_splat0TexRes.getTexture();
+            if (mSplatMat.HasProperty("_MainTex"))
             {
-                m_splatMat.SetTexture("_MainTex", m_splat0Tex);
+                mSplatMat.SetTexture("_MainTex", mSplat0Tex);
             }
 
-            m_splat1TexRes = Ctx.mInstance.mTexMgr.getAndSyncLoad<TextureRes>(m_splat1TexName);
-            m_splat1Tex = m_splat1TexRes.getTexture();
-            if (m_splatMat.HasProperty("_Splat1"))
+            m_splat1TexRes = Ctx.mInstance.mTexMgr.getAndSyncLoad<TextureRes>(mSplat1TexName);
+            mSplat1Tex = m_splat1TexRes.getTexture();
+            if (mSplatMat.HasProperty("_Splat1"))
             {
-                m_splatMat.SetTexture("_Splat1", m_splat1Tex);
+                mSplatMat.SetTexture("_Splat1", mSplat1Tex);
             }
 
-            m_splat2TexRes = Ctx.mInstance.mTexMgr.getAndSyncLoad<TextureRes>(m_splat2TexName);
-            m_splat2Tex = m_splat2TexRes.getTexture();
-            m_splatMat.SetTexture("_Splat2", m_splat2Tex);
+            m_splat2TexRes = Ctx.mInstance.mTexMgr.getAndSyncLoad<TextureRes>(mSplat2TexName);
+            mSplat2Tex = m_splat2TexRes.getTexture();
+            mSplatMat.SetTexture("_Splat2", mSplat2Tex);
 
-            m_splat3TexRes = Ctx.mInstance.mTexMgr.getAndSyncLoad<TextureRes>(m_splat3TexName);
-            m_splat3Tex = m_splat3TexRes.getTexture();
-            m_splatMat.SetTexture("_Splat3", m_splat3Tex);
+            m_splat3TexRes = Ctx.mInstance.mTexMgr.getAndSyncLoad<TextureRes>(mSplat3TexName);
+            mSplat3Tex = m_splat3TexRes.getTexture();
+            mSplatMat.SetTexture("_Splat3", mSplat3Tex);
 
-            m_controlTexRes = Ctx.mInstance.mTexMgr.getAndSyncLoad<TextureRes>(m_controlTexName);
-            m_controlTex = m_controlTexRes.getTexture();
-            if (m_splatMat.HasProperty("_Control"))
+            m_controlTexRes = Ctx.mInstance.mTexMgr.getAndSyncLoad<TextureRes>(mControlTexName);
+            mControlTex = m_controlTexRes.getTexture();
+            if (mSplatMat.HasProperty("_Control"))
             {
-                m_splatMat.SetTexture("_Control", m_controlTex);
+                mSplatMat.SetTexture("_Control", mControlTex);
             }
             */
 
-            if (m_splatMat.HasProperty("_UVMultiplier"))
+            if (mSplatMat.HasProperty("_UVMultiplier"))
             {
-                m_splatMat.SetVector("_UVMultiplier", mUVMultiplier);
+                mSplatMat.SetVector("_UVMultiplier", mUVMultiplier);
             }
 
             mSplat0TexRes = new AuxTextureLoader();
-            mSplat0TexRes.asyncLoad(m_splat0TexName, onSplat0TexResLoaded);
+            mSplat0TexRes.asyncLoad(mSplat0TexName, onSplat0TexResLoaded);
 
             mSplat1TexRes = new AuxTextureLoader();
-            mSplat1TexRes.asyncLoad(m_splat1TexName, onSplat1TexResLoaded);
+            mSplat1TexRes.asyncLoad(mSplat1TexName, onSplat1TexResLoaded);
 
             mSplat2TexRes = new AuxTextureLoader();
-            mSplat2TexRes.asyncLoad(m_splat2TexName, onSplat2TexResLoaded);
+            mSplat2TexRes.asyncLoad(mSplat2TexName, onSplat2TexResLoaded);
 
             mSplat3TexRes = new AuxTextureLoader();
-            mSplat3TexRes.asyncLoad(m_splat3TexName, onSplat3TexResLoaded);
+            mSplat3TexRes.asyncLoad(mSplat3TexName, onSplat3TexResLoaded);
 
             mControlTexRes = new AuxTextureLoader();
-            mControlTexRes.asyncLoad(m_controlTexName, onControlTexResLoaded);
+            mControlTexRes.asyncLoad(mControlTexName, onControlTexResLoaded);
         }
 
         public Material getDiffuseMaterial()
         {
-            return m_diffuseMat;
+            return mDiffuseMat;
         }
 
         public Material getSpecularMaterial()
         {
-            return m_specularMat;
+            return mSpecularMat;
         }
 
         public Material getSplatMaterial()
         {
-            return m_splatMat;
+            return mSplatMat;
         }
 
         public void onSplat0TexResLoaded(IDispatchObject dispObj)
         {
             mSplat0TexRes = dispObj as AuxTextureLoader;
-            if(m_splatMat.HasProperty("_MainTex"))
+            if(mSplatMat.HasProperty("_MainTex"))
             {
-                m_splatMat.SetTexture("_MainTex", mSplat0TexRes.getTexture());
+                mSplatMat.SetTexture("_MainTex", mSplat0TexRes.getTexture());
             }
         }
 
         public void onSplat1TexResLoaded(IDispatchObject dispObj)
         {
             mSplat1TexRes = dispObj as AuxTextureLoader;
-            if (m_splatMat.HasProperty("_Splat1"))
+            if (mSplatMat.HasProperty("_Splat1"))
             {
-                m_splatMat.SetTexture("_Splat1", mSplat1TexRes.getTexture());
+                mSplatMat.SetTexture("_Splat1", mSplat1TexRes.getTexture());
             }
         }
 
         public void onSplat2TexResLoaded(IDispatchObject dispObj)
         {
             mSplat2TexRes = dispObj as AuxTextureLoader;
-            if (m_splatMat.HasProperty("_Splat2"))
+            if (mSplatMat.HasProperty("_Splat2"))
             {
-                m_splatMat.SetTexture("_Splat2", mSplat2TexRes.getTexture());
+                mSplatMat.SetTexture("_Splat2", mSplat2TexRes.getTexture());
             }
         }
 
         public void onSplat3TexResLoaded(IDispatchObject dispObj)
         {
             mSplat3TexRes = dispObj as AuxTextureLoader;
-            if (m_splatMat.HasProperty("_Splat3"))
+            if (mSplatMat.HasProperty("_Splat3"))
             {
-                m_splatMat.SetTexture("_Splat3", mSplat3TexRes.getTexture());
+                mSplatMat.SetTexture("_Splat3", mSplat3TexRes.getTexture());
             }
         }
 
         public void onControlTexResLoaded(IDispatchObject dispObj)
         {
             mControlTexRes = dispObj as AuxTextureLoader;
-            if (m_splatMat.HasProperty("_Control"))
+            if (mSplatMat.HasProperty("_Control"))
             {
-                m_splatMat.SetTexture("_Control", mControlTexRes.getTexture());
+                mSplatMat.SetTexture("_Control", mControlTexRes.getTexture());
             }
         }
     }

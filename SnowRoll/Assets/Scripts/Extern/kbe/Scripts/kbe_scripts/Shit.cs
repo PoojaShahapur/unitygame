@@ -23,6 +23,7 @@ namespace KBEngine
                 this.mEntity_SDK.setRotateEulerAngle(this.direction);
                 this.mEntity_SDK.setPos(frompos);
                 (this.mEntity_SDK as BeingEntity).setDestPos(topos, false);
+                (this.mEntity_SDK as BeingEntity).setEntity_KBE(this);
                 this.mEntity_SDK.setThisId((uint)this.id);
                 this.mEntity_SDK.init();
 

@@ -102,5 +102,10 @@
                 }
             }
         }
+
+        virtual public void setTexture(string path)
+        {
+
+        }
     }
 }

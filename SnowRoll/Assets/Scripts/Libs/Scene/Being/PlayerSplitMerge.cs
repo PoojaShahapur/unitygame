@@ -30,11 +30,11 @@
         {
             if (null != mPlayerChildMgr)
             {
-                mPlayerChildMgr.dispose();
-                mPlayerChildMgr = null;
+                this.mPlayerChildMgr.dispose();
+                this.mPlayerChildMgr = null;
             }
 
-            mEntity = null;
+            this.mEntity = null;
         }
 
         public virtual void onTick(float delta)
@@ -57,7 +57,7 @@
             this.mPlayerChildMgr.addEntity(childPlayer);
         }
 
-        public void removeFormParent(Player childPlayer)
+        virtual public void removeFormParent(Player childPlayer)
         {
             this.mPlayerChildMgr.removeEntity(childPlayer);
         }

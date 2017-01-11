@@ -31,26 +31,38 @@ namespace KBEngine
 
 		public static void INFO_MSG(object s)
 		{
-			if (DEBUGLEVEL.INFO >= debugLevel)
-				Debug.Log(getHead() + s);
+            if (DEBUGLEVEL.INFO >= debugLevel)
+            {
+                //Debug.Log(getHead() + s);
+                SDK.Lib.Ctx.mInstance.mLogSys.log(string.Format("{0}{1}", getHead(), s), SDK.Lib.LogTypeId.eLogKBE);
+            }
 		}
 
 		public static void DEBUG_MSG(object s)
 		{
-			if (DEBUGLEVEL.DEBUG >= debugLevel)
-				Debug.Log(getHead() + s);
+            if (DEBUGLEVEL.DEBUG >= debugLevel)
+            {
+                //Debug.Log(getHead() + s);
+                SDK.Lib.Ctx.mInstance.mLogSys.log(string.Format("{0}{1}", getHead(), s), SDK.Lib.LogTypeId.eLogKBE);
+            }
 		}
 
 		public static void WARNING_MSG(object s)
 		{
-			if (DEBUGLEVEL.WARNING >= debugLevel)
-				Debug.LogWarning(getHead() + s);
+            if (DEBUGLEVEL.WARNING >= debugLevel)
+            {
+                //Debug.LogWarning(getHead() + s);
+                SDK.Lib.Ctx.mInstance.mLogSys.warn(string.Format("{0}{1}", getHead(), s), SDK.Lib.LogTypeId.eLogKBE);
+            }
 		}
 
 		public static void ERROR_MSG(object s)
 		{
-			if (DEBUGLEVEL.ERROR >= debugLevel)
-				Debug.LogError(getHead() + s);
+            if (DEBUGLEVEL.ERROR >= debugLevel)
+            {
+                //Debug.LogError(getHead() + s);
+                SDK.Lib.Ctx.mInstance.mLogSys.error(string.Format("{0}{1}", getHead(), s), SDK.Lib.LogTypeId.eLogKBE);
+            }
 		}
 
 		public static void profileStart(string name)

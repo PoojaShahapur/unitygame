@@ -51,6 +51,7 @@ namespace SDK.Lib
                     UtilApi.DestroyImmediate(this.mSelfGo);
                 }
             }
+
             base.dispose();
         }
 

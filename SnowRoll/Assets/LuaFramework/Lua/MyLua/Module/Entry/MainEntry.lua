@@ -14,3 +14,6 @@ local _appSys = MLoader("MyLua.Module.App.AppSys");
 _appSys.ctor();
 _appSys.init();
 _appSys.run();
+
+--设置 Lua 初始化完成的标志位
+GlobalNS.CSSystem.setLuaInited(true);

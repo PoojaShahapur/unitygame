@@ -30,8 +30,9 @@ namespace SDK.Lib
 
         override public void initRender()
         {
-            mRender = new PlayerOtherRender(this);
-            mRender.init();
+            //this.mRender = new PlayerOtherRender(this);
+            //this.mRender.init();
+            this.mRender = null;
         }
 
         override public void dispose()

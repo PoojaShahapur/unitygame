@@ -112,4 +112,9 @@ function M.emitSnowBlock()
 	this.Ctx.mInstance.mPlayerMgr:emitSnowBlock();
 end
 
+--设置 Lua 初始化完成
+function M.setLuaInited(value)
+	this.Ctx.mInstance.mLuaSystem:setLuaInited(value);
+end
+
 return M;

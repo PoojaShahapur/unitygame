@@ -56,9 +56,10 @@
 
         public override void dispose()
         {
-            base.dispose();
             this.mAuxDynTexDynGOImage.texLoadedDisp.removeEventHandle(null, updateBtnCom);
             this.mAuxDynTexDynGOImage.dispose();
+
+            base.dispose();
         }
 
         override public void syncUpdateCom()

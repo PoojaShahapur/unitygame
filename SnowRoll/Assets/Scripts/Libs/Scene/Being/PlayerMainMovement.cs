@@ -107,7 +107,7 @@
             if (!isUpPress && !isDownPress && !isLeftPress && !isRightPress)
             {
                 return;
-            }                
+            }
 
             float x = UnityEngine.Input.GetAxis("Horizontal");
             float y = UnityEngine.Input.GetAxis("Vertical");
@@ -118,7 +118,7 @@
             this.mRotate = UnityEngine.Quaternion.Euler(new UnityEngine.Vector3(0, roate * UtilMath.fRad2Deg, 0));
             this.updateOrient();
             this.moveForward();
-        }        
+        }
 
         //protected void onStartUp(IDispatchObject dispObj)
         //{

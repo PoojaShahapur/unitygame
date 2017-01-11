@@ -412,7 +412,7 @@
             if (null != this.mEntity_SDK)
             {
                 radius = (float)getDefinedProperty("radius");
-                (this.mEntity_SDK as SDK.Lib.BeingEntity).setBallRadius(radius);
+                (this.mEntity_SDK as SDK.Lib.BeingEntity).setMass(radius);
             }
         }
     }

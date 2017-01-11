@@ -110,12 +110,13 @@ namespace SDK.Lib
 
         override public void dispose()
         {
-            base.dispose();
             if (this.mImageItem != null)
             {
                 Ctx.mInstance.mAtlasMgr.unloadImage(this.mImageItem, null);
                 this.mImageItem = null;
             }
+
+            base.dispose();
         }
 
         // 同步更新显示

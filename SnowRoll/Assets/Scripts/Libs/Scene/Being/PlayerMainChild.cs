@@ -30,11 +30,11 @@
             this.mAttack.init();
         }
 
-        override public void setBallRadius(float size, bool immScale = false)
+        override public void setBallRadius(float size, bool immScale = false, bool isCalcMass = false)
         {
             float curRadius = this.mBallRadius;
 
-            base.setBallRadius(size, immScale);
+            base.setBallRadius(size, immScale, isCalcMass);
 
             if(0 != size && curRadius != this.mBallRadius && !UtilMath.isInvalidNum(size))
             {

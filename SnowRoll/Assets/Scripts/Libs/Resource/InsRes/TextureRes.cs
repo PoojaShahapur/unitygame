@@ -5,8 +5,8 @@ namespace SDK.Lib
 {
     public class TextureRes : InsResBase
     {
-        public Texture m_texture;
-        protected Sprite m_sprite;
+        public Texture mTexture;
+        protected Sprite mSprite;
 
         public TextureRes()
         {
@@ -15,22 +15,22 @@ namespace SDK.Lib
 
         public Texture getTexture()
         {
-            return m_texture;
+            return mTexture;
         }
 
         override protected void initImpl(ResItem res)
         {
-            m_texture = res.getObject(res.getPrefabName()) as Texture;
+            mTexture = res.getObject(res.getPrefabName()) as Texture;
             base.initImpl(res);
         }
 
         public override void unload()
         {
-            if (m_texture != null)
+            if (mTexture != null)
             {
                 // 这个接口不知道行不行
-                UtilApi.UnloadAsset(m_texture);
-                m_texture = null;
+                UtilApi.UnloadAsset(mTexture);
+                mTexture = null;
 
                 // 这个接口肯定可以
                 //UtilApi.UnloadUnusedAssets();
@@ -44,15 +44,15 @@ namespace SDK.Lib
         {
             if(image != null)
             {
-                if (m_sprite == null)
+                if (mSprite == null)
                 {
-                    if (m_texture != null)
+                    if (mTexture != null)
                     {
-                        m_sprite = UtilApi.Create(m_texture as Texture2D, new Rect(0, 0, m_texture.width, m_texture.height), new Vector2(0.5f, 0.5f));
+                        mSprite = UtilApi.Create(mTexture as Texture2D, new Rect(0, 0, mTexture.width, mTexture.height), new Vector2(0.5f, 0.5f));
                     }
                 }
                 // 创建一个 Sprite 
-                image.sprite = m_sprite;
+                image.sprite = mSprite;
             }
         }
     }

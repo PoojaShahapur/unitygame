@@ -303,14 +303,12 @@
             this.mClientApp = this.mLayerMgr.mPath2Go[NotDestroyPath.ND_CV_Root].AddComponent<clientapp>();
         }
 
-
         public void dispose()
         {
             this.mResizeMgr.dispose();
             this.mTickMgr.dispose();
             this.mPlayerMgr.dispose();
             this.mSnowBlockMgr.dispose();
-            this.mPlayerSnowBlockMgr.dispose();
             this.mPlayerSnowBlockMgr.dispose();
             this.mInputMgr.dispose();
             this.mUiMgr.dispose();
@@ -335,6 +333,13 @@
         {
             this.dispose();
 
+            // 释放自己
+            //mInstance = null;
+        }
+
+        // KBEngine 引擎流程退出
+        public void onKBEQuit()
+        {
             // 释放自己
             mInstance = null;
         }

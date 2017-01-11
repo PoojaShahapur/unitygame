@@ -5,17 +5,17 @@
      */
     public class MeshRender : AuxComponent
     {
-        protected MSubGeometryBase m_subGeometry;       // 子几何顶点数据
-        protected bool m_subGeomDirty;                  // SubGeometry 数据是否是过时的数据
+        protected MSubGeometryBase mSubGeometry;       // 子几何顶点数据
+        protected bool mSubGeomDirty;                  // SubGeometry 数据是否是过时的数据
 
-        protected float m_xPos;     // X 位置，记录位置调试使用
-        protected float m_zPos;     // Z 位置，记录位置调试使用
-        protected int m_xTile;      // Tile 的 X 位置，调试使用
-        protected int m_zTile;      // Tile 的 Z 位置，调试使用
+        protected float mXPos;     // X 位置，记录位置调试使用
+        protected float mZPos;     // Z 位置，记录位置调试使用
+        protected int mXTile;      // Tile 的 X 位置，调试使用
+        protected int mZTile;      // Tile 的 Z 位置，调试使用
 
         public MeshRender(MSubGeometryBase subGeometry_ = null)     // 需要的材质在自己的子类中去操作
         {
-            m_subGeometry = subGeometry_;
+            mSubGeometry = subGeometry_;
         }
 
         override protected void onPntChanged()
@@ -27,7 +27,7 @@
         override protected void onSelfChanged()
         {
             base.onSelfChanged();
-            moveToPos(m_xPos, m_zPos);
+            moveToPos(mXPos, mZPos);
         }
 
         /**
@@ -35,17 +35,17 @@
          */
         public void setSubGeometry(MSubGeometryBase subGeometry_)
         {
-            m_subGeometry = subGeometry_;
+            mSubGeometry = subGeometry_;
         }
 
         public void setTileXZ(int xTile, int zTile)
         {
-            m_xTile = xTile;
-            m_zTile = zTile;
+            mXTile = xTile;
+            mZTile = zTile;
 
             if (this.selfGo != null)
             {
-                this.setSelfName("MeshRender" + "_" + m_xTile + "_" + m_zTile);
+                this.setSelfName("MeshRender" + "_" + mXTile + "_" + mZTile);
             }
         }
 
@@ -54,8 +54,8 @@
          */
         public void moveToPos(float xPos, float zPos)
         {
-            m_xPos = xPos;
-            m_zPos = zPos;
+            mXPos = xPos;
+            mZPos = zPos;
 
             if (this.selfGo != null)
             {

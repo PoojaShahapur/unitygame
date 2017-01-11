@@ -8,6 +8,7 @@ namespace SDK.Lib
         protected AuxPrefabLoader mAuxPrefabLoader;
         //public UnityEngine.CharacterController characterController;
         protected GameObject mModel;    // Model 节点
+        protected GameObject mModelRender;    // ModelRender 节点
 
         /**
          * @brief 资源加载之类的基本操作写在这里
@@ -61,6 +62,9 @@ namespace SDK.Lib
             //{
             //    characterController = ((UnityEngine.GameObject)this.gameObject()).AddComponent<UnityEngine.CharacterController>();
             //}
+
+            this.mModel = UtilApi.TransFindChildByPObjAndPath(this.selfGo, UtilApi.MODEL_NAME);
+            this.mModelRender = UtilApi.TransFindChildByPObjAndPath(this.selfGo, UtilApi.MODEL_RENDER_NAME);
         }
 
         override public Bounds getBounds()
@@ -71,6 +75,17 @@ namespace SDK.Lib
             }
 
             return UtilApi.getComByP<MeshFilter>(this.mModel).mesh.bounds;
+        }
+
+        // 获取 Model GameObject
+        virtual public GameObject getModelObject()
+        {
+            if (null == this.mModel)
+            {
+                this.mModel = UtilApi.TransFindChildByPObjAndPath(this.selfGo, UtilApi.MODEL_NAME);
+            }
+
+            return this.mModel;
         }
     }
 }

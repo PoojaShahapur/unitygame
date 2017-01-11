@@ -27,6 +27,9 @@ namespace SDK.Lib
 
         public SceneEntityBase()
         {
+            this.mRender = null;
+            this.mEntity_KBE = null;
+
             this.mIsClientDispose = false;
             this.mIsInSceneGraph = true;
 
@@ -288,6 +291,19 @@ namespace SDK.Lib
 
         public void setRotateEulerAngle(UnityEngine.Vector3 rotation)
         {
+            if(UtilMath.mIsLimitXRotate)
+            {
+                rotation.x = 0;
+            }
+            if (UtilMath.mIsLimitYRotate)
+            {
+                rotation.y = 0;
+            }
+            if (UtilMath.mIsLimitZRotate)
+            {
+                rotation.z = 0;
+            }
+
             this.mRotate = Quaternion.Euler(rotation);
 
             if (null != mRender)

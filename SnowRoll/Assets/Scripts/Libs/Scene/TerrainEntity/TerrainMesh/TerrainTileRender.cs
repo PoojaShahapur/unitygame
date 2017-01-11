@@ -10,41 +10,41 @@ namespace SDK.Lib
         // Unity 规定一个 Mesh 顶点最多不能超过 65000 个顶点，注意是顶点数量，不是内存数量
         protected static int MAX_VERTEX_PER_MESH = 65000;
 
-        protected Material m_material;         // 使用的共享材质
-        protected Texture m_texture;           // 使用的纹理
-        protected Shader m_shader;             // 动态材质使用的纹理
+        protected Material mMaterial;         // 使用的共享材质
+        protected Texture mTexture;           // 使用的纹理
+        protected Shader mShader;             // 动态材质使用的纹理
 
         protected Transform mTrans;           // 渲染位置信息
-        protected Mesh m_mesh;                 // mesh 信息
-        protected MeshFilter m_filter;         // 绘制使用的 MeshFilter
-        protected MeshRenderer m_renderer;     // mesh 渲染使用的 Render
-        protected Material m_dynamicMat;       // 实例化的动态材质，显示使用的材质
+        protected Mesh mMesh;                 // mesh 信息
+        protected MeshFilter mFilter;         // 绘制使用的 MeshFilter
+        protected MeshRenderer mRenderer;     // mesh 渲染使用的 Render
+        protected Material mDynamicMat;       // 实例化的动态材质，显示使用的材质
 
-        protected bool m_rebuildMat = true;    // 是否重新生成材质
-        protected int m_renderQueue = 100;    // 渲染队列
-        protected int m_triangles = 0;         // 渲染的三角形的数量
+        protected bool mRebuildMat = true;    // 是否重新生成材质
+        protected int mRenderQueue = 100;    // 渲染队列
+        protected int mTriangles = 0;         // 渲染的三角形的数量
 
-        protected string m_matPreStr;           // 材质前缀字符
-        protected string m_meshName;            // Mesh 的名字
-        protected MTerrainQuadTreeNode m_treeNode;
-        protected bool m_isAutoBuildNormal;
-        protected bool m_isBuildGromAndMat;
-        protected bool m_needPhysicsCollide;    // 是否需要物理碰撞
+        protected string mMatPreStr;           // 材质前缀字符
+        protected string mMeshName;            // Mesh 的名字
+        protected MTerrainQuadTreeNode mTreeNode;
+        protected bool mIsAutoBuildNormal;
+        protected bool mIsBuildGromAndMat;
+        protected bool mNeedPhysicsCollide;    // 是否需要物理碰撞
 
         public TerrainTileRender(MTerrainQuadTreeNode treeNode)
             : base(null)
         {
-            m_treeNode = treeNode;
-            m_matPreStr = "Dyn_";
-            m_meshName = "Dyn_Mesh";
-            m_isAutoBuildNormal = false;
-            m_isBuildGromAndMat = false;
-            m_needPhysicsCollide = true;
+            mTreeNode = treeNode;
+            mMatPreStr = "Dyn_";
+            mMeshName = "Dyn_Mesh";
+            mIsAutoBuildNormal = false;
+            mIsBuildGromAndMat = false;
+            mNeedPhysicsCollide = true;
         }
 
         public void setTreeNode(MTerrainQuadTreeNode treeNode)
         {
-            m_treeNode = treeNode;
+            mTreeNode = treeNode;
         }
 
         /**
@@ -54,21 +54,21 @@ namespace SDK.Lib
         {
             get
             {
-                return m_renderQueue;
+                return mRenderQueue;
             }
             set
             {
-                if (m_renderQueue != value)
+                if (mRenderQueue != value)
                 {
-                    m_renderQueue = value;
+                    mRenderQueue = value;
 
-                    if (m_dynamicMat != null)
+                    if (mDynamicMat != null)
                     {
-                        m_dynamicMat.renderQueue = value;
+                        mDynamicMat.renderQueue = value;
 #if UNITY_EDITOR
-                        if (m_renderer != null)
+                        if (mRenderer != null)
                         {
-                            m_renderer.enabled = isActive;
+                            mRenderer.enabled = isActive;
                         }
 #endif
                     }
@@ -83,13 +83,13 @@ namespace SDK.Lib
         {
             get
             {
-                return (m_renderer != null) ? m_renderer.sortingOrder : 0;
+                return (mRenderer != null) ? mRenderer.sortingOrder : 0;
             }
             set
             {
-                if (m_renderer != null && m_renderer.sortingOrder != value)
+                if (mRenderer != null && mRenderer.sortingOrder != value)
                 {
-                    m_renderer.sortingOrder = value;
+                    mRenderer.sortingOrder = value;
                 }
             }
         }
@@ -101,7 +101,7 @@ namespace SDK.Lib
         {
             get
             {
-                return (m_dynamicMat != null) ? m_dynamicMat.renderQueue : m_renderQueue;
+                return (mDynamicMat != null) ? mDynamicMat.renderQueue : mRenderQueue;
             }
         }
 
@@ -118,9 +118,9 @@ namespace SDK.Lib
                 {
                     m_active = value;
 
-                    if (m_renderer != null)
+                    if (mRenderer != null)
                     {
-                        m_renderer.enabled = value;
+                        mRenderer.enabled = value;
                         UtilApi.SetDirty(this.mSelfGo);
                     }
                 }
@@ -151,14 +151,14 @@ namespace SDK.Lib
         {
             get
             {
-                return m_material;
+                return mMaterial;
             }
             set
             {
-                if (m_material != value)
+                if (mMaterial != value)
                 {
-                    m_material = value;
-                    m_rebuildMat = true;
+                    mMaterial = value;
+                    mRebuildMat = true;
                 }
             }
         }
@@ -170,7 +170,7 @@ namespace SDK.Lib
         {
             get
             {
-                return m_dynamicMat;
+                return mDynamicMat;
             }
         }
 
@@ -181,14 +181,14 @@ namespace SDK.Lib
         {
             get
             {
-                return m_texture;
+                return mTexture;
             }
             set
             {
-                m_texture = value;
-                if (m_dynamicMat != null)
+                mTexture = value;
+                if (mDynamicMat != null)
                 {
-                    m_dynamicMat.mainTexture = value;
+                    mDynamicMat.mainTexture = value;
                 }
             }
         }
@@ -200,14 +200,14 @@ namespace SDK.Lib
         {
             get
             {
-                return m_shader;
+                return mShader;
             }
             set
             {
-                if (m_shader != value)
+                if (mShader != value)
                 {
-                    m_shader = value;
-                    m_rebuildMat = true;
+                    mShader = value;
+                    mRebuildMat = true;
                 }
             }
         }
@@ -219,7 +219,7 @@ namespace SDK.Lib
         {
             get
             {
-                return (m_mesh != null) ? m_triangles : 0;
+                return (mMesh != null) ? mTriangles : 0;
             }
         }
 
@@ -228,74 +228,74 @@ namespace SDK.Lib
          */
         public void UpdateGeometry()
         {
-            int vertexCount = m_treeNode.getVertexDataCount();
+            int vertexCount = mTreeNode.getVertexDataCount();
             // 缓存所有的组件
-            if (m_filter == null)
+            if (mFilter == null)
             {
-                m_filter = this.mSelfGo.GetComponent<MeshFilter>();
+                mFilter = this.mSelfGo.GetComponent<MeshFilter>();
             }
-            if (m_filter == null)
+            if (mFilter == null)
             {
-                m_filter = this.mSelfGo.AddComponent<MeshFilter>();
+                mFilter = this.mSelfGo.AddComponent<MeshFilter>();
             }
 
             if (vertexCount < MAX_VERTEX_PER_MESH)  // 顶点数量判断
             {
                 // 创建 mesh
-                if (m_mesh == null)
+                if (mMesh == null)
                 {
-                    m_mesh = new Mesh();
-                    m_mesh.hideFlags = HideFlags.DontSave;
-                    m_mesh.name = (m_material != null) ? m_matPreStr + m_material.name : m_meshName;
-                    m_mesh.MarkDynamic();
+                    mMesh = new Mesh();
+                    mMesh.hideFlags = HideFlags.DontSave;
+                    mMesh.name = (mMaterial != null) ? mMatPreStr + mMaterial.name : mMeshName;
+                    mMesh.MarkDynamic();
                 }
 
-                m_triangles = m_treeNode.getTriangleCount();
+                mTriangles = mTreeNode.getTriangleCount();
 
-                if (m_mesh.vertexCount != vertexCount)
+                if (mMesh.vertexCount != vertexCount)
                 {
-                    m_mesh.Clear();
+                    mMesh.Clear();
                 }
 
-                m_mesh.vertices = m_treeNode.getVertexData();
-                m_mesh.uv = m_treeNode.getUVData();
-                //m_mesh.colors32 = m_treeNode.getVectexColorData();
-                m_mesh.triangles = m_treeNode.getIndexData();
-                m_mesh.normals = m_treeNode.getVertexNormalsData();
-                m_mesh.tangents = m_treeNode.getVertexTangentsData();
+                mMesh.vertices = mTreeNode.getVertexData();
+                mMesh.uv = mTreeNode.getUVData();
+                //mMesh.colors32 = mTreeNode.getVectexColorData();
+                mMesh.triangles = mTreeNode.getIndexData();
+                mMesh.normals = mTreeNode.getVertexNormalsData();
+                mMesh.tangents = mTreeNode.getVertexTangentsData();
 
-                if (m_isAutoBuildNormal)
+                if (mIsAutoBuildNormal)
                 {
-                    m_mesh.RecalculateNormals();
-                    m_mesh.RecalculateBounds();
+                    mMesh.RecalculateNormals();
+                    mMesh.RecalculateBounds();
                 }
 
-                m_filter.mesh = m_mesh;
+                mFilter.mesh = mMesh;
             }
             else
             {
-                m_triangles = 0;
-                if (m_filter.mesh != null)
+                mTriangles = 0;
+                if (mFilter.mesh != null)
                 {
-                    m_filter.mesh.Clear();
+                    mFilter.mesh.Clear();
                 }
                 Debug.LogError("Too many vertices on one Mesh" + vertexCount);
             }
 
-            if (m_renderer == null)
+            if (mRenderer == null)
             {
-                m_renderer = this.mSelfGo.GetComponent<MeshRenderer>();
+                mRenderer = this.mSelfGo.GetComponent<MeshRenderer>();
             }
 
-            if (m_renderer == null)
+            if (mRenderer == null)
             {
-                m_renderer = this.mSelfGo.AddComponent<MeshRenderer>();
+                mRenderer = this.mSelfGo.AddComponent<MeshRenderer>();
 #if UNITY_EDITOR
-                m_renderer.enabled = isActive;
+                mRenderer.enabled = isActive;
 #endif
             }
 
-            if(m_needPhysicsCollide)
+            if(mNeedPhysicsCollide)
             {
                 if(this.selfGo.GetComponent<MeshCollider>() == null)
                 {
@@ -303,7 +303,7 @@ namespace SDK.Lib
                 }
             }
 
-            m_treeNode.clear();
+            mTreeNode.clear();
         }
 
         /**
@@ -311,7 +311,7 @@ namespace SDK.Lib
          */
         void init()
         {
-            m_rebuildMat = true;
+            mRebuildMat = true;
         }
 
         /**
@@ -319,53 +319,53 @@ namespace SDK.Lib
          */
         override public void dispose()
         {
-            m_material = null;
-            m_texture = null;
+            mMaterial = null;
+            mTexture = null;
 
-            if (m_renderer != null)
+            if (mRenderer != null)
             {
-                //m_renderer.sharedMaterials = new Material[] { };
-                m_renderer.sharedMaterial = null;
+                //mRenderer.sharedMaterials = new Material[] { };
+                mRenderer.sharedMaterial = null;
             }
 
-            UtilApi.DestroyImmediate(m_dynamicMat);
-            m_dynamicMat = null;
+            UtilApi.DestroyImmediate(mDynamicMat);
+            mDynamicMat = null;
 
-            UtilApi.DestroyImmediate(m_mesh);
-            m_mesh = null;
+            UtilApi.DestroyImmediate(mMesh);
+            mMesh = null;
         }
 
         void createInsMaterial()
         {
             // 直接拷贝共享材质
-            if (m_material != null)
+            if (mMaterial != null)
             {
-                m_dynamicMat = new Material(m_material);
-                m_dynamicMat.name = m_matPreStr + m_material.name;
-                m_dynamicMat.hideFlags = HideFlags.DontSave | HideFlags.NotEditable;
-                m_dynamicMat.CopyPropertiesFromMaterial(m_material);
+                mDynamicMat = new Material(mMaterial);
+                mDynamicMat.name = mMatPreStr + mMaterial.name;
+                mDynamicMat.hideFlags = HideFlags.DontSave | HideFlags.NotEditable;
+                mDynamicMat.CopyPropertiesFromMaterial(mMaterial);
 
-                string[] keywords = m_material.shaderKeywords;
+                string[] keywords = mMaterial.shaderKeywords;
                 for (int i = 0; i < keywords.Length; ++i)
                 {
-                    m_dynamicMat.EnableKeyword(keywords[i]);
+                    mDynamicMat.EnableKeyword(keywords[i]);
                 }
 
-                m_dynamicMat.renderQueue = m_renderQueue;
+                mDynamicMat.renderQueue = mRenderQueue;
 
                 // 更新渲染
-                if (m_renderer != null)
+                if (mRenderer != null)
                 {
-                    //m_renderer.sharedMaterials = new Material[] { m_dynamicMat };
-                    //m_renderer.material = m_dynamicMat;
-                    m_renderer.sharedMaterial = m_dynamicMat;
+                    //mRenderer.sharedMaterials = new Material[] { mDynamicMat };
+                    //mRenderer.material = mDynamicMat;
+                    mRenderer.sharedMaterial = mDynamicMat;
                 }
             }
         }
 
         public void setTmplMaterial(Material mat)
         {
-            m_material = mat;
+            mMaterial = mat;
         }
 
         /**
@@ -378,18 +378,18 @@ namespace SDK.Lib
                 if (this.mSelfGo == null)
                 {
                     //this.selfGo = UtilApi.createGameObject("MeshRender");
-                    this.selfGo = UtilApi.createGameObject("MeshRender" + "_" + m_treeNode.getNameStr());
+                    this.selfGo = UtilApi.createGameObject("MeshRender" + "_" + mTreeNode.getNameStr());
                     //UtilApi.setStatic(this.selfGo, true);
-                    this.selfGo.layer = UtilApi.NameToLayer(m_treeNode.getLayerStr());
+                    this.selfGo.layer = UtilApi.NameToLayer(mTreeNode.getLayerStr());
                 }
 
                 base.show();
 
-                if (!m_isBuildGromAndMat)
+                if (!mIsBuildGromAndMat)
                 {
                     UpdateGeometry();
                     createInsMaterial();
-                    m_isBuildGromAndMat = true;
+                    mIsBuildGromAndMat = true;
                 }
 
                 moveToPos();
@@ -403,8 +403,8 @@ namespace SDK.Lib
         {
             if (this.selfGo != null)
             {
-                //UtilApi.setPos(this.selfGo.transform, new UnityEngine.Vector3(m_treeNode.getLocalCentre().x, 0, m_treeNode.getLocalCentre().z));
-                UtilApi.setPos(this.selfGo.transform, m_treeNode.getWorldPos().toNative());
+                //UtilApi.setPos(this.selfGo.transform, new UnityEngine.Vector3(mTreeNode.getLocalCentre().x, 0, mTreeNode.getLocalCentre().z));
+                UtilApi.setPos(this.selfGo.transform, mTreeNode.getWorldPos().toNative());
             }
         }
     }

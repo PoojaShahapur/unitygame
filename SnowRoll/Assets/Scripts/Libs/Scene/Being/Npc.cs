@@ -20,6 +20,7 @@ namespace SDK.Lib
         override public void dispose()
         {
             base.dispose();
+
             Ctx.mInstance.mNpcMgr.removeEntity(this);
         }
     }

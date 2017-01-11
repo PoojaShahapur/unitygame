@@ -47,5 +47,16 @@
                 ++index;
             }
         }
+
+        override public void removeFormParent(Player childPlayer)
+        {
+            base.removeFormParent(childPlayer);
+
+            // 如果没有 PlayerChild，直接释放 PlayerOther
+            if(0 == this.mPlayerChildMgr.getEntityCount())
+            {
+                this.mEntity.dispose();
+            }
+        }
     }
 }

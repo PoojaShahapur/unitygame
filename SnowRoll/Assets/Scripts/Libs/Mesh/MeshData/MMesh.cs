@@ -5,22 +5,22 @@
      */
     public class MMesh
     {
-        protected MList<MSubMesh> m_subMeshes;       // 所有的子 mesh , 子 mesh 有自己单独的渲染器
+        protected MList<MSubMesh> mSubMeshes;       // 所有的子 mesh , 子 mesh 有自己单独的渲染器
         // MeshRender 主要是渲染 _geometry 中的数据的
-		protected MGeometry m_geometry;              // 几何数据
-        protected MeshRender m_meshRender;          // Mesh 渲染器
-        protected bool m_boundsInvalid;
-        protected bool m_worldBoundsInvalid;
+		protected MGeometry mGeometry;              // 几何数据
+        protected MeshRender mMeshRender;          // Mesh 渲染器
+        protected bool mBoundsInvalid;
+        protected bool mWorldBoundsInvalid;
 
         public MMesh(MGeometry geometry_, MeshRender meshRender_)
         {
-            m_geometry = geometry_;
-            m_meshRender = meshRender_;
+            mGeometry = geometry_;
+            mMeshRender = meshRender_;
         }
 
         public MGeometry getGeometry()
 		{
-			return m_geometry;
+			return mGeometry;
 		}
 
         /**
@@ -28,8 +28,8 @@
 		 */
         protected void invalidateBounds()
 		{
-			m_boundsInvalid = true;
-			m_worldBoundsInvalid = true;
+			mBoundsInvalid = true;
+			mWorldBoundsInvalid = true;
             notifySceneBoundsInvalid();
         }
 
@@ -43,20 +43,20 @@
 
         protected void addSubMesh(MSubMesh subMesh_)
         {
-            if(this.m_subMeshes == null)
+            if(this.mSubMeshes == null)
             {
-                this.m_subMeshes = new MList<MSubMesh>();
+                this.mSubMeshes = new MList<MSubMesh>();
             }
-            this.m_subMeshes.Add(subMesh_);
+            this.mSubMeshes.Add(subMesh_);
         }
 
         public void moveToPos(int xPos, int zPos)
         {
-            if (m_subMeshes != null)
+            if (mSubMeshes != null)
             {
-                for (int idx = 0; idx < m_subMeshes.Count(); ++idx)
+                for (int idx = 0; idx < mSubMeshes.Count(); ++idx)
                 {
-                    m_subMeshes[idx].moveToPos(xPos, zPos);
+                    mSubMeshes[idx].moveToPos(xPos, zPos);
                 }
             }
         }
@@ -64,17 +64,17 @@
         public void show()
         {
             // 渲染 Mesh 数据
-            if (m_meshRender != null)
+            if (mMeshRender != null)
             {
-                m_meshRender.show();
+                mMeshRender.show();
             }
 
-            if (m_subMeshes != null)
+            if (mSubMeshes != null)
             {
                 // 渲染 SubMesh 数据
-                for (int idx = 0; idx < m_subMeshes.Count(); ++idx)
+                for (int idx = 0; idx < mSubMeshes.Count(); ++idx)
                 {
-                    m_subMeshes[idx].show();
+                    mSubMeshes[idx].show();
                 }
             }
         }
