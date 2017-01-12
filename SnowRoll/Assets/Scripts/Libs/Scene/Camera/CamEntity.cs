@@ -4,16 +4,16 @@ namespace SDK.Lib
 {
     public class CamEntity
     {
-        public GameObject m_camGo;
+        public GameObject mCamGo;
 
         public void onSceneLoaded()
         {
-            m_camGo = GameObject.FindGameObjectWithTag("MainCamera");
+            mCamGo = GameObject.FindGameObjectWithTag("MainCamera");
         }
 
         public void setTarget(Transform tran)
         {
-            //m_camGo.GetComponent<SmoothFollow>().target = tran;
+            //mCamGo.GetComponent<SmoothFollow>().target = tran;
         }
     }
 }
