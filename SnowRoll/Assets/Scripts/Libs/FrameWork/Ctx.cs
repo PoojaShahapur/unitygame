@@ -116,6 +116,9 @@
 
         public HudSystem mHudSystem;
         public GlobalDelegate mGlobalDelegate;
+        public CommonData mCommonData;
+        public EventHandleSystem mEventHandleSystem;
+        public TouchDispatchSystem mTouchDispatchSystem;
 
         public Ctx()
         {
@@ -250,6 +253,9 @@
             this.mSnowBallCfg = new SnowBallCfg();
             this.mHudSystem = new HudSystem();
             this.mGlobalDelegate = new GlobalDelegate();
+            this.mCommonData = new CommonData();
+            this.mEventHandleSystem = new EventHandleSystem();
+            this.mTouchDispatchSystem = new TouchDispatchSystem();
         }
 
         public void logicInit()
@@ -281,6 +287,9 @@
             this.mHudSystem.init();
             this.mPlayerMgr.init();
             this.mGlobalDelegate.init();
+            this.mCommonData.init();
+            this.mEventHandleSystem.init();
+            this.mTouchDispatchSystem.init();
 
             // 添加事件处理
             Ctx.mInstance.mCamSys.setUiCamera(Ctx.mInstance.mLayerMgr.mPath2Go[NotDestroyPath.ND_CV_App].AddComponent<UICamera>());
@@ -327,6 +336,10 @@
             this.mSceneSys.dispose();
             // 关闭日志设备
             this.mLogSys.dispose();
+
+            this.mCommonData.dispose();
+            this.mEventHandleSystem.dispose();
+            this.mTouchDispatchSystem.dispose();
         }
 
         public void quitApp()

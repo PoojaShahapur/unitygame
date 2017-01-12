@@ -3,7 +3,7 @@
     /**
      * @brief Material ，目前只有主角、玩家、非玩家
      */
-    public enum MaterialID
+    public enum MaterialId
     {
         eMatIDMPlayer,              // 主角
         eMatIDOPlayer,              // 非主角的其它玩家

@@ -8,12 +8,10 @@ namespace SDK.Lib
      */
     public class XmlItemInit : XmlItemBase
     {
-        public float mRadius;
         public float mMassFactor;
 
         public override void parseXml(SecurityElement xmlelem)
         {
-            UtilXml.getXmlAttrFloat(xmlelem, "Radius", ref mRadius);
             UtilXml.getXmlAttrFloat(xmlelem, "MassFactor", ref mMassFactor);
         }
     }

@@ -48,7 +48,7 @@ function M:onReady()
 		);
 
     if GCtx.mGameData.enemyId ~= 0 then
-        self:Client_notifyReliveSeconds(GCtx.mGameData.reliveTime, GCtx.mGameData.enemyId);
+        self:UpdateReliveTimeAndEnemyName(GCtx.mGameData.reliveTime, GCtx.mGameData.enemyName);
     end 
     
     GlobalNS.CSSystem.Ctx.mInstance.mPlayerMgr:getHero():setCanMove(false);
@@ -79,15 +79,10 @@ function M:onBtnBackRoomClk()
     GlobalNS.CSSystem.Ctx.mInstance.mModuleSys:loadModule(GlobalNS.CSSystem.ModuleId.LOGINMN);
 end
 
-function M:Client_notifyReliveSeconds(reliveseconds, entityID)
+function M:UpdateReliveTimeAndEnemyName(reliveseconds, enemyName)
     self.mReliveBtn:setText("立即复活（<color=#00FF01FF>" .. reliveseconds .. "</color>）");
-    local enemyname;
-    local entity = GlobalNS.CSSystem.Ctx.mInstance.mPlayerMgr:getEntityByThisId(entityID):getEntity();
-    
-    if nil ~= entity and nil ~= entity.mEntity_SDK then
-        enemyname = entity:getDefinedProperty("name");
-    end
-    self.roomFatherBtn:setText("你被  <color=#00FF01FF>" .. enemyname .. "</color> 吃掉了");
+
+    self.roomFatherBtn:setText("你被  <color=#00FF01FF>" .. enemyName .. "</color> 吃掉了");
 
     self.mTimer:setTotalTime(reliveseconds);
     self.mTimer:setFuncObject(self, self.onTick);

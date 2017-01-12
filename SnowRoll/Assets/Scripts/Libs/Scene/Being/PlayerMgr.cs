@@ -88,6 +88,7 @@ namespace SDK.Lib
             //    this.mHero.mPlayerSplitMerge.startSplit();
             //}
 
+            Ctx.mInstance.mCommonData.setClickSplit(true);
             Game.Game.ReqSceneInteractive.sendSplit();
         }
 

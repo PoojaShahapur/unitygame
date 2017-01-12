@@ -13,7 +13,7 @@
             this.mAttack = new PlayerMainChildAttack(this);
             this.mEntityUniqueId = Ctx.mInstance.mPlayerMgr.genChildNewStrId();
 
-            this.mLastMergedTime = 0;
+            this.mLastMergedTime = UtilApi.getUTCSec();
         }
 
         override public void initRender()

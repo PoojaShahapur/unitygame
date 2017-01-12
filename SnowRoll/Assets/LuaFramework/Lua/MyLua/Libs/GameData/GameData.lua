@@ -14,7 +14,7 @@ function M:ctor(...)
     self.rankinfolist = {}; --结算排行榜
 
     self.reliveTime = 0; --复活倒计时
-    self.enemyId = 0; --敌人id
+    self.enemyName = 0; --敌人名称
 
     self.mTimer = GlobalNS.new(GlobalNS.DaoJiShiTimer);
 
@@ -47,6 +47,7 @@ function M:setRankInfoList(args)
     end
 end
 
+--每局游戏倒计时
 function M:setGameTime(totalTime)
     self.mTimer:setTotalTime(totalTime);
     self.mTimer:setFuncObject(self, self.onTick);

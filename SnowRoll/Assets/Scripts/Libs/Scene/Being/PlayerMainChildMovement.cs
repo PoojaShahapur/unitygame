@@ -27,7 +27,10 @@
         {
             base.onTick(delta);
 
-            this.updateSeparate();
+            if (Ctx.mInstance.mCommonData.isClickSplit())
+            {
+                this.updateSeparate();
+            }
         }
 
         // 被控制的时候向前移动，需要走这里
@@ -152,10 +155,6 @@
         {
             UnityEngine.Vector3 steering = UnityEngine.Vector3.zero;
 
-            // add in steering contribution
-            // (opposite of the offset direction, divided once by distance
-            // to normalize, divided another time to get 1/d falloff)
-
             // 如果正好重叠， offset 正好是 0
             UnityEngine.Vector3 offset = other.getPos()- this.mEntity.getPos();
 
@@ -188,16 +187,13 @@
         protected UnityEngine.Vector3 CalculateForces()
         {
             UnityEngine.Vector3 steering = UnityEngine.Vector3.zero;
-            //UnityEngine.Vector3 direction;
 
             for (var i = 0; i < _neighbors.Count(); i++)
             {
                 PlayerMainChild other = _neighbors[i] as PlayerMainChild;
 
-                if (other != this.mEntity)
+                if (other != this.mEntity && other.canSeparateByState())
                 {
-                    //direction = other.getPos() - this.mEntity.getPos();
-
                     if (_drawNeighbors)
                     {
                         UtilApi.DrawLine(this.mEntity.getPos(), other.getPos(), UnityEngine.Color.magenta);

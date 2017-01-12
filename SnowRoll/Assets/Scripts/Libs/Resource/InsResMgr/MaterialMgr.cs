@@ -4,7 +4,7 @@ namespace SDK.Lib
 {
     public class MaterialMgr : InsResMgrBase
     {
-        //public Dictionary<MaterialID, Material> mId2MatDic = new Dictionary<MaterialID, Material>();
+        //public Dictionary<MaterialId, Material> mId2MatDic = new Dictionary<MaterialId, Material>();
 
         public MaterialMgr()
         {

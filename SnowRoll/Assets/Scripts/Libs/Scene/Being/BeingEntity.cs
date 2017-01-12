@@ -34,11 +34,11 @@ namespace SDK.Lib
             this.mBeingState = BeingState.eBSIdle;
             this.mBeingSubState = BeingSubState.eBSSNone;
 
-            this.mMoveSpeed = 1;
+            //this.mMoveSpeed = 1;
             this.mRotateSpeed = 10;
             this.mScaleSpeed = 10;
 
-            this.setBallRadius(1, true, true);
+            this.setBallRadius(0, true, true);
             this.mMoveSpeed = Ctx.mInstance.mSnowBallCfg.mMoveSpeed_k / mScale.x + Ctx.mInstance.mSnowBallCfg.mMoveSpeed_b;
 
             this.mName = "";
@@ -133,7 +133,7 @@ namespace SDK.Lib
             base.onDestroy();
         }
 
-        public void setMoveSpeed(float value)
+        virtual public void setMoveSpeed(float value)
         {
             this.mMoveSpeed = value;
         }
@@ -250,6 +250,9 @@ namespace SDK.Lib
                 {
                     this.mMass = UtilMath.getMassByRadius(this.mBallRadius);
                 }
+
+                // 速度根据缩放进行计算
+                this.setMoveSpeed(Ctx.mInstance.mSnowBallCfg.mMoveSpeed_k / this.mBallRadius + Ctx.mInstance.mSnowBallCfg.mMoveSpeed_b);
             }
         }
 
@@ -308,7 +311,7 @@ namespace SDK.Lib
 
         override public void preInit()
         {
-            this.setBallRadius(Ctx.mInstance.mSnowBallCfg.mInitSnowRadius);  // 初始小球的半径是配置的
+            this.setBallRadius(0);  // 初始小球的半径设为0，服务器会同步1过来
 
             // 基类初始化
             base.preInit();
@@ -319,7 +322,7 @@ namespace SDK.Lib
             // 加载渲染器资源
             this.loadRenderRes();
             // 更新位置
-            this.updateTransform();
+            //this.updateTransform();
         }
 
         public override void postInit()
@@ -343,8 +346,7 @@ namespace SDK.Lib
         // Tick 第一阶段执行
         override public void onPreTick(float delta)
         {
-            base.onPreTick(delta);            
-            mMoveSpeed = Ctx.mInstance.mSnowBallCfg.mMoveSpeed_k / mScale.x + Ctx.mInstance.mSnowBallCfg.mMoveSpeed_b;
+            base.onPreTick(delta);
         }
 
         // Tick 第二阶段执行

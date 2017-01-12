@@ -13,7 +13,7 @@
             this.mMovement = new PlayerSnowBlockMovement(this);
             this.mAttack = new PlayerSnowBlockAttack(this);
 
-            this.mMoveSpeed = 6;
+            this.mMoveSpeed = 30;
         }
 
         override public void dispose()
@@ -40,6 +40,11 @@
         override public bool canEatOther(BeingEntity other)
         {
             return false;
+        }
+
+        override public void setMoveSpeed(float value)
+        {
+            
         }
     }
 }

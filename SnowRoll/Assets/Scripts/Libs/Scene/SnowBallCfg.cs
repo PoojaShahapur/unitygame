@@ -8,7 +8,6 @@
         public XmlSnowBallCfg mXmlSnowBallCfg;
 
         public float mCanAttackRate;//可以吃的比率
-        public float mInitSnowRadius;   // 初始雪球大小
         public float mMassFactor;       // 质量转换因子
 
         public float mK;     // 目标点 K 因子
@@ -50,7 +49,6 @@
         {
             this.mCanAttackRate = 1.0f;
             this.mA = 0.5f;
-            this.mInitSnowRadius = 1;
 
             this.mK = 10;
             this.mN = 10;
@@ -84,8 +82,7 @@
 
             this.mCanAttackRate = this.mXmlSnowBallCfg.mXmlItemAttack.mFactor;
             this.mA = this.mXmlSnowBallCfg.mXmlItemAttack.mA;
-
-            this.mInitSnowRadius = this.mXmlSnowBallCfg.mXmlItemInit.mRadius;
+            
             this.mMassFactor = this.mXmlSnowBallCfg.mXmlItemInit.mMassFactor;
 
             this.mK = this.mXmlSnowBallCfg.mXmlItemSplit.mK;

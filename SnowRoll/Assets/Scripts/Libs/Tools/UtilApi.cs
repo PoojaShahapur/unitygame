@@ -1022,9 +1022,9 @@ namespace SDK.Lib
         // 返回 UTC 秒
         public static uint getUTCSec()
         {
-            msCurTime = System.DateTime.Now.Ticks;
-            msTimeSpan = new System.TimeSpan(msCurTime);
-            return (uint)(msTimeSpan.TotalSeconds);
+            UtilApi.msCurTime = System.DateTime.Now.Ticks;
+            UtilApi.msTimeSpan = new System.TimeSpan(msCurTime);
+            return (uint)(UtilApi.msTimeSpan.TotalSeconds);
         }
 
         // 获取当前时间的文本可读形式

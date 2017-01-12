@@ -54,38 +54,4 @@ function M.getShowMass(radius)
     return showmass;
 end
 
---客户端显示质量  mass:服务器发来的质量，单位mg
-function M.getRankShowMass(mass)
-    local showmass = "1毫克";
-    
-    local _wt = mass / 1000 / 1000 / 1000 / 10000; --万吨
-    if _wt > 1 then
-        showmass = string.format("%0.1f万吨", _wt);
-        return showmass;
-    end
-
-    local _t = mass / 1000 / 1000 / 1000; --吨
-    if _t > 1 then
-        showmass = string.format("%0.1f吨", _t);
-        return showmass;
-    end
-
-    local _kg = mass / 1000 / 1000; --kg
-    if _kg > 1 then
-        showmass = string.format("%0.1f千克", _kg);
-        return showmass;
-    end
-
-    local _g = mass / 1000; --g
-    if _g > 1 then
-        showmass = string.format("%0.1f克", _g);
-        return showmass;
-    end
-
-    local _mg = mass; --mg
-    showmass = string.format("%0.1f毫克", _mg);
-
-    return showmass;
-end
-
 return M;

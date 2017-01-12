@@ -423,14 +423,14 @@ namespace SDK.Lib
             mEntity_KBE = entity;
         }
 
-        public void updateTransform()
-        {
-            if (null != this.mEntity_KBE)
-            {
-                this.setPos(new Vector3(mEntity_KBE.position.x, mEntity_KBE.position.y, mEntity_KBE.position.z));
-                this.setRotation(Quaternion.Euler(new Vector3(mEntity_KBE.direction.y, mEntity_KBE.direction.z, mEntity_KBE.direction.x)));
-            }
-        }
+        //public void updateTransform()
+        //{
+        //    if (null != this.mEntity_KBE)
+        //    {
+        //        this.setPos(new Vector3(mEntity_KBE.position.x, mEntity_KBE.position.y, mEntity_KBE.position.z));
+        //        this.setRotation(Quaternion.Euler(new Vector3(mEntity_KBE.direction.y, mEntity_KBE.direction.z, mEntity_KBE.direction.x)));
+        //    }
+        //}
 
         public KBEngine.Entity getEntity()
         {

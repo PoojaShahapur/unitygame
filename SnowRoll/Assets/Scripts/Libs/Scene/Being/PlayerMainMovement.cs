@@ -225,6 +225,8 @@
 
         protected void onPosChanged()
         {
+            Ctx.mInstance.mCommonData.setClickSplit(false);
+
             Ctx.mInstance.mGlobalDelegate.mMainPosChangedDispatch.dispatchEvent(this);
 
             (this.mEntity as PlayerMain).onChildChanged();

@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace SDK.Lib
 {
@@ -21,12 +20,22 @@ namespace SDK.Lib
         protected bool mHasAccelerationHandle;
 
         //private Action mOnAxisDown = null;
+        // 单触碰事件分发
+        protected AddOnceEventDispatch mOneTouchDispatch;
+        // 多触碰事件分发
+        protected AddOnceEventDispatch mMultiTouchDispatch;
+        // 多触碰集合
+        protected MultiTouchSet mMultiTouchSet;
 
         public InputMgr()
         {
             this.mEventInputKeyList = new MList<InputKey>();
             this.mEventMouseList = new MList<MMouse>();
             this.mHasAccelerationHandle = false;
+
+            this.mOneTouchDispatch = new AddOnceEventDispatch();
+            this.mMultiTouchDispatch = new AddOnceEventDispatch();
+            this.mMultiTouchSet = new MultiTouchSet();
         }
 
         public void init()
@@ -185,19 +194,19 @@ namespace SDK.Lib
 
         public void addTouchListener(EventId evtID, MAction<IDispatchObject> handle)
         {
-            MTouch touch = MTouch.GetTouch(1);
-            MTouch touch2 = MTouch.GetTouch(2);
+            //MTouch touch = MTouch.GetTouch(1);
+            //MTouch touch2 = MTouch.GetTouch(2);
 
-            touch.addTouchListener(evtID, handle);
-            touch2.addTouchListener(evtID, handle);
+            //touch.addTouchListener(evtID, handle);
+            //touch2.addTouchListener(evtID, handle);
         }
 
         public void removeTouchListener(EventId evtID, MAction<IDispatchObject> handle)
         {
-            MTouch touch = MTouch.GetTouch(1);
-            MTouch touch2 = MTouch.GetTouch(2);
-            touch.removeTouchListener(evtID, handle);
-            touch2.removeTouchListener(evtID, handle);
+            //MTouch touch = MTouch.GetTouch(1);
+            //MTouch touch2 = MTouch.GetTouch(2);
+            //touch.removeTouchListener(evtID, handle);
+            //touch2.removeTouchListener(evtID, handle);
         }
 
         public void addAccelerationListener(EventId evtID, MAction<IDispatchObject> handle)

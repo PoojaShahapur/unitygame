@@ -60,10 +60,10 @@ function M:filterMessage(msgname) --消息过滤
 end
 
 function M:Client_notifyReliveSeconds(params)
-    local reliveseconds = params[0]; --param是C#的数组，从0开始
-    local entityID = params[1];
-    GCtx.mGameData.reliveTime = reliveseconds;
-    GCtx.mGameData.enemyId = entityID;
+    local reliveTime = params[0]; --param是C#的数组，从0开始
+    local enemyName = params[1];
+    GCtx.mGameData.reliveTime = reliveTime;
+    GCtx.mGameData.enemyName = enemyName;
     GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormId.eUIRelivePanel);
 end
 
