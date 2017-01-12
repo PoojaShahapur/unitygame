@@ -38,8 +38,7 @@ namespace SDK.Lib
             this.mRotateSpeed = 10;
             this.mScaleSpeed = 10;
 
-            this.mBallRadius = 1;
-
+            this.setBallRadius(1, true, true);
             this.mMoveSpeed = Ctx.mInstance.mSnowBallCfg.mMoveSpeed_k / mScale.x + Ctx.mInstance.mSnowBallCfg.mMoveSpeed_b;
 
             this.mName = "";
@@ -518,7 +517,8 @@ namespace SDK.Lib
         // 是否可以分裂
         virtual public bool canSplit()
         {
-            return this.mBallRadius >= Ctx.mInstance.mSnowBallCfg.mCanSplitFactor * Ctx.mInstance.mSnowBallCfg.mInitSnowRadius;
+            //return this.mBallRadius >= Ctx.mInstance.mSnowBallCfg.mCanSplitFactor * Ctx.mInstance.mSnowBallCfg.mInitSnowRadius;
+            return this.mMass >= Ctx.mInstance.mSnowBallCfg.mCanSplitFactor;
         }
 
         // 是否可以 IO 控制向前移动

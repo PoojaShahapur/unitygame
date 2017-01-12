@@ -1,5 +1,4 @@
 using LuaInterface;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace SDK.Lib
@@ -16,6 +15,11 @@ namespace SDK.Lib
         public ShaderRes getAndSyncLoadRes(string path, MAction<IDispatchObject> handle)
         {
             return getAndSyncLoad<ShaderRes>(path, handle);
+        }
+
+        public ShaderRes getAndSyncLoadRes(string path, LuaTable luaTable = null, LuaFunction luaFunction = null)
+        {
+            return getAndSyncLoad<ShaderRes>(path, luaTable, luaFunction);
         }
 
         public ShaderRes getAndAsyncLoadRes(string path, MAction<IDispatchObject> handle)

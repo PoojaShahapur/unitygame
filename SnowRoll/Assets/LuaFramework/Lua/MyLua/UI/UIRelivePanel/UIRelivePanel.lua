@@ -45,7 +45,13 @@ function M:onReady()
 	self.mReliveBtn:setSelfGo(GlobalNS.UtilApi.TransFindChildByPObjAndPath(
 			self.mGuiWin, 
 			GlobalNS.RelivePanelNS.RelivePanelPath.BtnRelive)
-		);    
+		);
+
+    if GCtx.mGameData.enemyId ~= 0 then
+        self:Client_notifyReliveSeconds(GCtx.mGameData.reliveTime, GCtx.mGameData.enemyId);
+    end 
+    
+    GlobalNS.CSSystem.Ctx.mInstance.mPlayerMgr:getHero():setCanMove(false);
 end
 
 function M:onShow()
@@ -58,15 +64,19 @@ end
 
 function M:onExit()
     M.super.onExit(self);
+    self.mTimer:Stop();
+    GlobalNS.CSSystem.Ctx.mInstance.mPlayerMgr:getHero():setCanMove(true);
 end
 
 function M:onBtnReliveClk()
-    self.mTimer:Stop();
 	self:exit();
 end
 
 function M:onBtnBackRoomClk()
-	GCtx.mLogSys:log("Back Room", GlobalNS.LogTypeId.eLogCommon);
+	GlobalNS.CSSystem.Ctx.mInstance.mPlayerMgr:dispose();
+	GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormId.eUIStartGame);
+    --GlobalNS.CSSystem.Ctx.mInstance.mModuleSys:unloadModule(GlobalNS.CSSystem.ModuleId.GAMEMN);
+    GlobalNS.CSSystem.Ctx.mInstance.mModuleSys:loadModule(GlobalNS.CSSystem.ModuleId.LOGINMN);
 end
 
 function M:Client_notifyReliveSeconds(reliveseconds, entityID)

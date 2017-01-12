@@ -5,24 +5,24 @@
      */
     public class ResLoadResultNotify
     {
-        protected ResLoadState m_resLoadState;          // 资源加载状态
-        protected ResEventDispatch m_loadResEventDispatch;      // 事件分发器
+        protected ResLoadState mResLoadState;          // 资源加载状态
+        protected ResEventDispatch mLoadResEventDispatch;      // 事件分发器
 
         public ResLoadResultNotify()
         {
-            m_resLoadState = new ResLoadState();
-            m_loadResEventDispatch = new ResEventDispatch();
+            mResLoadState = new ResLoadState();
+            mLoadResEventDispatch = new ResEventDispatch();
         }
 
         public ResLoadState resLoadState
         {
             get
             {
-                return m_resLoadState;
+                return mResLoadState;
             }
             set
             {
-                m_resLoadState = value;
+                mResLoadState = value;
             }
         }
 
@@ -30,24 +30,24 @@
         {
             get
             {
-                return m_loadResEventDispatch;
+                return mLoadResEventDispatch;
             }
             set
             {
-                m_loadResEventDispatch = value;
+                mLoadResEventDispatch = value;
             }
         }
 
         public void onLoadEventHandle(IDispatchObject dispObj)
         {
-            m_loadResEventDispatch.dispatchEvent(dispObj);
-            m_loadResEventDispatch.clearEventHandle();
+            mLoadResEventDispatch.dispatchEvent(dispObj);
+            mLoadResEventDispatch.clearEventHandle();
         }
 
         virtual public void copyFrom(ResLoadResultNotify rhv)
         {
-            m_resLoadState.copyFrom(rhv.resLoadState);
-            m_loadResEventDispatch = rhv.loadResEventDispatch;
+            mResLoadState.copyFrom(rhv.resLoadState);
+            mLoadResEventDispatch = rhv.loadResEventDispatch;
         }
     }
 }

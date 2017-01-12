@@ -9,6 +9,11 @@ namespace SDK.Lib
             return getAndSyncLoad<SpriteAtlasRes>(path, handle, true);
         }
 
+        public SpriteAtlasRes getAndSyncLoadRes(string path, LuaTable luaTable = null, LuaFunction luaFunction = null)
+        {
+            return getAndSyncLoad<SpriteAtlasRes>(path, luaTable, luaFunction, true);
+        }
+
         public SpriteAtlasRes getAndAsyncLoadRes(string path, MAction<IDispatchObject> handle)
         {
             return getAndAsyncLoad<SpriteAtlasRes>(path, handle, true);

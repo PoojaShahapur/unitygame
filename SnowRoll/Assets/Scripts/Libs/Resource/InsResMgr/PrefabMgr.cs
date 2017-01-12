@@ -12,6 +12,11 @@ namespace SDK.Lib
             return getAndSyncLoad<PrefabRes>(path, handle);
         }
 
+        public PrefabRes getAndSyncLoadRes(string path, LuaTable luaTable = null, LuaFunction luaFunction = null)
+        {
+            return getAndSyncLoad<PrefabRes>(path, luaTable, luaFunction);
+        }
+
         public PrefabRes getAndAsyncLoadRes(string path, MAction<IDispatchObject> handle)
         {
             return getAndAsyncLoad<PrefabRes>(path, handle);

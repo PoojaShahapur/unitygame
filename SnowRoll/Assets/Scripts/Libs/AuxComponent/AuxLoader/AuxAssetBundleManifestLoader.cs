@@ -26,21 +26,13 @@ namespace SDK.Lib
         // 同步加载
         override public void syncLoad(string path, MAction<IDispatchObject> evtHandle = null)
         {
-            if (needUnload(path))
-            {
-                unload();
-            }
-
-            this.setPath(path);
+            base.syncLoad(path, evtHandle);
 
             if (this.isInvalid())
             {
-                mEvtHandle = new ResEventDispatch();
-                mEvtHandle.addEventHandle(null, evtHandle);
-
                 LoadParam param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
                 param.setPath(path);
-                param.mLoadEventHandle = onLoadEventHandle;
+                param.mLoadEventHandle = this.onLoadEventHandle;
 
                 param.mLoadNeedCoroutine = false;
                 param.mResNeedCoroutine = false;
@@ -48,22 +40,29 @@ namespace SDK.Lib
                 Ctx.mInstance.mResLoadMgr.loadAsset(param, false);
                 Ctx.mInstance.mPoolSys.deleteObj(param);
             }
+            else if (this.hasLoadEnd())
+            {
+                this.onLoadEventHandle(this.mResItem);
+            }
         }
 
         public void onLoadEventHandle(IDispatchObject dispObj)
         {
-            this.mResItem = dispObj as ResItem;
-
-            if (mResItem.hasSuccessLoaded())
+            if (null != dispObj)
             {
-                this.mIsSuccess = true;
+                this.mResItem = dispObj as ResItem;
 
-                // 从 AssetBundle 中获取名字 AssetBundleManifest
-                this.mAssetBundleManifest = mResItem.getObject("AssetBundleManifest") as AssetBundleManifest;
-            }
-            else if (this.mResItem.hasFailed())
-            {
-                this.mIsSuccess = false;
+                if (this.mResItem.hasSuccessLoaded())
+                {
+                    this.mResLoadState.setSuccessLoaded();
+
+                    // 从 AssetBundle 中获取名字 AssetBundleManifest
+                    this.mAssetBundleManifest = mResItem.getObject("AssetBundleManifest") as AssetBundleManifest;
+                }
+                else if (this.mResItem.hasFailed())
+                {
+                    this.mResLoadState.setFailed();
+                }
             }
 
             // 卸载资源，AssetBundles 现在只有不使用的时候一次性全部卸载掉，如果在不使用 AssetBundleManifest 之前就卸载对应的 AssetBundles ，这个 AssetBundleManifest 就会变成 null 的

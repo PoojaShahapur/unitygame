@@ -205,6 +205,11 @@ namespace Game.UI
 
         private void Move(Vector2 MoveVec)
         {
+            if (!Ctx.mInstance.mPlayerMgr.getHero().getCanMove())
+            {
+                Ctx.mInstance.mLuaSystem.exitForm(10003);//关闭重生界面
+            }
+
             Ctx.mInstance.mPlayerMgr.getHero().moveForwardByOrient(MoveVec);
         }
 

@@ -7,7 +7,7 @@ namespace SDK.Lib
      */
     public class AuxLoaderBase : GObject, IDispatchObject
     {
-        protected bool mIsSuccess;      // 是否成功
+        protected ResLoadState mResLoadState;      // 资源加载状态
         protected string mPrePath;      // 之前加载的资源目录
         protected string mPath;         // 加载的资源目录
         protected ResEventDispatch mEvtHandle;              // 事件分发器
@@ -16,16 +16,18 @@ namespace SDK.Lib
 
         public AuxLoaderBase(string path = "")
         {
-            mInitPath = path;
+            this.mInitPath = path;
+            this.mResLoadState = new ResLoadState();
+
             this.reset();
         }
 
         protected void reset()
         {
-            mIsSuccess = false;
-            mPrePath = "";
-            mPath = "";
-            mIsInvalid = true;
+            this.mResLoadState.reset();
+            this.mPrePath = "";
+            this.mPath = "";
+            this.mIsInvalid = true;
         }
 
         virtual public void dispose()
@@ -35,71 +37,136 @@ namespace SDK.Lib
 
         public bool hasSuccessLoaded()
         {
-            return mIsSuccess;
+            return this.mResLoadState.hasSuccessLoaded();
         }
 
         public bool hasFailed()
         {
-            return !mIsSuccess;
+            return this.mResLoadState.hasFailed();
+        }
+
+        // 加载成功或者加载失败
+        public bool hasLoadEnd()
+        {
+            return (this.hasSuccessLoaded() || this.hasFailed());
         }
 
         // 是否需要卸载资源
         public bool needUnload(string path)
         {
-            return mPath != path && !string.IsNullOrEmpty(path) && !string.IsNullOrEmpty(mPath);
+            return this.mPath != path && !string.IsNullOrEmpty(path) && !string.IsNullOrEmpty(this.mPath);
         }
 
         public void setPath(string path)
         {
-            mPrePath = mPath;
-            mPath = path;
+            this.mPrePath = mPath;
+            this.mPath = path;
 
-            if(mPrePath != mPath && !string.IsNullOrEmpty(mPath))
+            if(this.mPrePath != this.mPath && !string.IsNullOrEmpty(this.mPath))
             {
-                mIsInvalid = true;
+                this.mIsInvalid = true;
             }
             else
             {
-                mIsInvalid = false;
+                this.mIsInvalid = false;
             }
+        }
+
+        public void updatePath(string path)
+        {
+            if (this.needUnload(path))
+            {
+                this.unload();
+            }
+
+            this.setPath(path);
         }
 
         public bool isInvalid()
         {
-            return mIsInvalid;
+            return this.mIsInvalid;
         }
 
         virtual public string getLogicPath()
         {
-            return mPath;
+            return this.mPath;
+        }
+
+        protected void addEventHandle(MAction<IDispatchObject> evtHandle = null)
+        {
+            if (null != evtHandle)
+            {
+                if (null == this.mEvtHandle)
+                {
+                    this.mEvtHandle = new ResEventDispatch();
+                }
+                this.mEvtHandle.addEventHandle(null, evtHandle);
+            }
+        }
+
+        protected void addEventHandle(LuaInterface.LuaTable luaTable = null, LuaInterface.LuaFunction luaFunction = null)
+        {
+            if (null != luaTable && null != luaFunction)
+            {
+                if (null == this.mEvtHandle)
+                {
+                    this.mEvtHandle = new ResEventDispatch();
+                }
+                this.mEvtHandle.addEventHandle(null, null, luaTable, luaFunction);
+            }
         }
 
         virtual public void syncLoad(string path, MAction<IDispatchObject> evtHandle = null)
         {
+            this.mResLoadState.setLoading();
 
+            this.updatePath(path);
+
+            this.addEventHandle(evtHandle);
         }
 
         virtual public void syncLoad(string path, LuaTable luaTable, LuaFunction luaFunction)
         {
+            this.mResLoadState.setLoading();
 
+            this.updatePath(path);
+
+            this.addEventHandle(luaTable, luaFunction);
         }
 
         virtual public void asyncLoad(string path, MAction<IDispatchObject> evtHandle)
         {
+            this.mResLoadState.setLoading();
 
+            this.updatePath(path);
+
+            this.addEventHandle(evtHandle);
         }
 
         virtual public void asyncLoad(string path, LuaTable luaTable, LuaFunction luaFunction)
         {
+            this.mResLoadState.setLoading();
 
+            this.updatePath(path);
+
+            this.addEventHandle(luaTable, luaFunction);
+        }
+
+        virtual public void download(string origPath, MAction<IDispatchObject> dispObj = null, long fileLen = 0, bool isWriteFile = true, int downloadType = (int)DownloadType.eHttpWeb)
+        {
+            this.mResLoadState.setLoading();
+
+            this.updatePath(origPath);
+
+            this.addEventHandle(dispObj);
         }
 
         virtual public void unload()
         {
-            if (mEvtHandle != null)
+            if (this.mEvtHandle != null)
             {
-                mEvtHandle.clearEventHandle();
-                mEvtHandle = null;
+                this.mEvtHandle.clearEventHandle();
+                this.mEvtHandle = null;
             }
 
             this.reset();

@@ -1489,12 +1489,17 @@ namespace SDK.Lib
         {
             if(null != go)
             {
-                MeshRenderer renderer = go.GetComponent<MeshRenderer>();
+                Renderer renderer = go.GetComponent<MeshRenderer>();
+
+                if(null == renderer)
+                {
+                    renderer = go.GetComponent<SkinnedMeshRenderer>();
+                }
 
                 if(null != renderer)
                 {
-                    Material material = renderer.sharedMaterial;
-                    //Material material = renderer.material;
+                    //Material material = renderer.sharedMaterial;
+                    Material material = renderer.material;
                     if (null != material && null != texture)
                     {
                         material.mainTexture = texture;

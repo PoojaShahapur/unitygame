@@ -59,11 +59,11 @@ namespace SDK.Lib
         {
             get
             {
-                return mSelfGo;
+                return this.mSelfGo;
             }
             set
             {
-                mSelfGo = value;
+                this.mSelfGo = value;
             }
         }
 
@@ -79,123 +79,146 @@ namespace SDK.Lib
 
         override public string getLogicPath()
         {
-            if (mPrefabRes != null)
+            if (this.mPrefabRes != null)
             {
-                return mPrefabRes.getLogicPath();
+                return this.mPrefabRes.getLogicPath();
             }
 
-            return mPath;
+            return this.mPath;
         }
 
         override public void syncLoad(string path, MAction<IDispatchObject> evtHandle = null)
         {
-            if (needUnload(path))
-            {
-                unload();
-            }
-
-            this.setPath(path);
+            base.syncLoad(path, evtHandle);
 
             if (this.isInvalid())
             {
-                mEvtHandle = new ResEventDispatch();
-                mEvtHandle.addEventHandle(null, evtHandle);
-                mPrefabRes = Ctx.mInstance.mPrefabMgr.getAndSyncLoadRes(path, null);
-                onPrefabLoaded(mPrefabRes);
+                this.mPrefabRes = Ctx.mInstance.mPrefabMgr.getAndSyncLoadRes(path, null);
+                this.onPrefabLoaded(mPrefabRes);
+            }
+            else if (this.hasLoadEnd())
+            {
+                this.onPrefabLoaded(mPrefabRes);
+            }
+        }
+
+        override public void syncLoad(string path, LuaTable luaTable, LuaFunction luaFunction)
+        {
+            base.syncLoad(path, luaTable, luaFunction);
+
+            if (this.isInvalid())
+            {
+                this.mPrefabRes = Ctx.mInstance.mPrefabMgr.getAndSyncLoadRes(path, null);
+                this.onPrefabLoaded(this.mPrefabRes);
+            }
+            else if (this.hasLoadEnd())
+            {
+                this.onPrefabLoaded(this.mPrefabRes);
             }
         }
 
         // 异步加载对象
         override public void asyncLoad(string path, MAction<IDispatchObject> evtHandle)
         {
-            if (needUnload(path))
+            base.asyncLoad(path, evtHandle);
+
+            if (this.isInvalid())
             {
-                unload();
+                this.mPrefabRes = Ctx.mInstance.mPrefabMgr.getAndAsyncLoadRes(path, this.onPrefabLoaded);
             }
-
-            this.setPath(path);
-
-            if(this.isInvalid())
+            else if (this.hasLoadEnd())
             {
-                mEvtHandle = new ResEventDispatch();
-                mEvtHandle.addEventHandle(null, evtHandle);
-                mPrefabRes = Ctx.mInstance.mPrefabMgr.getAndAsyncLoadRes(path, onPrefabLoaded);
+                this.onPrefabLoaded(this.mPrefabRes);
             }
         }
 
         override public void asyncLoad(string path, LuaTable luaTable, LuaFunction luaFunction)
         {
-            this.setPath(path);
+            base.asyncLoad(path, luaTable, luaFunction);
 
             if (this.isInvalid())
             {
-                unload();
-                mEvtHandle = new ResEventDispatch();
-                mEvtHandle.addEventHandle(null, null, luaTable, luaFunction);
-                mPrefabRes = Ctx.mInstance.mPrefabMgr.getAndAsyncLoadRes(path, onPrefabLoaded);
+                this.mPrefabRes = Ctx.mInstance.mPrefabMgr.getAndAsyncLoadRes(path, this.onPrefabLoaded);
+            }
+            else if (this.hasLoadEnd())
+            {
+                this.onPrefabLoaded(this.mPrefabRes);
             }
         }
 
         public void onPrefabLoaded(IDispatchObject dispObj)
         {
-            // 一定要从这里再次取值，因为如果这个资源已经加载，可能在返回之前就先调用这个函数，因此这个时候 mPrefabRes 还是空值
-            mPrefabRes = dispObj as PrefabRes;
-            if(mPrefabRes.hasSuccessLoaded())
+            if (null != dispObj)
             {
-                mIsSuccess = true;
-                if (mIsNeedInsPrefab)
-                {
-                    if (mIsInsNeedCoroutine)
-                    {
-                        mResInsEventDispatch = new ResInsEventDispatch();
-                        mResInsEventDispatch.addEventHandle(null, onPrefabIns);
+                // 一定要从这里再次取值，因为如果这个资源已经加载，可能在返回之前就先调用这个函数，因此这个时候 mPrefabRes 还是空值
+                this.mPrefabRes = dispObj as PrefabRes;
 
-                        if (this.mIsSetFakePos)
+                if (this.mPrefabRes.hasSuccessLoaded())
+                {
+                    this.mResLoadState.setSuccessLoaded();
+
+                    if (this.mIsNeedInsPrefab)
+                    {
+                        if (this.mIsInsNeedCoroutine)
                         {
-                            mPrefabRes.InstantiateObject(mPrefabRes.getPrefabName(), mIsSetInitOrientPos, UtilApi.FAKE_POS, UtilMath.UnitQuat, mResInsEventDispatch);
+                            this.mResInsEventDispatch = new ResInsEventDispatch();
+                            this.mResInsEventDispatch.addEventHandle(null, onPrefabIns);
+
+                            if (this.mIsSetFakePos)
+                            {
+                                this.mPrefabRes.InstantiateObject(this.mPrefabRes.getPrefabName(), this.mIsSetInitOrientPos, UtilApi.FAKE_POS, UtilMath.UnitQuat, this.mResInsEventDispatch);
+                            }
+                            else
+                            {
+                                this.mPrefabRes.InstantiateObject(this.mPrefabRes.getPrefabName(), this.mIsSetInitOrientPos, UtilMath.ZeroVec3, UtilMath.UnitQuat, this.mResInsEventDispatch);
+                            }
                         }
                         else
                         {
-                            mPrefabRes.InstantiateObject(mPrefabRes.getPrefabName(), mIsSetInitOrientPos, UtilMath.ZeroVec3, UtilMath.UnitQuat, mResInsEventDispatch);
+                            if (this.mIsSetFakePos)
+                            {
+                                this.selfGo = this.mPrefabRes.InstantiateObject(this.mPrefabRes.getPrefabName(), this.mIsSetInitOrientPos, UtilApi.FAKE_POS, UtilMath.UnitQuat);
+                            }
+                            else
+                            {
+                                this.selfGo = this.mPrefabRes.InstantiateObject(this.mPrefabRes.getPrefabName(), this.mIsSetInitOrientPos, UtilMath.ZeroVec3, UtilMath.UnitQuat);
+                            }
+
+                            this.onAllFinish();
                         }
                     }
                     else
                     {
-                        if (this.mIsSetFakePos)
-                        {
-                            this.selfGo = mPrefabRes.InstantiateObject(mPrefabRes.getPrefabName(), mIsSetInitOrientPos, UtilApi.FAKE_POS, UtilMath.UnitQuat);
-                        }
-                        else
-                        {
-                            this.selfGo = mPrefabRes.InstantiateObject(mPrefabRes.getPrefabName(), mIsSetInitOrientPos,  UtilMath.ZeroVec3, UtilMath.UnitQuat);
-                        }
-
-                        onAllFinish();
+                        this.onAllFinish();
                     }
                 }
-                else
+                else if (this.mPrefabRes.hasFailed())
                 {
-                    onAllFinish();
+                    this.mResLoadState.setFailed();
+
+                    Ctx.mInstance.mPrefabMgr.unload(this.mPrefabRes.getResUniqueId(), this.onPrefabLoaded);
+                    this.mPrefabRes = null;
+
+                    if (this.mEvtHandle != null)
+                    {
+                        this.mEvtHandle.dispatchEvent(this);
+                    }
                 }
             }
-            else if (mPrefabRes.hasFailed())
+            else
             {
-                mIsSuccess = false;
-                Ctx.mInstance.mPrefabMgr.unload(mPrefabRes.getResUniqueId(), onPrefabLoaded);
-                mPrefabRes = null;
-
-                if (mEvtHandle != null)
+                if (this.mEvtHandle != null)
                 {
-                    mEvtHandle.dispatchEvent(this);
+                    this.mEvtHandle.dispatchEvent(this);
                 }
             }
         }
 
         public void onPrefabIns(IDispatchObject dispObj)
         {
-            mResInsEventDispatch = dispObj as ResInsEventDispatch;
-            this.selfGo = mResInsEventDispatch.getInsGO();
-            onAllFinish();
+            this.mResInsEventDispatch = dispObj as ResInsEventDispatch;
+            this.selfGo = this.mResInsEventDispatch.getInsGO();
+            this.onAllFinish();
         }
 
         // 所有的资源都加载完成
@@ -205,49 +228,49 @@ namespace SDK.Lib
             {
                 if (this.selfGo != null)
                 {
-                    mIsSuccess = true;
+                    this.mResLoadState.setSuccessLoaded();
                 }
                 else
                 {
-                    mIsSuccess = false;
+                    this.mResLoadState.setFailed();
                 }
             }
             else
             {
                 if(null != mPrefabRes && mPrefabRes.hasSuccessLoaded())
                 {
-                    mIsSuccess = true;
+                    this.mResLoadState.setSuccessLoaded();
                 }
                 else
                 {
-                    mIsSuccess = false;
+                    this.mResLoadState.setFailed();
                 }
             }
 
-            if (mEvtHandle != null)
+            if (this.mEvtHandle != null)
             {
-                mEvtHandle.dispatchEvent(this);
+                this.mEvtHandle.dispatchEvent(this);
             }
         }
 
         override public void unload()
         {
-            if(mPrefabRes != null)
+            if(this.mPrefabRes != null)
             {
-                Ctx.mInstance.mPrefabMgr.unload(mPrefabRes.getResUniqueId(), onPrefabLoaded);
-                mPrefabRes = null;
+                Ctx.mInstance.mPrefabMgr.unload(this.mPrefabRes.getResUniqueId(), this.onPrefabLoaded);
+                this.mPrefabRes = null;
             }
 
-            if(mResInsEventDispatch != null)
+            if(this.mResInsEventDispatch != null)
             {
-                mResInsEventDispatch.setIsValid(false);
-                mResInsEventDispatch = null;
+                this.mResInsEventDispatch.setIsValid(false);
+                this.mResInsEventDispatch = null;
             }
 
-            if (mEvtHandle != null)
+            if (this.mEvtHandle != null)
             {
-                mEvtHandle.clearEventHandle();
-                mEvtHandle = null;
+                this.mEvtHandle.clearEventHandle();
+                this.mEvtHandle = null;
             }
         }
 
@@ -288,35 +311,35 @@ namespace SDK.Lib
                 this.mInsEventDispatch.addEventHandle(null, insHandle);
             }
 
-            if (mIsInsNeedCoroutine)
+            if (this.mIsInsNeedCoroutine)
             {
                 if (null == this.mResInsEventDispatch)
                 {
-                    mResInsEventDispatch = new ResInsEventDispatch();
+                    this.mResInsEventDispatch = new ResInsEventDispatch();
                 }
-                mResInsEventDispatch.addEventHandle(null, onInstantiateObjectFinish);
+                this.mResInsEventDispatch.addEventHandle(null, onInstantiateObjectFinish);
 
                 if (this.mIsSetFakePos)
                 {
-                    mPrefabRes.InstantiateObject(mPrefabRes.getPrefabName(), mIsSetInitOrientPos, UtilApi.FAKE_POS, UtilMath.UnitQuat, mResInsEventDispatch);
+                    this.mPrefabRes.InstantiateObject(this.mPrefabRes.getPrefabName(), this.mIsSetInitOrientPos, UtilApi.FAKE_POS, UtilMath.UnitQuat, this.mResInsEventDispatch);
                 }
                 else
                 {
-                    mPrefabRes.InstantiateObject(mPrefabRes.getPrefabName(), mIsSetInitOrientPos, UtilMath.ZeroVec3, UtilMath.UnitQuat, mResInsEventDispatch);
+                    this.mPrefabRes.InstantiateObject(this.mPrefabRes.getPrefabName(), this.mIsSetInitOrientPos, UtilMath.ZeroVec3, UtilMath.UnitQuat, this.mResInsEventDispatch);
                 }
             }
             else
             {
                 if (this.mIsSetFakePos)
                 {
-                    this.selfGo = mPrefabRes.InstantiateObject(mPrefabRes.getPrefabName(), mIsSetInitOrientPos, UtilApi.FAKE_POS, UtilMath.UnitQuat);
+                    this.selfGo = this.mPrefabRes.InstantiateObject(this.mPrefabRes.getPrefabName(), this.mIsSetInitOrientPos, UtilApi.FAKE_POS, UtilMath.UnitQuat);
                 }
                 else
                 {
-                    this.selfGo = mPrefabRes.InstantiateObject(mPrefabRes.getPrefabName(), mIsSetInitOrientPos, UtilMath.ZeroVec3, UtilMath.UnitQuat);
+                    this.selfGo = this.mPrefabRes.InstantiateObject(this.mPrefabRes.getPrefabName(), this.mIsSetInitOrientPos, UtilMath.ZeroVec3, UtilMath.UnitQuat);
                 }
 
-                onInstantiateObjectFinish();
+                this.onInstantiateObjectFinish();
             }
 
             return this.selfGo;
@@ -326,7 +349,7 @@ namespace SDK.Lib
         {
             if(null != dispObj)
             {
-                this.selfGo = mResInsEventDispatch.getInsGO();
+                this.selfGo = this.mResInsEventDispatch.getInsGO();
             }
 
             if (null != this.mInsEventDispatch)

@@ -8,22 +8,22 @@ namespace SDK.Lib
      */
     public class DepResMgr
     {
-        protected AssetBundleManifest m_AssetBundleManifest;
-        protected string[] m_Variants = { };
-        protected MDictionary<string, string[]> m_Dependencies;
+        protected AssetBundleManifest mAssetBundleManifest;
+        protected string[] mVariants = { };
+        protected MDictionary<string, string[]> mDependencies;
         protected AuxAssetBundleManifestLoader mAuxAssetBundleManifestLoader;
 
         public DepResMgr()
         {
-            m_AssetBundleManifest = null;
-            m_Dependencies = new MDictionary<string, string[]>();
+            mAssetBundleManifest = null;
+            mDependencies = new MDictionary<string, string[]>();
         }
 
         public AssetBundleManifest AssetBundleManifestObject
         {
             set
             {
-                m_AssetBundleManifest = value;
+                mAssetBundleManifest = value;
             }
         }
 
@@ -31,11 +31,11 @@ namespace SDK.Lib
         {
             get
             {
-                return m_Variants;
+                return mVariants;
             }
             set
             {
-                m_Variants = value;
+                mVariants = value;
             }
         }
 
@@ -49,9 +49,9 @@ namespace SDK.Lib
 
         public string[] getDep(string assetBundleName)
         {
-            if (m_Dependencies.ContainsKey(assetBundleName))
+            if (mDependencies.ContainsKey(assetBundleName))
             {
-                return m_Dependencies[assetBundleName];
+                return mDependencies[assetBundleName];
             }
 
             return null;
@@ -59,9 +59,9 @@ namespace SDK.Lib
 
         public void loadDep(string assetBundleName)
         {
-            if (!m_Dependencies.ContainsKey(assetBundleName))
+            if (!mDependencies.ContainsKey(assetBundleName))
             {
-                string[] dependencies = m_AssetBundleManifest.GetAllDependencies(assetBundleName);
+                string[] dependencies = mAssetBundleManifest.GetAllDependencies(assetBundleName);
                 if (dependencies.Length == 0)
                 {
                     return;
@@ -72,13 +72,13 @@ namespace SDK.Lib
                     dependencies[i] = RemapVariantName(dependencies[i]);
                 }
 
-                m_Dependencies.Add(assetBundleName, dependencies);
+                mDependencies.Add(assetBundleName, dependencies);
             }
         }
 
         protected string RemapVariantName(string assetBundleName)
         {
-            string[] bundlesWithVariant = m_AssetBundleManifest.GetAllAssetBundlesWithVariant();
+            string[] bundlesWithVariant = mAssetBundleManifest.GetAllAssetBundlesWithVariant();
 
             if (System.Array.IndexOf(bundlesWithVariant, assetBundleName) < 0)
             {
@@ -98,7 +98,7 @@ namespace SDK.Lib
                     continue;
                 }
 
-                int found = System.Array.IndexOf(m_Variants, curSplit[1]);
+                int found = System.Array.IndexOf(mVariants, curSplit[1]);
                 if (found != -1 && found < bestFit)
                 {
                     bestFit = found;
@@ -123,7 +123,7 @@ namespace SDK.Lib
             if (mAuxAssetBundleManifestLoader.hasSuccessLoaded())
             {
                 // 从 AssetBundle 中获取名字 AssetBundleManifest
-                m_AssetBundleManifest = mAuxAssetBundleManifestLoader.getAssetBundleManifest();
+                mAssetBundleManifest = mAuxAssetBundleManifestLoader.getAssetBundleManifest();
             }
             else if (mAuxAssetBundleManifestLoader.hasFailed())
             {
@@ -134,13 +134,13 @@ namespace SDK.Lib
         // 只检查是否有依赖资源，如果有依赖的资源，就算是有依赖的资源
         public bool hasDep(string assetBundleName)
         {
-            if (m_AssetBundleManifest == null)
+            if (mAssetBundleManifest == null)
             {                
                 return false;
             }
 
             loadDep(assetBundleName);
-            if (!m_Dependencies.ContainsKey(assetBundleName))
+            if (!mDependencies.ContainsKey(assetBundleName))
             {
                 return false;
             }
@@ -165,18 +165,18 @@ namespace SDK.Lib
         // 是否所有的依赖的资源都加载完成
         public bool isDepResLoaded(string assetBundleName)
         {
-            if (m_AssetBundleManifest == null)
+            if (mAssetBundleManifest == null)
             {
                 return true;
             }
 
             loadDep(assetBundleName);
-            if (!m_Dependencies.ContainsKey(assetBundleName))
+            if (!mDependencies.ContainsKey(assetBundleName))
             {
                 return true;
             }
 
-            return checkIfAllDepLoaded(m_Dependencies[assetBundleName]);
+            return checkIfAllDepLoaded(mDependencies[assetBundleName]);
         }
     }
 }

@@ -36,20 +36,11 @@ namespace SDK.Lib
             return getRes(resUniqueId) as T;
         }
 
-        public T getAndAsyncLoad<T>(string path, LuaTable luaTable = null, LuaFunction luaFunction = null, bool isLoadAll = false) where T : InsResBase, new()
-        {            
-            T ret = null;
-            LoadParam param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
-            param.setPath(path);
-            param.mLoadNeedCoroutine = true;
-            param.mResNeedCoroutine = true;
-            param.mLuaTable = luaTable;
-            param.mLuaFunction = luaFunction;
-            param.mIsLoadAll = isLoadAll;
-            ret = getAndLoad<T>(param);
-            Ctx.mInstance.mPoolSys.deleteObj(param);
-
-            return ret;
+        public T getAndSyncLoad<T>(string path, LuaTable luaTable = null, LuaFunction luaFunction = null, bool isLoadAll = false) where T : InsResBase, new()
+        {
+            syncLoad<T>(path, luaTable, luaFunction, isLoadAll);
+            string resUniqueId = LoadParam.convOrigPathToUniqueId(path);
+            return getRes(resUniqueId) as T;
         }
 
         public T getAndAsyncLoad<T>(string path, MAction<IDispatchObject> handle, bool isLoadAll = false) where T : InsResBase, new()
@@ -60,6 +51,22 @@ namespace SDK.Lib
             param.mLoadNeedCoroutine = true;
             param.mResNeedCoroutine = true;
             param.mLoadEventHandle = handle;
+            param.mIsLoadAll = isLoadAll;
+            ret = getAndLoad<T>(param);
+            Ctx.mInstance.mPoolSys.deleteObj(param);
+
+            return ret;
+        }
+
+        public T getAndAsyncLoad<T>(string path, LuaTable luaTable = null, LuaFunction luaFunction = null, bool isLoadAll = false) where T : InsResBase, new()
+        {
+            T ret = null;
+            LoadParam param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
+            param.setPath(path);
+            param.mLoadNeedCoroutine = true;
+            param.mResNeedCoroutine = true;
+            param.mLuaTable = luaTable;
+            param.mLuaFunction = luaFunction;
             param.mIsLoadAll = isLoadAll;
             ret = getAndLoad<T>(param);
             Ctx.mInstance.mPoolSys.deleteObj(param);
@@ -81,6 +88,21 @@ namespace SDK.Lib
             param.setPath(path);
             // param.mLoadEventHandle = onLoadEventHandle;        // 这个地方是同步加载，因此不需要回调，如果写了，就会形成死循环， InsResBase 中的 init 又会调用 onLoadEventHandle 这个函数，这个函数是外部回调的函数，由于同步加载，没有回调，因此不要设置这个 param.mLoadEventHandle = onLoadEventHandle ，内部会自动调用
             param.mLoadEventHandle = loadEventHandle;
+            param.mLoadNeedCoroutine = false;
+            param.mResNeedCoroutine = false;
+            param.mIsLoadAll = isLoadAll;
+            load<T>(param);
+            Ctx.mInstance.mPoolSys.deleteObj(param);
+        }
+
+        public void syncLoad<T>(string path, LuaTable luaTable = null, LuaFunction luaFunction = null, bool isLoadAll = false) where T : InsResBase, new()
+        {
+            LoadParam param;
+            param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
+            param.setPath(path);
+            // param.mLoadEventHandle = onLoadEventHandle;        // 这个地方是同步加载，因此不需要回调，如果写了，就会形成死循环， InsResBase 中的 init 又会调用 onLoadEventHandle 这个函数，这个函数是外部回调的函数，由于同步加载，没有回调，因此不要设置这个 param.mLoadEventHandle = onLoadEventHandle ，内部会自动调用
+            param.mLuaTable = luaTable;
+            param.mLuaFunction = luaFunction;
             param.mLoadNeedCoroutine = false;
             param.mResNeedCoroutine = false;
             param.mIsLoadAll = isLoadAll;

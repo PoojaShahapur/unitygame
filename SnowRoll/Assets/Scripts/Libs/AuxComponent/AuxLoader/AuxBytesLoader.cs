@@ -35,84 +35,93 @@ namespace SDK.Lib
         // 同步加载
         override public void syncLoad(string path, MAction<IDispatchObject> evtHandle = null)
         {
-            if (needUnload(path))
-            {
-                unload();
-            }
-
-            this.setPath(path);
+            base.syncLoad(path, evtHandle);
 
             if (this.isInvalid())
             {
-                mEvtHandle = new ResEventDispatch();
-                mEvtHandle.addEventHandle(null, evtHandle);
-                mBytesRes = Ctx.mInstance.mBytesResMgr.getAndSyncLoadRes(path, null);
-                onBytesLoaded(mBytesRes);
+                this.mBytesRes = Ctx.mInstance.mBytesResMgr.getAndSyncLoadRes(path, null);
+                this.onBytesLoaded(this.mBytesRes);
+            }
+            else if (this.hasLoadEnd())
+            {
+                this.onBytesLoaded(this.mBytesRes);
             }
         }
 
         override public void syncLoad(string path, LuaInterface.LuaTable luaTable, LuaInterface.LuaFunction luaFunction)
         {
-            if (needUnload(path))
-            {
-                unload();
-            }
-
-            this.setPath(path);
+            base.syncLoad(path, luaTable, luaFunction);
 
             if (this.isInvalid())
             {
-                mEvtHandle = new ResEventDispatch();
-                mEvtHandle.addEventHandle(null, null, luaTable, luaFunction);
-                mBytesRes = Ctx.mInstance.mBytesResMgr.getAndSyncLoadRes(path, null);
-                onBytesLoaded(mBytesRes);
+                this.mBytesRes = Ctx.mInstance.mBytesResMgr.getAndSyncLoadRes(path, null);
+                this.onBytesLoaded(this.mBytesRes);
+            }
+            else if (this.hasLoadEnd())
+            {
+                this.onBytesLoaded(this.mBytesRes);
             }
         }
 
         // 异步加载对象
         override public void asyncLoad(string path, MAction<IDispatchObject> evtHandle)
         {
-            if (needUnload(path))
-            {
-                unload();
-            }
-
-            this.setPath(path);
+            base.asyncLoad(path, evtHandle);
 
             if (this.isInvalid())
             {
-                mEvtHandle = new ResEventDispatch();
-                mEvtHandle.addEventHandle(null, evtHandle);
                 mBytesRes = Ctx.mInstance.mBytesResMgr.getAndAsyncLoadRes(path, onBytesLoaded);
+            }
+            else if (this.hasLoadEnd())
+            {
+                this.onBytesLoaded(this.mBytesRes);
+            }
+        }
+
+        override public void asyncLoad(string path, LuaInterface.LuaTable luaTable, LuaInterface.LuaFunction luaFunction)
+        {
+            base.asyncLoad(path, luaTable, luaFunction);
+
+            if (this.isInvalid())
+            {
+                mBytesRes = Ctx.mInstance.mBytesResMgr.getAndAsyncLoadRes(path, luaTable, luaFunction);
+            }
+            else if (this.hasLoadEnd())
+            {
+                this.onBytesLoaded(this.mBytesRes);
             }
         }
 
         public void onBytesLoaded(IDispatchObject dispObj)
         {
-            mBytesRes = dispObj as BytesRes;
-            if (mBytesRes.hasSuccessLoaded())
+            if (null != dispObj)
             {
-                mIsSuccess = true;
-            }
-            else if (mBytesRes.hasFailed())
-            {
-                mIsSuccess = false;
-                Ctx.mInstance.mBytesResMgr.unload(mBytesRes.getResUniqueId(), onBytesLoaded);
-                mBytesRes = null;
+                this.mBytesRes = dispObj as BytesRes;
+
+                if (this.mBytesRes.hasSuccessLoaded())
+                {
+                    this.mResLoadState.setSuccessLoaded();
+                }
+                else if (this.mBytesRes.hasFailed())
+                {
+                    this.mResLoadState.setFailed();
+                    Ctx.mInstance.mBytesResMgr.unload(this.mBytesRes.getResUniqueId(), this.onBytesLoaded);
+                    this.mBytesRes = null;
+                }
             }
 
-            if (mEvtHandle != null)
+            if (this.mEvtHandle != null)
             {
-                mEvtHandle.dispatchEvent(this);
+                this.mEvtHandle.dispatchEvent(this);
             }
         }
 
         override public void unload()
         {
-            if(mBytesRes != null)
+            if(this.mBytesRes != null)
             {
-                Ctx.mInstance.mBytesResMgr.unload(mBytesRes.getResUniqueId(), onBytesLoaded);
-                mBytesRes = null;
+                Ctx.mInstance.mBytesResMgr.unload(this.mBytesRes.getResUniqueId(), this.onBytesLoaded);
+                this.mBytesRes = null;
             }
 
             base.unload();

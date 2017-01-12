@@ -16,6 +16,11 @@ namespace SDK.Lib
             return getAndSyncLoad<MatRes>(path, handle);
         }
 
+        public MatRes getAndSyncLoadRes(string path, LuaTable luaTable = null, LuaFunction luaFunction = null)
+        {
+            return getAndSyncLoad<MatRes>(path, luaTable, luaFunction);
+        }
+
         public MatRes getAndAsyncLoadRes(string path, MAction<IDispatchObject> handle)
         {
             return getAndAsyncLoad<MatRes>(path, handle);

@@ -9,6 +9,8 @@ namespace SDK.Lib
         // 位置改变量，主要是暂时移动 child，以后改通知为服务器 child 位置，就不用这样修改了
         protected UnityEngine.Vector3 mDeltaPos;
 
+        private bool mCanMove = true;
+
         public Player()
 		{
             //mSkinAniModel.m_modelList = new SkinSubModel[(int)ePlayerModelType.eModelTotal];
@@ -18,6 +20,16 @@ namespace SDK.Lib
             //    mSkinAniModel.m_modelList[idx] = new SkinSubModel();
             //    ++idx;
             //}
+        }
+
+        public void setCanMove(bool _canmove)
+        {
+            mCanMove = _canmove;
+        }
+
+        public bool getCanMove()
+        {
+            return mCanMove;
         }
 
         override public void preInit()

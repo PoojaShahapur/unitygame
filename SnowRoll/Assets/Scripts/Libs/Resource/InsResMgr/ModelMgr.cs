@@ -17,6 +17,11 @@ namespace SDK.Lib
             return getAndSyncLoad<ModelRes>(path, handle);
         }
 
+        public ModelRes getAndSyncLoadRes(string path, LuaTable luaTable = null, LuaFunction luaFunction = null)
+        {
+            return getAndSyncLoad<ModelRes>(path, luaTable, luaFunction);
+        }
+
         public ModelRes getAndAsyncLoadRes(string path, MAction<IDispatchObject> handle)
         {
             return getAndAsyncLoad<ModelRes>(path, handle);

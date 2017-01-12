@@ -16,7 +16,7 @@ namespace SDK.Lib
         protected WWW mW3File;
         protected bool mLoadNeedCoroutine;     // 加载是否需要协同程序
 
-        protected AssetBundle m_assetBundle;
+        protected AssetBundle mAssetBundle;
 
         protected NonRefCountResLoadResultNotify m_nonRefCountResLoadResultNotify;
         protected bool mIsLoadAll;               // 是否加载所有的内容
@@ -112,11 +112,11 @@ namespace SDK.Lib
         {
             get
             {
-                return m_assetBundle;
+                return mAssetBundle;
             }
             set
             {
-                m_assetBundle = value;
+                mAssetBundle = value;
             }
         }
 
@@ -216,7 +216,7 @@ namespace SDK.Lib
         {
             if (isLoadedSuccess(mW3File))
             {
-                m_assetBundle = mW3File.assetBundle;
+                mAssetBundle = mW3File.assetBundle;
 
                 m_nonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }

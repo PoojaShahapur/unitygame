@@ -5,7 +5,7 @@ M.clsName = "GameEventHandle";
 GlobalNS[M.clsName] = M;
 
 function M:ctor()
-    
+    self.isGetTime = false;
 end
 
 function M:dtor()
@@ -62,10 +62,9 @@ end
 function M:Client_notifyReliveSeconds(params)
     local reliveseconds = params[0]; --param是C#的数组，从0开始
     local entityID = params[1];
-    local form = GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormId.eUIRelivePanel);
-    if nil ~= form then 
-        form:Client_notifyReliveSeconds(reliveseconds, entityID);
-    end
+    GCtx.mGameData.reliveTime = reliveseconds;
+    GCtx.mGameData.enemyId = entityID;
+    GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormId.eUIRelivePanel);
 end
 
 function M:notifyTop10RankInfoList(params)
@@ -79,12 +78,11 @@ end
 
 function M:notifyGameLeftSeconds(params)
     local leftseconds = params[0];
-    if GCtx.mUiMgr:hasForm(GlobalNS.UIFormId.eUIPlayerDataPanel) then
-        local form = GCtx.mUiMgr:getForm(GlobalNS.UIFormId.eUIPlayerDataPanel);
-        if nil ~= form and form.mIsReady then
-            form:refreshLeftTime(leftseconds);
-        end
-    end    
+    if not self.isGetTime then
+        local leftseconds = params[0];
+        GCtx.mGameData:setGameTime(leftseconds);
+        self.isGetTime = true;
+    end
 end
 
 function M:notifyResultRankInfoList(params)

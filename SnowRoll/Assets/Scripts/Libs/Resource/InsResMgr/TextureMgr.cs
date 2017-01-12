@@ -14,6 +14,11 @@ namespace SDK.Lib
             return getAndSyncLoad<TextureRes>(path, handle);
         }
 
+        public TextureRes getAndSyncLoadRes(string path, LuaTable luaTable = null, LuaFunction luaFunction = null)
+        {
+            return getAndSyncLoad<TextureRes>(path, luaTable, luaFunction);
+        }
+
         public TextureRes getAndAsyncLoadRes(string path, MAction<IDispatchObject> handle)
         {
             return getAndAsyncLoad<TextureRes>(path, handle);

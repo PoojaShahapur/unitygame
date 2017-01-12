@@ -230,11 +230,11 @@ namespace Game.Game
                 {
                     Ctx.mInstance.mLogSys.log("Split GreatEqual Max", LogTypeId.eLogSplitMergeEmit);
                 }
+
+                player.cellCall("reqSplit", (int)MsgLogicCV.eSplit, infos);
+
+                Ctx.mInstance.mLogSys.log("Send Split", LogTypeId.eLogSceneInterActive);
             }
-
-            player.cellCall("reqSplit", (int)MsgLogicCV.eSplit, infos);
-
-            Ctx.mInstance.mLogSys.log("Send Split", LogTypeId.eLogSceneInterActive);
         }
 
         // 融合

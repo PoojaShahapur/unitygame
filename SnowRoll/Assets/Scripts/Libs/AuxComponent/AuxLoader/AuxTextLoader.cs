@@ -7,7 +7,7 @@
         public AuxTextLoader(string path = "")
             : base(path)
         {
-            mTextRes = null;
+            this.mTextRes = null;
         }
 
         override public void dispose()
@@ -17,79 +17,109 @@
 
         public string getText()
         {
-            return mTextRes.getText(mTextRes.getPrefabName());
+            return this.mTextRes.getText(this.mTextRes.getPrefabName());
         }
 
         override public string getLogicPath()
         {
-            if (mTextRes != null)
+            if (this.mTextRes != null)
             {
-                return mTextRes.getLogicPath();
+                return this.mTextRes.getLogicPath();
             }
 
-            return mPath;
+            return this.mPath;
         }
 
         // 同步加载
         override public void syncLoad(string path, MAction<IDispatchObject> evtHandle = null)
         {
-            if(needUnload(path))
-            {
-                unload();
-            }
-
-            this.setPath(path);
+            base.syncLoad(path, evtHandle);
 
             if (this.isInvalid())
             {
-                mEvtHandle = new ResEventDispatch();
-                mEvtHandle.addEventHandle(null, evtHandle);
-                mTextRes = Ctx.mInstance.mTextResMgr.getAndSyncLoadRes(path, null);
+                this.mTextRes = Ctx.mInstance.mTextResMgr.getAndSyncLoadRes(path, null);
+                this.onTexLoaded(this.mTextRes);
+            }
+            else if (this.hasLoadEnd())
+            {
+                this.onTexLoaded(this.mTextRes);
+            }
+        }
 
-                onTexLoaded(mTextRes);
+        override public void syncLoad(string path, LuaInterface.LuaTable luaTable, LuaInterface.LuaFunction luaFunction)
+        {
+            base.syncLoad(path, luaTable, luaFunction);
+
+            if (this.isInvalid())
+            {
+                this.mTextRes = Ctx.mInstance.mTextResMgr.getAndSyncLoadRes(path, null, null);
+                this.onTexLoaded(this.mTextRes);
+            }
+            else if (this.hasLoadEnd())
+            {
+                this.onTexLoaded(this.mTextRes);
             }
         }
 
         // 异步加载对象
         override public void asyncLoad(string path, MAction<IDispatchObject> evtHandle)
         {
-            this.setPath(path);
+            base.asyncLoad(path, evtHandle);
 
             if (this.isInvalid())
             {
-                unload();
-                mEvtHandle = new ResEventDispatch();
-                mEvtHandle.addEventHandle(null, evtHandle);
-                mTextRes = Ctx.mInstance.mTextResMgr.getAndAsyncLoadRes(path, onTexLoaded);
+                this.mTextRes = Ctx.mInstance.mTextResMgr.getAndAsyncLoadRes(path, this.onTexLoaded);
+            }
+            else if (this.hasLoadEnd())
+            {
+                this.onTexLoaded(this.mTextRes);
+            }
+        }
+
+        override public void asyncLoad(string path, LuaInterface.LuaTable luaTable, LuaInterface.LuaFunction luaFunction)
+        {
+            base.asyncLoad(path, luaTable, luaFunction);
+
+            if (this.isInvalid())
+            {
+                this.mTextRes = Ctx.mInstance.mTextResMgr.getAndAsyncLoadRes(path, this.onTexLoaded);
+            }
+            else if (this.hasLoadEnd())
+            {
+                this.onTexLoaded(this.mTextRes);
             }
         }
 
         public void onTexLoaded(IDispatchObject dispObj)
         {
-            mTextRes = dispObj as TextRes;
-            if (mTextRes.hasSuccessLoaded())
+            if (null != dispObj)
             {
-                mIsSuccess = true;
-            }
-            else if (mTextRes.hasFailed())
-            {
-                mIsSuccess = false;
-                Ctx.mInstance.mTexMgr.unload(mTextRes.getResUniqueId(), onTexLoaded);
-                mTextRes = null;
+                this.mTextRes = dispObj as TextRes;
+
+                if (this.mTextRes.hasSuccessLoaded())
+                {
+                    this.mResLoadState.setSuccessLoaded();
+                }
+                else if (this.mTextRes.hasFailed())
+                {
+                    this.mResLoadState.setFailed();
+                    Ctx.mInstance.mTexMgr.unload(this.mTextRes.getResUniqueId(), this.onTexLoaded);
+                    this.mTextRes = null;
+                }
             }
 
-            if (mEvtHandle != null)
+            if (this.mEvtHandle != null)
             {
-                mEvtHandle.dispatchEvent(this);
+                this.mEvtHandle.dispatchEvent(this);
             }
         }
 
         override public void unload()
         {
-            if(mTextRes != null)
+            if(this.mTextRes != null)
             {
-                Ctx.mInstance.mTexMgr.unload(mTextRes.getResUniqueId(), onTexLoaded);
-                mTextRes = null;
+                Ctx.mInstance.mTexMgr.unload(this.mTextRes.getResUniqueId(), this.onTexLoaded);
+                this.mTextRes = null;
             }
 
             base.unload();

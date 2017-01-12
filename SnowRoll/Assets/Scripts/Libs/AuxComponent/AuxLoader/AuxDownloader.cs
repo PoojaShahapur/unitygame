@@ -9,58 +9,58 @@
 
         public byte[] getBytes()
         {
-            if (mDownloadItem != null)
+            if (this.mDownloadItem != null)
             {
-                return mDownloadItem.getBytes();
+                return this.mDownloadItem.getBytes();
             }
 
             return null;
         }
 
         // 下载一个资源
-        public void download(string origPath, MAction<IDispatchObject> dispObj = null, long fileLen = 0, bool isWriteFile = true, int downloadType = (int)DownloadType.eHttpWeb)
+        override public void download(string origPath, MAction<IDispatchObject> dispObj = null, long fileLen = 0, bool isWriteFile = true, int downloadType = (int)DownloadType.eHttpWeb)
         {
-            if (needUnload(origPath))
-            {
-                unload();
-            }
-
-            this.setPath(origPath);
+            base.download(origPath, dispObj, fileLen, isWriteFile, downloadType);
 
             if (this.isInvalid())
             {
-                mEvtHandle = new ResEventDispatch();
-                mEvtHandle.addEventHandle(null, dispObj);
-
                 DownloadParam param = new DownloadParam();
 
                 param.setPath(origPath);
-                param.mLoadEventHandle = onDownloaded;
+                param.mLoadEventHandle = this.onDownloaded;
                 param.mFileLen = fileLen;
                 param.mIsWriteFile = isWriteFile;
                 param.mDownloadType = (DownloadType)downloadType;
 
                 Ctx.mInstance.mDownloadMgr.download(param);
             }
+            else if (this.hasLoadEnd())
+            {
+                this.onDownloaded(this.mDownloadItem);
+            }
         }
 
         // 下载完成
         public void onDownloaded(IDispatchObject dispObj)
         {
-            mDownloadItem = dispObj as DownloadItem;
-            if (mDownloadItem.hasSuccessLoaded())
+            if (null != dispObj)
             {
-                mIsSuccess = true;
-            }
-            else if (mDownloadItem.hasFailed())
-            {
-                mIsSuccess = false;
-                mDownloadItem = null;
+                this.mDownloadItem = dispObj as DownloadItem;
+
+                if (this.mDownloadItem.hasSuccessLoaded())
+                {
+                    this.mResLoadState.setSuccessLoaded();
+                }
+                else if (this.mDownloadItem.hasFailed())
+                {
+                    this.mResLoadState.setFailed();
+                    this.mDownloadItem = null;
+                }
             }
 
-            if (mEvtHandle != null)
+            if (this.mEvtHandle != null)
             {
-                mEvtHandle.dispatchEvent(this);
+                this.mEvtHandle.dispatchEvent(this);
             }
         }
     }

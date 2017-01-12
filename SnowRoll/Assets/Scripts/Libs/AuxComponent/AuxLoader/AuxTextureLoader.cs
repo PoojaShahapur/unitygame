@@ -10,8 +10,8 @@ namespace SDK.Lib
         public AuxTextureLoader(string path = "")
             : base(path)
         {
-            mTextureRes = null;
-            mTexture = null;
+            this.mTextureRes = null;
+            this.mTexture = null;
         }
 
         override public void dispose()
@@ -21,88 +21,109 @@ namespace SDK.Lib
 
         public Texture getTexture()
         {
-            return mTexture;
+            return this.mTexture;
         }
 
         override public string getLogicPath()
         {
-            if (mTexture != null)
+            if (this.mTexture != null)
             {
-                return mTextureRes.getLogicPath();
+                return this.mTextureRes.getLogicPath();
             }
 
-            return mPath;
+            return this.mPath;
         }
 
         override public void syncLoad(string path, MAction<IDispatchObject> evtHandle = null)
         {
-            if (needUnload(path))
-            {
-                unload();
-            }
-
-            this.setPath(path);
+            base.syncLoad(path, evtHandle);
 
             if (this.isInvalid())
             {
-                mEvtHandle = new ResEventDispatch();
-                mEvtHandle.addEventHandle(null, evtHandle);
-                mTextureRes = Ctx.mInstance.mTexMgr.getAndSyncLoadRes(path, null);
+                this.mTextureRes = Ctx.mInstance.mTexMgr.getAndSyncLoadRes(path, null);
+                this.onTexLoaded(this.mTextureRes);
+            }
+            else if (this.hasLoadEnd())
+            {
+                this.onTexLoaded(this.mTextureRes);
+            }
+        }
 
-                onTexLoaded(mTextureRes);
+        override public void syncLoad(string path, LuaInterface.LuaTable luaTable, LuaInterface.LuaFunction luaFunction)
+        {
+            base.syncLoad(path, luaTable, luaFunction);
+
+            if (this.isInvalid())
+            {
+                this.mTextureRes = Ctx.mInstance.mTexMgr.getAndSyncLoadRes(path, null, null);
+                this.onTexLoaded(this.mTextureRes);
+            }
+            else if (this.hasLoadEnd())
+            {
+                this.onTexLoaded(this.mTextureRes);
             }
         }
 
         // 异步加载对象
         override public void asyncLoad(string path, MAction<IDispatchObject> evtHandle)
         {
-            if (needUnload(path))
-            {
-                unload();
-            }
-
-            this.setPath(path);
+            base.asyncLoad(path, evtHandle);
 
             if (this.isInvalid())
             {
-                mEvtHandle = new ResEventDispatch();
-                mEvtHandle.addEventHandle(null, evtHandle);
-                mTextureRes = Ctx.mInstance.mTexMgr.getAndAsyncLoadRes(path, onTexLoaded);
+                this.mTextureRes = Ctx.mInstance.mTexMgr.getAndAsyncLoadRes(path, this.onTexLoaded);
             }
-            else if(this.hasSuccessLoaded() || this.hasFailed())
+            else if (this.hasLoadEnd())
             {
-                if (null != evtHandle)
-                    evtHandle(this);
+                this.onTexLoaded(this.mTextureRes);
+            }
+        }
+
+        override public void asyncLoad(string path, LuaInterface.LuaTable luaTable, LuaInterface.LuaFunction luaFunction)
+        {
+            base.asyncLoad(path, luaTable, luaFunction);
+
+            if (this.isInvalid())
+            {
+                this.mTextureRes = Ctx.mInstance.mTexMgr.getAndAsyncLoadRes(path, this.onTexLoaded);
+            }
+            else if (this.hasLoadEnd())
+            {
+                this.onTexLoaded(this.mTextureRes);
             }
         }
 
         public void onTexLoaded(IDispatchObject dispObj)
         {
-            mTextureRes = dispObj as TextureRes;
-            if (mTextureRes.hasSuccessLoaded())
+            if (null != dispObj)
             {
-                mIsSuccess = true;
-                this.mTexture = mTextureRes.getTexture();
-            }
-            else if (mTextureRes.hasFailed())
-            {
-                mIsSuccess = false;
-                Ctx.mInstance.mTexMgr.unload(mTextureRes.getResUniqueId(), onTexLoaded);
-                mTextureRes = null;
+                this.mTextureRes = dispObj as TextureRes;
+
+                if (this.mTextureRes.hasSuccessLoaded())
+                {
+                    this.mResLoadState.setSuccessLoaded();
+                    this.mTexture = mTextureRes.getTexture();
+                }
+                else if (this.mTextureRes.hasFailed())
+                {
+                    this.mResLoadState.setFailed();
+                    Ctx.mInstance.mTexMgr.unload(this.mTextureRes.getResUniqueId(), this.onTexLoaded);
+                    this.mTextureRes = null;
+                }
             }
 
-            if (mEvtHandle != null)
+            if (null != this.mEvtHandle)
             {
-                mEvtHandle.dispatchEvent(this);
+                this.mEvtHandle.dispatchEvent(this);
             }
         }
 
         override public void unload()
         {
-            if(mTextureRes != null)
+            if(null != this.mTextureRes)
             {
-                Ctx.mInstance.mTexMgr.unload(mTextureRes.getResUniqueId(), onTexLoaded);
-                mTextureRes = null;
+                Ctx.mInstance.mTexMgr.unload(mTextureRes.getResUniqueId(), this.onTexLoaded);
+                this.mTextureRes = null;
             }
 
             base.unload();

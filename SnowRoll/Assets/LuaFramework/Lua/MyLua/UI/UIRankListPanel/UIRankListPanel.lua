@@ -125,7 +125,7 @@ function M:SetMyRankInfo()
 
             --本轮质量
             local myMass = GlobalNS.UtilApi.getComByPath(self.mMyRankArea, "Mass", "Text");
-            myMass.text = GlobalNS.UtilMath.getShowMass(GCtx.mGameData.rankinfolist[i].m_radius);
+            myMass.text = GlobalNS.UtilMath.getRankShowMass(GCtx.mGameData.rankinfolist[i].m_radius);
 
             --吞食数量
             local mySwallowNum = GlobalNS.UtilApi.getComByPath(self.mMyRankArea, "SwallowNum", "Text");
@@ -161,7 +161,7 @@ function M:SetTopXRankInfo()
 
         --本轮质量
         local Mass = GlobalNS.UtilApi.getComByPath(listitem, "Mass", "Text");
-        Mass.text = GlobalNS.UtilMath.getShowMass(GCtx.mGameData.rankinfolist[i].m_radius);
+        Mass.text = GlobalNS.UtilMath.getRankShowMass(GCtx.mGameData.rankinfolist[i].m_radius);
 
         --吞食数量
         local SwallowNum = GlobalNS.UtilApi.getComByPath(listitem, "SwallowNum", "Text");

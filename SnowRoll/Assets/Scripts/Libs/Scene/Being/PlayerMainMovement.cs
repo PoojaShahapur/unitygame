@@ -16,25 +16,25 @@
             this.mForwardRotate = UnityEngine.Quaternion.identity;
             this.mRotate = UnityEngine.Quaternion.identity;
 
-            Ctx.mInstance.mInputMgr.addKeyListener(InputKey.UpArrow, EventId.KEYPRESS_EVENT, onUpArrowPress);
-            Ctx.mInstance.mInputMgr.addKeyListener(InputKey.UpArrow, EventId.KEYUP_EVENT, onUpArrowUp);
-            Ctx.mInstance.mInputMgr.addKeyListener(InputKey.W, EventId.KEYPRESS_EVENT, onUpArrowPress);
-            Ctx.mInstance.mInputMgr.addKeyListener(InputKey.W, EventId.KEYUP_EVENT, onUpArrowUp);
+            //Ctx.mInstance.mInputMgr.addKeyListener(InputKey.UpArrow, EventId.KEYPRESS_EVENT, onUpArrowPress);
+            //Ctx.mInstance.mInputMgr.addKeyListener(InputKey.UpArrow, EventId.KEYUP_EVENT, onUpArrowUp);
+            //Ctx.mInstance.mInputMgr.addKeyListener(InputKey.W, EventId.KEYPRESS_EVENT, onUpArrowPress);
+            //Ctx.mInstance.mInputMgr.addKeyListener(InputKey.W, EventId.KEYUP_EVENT, onUpArrowUp);
 
-            Ctx.mInstance.mInputMgr.addKeyListener(InputKey.DownArrow, EventId.KEYPRESS_EVENT, onDownArrowPress);
-            Ctx.mInstance.mInputMgr.addKeyListener(InputKey.DownArrow, EventId.KEYUP_EVENT, onDownArrowUp);
-            Ctx.mInstance.mInputMgr.addKeyListener(InputKey.S, EventId.KEYPRESS_EVENT, onDownArrowPress);
-            Ctx.mInstance.mInputMgr.addKeyListener(InputKey.S, EventId.KEYUP_EVENT, onDownArrowUp);
+            //Ctx.mInstance.mInputMgr.addKeyListener(InputKey.DownArrow, EventId.KEYPRESS_EVENT, onDownArrowPress);
+            //Ctx.mInstance.mInputMgr.addKeyListener(InputKey.DownArrow, EventId.KEYUP_EVENT, onDownArrowUp);
+            //Ctx.mInstance.mInputMgr.addKeyListener(InputKey.S, EventId.KEYPRESS_EVENT, onDownArrowPress);
+            //Ctx.mInstance.mInputMgr.addKeyListener(InputKey.S, EventId.KEYUP_EVENT, onDownArrowUp);
             
-            Ctx.mInstance.mInputMgr.addKeyListener(InputKey.LeftArrow, EventId.KEYPRESS_EVENT, onLeftArrowPress);
-            Ctx.mInstance.mInputMgr.addKeyListener(InputKey.LeftArrow, EventId.KEYUP_EVENT, onLeftArrowUp);
-            Ctx.mInstance.mInputMgr.addKeyListener(InputKey.A, EventId.KEYPRESS_EVENT, onLeftArrowPress);
-            Ctx.mInstance.mInputMgr.addKeyListener(InputKey.A, EventId.KEYUP_EVENT, onLeftArrowUp);
+            //Ctx.mInstance.mInputMgr.addKeyListener(InputKey.LeftArrow, EventId.KEYPRESS_EVENT, onLeftArrowPress);
+            //Ctx.mInstance.mInputMgr.addKeyListener(InputKey.LeftArrow, EventId.KEYUP_EVENT, onLeftArrowUp);
+            //Ctx.mInstance.mInputMgr.addKeyListener(InputKey.A, EventId.KEYPRESS_EVENT, onLeftArrowPress);
+            //Ctx.mInstance.mInputMgr.addKeyListener(InputKey.A, EventId.KEYUP_EVENT, onLeftArrowUp);
 
-            Ctx.mInstance.mInputMgr.addKeyListener(InputKey.RightArrow, EventId.KEYPRESS_EVENT, onRightArrowPress);
-            Ctx.mInstance.mInputMgr.addKeyListener(InputKey.RightArrow, EventId.KEYUP_EVENT, onRightArrowUp);
-            Ctx.mInstance.mInputMgr.addKeyListener(InputKey.D, EventId.KEYPRESS_EVENT, onRightArrowPress);
-            Ctx.mInstance.mInputMgr.addKeyListener(InputKey.D, EventId.KEYUP_EVENT, onRightArrowUp);
+            //Ctx.mInstance.mInputMgr.addKeyListener(InputKey.RightArrow, EventId.KEYPRESS_EVENT, onRightArrowPress);
+            //Ctx.mInstance.mInputMgr.addKeyListener(InputKey.RightArrow, EventId.KEYUP_EVENT, onRightArrowUp);
+            //Ctx.mInstance.mInputMgr.addKeyListener(InputKey.D, EventId.KEYPRESS_EVENT, onRightArrowPress);
+            //Ctx.mInstance.mInputMgr.addKeyListener(InputKey.D, EventId.KEYUP_EVENT, onRightArrowUp);
         }
 
         override public void init()
@@ -44,6 +44,26 @@
 
         override public void dispose()
         {
+            //Ctx.mInstance.mInputMgr.removeKeyListener(InputKey.UpArrow, EventId.KEYPRESS_EVENT, onUpArrowPress);
+            //Ctx.mInstance.mInputMgr.removeKeyListener(InputKey.UpArrow, EventId.KEYUP_EVENT, onUpArrowUp);
+            //Ctx.mInstance.mInputMgr.removeKeyListener(InputKey.W, EventId.KEYPRESS_EVENT, onUpArrowPress);
+            //Ctx.mInstance.mInputMgr.removeKeyListener(InputKey.W, EventId.KEYUP_EVENT, onUpArrowUp);
+
+            //Ctx.mInstance.mInputMgr.removeKeyListener(InputKey.DownArrow, EventId.KEYPRESS_EVENT, onDownArrowPress);
+            //Ctx.mInstance.mInputMgr.removeKeyListener(InputKey.DownArrow, EventId.KEYUP_EVENT, onDownArrowUp);
+            //Ctx.mInstance.mInputMgr.removeKeyListener(InputKey.S, EventId.KEYPRESS_EVENT, onDownArrowPress);
+            //Ctx.mInstance.mInputMgr.removeKeyListener(InputKey.S, EventId.KEYUP_EVENT, onDownArrowUp);
+
+            //Ctx.mInstance.mInputMgr.removeKeyListener(InputKey.LeftArrow, EventId.KEYPRESS_EVENT, onLeftArrowPress);
+            //Ctx.mInstance.mInputMgr.removeKeyListener(InputKey.LeftArrow, EventId.KEYUP_EVENT, onLeftArrowUp);
+            //Ctx.mInstance.mInputMgr.removeKeyListener(InputKey.A, EventId.KEYPRESS_EVENT, onLeftArrowPress);
+            //Ctx.mInstance.mInputMgr.removeKeyListener(InputKey.A, EventId.KEYUP_EVENT, onLeftArrowUp);
+
+            //Ctx.mInstance.mInputMgr.removeKeyListener(InputKey.RightArrow, EventId.KEYPRESS_EVENT, onRightArrowPress);
+            //Ctx.mInstance.mInputMgr.removeKeyListener(InputKey.RightArrow, EventId.KEYUP_EVENT, onRightArrowUp);
+            //Ctx.mInstance.mInputMgr.removeKeyListener(InputKey.D, EventId.KEYPRESS_EVENT, onRightArrowPress);
+            //Ctx.mInstance.mInputMgr.removeKeyListener(InputKey.D, EventId.KEYUP_EVENT, onRightArrowUp);
+
             base.dispose();
         }
 

@@ -13,6 +13,9 @@ function M:ctor(...)
     self.myRank = 0; --自己结算时排名
     self.rankinfolist = {}; --结算排行榜
 
+    self.reliveTime = 0; --复活倒计时
+    self.enemyId = 0; --敌人id
+
     self.mTimer = GlobalNS.new(GlobalNS.DaoJiShiTimer);
 
     self.mMessageType = 1; --消息类型：1.弹出框 2.滚动提示

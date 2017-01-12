@@ -35,10 +35,10 @@ namespace SDK.Lib
         // 这个是卸载，因为有时候资源加载进来可能已经不用了，需要直接卸载掉
         override public void unload()
         {
-            if (m_assetBundle != null)
+            if (mAssetBundle != null)
             {
-                m_assetBundle.Unload(true);
-                m_assetBundle = null;
+                mAssetBundle.Unload(true);
+                mAssetBundle = null;
             }
             base.unload();
         }
@@ -61,7 +61,7 @@ namespace SDK.Lib
             path = ResPathResolve.msFileLoadRootPathList[(int)mResLoadType] + "/" + mLoadPath;
             www = new WWW(path);
             yield return www;
-            m_assetBundle = www.assetBundle;
+            mAssetBundle = www.assetBundle;
 
             www.Dispose();
             www = null;
@@ -73,7 +73,7 @@ namespace SDK.Lib
             req = AssetBundle.LoadFromFileAsync(path);
             yield return req;
 
-            m_assetBundle = req.assetBundle;
+            mAssetBundle = req.assetBundle;
 #endif
 
             assetBundleLoaded();
@@ -85,16 +85,16 @@ namespace SDK.Lib
             path = ResPathResolve.msABLoadRootPathList[(int)mResLoadType] + "/" + mLoadPath;
             // UNITY_5_2 没有
 #if UNITY_5_0 || UNITY_5_1 || UNITY_5_2
-            m_assetBundle = AssetBundle.CreateFromFile(path);
+            mAssetBundle = AssetBundle.CreateFromFile(path);
 #else
-            m_assetBundle = AssetBundle.LoadFromFile(path);
+            mAssetBundle = AssetBundle.LoadFromFile(path);
 #endif
             assetBundleLoaded();
         }
 
         protected void assetBundleLoaded()
         {
-            if (m_assetBundle != null)
+            if (mAssetBundle != null)
             {
                 m_nonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }

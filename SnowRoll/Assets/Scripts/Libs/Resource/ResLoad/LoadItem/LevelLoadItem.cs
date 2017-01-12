@@ -71,7 +71,7 @@ namespace SDK.Lib
             path = ResPathResolve.msFileLoadRootPathList[(int)mResLoadType] + "/" + mLoadPath;
             www = new WWW(path);
             yield return www;
-            m_assetBundle = www.assetBundle;
+            mAssetBundle = www.assetBundle;
 
             www.Dispose();
             www = null;
@@ -83,7 +83,7 @@ namespace SDK.Lib
             req = AssetBundle.LoadFromFileAsync(path);
             yield return req;
 
-            m_assetBundle = req.assetBundle;
+            mAssetBundle = req.assetBundle;
 #endif
 
             assetAssetBundlesLevelLoaded();
@@ -96,9 +96,9 @@ namespace SDK.Lib
             
             // UNITY_5_2 没有
 #if UNITY_5_0 || UNITY_5_1 || UNITY_5_2
-            m_assetBundle = AssetBundle.CreateFromFile(path);
+            mAssetBundle = AssetBundle.CreateFromFile(path);
 #else
-            m_assetBundle = AssetBundle.LoadFromFile(path);
+            mAssetBundle = AssetBundle.LoadFromFile(path);
 #endif
 
             assetAssetBundlesLevelLoaded();
@@ -106,7 +106,7 @@ namespace SDK.Lib
 
         protected void assetAssetBundlesLevelLoaded()
         {
-            if (m_assetBundle != null)
+            if (mAssetBundle != null)
             {
                 m_nonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }

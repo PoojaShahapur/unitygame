@@ -134,7 +134,7 @@ namespace SDK.Lib
                 //旋转玩家角度，x轴不变
                 Vector3 eulerAngles_cam = this.transform.rotation.eulerAngles;
                 Vector3 eulerAngles = new Vector3(0, eulerAngles_cam.y, eulerAngles_cam.z);
-                playerMain.setDestRotate(eulerAngles, true);
+                //playerMain.setDestRotate(eulerAngles, true);
                 playerMain.setForwardRotate(eulerAngles);
             }
         }

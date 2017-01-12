@@ -14,6 +14,11 @@ namespace SDK.Lib
             return getAndSyncLoad<SkelAnimRes>(path, handle);
         }
 
+        public SkelAnimRes getAndSyncLoadRes(string path, LuaTable luaTable = null, LuaFunction luaFunction = null)
+        {
+            return getAndSyncLoad<SkelAnimRes>(path, luaTable, luaFunction);
+        }
+
         public SkelAnimRes getAndAsyncLoadRes(string path, MAction<IDispatchObject> handle)
         {
             return getAndAsyncLoad<SkelAnimRes>(path, handle);

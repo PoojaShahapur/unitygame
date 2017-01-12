@@ -5,7 +5,7 @@
         public PlayerMainChildMovement(SceneEntityBase entity)
             : base(entity)
         {
-            Ctx.mInstance.mInputMgr.addKeyListener(InputKey.G, EventId.KEYUP_EVENT, onTestKeyUp);
+            //Ctx.mInstance.mInputMgr.addKeyListener(InputKey.G, EventId.KEYUP_EVENT, onTestKeyUp);
         }
 
         override public void init()
@@ -17,7 +17,7 @@
 
         override public void dispose()
         {
-            Ctx.mInstance.mInputMgr.removeKeyListener(InputKey.G, EventId.KEYUP_EVENT, onTestKeyUp);
+            //Ctx.mInstance.mInputMgr.removeKeyListener(InputKey.G, EventId.KEYUP_EVENT, onTestKeyUp);
             this.removeParentOrientChangedhandle();
 
             base.dispose();

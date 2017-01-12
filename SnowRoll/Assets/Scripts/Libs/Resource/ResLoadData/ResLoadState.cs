@@ -10,70 +10,70 @@
 
     public class ResLoadState
     {
-        protected CVResLoadState m_resLoadState;
+        protected CVResLoadState mResLoadState;
 
         public ResLoadState()
         {
-            m_resLoadState = CVResLoadState.eNotLoad;
+            mResLoadState = CVResLoadState.eNotLoad;
         }
 
         public CVResLoadState resLoadState
         {
             get
             {
-                return m_resLoadState;
+                return mResLoadState;
             }
             set
             {
-                m_resLoadState = value;
+                mResLoadState = value;
             }
         }
 
         public void reset()
         {
-            m_resLoadState = CVResLoadState.eNotLoad;
+            mResLoadState = CVResLoadState.eNotLoad;
         }
 
         // 是否加载完成，可能成功可能失败
         public bool hasLoaded()
         {
-            return m_resLoadState == CVResLoadState.eFailed || m_resLoadState == CVResLoadState.eLoaded;
+            return mResLoadState == CVResLoadState.eFailed || mResLoadState == CVResLoadState.eLoaded;
         }
 
         public bool hasSuccessLoaded()
         {
-            return m_resLoadState == CVResLoadState.eLoaded;
+            return mResLoadState == CVResLoadState.eLoaded;
         }
 
         public bool hasFailed()
         {
-            return m_resLoadState == CVResLoadState.eFailed;
+            return mResLoadState == CVResLoadState.eFailed;
         }
 
         // 没有加载或者正在加载中
         public bool hasNotLoadOrLoading()
         {
-            return (m_resLoadState == CVResLoadState.eLoading || m_resLoadState == CVResLoadState.eNotLoad);
+            return (mResLoadState == CVResLoadState.eLoading || mResLoadState == CVResLoadState.eNotLoad);
         }
 
         public void setSuccessLoaded()
         {
-            m_resLoadState = CVResLoadState.eLoaded;
+            mResLoadState = CVResLoadState.eLoaded;
         }
 
         public void setFailed()
         {
-            m_resLoadState = CVResLoadState.eFailed;
+            mResLoadState = CVResLoadState.eFailed;
         }
 
         public void setLoading()
         {
-            m_resLoadState = CVResLoadState.eLoading;
+            mResLoadState = CVResLoadState.eLoading;
         }
 
         public void copyFrom(ResLoadState rhv)
         {
-            m_resLoadState = rhv.resLoadState;
+            mResLoadState = rhv.resLoadState;
         }
     }
 }
