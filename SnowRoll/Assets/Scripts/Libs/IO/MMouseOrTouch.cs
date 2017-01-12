@@ -22,20 +22,35 @@ namespace SDK.Lib
 
         public MClickNotification mClickNotification = MClickNotification.Always;
         public bool mTouchBegan = true;
+        public bool mTouchEnd = true;
         public bool mPressStarted = false;
         public bool mDragStarted = false;
         public int mIgnoreDelta = 0;
 
         protected float mSensitivity;   // 灵敏度
 
+        protected int mTouchIndex;  // 触碰索引或者鼠标 // 0 左键 1 右键 2 中键 
+
         /// <summary>
         /// Delta time since the touch operation started.
         /// </summary>
-        public float deltaTime { get { return UtilIO.time - mPressTime; } }
+        public float deltaTime
+        {
+            get
+            {
+                return UtilIO.time - mPressTime;
+            }
+        }
 
         public MMouseOrTouch()
         {
             this.mSensitivity = 0.1f;
+            this.mTouchIndex = 0;
+        }
+
+        public int getTouchIndex()
+        {
+            return this.mTouchIndex;
         }
 
         /// <summary>

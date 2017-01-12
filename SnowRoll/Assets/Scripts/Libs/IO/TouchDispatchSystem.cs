@@ -5,6 +5,9 @@
      */
     public class TouchDispatchSystem
     {
+        private bool mHasTouch;
+        private bool mHasMultiTouch;
+
         private AddOnceEventDispatch mOnTouchBeganDispatch;         // 触碰开始
         private AddOnceEventDispatch mOnTouchMovedDispatch;         // 触碰状态，但是移动
         private AddOnceEventDispatch mOnTouchStationaryDispatch;    // 触碰状态但是不移动
@@ -64,6 +67,8 @@
             {
                 this.mOnTouchCanceledDispatch.addEventHandle(null, handle);
             }
+
+            this.mHasTouch = true;
         }
 
         public void removeTouchListener(EventId evtID, MAction<IDispatchObject> handle)
@@ -88,6 +93,8 @@
             {
                 this.mOnTouchCanceledDispatch.removeEventHandle(null, handle);
             }
+
+            this.mHasTouch = this.hasEventHandle();
         }
 
         // 是否还有需要处理的事件
@@ -117,7 +124,12 @@
             return false;
         }
 
-        public void handleTouchBegan(MTouch touch)
+        public bool hasTouch()
+        {
+            return this.mHasTouch;
+        }
+
+        public void handleTouchBegan(MMouseOrTouch touch)
         {
             if (null != this.mOnTouchBeganDispatch)
             {
@@ -125,7 +137,7 @@
             }
         }
 
-        public void handleTouchMoved(MTouch touch)
+        public void handleTouchMoved(MMouseOrTouch touch)
         {
             if (null != this.mOnTouchMovedDispatch)
             {
@@ -133,7 +145,7 @@
             }
         }
 
-        public void handleTouchStationary(MTouch touch)
+        public void handleTouchStationary(MMouseOrTouch touch)
         {
             if (null != this.mOnTouchStationaryDispatch)
             {
@@ -141,7 +153,7 @@
             }
         }
 
-        public void handleTouchEnded(MTouch touch)
+        public void handleTouchEnded(MMouseOrTouch touch)
         {
             if (null != this.mOnTouchEndedDispatch)
             {
@@ -149,7 +161,7 @@
             }
         }
 
-        public void handleTouchCanceled(MTouch touch)
+        public void handleTouchCanceled(MMouseOrTouch touch)
         {
             if (null != this.mOnTouchCanceledDispatch)
             {
@@ -160,50 +172,54 @@
         /********************************** Multi Touch *********************************/
         public void addMultiTouchListener(EventId evtID, MAction<IDispatchObject> handle)
         {
-            if (EventId.TOUCHBEGIN_EVENT == evtID)
+            if (EventId.MULTI_TOUCHBEGIN_EVENT == evtID)
             {
                 this.mOnMultiTouchBeganDispatch.addEventHandle(null, handle);
             }
-            else if (EventId.TOUCHMOVED_EVENT == evtID)
+            else if (EventId.MULTI_TOUCHMOVED_EVENT == evtID)
             {
                 this.mOnMultiTouchMovedDispatch.addEventHandle(null, handle);
             }
-            else if (EventId.TOUCHSTATIONARY_EVENT == evtID)
+            else if (EventId.MULTI_TOUCHSTATIONARY_EVENT == evtID)
             {
                 this.mOnMultiTouchStationaryDispatch.addEventHandle(null, handle);
             }
-            else if (EventId.TOUCHENDED_EVENT == evtID)
+            else if (EventId.MULTI_TOUCHENDED_EVENT == evtID)
             {
                 this.mOnMultiTouchEndedDispatch.addEventHandle(null, handle);
             }
-            else if (EventId.TOUCHCANCELED_EVENT == evtID)
+            else if (EventId.MULTI_TOUCHCANCELED_EVENT == evtID)
             {
                 this.mOnMultiTouchCanceledDispatch.addEventHandle(null, handle);
             }
+
+            this.mHasMultiTouch = true;
         }
 
         public void removeMultiTouchListener(EventId evtID, MAction<IDispatchObject> handle)
         {
-            if (EventId.TOUCHBEGIN_EVENT == evtID)
+            if (EventId.MULTI_TOUCHBEGIN_EVENT == evtID)
             {
                 this.mOnMultiTouchBeganDispatch.removeEventHandle(null, handle);
             }
-            else if (EventId.TOUCHMOVED_EVENT == evtID)
+            else if (EventId.MULTI_TOUCHMOVED_EVENT == evtID)
             {
                 this.mOnMultiTouchMovedDispatch.removeEventHandle(null, handle);
             }
-            else if (EventId.TOUCHSTATIONARY_EVENT == evtID)
+            else if (EventId.MULTI_TOUCHSTATIONARY_EVENT == evtID)
             {
                 this.mOnMultiTouchStationaryDispatch.removeEventHandle(null, handle);
             }
-            else if (EventId.TOUCHENDED_EVENT == evtID)
+            else if (EventId.MULTI_TOUCHENDED_EVENT == evtID)
             {
                 this.mOnMultiTouchEndedDispatch.removeEventHandle(null, handle);
             }
-            else if (EventId.TOUCHCANCELED_EVENT == evtID)
+            else if (EventId.MULTI_TOUCHCANCELED_EVENT == evtID)
             {
                 this.mOnMultiTouchCanceledDispatch.removeEventHandle(null, handle);
             }
+
+            this.mHasMultiTouch = this.hasMultiEventHandle();
         }
 
         // 是否还有需要处理的事件
@@ -233,7 +249,12 @@
             return false;
         }
 
-        public void handleMultiTouchBegan(MTouch touch)
+        public bool hasMultiTouch()
+        {
+            return this.mHasMultiTouch;
+        }
+
+        public void handleMultiTouchBegan(IDispatchObject touch)
         {
             if (null != this.mOnMultiTouchBeganDispatch)
             {
@@ -241,7 +262,7 @@
             }
         }
 
-        public void handleMultiTouchMoved(MTouch touch)
+        public void handleMultiTouchMoved(IDispatchObject touch)
         {
             if (null != this.mOnMultiTouchMovedDispatch)
             {
@@ -249,7 +270,7 @@
             }
         }
 
-        public void handleMultiTouchStationary(MTouch touch)
+        public void handleMultiTouchStationary(IDispatchObject touch)
         {
             if (null != this.mOnMultiTouchStationaryDispatch)
             {
@@ -257,7 +278,7 @@
             }
         }
 
-        public void handleMultiTouchEnded(MTouch touch)
+        public void handleMultiTouchEnded(IDispatchObject touch)
         {
             if (null != this.mOnMultiTouchEndedDispatch)
             {
@@ -265,7 +286,7 @@
             }
         }
 
-        public void handleMultiTouchCanceled(MTouch touch)
+        public void handleMultiTouchCanceled(IDispatchObject touch)
         {
             if (null != this.mOnMultiTouchCanceledDispatch)
             {

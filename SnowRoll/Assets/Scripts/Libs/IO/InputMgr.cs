@@ -8,8 +8,7 @@ namespace SDK.Lib
     public class InputMgr : ITickedObject, IDelayHandleItem
     {
         public MControlScheme mCurrentScheme = MControlScheme.Mouse;
-        public bool mAllowMultiTouch = true;
-        public int mCurrentTouchID = -1;
+        public int mCurrentTouchId = -1;
         public MTouch mCurrentTouch = null;
 
         // 有监听事件的键盘 InputKey
@@ -26,6 +25,10 @@ namespace SDK.Lib
         protected AddOnceEventDispatch mMultiTouchDispatch;
         // 多触碰集合
         protected MultiTouchSet mMultiTouchSet;
+        // 鼠标模拟触碰
+        public bool mMultiTouchEnabled;
+        public bool mSimulateMouseWithTouches;
+        public bool mTouchSupported;
 
         public InputMgr()
         {
@@ -36,6 +39,15 @@ namespace SDK.Lib
             this.mOneTouchDispatch = new AddOnceEventDispatch();
             this.mMultiTouchDispatch = new AddOnceEventDispatch();
             this.mMultiTouchSet = new MultiTouchSet();
+
+            this.mMultiTouchEnabled = UnityEngine.Input.multiTouchEnabled;
+            this.mSimulateMouseWithTouches = UnityEngine.Input.simulateMouseWithTouches;
+            this.mTouchSupported = UnityEngine.Input.touchSupported;
+
+            // Test
+            this.mSimulateMouseWithTouches = true;
+            this.mTouchSupported = true;
+            this.mMultiTouchEnabled = true;
         }
 
         public void init()
@@ -89,17 +101,35 @@ namespace SDK.Lib
 
         public void ProcessTouches(float delta)
         {
-            this.mCurrentScheme = MControlScheme.Touch;
-
-            for (int i = 0; i < Input.touchCount; ++i)
+            if (Ctx.mInstance.mTouchDispatchSystem.hasTouch() || Ctx.mInstance.mTouchDispatchSystem.hasMultiTouch())
             {
-                Touch touch = Input.GetTouch(i);
+                this.mMultiTouchSet.reset();
 
-                this.mCurrentTouchID = this.mAllowMultiTouch ? touch.fingerId : 1;
-                this.mCurrentTouch = MTouch.GetTouch(this.mCurrentTouchID);
+                this.mCurrentScheme = MControlScheme.Touch;
 
-                this.mCurrentTouch.setNativeTouch(touch);
-                this.mCurrentTouch.onTick(delta);
+                int idx = 0;
+                while (idx < Input.touchCount)
+                {
+                    Touch touch = Input.GetTouch(idx);
+
+                    this.mCurrentTouchId = this.mMultiTouchEnabled ? touch.fingerId : 0;
+                    this.mCurrentTouch = MTouch.GetTouch(this.mCurrentTouchId);
+
+                    this.mCurrentTouch.setNativeTouch(touch, this.mCurrentTouchId);
+                    this.mCurrentTouch.onTick(delta);
+
+                    if(Ctx.mInstance.mTouchDispatchSystem.hasMultiTouch())
+                    {
+                        this.mMultiTouchSet.addTouch(this.mCurrentTouch);
+                    }
+
+                    ++idx;
+                }
+
+                if (Ctx.mInstance.mTouchDispatchSystem.hasMultiTouch())
+                {
+                    this.mMultiTouchSet.onTick(delta);
+                }
             }
         }
 
@@ -199,6 +229,8 @@ namespace SDK.Lib
 
             //touch.addTouchListener(evtID, handle);
             //touch2.addTouchListener(evtID, handle);
+
+            Ctx.mInstance.mTouchDispatchSystem.addTouchListener(evtID, handle);
         }
 
         public void removeTouchListener(EventId evtID, MAction<IDispatchObject> handle)
@@ -207,6 +239,17 @@ namespace SDK.Lib
             //MTouch touch2 = MTouch.GetTouch(2);
             //touch.removeTouchListener(evtID, handle);
             //touch2.removeTouchListener(evtID, handle);
+            Ctx.mInstance.mTouchDispatchSystem.removeTouchListener(evtID, handle);
+        }
+
+        public void addMultiTouchListener(EventId evtID, MAction<IDispatchObject> handle)
+        {
+            Ctx.mInstance.mTouchDispatchSystem.addMultiTouchListener(evtID, handle);
+        }
+
+        public void removeMultiTouchListener(EventId evtID, MAction<IDispatchObject> handle)
+        {
+            Ctx.mInstance.mTouchDispatchSystem.removeMultiTouchListener(evtID, handle);
         }
 
         public void addAccelerationListener(EventId evtID, MAction<IDispatchObject> handle)

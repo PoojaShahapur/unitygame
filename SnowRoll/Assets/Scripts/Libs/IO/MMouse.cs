@@ -8,8 +8,6 @@
 
         static MMouse[] mMouse = new MMouse[] { MouseLeftButton, MouseRightButton, MouseMiddleButton };
 
-        protected int mButton;  // 0 左键 1 右键 2 中键
-
         private AddOnceEventDispatch mOnMouseDownDispatch;
         private AddOnceEventDispatch mOnMouseUpDispatch;
         private AddOnceEventDispatch mOnMousePressDispatch;
@@ -24,7 +22,7 @@
 
         public MMouse(int button)
         {
-            this.mButton = button;
+            this.mTouchIndex = button;
 
             this.mOnMouseDownDispatch = new AddOnceEventDispatch();
             this.mOnMouseUpDispatch = new AddOnceEventDispatch();
@@ -36,24 +34,34 @@
 
         public void onTick(float delta)
         {
-            if (UnityEngine.Input.GetMouseButtonDown(this.mButton))
+            if (UnityEngine.Input.GetMouseButtonDown(this.mTouchIndex))
             {
+                this.mPressTime = RealTime.time;
+                this.mTouchBegan = true;
+                this.mTouchEnd = false;
+
                 // 按下的时候，设置位置相同
                 this.mPos = UnityEngine.Input.mousePosition;
                 this.mLastPos = this.mPos;
 
                 this.handleMouseDown();
             }
-            else if (UnityEngine.Input.GetMouseButtonUp(this.mButton))
+            else if (UnityEngine.Input.GetMouseButtonUp(this.mTouchIndex))
             {
+                this.mTouchBegan = false;
+                this.mTouchEnd = true;
+
                 // Up 的时候，先设置之前的位置，然后设置当前位置
                 this.mLastPos = this.mPos;
                 this.mPos = UnityEngine.Input.mousePosition;
 
                 this.handleMouseUp();
             }
-            else if (UnityEngine.Input.GetMouseButton(this.mButton))
+            else if (UnityEngine.Input.GetMouseButton(this.mTouchIndex))
             {
+                this.mTouchBegan = false;
+                this.mTouchEnd = false;
+
                 // Press 的时候，先设置之前的位置，然后设置当前位置
                 this.mLastPos = this.mPos;
                 this.mPos = UnityEngine.Input.mousePosition;
@@ -69,11 +77,14 @@
             }
             else if(this.isPosChanged())     // 位置不相等的时候，就是移动
             {
+                this.mTouchBegan = false;
+                this.mTouchEnd = false;
+
                 // 鼠标移动
                 this.mLastPos = this.mPos;
                 this.mPos = UnityEngine.Input.mousePosition;
 
-                this.handleMouseMove();
+                this.handleMousePressOrMove();
             }
         }
 
@@ -150,29 +161,50 @@
 
         public void handleMouseDown()
         {
-            if (null != this.mOnMouseDownDispatch)
+            if (!Ctx.mInstance.mInputMgr.mSimulateMouseWithTouches)
             {
-                this.mOnMouseDownDispatch.dispatchEvent(this);
+                if (null != this.mOnMouseDownDispatch)
+                {
+                    this.mOnMouseDownDispatch.dispatchEvent(this);
+                }
+            }
+            else
+            {
+                Ctx.mInstance.mTouchDispatchSystem.handleTouchBegan(this);
             }
         }
 
         public void handleMouseUp()
         {
-            if (null != this.mOnMouseUpDispatch)
+            if (!Ctx.mInstance.mInputMgr.mSimulateMouseWithTouches)
             {
-                this.mOnMouseUpDispatch.dispatchEvent(this);
+                if (null != this.mOnMouseUpDispatch)
+                {
+                    this.mOnMouseUpDispatch.dispatchEvent(this);
+                }
+            }
+            else
+            {
+                Ctx.mInstance.mTouchDispatchSystem.handleTouchEnded(this);
             }
         }
 
         public void handleMousePress()
         {
-            if (null != this.mOnMousePressDispatch)
+            if (!Ctx.mInstance.mInputMgr.mSimulateMouseWithTouches)
             {
-                this.mOnMousePressDispatch.dispatchEvent(this);
+                if (null != this.mOnMousePressDispatch)
+                {
+                    this.mOnMousePressDispatch.dispatchEvent(this);
+                }
+            }
+            else
+            {
+                Ctx.mInstance.mTouchDispatchSystem.handleTouchStationary(this);
             }
         }
 
-        public void handleMouseMove()
+        public void handleMousePressOrMove()
         {
             if(this.isPosChanged())
             {
@@ -187,9 +219,16 @@
         {
             if (this.isPosChanged())
             {
-                if (null != this.mOnMousePressMoveDispatch)
+                if (!Ctx.mInstance.mInputMgr.mSimulateMouseWithTouches)
                 {
-                    this.mOnMousePressMoveDispatch.dispatchEvent(this);
+                    if (null != this.mOnMousePressMoveDispatch)
+                    {
+                        this.mOnMousePressMoveDispatch.dispatchEvent(this);
+                    }
+                }
+                else
+                {
+                    Ctx.mInstance.mTouchDispatchSystem.handleTouchMoved(this);
                 }
             }
         }
