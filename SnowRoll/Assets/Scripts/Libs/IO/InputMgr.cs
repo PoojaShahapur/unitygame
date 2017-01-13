@@ -63,9 +63,9 @@
             this.mOnMultiTouchCanceledDispatch = new AddOnceEventDispatch();
 
             this.mMouseDispatchArray = new MMouseDispatch[3];
-            this.mMouseDispatchArray[0].init();
-            this.mMouseDispatchArray[1].init();
-            this.mMouseDispatchArray[2].init();
+            this.mMouseDispatchArray[0] = new MMouseDispatch();
+            this.mMouseDispatchArray[1] = new MMouseDispatch();
+            this.mMouseDispatchArray[2] = new MMouseDispatch();
 
             this.mMultiTouchSet = new MultiTouchSet();
 
@@ -82,11 +82,16 @@
         public void init()
         {
             InputKey.getInputKeyArray();
+            this.mMouseDispatchArray[0].init();
+            this.mMouseDispatchArray[1].init();
+            this.mMouseDispatchArray[2].init();
         }
 
         public void dispose()
         {
-
+            this.mMouseDispatchArray[0].dispose();
+            this.mMouseDispatchArray[1].dispose();
+            this.mMouseDispatchArray[2].dispose();
         }
 
         public void setClientDispose(bool isDispose)
