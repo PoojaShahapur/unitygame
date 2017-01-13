@@ -37,7 +37,7 @@ namespace SDK.Lib
         {
             //Ctx.mInstance.mTickMgr.addTick(this, TickPriority.eTPCamController);
 
-            Ctx.mInstance.mInputMgr.addMouseListener(MMouse.MouseLeftButton, EventId.MOUSEPRESS_MOVE_EVENT, onTouchMove);
+            Ctx.mInstance.mInputMgr.addMouseListener(MMouseDevice.MouseLeftButton, EventId.MOUSEPRESS_MOVE_EVENT, onTouchMove);
             Ctx.mInstance.mInputMgr.addTouchListener(EventId.TOUCHMOVED_EVENT, onTouchMove);
 
             Vector3 eulerAngles = this.transform.eulerAngles;//当前物体的欧拉角  

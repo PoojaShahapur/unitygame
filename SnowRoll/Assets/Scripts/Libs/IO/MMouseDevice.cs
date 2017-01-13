@@ -78,14 +78,11 @@
         {
             if (!Ctx.mInstance.mInputMgr.mSimulateMouseWithTouches)
             {
-                if (null != this.mOnMouseDownDispatch)
-                {
-                    this.mOnMouseDownDispatch.dispatchEvent(this);
-                }
+                Ctx.mInstance.mInputMgr.handleMouseDown(this);
             }
             else
             {
-                Ctx.mInstance.mMouseOrTouchDispatchSystem.handleTouchBegan(this);
+                Ctx.mInstance.mInputMgr.handleTouchBegan(this);
             }
         }
 
@@ -93,14 +90,11 @@
         {
             if (!Ctx.mInstance.mInputMgr.mSimulateMouseWithTouches)
             {
-                if (null != this.mOnMouseUpDispatch)
-                {
-                    this.mOnMouseUpDispatch.dispatchEvent(this);
-                }
+                Ctx.mInstance.mInputMgr.handleMouseUp(this);
             }
             else
             {
-                Ctx.mInstance.mMouseOrTouchDispatchSystem.handleTouchEnded(this);
+                Ctx.mInstance.mInputMgr.handleTouchEnded(this);
             }
         }
 
@@ -108,14 +102,11 @@
         {
             if (!Ctx.mInstance.mInputMgr.mSimulateMouseWithTouches)
             {
-                if (null != this.mOnMousePressDispatch)
-                {
-                    this.mOnMousePressDispatch.dispatchEvent(this);
-                }
+                Ctx.mInstance.mInputMgr.handleMousePress(this);
             }
             else
             {
-                Ctx.mInstance.mMouseOrTouchDispatchSystem.handleTouchStationary(this);
+                Ctx.mInstance.mInputMgr.handleTouchStationary(this);
             }
         }
 
@@ -123,10 +114,7 @@
         {
             if(this.isPosChanged())
             {
-                if (null != this.mOnMouseMoveDispatch)
-                {
-                    this.mOnMouseMoveDispatch.dispatchEvent(this);
-                }
+                Ctx.mInstance.mInputMgr.handleMousePressOrMove(this);
             }
         }
 
@@ -136,14 +124,11 @@
             {
                 if (!Ctx.mInstance.mInputMgr.mSimulateMouseWithTouches)
                 {
-                    if (null != this.mOnMousePressMoveDispatch)
-                    {
-                        this.mOnMousePressMoveDispatch.dispatchEvent(this);
-                    }
+                    Ctx.mInstance.mInputMgr.handleMousePressMove(this);
                 }
                 else
                 {
-                    Ctx.mInstance.mMouseOrTouchDispatchSystem.handleTouchMoved(this);
+                    Ctx.mInstance.mInputMgr.handleTouchMoved(this);
                 }
             }
         }

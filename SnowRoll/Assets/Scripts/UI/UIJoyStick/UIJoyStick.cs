@@ -42,13 +42,13 @@ namespace Game.UI
             HalfWidth = Screen.width / 2;
             Height = Screen.height;
 
-            Ctx.mInstance.mInputMgr.addMouseListener(MMouse.MouseLeftButton, EventId.MOUSEDOWN_EVENT, onTouchBegin);
+            Ctx.mInstance.mInputMgr.addMouseListener(MMouseDevice.MouseLeftButton, EventId.MOUSEDOWN_EVENT, onTouchBegin);
             Ctx.mInstance.mInputMgr.addTouchListener(EventId.TOUCHBEGIN_EVENT, onTouchBegin);
 
-            Ctx.mInstance.mInputMgr.addMouseListener(MMouse.MouseLeftButton, EventId.MOUSEPRESS_MOVE_EVENT, onTouchMove);
+            Ctx.mInstance.mInputMgr.addMouseListener(MMouseDevice.MouseLeftButton, EventId.MOUSEPRESS_MOVE_EVENT, onTouchMove);
             Ctx.mInstance.mInputMgr.addTouchListener(EventId.TOUCHMOVED_EVENT, onTouchMove);
 
-            Ctx.mInstance.mInputMgr.addMouseListener(MMouse.MouseLeftButton, EventId.MOUSEUP_EVENT, onTouchEnd);
+            Ctx.mInstance.mInputMgr.addMouseListener(MMouseDevice.MouseLeftButton, EventId.MOUSEUP_EVENT, onTouchEnd);
             Ctx.mInstance.mInputMgr.addTouchListener(EventId.TOUCHENDED_EVENT, onTouchEnd);
 
             Ctx.mInstance.mTickMgr.addTick(this as ITickedObject, TickPriority.eTPJoyStick);
@@ -94,13 +94,13 @@ namespace Game.UI
         {
             base.onExit();
 
-            Ctx.mInstance.mInputMgr.removeMouseListener(MMouse.MouseLeftButton, EventId.MOUSEDOWN_EVENT, onTouchBegin);
+            Ctx.mInstance.mInputMgr.removeMouseListener(MMouseDevice.MouseLeftButton, EventId.MOUSEDOWN_EVENT, onTouchBegin);
             Ctx.mInstance.mInputMgr.removeTouchListener(EventId.TOUCHBEGIN_EVENT, onTouchBegin);
 
-            Ctx.mInstance.mInputMgr.removeMouseListener(MMouse.MouseLeftButton, EventId.MOUSEPRESS_MOVE_EVENT, onTouchMove);
+            Ctx.mInstance.mInputMgr.removeMouseListener(MMouseDevice.MouseLeftButton, EventId.MOUSEPRESS_MOVE_EVENT, onTouchMove);
             Ctx.mInstance.mInputMgr.removeTouchListener(EventId.TOUCHMOVED_EVENT, onTouchMove);
 
-            Ctx.mInstance.mInputMgr.removeMouseListener(MMouse.MouseLeftButton, EventId.MOUSEUP_EVENT, onTouchEnd);
+            Ctx.mInstance.mInputMgr.removeMouseListener(MMouseDevice.MouseLeftButton, EventId.MOUSEUP_EVENT, onTouchEnd);
             Ctx.mInstance.mInputMgr.removeTouchListener(EventId.TOUCHENDED_EVENT, onTouchEnd);
 
             Ctx.mInstance.mTickMgr.delTick(this as ITickedObject);

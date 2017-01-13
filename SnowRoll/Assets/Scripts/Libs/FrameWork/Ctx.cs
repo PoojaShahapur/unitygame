@@ -118,7 +118,6 @@
         public GlobalDelegate mGlobalDelegate;
         public CommonData mCommonData;
         public EventHandleSystem mEventHandleSystem;
-        public MouseOrTouchDispatchSystem mMouseOrTouchDispatchSystem;
 
         public Ctx()
         {
@@ -255,7 +254,6 @@
             this.mGlobalDelegate = new GlobalDelegate();
             this.mCommonData = new CommonData();
             this.mEventHandleSystem = new EventHandleSystem();
-            this.mMouseOrTouchDispatchSystem = new MouseOrTouchDispatchSystem();
         }
 
         public void logicInit()
@@ -289,7 +287,6 @@
             this.mGlobalDelegate.init();
             this.mCommonData.init();
             this.mEventHandleSystem.init();
-            this.mMouseOrTouchDispatchSystem.init();
 
             // 添加事件处理
             Ctx.mInstance.mCamSys.setUiCamera(Ctx.mInstance.mLayerMgr.mPath2Go[NotDestroyPath.ND_CV_App].AddComponent<UICamera>());
@@ -339,7 +336,6 @@
 
             this.mCommonData.dispose();
             this.mEventHandleSystem.dispose();
-            this.mMouseOrTouchDispatchSystem.dispose();
         }
 
         public void quitApp()

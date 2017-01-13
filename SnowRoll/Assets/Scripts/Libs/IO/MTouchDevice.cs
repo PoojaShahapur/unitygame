@@ -91,30 +91,30 @@ namespace SDK.Lib
 
         public void handleTouchBegan()
         {
-            Ctx.mInstance.mMouseOrTouchDispatchSystem.handleTouchBegan(this);
+            Ctx.mInstance.mInputMgr.handleTouchBegan(this);
         }
 
         public void handleTouchMoved()
         {
             if (this.isPosChanged())
             {
-                Ctx.mInstance.mMouseOrTouchDispatchSystem.handleTouchMoved(this);
+                Ctx.mInstance.mInputMgr.handleTouchMoved(this);
             }
         }
 
         public void handleTouchStationary()
         {
-            Ctx.mInstance.mMouseOrTouchDispatchSystem.handleTouchStationary(this);
+            Ctx.mInstance.mInputMgr.handleTouchStationary(this);
         }
 
         public void handleTouchEnded()
         {
-            Ctx.mInstance.mMouseOrTouchDispatchSystem.handleTouchEnded(this);
+            Ctx.mInstance.mInputMgr.handleTouchEnded(this);
         }
 
         public void handleTouchCanceled()
         {
-            Ctx.mInstance.mMouseOrTouchDispatchSystem.handleTouchCanceled(this);
+            Ctx.mInstance.mInputMgr.handleTouchCanceled(this);
         }
     }
 }
