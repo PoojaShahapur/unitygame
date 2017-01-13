@@ -1,26 +1,41 @@
 ﻿namespace SDK.Lib
 {
     /**
-     * @brief 触碰后事件分发系统
+     * @brief 触碰后事件分发系统，这里的事件可以通过逻辑直接触发，不用必须判断真正的硬件
      */
-    public class TouchDispatchSystem
+    public class MouseOrTouchDispatchSystem
     {
+        public MControlScheme mCurrentScheme = MControlScheme.Mouse;
+        public int mCurrentTouchId = -1;
+        public MTouchDevice mCurrentTouch = null;
+
         private bool mHasTouch;
         private bool mHasMultiTouch;
 
+        // 单触碰
         private AddOnceEventDispatch mOnTouchBeganDispatch;         // 触碰开始
         private AddOnceEventDispatch mOnTouchMovedDispatch;         // 触碰状态，但是移动
         private AddOnceEventDispatch mOnTouchStationaryDispatch;    // 触碰状态但是不移动
         private AddOnceEventDispatch mOnTouchEndedDispatch;         // 触碰结束
         private AddOnceEventDispatch mOnTouchCanceledDispatch;      // 触碰取消
-
+        // 多触碰
         private AddOnceEventDispatch mOnMultiTouchBeganDispatch;         // 触碰开始
         private AddOnceEventDispatch mOnMultiTouchMovedDispatch;         // 触碰状态，但是移动
         private AddOnceEventDispatch mOnMultiTouchStationaryDispatch;    // 触碰状态但是不移动
         private AddOnceEventDispatch mOnMultiTouchEndedDispatch;         // 触碰结束
         private AddOnceEventDispatch mOnMultiTouchCanceledDispatch;      // 触碰取消
 
-        public TouchDispatchSystem()
+        // 多触碰集合
+        protected MultiTouchSet mMultiTouchSet;
+        // 鼠标模拟触碰
+        public bool mMultiTouchEnabled;
+        public bool mSimulateMouseWithTouches;
+        public bool mTouchSupported;
+
+        // 鼠标
+        private MMouseDispatch[] mMouseDispatchArray;
+
+        public MouseOrTouchDispatchSystem()
         {
             this.mOnTouchBeganDispatch = new AddOnceEventDispatch();
             this.mOnTouchMovedDispatch = new AddOnceEventDispatch();
@@ -33,6 +48,22 @@
             this.mOnMultiTouchStationaryDispatch = new AddOnceEventDispatch();
             this.mOnMultiTouchEndedDispatch = new AddOnceEventDispatch();
             this.mOnMultiTouchCanceledDispatch = new AddOnceEventDispatch();
+
+            this.mMouseDispatchArray = new MMouseDispatch[3];
+            this.mMouseDispatchArray[0].init();
+            this.mMouseDispatchArray[1].init();
+            this.mMouseDispatchArray[2].init();
+
+            this.mMultiTouchSet = new MultiTouchSet();
+
+            this.mMultiTouchEnabled = UnityEngine.Input.multiTouchEnabled;
+            this.mSimulateMouseWithTouches = UnityEngine.Input.simulateMouseWithTouches;
+            this.mTouchSupported = UnityEngine.Input.touchSupported;
+
+            // Test
+            this.mSimulateMouseWithTouches = true;
+            this.mTouchSupported = true;
+            this.mMultiTouchEnabled = true;
         }
 
         public void init()
@@ -43,6 +74,40 @@
         public void dispose()
         {
 
+        }
+
+        public void ProcessTouches(float delta)
+        {
+            if (Ctx.mInstance.mMouseOrTouchDispatchSystem.hasTouch() || Ctx.mInstance.mMouseOrTouchDispatchSystem.hasMultiTouch())
+            {
+                this.mMultiTouchSet.reset();
+
+                this.mCurrentScheme = MControlScheme.Touch;
+
+                int idx = 0;
+                while (idx < UnityEngine.Input.touchCount)
+                {
+                    UnityEngine.Touch touch = UnityEngine.Input.GetTouch(idx);
+
+                    this.mCurrentTouchId = this.mMultiTouchEnabled ? touch.fingerId : 0;
+                    this.mCurrentTouch = MTouch.GetTouch(this.mCurrentTouchId);
+
+                    this.mCurrentTouch.setNativeTouch(touch, this.mCurrentTouchId);
+                    this.mCurrentTouch.onTick(delta);
+
+                    if (Ctx.mInstance.mMouseOrTouchDispatchSystem.hasMultiTouch())
+                    {
+                        this.mMultiTouchSet.addTouch(this.mCurrentTouch);
+                    }
+
+                    ++idx;
+                }
+
+                if (Ctx.mInstance.mMouseOrTouchDispatchSystem.hasMultiTouch())
+                {
+                    this.mMultiTouchSet.onTick(delta);
+                }
+            }
         }
 
         public void addTouchListener(EventId evtID, MAction<IDispatchObject> handle)
@@ -292,6 +357,48 @@
             {
                 this.mOnMultiTouchCanceledDispatch.dispatchEvent(touch);
             }
+        }
+
+        /******************* Mouse Dispatch *********************/
+        public void addMouseListener(MMouseDevice mouse, EventId evtID, MAction<IDispatchObject> handle)
+        {
+            this.mMouseDispatchArray[mouse.mTouchIndex].addMouseListener(evtID, handle);
+        }
+
+        public void removeMouseListener(MMouseDevice mouse, EventId evtID, MAction<IDispatchObject> handle)
+        {
+            this.mMouseDispatchArray[mouse.mTouchIndex].removeMouseListener(evtID, handle);
+        }
+
+        // 是否还有需要处理的事件
+        public bool hasEventHandle(MMouseDevice mouse)
+        {
+            return this.mMouseDispatchArray[mouse.mTouchIndex].hasEventHandle();
+        }
+
+        public void handleMouseDown(MMouseOrTouch mouse)
+        {
+            this.mMouseDispatchArray[mouse.mTouchIndex].handleMouseDown(mouse);
+        }
+
+        public void handleMouseUp(MMouseOrTouch mouse)
+        {
+            this.mMouseDispatchArray[mouse.mTouchIndex].handleMouseUp(mouse);
+        }
+
+        public void handleMousePress(MMouseOrTouch mouse)
+        {
+            this.mMouseDispatchArray[mouse.mTouchIndex].handleMousePress(mouse);
+        }
+
+        public void handleMousePressOrMove(MMouseOrTouch mouse)
+        {
+            this.mMouseDispatchArray[mouse.mTouchIndex].handleMousePressOrMove(mouse);
+        }
+
+        public void handleMousePressMove(MMouseOrTouch mouse)
+        {
+            this.mMouseDispatchArray[mouse.mTouchIndex].handleMousePressMove(mouse);
         }
     }
 }

@@ -97,7 +97,7 @@
                 }
 
                 // 判断中心点距离
-                if (UtilMath.squaredDistance(this.mPos, other.getPos()) <= this.mBallRadius * this.mBallRadius)
+                if (UtilMath.squaredDistance(this.mPos, other.getPos()) <= bigRadius * bigRadius)
                 {
                     ret = true;
                 }

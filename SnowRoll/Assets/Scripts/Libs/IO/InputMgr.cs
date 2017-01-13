@@ -1,53 +1,24 @@
-﻿using UnityEngine;
-
-namespace SDK.Lib
+﻿namespace SDK.Lib
 {
     /**
-     * @brief 主要是场景消息处理， UI 消息单独走
+     * @brief 主要是场景消息处理， UI 消息单独走，这个主要是从硬件判断
      */
     public class InputMgr : ITickedObject, IDelayHandleItem
     {
-        public MControlScheme mCurrentScheme = MControlScheme.Mouse;
-        public int mCurrentTouchId = -1;
-        public MTouch mCurrentTouch = null;
-
         // 有监听事件的键盘 InputKey
         protected MList<InputKey> mEventInputKeyList;
         // 有监听事件的鼠标 MMouse
-        protected MList<MMouse> mEventMouseList;
+        protected MList<MMouseDevice> mEventMouseList;
         // 是否有重力感应事件
         protected bool mHasAccelerationHandle;
 
         //private Action mOnAxisDown = null;
-        // 单触碰事件分发
-        protected AddOnceEventDispatch mOneTouchDispatch;
-        // 多触碰事件分发
-        protected AddOnceEventDispatch mMultiTouchDispatch;
-        // 多触碰集合
-        protected MultiTouchSet mMultiTouchSet;
-        // 鼠标模拟触碰
-        public bool mMultiTouchEnabled;
-        public bool mSimulateMouseWithTouches;
-        public bool mTouchSupported;
 
         public InputMgr()
         {
             this.mEventInputKeyList = new MList<InputKey>();
-            this.mEventMouseList = new MList<MMouse>();
+            this.mEventMouseList = new MList<MMouseDevice>();
             this.mHasAccelerationHandle = false;
-
-            this.mOneTouchDispatch = new AddOnceEventDispatch();
-            this.mMultiTouchDispatch = new AddOnceEventDispatch();
-            this.mMultiTouchSet = new MultiTouchSet();
-
-            this.mMultiTouchEnabled = UnityEngine.Input.multiTouchEnabled;
-            this.mSimulateMouseWithTouches = UnityEngine.Input.simulateMouseWithTouches;
-            this.mTouchSupported = UnityEngine.Input.touchSupported;
-
-            // Test
-            this.mSimulateMouseWithTouches = true;
-            this.mTouchSupported = true;
-            this.mMultiTouchEnabled = true;
         }
 
         public void init()
@@ -91,45 +62,11 @@ namespace SDK.Lib
                 this.mEventMouseList[idx].onTick(delta);
             }
 
-            this.ProcessTouches(delta);
+            Ctx.mInstance.mMouseOrTouchDispatchSystem.ProcessTouches(delta);
 
             if(this.mHasAccelerationHandle)
             {
                 MAcceleration.mAccelerationOne.onTick(delta);
-            }
-        }
-
-        public void ProcessTouches(float delta)
-        {
-            if (Ctx.mInstance.mTouchDispatchSystem.hasTouch() || Ctx.mInstance.mTouchDispatchSystem.hasMultiTouch())
-            {
-                this.mMultiTouchSet.reset();
-
-                this.mCurrentScheme = MControlScheme.Touch;
-
-                int idx = 0;
-                while (idx < Input.touchCount)
-                {
-                    Touch touch = Input.GetTouch(idx);
-
-                    this.mCurrentTouchId = this.mMultiTouchEnabled ? touch.fingerId : 0;
-                    this.mCurrentTouch = MTouch.GetTouch(this.mCurrentTouchId);
-
-                    this.mCurrentTouch.setNativeTouch(touch, this.mCurrentTouchId);
-                    this.mCurrentTouch.onTick(delta);
-
-                    if(Ctx.mInstance.mTouchDispatchSystem.hasMultiTouch())
-                    {
-                        this.mMultiTouchSet.addTouch(this.mCurrentTouch);
-                    }
-
-                    ++idx;
-                }
-
-                if (Ctx.mInstance.mTouchDispatchSystem.hasMultiTouch())
-                {
-                    this.mMultiTouchSet.onTick(delta);
-                }
             }
         }
 
@@ -205,18 +142,18 @@ namespace SDK.Lib
         }
 
         // 添加鼠标监听器
-        public void addMouseListener(MMouse mouse, EventId evtID, MAction<IDispatchObject> handle)
+        public void addMouseListener(MMouseDevice mouse, EventId evtID, MAction<IDispatchObject> handle)
         {
-            mouse.addMouseListener(evtID, handle);
+            Ctx.mInstance.mMouseOrTouchDispatchSystem.addMouseListener(mouse, evtID, handle);
             this.addEventMouse(mouse);
         }
 
         // 移除鼠标监听器
-        public void removeMouseListener(MMouse mouse, EventId evtID, MAction<IDispatchObject> handle)
+        public void removeMouseListener(MMouseDevice mouse, EventId evtID, MAction<IDispatchObject> handle)
         {
-            mouse.removeMouseListener(evtID, handle);
+            Ctx.mInstance.mMouseOrTouchDispatchSystem.removeMouseListener(mouse, evtID, handle);
 
-            if (!mouse.hasEventHandle())
+            if (!Ctx.mInstance.mMouseOrTouchDispatchSystem.hasEventHandle(mouse))
             {
                 this.removeEventMouse(mouse);
             }
@@ -230,7 +167,7 @@ namespace SDK.Lib
             //touch.addTouchListener(evtID, handle);
             //touch2.addTouchListener(evtID, handle);
 
-            Ctx.mInstance.mTouchDispatchSystem.addTouchListener(evtID, handle);
+            Ctx.mInstance.mMouseOrTouchDispatchSystem.addTouchListener(evtID, handle);
         }
 
         public void removeTouchListener(EventId evtID, MAction<IDispatchObject> handle)
@@ -239,17 +176,17 @@ namespace SDK.Lib
             //MTouch touch2 = MTouch.GetTouch(2);
             //touch.removeTouchListener(evtID, handle);
             //touch2.removeTouchListener(evtID, handle);
-            Ctx.mInstance.mTouchDispatchSystem.removeTouchListener(evtID, handle);
+            Ctx.mInstance.mMouseOrTouchDispatchSystem.removeTouchListener(evtID, handle);
         }
 
         public void addMultiTouchListener(EventId evtID, MAction<IDispatchObject> handle)
         {
-            Ctx.mInstance.mTouchDispatchSystem.addMultiTouchListener(evtID, handle);
+            Ctx.mInstance.mMouseOrTouchDispatchSystem.addMultiTouchListener(evtID, handle);
         }
 
         public void removeMultiTouchListener(EventId evtID, MAction<IDispatchObject> handle)
         {
-            Ctx.mInstance.mTouchDispatchSystem.removeMultiTouchListener(evtID, handle);
+            Ctx.mInstance.mMouseOrTouchDispatchSystem.removeMultiTouchListener(evtID, handle);
         }
 
         public void addAccelerationListener(EventId evtID, MAction<IDispatchObject> handle)
@@ -293,7 +230,7 @@ namespace SDK.Lib
             }
         }
 
-        protected void addEventMouse(MMouse mouse)
+        protected void addEventMouse(MMouseDevice mouse)
         {
             if (-1 == this.mEventMouseList.IndexOf(mouse))
             {
@@ -301,7 +238,7 @@ namespace SDK.Lib
             }
         }
 
-        protected void removeEventMouse(MMouse mouse)
+        protected void removeEventMouse(MMouseDevice mouse)
         {
             if (-1 != this.mEventMouseList.IndexOf(mouse))
             {

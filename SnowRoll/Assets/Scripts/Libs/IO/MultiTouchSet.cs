@@ -60,7 +60,7 @@
             // 暂时只支持多触碰移动
             if(isMove)
             {
-                Ctx.mInstance.mTouchDispatchSystem.handleMultiTouchMoved(this);
+                Ctx.mInstance.mMouseOrTouchDispatchSystem.handleMultiTouchMoved(this);
             }
         }
     }

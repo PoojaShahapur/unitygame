@@ -29,7 +29,7 @@ namespace SDK.Lib
 
         protected float mSensitivity;   // 灵敏度
 
-        protected int mTouchIndex;  // 触碰索引或者鼠标 // 0 左键 1 右键 2 中键 
+        public int mTouchIndex;  // 触碰索引或者鼠标 // 0 左键 1 右键 2 中键 
 
         /// <summary>
         /// Delta time since the touch operation started.
