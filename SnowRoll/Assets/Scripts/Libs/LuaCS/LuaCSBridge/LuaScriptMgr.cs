@@ -239,6 +239,8 @@ namespace SDK.Lib
                 loader.AddBundle("lua/lua_mylua_ui_uiconsoledlg.unity3d");
 
                 loader.AddBundle("lua/lua_mylua_libs_gamedata.unity3d");
+                loader.AddBundle("lua/lua_mylua_libs_uisignpanel.unity3d");
+                loader.AddBundle("lua/lua_mylua_libs_uimessagepanel.unity3d");
                 //--------------------------MyLua End --------------------------------
             }
         }

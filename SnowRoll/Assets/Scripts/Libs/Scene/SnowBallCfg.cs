@@ -12,7 +12,7 @@
 
         public float mK;     // 目标点 K 因子
         public float mN;     // 目标点 N 因子
-        public float mCanSplitFactor;       // 可以分裂的因子
+        public float mCanSplitMass;       // 可以分裂的雪块质量
         public int mMaxSnowNum;             // 最大雪块的数量
         public float mSplitRelStartPos;          // 开始相对位置
         public float mSplitRelDist;            // 移动距离
@@ -21,7 +21,7 @@
         public float mMergeCoolTime;        // 小球可以再次融合的时间间隔
 
         public float mEmitSnowMass;         // 吐积雪块的质量
-        public float mEmitSnowRadius;       // 吐积雪块的最小半径
+        public float mCanEmitSnowMass;       // 吐积雪块的最小半径
         public float mEmitRelStartPos;          // 开始相对位置
         public float mEmitRelDist;            // 移动距离
 
@@ -60,7 +60,7 @@
             this.mMergeCoolTime = 10;
 
             this.mEmitSnowMass = 1;
-            this.mEmitSnowRadius = 0.1f;
+            this.mCanEmitSnowMass = 0.1f;
             this.mEmitRelStartPos = 5;
             this.mEmitRelDist = 10;
 
@@ -87,7 +87,7 @@
 
             this.mK = this.mXmlSnowBallCfg.mXmlItemSplit.mK;
             this.mN = this.mXmlSnowBallCfg.mXmlItemSplit.mN;
-            this.mCanSplitFactor = this.mXmlSnowBallCfg.mXmlItemSplit.mCanSplitFactor;
+            this.mCanSplitMass = this.mXmlSnowBallCfg.mXmlItemSplit.mCanSplitMass;
             this.mMaxSnowNum = this.mXmlSnowBallCfg.mXmlItemSplit.mMax;
             this.mSplitRelStartPos = this.mXmlSnowBallCfg.mXmlItemSplit.mRelStartPos;
             this.mSplitRelDist = this.mXmlSnowBallCfg.mXmlItemSplit.mRelDist;
@@ -96,7 +96,7 @@
             this.mMergeCoolTime = this.mXmlSnowBallCfg.mXmlItemMerge.mCoolTime;
 
             this.mEmitSnowMass = this.mXmlSnowBallCfg.mXmlItemEmit.mSnowMass;
-            this.mEmitSnowRadius = this.mXmlSnowBallCfg.mXmlItemEmit.mSnowRadius;
+            this.mCanEmitSnowMass = this.mXmlSnowBallCfg.mXmlItemEmit.mCanEmitSnowMass;
             this.mEmitRelStartPos = this.mXmlSnowBallCfg.mXmlItemEmit.mRelStartPos;
             this.mEmitRelDist = this.mXmlSnowBallCfg.mXmlItemEmit.mRelDist;
 

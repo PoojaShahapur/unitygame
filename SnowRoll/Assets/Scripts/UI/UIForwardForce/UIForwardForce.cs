@@ -26,8 +26,11 @@ namespace Game.UI
         private Vector2 ROldPos;
         private Vector2 MoveVec; //移动方向
 
+        private JoyStickTouchInfo mTouchInfo;
+
         public UIForwardForce()
         {
+            this.mTouchInfo = new JoyStickTouchInfo();
         }
 
         public override void onInit()
@@ -132,43 +135,56 @@ namespace Game.UI
 
         public void onTouchBegin(IDispatchObject dispObj)
         {
-            MMouseOrTouch touch = dispObj as MMouseOrTouch;            
-            if (touch.mPos.x < Screen.width / 2)
+            MMouseOrTouch touch = dispObj as MMouseOrTouch;
+
+            if (this.mTouchInfo.onTouchBegin(touch))
             {
-                CurMousePos = touch.mPos;
-                isTouchBegin = true;
-                isTouchEnd = false;
-                isTouchHold = false;
-            }
-            else
-            {
-                if (ForceBtn != null) ForceBtn.gameObject.SetActive(false);
+                if (touch.mPos.x < Screen.width / 2)
+                {
+                    CurMousePos = touch.mPos;
+                    isTouchBegin = true;
+                    isTouchEnd = false;
+                    isTouchHold = false;
+                }
+                else
+                {
+                    if (ForceBtn != null) ForceBtn.gameObject.SetActive(false);
+                }
             }
         }
 
         public void onTouchHold(IDispatchObject dispObj)
         {
             MMouseOrTouch touch = dispObj as MMouseOrTouch;
-            if (touch.mPos.x < Screen.width / 2)
+
+            if (mTouchInfo.onTouchMove(touch))
             {
-                CurMousePos = touch.mPos;
-                isTouchBegin = false;
-                isTouchEnd = false;
-                isTouchHold = true;
-            }
-            else
-            {
-                if (ForceBtn != null) ForceBtn.gameObject.SetActive(false);
+                if (touch.mPos.x < Screen.width / 2)
+                {
+                    CurMousePos = touch.mPos;
+                    isTouchBegin = false;
+                    isTouchEnd = false;
+                    isTouchHold = true;
+                }
+                else
+                {
+                    if (ForceBtn != null) ForceBtn.gameObject.SetActive(false);
+                }
             }
         }
 
         public void onTouchEnd(IDispatchObject dispObj)
         {
-            isTouchBegin = false;
-            isTouchEnd = true;
-            isTouchHold = false;
-            
-            if (ForceBtn != null) ForceBtn.gameObject.SetActive(false);
+            MMouseOrTouch touch = dispObj as MMouseOrTouch;
+
+            if (this.mTouchInfo.onTouchEnd(touch))
+            {
+                isTouchBegin = false;
+                isTouchEnd = true;
+                isTouchHold = false;
+
+                if (ForceBtn != null) ForceBtn.gameObject.SetActive(false);
+            }
         }
 
         private void SetOldPos(Vector2 Pos)

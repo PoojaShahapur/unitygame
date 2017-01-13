@@ -415,7 +415,7 @@ namespace SDK.Lib
             int layerIdx = 0;
             for(canvasIdx = 0; canvasIdx < (int)UICanvasID.eCanvas_Total; ++canvasIdx)
             {
-                for (layerIdx = 0; layerIdx <= (int)UILayerId.eMaxLayer; ++layerIdx)
+                for (layerIdx = 0; layerIdx < (int)UILayerId.eMaxLayer; ++layerIdx)
                 {
                     mCanvasList[canvasIdx].layerList[layerIdx].onStageReSize();
                 }

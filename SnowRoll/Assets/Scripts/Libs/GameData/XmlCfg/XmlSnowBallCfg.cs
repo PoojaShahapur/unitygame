@@ -23,7 +23,7 @@ namespace SDK.Lib
     {
         public float mK;
         public float mN;
-        public float mCanSplitFactor;
+        public float mCanSplitMass;
         public int mMax;
         public float mRelStartPos;
         public float mRelDist;
@@ -32,7 +32,7 @@ namespace SDK.Lib
         {
             UtilXml.getXmlAttrFloat(xmlelem, "K", ref mK);
             UtilXml.getXmlAttrFloat(xmlelem, "N", ref mN);
-            UtilXml.getXmlAttrFloat(xmlelem, "CanSplitFactor", ref mCanSplitFactor);
+            UtilXml.getXmlAttrFloat(xmlelem, "CanSplitMass", ref mCanSplitMass);
             UtilXml.getXmlAttrInt(xmlelem, "Max", ref mMax);
             UtilXml.getXmlAttrFloat(xmlelem, "RelStartPos", ref mRelStartPos);
             UtilXml.getXmlAttrFloat(xmlelem, "RelDist", ref mRelDist);
@@ -60,7 +60,7 @@ namespace SDK.Lib
     public class XmlItemEmit : XmlItemBase
     {
         public float mSnowMass;
-        public float mSnowRadius;
+        public float mCanEmitSnowMass;
         public float mRelStartPos;
         public float mRelDist;
         public float mS;
@@ -70,7 +70,7 @@ namespace SDK.Lib
         public override void parseXml(SecurityElement xmlelem)
         {
             UtilXml.getXmlAttrFloat(xmlelem, "SnowMass", ref mSnowMass);
-            UtilXml.getXmlAttrFloat(xmlelem, "SnowRadius", ref mSnowRadius);
+            UtilXml.getXmlAttrFloat(xmlelem, "CanEmitSnowMass", ref mCanEmitSnowMass);
             UtilXml.getXmlAttrFloat(xmlelem, "RelStartPos", ref mRelStartPos);
             UtilXml.getXmlAttrFloat(xmlelem, "RelDist", ref mRelDist);
 

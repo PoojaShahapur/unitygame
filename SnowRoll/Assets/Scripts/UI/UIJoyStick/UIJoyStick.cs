@@ -31,8 +31,11 @@ namespace Game.UI
         private Vector2 MoveVec; //移动方向
         private Vector2 OldMousePos; //鼠标初次点击位置
 
+        private JoyStickTouchInfo mTouchInfo;
+
         public UIJoyStick()
         {
+            this.mTouchInfo = new JoyStickTouchInfo();
         }
 
         public override void onInit()
@@ -133,50 +136,62 @@ namespace Game.UI
         public void onTouchBegin(IDispatchObject dispObj)
         {
             MMouseOrTouch touch = dispObj as MMouseOrTouch;
-            
-            if (touch.mPos.x < Screen.width / 2)
+
+            if (this.mTouchInfo.onTouchBegin(touch))
             {
-                isStop = true;
-                CurMousePos = touch.mPos;
-                isTouchBegin = true;
-                isTouchEnd = false;
-                isTouchMove = false;
-            }
-            else
-            {
-                StillTouch = false;
-                if (Joystick != null) Joystick.gameObject.SetActive(false);
-                if (BackGrounds != null) BackGrounds.gameObject.SetActive(false);
+                if (touch.mPos.x < Screen.width / 2)
+                {
+                    isStop = true;
+                    CurMousePos = touch.mPos;
+                    isTouchBegin = true;
+                    isTouchEnd = false;
+                    isTouchMove = false;
+                }
+                else
+                {
+                    StillTouch = false;
+                    if (Joystick != null) Joystick.gameObject.SetActive(false);
+                    if (BackGrounds != null) BackGrounds.gameObject.SetActive(false);
+                }
             }
         }
 
         public void onTouchMove(IDispatchObject dispObj)
         {
             MMouseOrTouch touch = dispObj as MMouseOrTouch;
-            if (touch.mPos.x < Screen.width / 2)
+
+            if (mTouchInfo.onTouchMove(touch))
             {
-                CurMousePos = touch.mPos;
-                isTouchBegin = false;
-                isTouchEnd = false;
-                isTouchMove = true;
-            }
-            else
-            {
-                StillTouch = false;
-                if (Joystick != null) Joystick.gameObject.SetActive(false);
-                if (BackGrounds != null) BackGrounds.gameObject.SetActive(false);
+                if (touch.mPos.x < Screen.width / 2)
+                {
+                    CurMousePos = touch.mPos;
+                    isTouchBegin = false;
+                    isTouchEnd = false;
+                    isTouchMove = true;
+                }
+                else
+                {
+                    StillTouch = false;
+                    if (Joystick != null) Joystick.gameObject.SetActive(false);
+                    if (BackGrounds != null) BackGrounds.gameObject.SetActive(false);
+                }
             }
         }
 
         public void onTouchEnd(IDispatchObject dispObj)
         {
-            isTouchBegin = false;
-            isTouchEnd = true;
-            isTouchMove = false;
+            MMouseOrTouch touch = dispObj as MMouseOrTouch;
 
-            StillTouch = false;
-            if (Joystick != null) Joystick.gameObject.SetActive(false);
-            if (BackGrounds != null)  BackGrounds.gameObject.SetActive(false);
+            if (this.mTouchInfo.onTouchEnd(touch))
+            {
+                isTouchBegin = false;
+                isTouchEnd = true;
+                isTouchMove = false;
+
+                StillTouch = false;
+                if (Joystick != null) Joystick.gameObject.SetActive(false);
+                if (BackGrounds != null) BackGrounds.gameObject.SetActive(false);
+            }
         }
 
         private void SetOldPos(Vector2 Pos)

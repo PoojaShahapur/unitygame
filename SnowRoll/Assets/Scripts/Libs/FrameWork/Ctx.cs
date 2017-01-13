@@ -287,6 +287,7 @@
             this.mGlobalDelegate.init();
             this.mCommonData.init();
             this.mEventHandleSystem.init();
+            this.mResizeMgr.init();
 
             // 添加事件处理
             Ctx.mInstance.mCamSys.setUiCamera(Ctx.mInstance.mLayerMgr.mPath2Go[NotDestroyPath.ND_CV_App].AddComponent<UICamera>());
@@ -357,6 +358,7 @@
         {
             this.mResizeMgr.addResizeObject(this.mUiMgr as IResizeObject);
 
+            this.mTickMgr.addTick(this.mResizeMgr as ITickedObject, TickPriority.eTPResizeMgr);
             this.mTickMgr.addTick(this.mPlayerMgr as ITickedObject, TickPriority.eTPPlayerMgr);
             this.mTickMgr.addTick(this.mSnowBlockMgr as ITickedObject, TickPriority.eTPSnowBlockMgr);
             this.mTickMgr.addTick(this.mPlayerSnowBlockMgr as ITickedObject, TickPriority.eTPPlayerSnowBlockMgr);

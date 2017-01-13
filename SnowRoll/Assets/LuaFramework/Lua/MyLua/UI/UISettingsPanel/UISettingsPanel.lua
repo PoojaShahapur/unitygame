@@ -63,18 +63,43 @@ function M:setServerAddr()
     local ServerAddr = GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.mGuiWin, "ServerAddr");
     self.Server1 = GlobalNS.UtilApi.getComByPath(ServerAddr, "Server1", "Toggle");
     self.Server2 = GlobalNS.UtilApi.getComByPath(ServerAddr, "Server2", "Toggle");
+    self.Server_input = GlobalNS.UtilApi.getComByPath(ServerAddr, "Server_input", "Toggle");
+
+    self.ip = GlobalNS.UtilApi.getComByPath(ServerAddr, "ip", "InputField");
+    self.port = GlobalNS.UtilApi.getComByPath(ServerAddr, "port", "InputField");
 
     if GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:hasKey("ServerAddr") then
         if GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:getInt("ServerAddr") == 1 then
             self.Server1.isOn = true;
             self.Server2.isOn = false;
-        else
+            self.Server_input.isOn = false;
+        elseif GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:getInt("ServerAddr") == 2 then
             self.Server1.isOn = false;
             self.Server2.isOn = true;
+            self.Server_input.isOn = false;
+        else
+            self.Server1.isOn = false;
+            self.Server2.isOn = false;
+            self.Server_input.isOn = true;
+
+            if GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:hasKey("ip") then
+                local ipStr = GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:getString("ip");
+                self.ip.text = ipStr;
+            else
+                self.ip.text = "192.168.96.14";
+            end
+
+            if GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:hasKey("port") then
+                local port = GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:getInt("port");
+                self.port.text = tostring(port);
+            else
+                self.port.text = "20013";
+            end
         end
     else
         self.Server1.isOn = true;
         self.Server2.isOn = false;
+        self.Server_input.isOn = false;
     end
 end
 
@@ -99,8 +124,12 @@ function M:onCloseBtnClk()
 
     if self.Server1.isOn then
         GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:setInt("ServerAddr", 1);
-    else
+    elseif self.Server2.isOn then
         GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:setInt("ServerAddr", 2);
+    else
+        GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:setInt("ServerAddr", 10086);
+        GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:setString("ip", self.ip.text);
+        GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:setInt("port", tonumber(self.port.text));
     end
     GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:SetServerIP();
 

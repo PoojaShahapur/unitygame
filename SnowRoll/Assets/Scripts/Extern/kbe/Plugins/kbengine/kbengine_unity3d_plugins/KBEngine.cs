@@ -202,9 +202,14 @@
                 {
                     _args.ip = "192.168.96.14";
                 }
-                else
+                else if (SDK.Lib.Ctx.mInstance.mSystemSetting.getInt("ServerAddr") == 2)
                 {
                     _args.ip = "192.168.96.241";
+                }
+                else
+                {
+                    _args.ip = SDK.Lib.Ctx.mInstance.mSystemSetting.getString("ip");
+                    _args.port = SDK.Lib.Ctx.mInstance.mSystemSetting.getInt("port");
                 }
             }
             else

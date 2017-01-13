@@ -508,7 +508,7 @@ namespace SDK.Lib
         // 是否可以吐积雪块
         virtual public bool canEmitSnow()
         {
-            return this.mBallRadius >= Ctx.mInstance.mSnowBallCfg.mEmitSnowRadius;
+            return this.mMass >= Ctx.mInstance.mSnowBallCfg.mCanEmitSnowMass;
         }
 
         virtual public float getEmitSnowSize()
@@ -519,8 +519,7 @@ namespace SDK.Lib
         // 是否可以分裂
         virtual public bool canSplit()
         {
-            //return this.mBallRadius >= Ctx.mInstance.mSnowBallCfg.mCanSplitFactor * Ctx.mInstance.mSnowBallCfg.mInitSnowRadius;
-            return this.mMass >= Ctx.mInstance.mSnowBallCfg.mCanSplitFactor;
+            return this.mMass >= Ctx.mInstance.mSnowBallCfg.mCanSplitMass;
         }
 
         // 是否可以 IO 控制向前移动

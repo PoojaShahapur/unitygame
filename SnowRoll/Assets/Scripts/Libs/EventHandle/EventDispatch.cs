@@ -131,22 +131,32 @@ namespace SDK.Lib
         {
             //try
             //{
-                incDepth();
+            incDepth();
 
-                foreach (EventDispatchFunctionObject handle in this.mHandleList.list())
+            //foreach (EventDispatchFunctionObject handle in this.mHandleList.list())
+
+            int idx = 0;
+            int len = this.mHandleList.Count();
+            EventDispatchFunctionObject handle = null;
+
+            while (idx < len)
+            {
+                handle = this.mHandleList[idx];
+
+                if (!handle.mIsClientDispose)
                 {
-                    if (!handle.mIsClientDispose)
-                    {
-                        handle.call(dispatchObject);
-                    }
+                    handle.call(dispatchObject);
                 }
 
-                if (this.mLuaCSBridgeDispatch != null)
-                {
-                    this.mLuaCSBridgeDispatch.handleGlobalEvent(this.mEventId, dispatchObject);
-                }
+                ++idx;
+            }
 
-                decDepth();
+            if (this.mLuaCSBridgeDispatch != null)
+            {
+                this.mLuaCSBridgeDispatch.handleGlobalEvent(this.mEventId, dispatchObject);
+            }
+
+            decDepth();
             //}
             //catch (Exception ex)
             //{
@@ -158,9 +168,18 @@ namespace SDK.Lib
         {
             if (isInDepth())
             {
-                foreach (EventDispatchFunctionObject item in this.mHandleList.list())
+                //foreach (EventDispatchFunctionObject item in this.mHandleList.list())
+                int idx = 0;
+                int len = this.mHandleList.Count();
+                EventDispatchFunctionObject item = null;
+
+                while (idx < len)
                 {
+                    item = this.mHandleList[idx];
+
                     removeObject(item);
+
+                    ++idx;
                 }
             }
             else
@@ -173,13 +192,22 @@ namespace SDK.Lib
         public bool isExistEventHandle(ICalleeObject pThis, MAction<IDispatchObject> handle, LuaTable luaTable = null, LuaFunction luaFunction = null)
         {
             bool bFinded = false;
-            foreach (EventDispatchFunctionObject item in this.mHandleList.list())
+            //foreach (EventDispatchFunctionObject item in this.mHandleList.list())
+            int idx = 0;
+            int len = this.mHandleList.Count();
+            EventDispatchFunctionObject item = null;
+
+            while (idx < len)
             {
+                item = this.mHandleList[idx];
+
                 if (item.isEqual(pThis, handle, luaTable, luaFunction))
                 {
                     bFinded = true;
                     break;
                 }
+
+                ++idx;
             }
 
             return bFinded;
@@ -187,9 +215,18 @@ namespace SDK.Lib
 
         public void copyFrom(EventDispatch rhv)
         {
-            foreach(EventDispatchFunctionObject handle in rhv.handleList.list())
+            //foreach(EventDispatchFunctionObject handle in rhv.handleList.list())
+            int idx = 0;
+            int len = this.mHandleList.Count();
+            EventDispatchFunctionObject handle = null;
+
+            while (idx < len)
             {
+                handle = this.mHandleList[idx];
+
                 this.mHandleList.Add(handle);
+
+                ++idx;
             }
         }
 

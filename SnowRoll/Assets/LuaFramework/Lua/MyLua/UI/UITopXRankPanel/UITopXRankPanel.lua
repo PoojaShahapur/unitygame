@@ -21,6 +21,7 @@ function M:ctor()
     self.myRank = 0;
     --排名信息
     self.topN = { };
+    self.showDataPanel = true;
 end
 
 function M:dtor()
@@ -37,11 +38,14 @@ end
 function M:onReady()
     M.super.onReady(self);
 
-    self.topXBG = GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.mGuiWin, "TopXBG");
+    local topXBG = GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.mGuiWin, "TopXBG");
+    local title = GlobalNS.UtilApi.TransFindChildByPObjAndPath(topXBG, "Title");
 	self.mDropBtn:setSelfGo(GlobalNS.UtilApi.TransFindChildByPObjAndPath(
-			self.topXBG, 
+			title,
 			GlobalNS.TopXRankPanelNS.TopXRankPanelPath.BtnDrop)
 		);
+
+    self.dataPanel = GlobalNS.UtilApi.TransFindChildByPObjAndPath(topXBG, "Data");
 
     self.heroentity = GlobalNS.CSSystem.Ctx.mInstance.mPlayerMgr:getHero():getEntity();
     self.heroentity:cellCall("reqRankData");
@@ -50,11 +54,11 @@ end
 
 function M:showTop10Rank()
     for i=1, self.itemCount do
-        if self.topXBG == nil then
+        if self.dataPanel == nil then
             return;
         end
         --获取topx的GameObject对
-        local topx = GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.topXBG, "Top" .. i);
+        local topx = GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.dataPanel, "Top" .. i);
         topx:SetActive(true);
         if i % 2 == 0 then
 			GlobalNS.UtilApi.setImageColor(topx, 255, 255, 255, 0);
@@ -74,17 +78,23 @@ function M:showTop10Rank()
     end
 
     for j=self.itemCount + 1, 10 do
-        if self.topXBG == nil then
+        if self.dataPanel == nil then
             return;
         end
         --获取topx的GameObject对
-        local topx = GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.topXBG, "Top" .. j);
+        local topx = GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.dataPanel, "Top" .. j);
         topx:SetActive(false);
     end
 end
 
 function M:onDropBtnClk()
-    GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormId.eUIConsoleDlg);
+    --GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormId.eUIConsoleDlg);
+    self.showDataPanel = not self.showDataPanel;
+    if self.showDataPanel then
+        self.dataPanel:SetActive(true);
+    else
+        self.dataPanel:SetActive(false);
+    end
 end
 
 function M:onShow()
