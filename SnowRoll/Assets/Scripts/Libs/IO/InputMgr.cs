@@ -70,13 +70,10 @@
             this.mMultiTouchSet = new MultiTouchSet();
 
             this.mMultiTouchEnabled = UnityEngine.Input.multiTouchEnabled;
-            this.mSimulateMouseWithTouches = UnityEngine.Input.simulateMouseWithTouches;
+            //this.mSimulateMouseWithTouches = UnityEngine.Input.simulateMouseWithTouches;
             this.mTouchSupported = UnityEngine.Input.touchSupported;
-
-            // Test
             this.mSimulateMouseWithTouches = true;
-            this.mTouchSupported = true;
-            this.mMultiTouchEnabled = true;
+            //this.mMultiTouchEnabled = true;
         }
 
         public void init()
@@ -246,6 +243,14 @@
             }
 
             this.mHasTouch = true;
+
+            if(!this.mTouchSupported)
+            {
+                if (this.mSimulateMouseWithTouches)
+                {
+                    this.addEventMouse(MMouseDevice.MouseLeftButton);
+                }
+            }
         }
 
         public void removeTouchListener(EventId evtID, MAction<IDispatchObject> handle)
@@ -272,6 +277,19 @@
             }
 
             this.mHasTouch = this.hasEventHandle();
+
+            if (!this.mTouchSupported && !this.mHasTouch)
+            {
+                if (this.mSimulateMouseWithTouches)
+                {
+                    this.mHasMultiTouch = this.hasMultiEventHandle();
+
+                    if (!this.mHasMultiTouch)
+                    {
+                        this.removeEventMouse(MMouseDevice.MouseLeftButton);
+                    }
+                }
+            }
         }
 
         public void addMultiTouchListener(EventId evtID, MAction<IDispatchObject> handle)
@@ -298,6 +316,14 @@
             }
 
             this.mHasMultiTouch = true;
+
+            if (!this.mTouchSupported)
+            {
+                if (this.mSimulateMouseWithTouches)
+                {
+                    this.addEventMouse(MMouseDevice.MouseLeftButton);
+                }
+            }
         }
 
         public void removeMultiTouchListener(EventId evtID, MAction<IDispatchObject> handle)
@@ -324,6 +350,19 @@
             }
 
             this.mHasMultiTouch = this.hasMultiEventHandle();
+
+            if (!this.mTouchSupported && !this.mHasMultiTouch)
+            {
+                if (this.mSimulateMouseWithTouches)
+                {
+                    this.mHasTouch = this.hasEventHandle();
+
+                    if (!this.mHasTouch)
+                    {
+                        this.removeEventMouse(MMouseDevice.MouseLeftButton);
+                    }
+                }
+            }
         }
 
         public void addAccelerationListener(EventId evtID, MAction<IDispatchObject> handle)
