@@ -14,22 +14,32 @@ public class AppRoot : MonoBehaviour
     }
 
     // Use this for initialization
-    void Start () 
+    void Start()
     {
         init();
 	}
 	
 	// Update is called once per frame
-    void Update () 
+    void Update()
     {
         //BugResolve();
         //try
         //{
-            Ctx.mInstance.mEngineLoop.MainLoop();
+            //Ctx.mInstance.mEngineLoop.MainLoop();
         //}
         //catch(Exception err)
         //{
         //}
+    }
+
+    void FixedUpdate()
+    {
+        Ctx.mInstance.mEngineLoop.MainLoop();
+    }
+
+    void LateUpdate()
+    {
+        Ctx.mInstance.mEngineLoop.postUpdate();
     }
 
     void OnApplicationQuit()

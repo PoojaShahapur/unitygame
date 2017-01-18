@@ -14,6 +14,10 @@ namespace SDK.Lib
         protected int mCurNum;
         protected int mMaxNum;
 
+        protected bool mIsEmitSnowBall; // 吐雪块
+        protected float mEmitInterval;  // 吐雪块间隔
+        protected float mEmitTimeStamp;  // 吐雪块时间戳
+
         public PlayerMgr()
 		{
             this.mUniqueStrIdGen = new UniqueStrIdGen(UniqueStrIdGen.PlayerPrefix, 0);
@@ -21,11 +25,28 @@ namespace SDK.Lib
 
             this.mCurNum = 0;
             this.mMaxNum = 10;
+            this.mIsEmitSnowBall = false;
+            this.mEmitInterval = 1.0f;
+            this.mEmitTimeStamp = 0;
         }
 
         override protected void onTickExec(float delta)
         {
             base.onTickExec(delta);
+            // 检查是否发送移动消息
+            if (Ctx.mInstance.mCommonData.isClickSplit())
+            {
+                Game.Game.ReqSceneInteractive.checkChildAndSendPlayerMove();
+            }
+            this.emitSnowBlock(delta);
+        }
+
+        public void postUpdate()
+        {
+            if (null != this.mHero)
+            {
+                this.mHero.mPlayerSplitMerge.mPlayerChildMgr.postUpdate();
+            }
         }
 
         public PlayerMain createHero()
@@ -103,15 +124,35 @@ namespace SDK.Lib
             this.mPlayerTarget.setPos(pos);
         }
 
+        public void startEmitSnowBlock()
+        {
+            this.mIsEmitSnowBall = true;
+            Game.Game.ReqSceneInteractive.sendShit();
+        }
+
         // 吐雪球
-        public void emitSnowBlock()
+        public void emitSnowBlock(float delta)
         {
             //if (null != this.mHero)
             //{
             //    this.mHero.emitSnowBlock();
             //}
+            if (this.mIsEmitSnowBall)
+            {
+                this.mEmitTimeStamp = this.mEmitTimeStamp + delta;
 
-            Game.Game.ReqSceneInteractive.sendShit();
+                if (this.mEmitTimeStamp>= this.mEmitInterval)
+                {
+                    Game.Game.ReqSceneInteractive.sendShit();
+                    this.mEmitTimeStamp = this.mEmitTimeStamp - this.mEmitInterval;
+                }
+            }
+        }
+
+        public void stopEmitSnowBlock()
+        {
+            this.mIsEmitSnowBall = false;
+            this.mEmitTimeStamp = 0;
         }
 
         protected void startCreatOtherTimer()

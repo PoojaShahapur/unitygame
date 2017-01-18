@@ -17,6 +17,18 @@
             base.onTickExec(delta);
         }
 
+        public void postUpdate()
+        {
+            int idx = 0;
+            int len = this.getEntityCount();
+
+            while(idx < len)
+            {
+                (this.mSceneEntityList[idx] as PlayerMainChild).postUpdate();
+                ++idx;
+            }
+        }
+
         override public void init()
         {
             base.init();

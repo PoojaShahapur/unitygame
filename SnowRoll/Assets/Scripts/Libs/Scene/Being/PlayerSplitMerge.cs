@@ -52,6 +52,11 @@
             return this.mTargetPoint;
         }
 
+        public UnityEngine.Vector3 getCenterPoint()
+        {
+            return this.mRangeBox.getCenter().toNative();
+        }
+
         public void addToParent(Player childPlayer)
         {
             this.mPlayerChildMgr.addEntity(childPlayer);

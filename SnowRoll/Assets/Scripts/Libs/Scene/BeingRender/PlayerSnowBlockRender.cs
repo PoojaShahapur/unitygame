@@ -19,10 +19,13 @@ namespace SDK.Lib
         {
             base.onSelfChanged();
 
-            GameObject collide = UtilApi.TransFindChildByPObjAndPath(this.selfGo, UtilApi.COLLIDE_NAME);
-            AuxPlayerSnowBlockUserData auxData = UtilApi.AddComponent<AuxPlayerSnowBlockUserData>(collide);
+            //GameObject collide = UtilApi.TransFindChildByPObjAndPath(this.selfGo, UtilApi.COLLIDE_NAME);
+            //AuxPlayerSnowBlockUserData auxData = UtilApi.AddComponent<AuxPlayerSnowBlockUserData>(collide);
+            AuxPlayerSnowBlockUserData auxData = UtilApi.AddComponent<AuxPlayerSnowBlockUserData>(this.selfGo);
 
             auxData.setUserData(this.mEntity);
+
+            UtilApi.setLayer(this.selfGo, "PlayerSnowBlock");
         }
     }
 }

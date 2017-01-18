@@ -13,7 +13,7 @@
             this.mAttack = new PlayerMainChildAttack(this);
             this.mEntityUniqueId = Ctx.mInstance.mPlayerMgr.genChildNewStrId();
 
-            this.mLastMergedTime = UtilApi.getUTCSec();
+            this.setLastMergedTime();
         }
 
         override public void initRender()
@@ -28,6 +28,14 @@
 
             this.mMovement.init();
             this.mAttack.init();
+        }
+
+        public void postUpdate()
+        {
+            if(this.mRender.isValid())
+            {
+                this.setRenderPos(this.mRender.getPos());
+            }
         }
 
         override public void setBallRadius(float size, bool immScale = false, bool isCalcMass = false)
@@ -126,6 +134,22 @@
         override public void addParentOrientChangedhandle()
         {
             (this.mMovement as PlayerMainChildMovement).addParentOrientChangedhandle();
+        }
+
+        override public void setLastMergedTime()
+        {
+            this.mLastMergedTime = UtilApi.getUTCSec();
+        }
+
+        // 接触跟随，但是不能融合
+        override public void contactWithAndFollowButNotMerge(BeingEntity bBeing)
+        {
+            PlayerMainChild otherChild = bBeing as PlayerMainChild;
+            if(null != otherChild)
+            {
+                UnityEngine.Quaternion quad = otherChild.getDestRotate();
+                this.setNotMergeRotate(quad);
+            }
         }
     }
 }

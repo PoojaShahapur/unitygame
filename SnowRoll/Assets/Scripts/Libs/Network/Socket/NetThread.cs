@@ -22,7 +22,7 @@ namespace SDK.Lib
         {
             base.threadHandle();
 
-            while (!m_ExitFlag)
+            while (!mIsExitFlag)
             {
                 m_networkMgr.sendAndRecData();
                 Thread.Sleep(1000);       // 本来是想24帧每秒，但是还是改成 1 帧每秒，因为在 C++ 中测试24帧每秒仍然会阻塞主线程， 1帧每秒在 C++ 中也是正常的

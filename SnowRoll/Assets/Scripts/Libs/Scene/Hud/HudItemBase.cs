@@ -65,6 +65,15 @@
             base.onSelfChanged();
 
             this.mName.setSelfGo(this.selfGo, "TextName");
+
+            if(this.mEntity.isWillVisible() && this.mEntity.IsVisible())
+            {
+                this.show();
+            }
+            else if(!this.mEntity.IsVisible())
+            {
+                this.hide();
+            }
         }
 
         public void setBeing(BeingEntity being)
@@ -89,7 +98,7 @@
 
         virtual public void onNameChanged()
         {
-            this.mName.setText(this.mEntity.getName());
+            this.mName.setText(this.mEntity.getName() + " " + mEntity.getThisId());
         }
 
         override public void updateLocalTransform()

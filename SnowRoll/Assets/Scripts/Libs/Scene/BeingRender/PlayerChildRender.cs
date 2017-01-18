@@ -2,6 +2,7 @@
 {
     public class PlayerChildRender : PlayerRender
     {
+        //protected UnityEngine.SkinnedMeshRenderer mNativeRender;
         protected AuxTextureLoader mAuxTextureLoader;
 
         public PlayerChildRender(SceneEntityBase entity_)
@@ -21,6 +22,26 @@
             base.dispose();
         }
 
+        //override public void onTick(float delta)
+        //{
+        //    base.onTick(delta);
+
+        //    if (null != this.mNativeRender)
+        //    {
+        //        if (this.mNativeRender.isVisible)
+        //        {
+        //            if (this.mEntity.isWillVisible())
+        //            {
+        //                this.mEntity.show();
+        //            }
+        //        }
+        //        else
+        //        {
+        //            this.mEntity.hide();
+        //        }
+        //    }
+        //}
+
         override public void setTexture(string path)
         {
             if(null == this.mAuxTextureLoader)
@@ -35,7 +56,17 @@
         {
             base.onSelfChanged();
 
+            //if (null != this.mModelRender)
+            //{
+            //    this.mNativeRender = this.mModelRender.GetComponent<UnityEngine.SkinnedMeshRenderer>();
+            //}
+
             this.setModelMat();
+
+            AuxClipUserData auxData = UtilApi.AddComponent<AuxClipUserData>(this.mModelRender);
+            auxData.setUserData(this.mEntity);
+
+            this.setSelfName("" + mEntity.getThisId());
         }
 
         public void onTextureLoaded(IDispatchObject dispObj)

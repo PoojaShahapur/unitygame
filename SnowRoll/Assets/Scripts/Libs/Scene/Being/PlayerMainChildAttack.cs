@@ -43,12 +43,26 @@
             if (EntityType.ePlayerMainChild == bBeingEntity.getEntityType())
             {
                 //(this.mEntity as PlayerMainChild).mParentPlayer.mPlayerSplitMerge.removeMerge(this.mEntity as PlayerChild, bBeingEntity as PlayerChild);
+                //this.mEntity.clearContactNotMerge();
+                //bBeingEntity.clearContactNotMerge();
+
+                UtilApi.freezeRigidBodyXZPos(this.mEntity.getGameObject(), false);
+            }
+            else if (EntityType.ePlayerOtherChild == bBeingEntity.getEntityType())
+            {
+                UtilApi.freezeRigidBodyXZPos(this.mEntity.getGameObject(), false);
+            }
+            else if (EntityType.eSnowBlock == bBeingEntity.getEntityType())
+            {
+                UtilApi.freezeRigidBodyXZPos(this.mEntity.getGameObject(), false);
             }
         }
 
         // 雪块
         public void eatSnowBlock(BeingEntity bBeingEntity)
         {
+            UtilApi.freezeRigidBodyXZPos(bBeingEntity.getGameObject(), true);
+
             if (this.mEntity.canEatOther(bBeingEntity))
             {
                 bBeingEntity.setClientDispose(true);
@@ -92,6 +106,8 @@
             {
                 otherIsGod = (byte)bBeingEntity.getEntity().getDefinedProperty("isGod");
             }
+
+            UtilApi.freezeRigidBodyXZPos(this.mEntity.getGameObject(), true);
 
             if (this.mEntity.canEatOther(bBeingEntity) && 0 == otherIsGod)
             {
@@ -142,8 +158,11 @@
             if (this.mEntity.canMerge() && bBeingEntity.canMerge())
             {
                 //(this.mEntity as PlayerMainChild).mParentPlayer.mPlayerSplitMerge.addMerge(this.mEntity as PlayerChild, bBeingEntity as PlayerChild);
+
+                UtilApi.freezeRigidBodyXZPos(this.mEntity.getGameObject(), true);
+
                 // 如果现在能进行合并
-                if(this.mEntity.canMergeWithOther(bBeingEntity))
+                if (this.mEntity.canMergeWithOther(bBeingEntity))
                 {
                     bBeingEntity.setClientDispose(true);
                     this.mEntity.setClientDispose(true);
@@ -152,18 +171,20 @@
                     Game.Game.ReqSceneInteractive.sendMerge(this.mEntity, bBeingEntity);
                 }
             }
-            else if (this.mEntity.isNeedReduceSpeed() || bBeingEntity.isNeedReduceSpeed())
-            {
-                if (UtilMath.isBehindCollidePoint(this.mEntity.getPos(), this.mEntity.getForward(), collisionInfo))
-                {
-                    // 需要减小速度
-                    this.mEntity.setMoveSpeed(bBeingEntity.getMoveSpeed());
-                }
-                else
-                {
-                    bBeingEntity.setMoveSpeed(this.mEntity.getMoveSpeed());
-                }
-            }
+            //else if (this.mEntity.isNeedReduceSpeed() || bBeingEntity.isNeedReduceSpeed())
+            //{
+            //    if (UtilMath.isBehindCollidePoint(this.mEntity.getPos(), this.mEntity.getForward(), collisionInfo))
+            //    {
+            //        // 需要减小速度
+            //        this.mEntity.setContactNotMergeSpeed(bBeingEntity.getMoveSpeed());
+            //        this.mEntity.contactWithAndFollowButNotMerge(bBeingEntity);
+            //    }
+            //    else
+            //    {
+            //        bBeingEntity.setContactNotMergeSpeed(this.mEntity.getMoveSpeed());
+            //        bBeingEntity.contactWithAndFollowButNotMerge(this.mEntity);
+            //    }
+            //}
         }
     }
 }

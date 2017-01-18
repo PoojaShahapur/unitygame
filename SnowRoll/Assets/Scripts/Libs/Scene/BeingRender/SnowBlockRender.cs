@@ -19,10 +19,13 @@ namespace SDK.Lib
         {
             base.onSelfChanged();
 
-            GameObject collide = UtilApi.TransFindChildByPObjAndPath(this.selfGo, UtilApi.COLLIDE_NAME);
-            AuxSnowBlockUserData auxData = UtilApi.AddComponent<AuxSnowBlockUserData>(collide);
+            //GameObject collide = UtilApi.TransFindChildByPObjAndPath(this.selfGo, UtilApi.COLLIDE_NAME);
+            //AuxSnowBlockUserData auxData = UtilApi.AddComponent<AuxSnowBlockUserData>(collide);
+            AuxSnowBlockUserData auxData = UtilApi.AddComponent<AuxSnowBlockUserData>(this.selfGo);
 
             auxData.setUserData(this.mEntity);
+
+            UtilApi.setLayer(this.selfGo, "SnowBlock");
         }
 
         override public void updateLocalTransform()

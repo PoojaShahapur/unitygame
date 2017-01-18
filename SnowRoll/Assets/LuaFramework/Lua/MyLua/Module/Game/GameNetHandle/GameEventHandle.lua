@@ -5,7 +5,6 @@ M.clsName = "GameEventHandle";
 GlobalNS[M.clsName] = M;
 
 function M:ctor()
-    self.isGetTime = false;
 end
 
 function M:dtor()
@@ -15,6 +14,8 @@ function M:dtor()
     GCtx.mNetCmdNotify_KBE:removeParamHandle("notifyTop10RankInfoList", self, self.notifyTop10RankInfoList);
     GCtx.mNetCmdNotify_KBE:removeParamHandle("notifyGameLeftSeconds", self, self.notifyGameLeftSeconds);
     GCtx.mNetCmdNotify_KBE:removeParamHandle("notifyResultRankInfoList", self, self.notifyResultRankInfoList);
+    GCtx.mNetCmdNotify_KBE:removeParamHandle("notifyNetworkInvalid", self, self.notifyNetworkInvalid);
+    GCtx.mNetCmdNotify_KBE:removeParamHandle("notifySomeMessage", self, self.notifySomeMessage);
 end
 
 function M:init()
@@ -24,6 +25,8 @@ function M:init()
     GCtx.mNetCmdNotify_KBE:addParamHandle("notifyTop10RankInfoList", self, self.notifyTop10RankInfoList);
     GCtx.mNetCmdNotify_KBE:addParamHandle("notifyGameLeftSeconds", self, self.notifyGameLeftSeconds);
     GCtx.mNetCmdNotify_KBE:addParamHandle("notifyResultRankInfoList", self, self.notifyResultRankInfoList);
+    GCtx.mNetCmdNotify_KBE:addParamHandle("notifyNetworkInvalid", self, self.notifyNetworkInvalid);
+    GCtx.mNetCmdNotify_KBE:addParamHandle("notifySomeMessage", self, self.notifySomeMessage);
 end
 
 function M:dtor()
@@ -51,7 +54,12 @@ function M:filterMessage(msgname) --消息过滤
        string.find(msgname, "Baseapp_onUpdateDataFromClient") ~= nil or
        string.find(msgname, "Client_onUpdateData_xyz") ~= nil or
        string.find(msgname, "Baseapp_onClientActiveTick") ~= nil or
-       string.find(msgname, "Client_onAppActiveTickCB") ~= nil
+       string.find(msgname, "Client_onAppActiveTickCB") ~= nil or
+       string.find(msgname, "Client_onEntityEnterWorld") ~= nil or
+       string.find(msgname, "Client_onUpdatePropertys") ~= nil or
+       string.find(msgname, "Client_setSpaceData") ~= nil or
+       string.find(msgname, "Client_onEntityLeaveWorldOptimized") ~= nil or
+       string.find(msgname, "Client_onRemoteMethodCall") ~= nil
     then
         return true;
     else
@@ -78,11 +86,7 @@ end
 
 function M:notifyGameLeftSeconds(params)
     local leftseconds = params[0];
-    if not self.isGetTime then
-        local leftseconds = params[0];
-        GCtx.mGameData:setGameTime(leftseconds);
-        self.isGetTime = true;
-    end
+    GCtx.mGameData:setGameTime(leftseconds);
 end
 
 function M:notifyResultRankInfoList(params)
@@ -92,6 +96,15 @@ function M:notifyResultRankInfoList(params)
 
     GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormId.eUIRankListPanel);
     GCtx.mGameData:setRankInfoList(params);
+end
+
+function M:notifyNetworkInvalid()
+    GCtx.mGameData:ShowMessageBox("已与服务器断开连接");
+end
+
+function M:notifySomeMessage(params)
+    local msg = params[0];
+    GCtx.mGameData:ShowRollMessage(msg);
 end
 
 return M;

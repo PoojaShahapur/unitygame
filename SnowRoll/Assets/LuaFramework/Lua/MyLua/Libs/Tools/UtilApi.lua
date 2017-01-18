@@ -337,8 +337,32 @@ function M.addEventHandleSelf(go, luaTable, luaFunction)
     GlobalNS.CSSystem.addEventHandleSelf(go, luaTable, luaFunction);
 end
 
-function M.RemoveListener(go, luaTable, func)
+function M.addButtonDownEventHandle(go, luaTable, luaFunction)
+    GlobalNS.CSSystem.addButtonDownEventHandle(go, luaTable, luaFunction, false);
+end
+
+function M.addButtonUpEventHandle(go, luaTable, luaFunction)
+    GlobalNS.CSSystem.addButtonUpEventHandle(go, luaTable, luaFunction, false);
+end
+
+function M.addButtonExitEventHandle(go, luaTable, luaFunction)
+    GlobalNS.CSSystem.addButtonExitEventHandle(go, luaTable, luaFunction, false);
+end
+
+function M.RemoveListener(go, luaTable, luaFunction)
     
+end
+
+function M.removeButtonDownEventHandle(go, luaTable, luaFunction)
+	
+end
+
+function M.removeButtonUpEventHandle(go, luaTable, luaFunction)
+	
+end
+
+function M.removeButtonExitEventHandle(go, luaTable, luaFunction)
+	
 end
 
 function getStrLen(str)

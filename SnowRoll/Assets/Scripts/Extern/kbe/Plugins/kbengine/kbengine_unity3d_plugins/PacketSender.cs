@@ -62,8 +62,26 @@
 		public bool send(MemoryStream stream)
 		{
 			int dataLength = (int)stream.length();
-			if (dataLength <= 0)
+            MemoryStream temp = new MemoryStream();
+            temp.setData(stream.data());
+            MessageID msgID = temp.readUint16();
+            try
+            {
+                Message msg = Message.idMessages[msgID];
+                Dbg.DEBUG_MSG("发送消息id=" + temp.readUint16() + ",长度=" + msg.msglen + ",消息名=" + msg.name);
+            }
+            catch
+            {
+                Dbg.ERROR_MSG("发送找不到的消息id=" + temp.readUint16());
+            }
+            
+            if (dataLength <= 0)
 				return true;
+
+            if(dataLength == 150)
+            {
+                int num = 0;
+            }
 
 			if (0 == Interlocked.Add(ref _sending, 0))
 			{
@@ -144,6 +162,11 @@
 				int bytesSent = 0;
 				try
 				{
+                    if(sendSize == 150)
+                    {
+                        int num = 10;
+                    }
+
 					bytesSent = socket.Send(_buffer, _spos % _buffer.Length, sendSize, 0);
 				}
 				catch (SocketException se)

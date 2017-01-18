@@ -5,15 +5,15 @@ namespace SDK.Lib
 {
     public class LogSys
     {
-        protected LockList<string> mAsyncLogList = new LockList<string>("Logger_asyncLogList");              // 这个是多线程访问的
-        protected LockList<string> mAsyncWarnList = new LockList<string>("Logger_asyncWarnList");            // 这个是多线程访问的
-        protected LockList<string> mAsyncErrorList = new LockList<string>("Logger_asyncErrorList");          // 这个是多线程访问的
+        protected LockList<string> mAsyncLogList;              // 这个是多线程访问的
+        protected LockList<string> mAsyncWarnList;            // 这个是多线程访问的
+        protected LockList<string> mAsyncErrorList;          // 这个是多线程访问的
 
         public string mTmpStr;
-        public bool mIsOutLog = true;          // 是否输出日志
+        public bool mIsOutLog;          // 是否输出日志
 
-        protected MList<LogDeviceBase> mLogDeviceList = new MList<LogDeviceBase>();
-        protected MList<LogDeviceBase> mFightLogDeviceList = new MList<LogDeviceBase>();
+        protected MList<LogDeviceBase> mLogDeviceList;
+        protected MList<LogDeviceBase> mFightLogDeviceList;
 
         protected MList<LogTypeId> mEnableLogTypeList;
         protected bool mEnableLog;      // 全局开关
@@ -21,6 +21,15 @@ namespace SDK.Lib
         // 构造函数仅仅是初始化变量，不涉及逻辑
         public LogSys()
         {
+            this.mAsyncLogList = new LockList<string>("Logger_asyncLogList");
+            this.mAsyncWarnList = new LockList<string>("Logger_asyncWarnList");
+            this.mAsyncErrorList = new LockList<string>("Logger_asyncErrorList");
+
+            this.mIsOutLog = true;
+
+            this.mLogDeviceList = new MList<LogDeviceBase>();
+            this.mFightLogDeviceList = new MList<LogDeviceBase>();
+
 #if UNITY_5
             Application.logMessageReceived += onDebugLogCallbackHandler;
             Application.logMessageReceivedThreaded += onDebugLogCallbackThreadHandler;
@@ -36,7 +45,7 @@ namespace SDK.Lib
             //mEnableLogTypeList.Add(LogTypeId.eLogAcceleration);
             mEnableLogTypeList.Add(LogTypeId.eLogSplitMergeEmit);
             //mEnableLogTypeList.Add(LogTypeId.eLogSceneInterActive);
-            //mEnableLogTypeList.Add(LogTypeId.eLogKBE);
+            mEnableLogTypeList.Add(LogTypeId.eLogKBE);
             //mEnableLogTypeList.Add(LogTypeId.eLogBeingMove);
 
             mEnableLog = true;
@@ -85,6 +94,7 @@ namespace SDK.Lib
         public void registerFileLogDevice()
         {
             Ctx.mInstance.mDataPlayer.m_accountData.m_account = "A1000";
+
             if (MacroDef.ENABLE_FILELOG)
             {
                 unRegisterFileLogDevice();
@@ -206,10 +216,6 @@ namespace SDK.Lib
         {
             if (isInFilter(logTypeId))
             {
-                StackTrace stackTrace = new StackTrace(true);
-                string traceStr = stackTrace.ToString();
-                message = string.Format("{0}\n{1}", message, traceStr);
-
                 if (MThread.isMainThread())
                 {
                     logout(message, LogColor.WARN);

@@ -167,8 +167,10 @@
 		}
 		
 		public void baseCall(string methodname, params object[] arguments)
-		{			
-			if(KBEngineApp.app.currserver == "loginapp")
+		{
+            SDK.Lib.Ctx.mInstance.mLuaSystem.PrintConsoleMessage("<color=#00FFFF>[bassCall]: </color>" + methodname);
+
+            if (KBEngineApp.app.currserver == "loginapp")
 			{
 				Dbg.ERROR_MSG(className + "::baseCall(" + methodname + "), currserver=!" + KBEngineApp.app.currserver);  
 				return;
@@ -218,7 +220,8 @@
 		
 		public void cellCall(string methodname, params object[] arguments)
 		{
-			if(KBEngineApp.app.currserver == "loginapp")
+            SDK.Lib.Ctx.mInstance.mLuaSystem.PrintConsoleMessage("<color=#00FFFF>[cellCall]: </color>" + methodname);
+            if (KBEngineApp.app.currserver == "loginapp")
 			{
 				Dbg.ERROR_MSG(className + "::cellCall(" + methodname + "), currserver=!" + KBEngineApp.app.currserver);  
 				return;

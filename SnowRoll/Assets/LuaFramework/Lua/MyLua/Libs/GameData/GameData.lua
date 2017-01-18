@@ -49,6 +49,7 @@ end
 
 --每局游戏倒计时
 function M:setGameTime(totalTime)
+	self.mTimer.mIsDisposed = false;
     self.mTimer:setTotalTime(totalTime);
     self.mTimer:setFuncObject(self, self.onTick);
     self.mTimer:Start();

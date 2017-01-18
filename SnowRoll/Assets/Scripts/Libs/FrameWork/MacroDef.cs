@@ -31,7 +31,7 @@
         static public bool ENABLE_NETLOG = false;
 
         // 开启文件日志
-        static public bool ENABLE_FILELOG = true;
+        static public bool ENABLE_FILELOG = false;
 
         // 使用打包模式加载资源
         static public bool PKG_RES_LOAD = false;

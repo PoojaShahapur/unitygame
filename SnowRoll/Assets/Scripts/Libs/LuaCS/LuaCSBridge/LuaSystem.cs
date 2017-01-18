@@ -187,7 +187,10 @@ namespace SDK.Lib
             {
                 //if (mIsNeedUpdate)
                 //{
-                this.callLuaFunction("GlobalNS.GlobalEventCmd.onAdvance", delta);
+                if (Ctx.mInstance.mSystemFrameData.getTotalFrameCount() > 100)
+                {
+                    this.callLuaFunction("GlobalNS.GlobalEventCmd.onAdvance", delta);
+                }
                 //}
             }
         }

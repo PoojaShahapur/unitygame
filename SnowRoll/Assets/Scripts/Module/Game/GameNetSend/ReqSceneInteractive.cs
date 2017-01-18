@@ -8,6 +8,48 @@ namespace Game.Game
      */
     public class ReqSceneInteractive
     {
+        // 检查 Child 并且发送主角移动
+        public static void checkChildAndSendPlayerMove()
+        {
+            if(ReqSceneInteractive.isPosOrRotateChanged())
+            {
+                KBEngine.Entity playerEntity = Ctx.mInstance.mClientApp.gameapp.player();
+                System.UInt32 spaceID = Ctx.mInstance.mClientApp.gameapp.spaceID;
+                KBEngine.NetworkInterface _networkInterface = Ctx.mInstance.mClientApp.gameapp.networkInterface();
+
+                ReqSceneInteractive.sendPlayerMove(playerEntity, spaceID, _networkInterface);
+            }
+        }
+
+        public static bool isPosOrRotateChanged()
+        {
+            bool ret = false;
+
+            PlayerChildMgr playerChildMgr = Ctx.mInstance.mPlayerMgr.getHero().mPlayerSplitMerge.mPlayerChildMgr;
+
+            int idx = 0;
+            int len = playerChildMgr.getEntityCount();
+            PlayerChild playerChild = null;
+
+            if (len > 0)
+            {
+                while (idx < len)
+                {
+                    playerChild = playerChildMgr.getEntityByIndex(idx) as PlayerChild;
+
+                    if(BeingState.eBSSeparation == playerChild.getBeingState())
+                    {
+                        ret = true;
+                        break;
+                    }
+
+                    ++idx;
+                }
+            }
+
+            return ret;
+        }
+
         // 发送主角移动消息，现在发送所有的分裂的移动
         public static void sendPlayerMove(KBEngine.Entity playerEntity, System.UInt32 spaceID, KBEngine.NetworkInterface _networkInterface)
         {
@@ -53,10 +95,6 @@ namespace Game.Game
             //}
             //else
             {
-                // 发送主角分裂的 Child 的位置
-                KBEngine.Bundle bundle = KBEngine.Bundle.createObject();
-                bundle.newMessage(KBEngine.Message.messages["Baseapp_onUpdateDataFromClient"]);
-
                 /**
                     消息格式
                     总共球的数量N个 : uint32
@@ -70,9 +108,32 @@ namespace Game.Game
                 PlayerChildMgr playerChildMgr = Ctx.mInstance.mPlayerMgr.getHero().mPlayerSplitMerge.mPlayerChildMgr;
 
                 int idx = 0;
-                int len = playerChildMgr.getEntityCount();
+                int len = 0;
+                MList<int> idxList = new MList<int>();
+
+                while (idx < playerChildMgr.getEntityCount())
+                {
+                    PlayerChild playerChild = playerChildMgr.getEntityByIndex(idx) as PlayerChild;
+                    
+                    position = playerChild.getPos();
+                    direction = playerChild.getRotate().eulerAngles;
+
+                    UnityEngine.Vector3 oldPosition = playerChild.getPreSendPosition();
+                    if (UnityEngine.Vector3.Distance(position, oldPosition) > 1.0f)
+                    {
+                        ++len;
+                        idxList.Add(idx);
+                    }
+                    ++idx;
+                }
+
+                idx = 0;
                 if (len > 0)
                 {
+                    // 发送主角分裂的 Child 的位置
+                    KBEngine.Bundle bundle = KBEngine.Bundle.createObject();
+                    bundle.newMessage(KBEngine.Message.messages["Baseapp_onUpdateDataFromClient"]);
+
                     PlayerChild playerChild = null;
                     KBEngine.Entity kbeEntity = null;
                     System.Int32 eid = 0;
@@ -81,12 +142,14 @@ namespace Game.Game
 
                     while (idx < len)
                     {
-                        playerChild = playerChildMgr.getEntityByIndex(idx) as PlayerChild;
+                        playerChild = playerChildMgr.getEntityByIndex(idxList[idx]) as PlayerChild;
                         kbeEntity = playerChild.getEntity();
                         eid = kbeEntity.id;
 
                         position = playerChild.getPos();
                         direction = playerChild.getRotate().eulerAngles;
+                        
+                        playerChild.setPreSendPosition(position);
 
                         bundle.writeInt32(eid);
 
@@ -166,6 +229,11 @@ namespace Game.Game
         // 进行分裂
         public static void sendSplit()
         {
+            if (!Ctx.mInstance.mCommonData.isSplitSuccess())
+            {
+                return;
+            }
+
             PlayerChildMgr playerChildMgr = Ctx.mInstance.mPlayerMgr.getHero().mPlayerSplitMerge.mPlayerChildMgr;
 
             // 这个分裂修改列表数据，因此只查找前面的数据
@@ -189,12 +257,16 @@ namespace Game.Game
             KBEngine.Entity kbeEntity = null;
             System.Int32 eid = 0;
 
-            while (idx < num && Ctx.mInstance.mSnowBallCfg.isLessMaxNum(playerChildMgr.getEntityCount()))
+            int split_num = 0;
+            while (idx < num)
             {
                 playerChild = playerChildMgr.getEntityByIndex(idx) as PlayerChild;
 
-                if (playerChild.canSplit())
+                if (playerChild.canSplit() && Ctx.mInstance.mSnowBallCfg.isLessMaxNum(num + split_num))
                 {
+                    ++split_num;
+                    playerChild.setLastMergedTime();    // 分裂立刻设置融合时间，防止立刻融合
+
                     ischanged = true;
 
                     kbeEntity = playerChild.getEntity();
@@ -215,6 +287,8 @@ namespace Game.Game
                     info["eid"] = eid;
                     info["frompos"] = initPos;
                     info["topos"] = toPos;
+
+                    Ctx.mInstance.mLogSys.log(string.Format("Send Split eid = {0}, initPos.x = {1}, initPos.y = {2}, initPos.z = {3}, toPos.x = {4}, toPos.y = {5}, toPos.z = {6}", eid, initPos.x, initPos.y, initPos.z, toPos.x, toPos.y, toPos.z), LogTypeId.eLogSceneInterActive);
                 }
                 else
                 {
@@ -226,11 +300,7 @@ namespace Game.Game
 
             if (ischanged)
             {
-                if (Ctx.mInstance.mSnowBallCfg.isGreatEqualMaxNum(playerChildMgr.getEntityCount()))
-                {
-                    Ctx.mInstance.mLogSys.log("Split GreatEqual Max", LogTypeId.eLogSplitMergeEmit);
-                }
-
+                Ctx.mInstance.mCommonData.setSplitSuccess(false);
                 player.cellCall("reqSplit", (int)MsgLogicCV.eSplit, infos);
 
                 Ctx.mInstance.mLogSys.log("Send Split", LogTypeId.eLogSceneInterActive);
@@ -274,12 +344,17 @@ namespace Game.Game
 
             player.cellCall("reqSplit", (int)MsgLogicCV.eMerge, infos);
 
-            Ctx.mInstance.mLogSys.log("Send Merge", LogTypeId.eLogSceneInterActive);
+            Ctx.mInstance.mLogSys.log(string.Format("Send Merge eid = {0}, frompos.x = {1}, frompos.y = {2}, frompos.z = {3}", eid, aBeing.getPos().x, aBeing.getPos().y, aBeing.getPos().z), LogTypeId.eLogSceneInterActive);
         }
 
         // 吐雪块
         public static void sendShit()
         {
+            if (!Ctx.mInstance.mCommonData.isEmitSuccess())
+            {
+                return;
+            }
+
             PlayerChildMgr playerChildMgr = Ctx.mInstance.mPlayerMgr.getHero().mPlayerSplitMerge.mPlayerChildMgr;
 
             // 这个分裂修改列表数据，因此只查找前面的数据
@@ -324,6 +399,8 @@ namespace Game.Game
                     info["eid"] = eid;
                     info["frompos"] = initPos;
                     info["topos"] = toPos;
+
+                    Ctx.mInstance.mLogSys.log(string.Format("Shit One eid = {0}, initPos.x = {1}, initPos.x = {2}, initPos.x = {3}, toPos.x = {4}, toPos.y = {5}, toPos.z = {6}", eid, initPos.x, initPos.y, initPos.z, toPos.x, toPos.y, toPos.z), LogTypeId.eLogSplitMergeEmit);
                 }
                 else
                 {
@@ -335,9 +412,10 @@ namespace Game.Game
 
             if (isEmited)
             {
+                Ctx.mInstance.mCommonData.setEmitSuccess(false);
                 player.cellCall("reqSplit", (int)MsgLogicCV.eShit, infos);
 
-                Ctx.mInstance.mLogSys.log("Send Shit", LogTypeId.eLogSceneInterActive);
+                Ctx.mInstance.mLogSys.log("Send Shit", LogTypeId.eLogSplitMergeEmit);
             }
         }
     }

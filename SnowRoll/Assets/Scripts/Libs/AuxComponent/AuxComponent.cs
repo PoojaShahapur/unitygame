@@ -198,7 +198,7 @@ namespace SDK.Lib
             }
         }
 
-        public void hide()
+        virtual public void hide()
         {
             if (this.IsVisible())
             {
@@ -206,7 +206,7 @@ namespace SDK.Lib
             }
         }
 
-        public bool IsVisible()
+        virtual public bool IsVisible()
         {
             if (null != this.mSelfGo)
             {

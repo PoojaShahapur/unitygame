@@ -29,7 +29,9 @@ function M:onInit()
 	self.mSplitBtn:addEventHandle(self, self.onSplitBtnClk);
 
     self.mSwallowBtn = GlobalNS.new(GlobalNS.AuxButton);
-	self.mSwallowBtn:addEventHandle(self, self.onSwallowBtnClk);
+	--self.mSwallowBtn:addEventHandle(self, self.onSwallowBtnClk);
+	self.mSwallowBtn:addDownEventHandle(self, self.onSwallowBtnDown);
+	self.mSwallowBtn:addUpEventHandle(self, self.onSwallowBtnUp);
 end
 
 function M:onReady()
@@ -64,6 +66,14 @@ end
 function M:onSwallowBtnClk()
 	--GCtx.mLogSys:log("Swallow", GlobalNS.LogTypeId.eLogCommon);
 	GlobalNS.CSSystem.emitSnowBlock();
+end
+
+function M:onSwallowBtnDown()
+	GlobalNS.CSSystem.startEmitSnowBlock();
+end
+
+function M:onSwallowBtnUp()
+	GlobalNS.CSSystem.stopEmitSnowBlock();
 end
 
 return M;

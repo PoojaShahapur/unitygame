@@ -247,6 +247,7 @@ namespace SDK.Lib
         public static void addEventHandle(Button btn, MAction<IDispatchObject> handle)
         {
             AuxButtonUserData userData = btn.gameObject.GetComponent<AuxButtonUserData>();
+
             if (userData != null)
             {
                 AuxButton auxBtn = userData.getUserData();
@@ -309,6 +310,7 @@ namespace SDK.Lib
         public static void addEventHandle(GameObject go, string path, LuaTable luaTable, LuaFunction luaFunction)
         {
             Transform goTrans = go.GetComponent<Transform>();
+
             if(goTrans == null)
             {
                 goTrans = go.GetComponent<RectTransform>();
@@ -328,6 +330,7 @@ namespace SDK.Lib
         public static void addEventHandle(GameObject go, LuaTable luaTable, LuaFunction luaFunction, bool isAddToRoot = false)
         {
             Button.ButtonClickedEvent btnEvent = go.GetComponent<Button>().onClick;
+
             if (btnEvent != null)
             {
                 // 添加到根节点，就使用闭包模拟类保存数据
@@ -367,6 +370,72 @@ namespace SDK.Lib
                             auxBtn.addEventHandle(null, null, luaTable, luaFunction);
                         }
                     }
+                }
+            }
+        }
+
+        public static void addButtonDownEventHandle(GameObject go, LuaTable luaTable, LuaFunction luaFunction)
+        {
+            AuxButtonUserData userData = go.GetComponent<AuxButtonUserData>();
+
+            if (userData == null)
+            {
+                userData = UtilApi.AddComponent<AuxButtonUserData>(go);
+            }
+            if (userData != null)
+            {
+                AuxButton auxBtn = userData.getUserData();
+                if (auxBtn == null)
+                {
+                    auxBtn = userData.addUserData();
+                }
+                if (auxBtn != null)
+                {
+                    auxBtn.addDownEventHandle(null, null, luaTable, luaFunction);
+                }
+            }
+        }
+
+        public static void addButtonUpEventHandle(GameObject go, LuaTable luaTable, LuaFunction luaFunction)
+        {
+            AuxButtonUserData userData = go.GetComponent<AuxButtonUserData>();
+
+            if (userData == null)
+            {
+                userData = UtilApi.AddComponent<AuxButtonUserData>(go);
+            }
+            if (userData != null)
+            {
+                AuxButton auxBtn = userData.getUserData();
+                if (auxBtn == null)
+                {
+                    auxBtn = userData.addUserData();
+                }
+                if (auxBtn != null)
+                {
+                    auxBtn.addUpEventHandle(null, null, luaTable, luaFunction);
+                }
+            }
+        }
+
+        public static void addButtonExitEventHandle(GameObject go, LuaTable luaTable, LuaFunction luaFunction)
+        {
+            AuxButtonUserData userData = go.GetComponent<AuxButtonUserData>();
+
+            if (userData == null)
+            {
+                userData = UtilApi.AddComponent<AuxButtonUserData>(go);
+            }
+            if (userData != null)
+            {
+                AuxButton auxBtn = userData.getUserData();
+                if (auxBtn == null)
+                {
+                    auxBtn = userData.addUserData();
+                }
+                if (auxBtn != null)
+                {
+                    auxBtn.addExitEventHandle(null, null, luaTable, luaFunction);
                 }
             }
         }
@@ -613,14 +682,20 @@ namespace SDK.Lib
 
         public static void SetActive(GameObject target, bool bshow)
         {
-            target.SetActive(bshow);
+            if (null != target)
+            {
+                target.SetActive(bshow);
+            }
         }
 
         public static void fakeSetActive(GameObject target, bool bshow)
         {
             if(!bshow)
             {
-                target.transform.position = UtilApi.FAKE_POS;
+                if (null != target)
+                {
+                    target.transform.position = UtilApi.FAKE_POS;
+                }
             }
         }
 
@@ -670,27 +745,58 @@ namespace SDK.Lib
 
         public static void normalRot(Transform tran)
         {
-            tran.localRotation = Quaternion.Euler(Vector3.zero);
+            if (null != tran)
+            {
+                tran.localRotation = Quaternion.Euler(Vector3.zero);
+            }
         }
 
         public static void setRot(Transform tran, Vector3 rot)
         {
-            tran.localEulerAngles = rot;
+            if (null != tran)
+            {
+                tran.localEulerAngles = rot;
+            }
         }
 
         public static void setRot(Transform tran, Quaternion rot)
         {
-            tran.localRotation = rot;
+            if (null != tran)
+            {
+                tran.localRotation = rot;
+            }
         }
 
         public static void setScale(Transform tran, Vector3 scale)
         {
-            tran.localScale = scale;
+            if (null != tran)
+            {
+                tran.localScale = scale;
+            }
         }
 
         public static void setPos(Transform tran, Vector3 pos)
         {
-            tran.localPosition = pos;
+            if (null != tran)
+            {
+                tran.localPosition = pos;
+            }
+        }
+
+        public static void setRigidbodyPos(UnityEngine.Rigidbody rigidbody, Vector3 pos)
+        {
+            if (null != rigidbody)
+            {
+                rigidbody.MovePosition(pos);
+            }
+        }
+
+        public static void setRigidbodyRot(UnityEngine.Rigidbody rigidbody, Quaternion rot)
+        {
+            if (null != rigidbody)
+            {
+                rigidbody.MoveRotation(rot);
+            }
         }
 
         public static void setRectPos(RectTransform tran, Vector3 pos)
@@ -1503,6 +1609,39 @@ namespace SDK.Lib
                     if (null != material && null != texture)
                     {
                         material.mainTexture = texture;
+                    }
+                }
+            }
+        }
+
+        // 开启关闭碰撞
+        static public void enableCollider<T>(GameObject go, bool enable) where T : Collider
+        {
+            if(null != go)
+            {
+                T collider = UtilApi.getComByP<T>(go);
+                if (null != collider)
+                {
+                    collider.enabled = enable;
+                }
+            }
+        }
+
+        // 开启刚体约束
+        static public void freezeRigidBodyXZPos(GameObject go, bool isFreeze)
+        {
+            if (null != go)
+            {
+                UnityEngine.Rigidbody rigid = UtilApi.getComByP<UnityEngine.Rigidbody>(go);
+                if (null != rigid)
+                {
+                    if (isFreeze)
+                    {
+                        rigid.constraints = UnityEngine.RigidbodyConstraints.FreezeAll;
+                    }
+                    else
+                    {
+                        rigid.constraints = UnityEngine.RigidbodyConstraints.FreezePositionY |                                                                   UnityEngine.RigidbodyConstraints.FreezeRotation;
                     }
                 }
             }

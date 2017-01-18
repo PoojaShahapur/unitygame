@@ -6,6 +6,7 @@
     public class EntityRenderBase : AuxComponent
     {
         protected SceneEntityBase mEntity;  // Entity 数据
+        protected UnityEngine.Rigidbody mRigidbody;     // 包含的刚体
 
         public EntityRenderBase(SceneEntityBase entity_)
         {
@@ -61,10 +62,38 @@
 
         }
 
+        // 场景对象不需要设置，因为如果设置了就检测不了隐藏显示了
+        override public void show()
+        {
+            
+        }
+
+        override public void hide()
+        {
+            
+        }
+
+        public bool isValid()
+        {
+            return null != this.mSelfGo;
+        }
+
+        public UnityEngine.Vector3 getPos()
+        {
+            if(this.isValid())
+            {
+                return this.transform().localPosition;
+            }
+
+            return UnityEngine.Vector3.zero;
+        }
+
         // 资源加载完成，初始化一些基本资源
         override protected void onSelfChanged()
         {
             base.onSelfChanged();
+
+            this.mRigidbody = UtilApi.getComByP<UnityEngine.Rigidbody>(this.selfGo);
 
             // 设置可视化
             if (this.mEntity.IsVisible())
@@ -88,12 +117,28 @@
                 if (this.mIsPosDirty)
                 {
                     this.mIsPosDirty = false;
-                    UtilApi.setPos(this.mSelfGo.transform, this.mEntity.getPos());
+                    if (null != this.mRigidbody)
+                    {
+                        //UtilApi.setRigidbodyPos(this.mRigidbody, this.mEntity.getPos());
+                        UtilApi.setPos(this.mSelfGo.transform, this.mEntity.getPos());
+                    }
+                    else
+                    {
+                        UtilApi.setPos(this.mSelfGo.transform, this.mEntity.getPos());
+                    }
                 }
                 if (this.mIsRotDirty)
                 {
                     this.mIsRotDirty = false;
-                    UtilApi.setRot(this.mSelfGo.transform, this.mEntity.getRotate());
+                    if (null != this.mRigidbody)
+                    {
+                        //UtilApi.setRigidbodyRot(this.mRigidbody, this.mEntity.getRotate());
+                        UtilApi.setRot(this.mSelfGo.transform, this.mEntity.getRotate());
+                    }
+                    else
+                    {
+                        UtilApi.setRot(this.mSelfGo.transform, this.mEntity.getRotate());
+                    }
                 }
                 if (this.mIsScaleDirty)
                 {

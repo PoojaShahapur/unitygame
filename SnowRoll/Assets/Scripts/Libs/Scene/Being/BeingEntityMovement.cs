@@ -82,6 +82,7 @@
                 {
                     // 设置前向方向移动
                     this.moveForwardToDest(delta);
+                    //this.moveSeparateForwardToDest(delta);
                 }
             }
         }
@@ -186,10 +187,18 @@
             this.addActorLocalOffset(localMove);
         }
 
+        // 分裂向前移动，但是不根据真正的方向
+        virtual public void moveSeparateForwardToDest(float delta)
+        {
+
+        }
+
         // 自动寻路移动
         public void moveToDest(float delta)
         {
             UtilApi.DrawLine(mEntity.getPos(), mDestPos, UnityEngine.Color.red);
+
+            this.checkAndUpdateDestRotate();
 
             float dist = 0.0f;
             dist = UnityEngine.Vector3.Distance(new UnityEngine.Vector3(mDestPos.x, 0f, mDestPos.z),
@@ -206,6 +215,16 @@
             {
                 mEntity.setPos(this.mDestPos);
                 this.onArriveDestPos();
+            }
+        }
+
+        protected void checkAndUpdateDestRotate()
+        {
+            UnityEngine.Quaternion quat = UtilMath.getRotateByStartAndEndPoint(this.mEntity.getPos(), this.mDestPos);
+            if (!UtilMath.isEqualQuat(this.mDestRotate, quat))
+            {
+                // 计算最终方向
+                (this.mEntity as BeingEntity).setDestRotate(quat.eulerAngles, true);
             }
         }
 
@@ -418,6 +437,26 @@
             //    mEntity.getPos().z, 
             //    mEntity.getRotateEulerAngle().y
             //    );
+        }
+
+        virtual public void setSeparateForwardRotate(UnityEngine.Vector3 rotate)
+        {
+
+        }
+
+        public UnityEngine.Quaternion getDestRotate()
+        {
+            return this.mDestRotate;
+        }
+
+        virtual public void setNotMergeRotate(UnityEngine.Quaternion quat)
+        {
+
+        }
+
+        virtual public void clearNotMerge()
+        {
+
         }
     }
 }

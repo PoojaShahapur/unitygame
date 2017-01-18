@@ -84,13 +84,14 @@
 			{
 				for(int i=0; i<streamList.Count; i++)
 				{
-					stream = streamList[i];
-					networkInterface.send(stream);
+					MemoryStream tempStream = streamList[i];
+					networkInterface.send(tempStream);
 				}
 			}
 			else
 			{
-				Dbg.ERROR_MSG("Bundle::send: networkInterface invalid!");  
+                SDK.Lib.Ctx.mInstance.mLuaSystem.receiveToLua_KBE("notifyNetworkInvalid", null);
+                Dbg.ERROR_MSG("Bundle::send: networkInterface invalid!");  
 			}
 
 			// 把不用的MemoryStream放回缓冲池，以减少垃圾回收的消耗

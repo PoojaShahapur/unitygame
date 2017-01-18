@@ -25,6 +25,7 @@
 		public static Dictionary<MessageID, Message> clientMessages = new Dictionary<MessageID, Message>();
 		
 		public static Dictionary<string, Message> messages = new Dictionary<string, Message>();
+        public static Dictionary<MessageID, Message> idMessages = new Dictionary<MessageID, Message>();
 
 		public static void clear()
 		{
@@ -32,8 +33,9 @@
 			baseappMessages = new Dictionary<MessageID, Message>();
 			clientMessages = new Dictionary<MessageID, Message>();
 			messages = new Dictionary<string, Message>();
-		
-			bindFixedMessage();
+            idMessages = new Dictionary<MessageID, Message>();
+
+            bindFixedMessage();
 		}
 
 		/*
@@ -74,6 +76,8 @@
 			msglen = length;
 			handler = msghandler;
 			argsType = argstype;
+
+            idMessages[msgid] = this;
 			
 			// 对该消息的所有参数绑定反序列化方法，改方法能够将二进制流转化为参数需要的值
 			// 在服务端下发消息数据时会用到

@@ -13,7 +13,7 @@
             this.mMovement = new PlayerSnowBlockMovement(this);
             this.mAttack = new PlayerSnowBlockAttack(this);
 
-            this.mMoveSpeed = 30;
+            this.mMoveSpeed = 50;
         }
 
         override public void dispose()

@@ -22,7 +22,8 @@ namespace SDK.Lib
         protected UnityEngine.Quaternion mRotate;   // 当前方向信息
         protected UnityEngine.Vector3 mScale;         // 当前缩放信息
 
-        protected bool mIsVisible;          // 是否可见
+        protected bool mIsVisible;          // 是否可见，通过裁剪设置是否可见
+        protected bool mWillVisible;        // 主要是客户端主动设置是否可见
         protected uint mThisId;             // 唯一 Id
 
         public SceneEntityBase()
@@ -38,6 +39,7 @@ namespace SDK.Lib
             this.mScale = Vector3.one;
 
             this.mIsVisible = true;
+            this.mWillVisible = true;
         }
 
         // 不允许直接访问 mRender ，必须通过接口访问
@@ -111,27 +113,51 @@ namespace SDK.Lib
 
         virtual public void show()
         {
-            this.mIsVisible = true;
-
-            if (null != mRender)
+            if (!this.mIsVisible)
             {
-                mRender.show();
+                if (this.mWillVisible)
+                {
+                    this.mIsVisible = true;
+
+                    if (null != mRender)
+                    {
+                        mRender.show();
+                    }
+                }
             }
         }
 
         virtual public void hide()
         {
-            this.mIsVisible = false;
-
-            if (null != mRender)
+            if (this.mIsVisible)
             {
-                mRender.hide();
+                this.mIsVisible = false;
+
+                if (null != mRender)
+                {
+                    mRender.hide();
+                }
             }
         }
 
         virtual public bool IsVisible()
         {
             return this.mIsVisible;
+        }
+
+        virtual public void setWillVisible(bool visible)
+        {
+            this.mWillVisible = visible;
+
+            if (this.mIsVisible)
+            {
+                hide();
+            }
+        }
+
+        virtual public bool isWillVisible()
+        {
+            return this.mWillVisible;
         }
 
         virtual public void setClientDispose(bool isDispose)
@@ -147,6 +173,16 @@ namespace SDK.Lib
         virtual public bool isClientDispose()
         {
             return mIsClientDispose;
+        }
+
+        public UnityEngine.GameObject getGameObject()
+        {
+            if(null != this.mRender)
+            {
+                return this.mRender.gameObject();
+            }
+
+            return null;
         }
 
         // 每一帧执行
@@ -271,6 +307,14 @@ namespace SDK.Lib
                 {
                     mRender.setPos(pos);
                 }
+            }
+        }
+
+        public void setRenderPos(Vector3 pos)
+        {
+            if (!UtilMath.isEqualVec3(this.mPos, pos))
+            {
+                this.mPos = pos;
             }
         }
 

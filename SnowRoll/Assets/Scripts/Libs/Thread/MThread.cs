@@ -8,26 +8,26 @@ namespace SDK.Lib
      */
     public class MThread
     {
-        protected static int m_sMainThreadID;           // 主线程 id
-        protected int m_curThreadID;                    // 当前线程的 id
+        protected static int msMainThreadID;           // 主线程 id
+        protected int mCurThreadID;                    // 当前线程的 id
 
         // 数据区域
-        protected Thread m_thread;
-        protected Action<object> m_cb;
-        protected object m_param;           // 参数数据
-        protected bool m_ExitFlag;           // 退出标志
+        protected Thread mThread;
+        protected Action<object> mCb;
+        protected object mParam;           // 参数数据
+        protected bool mIsExitFlag;           // 退出标志
 
         public MThread(Action<object> func, object param)
         {
-            m_cb = func;
-            m_param = param;
+            mCb = func;
+            mParam = param;
         }
 
         public bool ExitFlag
         {
             set
             {
-                m_ExitFlag = value;
+                mIsExitFlag = value;
             }
         }
 
@@ -35,7 +35,7 @@ namespace SDK.Lib
         {
             set
             {
-                m_cb = value;
+                mCb = value;
             }
         }
 
@@ -43,7 +43,7 @@ namespace SDK.Lib
         {
             set
             {
-                m_param = value;
+                mParam = value;
             }
         }
 
@@ -53,16 +53,16 @@ namespace SDK.Lib
          */
         public void start()
         {
-            m_thread = new Thread(new ThreadStart(threadHandle));
-            m_thread.Priority = ThreadPriority.Lowest;
-            //m_thread.IsBackground = true;             // 继续作为前台线程
-            m_thread.Start();
+            mThread = new Thread(new ThreadStart(threadHandle));
+            mThread.Priority = ThreadPriority.Lowest;
+            //mThread.IsBackground = true;             // 继续作为前台线程
+            mThread.Start();
         }
 
         public void join()
         {
-            //m_thread.Interrupt();           // 直接线程终止
-            m_thread.Join();
+            //mThread.Interrupt();           // 直接线程终止
+            mThread.Join();
         }
 
         /**
@@ -72,30 +72,30 @@ namespace SDK.Lib
         {
             getCurThreadID();
 
-            if(m_cb != null)
+            if(mCb != null)
             {
-                m_cb(m_param);
+                mCb(mParam);
             }
         }
 
         protected void getCurThreadID()
         {
-            m_curThreadID = Thread.CurrentThread.ManagedThreadId;       // 当前线程的 ID
+            mCurThreadID = Thread.CurrentThread.ManagedThreadId;       // 当前线程的 ID
         }
 
         public bool isCurThread(int threadID)
         {
-            return (m_curThreadID == threadID);
+            return (mCurThreadID == threadID);
         }
 
         static public void getMainThreadID()
         {
-            m_sMainThreadID = Thread.CurrentThread.ManagedThreadId;
+            msMainThreadID = Thread.CurrentThread.ManagedThreadId;
         }
 
         static public bool isMainThread()
         {
-            return (m_sMainThreadID == Thread.CurrentThread.ManagedThreadId);
+            return (msMainThreadID == Thread.CurrentThread.ManagedThreadId);
         }
 
         static public void needMainThread()

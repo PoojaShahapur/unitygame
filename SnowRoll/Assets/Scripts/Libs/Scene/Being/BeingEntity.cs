@@ -138,6 +138,11 @@ namespace SDK.Lib
             this.mMoveSpeed = value;
         }
 
+        public void setContactNotMergeSpeed(float value)
+        {
+            this.mMoveSpeedFactor = value / this.mMoveSpeed;
+        }
+
         public float getMoveSpeed()
         {
             return this.mMoveSpeed * this.mMoveSpeedFactor;
@@ -196,6 +201,15 @@ namespace SDK.Lib
             if (null != mMovement)
             {
                 (mMovement as BeingEntityMovement).setDestRotate(rotate);
+            }
+        }
+
+        // 设置分裂移动时候的前向移动方向
+        public void setSeparateForwardRotate(UnityEngine.Vector3 rotate)
+        {
+            if (null != mMovement)
+            {
+                (mMovement as BeingEntityMovement).setSeparateForwardRotate(rotate);
             }
         }
 
@@ -580,6 +594,46 @@ namespace SDK.Lib
             if(null != this.mRender)
             {
                 (this.mRender as BeingEntityRender).setTexture(path);
+            }
+        }
+
+        virtual public void setLastMergedTime()
+        {
+
+        }
+
+        // 接触跟随，但是不能融合
+        virtual public void contactWithAndFollowButNotMerge(BeingEntity bBeing)
+        {
+
+        }
+
+        public UnityEngine.Quaternion getDestRotate()
+        {
+            if(null != this.mMovement)
+            {
+                return (this.mMovement as BeingEntityMovement).getDestRotate();
+            }
+
+            return UnityEngine.Quaternion.identity;
+        }
+
+        // 设置接触不融合跟随方向
+        public void setNotMergeRotate(UnityEngine.Quaternion quat)
+        {
+            if (null != this.mMovement)
+            {
+                (this.mMovement as BeingEntityMovement).setNotMergeRotate(quat);
+            }
+        }
+
+        public void clearContactNotMerge()
+        {
+            this.mMoveSpeedFactor = 1;
+
+            if (null != this.mMovement)
+            {
+                (this.mMovement as BeingEntityMovement).clearNotMerge();
             }
         }
     }

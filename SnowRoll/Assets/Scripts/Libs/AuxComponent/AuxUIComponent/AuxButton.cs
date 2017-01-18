@@ -6,20 +6,32 @@ namespace SDK.Lib
 {
     public class AuxButton : AuxWindow
     {
-        protected EventDispatch mEventDisp;      // 分发
+        protected EventDispatch mClickEventDispatch;      // 点击事件分发
+        protected EventDispatch mDownEventDispatch;       // Down 事件分发
+        protected EventDispatch mUpEventDispatch;         // Up 事件分发
+        protected EventDispatch mExitEventDispatch;       // Exit 事件分发
+
         protected Button mBtn;
         protected Text mText;
 
         public AuxButton(GameObject go_ = null)
         {
-            this.mEventDisp = new EventDispatch();
+            this.mClickEventDispatch = new AddOnceEventDispatch();
+            this.mDownEventDispatch = new AddOnceEventDispatch();
+            this.mUpEventDispatch = new AddOnceEventDispatch();
+            this.mExitEventDispatch = new AddOnceEventDispatch();
+
             this.mSelfGo = go_;
             updateBtnCom(null);
         }
 
         public AuxButton(GameObject pntNode, string path, BtnStyleID styleId = BtnStyleID.eBSID_None)
         {
-            this.mEventDisp = new EventDispatch();
+            this.mClickEventDispatch = new AddOnceEventDispatch();
+            this.mDownEventDispatch = new AddOnceEventDispatch();
+            this.mUpEventDispatch = new AddOnceEventDispatch();
+            this.mExitEventDispatch = new AddOnceEventDispatch();
+
             if (pntNode != null)
             {
                 this.mSelfGo = UtilApi.TransFindChildByPObjAndPath(pntNode, path);
@@ -29,7 +41,7 @@ namespace SDK.Lib
 
         override public void dispose()
         {
-            if (this.mEventDisp != null)
+            if (this.mClickEventDispatch != null)
             {
                 UtilApi.RemoveListener(this.mBtn, onBtnClk);
             }
@@ -89,20 +101,69 @@ namespace SDK.Lib
             this.mBtn.interactable = false;
         }
 
+        public void OnPointerDown(UnityEngine.EventSystems.PointerEventData eventData)
+        {
+            this.mDownEventDispatch.dispatchEvent(this);
+        }
+
+        public void OnPointerUp(UnityEngine.EventSystems.PointerEventData eventData)
+        {
+            this.mUpEventDispatch.dispatchEvent(this);
+        }
+
+        public void OnPointerExit(UnityEngine.EventSystems.PointerEventData eventData)
+        {
+            this.mExitEventDispatch.dispatchEvent(this);
+        }
+
         // 点击回调
         protected void onBtnClk()
         {
-            this.mEventDisp.dispatchEvent(this);
+            this.mClickEventDispatch.dispatchEvent(this);
         }
 
+        // 添加点击事件处理器
         public void addEventHandle(ICalleeObject pThis, MAction<IDispatchObject> btnClk, LuaTable luaTable = null, LuaFunction luaFunction = null)
         {
-            this.mEventDisp.addEventHandle(pThis, btnClk, luaTable, luaFunction);
+            this.mClickEventDispatch.addEventHandle(pThis, btnClk, luaTable, luaFunction);
         }
 
         public void removeEventHandle(ICalleeObject pThis, MAction<IDispatchObject> btnClk, LuaTable luaTable = null, LuaFunction luaFunction = null)
         {
-            this.mEventDisp.removeEventHandle(pThis, btnClk, luaTable, luaFunction);
+            this.mClickEventDispatch.removeEventHandle(pThis, btnClk, luaTable, luaFunction);
+        }
+
+        // Down 事件处理
+        public void addDownEventHandle(ICalleeObject pThis, MAction<IDispatchObject> btnClk, LuaTable luaTable = null, LuaFunction luaFunction = null)
+        {
+            this.mDownEventDispatch.addEventHandle(pThis, btnClk, luaTable, luaFunction);
+        }
+
+        public void removeDownEventHandle(ICalleeObject pThis, MAction<IDispatchObject> btnClk, LuaTable luaTable = null, LuaFunction luaFunction = null)
+        {
+            this.mDownEventDispatch.removeEventHandle(pThis, btnClk, luaTable, luaFunction);
+        }
+
+        // Up 事件处理
+        public void addUpEventHandle(ICalleeObject pThis, MAction<IDispatchObject> btnClk, LuaTable luaTable = null, LuaFunction luaFunction = null)
+        {
+            this.mUpEventDispatch.addEventHandle(pThis, btnClk, luaTable, luaFunction);
+        }
+
+        public void removeUpEventHandle(ICalleeObject pThis, MAction<IDispatchObject> btnClk, LuaTable luaTable = null, LuaFunction luaFunction = null)
+        {
+            this.mUpEventDispatch.removeEventHandle(pThis, btnClk, luaTable, luaFunction);
+        }
+
+        // Exit 事件处理
+        public void addExitEventHandle(ICalleeObject pThis, MAction<IDispatchObject> btnClk, LuaTable luaTable = null, LuaFunction luaFunction = null)
+        {
+            this.mExitEventDispatch.addEventHandle(pThis, btnClk, luaTable, luaFunction);
+        }
+
+        public void removeExitEventHandle(ICalleeObject pThis, MAction<IDispatchObject> btnClk, LuaTable luaTable = null, LuaFunction luaFunction = null)
+        {
+            this.mExitEventDispatch.removeEventHandle(pThis, btnClk, luaTable, luaFunction);
         }
 
         virtual public void syncUpdateCom()

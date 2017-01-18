@@ -51,6 +51,8 @@ function M:OnTimer(delta)
 end
 
 function M:reset()
+	M.super.reset(self);
+	
     self.mCurRunTime = self.mTotalTime;
     self.mCurCallTime = 0;
     self.mIntervalLeftTime = 0;

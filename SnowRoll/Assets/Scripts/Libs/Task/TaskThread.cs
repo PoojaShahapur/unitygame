@@ -21,7 +21,7 @@
          */
         override public void threadHandle()
         {
-            while (!m_ExitFlag)
+            while (!mIsExitFlag)
             {
                 mCurTask = mTaskQueue.pop();
                 if(mCurTask != default(ITask))

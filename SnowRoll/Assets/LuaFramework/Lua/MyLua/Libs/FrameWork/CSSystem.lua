@@ -78,6 +78,18 @@ function M.addEventHandleSelf(go, luaTable, luaFunction)
     this.UtilApi.addEventHandle(go, luaTable, luaFunction, false);
 end
 
+function M.addButtonDownEventHandle(go, luaTable, luaFunction)
+    this.UtilApi.addButtonDownEventHandle(go, luaTable, luaFunction);
+end
+
+function M.addButtonUpEventHandle(go, luaTable, luaFunction)
+    this.UtilApi.addButtonUpEventHandle(go, luaTable, luaFunction);
+end
+
+function M.addButtonExitEventHandle(go, luaTable, luaFunction)
+    this.UtilApi.addButtonExitEventHandle(go, luaTable, luaFunction);
+end
+
 function M.GoFindChildByName(name)
     return this.UtilApi.GoFindChildByName(name);
 end
@@ -110,6 +122,14 @@ end
 --吐一个小球
 function M.emitSnowBlock()
 	this.Ctx.mInstance.mPlayerMgr:emitSnowBlock();
+end
+
+function M.startEmitSnowBlock()
+	this.Ctx.mInstance.mPlayerMgr:startEmitSnowBlock();
+end
+
+function M.stopEmitSnowBlock()
+	this.Ctx.mInstance.mPlayerMgr:stopEmitSnowBlock();
 end
 
 --设置 Lua 初始化完成

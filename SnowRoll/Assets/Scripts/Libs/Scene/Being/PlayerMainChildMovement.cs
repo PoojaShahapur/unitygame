@@ -2,10 +2,15 @@
 {
     public class PlayerMainChildMovement : PlayerChildMovement
     {
+        protected UnityEngine.Quaternion mSeparateDestRotate;
+        protected bool mIsContactNotMergeFlag;
+        protected UnityEngine.Quaternion mMergeDestRotate;
+
         public PlayerMainChildMovement(SceneEntityBase entity)
             : base(entity)
         {
             //Ctx.mInstance.mInputMgr.addKeyListener(InputKey.G, EventId.KEYUP_EVENT, onTestKeyUp);
+            this.mIsContactNotMergeFlag = false;
         }
 
         override public void init()
@@ -27,10 +32,10 @@
         {
             base.onTick(delta);
 
-            if (Ctx.mInstance.mCommonData.isClickSplit())
-            {
-                this.updateSeparate();
-            }
+            //if (Ctx.mInstance.mCommonData.isClickSplit())
+            //{
+            //    this.updateSeparate();
+            //}
         }
 
         // 被控制的时候向前移动，需要走这里
@@ -44,7 +49,30 @@
             //this.mMoveWay = MoveWay.eIOControlMove;
 
             base.moveForward();
+
+            //(this.mEntity as BeingEntity).setBeingState(BeingState.eBSIOControlWalk);
+
+            //UnityEngine.Vector3 localMove = new UnityEngine.Vector3(0.0f, 0.0f, (mEntity as BeingEntity).getMoveSpeed() * Ctx.mInstance.mSystemTimeData.deltaSec);
+
+            //this.addActorLocalDestOffset(localMove);
         }
+
+        // 向目的前向移动
+        //override public void addActorLocalDestOffset(UnityEngine.Vector3 DeltaLocation)
+        //{
+        //    UnityEngine.Vector3 localOffset;
+        //    if (!this.mIsContactNotMergeFlag)
+        //    {
+        //        localOffset = this.mDestRotate * DeltaLocation;
+        //    }
+        //    else
+        //    {
+        //        localOffset = this.mMergeDestRotate * DeltaLocation;
+        //    }
+        //    mEntity.setPos(mEntity.getPos() + localOffset);
+
+        //    this.sendMoveMsg();
+        //}
 
         // Parent Player 方向改变事件处理器
         public void handleParentOrientChanged(IDispatchObject dispObj)
@@ -74,6 +102,16 @@
         public void handleParentPosStopChanged(IDispatchObject dispObj)
         {
             this.movePause();
+
+            // 修改面向到中心位置
+            int childnum = (this.mEntity as PlayerChild).mParentPlayer.mPlayerSplitMerge.mPlayerChildMgr.getEntityCount();
+            if(childnum > 1)
+            {
+                UnityEngine.Vector3 targetPoint;
+                targetPoint = (this.mEntity as PlayerChild).mParentPlayer.mPlayerSplitMerge.getCenterPoint();
+                UnityEngine.Quaternion retQuat = UtilMath.getRotateByStartAndEndPoint(this.mEntity.getPos(), targetPoint);
+                (this.mEntity as BeingEntity).setDestRotate(retQuat.eulerAngles, false);
+            }
         }
 
         protected void updateDir()
@@ -116,6 +154,34 @@
             (this.mEntity as BeingEntity).setTexture("Materials/Textures/Terrain/haidi02.png");
         }
 
+        override public void setSeparateForwardRotate(UnityEngine.Vector3 rotate)
+        {
+            this.mSeparateDestRotate = UnityEngine.Quaternion.Euler(rotate);
+        }
+
+        override public void moveSeparateForwardToDest(float delta)
+        {
+            UnityEngine.Vector3 localMove = new UnityEngine.Vector3(0.0f, 0.0f, (mEntity as BeingEntity).getMoveSpeed() * delta);
+            this.addActorLocalOffset(localMove);
+        }
+
+        public void addActorSeparateOffset(UnityEngine.Vector3 DeltaLocation)
+        {
+            UnityEngine.Vector3 localOffset = this.mSeparateDestRotate * DeltaLocation;
+            mEntity.setPos(mEntity.getPos() + localOffset);
+        }
+
+        override public void setNotMergeRotate(UnityEngine.Quaternion quat)
+        {
+            this.mIsContactNotMergeFlag = true;
+            this.mMergeDestRotate = quat;
+        }
+
+        override public void clearNotMerge()
+        {
+            this.mIsContactNotMergeFlag = false;
+        }
+
         //---------------------- SteerForSeparation Start ---------------------------
         private float _comfortDistance = 1;
         private float _multiplierInsideComfortDistance = 1;
@@ -156,13 +222,13 @@
             UnityEngine.Vector3 steering = UnityEngine.Vector3.zero;
 
             // 如果正好重叠， offset 正好是 0
-            UnityEngine.Vector3 offset = other.getPos()- this.mEntity.getPos();
+            UnityEngine.Vector3 offset = other.getPos() - this.mEntity.getPos();
 
-            if(UnityEngine.Vector3.zero == offset)  // 如果两个位置重叠，就随机一个方向移动
+            if (UnityEngine.Vector3.zero == offset)  // 如果两个位置重叠，就随机一个方向移动
             {
                 offset = UtilMath.UnitCircleRandom();   // 获取一个单位圆随机位置
 
-                if(UnityEngine.Vector3.zero == offset)  // 如果正好随机一个 zero，需要赋值一个值
+                if (UnityEngine.Vector3.zero == offset)  // 如果正好随机一个 zero，需要赋值一个值
                 {
                     offset = new UnityEngine.Vector3(0.1f, 0.1f, 0.1f);
                 }
@@ -199,7 +265,7 @@
                         UtilApi.DrawLine(this.mEntity.getPos(), other.getPos(), UnityEngine.Color.magenta);
                     }
 
-                    if((this.mEntity as BeingEntity).isNeedSeparate(other as BeingEntity))
+                    if ((this.mEntity as BeingEntity).isNeedSeparate(other as BeingEntity))
                     {
                         steering += this.CalculateNeighborContribution(other);
                     }
@@ -228,6 +294,7 @@
                 {
                     UnityEngine.Quaternion rotate = UtilMath.getRotateByOrient(steering);
                     (this.mEntity as PlayerMainChild).setDestRotate(rotate.eulerAngles, true);
+                    //(this.mEntity as PlayerMainChild).setSeparateForwardRotate(rotate.eulerAngles);
 
                     this.moveForwardSeparate();
                 }

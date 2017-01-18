@@ -52,5 +52,11 @@
             // 日志处理
             //Ctx.mInstance.mLogSys.updateLog();
         }
+
+        // 循环执行完成后，再次
+        public void postUpdate()
+        {
+            Ctx.mInstance.mPlayerMgr.postUpdate();
+        }
     }
 }

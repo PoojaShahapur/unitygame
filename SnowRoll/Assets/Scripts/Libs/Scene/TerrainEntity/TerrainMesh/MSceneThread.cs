@@ -37,7 +37,7 @@ namespace SDK.Lib
         {
             base.threadHandle();
 
-            while (!m_ExitFlag)
+            while (!mIsExitFlag)
             {
                 mFunc(this);
             }
