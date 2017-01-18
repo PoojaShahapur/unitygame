@@ -25,7 +25,7 @@ public class AppRoot : MonoBehaviour
         //BugResolve();
         //try
         //{
-            //Ctx.mInstance.mEngineLoop.MainLoop();
+            Ctx.mInstance.mEngineLoop.MainLoop();
         //}
         //catch(Exception err)
         //{
@@ -34,7 +34,7 @@ public class AppRoot : MonoBehaviour
 
     void FixedUpdate()
     {
-        Ctx.mInstance.mEngineLoop.MainLoop();
+        //Ctx.mInstance.mEngineLoop.MainLoop();
     }
 
     void LateUpdate()

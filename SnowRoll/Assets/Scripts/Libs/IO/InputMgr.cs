@@ -2,6 +2,7 @@
 {
     /**
      * @brief 主要是场景消息处理， UI 消息单独走，这个主要是从硬件判断
+     * @error InputMgr 的 Tick 一定不能放在 FixedUpdate 里面，会经常检测不到
      */
     public class InputMgr : ITickedObject, IDelayHandleItem
     {

@@ -53,6 +53,11 @@
             //Ctx.mInstance.mLogSys.updateLog();
         }
 
+        public void FixedUpdate()
+        {
+
+        }
+
         // 循环执行完成后，再次
         public void postUpdate()
         {

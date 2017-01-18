@@ -777,6 +777,7 @@ namespace SDK.Lib
 
         public static void setPos(Transform tran, Vector3 pos)
         {
+            // 如果使用物理，使用 Transform 移动的时候，不会遵守物理运算，如果设置了 UnityEngine.Rigidbody.constraints ，对应的移动也会移动
             if (null != tran)
             {
                 tran.localPosition = pos;
@@ -785,6 +786,7 @@ namespace SDK.Lib
 
         public static void setRigidbodyPos(UnityEngine.Rigidbody rigidbody, Vector3 pos)
         {
+            // 如果使用物理，使用 rigidbody 移动的时候，会遵守物理运算，但是有点问题，例如在缩放的时候，不能转动方向，如果设置了 UnityEngine.Rigidbody.constraints 那么对应的移动也不会移动，物理设置网上说在 FixedUpdate 里面修改位置，自己刚开始在 Update 里面设置，结果一卡一卡的，后来放在 FixedUpdate 里面设置，结果就好了，后来又放到 Update 还是不卡了，奇怪
             if (null != rigidbody)
             {
                 rigidbody.MovePosition(pos);
