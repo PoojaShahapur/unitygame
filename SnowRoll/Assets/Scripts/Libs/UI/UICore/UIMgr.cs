@@ -164,7 +164,8 @@ namespace SDK.Lib
                 //{
                 //    Ctx.mInstance.mResLoadMgr.unload(path);
                 //}
-                UtilApi.UnloadUnusedAssets();       // 异步卸载共用资源
+                // 很卡，暂时屏蔽掉
+                //UtilApi.UnloadUnusedAssets();       // 异步卸载共用资源
                 mId2FormDic.Remove(formId);
                 win = null;
             }

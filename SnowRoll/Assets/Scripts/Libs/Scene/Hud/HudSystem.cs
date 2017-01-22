@@ -34,6 +34,10 @@
             {
                 hud = new PlayerOtherChildHud();
             }
+            else if (EntityType.eComputerBall == being.getEntityType())
+            {
+                hud = new ComputerBallHud();
+            }
 
             hud.setBeing(being);
             hud.init();

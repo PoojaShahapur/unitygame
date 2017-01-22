@@ -179,7 +179,7 @@ namespace Game.Game
                         bundle.writeUint32(spaceID);
 
                         Ctx.mInstance.mLogSys.log(
-                            string.Format("Send Move PosX = {0}, PosY = {1}, PosZ = {2}", position.x, position.y, position.z),
+                            string.Format("ReqSceneInteractive::sendPlayerMove, Send Move eid = {0}, PosX = {1}, PosY = {2}, PosZ = {3}", eid, position.x, position.y, position.z),
                             LogTypeId.eLogBeingMove);
 
                         ++idx;
@@ -231,6 +231,7 @@ namespace Game.Game
         {
             if (!Ctx.mInstance.mCommonData.isSplitSuccess())
             {
+                Ctx.mInstance.mLogSys.log("ReqSceneInteractive::sendSplit, Not send split, server not return", LogTypeId.eLogScene);
                 return;
             }
 
@@ -240,6 +241,14 @@ namespace Game.Game
             PlayerMain player = Ctx.mInstance.mPlayerMgr.getHero();
             int idx = 0;
             int num = playerChildMgr.getEntityCount();
+
+            //已达到最大数量
+            if(Ctx.mInstance.mSnowBallCfg.isGreatEqualMaxNum(num))
+            {
+                Ctx.mInstance.mLogSys.log(string.Format("ReqSceneInteractive::sendSplit, Not send split, arrive max num ball, current ball num = {0}, Max ball num = {1}", num, Ctx.mInstance.mSnowBallCfg.mMaxSnowNum), LogTypeId.eLogScene);
+                return;
+            }
+
             PlayerChild playerChild;
             bool ischanged = false;
 
@@ -274,10 +283,10 @@ namespace Game.Game
                     pos = playerChild.getPos();
 
                     // 设置位置
-                    splitRadius = (playerChild as BeingEntity).getSplitRadius();
+                    splitRadius = (playerChild as BeingEntity).getSplitWorldRadius();
                     // 设置位置
                     pos = playerChild.getPos();
-                    initPos = pos + playerChild.getRotate() * new UnityEngine.Vector3(0, 0, playerChild.getBallRadius() + splitRadius + Ctx.mInstance.mSnowBallCfg.mSplitRelStartPos);
+                    initPos = pos + playerChild.getRotate() * new UnityEngine.Vector3(0, 0, playerChild.getBallWorldRadius() + splitRadius + Ctx.mInstance.mSnowBallCfg.mSplitRelStartPos);
 
                     toPos = initPos + playerChild.getRotate() * new UnityEngine.Vector3(0, 0, Ctx.mInstance.mSnowBallCfg.mSplitRelDist);
 
@@ -288,11 +297,11 @@ namespace Game.Game
                     info["frompos"] = initPos;
                     info["topos"] = toPos;
 
-                    Ctx.mInstance.mLogSys.log(string.Format("Send Split eid = {0}, initPos.x = {1}, initPos.y = {2}, initPos.z = {3}, toPos.x = {4}, toPos.y = {5}, toPos.z = {6}", eid, initPos.x, initPos.y, initPos.z, toPos.x, toPos.y, toPos.z), LogTypeId.eLogSceneInterActive);
+                    Ctx.mInstance.mLogSys.log(string.Format("ReqSceneInteractive::sendSplit, Send Split eid = {0}, initPos.x = {1}, initPos.y = {2}, initPos.z = {3}, toPos.x = {4}, toPos.y = {5}, toPos.z = {6}", eid, initPos.x, initPos.y, initPos.z, toPos.x, toPos.y, toPos.z), LogTypeId.eLogSplitMergeEmit);
                 }
                 else
                 {
-                    Ctx.mInstance.mLogSys.log("Can not Split", LogTypeId.eLogSplitMergeEmit);
+                    Ctx.mInstance.mLogSys.log("ReqSceneInteractive::sendSplit, Can not Split", LogTypeId.eLogSplitMergeEmit);
                 }
 
                 ++idx;
@@ -303,48 +312,74 @@ namespace Game.Game
                 Ctx.mInstance.mCommonData.setSplitSuccess(false);
                 player.cellCall("reqSplit", (int)MsgLogicCV.eSplit, infos);
 
-                Ctx.mInstance.mLogSys.log("Send Split", LogTypeId.eLogSceneInterActive);
+                Ctx.mInstance.mLogSys.log("ReqSceneInteractive::sendSplit, Send Split", LogTypeId.eLogSceneInterActive);
             }
         }
 
         // 融合
+        //public static void sendMerge(BeingEntity aBeing, BeingEntity bBeing)
+        //{
+        //    // 这个分裂修改列表数据，因此只查找前面的数据
+        //    PlayerMain player = Ctx.mInstance.mPlayerMgr.getHero();
+
+        //    Dictionary<string, object> infos = new Dictionary<string, object>();
+        //    List<object> listinfos = new List<object>();
+        //    infos["values"] = listinfos;
+
+        //    Dictionary<string, object> info = null;
+
+        //    KBEngine.Entity kbeEntity = null;
+        //    System.Int32 eid = 0;
+
+        //    kbeEntity = aBeing.getEntity();
+        //    eid = kbeEntity.id;
+
+        //    info = new Dictionary<string, object>();
+        //    listinfos.Add(info);
+
+        //    info["eid"] = eid;
+        //    info["frompos"] = aBeing.getPos();
+        //    info["topos"] = aBeing.getPos();
+
+        //    kbeEntity = bBeing.getEntity();
+        //    eid = kbeEntity.id;
+
+        //    info = new Dictionary<string, object>();
+        //    listinfos.Add(info);
+
+        //    info["eid"] = eid;
+        //    info["frompos"] = aBeing.getPos();
+        //    info["topos"] = aBeing.getPos();
+
+        //    player.cellCall("reqSplit", (int)MsgLogicCV.eMerge, infos);
+
+        //    Ctx.mInstance.mLogSys.log(string.Format("Send Merge eid = {0}, frompos.x = {1}, frompos.y = {2}, frompos.z = {3}", eid, aBeing.getPos().x, aBeing.getPos().y, aBeing.getPos().z), LogTypeId.eLogSceneInterActive);
+        //}
+
         public static void sendMerge(BeingEntity aBeing, BeingEntity bBeing)
         {
             // 这个分裂修改列表数据，因此只查找前面的数据
             PlayerMain player = Ctx.mInstance.mPlayerMgr.getHero();
 
-            Dictionary<string, object> infos = new Dictionary<string, object>();
             List<object> listinfos = new List<object>();
-            infos["values"] = listinfos;
-
-            Dictionary<string, object> info = null;
 
             KBEngine.Entity kbeEntity = null;
-            System.Int32 eid = 0;
+            System.Int32 aeid = 0;
+            System.Int32 beid = 0;
 
             kbeEntity = aBeing.getEntity();
-            eid = kbeEntity.id;
-
-            info = new Dictionary<string, object>();
-            listinfos.Add(info);
-
-            info["eid"] = eid;
-            info["frompos"] = aBeing.getPos();
-            info["topos"] = aBeing.getPos();
+            aeid = kbeEntity.id;
+            listinfos.Add(aeid);
 
             kbeEntity = bBeing.getEntity();
-            eid = kbeEntity.id;
+            beid = kbeEntity.id;
+            listinfos.Add(beid);
 
-            info = new Dictionary<string, object>();
-            listinfos.Add(info);
+            player.cellCall("reqMerge", listinfos);
 
-            info["eid"] = eid;
-            info["frompos"] = aBeing.getPos();
-            info["topos"] = aBeing.getPos();
+            //(KBEngine.KBEngineApp.app.findEntity((System.Int32)player.getThisId()) as KBEngine.Avatar).notifyMerge((System.Int32)aBeing.getThisId(), (System.Int32)bBeing.getThisId(), (System.Int32)aBeing.getThisId(), aBeing.getMass() + bBeing.getMass());
 
-            player.cellCall("reqSplit", (int)MsgLogicCV.eMerge, infos);
-
-            Ctx.mInstance.mLogSys.log(string.Format("Send Merge eid = {0}, frompos.x = {1}, frompos.y = {2}, frompos.z = {3}", eid, aBeing.getPos().x, aBeing.getPos().y, aBeing.getPos().z), LogTypeId.eLogSceneInterActive);
+            Ctx.mInstance.mLogSys.log(string.Format("ReqSceneInteractive::sendMerge, Send Merge aThisid = {0}, frompos.x = {1}, frompos.y = {2}, frompos.z = {3}, bThisId = {4}, bPos.x = {5}, , bPos.y = {6}, bPos.z = {7}, dist = {8}", aeid, aBeing.getPos().x, aBeing.getPos().y, aBeing.getPos().z, beid, bBeing.getPos().x, bBeing.getPos().y, bBeing.getPos().z, (bBeing.getPos() - aBeing.getPos()).magnitude), LogTypeId.eLogSceneInterActive);
         }
 
         // 吐雪块
@@ -352,6 +387,7 @@ namespace Game.Game
         {
             if (!Ctx.mInstance.mCommonData.isEmitSuccess())
             {
+                Ctx.mInstance.mLogSys.log("ReqSceneInteractive::sendShit, Emit SnowBall Wait Server Return", LogTypeId.eLogScene);
                 return;
             }
 
@@ -386,11 +422,13 @@ namespace Game.Game
                 {
                     isEmited = true;
 
+                    emitRadius = playerChild.getEmitSnowWorldSize();
+
                     kbeEntity = playerChild.getEntity();
                     eid = kbeEntity.id;
                     pos = playerChild.getPos();
 
-                    initPos = playerChild.getPos() + playerChild.getRotate() * new UnityEngine.Vector3(0, 0, playerChild.getBallRadius() + emitRadius + Ctx.mInstance.mSnowBallCfg.mEmitRelStartPos);
+                    initPos = playerChild.getPos() + playerChild.getRotate() * new UnityEngine.Vector3(0, 0, playerChild.getBallWorldRadius() + emitRadius + Ctx.mInstance.mSnowBallCfg.mEmitRelStartPos);
                     toPos = initPos + playerChild.getRotate() * new UnityEngine.Vector3(0, 0, Ctx.mInstance.mSnowBallCfg.mEmitRelDist);
 
                     info = new Dictionary<string, object>();
@@ -400,11 +438,11 @@ namespace Game.Game
                     info["frompos"] = initPos;
                     info["topos"] = toPos;
 
-                    Ctx.mInstance.mLogSys.log(string.Format("Shit One eid = {0}, initPos.x = {1}, initPos.x = {2}, initPos.x = {3}, toPos.x = {4}, toPos.y = {5}, toPos.z = {6}", eid, initPos.x, initPos.y, initPos.z, toPos.x, toPos.y, toPos.z), LogTypeId.eLogSplitMergeEmit);
+                    Ctx.mInstance.mLogSys.log(string.Format("ReqSceneInteractive::sendShit, Shit One eid = {0}, initPos.x = {1}, initPos.x = {2}, initPos.x = {3}, toPos.x = {4}, toPos.y = {5}, toPos.z = {6}", eid, initPos.x, initPos.y, initPos.z, toPos.x, toPos.y, toPos.z), LogTypeId.eLogSplitMergeEmit);
                 }
                 else
                 {
-                    Ctx.mInstance.mLogSys.log("Can not Emit", LogTypeId.eLogSplitMergeEmit);
+                    Ctx.mInstance.mLogSys.log("ReqSceneInteractive::sendShit, Can not Emit", LogTypeId.eLogSplitMergeEmit);
                 }
 
                 ++idx;
@@ -415,7 +453,7 @@ namespace Game.Game
                 Ctx.mInstance.mCommonData.setEmitSuccess(false);
                 player.cellCall("reqSplit", (int)MsgLogicCV.eShit, infos);
 
-                Ctx.mInstance.mLogSys.log("Send Shit", LogTypeId.eLogSplitMergeEmit);
+                Ctx.mInstance.mLogSys.log("ReqSceneInteractive::sendShit, Send Shit", LogTypeId.eLogSplitMergeEmit);
             }
         }
     }

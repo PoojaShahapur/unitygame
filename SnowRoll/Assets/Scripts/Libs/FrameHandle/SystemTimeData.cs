@@ -11,6 +11,9 @@ namespace SDK.Lib
         protected float mFixFrameRate;       // 固定帧率
         protected float mScale;             // delta 缩放
 
+        // Edit->Project Setting->time
+        protected float mFixedTimestep;
+
         public SystemTimeData()
         {
             this.mPreTime = 0;
@@ -19,6 +22,8 @@ namespace SDK.Lib
             this.mIsFixFrameRate = false;
             this.mFixFrameRate = 0.0417f;       //  1 / 24;
             this.mScale = 1;
+
+            this.mFixedTimestep = 0.02f;
         }
 
         public float deltaSec
@@ -30,6 +35,18 @@ namespace SDK.Lib
             set
             {
                 this.mDeltaSec = value;
+            }
+        }
+
+        public float getFixedTimestep()
+        {
+            if (Ctx.mInstance.mCfg.mIsActorMoveUseFixUpdate)
+            {
+                return this.mFixedTimestep;
+            }
+            else
+            {
+                return this.mDeltaSec;
             }
         }
 

@@ -17,15 +17,17 @@
         {
             base.onSelfChanged();
 
-            //UnityEngine.GameObject collide = UtilApi.TransFindChildByPObjAndPath(this.selfGo, UtilApi.COLLIDE_NAME);
-            //AuxPlayerMainChildUserData auxData = UtilApi.AddComponent<AuxPlayerMainChildUserData>(collide);
-            AuxPlayerMainChildUserData auxData = UtilApi.AddComponent<AuxPlayerMainChildUserData>(this.selfGo);
+            UnityEngine.GameObject collide = UtilApi.TransFindChildByPObjAndPath(this.selfGo, UtilApi.COLLIDE_NAME);
+            AuxPlayerMainChildUserData auxData = UtilApi.AddComponent<AuxPlayerMainChildUserData>(collide);
+            auxData.setUserData(this.mEntity);
+
+            auxData = UtilApi.AddComponent<AuxPlayerMainChildUserData>(this.selfGo);
             auxData.setUserData(this.mEntity);
 
             UnityEngine.GameObject model = UtilApi.TransFindChildByPObjAndPath(this.selfGo, UtilApi.MODEL_NAME);
             (this.mEntity as Player).mAnimatorControl.setAnimator(UtilApi.getComByP<UnityEngine.Animator>(model));
 
-            UtilApi.setLayer(this.selfGo, "PlayerMainChild");
+            //UtilApi.setLayer(this.selfGo, "PlayerMainChild");
         }
     }
 }

@@ -24,7 +24,7 @@ namespace Game.UI
         private Vector2 LOldPos;
         private Vector2 RPos;
         private Vector2 ROldPos;
-        private Vector2 MoveVec; //移动方向
+        private Vector2 MoveVec;
 
         private JoyStickTouchInfo mTouchInfo;
 
@@ -113,7 +113,7 @@ namespace Game.UI
                 SetOldPos(CurMousePos);
             }
 
-            MoveVec.x = Input.acceleration.x;
+            MoveVec.x = Input.acceleration.x;            
             if (isTouchHold)
             {
                 SetPos(CurMousePos);
@@ -122,14 +122,15 @@ namespace Game.UI
             {
                 MoveVec.y = Input.acceleration.y;                
             }
+            Ctx.mInstance.mPlayerMgr.setMoveVec(MoveVec);
 
-            if(MoveVec.x == 0 && MoveVec.y == 0)
+            if (MoveVec.x == 0 && MoveVec.y == 0)
             {
                 Ctx.mInstance.mPlayerMgr.getHero().stopMove();
             }
             else
             {
-                Move(MoveVec);
+                Move(Ctx.mInstance.mPlayerMgr.getMoveVec());
             }
         }
 
@@ -221,12 +222,19 @@ namespace Game.UI
 
         private void Move(Vector2 MoveVec)
         {
-            if (!Ctx.mInstance.mPlayerMgr.getHero().getCanMove())
+            if (Vector2.Equals(MoveVec, Vector2.zero))
             {
-                Ctx.mInstance.mLuaSystem.exitForm(10003);//关闭重生界面
+                Ctx.mInstance.mPlayerMgr.getHero().stopMove();
             }
+            else
+            {
+                if (!Ctx.mInstance.mPlayerMgr.getHero().getCanMove())
+                {
+                    Ctx.mInstance.mLuaSystem.exitForm(10003);//关闭重生界面
+                }
 
-            Ctx.mInstance.mPlayerMgr.getHero().moveForwardByOrient(MoveVec);
+                Ctx.mInstance.mPlayerMgr.getHero().moveForwardByOrient(MoveVec);
+            }
         }
 
         public void setClientDispose(bool isDispose)

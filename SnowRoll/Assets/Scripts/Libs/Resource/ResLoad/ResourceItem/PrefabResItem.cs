@@ -76,7 +76,8 @@ namespace SDK.Lib
                 if (mPrefabObj is GameObject)
                 {
                     mPrefabObj = null;
-                    UtilApi.UnloadUnusedAssets();   // UnloadUnusedAssets 可以卸载没有引用的资源，一定要先设置 null ，然后再调用 UnloadUnusedAssets
+                    // 很卡，暂时屏蔽掉
+                    //UtilApi.UnloadUnusedAssets();   // UnloadUnusedAssets 可以卸载没有引用的资源，一定要先设置 null ，然后再调用 UnloadUnusedAssets
                 }
                 else
                 {
@@ -113,7 +114,8 @@ namespace SDK.Lib
 
                 if (hasGameObject)
                 {
-                    UtilApi.UnloadUnusedAssets();
+                    // 很卡，暂时屏蔽掉
+                    //UtilApi.UnloadUnusedAssets();
                 }
             }
 

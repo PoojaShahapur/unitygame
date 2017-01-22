@@ -88,7 +88,8 @@ function M:showTop10Rank()
 end
 
 function M:onDropBtnClk()
-    --GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormId.eUIConsoleDlg);
+    GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormId.eUIConsoleDlg);
+
     self.showDataPanel = not self.showDataPanel;
     if self.showDataPanel then
         self.dataPanel:SetActive(true);

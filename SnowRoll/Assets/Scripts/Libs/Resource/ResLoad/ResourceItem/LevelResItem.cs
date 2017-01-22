@@ -147,8 +147,8 @@ namespace SDK.Lib
 
         public override void unload(bool unloadAllLoadedObjects = true)
         {
-            // 场景卸载需要调用这个函数吗，内部应该会自己调用吧，为了安全，自己调用一次
-            UtilApi.UnloadUnusedAssets();           // 卸载共享资源
+            // 场景卸载需要调用这个函数吗，内部应该会自己调用吧，为了安全，自己调用一次，内部会调用一次，自己不用调用
+            // UtilApi.UnloadUnusedAssets();           // 卸载共享资源
 
             base.unload(unloadAllLoadedObjects);
         }

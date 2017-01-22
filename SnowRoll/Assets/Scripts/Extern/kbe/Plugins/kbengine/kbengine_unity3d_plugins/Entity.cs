@@ -368,6 +368,15 @@
 				Event.fireOut("SetPosition", new object[]{this});
 		}
 
+        public virtual void server_set_position(object old)
+        {
+            Vector3 v = (Vector3)getDefinedProperty("position");
+            position = v;
+           
+            if (inWorld)
+                Event.fireOut("SetPosition", new object[] { this });
+        }
+
 		public virtual void onUpdateVolatileData()
 		{
 		}

@@ -12,11 +12,11 @@ function M.ceil(value)
 end
 
 function M.getMassByRadius(radius)
-    return math.pow(radius, 3);
+    return math.pow(radius, GlobalNS.CSSystem.Ctx.mInstance.mSnowBallCfg.mRealMassFactor);
 end
 
 function M.getRadiusByMass(mass)
-    return math.pow(mass, 1/3);
+    return math.pow(mass, 1/GlobalNS.CSSystem.Ctx.mInstance.mSnowBallCfg.mRealMassFactor);
 end
 
 --客户端显示质量

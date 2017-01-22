@@ -84,6 +84,14 @@
                     this.moveForwardToDest(delta);
                     //this.moveSeparateForwardToDest(delta);
                 }
+                else if(MoveWay.eIOControlMove == this.mMoveWay)
+                {
+                    this.moveForwardToDestIOControl(delta);
+                }
+                else if(MoveWay.eMergeMove == this.mMoveWay)
+                {
+                    this.moveToDestNoOrient(delta);
+                }
             }
         }
 
@@ -105,6 +113,15 @@
             this.sendMoveMsg();
         }
 
+        // 向目的前向移动
+        virtual public void addActorLocalDestOffsetNoOrient(UnityEngine.Vector3 DeltaLocation)
+        {
+            UnityEngine.Vector3 localOffset = DeltaLocation;
+            mEntity.setPos(mEntity.getPos() + localOffset);
+
+            this.sendMoveMsg();
+        }
+
         // 局部空间旋转
         virtual public void addLocalRotation(UnityEngine.Vector3 DeltaRotation)
         {
@@ -116,11 +133,18 @@
         // 向前移动
         virtual public void moveForward()
         {
-            (this.mEntity as BeingEntity).setBeingState(BeingState.eBSIOControlWalk);
+            if (BeingState.eBSWalk != (this.mEntity as BeingEntity).getBeingState())
+            {
+                (this.mEntity as BeingEntity).setBeingState(BeingState.eBSWalk);
+                this.setIsMoveToDest(true);
+                this.mMoveWay = MoveWay.eIOControlMove;
+            }
 
-            UnityEngine.Vector3 localMove = new UnityEngine.Vector3(0.0f, 0.0f, (mEntity as BeingEntity).getMoveSpeed() * Ctx.mInstance.mSystemTimeData.deltaSec);
+            //(this.mEntity as BeingEntity).setBeingState(BeingState.eBSIOControlWalk);
 
-            this.addActorLocalDestOffset(localMove);
+            //UnityEngine.Vector3 localMove = new UnityEngine.Vector3(0.0f, 0.0f, (mEntity as BeingEntity).getMoveSpeed() * Ctx.mInstance.mSystemTimeData.deltaSec);
+
+            //this.addActorLocalDestOffset(localMove);
         }
 
         // 向前移动进行分离
@@ -150,7 +174,7 @@
         // 向左旋转
         public void rotateLeft()
         {
-            float delta = Ctx.mInstance.mSystemTimeData.deltaSec;
+            float delta = Ctx.mInstance.mSystemTimeData.getFixedTimestep();
             UnityEngine.Vector3 deltaRotation = new UnityEngine.Vector3(0.0f, (mEntity as BeingEntity).getRotateSpeed() * delta, 0.0f);
             this.addLocalRotation(deltaRotation);
         }
@@ -160,7 +184,7 @@
         {
             //(this.mEntity as BeingEntity).setBeingState(BeingState.BSWalk);
 
-            float delta = Ctx.mInstance.mSystemTimeData.deltaSec;
+            float delta = Ctx.mInstance.mSystemTimeData.getFixedTimestep();
             UnityEngine.Vector3 deltaRotation = new UnityEngine.Vector3(0.0f, -(mEntity as BeingEntity).getRotateSpeed() * delta, 0.0f);
             this.addLocalRotation(deltaRotation);
         }
@@ -187,6 +211,13 @@
             this.addActorLocalOffset(localMove);
         }
 
+        public void moveForwardToDestIOControl(float delta)
+        {
+            UnityEngine.Vector3 localMove = new UnityEngine.Vector3(0.0f, 0.0f, (mEntity as BeingEntity).getMoveSpeed() * Ctx.mInstance.mSystemTimeData.getFixedTimestep());
+
+            this.addActorLocalDestOffset(localMove);
+        }
+
         // 分裂向前移动，但是不根据真正的方向
         virtual public void moveSeparateForwardToDest(float delta)
         {
@@ -210,6 +241,32 @@
             {
                 UnityEngine.Vector3 localMove = new UnityEngine.Vector3(0.0f, 0.0f, (mEntity as BeingEntity).getMoveSpeed() * delta);
                 this.addActorLocalDestOffset(localMove);
+            }
+            else
+            {
+                mEntity.setPos(this.mDestPos);
+                this.onArriveDestPos();
+            }
+        }
+
+        // 移动到目标点，不用判断方向
+        public void moveToDestNoOrient(float delta)
+        {
+            UtilApi.DrawLine(mEntity.getPos(), mDestPos, UnityEngine.Color.red);
+
+            UnityEngine.Vector3 normal = mDestPos - mEntity.getPos();
+            normal.Normalize();
+
+            float dist = 0.0f;
+            dist = UnityEngine.Vector3.Distance(new UnityEngine.Vector3(mDestPos.x, 0f, mDestPos.z),
+                    new UnityEngine.Vector3(mEntity.getPos().x, 0f, mEntity.getPos().z));
+
+            float deltaSpeed = (mEntity as BeingEntity).getMoveSpeed() * delta;
+
+            if (dist > deltaSpeed)
+            {
+                UnityEngine.Vector3 localMove = normal * deltaSpeed;
+                this.addActorLocalDestOffsetNoOrient(localMove);
             }
             else
             {
@@ -272,7 +329,7 @@
         }
 
         // 到达终点
-        public void onArriveDestPos()
+        virtual public void onArriveDestPos()
         {
             this.setIsMoveToDest(false);
             (this.mEntity as BeingEntity).setBeingState(BeingState.eBSIdle);
@@ -339,6 +396,31 @@
                 else
                 {
                     this.setIsMoveToDest(false);
+                }
+            }
+        }
+
+        // 向前移动出生
+        public void setDestPosForMerge(UnityEngine.Vector3 destPos)
+        {
+            if (!UtilMath.isEqualVec3(this.mDestPos, destPos))
+            {
+                destPos = Ctx.mInstance.mSceneSys.adjustPosInRange(destPos);
+
+                this.mDestPos = destPos;
+
+                if (!UtilMath.isEqualVec3(mDestPos, mEntity.getPos()))
+                {
+                    this.setIsMoveToDest(true);
+                    this.mMoveWay = MoveWay.eMergeMove;
+
+                    (this.mEntity as BeingEntity).setBeingState(BeingState.eBSWalk);
+                }
+                else
+                {
+                    this.setIsMoveToDest(false);
+
+                    this.onArriveDestPos();
                 }
             }
         }

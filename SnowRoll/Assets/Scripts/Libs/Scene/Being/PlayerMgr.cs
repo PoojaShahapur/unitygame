@@ -15,8 +15,13 @@ namespace SDK.Lib
         protected int mMaxNum;
 
         protected bool mIsEmitSnowBall; // 吐雪块
-        protected float mEmitInterval;  // 吐雪块间隔
         protected float mEmitTimeStamp;  // 吐雪块时间戳
+
+        protected UnityEngine.Vector2 MoveVec; //移动方向
+
+        //protected MDictionary<uint, uint> mSnowId2MainChildIdDic;   // 吃的雪块 Id 到 PlayerMainChild Id 映射
+        //protected MDictionary<uint, uint> mOtherChildId2MainChildIdDic;
+        //protected MDictionary<uint, uint> mPlayerSnowId2MainChildIdDic;
 
         public PlayerMgr()
 		{
@@ -26,8 +31,22 @@ namespace SDK.Lib
             this.mCurNum = 0;
             this.mMaxNum = 10;
             this.mIsEmitSnowBall = false;
-            this.mEmitInterval = 1.0f;
             this.mEmitTimeStamp = 0;
+            this.MoveVec = UnityEngine.Vector2.zero;
+
+            //this.mSnowId2MainChildIdDic = new MDictionary<uint, uint>();
+            //this.mOtherChildId2MainChildIdDic = new MDictionary<uint, uint>();
+            //this.mPlayerSnowId2MainChildIdDic = new MDictionary<uint, uint>();
+        }
+
+        public void setMoveVec(UnityEngine.Vector2 value)
+        {
+            this.MoveVec = value;
+        }
+
+        public UnityEngine.Vector2 getMoveVec()
+        {
+            return this.MoveVec;
         }
 
         override protected void onTickExec(float delta)
@@ -141,10 +160,10 @@ namespace SDK.Lib
             {
                 this.mEmitTimeStamp = this.mEmitTimeStamp + delta;
 
-                if (this.mEmitTimeStamp>= this.mEmitInterval)
+                if (this.mEmitTimeStamp>= Ctx.mInstance.mSnowBallCfg.mEmitInterval)
                 {
                     Game.Game.ReqSceneInteractive.sendShit();
-                    this.mEmitTimeStamp = this.mEmitTimeStamp - this.mEmitInterval;
+                    this.mEmitTimeStamp = this.mEmitTimeStamp - Ctx.mInstance.mSnowBallCfg.mEmitInterval;
                 }
             }
         }
@@ -198,5 +217,76 @@ namespace SDK.Lib
 
             return false;
         }
+
+        //public void eatSnowing(uint snowId, uint mainChildId)
+        //{
+        //    this.mSnowId2MainChildIdDic[snowId] = mainChildId;
+        //}
+
+        //public void eatSnowed(uint snowId)
+        //{
+        //    if (this.mSnowId2MainChildIdDic.ContainsKey(snowId))
+        //    {
+        //        if (null != this.mHero)
+        //        {
+        //            PlayerMainChild child = this.mHero.mPlayerSplitMerge.mPlayerChildMgr.getEntityByThisId(this.mSnowId2MainChildIdDic[snowId]) as PlayerMainChild;
+        //            if(null != child)
+        //            {
+        //                //child.setFreezeXZ(false);
+        //            }
+        //        }
+
+        //        this.mSnowId2MainChildIdDic.Remove(snowId);
+        //    }
+        //}
+
+        //public void eatOtherChilding(uint snowId, uint mainChildId)
+        //{
+        //    this.mOtherChildId2MainChildIdDic[snowId] = mainChildId;
+        //}
+
+        //public void eatOtherChilded(uint snowId)
+        //{
+        //    if (this.mOtherChildId2MainChildIdDic.ContainsKey(snowId))
+        //    {
+        //        if (null != this.mHero)
+        //        {
+        //            PlayerMainChild child = this.mHero.mPlayerSplitMerge.mPlayerChildMgr.getEntityByThisId(this.mOtherChildId2MainChildIdDic[snowId]) as PlayerMainChild;
+        //            if (null != child)
+        //            {
+        //                //child.setFreezeXZ(false);
+        //            }
+        //        }
+
+        //        this.mOtherChildId2MainChildIdDic.Remove(snowId);
+        //    }
+        //}
+
+        //public void eatPlayerSnowing(uint snowId, uint mainChildId)
+        //{
+        //    this.mPlayerSnowId2MainChildIdDic[snowId] = mainChildId;
+        //}
+
+        //public void eatPlayerSnowed(uint snowId)
+        //{
+        //    if (this.mPlayerSnowId2MainChildIdDic.ContainsKey(snowId))
+        //    {
+        //        if (null != this.mHero)
+        //        {
+        //            PlayerMainChild child = this.mHero.mPlayerSplitMerge.mPlayerChildMgr.getEntityByThisId(this.mPlayerSnowId2MainChildIdDic[snowId]) as PlayerMainChild;
+        //            if (null != child)
+        //            {
+        //                //child.setFreezeXZ(false);
+        //            }
+        //        }
+
+        //        this.mPlayerSnowId2MainChildIdDic.Remove(snowId);
+        //    }
+        //}
+
+        //public bool isEatSnowOrPlayrOther()
+        //{
+        //    return this.mOtherChildId2MainChildIdDic.Count() > 0 || this.mPlayerSnowId2MainChildIdDic.Count() > 0;
+        //}
     }
 }

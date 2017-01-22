@@ -7,9 +7,6 @@ namespace SDK.Lib
      */
     public class RoateCameraController : CameraController
     {
-        private float eulerAngles_x;
-        private float eulerAngles_y;        
-
         //水平滚动相关    
         public float xSpeed = 35.0f;//主相机水平方向旋转速度  
 
@@ -40,10 +37,6 @@ namespace SDK.Lib
             //Ctx.mInstance.mInputMgr.addMouseListener(MMouseDevice.MouseLeftButton, EventId.MOUSEPRESS_MOVE_EVENT, onTouchMove);
             Ctx.mInstance.mInputMgr.addTouchListener(EventId.TOUCHMOVED_EVENT, onTouchMove);
 
-            Vector3 eulerAngles = this.transform.eulerAngles;//当前物体的欧拉角  
-            this.eulerAngles_x = eulerAngles.y;
-            this.eulerAngles_y = eulerAngles.x;
-
             //critical_value = Mathf.Pow(limit_radius_value, MoveSensitivity);
             //critical_value2 = critical_value - Mathf.Pow(limit_radius_value2, Mathf.Abs(MoveSensitivity - MoveSensitivity2));
             critical_value = Ctx.mInstance.mSnowBallCfg.mCameraChangeFactor_Z * Mathf.Pow(Ctx.mInstance.mSnowBallCfg.mLimitRadius, 0.5f);
@@ -63,11 +56,11 @@ namespace SDK.Lib
             {
                 float xOffset = 0;
                 xOffset = touch.getXOffset();
-                this.eulerAngles_x += (xOffset * this.xSpeed) * 0.02f;
+                Ctx.mInstance.mCommonData.setEulerAngles_x(Ctx.mInstance.mCommonData.getEulerAngles_x() + (xOffset * this.xSpeed) * 0.02f);
                 float yOffset = 0;
                 yOffset = touch.getYOffset();
-                this.eulerAngles_y -= (yOffset * this.ySpeed) * 0.02f;
-
+                Ctx.mInstance.mCommonData.setEulerAngles_y(Ctx.mInstance.mCommonData.getEulerAngles_y() + (yOffset * this.ySpeed) * 0.02f);
+                
                 //Ctx.mInstance.mLogSys.log(string.Format("xOffset is {0}, yOffset is {1}", xOffset, yOffset), LogTypeId.eLogCommon);
 
                 this.setCameraPosAndTargetOrient();
@@ -85,8 +78,9 @@ namespace SDK.Lib
 
             if(null != playerMain)
             {
-                this.eulerAngles_y = ClampAngle(this.eulerAngles_y, (float)this.yMinLimit, (float)this.yMaxLimit);
-                Quaternion quaternion = Quaternion.Euler(this.eulerAngles_y, this.eulerAngles_x, (float)0);
+                Ctx.mInstance.mCommonData.setEulerAngles_y(ClampAngle(Ctx.mInstance.mCommonData.getEulerAngles_y(), (float)this.yMinLimit, (float)this.yMaxLimit));
+                Quaternion quaternion = Quaternion.Euler(Ctx.mInstance.mCommonData.getEulerAngles_y(), Ctx.mInstance.mCommonData.getEulerAngles_x(), (float)0);
+                
                 //中心位置
                 Vector3 centerPos = playerMain.getPos();
                 //缩放参照距离
@@ -102,7 +96,7 @@ namespace SDK.Lib
 
                 float cur_distance_Y = Ctx.mInstance.mSnowBallCfg.mCameraDistance_Y * radius * Ctx.mInstance.mSnowBallCfg.mCameraChangeFactor_Y;
 
-                //Ctx.mInstance.mLogSys.log("radius: " + radius + "      Z: " + cur_distance_Z + "       Y: " + cur_distance_Y + "   log: " + Mathf.Log(Ctx.mInstance.mSnowBallCfg.mCameraChangeFactor_Z, radius));
+                //Ctx.mInstance.mLogSys.error("centerPos: " + centerPos + "  radius: " + radius + "      Z: " + cur_distance_Z + "       Y: " + cur_distance_Y + "   log: " + Mathf.Log(Ctx.mInstance.mSnowBallCfg.mCameraChangeFactor_Z, radius));
 
                 //从目标物体处，到当前脚本所依附的对象（主相机）发射一个射线，如果中间有物体阻隔，则更改this.distance（这样做的目的是为了不被挡住）  
                 /*RaycastHit hitInfo = new RaycastHit();
@@ -112,7 +106,7 @@ namespace SDK.Lib
                 }*/
 
                 Vector3 vector = ((Vector3)(quaternion * new Vector3(0.0f, cur_distance_Y, -cur_distance_Z))) + centerPos;
-                //Ctx.mInstance.mLogSys.error("centerPos: " + centerPos + "   vector: " + vector);
+                //SDK.Lib.Ctx.mInstance.mLuaSystem.PrintConsoleMessage("<color=#FF0000>[Camera]: </color>" + "centerPos: " + centerPos + "   vector: " + vector);
                 //更改主相机的旋转角度和位置
                 this.transform.rotation = quaternion;
                 this.transform.position = vector;

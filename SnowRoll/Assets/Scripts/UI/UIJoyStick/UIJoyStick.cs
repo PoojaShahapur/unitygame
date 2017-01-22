@@ -129,7 +129,7 @@ namespace Game.UI
             //拖动摇杆放开后按最后的方向继续移动，直到点击停止            
             if (!isStop && !isTouchMove)
             {
-                Move(MoveVec);
+                Move(Ctx.mInstance.mPlayerMgr.getMoveVec());
             }
         }
 
@@ -252,8 +252,9 @@ namespace Game.UI
                     {
                         isStop = false;
                         MoveVec = new Vector2(JPos.x - BackGrounds.position.x, JPos.y - BackGrounds.position.y).normalized;
+                        Ctx.mInstance.mPlayerMgr.setMoveVec(MoveVec);
                         //移动事件分发
-                        Move(MoveVec);
+                        Move(Ctx.mInstance.mPlayerMgr.getMoveVec());
 
                         float _joystick_x = JPos.x;
                         float _joystick_y = JPos.y;
@@ -262,19 +263,19 @@ namespace Game.UI
                         {
                             if (JPos.x > BackGrounds.position.x)
                             {
-                                _joystick_x = BackGrounds.position.x + _radius * MoveVec.x;
+                                _joystick_x = BackGrounds.position.x + _radius * Ctx.mInstance.mPlayerMgr.getMoveVec().x;
                             }
                             if (JPos.x < BackGrounds.position.x)
                             {
-                                _joystick_x = BackGrounds.position.x + _radius * MoveVec.x;
+                                _joystick_x = BackGrounds.position.x + _radius * Ctx.mInstance.mPlayerMgr.getMoveVec().x;
                             }
                             if (JPos.y > BackGrounds.position.y)
                             {
-                                _joystick_y = BackGrounds.position.y + _radius * MoveVec.y;
+                                _joystick_y = BackGrounds.position.y + _radius * Ctx.mInstance.mPlayerMgr.getMoveVec().y;
                             }
                             if (JPos.y < BackGrounds.position.y)
                             {
-                                _joystick_y = BackGrounds.position.y + _radius * MoveVec.y;
+                                _joystick_y = BackGrounds.position.y + _radius * Ctx.mInstance.mPlayerMgr.getMoveVec().y;
                             }
                         }
                         //Debug.Log("MoveVec: " + MoveVec + "   JPos: " + JPos.y + "   BackGrounds.position: " + BackGrounds.position.y);
@@ -283,7 +284,7 @@ namespace Game.UI
                     else
                     {
                         Joystick.position = new Vector3(JPos.x, JPos.y, Joystick.position.z);
-                        Move(MoveVec);
+                        Move(Ctx.mInstance.mPlayerMgr.getMoveVec());
                     }
                 }
             }
@@ -291,12 +292,19 @@ namespace Game.UI
 
         private void Move(Vector2 MoveVec)
         {
-            if (!Ctx.mInstance.mPlayerMgr.getHero().getCanMove())
+            if(Vector2.Equals(MoveVec, Vector2.zero))
             {
-                Ctx.mInstance.mLuaSystem.exitForm(10003);//关闭重生界面
+                Ctx.mInstance.mPlayerMgr.getHero().stopMove();
             }
+            else
+            {
+                if (!Ctx.mInstance.mPlayerMgr.getHero().getCanMove())
+                {
+                    Ctx.mInstance.mLuaSystem.exitForm(10003);//关闭重生界面
+                }
 
-            Ctx.mInstance.mPlayerMgr.getHero().moveForwardByOrient(MoveVec);
+                Ctx.mInstance.mPlayerMgr.getHero().moveForwardByOrient(MoveVec);
+            }
         }
 
         public void setClientDispose(bool isDispose)

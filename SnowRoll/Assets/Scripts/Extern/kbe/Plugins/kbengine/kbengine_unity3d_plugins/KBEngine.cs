@@ -905,7 +905,14 @@
 					if(Class != null)
 					{
 						try{
-							setmethod = Class.GetMethod("set_" + name);
+                            if(name == "position")
+                            {
+                                setmethod = Class.GetMethod("server_set_" + name);
+                            }
+                            else
+                            {
+                                setmethod = Class.GetMethod("set_" + name);
+                            }
 						}
 						catch (Exception e)
 						{
@@ -1641,6 +1648,12 @@
 				Dbg.ERROR_MSG("KBEngine::Client_onRemoteMethodCall: entity(" + eid + ") not found!");
 				return;
 			}
+
+            //Ball没有实体远程调用方法，要获取自己的avatar实体
+            if(entity.getEntity_SDK() != null && (entity.getEntity_SDK() as SDK.Lib.BeingEntity).getEntityType() == SDK.Lib.EntityType.ePlayerOtherChild)
+            {
+                entity = this.player();
+            }
 			
 			UInt16 methodUtype = 0;
 
@@ -1648,9 +1661,9 @@
 				methodUtype = stream.readUint8();
 			else
 				methodUtype = stream.readUint16();
-			
-			Method methoddata = EntityDef.moduledefs[entity.className].idmethods[methodUtype];
-			
+
+            Method methoddata = EntityDef.moduledefs[entity.className].idmethods[methodUtype]; ;
+		
 			// Dbg.DEBUG_MSG("KBEngine::Client_onRemoteMethodCall: " + entity.className + "." + methoddata.name);
 			
 			object[] args = new object[methoddata.args.Count];

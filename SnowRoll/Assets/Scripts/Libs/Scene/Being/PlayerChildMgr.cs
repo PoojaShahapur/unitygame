@@ -41,6 +41,16 @@
             this.mParentPlayer = null;
         }
 
+        public void addPlayerChild(PlayerChild child)
+        {
+            this.addEntity(child);
+        }
+
+        public void removePlayerChild(PlayerChild child)
+        {
+            this.removeEntity(child);
+        }
+
         public void setParentPlayer(Player parentPlayer)
         {
             this.mParentPlayer = parentPlayer;

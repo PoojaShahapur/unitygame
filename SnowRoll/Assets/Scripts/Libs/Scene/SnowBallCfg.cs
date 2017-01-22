@@ -8,7 +8,8 @@
         public XmlSnowBallCfg mXmlSnowBallCfg;
 
         public float mCanAttackRate;//可以吃的比率
-        public float mMassFactor;       // 质量转换因子
+        public float mMassFactor;       // 客户端显示质量转换因子
+        public float mRealMassFactor;       // 游戏中实际质量转换因子
 
         public float mK;     // 目标点 K 因子
         public float mN;     // 目标点 N 因子
@@ -24,6 +25,7 @@
         public float mCanEmitSnowMass;       // 吐积雪块的最小半径
         public float mEmitRelStartPos;          // 开始相对位置
         public float mEmitRelDist;            // 移动距离
+        public float mEmitInterval;         //长按吐雪块时间间隔
 
         //速度 v = k / m + b
         public float mMoveSpeed_k;
@@ -44,6 +46,12 @@
         public XmlItemGoods[] child; //鱼仔
 
         public const float msSeparateFactor = 8;
+        public float mMergeRange;       // 在这个范围内，说明一直在融合
+        public float mMergeSpeedFactor; // 融合的时候，速度变化因子
+
+        public float mBallCollideRadius;    // 初始球的碰撞半径
+        public float mSnowBlockCollideRadius;    // 初始雪块的碰撞半径
+        public float mShitCollideRadius;    // 初始吐出的雪块的碰撞半径
 
         public SnowBallCfg()
         {
@@ -63,8 +71,10 @@
             this.mCanEmitSnowMass = 0.1f;
             this.mEmitRelStartPos = 5;
             this.mEmitRelDist = 10;
+            this.mEmitInterval = 1.0f;
 
             this.mMassFactor = 1;
+            this.mRealMassFactor = 2.0f;
 
             this.mMoveSpeed_k = 10.0f;
             this.mMoveSpeed_b = 10.0f;
@@ -74,6 +84,13 @@
             this.mLimitRadius = 50.0f;
             this.mCameraDistance_Y = 0.5f;
             this.mCameraChangeFactor_Y = 0.5f;
+
+            this.mMergeRange = 1;
+            this.mMergeSpeedFactor = 1;
+
+            this.mBallCollideRadius = 1.08f;
+            this.mSnowBlockCollideRadius = 0.002f;
+            this.mShitCollideRadius = 1;
         }
 
         public void init()
@@ -84,6 +101,10 @@
             this.mA = this.mXmlSnowBallCfg.mXmlItemAttack.mA;
             
             this.mMassFactor = this.mXmlSnowBallCfg.mXmlItemInit.mMassFactor;
+            this.mRealMassFactor = this.mXmlSnowBallCfg.mXmlItemInit.mRealMassFactor;
+            this.mBallCollideRadius = this.mXmlSnowBallCfg.mXmlItemInit.mBallCollideRadius;
+            this.mSnowBlockCollideRadius = this.mXmlSnowBallCfg.mXmlItemInit.mSnowBlockCollideRadius;
+            this.mShitCollideRadius = this.mXmlSnowBallCfg.mXmlItemInit.mShitCollideRadius;
 
             this.mK = this.mXmlSnowBallCfg.mXmlItemSplit.mK;
             this.mN = this.mXmlSnowBallCfg.mXmlItemSplit.mN;
@@ -94,11 +115,14 @@
 
             this.mMergeContactTime = this.mXmlSnowBallCfg.mXmlItemMerge.mContactTime;
             this.mMergeCoolTime = this.mXmlSnowBallCfg.mXmlItemMerge.mCoolTime;
+            this.mMergeRange = this.mXmlSnowBallCfg.mXmlItemMerge.mRange;
+            this.mMergeSpeedFactor = this.mXmlSnowBallCfg.mXmlItemMerge.mSpeedFactor;
 
             this.mEmitSnowMass = this.mXmlSnowBallCfg.mXmlItemEmit.mSnowMass;
             this.mCanEmitSnowMass = this.mXmlSnowBallCfg.mXmlItemEmit.mCanEmitSnowMass;
             this.mEmitRelStartPos = this.mXmlSnowBallCfg.mXmlItemEmit.mRelStartPos;
             this.mEmitRelDist = this.mXmlSnowBallCfg.mXmlItemEmit.mRelDist;
+            this.mEmitInterval = this.mXmlSnowBallCfg.mXmlItemEmit.mInterval;
 
             this.mMoveSpeed_k = this.mXmlSnowBallCfg.mXmlItemMoveSpeed.mMoveSpeed_k;
             this.mMoveSpeed_b = this.mXmlSnowBallCfg.mXmlItemMoveSpeed.mMoveSpeed_b;

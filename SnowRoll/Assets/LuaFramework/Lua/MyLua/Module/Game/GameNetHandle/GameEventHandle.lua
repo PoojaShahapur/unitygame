@@ -70,6 +70,10 @@ end
 function M:Client_notifyReliveSeconds(params)
     local reliveTime = params[0]; --param是C#的数组，从0开始
     local enemyName = params[1];
+
+    --重生后停止移动
+    GlobalNS.CSSystem.Ctx.mInstance.mPlayerMgr:setMoveVec(Vector2.New(0, 0));
+
     GCtx.mGameData.reliveTime = reliveTime;
     GCtx.mGameData.enemyName = enemyName;
     GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormId.eUIRelivePanel);

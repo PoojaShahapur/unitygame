@@ -59,12 +59,12 @@
 
         public void addToParent(Player childPlayer)
         {
-            this.mPlayerChildMgr.addEntity(childPlayer);
+            this.mPlayerChildMgr.addPlayerChild(childPlayer as PlayerChild);
         }
 
         virtual public void removeFormParent(Player childPlayer)
         {
-            this.mPlayerChildMgr.removeEntity(childPlayer);
+            this.mPlayerChildMgr.removePlayerChild(childPlayer as PlayerChild);
         }
 
         public PlayerMovement[] getAllChildMovement()
@@ -96,7 +96,7 @@
                 if (1 == total)//只有一个根据直径缩放
                 {
                     player = this.mPlayerChildMgr.getEntityByIndex(index) as Player;
-                    length = player.getScale().x * 2;
+                    length = player.getBallRadius() * 2;
                 }
                 else//多个根据中心到最远子物体的距离与最大鱼直径之和缩放
                 {
@@ -201,6 +201,11 @@
 
         }
 
+        virtual public void removeMerge(PlayerChild aChild)
+        {
+
+        }
+
         virtual public bool isExistMerge(PlayerChild aChild, PlayerChild bChild)
         {
             return false;
@@ -221,9 +226,9 @@
 
         }
 
-        virtual public void updateCenterPos()
+        virtual public bool updateCenterPos()
         {
-
+            return false;
         }
 
         virtual public float getAllChildMass()

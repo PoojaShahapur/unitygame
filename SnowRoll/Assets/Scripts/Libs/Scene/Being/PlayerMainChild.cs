@@ -3,6 +3,7 @@
     public class PlayerMainChild : PlayerChild
     {
         protected uint mLastMergedTime;    // 最后一次融合时间
+        //protected bool mIsMerge;            // 是否正在融合
 
         public PlayerMainChild(Player parentPlayer)
             : base(parentPlayer)
@@ -14,6 +15,7 @@
             this.mEntityUniqueId = Ctx.mInstance.mPlayerMgr.genChildNewStrId();
 
             this.setLastMergedTime();
+            //this.mIsMerge = false;
         }
 
         override public void initRender()
@@ -36,6 +38,13 @@
             {
                 this.setRenderPos(this.mRender.getPos());
             }
+        }
+
+        public override void onDestroy()
+        {
+            base.onDestroy();
+
+            Ctx.mInstance.mGlobalDelegate.mMainChildMassChangedDispatch.dispatchEvent(null);
         }
 
         override public void setBallRadius(float size, bool immScale = false, bool isCalcMass = false)
@@ -83,7 +92,16 @@
         // 是否可以执行合并操作，能否合并只有一个冷却时间条件
         override public bool canMerge()
         {
-            return UtilLogic.canMerge(this.mLastMergedTime);
+            bool ret = false;
+            ret = UtilLogic.canMerge(this.mLastMergedTime) &&
+                  this.mBeingSubState != BeingSubState.eBSSContactMerge &&
+                  this.mBeingSubState != BeingSubState.eBSSReqServerMerge &&
+                  this.mBeingSubState != BeingSubState.eBSSMerge;
+
+            float leftTime = UtilApi.getUTCSec() - this.mLastMergedTime;
+            Ctx.mInstance.mLogSys.log(string.Format("PlayerMainChild::canMerge, thisId = {0}, left time = {1}, total time = {2}, ret = {3}", this.getThisId(), leftTime, Ctx.mInstance.mSnowBallCfg.mMergeCoolTime, ret.ToString()), LogTypeId.eLogScene);
+
+            return ret;
         }
 
         override public bool canMergeWithOther(BeingEntity other)
@@ -151,5 +169,15 @@
                 this.setNotMergeRotate(quad);
             }
         }
+
+        //public void setIsMerge(bool value)
+        //{
+        //    this.mIsMerge = value;
+        //}
+
+        //public bool getIsMerge()
+        //{
+        //    return this.mIsMerge;
+        //}
     }
 }

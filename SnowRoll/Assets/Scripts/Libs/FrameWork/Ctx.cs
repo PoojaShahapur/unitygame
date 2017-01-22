@@ -110,9 +110,11 @@
         public DownloadMgr mDownloadMgr;            // 下载管理器
         public clientapp mClientApp;        // KBEngine 相关处理
         public SnowBlockMgr mSnowBlockMgr;
+        public ComputerBallMgr mComputerBallMgr;
         public PlayerSnowBlockMgr mPlayerSnowBlockMgr;
         public FrameCollideMgr mFrameCollideMgr;
         public SnowBallCfg mSnowBallCfg;
+        public CameraPositionMgr mCameraPositonMgr;
 
         public HudSystem mHudSystem;
         public GlobalDelegate mGlobalDelegate;
@@ -247,9 +249,12 @@
             this.mDownloadMgr = new DownloadMgr();
 
             this.mSnowBlockMgr = new SnowBlockMgr();
+            this.mComputerBallMgr = new ComputerBallMgr();
             this.mFrameCollideMgr = new FrameCollideMgr();
             this.mPlayerSnowBlockMgr = new PlayerSnowBlockMgr();
             this.mSnowBallCfg = new SnowBallCfg();
+            this.mCameraPositonMgr = new CameraPositionMgr();
+
             this.mHudSystem = new HudSystem();
             this.mGlobalDelegate = new GlobalDelegate();
             this.mCommonData = new CommonData();
@@ -278,6 +283,7 @@
             this.mUiMgr.init();
 
             this.mSnowBlockMgr.init();
+            this.mComputerBallMgr.init();
             this.mFrameCollideMgr.init();
             this.mSceneSys.init();
             this.mSnowBallCfg.init();
@@ -288,6 +294,7 @@
             this.mCommonData.init();
             this.mEventHandleSystem.init();
             this.mResizeMgr.init();
+            this.mCameraPositonMgr.init();
 
             // 添加事件处理
             Ctx.mInstance.mCamSys.setUiCamera(Ctx.mInstance.mLayerMgr.mPath2Go[NotDestroyPath.ND_CV_App].AddComponent<UICamera>());
@@ -316,9 +323,11 @@
             this.mTickMgr.dispose();
             this.mPlayerMgr.dispose();
             this.mSnowBlockMgr.dispose();
+            this.mComputerBallMgr.dispose();
             this.mPlayerSnowBlockMgr.dispose();
             this.mInputMgr.dispose();
             this.mUiMgr.dispose();
+            this.mCameraPositonMgr.dispose();
 
             // 等待网络关闭
             this.mNetMgr.dispose();
@@ -359,10 +368,28 @@
             this.mResizeMgr.addResizeObject(this.mUiMgr as IResizeObject);
 
             this.mTickMgr.addTick(this.mResizeMgr as ITickedObject, TickPriority.eTPResizeMgr);
-            this.mTickMgr.addTick(this.mPlayerMgr as ITickedObject, TickPriority.eTPPlayerMgr);
-            this.mTickMgr.addTick(this.mSnowBlockMgr as ITickedObject, TickPriority.eTPSnowBlockMgr);
-            this.mTickMgr.addTick(this.mPlayerSnowBlockMgr as ITickedObject, TickPriority.eTPPlayerSnowBlockMgr);
             this.mTickMgr.addTick(this.mInputMgr as ITickedObject, TickPriority.eTPInputMgr);
+
+            if (!Ctx.mInstance.mCfg.mIsActorMoveUseFixUpdate)
+            {
+                this.mTickMgr.addTick(this.mPlayerMgr as ITickedObject, TickPriority.eTPPlayerMgr);
+                this.mTickMgr.addTick(this.mSnowBlockMgr as ITickedObject, TickPriority.eTPSnowBlockMgr);
+                this.mTickMgr.addTick(this.mPlayerSnowBlockMgr as ITickedObject, TickPriority.eTPPlayerSnowBlockMgr);
+                this.mTickMgr.addTick(this.mComputerBallMgr as ITickedObject, TickPriority.eTPComputerBallMgr);
+                this.mTickMgr.addTick(this.mCameraPositonMgr as ITickedObject, TickPriority.eTPCameraMgr);
+            }
+        }
+
+        public void fixUpdateActor()
+        {
+            if (Ctx.mInstance.mCfg.mIsActorMoveUseFixUpdate)
+            {
+                this.mPlayerMgr.onTick(Ctx.mInstance.mSystemTimeData.getFixedTimestep());
+                this.mSnowBlockMgr.onTick(Ctx.mInstance.mSystemTimeData.getFixedTimestep());
+                this.mPlayerSnowBlockMgr.onTick(Ctx.mInstance.mSystemTimeData.getFixedTimestep());
+                this.mComputerBallMgr.onTick(Ctx.mInstance.mSystemTimeData.getFixedTimestep());
+                this.mCameraPositonMgr.onTick(Ctx.mInstance.mSystemTimeData.getFixedTimestep());
+            }
         }
 
         public void setNoDestroyObject()

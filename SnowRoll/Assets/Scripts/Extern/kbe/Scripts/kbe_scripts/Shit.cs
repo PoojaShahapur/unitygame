@@ -79,7 +79,9 @@ namespace KBEngine
 
             if (null != this.mEntity_SDK)
             {
+                //SDK.Lib.Ctx.mInstance.mPlayerMgr.eatPlayerSnowed(this.mEntity_SDK.getThisId());
                 this.mEntity_SDK.dispose();
+                this.mEntity_SDK = null;
             }
         }
     }

@@ -117,10 +117,17 @@
                 if (this.mIsPosDirty)
                 {
                     this.mIsPosDirty = false;
+
                     if (null != this.mRigidbody)
                     {
-                        //UtilApi.setRigidbodyPos(this.mRigidbody, this.mEntity.getPos());
-                        UtilApi.setPos(this.mSelfGo.transform, this.mEntity.getPos());
+                        //if (!(this.mEntity as BeingEntity).isFreezeXZ())
+                        //{
+                            UtilApi.setRigidbodyPos(this.mRigidbody, this.mEntity.getPos());
+                        //}
+                        //else
+                        //{
+                        //    UtilApi.setPos(this.mSelfGo.transform, this.mEntity.getPos());
+                        //}
                     }
                     else
                     {
@@ -130,19 +137,29 @@
                 if (this.mIsRotDirty)
                 {
                     this.mIsRotDirty = false;
-                    if (null != this.mRigidbody)
-                    {
-                        //UtilApi.setRigidbodyRot(this.mRigidbody, this.mEntity.getRotate());
-                        UtilApi.setRot(this.mSelfGo.transform, this.mEntity.getRotate());
-                    }
-                    else
-                    {
-                        UtilApi.setRot(this.mSelfGo.transform, this.mEntity.getRotate());
-                    }
+
+                    //if (null != this.mRigidbody)
+                    //{
+                    //    if (!(this.mEntity as BeingEntity).isFreezeXZ())
+                    //    {
+                    //        UtilApi.setRigidbodyRot(this.mRigidbody, this.mEntity.getRotate());
+                    //    }
+                    //    else
+                    //    {
+                    //        UtilApi.setRot(this.mSelfGo.transform, this.mEntity.getRotate());
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    UtilApi.setRot(this.mSelfGo.transform, this.mEntity.getRotate());
+                    //}
+
+                    UtilApi.setRot(this.mSelfGo.transform, this.mEntity.getRotate());
                 }
                 if (this.mIsScaleDirty)
                 {
                     this.mIsScaleDirty = false;
+
                     UtilApi.setScale(this.mSelfGo.transform, this.mEntity.getScale());
                 }
             }

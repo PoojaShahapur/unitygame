@@ -55,7 +55,7 @@
 
         public void FixedUpdate()
         {
-
+            Ctx.mInstance.fixUpdateActor();
         }
 
         // 循环执行完成后，再次

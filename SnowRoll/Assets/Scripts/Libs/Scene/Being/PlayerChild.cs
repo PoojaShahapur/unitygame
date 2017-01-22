@@ -116,5 +116,20 @@
                 this.mHud.hide();
             }
         }
+
+        override public float getBallWorldRadius()
+        {
+            return this.mBallRadius * Ctx.mInstance.mSnowBallCfg.mBallCollideRadius;
+        }
+
+        override public float getEmitSnowWorldSize()
+        {
+            return UtilMath.getRadiusByMass(Ctx.mInstance.mSnowBallCfg.mEmitSnowMass) * Ctx.mInstance.mSnowBallCfg.mShitCollideRadius;        // 需要转换成半径
+        }
+
+        override public float getSplitWorldRadius()
+        {
+            return this.getSplitRadius() * Ctx.mInstance.mSnowBallCfg.mBallCollideRadius;
+        }
     }
 }

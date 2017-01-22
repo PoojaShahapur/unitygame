@@ -26,7 +26,7 @@ function M:onInit()
 end
 
 function M:onReady()
-    M.super.onReady(self);
+    M.super.onReady(self);    
     GlobalNS.CSSystem.Ctx.mInstance.mGlobalDelegate.mMainChildMassChangedDispatch:addEventHandle(nil, nil, self, self.refreshMass);
     
     self:refreshMass(); --加载完成主动刷新一次质量
@@ -34,9 +34,13 @@ end
 
 function M:refreshMass()
     --获取Mass_Text的Text组件
-    local mass = GlobalNS.CSSystem.Ctx.mInstance.mPlayerMgr:getHero().mPlayerSplitMerge:getAllChildMass();
-    self.mMass = GlobalNS.UtilApi.getComByPath(self.mGuiWin, "Mass_Text", "Text");
-    self.mMass.text = "重量：" .. GlobalNS.UtilMath.getShowMass(GlobalNS.UtilMath.getRadiusByMass(mass));
+    if(GlobalNS.CSSystem.Ctx.mInstance.mPlayerMgr:getHero() ~= nil and
+       GlobalNS.CSSystem.Ctx.mInstance.mPlayerMgr:getHero().mPlayerSplitMerge ~= nil) then
+         local mass = GlobalNS.CSSystem.Ctx.mInstance.mPlayerMgr:getHero().mPlayerSplitMerge:getAllChildMass();
+         --self.mMass不能放在onReady中获取，否则事件调用进入后该值为nil
+         self.mMass = GlobalNS.UtilApi.getComByPath(self.mGuiWin, "Mass_Text", "Text");         
+         self.mMass.text = "重量：" .. GlobalNS.UtilMath.getShowMass(GlobalNS.UtilMath.getRadiusByMass(mass));
+    end
 end
 
 function M:refreshLeftTime(leftseconds)

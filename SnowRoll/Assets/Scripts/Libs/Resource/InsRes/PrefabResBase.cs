@@ -96,7 +96,8 @@ namespace SDK.Lib
                 // 一定要先设置 null，然后再调用 UnloadUnusedAssets ，否则删除不了 Resources 管理器中的 Asset-Object 资源
                 mGo = null;
 
-                UtilApi.UnloadUnusedAssets();
+                // 卸载的时候会很卡，暂时先注释掉
+                //UtilApi.UnloadUnusedAssets();
 
                 //UtilApi.UnloadAsset(mGo);      // 强制卸载资源数据
                 //UtilApi.DestroyImmediate(mGo, true); // 这个会删除磁盘上的资源

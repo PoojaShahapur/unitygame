@@ -64,6 +64,10 @@ function M:onReady()
     self.locklogtoggle = GlobalNS.UtilApi.GetComponent(self.locklog, "Toggle");
     --self.locklog:addEventHandle(self, self.onToggleChanged);
 
+    local cmdtoggle = GlobalNS.UtilApi.TransFindChildByPObjAndPath(BG, "Cmd_Toggle");
+    self.ClientToggle = GlobalNS.UtilApi.getComByPath(cmdtoggle, "ClientToggle", "Toggle");
+    self.ServerToggle = GlobalNS.UtilApi.getComByPath(cmdtoggle, "ServerToggle", "Toggle");
+
     if self.locklogtoggle.isOn then
         GCtx.mLogSys:log("locked  ", GlobalNS.LogTypeId.eLogCommon);
     end
@@ -83,6 +87,13 @@ end
 
 function M:onSendBtnClk()
 	local cmdtext = self.inputText.text;
+    if self.ClientToggle.isOn then
+        cmdtext = "client " .. cmdtext;
+    end
+    if self.ServerToggle.isOn then
+        cmdtext = "server " .. cmdtext;
+    end
+
     if string.len(cmdtext) > 0 then
         if string.find(cmdtext,"client") == 1 then
             self:doClientCmd(cmdtext);
@@ -105,7 +116,7 @@ function M:doClientCmd(str)
 end
 
 function M:doCmd(str)
-    local index = string.find(str,"=");
+    local index = string.find(str," ");
     local cmd = string.sub(str, 1, index-1);
     local params = string.sub(str, index+1);
     if self.mData.mId2HandleDic:ContainsKey(cmd) then        
@@ -122,7 +133,8 @@ function M:sendServerCmd(str)
     else
         local cmd = string.sub(str, index+1);
         --发送
-
+        self.heroentity = GlobalNS.CSSystem.Ctx.mInstance.mPlayerMgr:getHero():getEntity();
+        self.heroentity:cellCall("exeGMCommand", cmd);
         self:onSetLogText("<color=#00FF00>[Server指令]</color> " .. str);
     end
 end

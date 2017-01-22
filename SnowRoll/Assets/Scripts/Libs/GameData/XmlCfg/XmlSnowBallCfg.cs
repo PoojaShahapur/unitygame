@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Security;
+﻿using System.Security;
 
 namespace SDK.Lib
 {
@@ -9,10 +8,18 @@ namespace SDK.Lib
     public class XmlItemInit : XmlItemBase
     {
         public float mMassFactor;
+        public float mRealMassFactor;
+        public float mBallCollideRadius;    // 初始球的碰撞半径
+        public float mSnowBlockCollideRadius;    // 初始雪块的碰撞半径
+        public float mShitCollideRadius;    // 初始吐出的雪块的碰撞半径
 
         public override void parseXml(SecurityElement xmlelem)
         {
             UtilXml.getXmlAttrFloat(xmlelem, "MassFactor", ref mMassFactor);
+            UtilXml.getXmlAttrFloat(xmlelem, "RealMassFactor", ref mRealMassFactor);
+            UtilXml.getXmlAttrFloat(xmlelem, "BallCollideRadius", ref mBallCollideRadius);
+            UtilXml.getXmlAttrFloat(xmlelem, "SnowBlockCollideRadius", ref mSnowBlockCollideRadius);
+            UtilXml.getXmlAttrFloat(xmlelem, "ShitCollideRadius", ref mShitCollideRadius);
         }
     }
 
@@ -46,11 +53,15 @@ namespace SDK.Lib
     {
         public float mContactTime;
         public float mCoolTime;
+        public float mRange;
+        public float mSpeedFactor;
 
         public override void parseXml(SecurityElement xmlelem)
         {
             UtilXml.getXmlAttrFloat(xmlelem, "ContactTime", ref mContactTime);
             UtilXml.getXmlAttrFloat(xmlelem, "CoolTime", ref mCoolTime);
+            UtilXml.getXmlAttrFloat(xmlelem, "Range", ref mRange);
+            UtilXml.getXmlAttrFloat(xmlelem, "SpeedFactor", ref mSpeedFactor);
         }
     }
 
@@ -66,6 +77,7 @@ namespace SDK.Lib
         public float mS;
         public float mA;
         public float mL;
+        public float mInterval;
 
         public override void parseXml(SecurityElement xmlelem)
         {
@@ -77,6 +89,7 @@ namespace SDK.Lib
             UtilXml.getXmlAttrFloat(xmlelem, "S", ref mS);
             UtilXml.getXmlAttrFloat(xmlelem, "A", ref mA);
             UtilXml.getXmlAttrFloat(xmlelem, "L", ref mL);
+            UtilXml.getXmlAttrFloat(xmlelem, "Interval", ref mInterval);
         }
     }
 
@@ -90,6 +103,7 @@ namespace SDK.Lib
 
         public override void parseXml(SecurityElement xmlelem)
         {
+            UtilXml.getXmlAttrFloat(xmlelem, "Factor", ref mFactor);
             UtilXml.getXmlAttrFloat(xmlelem, "A", ref mA);
         }
     }

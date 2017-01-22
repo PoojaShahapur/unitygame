@@ -46,5 +46,10 @@
         {
             
         }
+
+        override public float getBallWorldRadius()
+        {
+            return this.mBallRadius * Ctx.mInstance.mSnowBallCfg.mShitCollideRadius;
+        }
     }
 }

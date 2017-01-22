@@ -26,6 +26,8 @@ namespace SDK.Lib
         protected string mName;     // 名字
         public BeingAnimatorControl mAnimatorControl;
         public AnimFSM mAnimFSM;
+        protected bool mIsFreezeXZ;     // 是否锁定 XZ 位置
+        protected bool mIsEatedByOther;        // 是否被被吃掉
 
         public BeingEntity()
         {
@@ -43,6 +45,7 @@ namespace SDK.Lib
 
             this.mName = "";
             this.mMoveSpeedFactor = 1;
+            this.mIsFreezeXZ = false;
         }
 
         public SkinModelSkelAnim skinAniModel
@@ -136,6 +139,8 @@ namespace SDK.Lib
         virtual public void setMoveSpeed(float value)
         {
             this.mMoveSpeed = value;
+
+            Ctx.mInstance.mLogSys.log(string.Format("BeingEntity::setMoveSpeed, MoveSpeed = {0},", this.mMoveSpeed), LogTypeId.eLogBeingMove);
         }
 
         public void setContactNotMergeSpeed(float value)
@@ -189,6 +194,18 @@ namespace SDK.Lib
             if (null != mMovement)
             {
                 (mMovement as BeingEntityMovement).setDestPosForBirth(pos);
+            }
+        }
+
+        public void setDestPosForMerge(UnityEngine.Vector3 pos, bool immePos)
+        {
+            if (immePos)
+            {
+                this.setPos(pos);
+            }
+            if (null != mMovement)
+            {
+                (mMovement as BeingEntityMovement).setDestPosForMerge(pos);
             }
         }
 
@@ -260,7 +277,9 @@ namespace SDK.Lib
                 this.mBallRadius = size;
                 this.setDestScale(size, immScale);
 
-                if(isCalcMass)
+                Ctx.mInstance.mLogSys.log(string.Format("BeingEntity::setBallRadius, BallRadius = {0},", this.mBallRadius), LogTypeId.eLogBeingMove);
+
+                if (isCalcMass)
                 {
                     this.mMass = UtilMath.getMassByRadius(this.mBallRadius);
                 }
@@ -280,10 +299,27 @@ namespace SDK.Lib
                 {
                     this.setBallRadius(UtilMath.getRadiusByMass(this.mMass));
                 }
+
+                // 如果全部打日志会直接卡掉的
+                if (EntityType.ePlayerMainChild == this.mEntityType)
+                {
+                    Ctx.mInstance.mLogSys.log(string.Format("BeingEntity::setMass, thisId = {0}, mass = {1}", this.getThisId(), this.mMass), LogTypeId.eLogScene);
+                }
             }
         }
 
+        public float getMass()
+        {
+            return this.mMass;
+        }
+
         public float getBallRadius()
+        {
+            return this.mBallRadius;
+        }
+
+        // 获取 mBallRadius 在世界空间真正的大小，这个是与碰撞大小相同的
+        virtual public float getBallWorldRadius()
         {
             return this.mBallRadius;
         }
@@ -316,6 +352,15 @@ namespace SDK.Lib
 
         // 获取分裂半径
         public float getSplitRadius()
+        {
+            float selfMass = UtilMath.getMassByRadius(this.mBallRadius);
+            selfMass /= 2;
+            float splitRadius = UtilMath.getRadiusByMass(selfMass);
+            return splitRadius;
+        }
+
+        // 获取分裂半径
+        virtual public float getSplitWorldRadius()
         {
             float selfMass = UtilMath.getMassByRadius(this.mBallRadius);
             selfMass /= 2;
@@ -525,7 +570,12 @@ namespace SDK.Lib
             return this.mMass >= Ctx.mInstance.mSnowBallCfg.mCanEmitSnowMass;
         }
 
-        virtual public float getEmitSnowSize()
+        public float getEmitSnowSize()
+        {
+            return UtilMath.getRadiusByMass(Ctx.mInstance.mSnowBallCfg.mEmitSnowMass);        // 需要转换成半径
+        }
+
+        virtual public float getEmitSnowWorldSize()
         {
             return UtilMath.getRadiusByMass(Ctx.mInstance.mSnowBallCfg.mEmitSnowMass);        // 需要转换成半径
         }
@@ -533,7 +583,12 @@ namespace SDK.Lib
         // 是否可以分裂
         virtual public bool canSplit()
         {
-            return this.mMass >= Ctx.mInstance.mSnowBallCfg.mCanSplitMass;
+            bool ret = false;
+            ret = this.mMass >= Ctx.mInstance.mSnowBallCfg.mCanSplitMass;
+
+            Ctx.mInstance.mLogSys.log(string.Format("BeingEntity::canSplit, current mass = {0}, SplitMass = {1}", this.mMass, Ctx.mInstance.mSnowBallCfg.mCanSplitMass), LogTypeId.eLogScene);
+
+            return ret;
         }
 
         // 是否可以 IO 控制向前移动
@@ -635,6 +690,27 @@ namespace SDK.Lib
             {
                 (this.mMovement as BeingEntityMovement).clearNotMerge();
             }
+        }
+
+        public void setFreezeXZ(bool freeze)
+        {
+            this.mIsFreezeXZ = freeze;
+            UtilApi.freezeRigidBodyXZPos(this.getGameObject(), this.mIsFreezeXZ);
+        }
+
+        public bool isFreezeXZ()
+        {
+            return this.mIsFreezeXZ;
+        }
+
+        public void setIsEatedByOther(bool value)
+        {
+            this.mIsEatedByOther = value;
+        }
+
+        public bool getIsEatedByOther()
+        {
+            return this.mIsEatedByOther;
         }
     }
 }

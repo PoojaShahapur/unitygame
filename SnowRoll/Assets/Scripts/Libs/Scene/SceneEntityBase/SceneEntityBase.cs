@@ -307,6 +307,8 @@ namespace SDK.Lib
                 {
                     mRender.setPos(pos);
                 }
+
+                Ctx.mInstance.mLogSys.log(string.Format("BeingEntity::setPos, X = {0}, Y = {1}, Z = {2}", this.mPos.x, this.mPos.y, this.mPos.z), LogTypeId.eLogBeingMove);
             }
         }
 
@@ -325,34 +327,44 @@ namespace SDK.Lib
 
         public void setRotation(Quaternion rotation)
         {
-            this.mRotate = rotation;
-
-            if (null != mRender)
+            if (!UtilMath.isEqualQuat(this.mRotate, rotation))
             {
-                mRender.setRotate(rotation);
+                this.mRotate = rotation;
+
+                if (null != mRender)
+                {
+                    mRender.setRotate(rotation);
+                }
+
+                Ctx.mInstance.mLogSys.log(string.Format("BeingEntity::setRotation, X = {0}, Y = {1}, Z = {2}, W = {3}", this.mRotate.x, this.mRotate.y, this.mRotate.z, this.mRotate.w), LogTypeId.eLogBeingMove);
             }
         }
 
         public void setRotateEulerAngle(UnityEngine.Vector3 rotation)
         {
-            if(UtilMath.mIsLimitXRotate)
+            if (!UtilMath.isEqualVec3(this.mRotate.eulerAngles, rotation))
             {
-                rotation.x = 0;
-            }
-            if (UtilMath.mIsLimitYRotate)
-            {
-                rotation.y = 0;
-            }
-            if (UtilMath.mIsLimitZRotate)
-            {
-                rotation.z = 0;
-            }
+                if (UtilMath.mIsLimitXRotate)
+                {
+                    rotation.x = 0;
+                }
+                if (UtilMath.mIsLimitYRotate)
+                {
+                    rotation.y = 0;
+                }
+                if (UtilMath.mIsLimitZRotate)
+                {
+                    rotation.z = 0;
+                }
 
-            this.mRotate = Quaternion.Euler(rotation);
+                this.mRotate = Quaternion.Euler(rotation);
 
-            if (null != mRender)
-            {
-                mRender.setRotate(this.mRotate);
+                if (null != mRender)
+                {
+                    mRender.setRotate(this.mRotate);
+                }
+
+                Ctx.mInstance.mLogSys.log(string.Format("BeingEntity::setRotateEulerAngle, X = {0}, Y = {1}, Z = {2}, W = {3}", this.mRotate.x, this.mRotate.y, this.mRotate.z, this.mRotate.w), LogTypeId.eLogBeingMove);
             }
         }
 
@@ -381,11 +393,16 @@ namespace SDK.Lib
 
         public void setScale(UnityEngine.Vector3 value)
         {
-            this.mScale = value;
-
-            if (null != mRender)
+            if (!UtilMath.isEqualVec3(this.mScale, value))
             {
-                mRender.setScale(this.mScale);
+                this.mScale = value;
+
+                if (null != mRender)
+                {
+                    mRender.setScale(this.mScale);
+                }
+
+                Ctx.mInstance.mLogSys.log(string.Format("BeingEntity::setScale, X = {0}, Y = {1}, Z = {2}", this.mScale.x, this.mScale.y, this.mScale.z), LogTypeId.eLogBeingMove);
             }
         }
 

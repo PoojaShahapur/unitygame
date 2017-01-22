@@ -75,8 +75,8 @@ namespace SDK.Lib
 
         public void onChildChanged()
         {
-            this.mPlayerSplitMerge.updateCenterPos();
-            Ctx.mInstance.mGlobalDelegate.mMainChildChangedDispatch.dispatchEvent(this);
+            bool isChange = this.mPlayerSplitMerge.updateCenterPos();
+            if(isChange) Ctx.mInstance.mGlobalDelegate.mMainChildChangedDispatch.dispatchEvent(this);
         }
 
         // Child 质量发生变化

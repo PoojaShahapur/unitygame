@@ -513,7 +513,17 @@ namespace SDK.Lib
 
         public static bool canMerge(uint timeStamp)
         {
-            if (UtilApi.getUTCSec() - timeStamp > Ctx.mInstance.mSnowBallCfg.mMergeCoolTime)
+            if (UtilApi.getUTCSec() - timeStamp >= Ctx.mInstance.mSnowBallCfg.mMergeCoolTime)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public static bool canContactMerge(uint timeStamp)
+        {
+            if (UtilApi.getUTCSec() - timeStamp >= Ctx.mInstance.mSnowBallCfg.mMergeContactTime)
             {
                 return true;
             }

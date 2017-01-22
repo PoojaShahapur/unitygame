@@ -22,6 +22,8 @@
     {
         eBSSNone,         // 空状态
         eBSSContactMerge, // 触碰合并，这个时候还没有真正的合并，需要等到触碰一段时间后，才能合并
+        eBSSReqServerMerge, // 请求服务器合并
+        eBSSMerge,          // 真正的融合
     }
 
     /**
@@ -52,7 +54,9 @@
     {
         eNone,          // 没有移动
         eAutoPathMove,  // 自动寻路
+        eIOControlMove, // IO 控制移动
         eSeparateMove,  // 分离移动
         eBirthMove,     // 出生移动
+        eMergeMove,     // 融合移动
     }
 }

@@ -22,7 +22,7 @@
             AuxPlayerOtherChildUserData auxData = UtilApi.AddComponent<AuxPlayerOtherChildUserData>(this.selfGo);
             auxData.setUserData(this.mEntity);
 
-            UtilApi.setLayer(this.selfGo, "PlayerOtherChild");
+            //UtilApi.setLayer(this.selfGo, "PlayerOtherChild");
         }
     }
 }

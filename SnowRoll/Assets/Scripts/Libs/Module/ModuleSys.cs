@@ -91,7 +91,8 @@ namespace SDK.Lib
             {
             }
             Ctx.mInstance.mLayerMgr.mPath2Go.Remove(mType2ItemDic[moduleID].m_moduleLayerPath);
-            UtilApi.UnloadUnusedAssets();
+            // 太卡，暂时屏蔽掉
+            //UtilApi.UnloadUnusedAssets();
         }
 
         public void onLoginLoadEventHandle(IDispatchObject dispObj)

@@ -87,12 +87,17 @@ public class KBEMain : MonoBehaviour
         SDK.Lib.Ctx.mInstance.onKBEQuit();
 	}
 	
-	void FixedUpdate () 
-	{
-		KBEUpdate();
-	}
+	//void FixedUpdate () 
+	//{
+	//	KBEUpdate();
+	//}
 
-	public virtual void KBEUpdate()
+    void LateUpdate()
+    {
+        KBEUpdate();
+    }
+
+    public virtual void KBEUpdate()
 	{
 		// 单线程模式必须自己调用
 		if(!isMultiThreads)

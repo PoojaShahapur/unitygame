@@ -28,6 +28,8 @@ namespace SDK.Lib
         public string mNetLogPhp;       // Php 处理文件
         public List<string> mPakExtNameList;       // 打包的扩展名字列表
 
+        public bool mIsActorMoveUseFixUpdate;    // Actor 移动是否使用固定更新，主要是方便参与物理运算
+
         public Config()
         {
             StreamingAssets = "StreamingAssets/";
@@ -72,6 +74,8 @@ namespace SDK.Lib
             this.mPakExtNameList.Add("png");
             this.mPakExtNameList.Add("shader");
             this.mPakExtNameList.Add("unity");
+
+            this.mIsActorMoveUseFixUpdate = true;
         }
     }
 }

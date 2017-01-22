@@ -25,7 +25,7 @@ namespace SDK.Lib
 
             auxData.setUserData(this.mEntity);
 
-            UtilApi.setLayer(this.selfGo, "PlayerSnowBlock");
+            //UtilApi.setLayer(this.selfGo, "PlayerSnowBlock");
         }
     }
 }

@@ -5,6 +5,8 @@
         protected MList<MergeItem> mMergeList;
         protected MDictionary<string, MergeItem> mMergeDic;
         protected MList<MergeItem> mTmpMergedList;  // 临时存放合并的列表
+        protected MList<MergeItem> mTmpMergedDeleteList;
+        private MVector3 OldCenterPosition;         // 上一次的中心点
 
         public PlayerMainSplitMerge(Player mPlayer)
             : base(mPlayer)
@@ -12,25 +14,35 @@
             mMergeList = new MList<MergeItem>();
             mMergeDic = new MDictionary<string, MergeItem>();
             mTmpMergedList = new MList<MergeItem>();
+            mTmpMergedDeleteList = new MList<MergeItem>();
+            OldCenterPosition = MVector3.ZERO;
         }
 
-        //public override void onTick(float delta)
-        //{
-            //base.onTick(delta);
-            //this.onMergeTick(delta);
-        //}
+        public override void onTick(float delta)
+        {
+            base.onTick(delta);
+            this.onMergeTick(delta);
+        }
 
         protected void onMergeTick(float delta)
         {
             mTmpMergedList.Clear();
+            mTmpMergedDeleteList.Clear();
             int idx = 0;
-            bool isMerged = false;
+            //bool isMerged = false;
 
             while (idx < mMergeList.Count())
             {
-                if (mMergeList[idx].canMerge())
+                if (mMergeList[idx].isInRange())
                 {
-                    mTmpMergedList.Add(mMergeList[idx]);
+                    if (mMergeList[idx].canMerge())
+                    {
+                        mTmpMergedList.Add(mMergeList[idx]);
+                    }
+                }
+                else
+                {
+                    mTmpMergedDeleteList.Add(mMergeList[idx]);
                 }
                 ++idx;
             }
@@ -38,7 +50,7 @@
             idx = 0;
             while (idx < mTmpMergedList.Count())
             {
-                isMerged = true;
+                //isMerged = true;
 
                 mTmpMergedList[idx].merge();
                 mMergeList.Remove(mTmpMergedList[idx]);
@@ -48,9 +60,16 @@
                 ++idx;
             }
 
-            if(isMerged)
+            idx = 0;
+            while (idx < mTmpMergedDeleteList.Count())
             {
-                (this.mEntity as PlayerMain).onChildChanged();
+                mTmpMergedDeleteList[idx].onExceedRange();
+
+                mMergeList.Remove(mTmpMergedDeleteList[idx]);
+                this.mMergeDic.Remove(mTmpMergedDeleteList[idx].getMergeAId());
+                this.mMergeDic.Remove(mTmpMergedDeleteList[idx].getMergeBId());
+
+                ++idx;
             }
         }
 
@@ -69,7 +88,7 @@
 
         // 每一次分裂确定一次目标点，其它时候不改变目标点
         override protected void onNoFirstSplit()
-        {   
+        {
             // 这个分裂修改列表数据，因此只查找前面的数据
             int idx = 0;
             int num = this.mPlayerChildMgr.getEntityCount();
@@ -177,6 +196,7 @@
             if (!mMergeDic.ContainsKey(keyOne))
             {
                 keyTwo = bChild.getEntityUniqueId();
+
                 if (!mMergeDic.ContainsKey(keyTwo))
                 {
                     mergeItem = new MergeItem(this.mEntity as PlayerMain);
@@ -189,7 +209,10 @@
                     bChild.setBeingSubState(BeingSubState.eBSSContactMerge);
 
                     mergeItem.setMergeBeingEntityId(keyOne, keyTwo);
+                    mergeItem.setMergeBeingEntityThisId(aChild.getThisId(), bChild.getThisId());
                     mergeItem.adjustTimeStamp();
+                    mergeItem.setDistance(aChild, bChild);
+                    mergeItem.onAddMerge();
                 }
                 else
                 {
@@ -218,6 +241,53 @@
 
                 keyTwo = bChild.getEntityUniqueId();
                 this.mMergeDic.Remove(keyTwo);
+            }
+
+            if(null != aChild)
+            {
+                aChild.setBeingSubState(BeingSubState.eBSSNone);
+            }
+            if (null != bChild)
+            {
+                bChild.setBeingSubState(BeingSubState.eBSSNone);
+            }
+        }
+
+        override public void removeMerge(PlayerChild aChild)
+        {
+            string keyOne;
+            string keyTwo;
+            PlayerMainChild bChild = null;
+            keyOne = aChild.getEntityUniqueId();
+
+            if (mMergeDic.ContainsKey(keyOne))
+            {
+                this.mMergeList.Remove(mMergeDic[keyOne]);
+                this.mMergeDic.Remove(keyOne);
+
+                if (aChild.getThisId() == mMergeDic[keyOne].mMergeAThisId)
+                {
+                    bChild = Ctx.mInstance.mPlayerMgr.getHero().mPlayerSplitMerge.mPlayerChildMgr.getEntityByThisId((uint)mMergeDic[keyOne].mMergeBThisId) as PlayerMainChild;
+                }
+                else
+                {
+                    bChild = Ctx.mInstance.mPlayerMgr.getHero().mPlayerSplitMerge.mPlayerChildMgr.getEntityByThisId((uint)mMergeDic[keyOne].mMergeAThisId) as PlayerMainChild;
+                }
+
+                if (null != bChild)
+                {
+                    keyTwo = bChild.getEntityUniqueId();
+                    this.mMergeDic.Remove(keyTwo);
+                }
+            }
+
+            if (null != aChild)
+            {
+                aChild.setBeingSubState(BeingSubState.eBSSNone);
+            }
+            if (null != bChild)
+            {
+                bChild.setBeingSubState(BeingSubState.eBSSNone);
             }
         }
 
@@ -268,7 +338,7 @@
                 ++idx;
             }
 
-            if(isEmited)
+            if (isEmited)
             {
                 (this.mEntity as PlayerMain).onChildChanged();
             }
@@ -307,8 +377,9 @@
         }
 
         // 更新中心点位置
-        override public void updateCenterPos()
+        override public bool updateCenterPos()
         {
+            bool isChange = false;
             this.mRangeBox.clear();
 
             int total = this.mPlayerChildMgr.getEntityCount();
@@ -325,9 +396,16 @@
                 ++index;
             }
 
-            this.mEntity.setPos(this.mRangeBox.getCenter().toNative());
-            this.calcTargetLength();
-            this.calcTargetPoint();
+            if(!MVector3.Equals(OldCenterPosition, this.mRangeBox.getCenter()))
+            {
+                isChange = true;
+                this.mEntity.setPos(this.mRangeBox.getCenter().toNative());
+                OldCenterPosition = this.mRangeBox.getCenter();
+                this.calcTargetLength();
+                this.calcTargetPoint();
+            }
+            
+            return isChange;
         }
 
         override public float getAllChildMass()
@@ -340,7 +418,11 @@
             while (index < total)
             {
                 player = this.mPlayerChildMgr.getEntityByIndex(index) as Player;
-                totlaMass += UtilMath.getMassByRadius(player.getBallRadius());
+                if (BeingSubState.eBSSMerge != player.getBeingSubState() &&
+                    !player.isClientDispose())
+                {
+                    totlaMass += UtilMath.getMassByRadius(player.getBallRadius());
+                }
 
                 ++index;
             }

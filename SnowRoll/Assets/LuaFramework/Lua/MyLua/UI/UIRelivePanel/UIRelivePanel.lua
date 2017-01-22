@@ -65,7 +65,9 @@ end
 function M:onExit()
     M.super.onExit(self);
     self.mTimer:Stop();
-    GlobalNS.CSSystem.Ctx.mInstance.mPlayerMgr:getHero():setCanMove(true);
+    if GlobalNS.CSSystem.Ctx.mInstance.mPlayerMgr:getHero() ~= nil then
+        GlobalNS.CSSystem.Ctx.mInstance.mPlayerMgr:getHero():setCanMove(true);
+    end
 end
 
 function M:onBtnReliveClk()

@@ -139,7 +139,7 @@
             Ctx.mInstance.mGlobalDelegate.mMainPosStopChangedDispatch.addEventHandle(null, this.handleParentPosStopChanged);
         }
 
-        protected void removeParentOrientChangedhandle()
+        public void removeParentOrientChangedhandle()
         {
             Ctx.mInstance.mGlobalDelegate.mMainOrientChangedDispatch.removeEventHandle(null, this.handleParentOrientChanged);
             Ctx.mInstance.mGlobalDelegate.mMainPosChangedDispatch.removeEventHandle(null, this.handleParentPosChanged);

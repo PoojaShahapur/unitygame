@@ -25,7 +25,7 @@ namespace SDK.Lib
 
             auxData.setUserData(this.mEntity);
 
-            UtilApi.setLayer(this.selfGo, "SnowBlock");
+            //UtilApi.setLayer(this.selfGo, "SnowBlock");
         }
 
         override public void updateLocalTransform()

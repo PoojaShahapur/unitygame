@@ -10,7 +10,13 @@
 
         override public void overlapToEnter(BeingEntity bBeingEntity, UnityEngine.Collision collisionInfo)
         {
-            
+            //if (EntityType.ePlayerMainChild == bBeingEntity.getEntityType())
+            //{
+            //    if (this.mEntity.canMerge() && bBeingEntity.canMerge())
+            //    {
+            //        (this.mEntity as PlayerMainChild).mParentPlayer.mPlayerSplitMerge.addMerge(this.mEntity as PlayerChild, bBeingEntity as PlayerChild);
+            //    }
+            //}
         }
 
         override public void overlapToStay(BeingEntity bBeingEntity, UnityEngine.Collision collisionInfo)
@@ -35,6 +41,10 @@
             {
                 this.eatPlayerSnowBlock(bBeingEntity);
             }
+            else if (EntityType.eComputerBall == bBeingEntity.getEntityType())
+            {
+                this.eatComputerBall(bBeingEntity);
+            }
         }
 
         override public void overlapToExit(BeingEntity bBeingEntity, UnityEngine.Collision collisionInfo)
@@ -46,41 +56,43 @@
                 //this.mEntity.clearContactNotMerge();
                 //bBeingEntity.clearContactNotMerge();
 
-                UtilApi.freezeRigidBodyXZPos(this.mEntity.getGameObject(), false);
-            }
-            else if (EntityType.ePlayerOtherChild == bBeingEntity.getEntityType())
-            {
-                UtilApi.freezeRigidBodyXZPos(this.mEntity.getGameObject(), false);
-            }
-            else if (EntityType.eSnowBlock == bBeingEntity.getEntityType())
-            {
-                UtilApi.freezeRigidBodyXZPos(this.mEntity.getGameObject(), false);
+                //this.mEntity.setFreezeXZ(false);
+                //bBeingEntity.setFreezeXZ(false);
             }
         }
 
         // 雪块
         public void eatSnowBlock(BeingEntity bBeingEntity)
         {
-            UtilApi.freezeRigidBodyXZPos(bBeingEntity.getGameObject(), true);
+            // 因为碰撞后，还需要判断距离接近到一定程度才吃掉雪球，因此不能直接关闭碰撞
+            //this.mEntity.setFreezeXZ(true);
+            //UtilApi.enableCollider<UnityEngine.SphereCollider>(bBeingEntity.getGameObject(), false);
 
             if (this.mEntity.canEatOther(bBeingEntity))
             {
-                bBeingEntity.setClientDispose(true);
-
-                if (!MacroDef.DEBUG_NOTNET)
+                if (!(bBeingEntity as BeingEntity).getIsEatedByOther())
                 {
-                    this.mEntity.cellCall("eatSnowBlock", bBeingEntity.getThisId());
-                }
-                else
-                {
-                    // TODO:客户端自己模拟
-                    //float newRadius = UtilMath.getNewRadiusByRadius(this.mEntity.getBallRadius(), bBeingEntity.getBallRadius());
+                    Ctx.mInstance.mLogSys.log(string.Format("PlayerMainChildAttack::eatSnowBlock, MainChildThisId = {0}, SnowBallThisId = {1}", this.mEntity.getThisId(), bBeingEntity.getThisId()), LogTypeId.eLogScene);
 
-                    float newRadius = UtilMath.getEatSnowNewRadiusByRadius(this.mEntity.getBallRadius());
+                    //bBeingEntity.setClientDispose(true);
+                    (bBeingEntity as BeingEntity).setIsEatedByOther(true);
+                    //Ctx.mInstance.mPlayerMgr.eatSnowing(bBeingEntity.getThisId(), this.mEntity.getThisId());
 
-                    this.mEntity.setBeingState(BeingState.eBSAttack);
-                    this.mEntity.setBallRadius(newRadius);
-                    bBeingEntity.dispose();
+                    if (!MacroDef.DEBUG_NOTNET)
+                    {
+                        this.mEntity.cellCall("eatSnowBlock", bBeingEntity.getThisId());
+                    }
+                    else
+                    {
+                        // TODO:客户端自己模拟
+                        //float newRadius = UtilMath.getNewRadiusByRadius(this.mEntity.getBallRadius(), bBeingEntity.getBallRadius());
+
+                        float newRadius = UtilMath.getEatSnowNewRadiusByRadius(this.mEntity.getBallRadius());
+
+                        this.mEntity.setBeingState(BeingState.eBSAttack);
+                        this.mEntity.setBallRadius(newRadius);
+                        bBeingEntity.dispose();
+                    }
                 }
             }
         }
@@ -107,11 +119,50 @@
                 otherIsGod = (byte)bBeingEntity.getEntity().getDefinedProperty("isGod");
             }
 
-            UtilApi.freezeRigidBodyXZPos(this.mEntity.getGameObject(), true);
+            //this.mEntity.setFreezeXZ(true);
+            //UtilApi.enableCollider<UnityEngine.SphereCollider>(bBeingEntity.getGameObject(), false);
 
             if (this.mEntity.canEatOther(bBeingEntity) && 0 == otherIsGod)
             {
-                bBeingEntity.setClientDispose(true);
+                if (!(bBeingEntity as PlayerChild).getIsEatedByOther())
+                {
+                    Ctx.mInstance.mLogSys.log(string.Format("PlayerMainChildAttack::eatPlayerOtherChild, MainChildThisId = {0}, OtherChildThisId = {1}", this.mEntity.getThisId(), bBeingEntity.getThisId()), LogTypeId.eLogScene);
+
+                    //bBeingEntity.setClientDispose(true);
+                    (bBeingEntity as PlayerChild).setIsEatedByOther(true);
+                    //Ctx.mInstance.mPlayerMgr.eatOtherChilding(bBeingEntity.getThisId(), this.mEntity.getThisId());
+
+                    if (!MacroDef.DEBUG_NOTNET)
+                    {
+                        this.mEntity.cellCall("eatSnowBlock", bBeingEntity.getThisId());
+                    }
+                    else
+                    {
+                        // TODO:客户端自己模拟
+                        float newRadius = UtilMath.getNewRadiusByRadius(this.mEntity.getBallRadius(), bBeingEntity.getBallRadius());
+
+                        this.mEntity.setBallRadius(newRadius);
+                        bBeingEntity.dispose();
+                    }
+                }
+            }
+            else if(bBeingEntity.canEatOther(this.mEntity))
+            {
+                //bBeingEntity.setClientDispose(true);
+                (this.mEntity as PlayerChild).setIsEatedByOther(true);
+            }
+        }
+
+        // 吃玩家吐出的雪块
+        public void eatPlayerSnowBlock(BeingEntity bBeingEntity)
+        {
+            //bBeingEntity.setClientDispose(true);
+            //Ctx.mInstance.mPlayerMgr.eatPlayerSnowing(bBeingEntity.getThisId(), this.mEntity.getThisId());
+            if (!(bBeingEntity as BeingEntity).getIsEatedByOther())
+            {
+                (bBeingEntity as BeingEntity).setIsEatedByOther(true);
+
+                Ctx.mInstance.mLogSys.log(string.Format("PlayerMainChildAttack::eatPlayerSnowBlock, MainChildThisId = {0}, PlayerSnowBlockThisId = {1}", this.mEntity.getThisId(), bBeingEntity.getThisId()), LogTypeId.eLogScene);
 
                 if (!MacroDef.DEBUG_NOTNET)
                 {
@@ -119,58 +170,41 @@
                 }
                 else
                 {
-                    // TODO:客户端自己模拟
                     float newRadius = UtilMath.getNewRadiusByRadius(this.mEntity.getBallRadius(), bBeingEntity.getBallRadius());
 
+                    this.mEntity.setBeingState(BeingState.eBSAttack);
                     this.mEntity.setBallRadius(newRadius);
                     bBeingEntity.dispose();
                 }
-            }
-            else if(bBeingEntity.canEatOther(this.mEntity))
-            {
-                bBeingEntity.setClientDispose(true);
-            }
-        }
-
-        // 吃玩家吐出的雪块
-        public void eatPlayerSnowBlock(BeingEntity bBeingEntity)
-        {
-            bBeingEntity.setClientDispose(true);
-
-            if (!MacroDef.DEBUG_NOTNET)
-            {
-                this.mEntity.cellCall("eatSnowBlock", bBeingEntity.getThisId());
-            }
-            else
-            {
-                float newRadius = UtilMath.getNewRadiusByRadius(this.mEntity.getBallRadius(), bBeingEntity.getBallRadius());
-
-                this.mEntity.setBeingState(BeingState.eBSAttack);
-                this.mEntity.setBallRadius(newRadius);
-                bBeingEntity.dispose();
             }
         }
 
         // 碰撞 PlayerMainChild
         public void eatPlayerMainChild(BeingEntity bBeingEntity, UnityEngine.Collision collisionInfo)
         {
-            // 如果可以合并
             if (this.mEntity.canMerge() && bBeingEntity.canMerge())
             {
-                //(this.mEntity as PlayerMainChild).mParentPlayer.mPlayerSplitMerge.addMerge(this.mEntity as PlayerChild, bBeingEntity as PlayerChild);
-
-                UtilApi.freezeRigidBodyXZPos(this.mEntity.getGameObject(), true);
-
-                // 如果现在能进行合并
-                if (this.mEntity.canMergeWithOther(bBeingEntity))
-                {
-                    bBeingEntity.setClientDispose(true);
-                    this.mEntity.setClientDispose(true);
-
-                    //this.mEntity.mergeWithOther(bBeingEntity);
-                    Game.Game.ReqSceneInteractive.sendMerge(this.mEntity, bBeingEntity);
-                }
+                (this.mEntity as PlayerMainChild).mParentPlayer.mPlayerSplitMerge.addMerge(this.mEntity as PlayerChild, bBeingEntity as PlayerChild);
             }
+
+            // 如果可以合并
+            //if (this.mEntity.canMerge() && bBeingEntity.canMerge())
+            //{
+            //    (this.mEntity as PlayerMainChild).mParentPlayer.mPlayerSplitMerge.addMerge(this.mEntity as PlayerChild, bBeingEntity as PlayerChild);
+
+            //    //this.mEntity.setFreezeXZ(true);
+            //    //bBeingEntity.setFreezeXZ(true);
+
+            //    // 如果现在能进行合并
+            //    if (this.mEntity.canMergeWithOther(bBeingEntity))
+            //    {
+            //        bBeingEntity.setClientDispose(true);
+            //        this.mEntity.setClientDispose(true);
+
+            //        //this.mEntity.mergeWithOther(bBeingEntity);
+            //        Game.Game.ReqSceneInteractive.sendMerge(this.mEntity, bBeingEntity);
+            //    }
+            //}
             //else if (this.mEntity.isNeedReduceSpeed() || bBeingEntity.isNeedReduceSpeed())
             //{
             //    if (UtilMath.isBehindCollidePoint(this.mEntity.getPos(), this.mEntity.getForward(), collisionInfo))
@@ -185,6 +219,38 @@
             //        bBeingEntity.contactWithAndFollowButNotMerge(this.mEntity);
             //    }
             //}
+        }
+
+        public void eatComputerBall(BeingEntity bBeingEntity)
+        {
+            if (this.mEntity.canEatOther(bBeingEntity))
+            {
+                if (!(bBeingEntity as BeingEntity).getIsEatedByOther())
+                {
+                    (bBeingEntity as BeingEntity).setIsEatedByOther(true);
+
+                    Ctx.mInstance.mLogSys.log(string.Format("PlayerMainChildAttack::eatComputerBall, Ball eat computer ball, MainChildThisId = {0}, ComputerBallThisId = {1}", this.mEntity.getThisId(), bBeingEntity.getThisId()), LogTypeId.eLogScene);
+
+                    if (!MacroDef.DEBUG_NOTNET)
+                    {
+                        this.mEntity.cellCall("eatSnowBlock", bBeingEntity.getThisId());
+                    }
+                    else
+                    {
+                        float newRadius = UtilMath.getEatSnowNewRadiusByRadius(this.mEntity.getBallRadius());
+
+                        this.mEntity.setBeingState(BeingState.eBSAttack);
+                        this.mEntity.setBallRadius(newRadius);
+                        bBeingEntity.dispose();
+                    }
+                }
+            }
+            else if (bBeingEntity.canEatOther(this.mEntity))
+            {
+                Ctx.mInstance.mLogSys.log(string.Format("PlayerMainChildAttack::eatComputerBall, computer ball eat ball, MainChildThisId = {0}, ComputerBallThisId = {1}", this.mEntity.getThisId(), bBeingEntity.getThisId()), LogTypeId.eLogScene);
+
+                this.mEntity.cellCall("eatenByComputer", bBeingEntity.getThisId());
+            }
         }
     }
 }
