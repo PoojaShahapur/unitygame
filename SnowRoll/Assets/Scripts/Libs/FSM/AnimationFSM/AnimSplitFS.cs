@@ -12,7 +12,10 @@
         {
             base.OnStateEnter();
 
-            this.mEntity.mAnimatorControl.play(CVAnimState.Split);
+            if (null != this.mEntity.mAnimatorControl)
+            {
+                this.mEntity.mAnimatorControl.play(CVAnimState.Split);
+            }
         }
 
         override public void OnStateExit()

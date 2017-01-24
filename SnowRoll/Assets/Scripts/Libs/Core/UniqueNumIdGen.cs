@@ -7,14 +7,19 @@
 
         public UniqueNumIdGen(uint baseUniqueId)
         {
-            mCurId = 0;
+            this.mCurId = 0;
         }
 
         public uint genNewId()
         {
-            mPreIdx = mCurId;
-            mCurId++;
-            return mPreIdx;
+            this.mPreIdx = this.mCurId;
+            this.mCurId++;
+            return this.mPreIdx;
+        }
+
+        public uint getCurId()
+        {
+            return this.mCurId;
         }
     }
 }

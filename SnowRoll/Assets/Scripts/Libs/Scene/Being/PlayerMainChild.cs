@@ -20,8 +20,8 @@
 
         override public void initRender()
         {
-            mRender = new PlayerMainChildRender(this);
-            mRender.init();
+            this.mRender = new PlayerMainChildRender(this);
+            this.mRender.init();
         }
 
         public override void preInit()

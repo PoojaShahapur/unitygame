@@ -87,7 +87,6 @@
             if (null != Ctx.mInstance.mCamSys.mMainCamera && null != Ctx.mInstance.mCamSys.mUguiCam)
             {
                 this.mPos = UtilApi.convWorldToUIPos(Ctx.mInstance.mUiMgr.mHudCanvas, Ctx.mInstance.mCamSys.mMainCamera, this.mEntity.getHudPos(), Ctx.mInstance.mCamSys.mUguiCam);
-
                 this.setPos(this.mPos);
             }
             else
@@ -98,7 +97,8 @@
 
         virtual public void onNameChanged()
         {
-            this.mName.setText(this.mEntity.getName() + " " + mEntity.getThisId());
+            this.mName.setText(this.mEntity.getName() + " " + mEntity.getThisId() + " " + mEntity.mMoveSpeed);
+            this.mName.changeSize(UnityEngine.Mathf.Pow(this.mEntity.getBallRadius(), 1/3.0f));
         }
 
         override public void updateLocalTransform()

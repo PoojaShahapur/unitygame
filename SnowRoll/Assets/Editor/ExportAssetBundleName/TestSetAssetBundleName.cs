@@ -37,8 +37,8 @@ namespace EditorTool
         static void OnSetAssetBundleName()
         {
             UnityEngine.Object obj = Selection.activeObject;
-            string path = AssetDatabase.GetAssetPath(Selection.activeObject);
-            string[] extList = new string[] { ".prefab.meta", ".png.meta", ".jpg.meta", ".tga.meta" };
+            //string path = AssetDatabase.GetAssetPath(Selection.activeObject);
+            //string[] extList = new string[] { ".prefab.meta", ".png.meta", ".jpg.meta", ".tga.meta" };
             //EditorUtil.Walk(path, extList, DoSetAssetBundleName);
 
             //Ë¢ÐÂ±à¼­Æ÷
@@ -49,7 +49,7 @@ namespace EditorTool
         static void DoSetAssetBundleName(string path)
         {
             path = path.Replace("\\", "/");
-            int index = path.IndexOf(EditorConfig.PREFAB_PATH);
+            //int index = path.IndexOf(EditorConfig.PREFAB_PATH);
             string relativePath = path.Substring(path.IndexOf(EditorConfig.PREFAB_PATH) + EditorConfig.PREFAB_PATH.Length);
             string prefabName = relativePath.Substring(0, relativePath.IndexOf('.')) + EditorConfig.ASSETBUNDLE;
             StreamReader fs = new StreamReader(path);

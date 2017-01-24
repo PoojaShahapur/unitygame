@@ -10,7 +10,7 @@ namespace SDK.Lib
 
         static public int getXmlAttrBool(SecurityElement attr, string name, ref bool ret)
         {
-            if (attr != null && attr.Attributes.ContainsKey(name))
+            if (null != attr && null != attr.Attributes && attr.Attributes.ContainsKey(name))
             {
                 if (UtilApi.TRUE == attr.Attribute(name))
                 {
@@ -34,7 +34,7 @@ namespace SDK.Lib
 
         static public int getXmlAttrStr(SecurityElement attr, string name, ref string ret)
         {
-            if (attr != null && attr.Attributes.ContainsKey(name))
+            if (null != attr && null != attr.Attributes && attr.Attributes.ContainsKey(name))
             {
                 ret =  attr.Attribute(name);
                 return XML_OK;
@@ -46,7 +46,7 @@ namespace SDK.Lib
 
         static public int getXmlAttrUShort(SecurityElement attr, string name, ref ushort ret)
         {
-            if (attr != null && attr.Attributes.ContainsKey(name))
+            if (null != attr && null != attr.Attributes && attr.Attributes.ContainsKey(name))
             {
                 ushort.TryParse(attr.Attribute(name), out ret);
                 return XML_OK;
@@ -58,7 +58,7 @@ namespace SDK.Lib
 
         static public int getXmlAttrInt(SecurityElement attr, string name, ref short ret)
         {
-            if (attr != null && attr.Attributes.ContainsKey(name))
+            if (null != attr && null != attr.Attributes && attr.Attributes.ContainsKey(name))
             {
                 short.TryParse(attr.Attribute(name), out ret);
                 return XML_OK;
@@ -70,7 +70,7 @@ namespace SDK.Lib
 
         static public int getXmlAttrUInt(SecurityElement attr, string name, ref uint ret)
         {
-            if (attr != null && attr.Attributes.ContainsKey(name))
+            if (null != attr && null != attr.Attributes && attr.Attributes.ContainsKey(name))
             {
                 uint.TryParse(attr.Attribute(name), out ret);
                 return XML_OK;
@@ -82,7 +82,7 @@ namespace SDK.Lib
 
         static public int getXmlAttrInt(SecurityElement attr, string name, ref int ret)
         {
-            if (attr != null && attr.Attributes.ContainsKey(name))
+            if (null != attr && null != attr.Attributes && attr.Attributes.ContainsKey(name))
             {
                 int.TryParse(attr.Attribute(name), out ret);
                 return XML_OK;
@@ -94,7 +94,7 @@ namespace SDK.Lib
 
         static public int getXmlAttrFloat(SecurityElement attr, string name, ref float ret)
         {
-            if (attr != null && attr.Attributes.ContainsKey(name))
+            if (null != attr && null != attr.Attributes && attr.Attributes.ContainsKey(name))
             {
                 float.TryParse(attr.Attribute(name), out ret);
                 return XML_OK;
@@ -107,7 +107,7 @@ namespace SDK.Lib
         // 获取一个 Element 中对应名字是 name 的孩子节点列表
         static public int getXmlChildList(SecurityElement elem, string name, ref ArrayList list)
         {
-            if (elem != null)
+            if (null != elem)
             {
                 int idx = 0;
                 int len = elem.Children.Count;
@@ -142,7 +142,7 @@ namespace SDK.Lib
         // 获取一个孩子节点
         static public int getXmlChild(SecurityElement elem, string name, ref SecurityElement childNode)
         {
-            if (elem != null)
+            if (null != elem)
             {
                 int idx = 0;
                 int len = elem.Children.Count;

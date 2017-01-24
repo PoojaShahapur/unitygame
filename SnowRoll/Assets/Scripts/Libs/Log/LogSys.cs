@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Diagnostics;
 
 namespace SDK.Lib
 {
@@ -9,14 +8,14 @@ namespace SDK.Lib
         protected LockList<string> mAsyncWarnList;            // 这个是多线程访问的
         protected LockList<string> mAsyncErrorList;          // 这个是多线程访问的
 
-        public string mTmpStr;
-        public bool mIsOutLog;          // 是否输出日志
+        protected string mTmpStr;
+        protected bool mIsOutLog;          // 是否输出日志
 
         protected MList<LogDeviceBase> mLogDeviceList;
-        protected MList<LogDeviceBase> mFightLogDeviceList;
-
         protected MList<LogTypeId> mEnableLogTypeList;
-        protected bool mEnableLog;      // 全局开关
+        protected bool mEnableLog;    // 全局开关
+        protected bool mIsOutStack;     // 是否显示堆栈信息
+        protected bool mIsOutTimeStamp;   // 是否有时间戳
 
         // 构造函数仅仅是初始化变量，不涉及逻辑
         public LogSys()
@@ -26,9 +25,7 @@ namespace SDK.Lib
             this.mAsyncErrorList = new LockList<string>("Logger_asyncErrorList");
 
             this.mIsOutLog = true;
-
             this.mLogDeviceList = new MList<LogDeviceBase>();
-            this.mFightLogDeviceList = new MList<LogDeviceBase>();
 
 #if UNITY_5
             Application.logMessageReceived += onDebugLogCallbackHandler;
@@ -37,7 +34,7 @@ namespace SDK.Lib
             Application.RegisterLogCallback(onDebugLogCallbackHandler);
             Application.RegisterLogCallbackThreaded(onDebugLogCallbackThreadHandler);
 #endif
-            mEnableLogTypeList = new MList<LogTypeId>();
+            this.mEnableLogTypeList = new MList<LogTypeId>();
             //mEnableLogTypeList.Add(LogTypeId.eLogCommon);
             //mEnableLogTypeList.Add(LogTypeId.eLogResLoader);
             //mEnableLogTypeList.Add(LogTypeId.eLogLocalFile);
@@ -45,11 +42,13 @@ namespace SDK.Lib
             //mEnableLogTypeList.Add(LogTypeId.eLogAcceleration);
             mEnableLogTypeList.Add(LogTypeId.eLogSplitMergeEmit);
             mEnableLogTypeList.Add(LogTypeId.eLogSceneInterActive);
-            //mEnableLogTypeList.Add(LogTypeId.eLogKBE);
+            mEnableLogTypeList.Add(LogTypeId.eLogKBE);
             mEnableLogTypeList.Add(LogTypeId.eLogScene);
-            //mEnableLogTypeList.Add(LogTypeId.eLogBeingMove);
+            mEnableLogTypeList.Add(LogTypeId.eLogBeingMove);
 
-            mEnableLog = true;
+            this.mEnableLog = true;
+            this.mIsOutStack = true;
+            this.mIsOutTimeStamp = false;
         }
 
         // 初始化逻辑处理
@@ -67,7 +66,7 @@ namespace SDK.Lib
 
         public void setEnableLog(bool value)
         {
-            mEnableLog = value;
+            this.mEnableLog = value;
         }
 
         protected void registerDevice()
@@ -78,16 +77,14 @@ namespace SDK.Lib
             {
                 logDevice = new WinLogDevice();
                 logDevice.initDevice();
-                mLogDeviceList.Add(logDevice);
-                mFightLogDeviceList.Add(logDevice);
+                this.mLogDeviceList.Add(logDevice);
             }
 
             if (MacroDef.ENABLE_NETLOG)
             {
                 logDevice = new NetLogDevice();
                 logDevice.initDevice();
-                mLogDeviceList.Add(logDevice);
-                mFightLogDeviceList.Add(logDevice);
+                this.mLogDeviceList.Add(logDevice);
             }
         }
 
@@ -104,13 +101,7 @@ namespace SDK.Lib
                 logDevice = new FileLogDevice();
                 (logDevice as FileLogDevice).fileSuffix = Ctx.mInstance.mDataPlayer.m_accountData.m_account;
                 logDevice.initDevice();
-                mLogDeviceList.Add(logDevice);
-
-                logDevice = new FileLogDevice();
-                (logDevice as FileLogDevice).fileSuffix = Ctx.mInstance.mDataPlayer.m_accountData.m_account;
-                (logDevice as FileLogDevice).filePrefix = "FightLog";   // 战斗日志
-                logDevice.initDevice();
-                mFightLogDeviceList.Add(logDevice);
+                this.mLogDeviceList.Add(logDevice);
             }
         }
 
@@ -121,7 +112,7 @@ namespace SDK.Lib
                 if(typeof(FileLogDevice) == item.GetType())
                 {
                     item.closeDevice();
-                    mLogDeviceList.Remove(item);
+                    this.mLogDeviceList.Remove(item);
                     break;
                 }
             }
@@ -131,7 +122,7 @@ namespace SDK.Lib
         public void debugLog_1(LangItemID idx, string str)
         {
             string textStr = Ctx.mInstance.mLangMgr.getText(LangTypeId.eDebug5, idx);
-            mTmpStr = string.Format(textStr, str);
+            this.mTmpStr = string.Format(textStr, str);
             //Ctx.mInstance.mLogSys.log(mTmpStr);
         }
 
@@ -139,11 +130,11 @@ namespace SDK.Lib
         {
             if (param.Length == 0)
             {
-                mTmpStr = Ctx.mInstance.mLangMgr.getText(type, item);
+                this.mTmpStr = Ctx.mInstance.mLangMgr.getText(type, item);
             }
             else if (param.Length == 1)
             {
-                mTmpStr = string.Format(Ctx.mInstance.mLangMgr.getText(type, item), param[0], param[1]);
+                this.mTmpStr = string.Format(Ctx.mInstance.mLangMgr.getText(type, item), param[0], param[1]);
             }
             //Ctx.mInstance.mLogSys.log(mTmpStr);
         }
@@ -157,23 +148,11 @@ namespace SDK.Lib
             log(message);
         }
 
-        // 战斗日志，都是主线程中发送
-        public void fightLog(string message)
-        {
-            if (MThread.isMainThread())
-            {
-                foreach (LogDeviceBase logDevice in mFightLogDeviceList.list())
-                {
-                    logDevice.logout(message, LogColor.LOG);
-                }
-            }
-        }
-
         protected bool isInFilter(LogTypeId logTypeId)
         {
-            if (mEnableLog)
+            if (this.mEnableLog)
             {
-                if (mEnableLogTypeList.IndexOf(logTypeId) != -1)
+                if (this.mEnableLogTypeList.IndexOf(logTypeId) != -1)
                 {
                     return true;
                 }
@@ -192,18 +171,27 @@ namespace SDK.Lib
 
         public void log(string message, LogTypeId logTypeId = LogTypeId.eLogCommon)
         {
-            //StackTrace stackTrace = new StackTrace(true);
-            //string traceStr = stackTrace.ToString();
-            //message = string.Format("{0}\n{1}", message, traceStr);
             if (isInFilter(logTypeId))
             {
+                if(this.mIsOutTimeStamp)
+                {
+                    message = string.Format("{0}: {1}", UtilApi.getFormatTime(), message);
+                }
+
+                if (this.mIsOutStack)
+                {
+                    System.Diagnostics.StackTrace stackTrace = new System.Diagnostics.StackTrace(true);
+                    string traceStr = stackTrace.ToString();
+                    message = string.Format("{0}\n{1}", message, traceStr);
+                }
+
                 if (MThread.isMainThread())
                 {
-                    logout(message, LogColor.LOG);
+                    this.logout(message, LogColor.LOG);
                 }
                 else
                 {
-                    asyncLog(message);
+                    this.asyncLog(message);
                 }
             }
         }
@@ -217,13 +205,25 @@ namespace SDK.Lib
         {
             if (isInFilter(logTypeId))
             {
+                if (this.mIsOutTimeStamp)
+                {
+                    message = string.Format("{0}: {1}", UtilApi.getFormatTime(), message);
+                }
+
+                if (this.mIsOutStack)
+                {
+                    System.Diagnostics.StackTrace stackTrace = new System.Diagnostics.StackTrace(true);
+                    string traceStr = stackTrace.ToString();
+                    message = string.Format("{0}\n{1}", message, traceStr);
+                }
+
                 if (MThread.isMainThread())
                 {
-                    logout(message, LogColor.WARN);
+                    this.logout(message, LogColor.WARN);
                 }
                 else
                 {
-                    asyncWarn(message);
+                    this.asyncWarn(message);
                 }
             }
         }
@@ -237,17 +237,25 @@ namespace SDK.Lib
         {
             if (isInFilter(logTypeId))
             {
-                StackTrace stackTrace = new StackTrace(true);
-                string traceStr = stackTrace.ToString();
-                message = string.Format("{0}\n{1}", message, traceStr);
+                if (this.mIsOutTimeStamp)
+                {
+                    message = string.Format("{0}: {1}", UtilApi.getFormatTime(), message);
+                }
+
+                if (this.mIsOutStack)
+                {
+                    System.Diagnostics.StackTrace stackTrace = new System.Diagnostics.StackTrace(true);
+                    string traceStr = stackTrace.ToString();
+                    message = string.Format("{0}\n{1}", message, traceStr);
+                }
 
                 if (MThread.isMainThread())
                 {
-                    logout(message, LogColor.ERROR);
+                    this.logout(message, LogColor.ERROR);
                 }
                 else
                 {
-                    asyncError(message);
+                    this.asyncError(message);
                 }
             }
         }
@@ -265,11 +273,11 @@ namespace SDK.Lib
         // 多线程日志
         protected void asyncWarn(string message)
         {
-            StackTrace stackTrace = new StackTrace(true);        // 这个在 new 的地方生成当时堆栈数据，需要的时候再 new ，否则是旧的堆栈数据
-            string traceStr = stackTrace.ToString();
-            message = string.Format("{0}\n{1}", message, traceStr);
+            //StackTrace stackTrace = new StackTrace(true);        // 这个在 new 的地方生成当时堆栈数据，需要的时候再 new ，否则是旧的堆栈数据
+            //string traceStr = stackTrace.ToString();
+            //message = string.Format("{0}\n{1}", message, traceStr);
 
-            mAsyncWarnList.Add(message);
+            this.mAsyncWarnList.Add(message);
 
             //ThreadLogMR threadLog = new ThreadLogMR();
             //threadLog.mLogSys = message;
@@ -279,11 +287,11 @@ namespace SDK.Lib
         // 多线程日志
         protected void asyncError(string message)
         {
-            StackTrace stackTrace = new StackTrace(true);        // 这个在 new 的地方生成当时堆栈数据，需要的时候再 new ，否则是旧的堆栈数据
-            string traceStr = stackTrace.ToString();
-            message = string.Format("{0}\n{1}", message, traceStr);
+            //StackTrace stackTrace = new StackTrace(true);        // 这个在 new 的地方生成当时堆栈数据，需要的时候再 new ，否则是旧的堆栈数据
+            //string traceStr = stackTrace.ToString();
+            //message = string.Format("{0}\n{1}", message, traceStr);
 
-            mAsyncErrorList.Add(message);
+            this.mAsyncErrorList.Add(message);
 
             //ThreadLogMR threadLog = new ThreadLogMR();
             //threadLog.mLogSys = message;
@@ -297,11 +305,19 @@ namespace SDK.Lib
                 MThread.needMainThread();
             }
 
-            if (mIsOutLog)
+            if (this.mIsOutLog)
             {
-                foreach (LogDeviceBase logDevice in mLogDeviceList.list())
+                //foreach (LogDeviceBase logDevice in mLogDeviceList.list())
+                int idx = 0;
+                int len = this.mLogDeviceList.Count();
+                LogDeviceBase logDevice = null;
+
+                while (idx < len)
                 {
+                    logDevice = this.mLogDeviceList[idx];
                     logDevice.logout(message, type);
+
+                    ++idx;
                 }
             }
         }
@@ -313,19 +329,19 @@ namespace SDK.Lib
                 MThread.needMainThread();
             }
 
-            while ((mTmpStr = mAsyncLogList.RemoveAt(0)) != default(string))
+            while ((this.mTmpStr = mAsyncLogList.RemoveAt(0)) != default(string))
             {
-                logout(mTmpStr, LogColor.LOG);
+                this.logout(mTmpStr, LogColor.LOG);
             }
 
-            while ((mTmpStr = mAsyncWarnList.RemoveAt(0)) != default(string))
+            while ((this.mTmpStr = mAsyncWarnList.RemoveAt(0)) != default(string))
             {
-                logout(mTmpStr, LogColor.LOG);
+                this.logout(mTmpStr, LogColor.WARN);
             }
 
-            while ((mTmpStr = mAsyncErrorList.RemoveAt(0)) != default(string))
+            while ((this.mTmpStr = mAsyncErrorList.RemoveAt(0)) != default(string))
             {
-                logout(mTmpStr, LogColor.LOG);
+                this.logout(mTmpStr, LogColor.ERROR);
             }
         }
 
@@ -350,15 +366,21 @@ namespace SDK.Lib
         {
             if (LogType.Error == type || LogType.Exception == type)
             {
-                Ctx.mInstance.mLogSys.asyncError("onDebugLogCallbackThreadHandler ---- Error");
-                Ctx.mInstance.mLogSys.asyncError(name);
-                Ctx.mInstance.mLogSys.asyncError(stack);
+                //Ctx.mInstance.mLogSys.asyncError("onDebugLogCallbackThreadHandler ---- Error");
+                //Ctx.mInstance.mLogSys.asyncError(name);
+                //Ctx.mInstance.mLogSys.asyncError(stack);
+                Ctx.mInstance.mLogSys.error("onDebugLogCallbackThreadHandler ---- Error");
+                Ctx.mInstance.mLogSys.error(name);
+                Ctx.mInstance.mLogSys.error(stack);
             }
             else if (LogType.Assert == type || LogType.Warning == type)
             {
-                Ctx.mInstance.mLogSys.asyncWarn("onDebugLogCallbackThreadHandler ---- Warning");
-                Ctx.mInstance.mLogSys.asyncWarn(name);
-                Ctx.mInstance.mLogSys.asyncWarn(stack);
+                //Ctx.mInstance.mLogSys.asyncWarn("onDebugLogCallbackThreadHandler ---- Warning");
+                //Ctx.mInstance.mLogSys.asyncWarn(name);
+                //Ctx.mInstance.mLogSys.asyncWarn(stack);
+                Ctx.mInstance.mLogSys.warn("onDebugLogCallbackThreadHandler ---- Warning");
+                Ctx.mInstance.mLogSys.warn(name);
+                Ctx.mInstance.mLogSys.warn(stack);
             }
         }
 

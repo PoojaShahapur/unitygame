@@ -12,7 +12,10 @@
         {
             base.OnStateEnter();
 
-            this.mEntity.mAnimatorControl.play(CVAnimState.Walk);
+            if (null != this.mEntity.mAnimatorControl)
+            {
+                this.mEntity.mAnimatorControl.play(CVAnimState.Walk);
+            }
         }
 
         override public void OnStateExit()

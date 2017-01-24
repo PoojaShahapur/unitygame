@@ -6,17 +6,17 @@ namespace SDK.Lib
 {
     public class SkinRes : TextResBase
     {
-        protected string[] m_boneArr;   // 蒙皮的骨头列表
+        protected string[] mBoneArr;   // 蒙皮的骨头列表
 
         public string[] boneArr
         {
             get
             {
-                return m_boneArr;
+                return mBoneArr;
             }
             set
             {
-                m_boneArr = value;
+                mBoneArr = value;
             }
         }
 
@@ -25,7 +25,7 @@ namespace SDK.Lib
             base.initImpl(res);
 
             SecurityParser xmlDoc = new SecurityParser();
-            xmlDoc.LoadXml(m_text);
+            xmlDoc.LoadXml(mText);
 
             SecurityElement rootNode = xmlDoc.ToXml();
             ArrayList itemMeshList = rootNode.Children;
@@ -48,11 +48,11 @@ namespace SDK.Lib
                     itemSubMesh = itemNode2f;
                     UtilXml.getXmlAttrStr(itemSubMesh, "name", ref subMeshName);
                     UtilXml.getXmlAttrStr(itemSubMesh, "bonelist", ref bonesList);
-                    m_boneArr = bonesList.Split(',');
+                    mBoneArr = bonesList.Split(',');
                 }
             }
 
-            m_text = "";
+            mText = "";
         }
     }
 }

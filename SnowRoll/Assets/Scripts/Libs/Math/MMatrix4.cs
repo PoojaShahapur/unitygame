@@ -674,5 +674,15 @@ namespace SDK.Lib
                 v.x * mat[0, 3] + v.y * mat[1, 3] + v.z * mat[2, 3] + v.w * mat[3, 3]
                 );
         }
+
+        public override bool Equals(object obj)
+        {
+            return base.Equals(obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }

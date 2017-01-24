@@ -308,7 +308,7 @@ namespace SDK.Lib
                     mRender.setPos(pos);
                 }
 
-                Ctx.mInstance.mLogSys.log(string.Format("BeingEntity::setPos, X = {0}, Y = {1}, Z = {2}", this.mPos.x, this.mPos.y, this.mPos.z), LogTypeId.eLogBeingMove);
+                Ctx.mInstance.mLogSys.log(string.Format("BeingEntity::setPos, BasicInfo is {0}, X = {1}, Y = {2}, Z = {3}", this.getBasicInfoStr(), this.mPos.x, this.mPos.y, this.mPos.z), LogTypeId.eLogBeingMove);
             }
         }
 
@@ -336,7 +336,7 @@ namespace SDK.Lib
                     mRender.setRotate(rotation);
                 }
 
-                Ctx.mInstance.mLogSys.log(string.Format("BeingEntity::setRotation, X = {0}, Y = {1}, Z = {2}, W = {3}", this.mRotate.x, this.mRotate.y, this.mRotate.z, this.mRotate.w), LogTypeId.eLogBeingMove);
+                Ctx.mInstance.mLogSys.log(string.Format("BeingEntity::setRotation, BasicInfo is {0}, X = {1}, Y = {2}, Z = {3}, W = {4}", this.getBasicInfoStr(), this.mRotate.x, this.mRotate.y, this.mRotate.z, this.mRotate.w), LogTypeId.eLogBeingMove);
             }
         }
 
@@ -364,7 +364,7 @@ namespace SDK.Lib
                     mRender.setRotate(this.mRotate);
                 }
 
-                Ctx.mInstance.mLogSys.log(string.Format("BeingEntity::setRotateEulerAngle, X = {0}, Y = {1}, Z = {2}, W = {3}", this.mRotate.x, this.mRotate.y, this.mRotate.z, this.mRotate.w), LogTypeId.eLogBeingMove);
+                Ctx.mInstance.mLogSys.log(string.Format("BeingEntity::setRotateEulerAngle, BasicInfo is {0}, X = {1}, Y = {2}, Z = {3}, W = {4}", this.getBasicInfoStr(), this.mRotate.x, this.mRotate.y, this.mRotate.z, this.mRotate.w), LogTypeId.eLogBeingMove);
             }
         }
 
@@ -402,7 +402,7 @@ namespace SDK.Lib
                     mRender.setScale(this.mScale);
                 }
 
-                Ctx.mInstance.mLogSys.log(string.Format("BeingEntity::setScale, X = {0}, Y = {1}, Z = {2}", this.mScale.x, this.mScale.y, this.mScale.z), LogTypeId.eLogBeingMove);
+                Ctx.mInstance.mLogSys.log(string.Format("BeingEntity::setScale, BasicInfo is {0}, X = {1}, Y = {2}, Z = {3}", this.getBasicInfoStr(), this.mScale.x, this.mScale.y, this.mScale.z), LogTypeId.eLogBeingMove);
             }
         }
 
@@ -512,6 +512,12 @@ namespace SDK.Lib
             {
                 mEntity_KBE.cellCall(methodname, arguments);
             }
+        }
+
+        // 获取基本信息字符串
+        protected string getBasicInfoStr()
+        {
+            return string.Format("ThisId = {0}, TypeId = {1}", this.getThisId(), this.getTypeId());
         }
     }
 }

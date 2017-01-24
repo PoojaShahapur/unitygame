@@ -439,7 +439,7 @@ namespace SDK.Lib
         public void getVertexCenterByPos(float fx, float fy, ref float centerX, ref float centerY)
         {
             int ix = (int)(fx / this.mGridWidth);
-            int iy = (int)(fx / this.mGridHeight);
+            //int iy = (int)(fx / this.mGridHeight);
 
             centerX = ix * this.mGridWidth + this.mGridWidth / 2;
             centerY = ix * this.mGridHeight + this.mGridHeight / 2;

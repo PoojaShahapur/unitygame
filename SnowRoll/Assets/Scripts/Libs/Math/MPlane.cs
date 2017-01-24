@@ -178,6 +178,7 @@
         {
             return (rhs.d == lhs.d && rhs.normal == lhs.normal);
         }
+
         static public bool operator !=(MPlane lhs, MPlane rhs)
         {
             return (rhs.d != lhs.d || rhs.normal != lhs.normal);
@@ -187,6 +188,16 @@
         {
             string o = "Plane( normal x = " + this.normal.x + ", y = " + this.normal.y + ", z = " + this.normal.z + ", d = " + this.d + " )";
             return o;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return base.Equals(obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }

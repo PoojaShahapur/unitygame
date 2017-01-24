@@ -19,15 +19,29 @@ namespace KBEngine
                 UnityEngine.Vector3 frompos = (UnityEngine.Vector3)this.getDefinedProperty("frompos");
                 UnityEngine.Vector3 topos = (UnityEngine.Vector3)this.getDefinedProperty("topos");
 
-                this.mEntity_SDK = new PlayerSnowBlock();
-                this.mEntity_SDK.setRotateEulerAngle(this.direction);
-                this.mEntity_SDK.setPos(frompos);
-                (this.mEntity_SDK as BeingEntity).setDestPos(topos, false);
-                (this.mEntity_SDK as BeingEntity).setEntity_KBE(this);
-                this.mEntity_SDK.setThisId((uint)this.id);
-                this.mEntity_SDK.init();
+                System.UInt64 uniqueId = (System.UInt64)this.getDefinedProperty("uniqueid");
+                uint aId = 0;
+                uint bId = 0;
+                UtilMath.getSingleId(uniqueId, ref aId, ref bId);
+                if (!Ctx.mInstance.mPlayerMgr.getHero().isExistThisId(aId))
+                {
+                    this.mEntity_SDK = new PlayerSnowBlock();
+                    this.mEntity_SDK.setRotateEulerAngle(this.direction);
+                    this.mEntity_SDK.setPos(frompos);
+                    (this.mEntity_SDK as BeingEntity).setDestPos(topos, false);
+                    (this.mEntity_SDK as BeingEntity).setEntity_KBE(this);
+                    this.mEntity_SDK.setThisId((uint)this.id);
+                    this.mEntity_SDK.init();
 
-                Ctx.mInstance.mPlayerSnowBlockMgr.addEntity(this.mEntity_SDK);
+                    Ctx.mInstance.mPlayerSnowBlockMgr.addEntity(this.mEntity_SDK);
+                }
+                else
+                {
+                    this.mEntity_SDK = Ctx.mInstance.mPlayerSnowBlockMgr.getEntityByUniqueId(Ctx.mInstance.mPlayerSnowBlockMgr.genStrIdById(bId));
+                    uint preThisId = this.mEntity_SDK.getThisId();
+                    this.mEntity_SDK.setThisId((uint)this.id);
+                    Ctx.mInstance.mPlayerSnowBlockMgr.changeThisId(preThisId, this.mEntity_SDK as PlayerSnowBlock);
+                }
 
                 Ctx.mInstance.mPlayerMgr.getHero().onChildChanged();
 

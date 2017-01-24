@@ -211,9 +211,10 @@ namespace EditorTool
                 case BuildTarget.StandaloneOSXIntel64:
                 case BuildTarget.StandaloneOSXUniversal:
                     return "/test.app";
-                case BuildTarget.WebPlayer:
-                case BuildTarget.WebPlayerStreamed:
-                    return "";
+                // warning CS0618: `UnityEditor.BuildTarget.WebPlayerStreamed' is obsolete: `WebPlayerStreamed has been removed in 5.4'
+                //case BuildTarget.WebPlayer:
+                //case BuildTarget.WebPlayerStreamed:
+                //    return "";
                 // Add more build targets for your own.
                 default:
                     Debug.Log("Target not implemented.");
@@ -241,8 +242,9 @@ namespace EditorTool
                     return "Android";
                 case BuildTarget.iOS:
                     return "iOS";
-                case BuildTarget.WebPlayer:
-                    return "WebPlayer";
+                // warning CS0618: `UnityEditor.BuildTarget.WebPlayer' is obsolete: `WebPlayer has been removed in 5.4'
+                //case BuildTarget.WebPlayer:
+                //    return "WebPlayer";
                 case BuildTarget.StandaloneWindows:
                 case BuildTarget.StandaloneWindows64:
                     return "Windows";
@@ -260,7 +262,7 @@ namespace EditorTool
         // 拷贝文件到 StreamingAssets 目录下
         public static void CopyAssetBundlesTo(string srcPath, BuildTarget target)
         {
-            string platForm = GetPlatformFolderForAssetBundles(target);
+            //string platForm = GetPlatformFolderForAssetBundles(target);
             UtilPath.deleteDirectory(Application.streamingAssetsPath);
             UtilPath.createDirectory(Application.streamingAssetsPath);
             // 放入平台单独的目录下

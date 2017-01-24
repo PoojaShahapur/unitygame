@@ -193,6 +193,30 @@ namespace SDK.Lib
         }
     }
 
+    // BallTex 纹理
+    public class XmlItemBallTex : XmlItemBase
+    {
+        public string mSrc;
+        public MList<XmlItemBase> mTileInfoList;
+
+        public override void parseXml(SecurityElement xmlelem)
+        {
+            UtilXml.getXmlAttrStr(xmlelem, "Src", ref mSrc);
+        }
+    }
+
+    // SnowBlockTex 纹理
+    public class XmlItemSnowBlockTex : XmlItemBase
+    {
+        public string mSrc;
+        public MList<XmlItemBase> mTileInfoList;
+
+        public override void parseXml(SecurityElement xmlelem)
+        {
+            UtilXml.getXmlAttrStr(xmlelem, "Src", ref mSrc);
+        }
+    }
+
     /**
      * @brief 雪块配置
      */
@@ -207,6 +231,8 @@ namespace SDK.Lib
         public XmlItemCameraControl mXmlItemCameraControl;
         public XmlShop mXmlShop;
         public XmlItemMap mXmlItemMap;
+        public XmlItemBallTex mXmlItemBallTex;
+        public XmlItemSnowBlockTex mXmlItemSnowBlockTex;
 
         public XmlSnowBallCfg()
         {
@@ -237,6 +263,12 @@ namespace SDK.Lib
 
             // 地图配置
             mXmlItemMap = parseXml<XmlItemMap>(this.mXmlConfig, "Map")[0] as XmlItemMap;
+
+            // BallTex 配置
+            this.parseBallTex();
+
+            // SnowBlockTex 配置
+            this.parseSnowBlockTex();
         }
 
         private void parseShopItems()
@@ -278,6 +310,24 @@ namespace SDK.Lib
         {
             SecurityElement SkinShopElem = null;
             UtilXml.getXmlChild(ShopBasicElem, "GodShop", ref SkinShopElem);
+        }
+
+        protected void parseBallTex()
+        {
+            SecurityElement ballElem = null;
+            UtilXml.getXmlChild(this.mXmlConfig, "BallTex", ref ballElem);
+
+            this.mXmlItemBallTex = parseXml<XmlItemBallTex>(this.mXmlConfig, "BallTex")[0] as XmlItemBallTex;
+            this.mXmlItemBallTex.mTileInfoList = parseXml<TileInfo>(ballElem, "Tile");
+        }
+
+        protected void parseSnowBlockTex()
+        {
+            SecurityElement snowBlockElem = null;
+            UtilXml.getXmlChild(this.mXmlConfig, "SnowBlockTex", ref snowBlockElem);
+
+            this.mXmlItemSnowBlockTex = parseXml<XmlItemSnowBlockTex>(this.mXmlConfig, "SnowBlockTex")[0] as XmlItemSnowBlockTex;
+            this.mXmlItemSnowBlockTex.mTileInfoList = parseXml<TileInfo>(snowBlockElem, "Tile");
         }
     }
 }

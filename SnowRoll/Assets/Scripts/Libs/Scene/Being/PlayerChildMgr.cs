@@ -72,5 +72,10 @@
             child.init();
             child.setPos(splitParentPlayer.getPos());
         }
+
+        public bool isExistThisId(uint thisId)
+        {
+            return this.mThisId2EntityDic.ContainsKey(thisId);
+        }
     }
 }

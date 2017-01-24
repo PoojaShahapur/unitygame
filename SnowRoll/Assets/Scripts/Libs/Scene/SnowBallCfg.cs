@@ -53,6 +53,11 @@
         public float mSnowBlockCollideRadius;    // 初始雪块的碰撞半径
         public float mShitCollideRadius;    // 初始吐出的雪块的碰撞半径
 
+        public string[] mBallTexArray;      // BallTex 数组
+        public string[] mSnowBlockTexArray;      // SnowBlockTex 数组
+        public MList<TileInfo> mBallTileTexList;
+        public MList<TileInfo> mSnowBlockTexList;
+
         public SnowBallCfg()
         {
             this.mCanAttackRate = 1.0f;
@@ -135,6 +140,32 @@
 
             this.shape = this.mXmlSnowBallCfg.mXmlShop.shape;
             this.child = this.mXmlSnowBallCfg.mXmlShop.child;
+
+            this.mBallTexArray = UtilStr.split(ref this.mXmlSnowBallCfg.mXmlItemBallTex.mSrc, ',');
+            this.mSnowBlockTexArray = UtilStr.split(ref this.mXmlSnowBallCfg.mXmlItemSnowBlockTex.mSrc, ',');
+
+            // 
+            int idx = 0;
+            int len = this.mXmlSnowBallCfg.mXmlItemBallTex.mTileInfoList.length();
+            this.mBallTileTexList = new MList<TileInfo>();
+
+            while (idx < len)
+            {
+                this.mBallTileTexList.Add(this.mXmlSnowBallCfg.mXmlItemBallTex.mTileInfoList[idx] as TileInfo);
+
+                ++idx;
+            }
+
+            idx = 0;
+            len = this.mXmlSnowBallCfg.mXmlItemSnowBlockTex.mTileInfoList.length();
+            this.mSnowBlockTexList = new MList<TileInfo>();
+
+            while (idx < len)
+            {
+                this.mSnowBlockTexList.Add(this.mXmlSnowBallCfg.mXmlItemSnowBlockTex.mTileInfoList[idx] as TileInfo);
+
+                ++idx;
+            }
         }
 
         public void dispose()
@@ -152,6 +183,70 @@
         public bool isGreatEqualMaxNum(int num)
         {
             return num >= mMaxSnowNum;
+        }
+
+        public string getRandomBallTex()
+        {
+            string ret = "";
+
+            if (this.mBallTexArray.Length > 0)
+            {
+                int min = 0;
+                int max = this.mBallTexArray.Length - 1;
+
+                int cur = UtilMath.RangeRandom(min, max);
+                ret = this.mBallTexArray[cur];
+            }
+
+            return ret;
+        }
+
+        public string getRandomSnowBlockTex()
+        {
+            string ret = "";
+
+            if (this.mSnowBlockTexArray.Length > 0)
+            {
+                int min = 0;
+                int max = this.mSnowBlockTexArray.Length - 1;
+
+                int cur = UtilMath.RangeRandom(min, max);
+                ret = this.mSnowBlockTexArray[cur];
+            }
+
+            return ret;
+        }
+
+        public TileInfo getRandomBallTexTile()
+        {
+            TileInfo ret = null;
+
+            if (this.mBallTileTexList.Count() > 0)
+            {
+                int min = 0;
+                int max = this.mBallTileTexList.Count() - 1;
+
+                int cur = UtilMath.RangeRandom(min, max);
+                ret = this.mBallTileTexList[cur];
+            }
+
+            return ret;
+        }
+
+        public TileInfo getRandomSnowBlockTexTile()
+        {
+            TileInfo ret = null;
+
+            if (this.mSnowBlockTexList.Count() > 0)
+            {
+                int min = 0;
+                int max = this.mSnowBlockTexList.Count() - 1;
+
+                int cur = UtilMath.RangeRandom(min, max);
+                ret = this.mSnowBlockTexList[cur];
+            }
+
+            return ret;
         }
     }
 }

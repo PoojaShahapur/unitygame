@@ -9,7 +9,8 @@ namespace SDK.Lib
         protected BeingState mBeingState;       // 当前的状态
         protected BeingSubState mBeingSubState; // 当前子状态
 
-        protected float mMoveSpeed;     // 移动速度
+        // 临时改为 public,为了让策划配置和测试系数 k 和 b,在 HudItemBase.cs 中用到
+        public float mMoveSpeed;     // 移动速度
         protected float mRotateSpeed;   // 旋转速度
         protected float mScaleSpeed;    // 缩放速度
 
@@ -29,6 +30,9 @@ namespace SDK.Lib
         protected bool mIsFreezeXZ;     // 是否锁定 XZ 位置
         protected bool mIsEatedByOther;        // 是否被被吃掉
 
+        protected string mTexPath;  // 纹理目录
+        protected TileInfo mTileInfo;    // 纹理偏移信息
+
         public BeingEntity()
         {
             //mSkinAniModel = new SkinModelSkelAnim();
@@ -46,6 +50,7 @@ namespace SDK.Lib
             this.mName = "";
             this.mMoveSpeedFactor = 1;
             this.mIsFreezeXZ = false;
+            this.mTexPath = "";
         }
 
         public SkinModelSkelAnim skinAniModel
@@ -139,8 +144,9 @@ namespace SDK.Lib
         virtual public void setMoveSpeed(float value)
         {
             this.mMoveSpeed = value;
+            this.setName(this.getName());
 
-            Ctx.mInstance.mLogSys.log(string.Format("BeingEntity::setMoveSpeed, MoveSpeed = {0},", this.mMoveSpeed), LogTypeId.eLogBeingMove);
+            Ctx.mInstance.mLogSys.log(string.Format("BeingEntity::setMoveSpeed, BasicInfo is = {0}, MoveSpeed = {1}", this.getBasicInfoStr(), this.mMoveSpeed), LogTypeId.eLogBeingMove);
         }
 
         public void setContactNotMergeSpeed(float value)
@@ -277,7 +283,7 @@ namespace SDK.Lib
                 this.mBallRadius = size;
                 this.setDestScale(size, immScale);
 
-                Ctx.mInstance.mLogSys.log(string.Format("BeingEntity::setBallRadius, BallRadius = {0},", this.mBallRadius), LogTypeId.eLogBeingMove);
+                Ctx.mInstance.mLogSys.log(string.Format("BeingEntity::setBallRadius, BasicInfo is = {0}, BallRadius = {1},", this.getBasicInfoStr(), this.mBallRadius), LogTypeId.eLogBeingMove);
 
                 if (isCalcMass)
                 {
@@ -303,7 +309,7 @@ namespace SDK.Lib
                 // 如果全部打日志会直接卡掉的
                 if (EntityType.ePlayerMainChild == this.mEntityType)
                 {
-                    Ctx.mInstance.mLogSys.log(string.Format("BeingEntity::setMass, thisId = {0}, mass = {1}", this.getThisId(), this.mMass), LogTypeId.eLogScene);
+                    Ctx.mInstance.mLogSys.log(string.Format("BeingEntity::setMass, BasicInfo is = {0}, mass = {1}", this.getBasicInfoStr(), this.mMass), LogTypeId.eLogScene);
                 }
             }
         }
@@ -586,7 +592,7 @@ namespace SDK.Lib
             bool ret = false;
             ret = this.mMass >= Ctx.mInstance.mSnowBallCfg.mCanSplitMass;
 
-            Ctx.mInstance.mLogSys.log(string.Format("BeingEntity::canSplit, current mass = {0}, SplitMass = {1}", this.mMass, Ctx.mInstance.mSnowBallCfg.mCanSplitMass), LogTypeId.eLogScene);
+            Ctx.mInstance.mLogSys.log(string.Format("BeingEntity::canSplit, BasicInfo is = {0}, current mass = {1}, SplitMass = {2}", this.getBasicInfoStr(), this.mMass, Ctx.mInstance.mSnowBallCfg.mCanSplitMass), LogTypeId.eLogScene);
 
             return ret;
         }
@@ -646,10 +652,30 @@ namespace SDK.Lib
         // 设置纹理
         virtual public void setTexture(string path)
         {
-            if(null != this.mRender)
+            if (path != mTexPath)
             {
-                (this.mRender as BeingEntityRender).setTexture(path);
+                this.mTexPath = path;
+
+                if (null != this.mRender)
+                {
+                    (this.mRender as BeingEntityRender).setTexture(path);
+                }
             }
+        }
+
+        virtual public void setTexTile(TileInfo tileInfo)
+        {
+            this.mTileInfo = tileInfo;
+
+            if (null != this.mRender)
+            {
+                (this.mRender as BeingEntityRender).setTexTile(tileInfo);
+            }
+        }
+
+        public TileInfo getTileInfo()
+        {
+            return this.mTileInfo;
         }
 
         virtual public void setLastMergedTime()

@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace SDK.Lib
+﻿namespace SDK.Lib
 {
     public class SnowBlockRender : BeingEntityRender
     {
@@ -18,6 +16,11 @@ namespace SDK.Lib
         override protected void onSelfChanged()
         {
             base.onSelfChanged();
+
+            this.mModelRender = this.selfGo;
+
+            //this.setModelMat();
+            this.setModelTexTile();
 
             //GameObject collide = UtilApi.TransFindChildByPObjAndPath(this.selfGo, UtilApi.COLLIDE_NAME);
             //AuxSnowBlockUserData auxData = UtilApi.AddComponent<AuxSnowBlockUserData>(collide);

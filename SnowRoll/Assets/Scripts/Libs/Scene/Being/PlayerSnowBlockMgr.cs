@@ -46,5 +46,10 @@
             playerSnowBlock.setDestPos(destPos, false);
             playerSnowBlock.setBallRadius(emitSnowSize);
         }
+
+        public void changeThisId(uint srcThisId, PlayerSnowBlock playerSnowBlock)
+        {
+            base.changeThisId(srcThisId, playerSnowBlock.getThisId(), playerSnowBlock);
+        }
     }
 }

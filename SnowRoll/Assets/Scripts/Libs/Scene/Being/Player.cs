@@ -190,5 +190,15 @@ namespace SDK.Lib
         //        this.mPlayerSplitMerge.addSplitChild(playerChild);
         //    }
         //}
+
+        public bool isExistThisId(uint thisId)
+        {
+            if(null != this.mPlayerSplitMerge)
+            {
+                return this.mPlayerSplitMerge.mPlayerChildMgr.isExistThisId(thisId);
+            }
+
+            return false;
+        }
     }
 }

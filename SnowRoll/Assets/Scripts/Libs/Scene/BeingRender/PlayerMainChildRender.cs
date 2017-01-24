@@ -25,8 +25,10 @@
             auxData.setUserData(this.mEntity);
 
             UnityEngine.GameObject model = UtilApi.TransFindChildByPObjAndPath(this.selfGo, UtilApi.MODEL_NAME);
-            (this.mEntity as Player).mAnimatorControl.setAnimator(UtilApi.getComByP<UnityEngine.Animator>(model));
-
+            if (null != (this.mEntity as Player).mAnimatorControl)
+            {
+                (this.mEntity as Player).mAnimatorControl.setAnimator(UtilApi.getComByP<UnityEngine.Animator>(model));
+            }
             //UtilApi.setLayer(this.selfGo, "PlayerMainChild");
         }
     }

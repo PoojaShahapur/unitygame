@@ -12,5 +12,21 @@
                 }
             }
         }
+
+        //static public void split(ref string str, params string[] param)
+        // 仅支持一个符号分割
+        static public string[] split(ref string str, char splitSymbol)
+        {
+            char[] split = new char[1];
+            split[0] = splitSymbol;
+            string[] strArr = null;
+
+            if (!string.IsNullOrEmpty(str))
+            {
+                strArr = str.Split(split);
+            }
+
+            return strArr;
+        }
     }
 }

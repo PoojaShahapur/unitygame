@@ -113,5 +113,15 @@ namespace SDK.Lib
             string o = "Degree(" + v.valueDegrees() + ")";
             return o;
         }
+
+        public override bool Equals(object obj)
+        {
+            return base.Equals(obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }

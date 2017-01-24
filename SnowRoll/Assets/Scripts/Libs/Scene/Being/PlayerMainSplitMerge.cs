@@ -7,6 +7,7 @@
         protected MList<MergeItem> mTmpMergedList;  // 临时存放合并的列表
         protected MList<MergeItem> mTmpMergedDeleteList;
         private MVector3 OldCenterPosition;         // 上一次的中心点
+        private float OldMaxCameraLength;           // 上一次的相机拉伸参考值
 
         public PlayerMainSplitMerge(Player mPlayer)
             : base(mPlayer)
@@ -16,6 +17,7 @@
             mTmpMergedList = new MList<MergeItem>();
             mTmpMergedDeleteList = new MList<MergeItem>();
             OldCenterPosition = MVector3.ZERO;
+            OldMaxCameraLength = 0.0f;
         }
 
         public override void onTick(float delta)
@@ -379,7 +381,7 @@
         // 更新中心点位置
         override public bool updateCenterPos()
         {
-            bool isChange = false;
+            bool isCenterPosChanged = false;
             this.mRangeBox.clear();
 
             int total = this.mPlayerChildMgr.getEntityCount();
@@ -395,17 +397,25 @@
 
                 ++index;
             }
-
-            if(!MVector3.Equals(OldCenterPosition, this.mRangeBox.getCenter()))
+            
+            if (!MVector3.Equals(OldCenterPosition, this.mRangeBox.getCenter()))
             {
-                isChange = true;
+                isCenterPosChanged = true;
                 this.mEntity.setPos(this.mRangeBox.getCenter().toNative());
                 OldCenterPosition = this.mRangeBox.getCenter();
                 this.calcTargetLength();
                 this.calcTargetPoint();
             }
+
+            bool isLengthChanged = false;
+            float curLength = Ctx.mInstance.mPlayerMgr.getHero().mPlayerSplitMerge.getMaxCameraLength();
+            if (UtilMath.Abs(OldMaxCameraLength - curLength) > UtilMath.EPSILON)
+            {
+                OldMaxCameraLength = curLength;
+                isLengthChanged = true;
+            }
             
-            return isChange;
+            return isCenterPosChanged || isLengthChanged;
         }
 
         override public float getAllChildMass()

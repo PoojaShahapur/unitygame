@@ -9,7 +9,7 @@ namespace EditorTool
     {
         public static void BuildAssetBundles(BuildTarget target)
         {
-            string targetFolder = UtilEditor.GetPlatformFolderForAssetBundles(target);
+            //string targetFolder = UtilEditor.GetPlatformFolderForAssetBundles(target);
             string outputPath = UtilEditor.getAssetBundlesPath(target);
 
             if (UtilPath.existDirectory(outputPath))
@@ -38,7 +38,7 @@ namespace EditorTool
             BuildScript.BuildAssetBundles(target);
 
             string sourcePath = UtilEditor.getAssetBundlesPath(target);
-            string outputPath = MFileSys.msStreamingAssetsPath;
+            //string outputPath = MFileSys.msStreamingAssetsPath;
 
             MList<string> extList = new MList<string>();
             extList.Add("manifest");

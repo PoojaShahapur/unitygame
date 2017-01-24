@@ -11,13 +11,13 @@ namespace Game.Game
         // 检查 Child 并且发送主角移动
         public static void checkChildAndSendPlayerMove()
         {
-            if(ReqSceneInteractive.isPosOrRotateChanged())
+            if(isPosOrRotateChanged())
             {
                 KBEngine.Entity playerEntity = Ctx.mInstance.mClientApp.gameapp.player();
                 System.UInt32 spaceID = Ctx.mInstance.mClientApp.gameapp.spaceID;
                 KBEngine.NetworkInterface _networkInterface = Ctx.mInstance.mClientApp.gameapp.networkInterface();
 
-                ReqSceneInteractive.sendPlayerMove(playerEntity, spaceID, _networkInterface);
+                sendPlayerMove(playerEntity, spaceID, _networkInterface);
             }
         }
 
@@ -25,7 +25,11 @@ namespace Game.Game
         {
             bool ret = false;
 
-            PlayerChildMgr playerChildMgr = Ctx.mInstance.mPlayerMgr.getHero().mPlayerSplitMerge.mPlayerChildMgr;
+            PlayerChildMgr playerChildMgr = null;
+            if (Ctx.mInstance.mPlayerMgr.getHero() != null && Ctx.mInstance.mPlayerMgr.getHero().mPlayerSplitMerge != null)
+                playerChildMgr = Ctx.mInstance.mPlayerMgr.getHero().mPlayerSplitMerge.mPlayerChildMgr;
+            if (playerChildMgr == null)
+                return ret;
 
             int idx = 0;
             int len = playerChildMgr.getEntityCount();
@@ -287,8 +291,10 @@ namespace Game.Game
                     // 设置位置
                     pos = playerChild.getPos();
                     initPos = pos + playerChild.getRotate() * new UnityEngine.Vector3(0, 0, playerChild.getBallWorldRadius() + splitRadius + Ctx.mInstance.mSnowBallCfg.mSplitRelStartPos);
+                    initPos = Ctx.mInstance.mSceneSys.adjustPosInRange(initPos);
 
                     toPos = initPos + playerChild.getRotate() * new UnityEngine.Vector3(0, 0, Ctx.mInstance.mSnowBallCfg.mSplitRelDist);
+                    toPos = Ctx.mInstance.mSceneSys.adjustPosInRange(toPos);
 
                     info = new Dictionary<string, object>();
                     listinfos.Add(info);
@@ -429,16 +435,24 @@ namespace Game.Game
                     pos = playerChild.getPos();
 
                     initPos = playerChild.getPos() + playerChild.getRotate() * new UnityEngine.Vector3(0, 0, playerChild.getBallWorldRadius() + emitRadius + Ctx.mInstance.mSnowBallCfg.mEmitRelStartPos);
+                    initPos = Ctx.mInstance.mSceneSys.adjustPosInRange(initPos);
+
                     toPos = initPos + playerChild.getRotate() * new UnityEngine.Vector3(0, 0, Ctx.mInstance.mSnowBallCfg.mEmitRelDist);
+                    toPos = Ctx.mInstance.mSceneSys.adjustPosInRange(toPos);
 
                     info = new Dictionary<string, object>();
                     listinfos.Add(info);
 
+                    initPos = Ctx.mInstance.mSceneSys.adjustPosInRange(initPos);
+
                     info["eid"] = eid;
                     info["frompos"] = initPos;
                     info["topos"] = toPos;
+                    info["uniqueid"] = UtilMath.makeUniqueId((uint)eid, Ctx.mInstance.mPlayerSnowBlockMgr.getCurId());
 
                     Ctx.mInstance.mLogSys.log(string.Format("ReqSceneInteractive::sendShit, Shit One eid = {0}, initPos.x = {1}, initPos.x = {2}, initPos.x = {3}, toPos.x = {4}, toPos.y = {5}, toPos.z = {6}", eid, initPos.x, initPos.y, initPos.z, toPos.x, toPos.y, toPos.z), LogTypeId.eLogSplitMergeEmit);
+
+                    Ctx.mInstance.mPlayerSnowBlockMgr.emitOne(initPos, toPos, UnityEngine.Quaternion.identity, 10);
                 }
                 else
                 {

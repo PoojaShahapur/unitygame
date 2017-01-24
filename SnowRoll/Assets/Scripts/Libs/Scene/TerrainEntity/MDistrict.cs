@@ -22,7 +22,7 @@ namespace SDK.Lib
             init();
         }
 
-        public void init()
+        override public void init()
         {
             mIsVisible = false;
         }

@@ -551,6 +551,7 @@ namespace SDK.Lib
                     mRecalcFrustum = true;
                 }
 
+                // warning CS0472: The result of comparing value type `SDK.Lib.MPlane' with null is always `true'
                 if (mObliqueProjPlane != null && !(mLastLinkedObliqueProjPlane == mObliqueProjPlane))
                 {
                     mLastLinkedObliqueProjPlane = mObliqueProjPlane;
@@ -698,7 +699,7 @@ namespace SDK.Lib
             invalidateFrustum();
         }
 
-        public MAxisAlignedBox getBoundingBox()
+        override public MAxisAlignedBox getBoundingBox()
         {
             return mBoundingBox;
         }

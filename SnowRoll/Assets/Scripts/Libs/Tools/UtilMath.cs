@@ -293,6 +293,11 @@ namespace SDK.Lib
             return UnityEngine.Random.Range(0, float.MaxValue) / float.MaxValue;
         }
 
+        public static int RangeRandom(int min, int max)
+        {
+            return UnityEngine.Random.Range(min, max);
+        }
+
         // 在单位圆内随机一个点
         static public UnityEngine.Vector3 UnitCircleRandom()
         {
@@ -842,6 +847,19 @@ namespace SDK.Lib
         public static float getEatSnowNewRadiusByRadius(float radius)
         {
             return radius * (1 + 1 / (10 + Mathf.Pow(radius, Ctx.mInstance.mSnowBallCfg.mA)));
+        }
+
+        // 生成一个唯一 id
+        public static System.UInt64 makeUniqueId(uint aId, uint bId)
+        {
+            return aId << 32 | bId;
+        }
+
+        public static bool getSingleId(System.UInt64 uniqueId, ref uint aId, ref uint bId)
+        {
+            aId = (uint)(uniqueId >> 32);
+            bId = (uint)(uniqueId & 0xFFFFFFFF00000000);
+            return true;
         }
     }
 }

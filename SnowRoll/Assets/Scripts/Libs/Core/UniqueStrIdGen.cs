@@ -17,13 +17,24 @@
         public UniqueStrIdGen(string prefix, uint baseUniqueId)
             : base(baseUniqueId)
         {
-            mPrefix = prefix;
+            this.mPrefix = prefix;
         }
 
         public string genNewStrId()
         {
-            mRetId = string.Format("{0}_{1}", mPrefix, this.genNewId());
-            return mRetId;
+            this.mRetId = string.Format("{0}_{1}", mPrefix, this.genNewId());
+            return this.mRetId;
+        }
+
+        public string getCurStrId()
+        {
+            return this.mRetId;
+        }
+
+        public string genStrIdById(uint id)
+        {
+            this.mRetId = string.Format("{0}_{1}", mPrefix, id);
+            return this.mRetId;
         }
     }
 }

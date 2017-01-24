@@ -40,7 +40,7 @@ namespace SDK.Lib
         public const string TEXT_IN_BTN = "Text";   // Button 组件中 Text GameObject 的名字
         public const string MODEL_NAME = "model";   // 模型 GameObject 的 name
         public const string COLLIDE_NAME = "Collide"; // 模型 GameObject 的 name
-        public const string MODEL_RENDER_NAME = "model/body";   // 模型 GameObject 的 MeshRender 名字
+        public const string MODEL_RENDER_NAME = "model/model (1)";   // 模型 GameObject 的 MeshRender 名字
 
         public static GameObject[] FindGameObjectsWithTag(string tag)
         {
@@ -1606,11 +1606,47 @@ namespace SDK.Lib
 
                 if(null != renderer)
                 {
-                    //Material material = renderer.sharedMaterial;
-                    Material material = renderer.material;
+                    Material material = renderer.sharedMaterial;
+                    //Material material = renderer.material;
                     if (null != material && null != texture)
                     {
                         material.mainTexture = texture;
+                    }
+                }
+            }
+        }
+
+        static public void setGoTile(GameObject go, TileInfo tileInfo)
+        {
+            if (null != go && null != tileInfo)
+            {
+                UtilApi.setGoTile(go, tileInfo.mOffsetX, tileInfo.mOffsetY, tileInfo.mTileX, tileInfo.mTileY);
+            }
+        }
+
+        // 设置
+        static public void setGoTile(GameObject go, float offsetX = 0, float offsetY = 0, float tileX = 1, float tileY = 1)
+        {
+            if (null != go)
+            {
+                Renderer renderer = go.GetComponent<MeshRenderer>();
+
+                if (null == renderer)
+                {
+                    renderer = go.GetComponent<SkinnedMeshRenderer>();
+                }
+
+                if (null != renderer)
+                {
+                    Material material = renderer.sharedMaterial;
+                    //Material material = renderer.material;
+                    if (null != material)
+                    {
+                        Vector2 size = new Vector2(tileX, tileY);
+                        material.SetTextureScale("_MainTex", size);
+
+                        Vector2 offset = new Vector2(offsetX, offsetY);
+                        material.SetTextureOffset("_MainTex", offset);
                     }
                 }
             }
@@ -1647,6 +1683,13 @@ namespace SDK.Lib
                     }
                 }
             }
+        }
+
+        // 获取格式化时间
+        static public string getFormatTime()
+        {
+            //return "[" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss fff") + "] ";
+            return "[" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "] ";
         }
     }
 }

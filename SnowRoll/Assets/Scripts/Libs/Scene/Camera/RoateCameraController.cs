@@ -56,10 +56,13 @@ namespace SDK.Lib
             {
                 float xOffset = 0;
                 xOffset = touch.getXOffset();
-                Ctx.mInstance.mCommonData.setEulerAngles_x(Ctx.mInstance.mCommonData.getEulerAngles_x() + (xOffset * this.xSpeed) * 0.02f);
                 float yOffset = 0;
                 yOffset = touch.getYOffset();
-                Ctx.mInstance.mCommonData.setEulerAngles_y(Ctx.mInstance.mCommonData.getEulerAngles_y() + (yOffset * this.ySpeed) * 0.02f);
+
+                if(UtilMath.Abs(xOffset) >= UtilMath.Abs(yOffset) )
+                    Ctx.mInstance.mCommonData.setEulerAngles_x(Ctx.mInstance.mCommonData.getEulerAngles_x() + (xOffset * this.xSpeed) * 0.02f);
+                else
+                    Ctx.mInstance.mCommonData.setEulerAngles_y(Ctx.mInstance.mCommonData.getEulerAngles_y() - (yOffset * this.ySpeed) * 0.02f);
                 
                 //Ctx.mInstance.mLogSys.log(string.Format("xOffset is {0}, yOffset is {1}", xOffset, yOffset), LogTypeId.eLogCommon);
 

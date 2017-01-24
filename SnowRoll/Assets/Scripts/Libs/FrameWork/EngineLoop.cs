@@ -50,7 +50,7 @@
             // 每一帧的游戏逻辑处理
             Ctx.mInstance.mProcessSys.ProcessNextFrame();
             // 日志处理
-            //Ctx.mInstance.mLogSys.updateLog();
+            Ctx.mInstance.mLogSys.updateLog();
         }
 
         public void FixedUpdate()

@@ -309,7 +309,7 @@ namespace SDK.Lib
         /**
          * @brief 初始化时候调用
          */
-        void init()
+        override public void init()
         {
             mRebuildMat = true;
         }

@@ -194,6 +194,21 @@ namespace SDK.Lib
             return mUniqueStrIdGen.genNewStrId();
         }
 
+        public string getCurStrId()
+        {
+            return mUniqueStrIdGen.getCurStrId();
+        }
+
+        public uint getCurId()
+        {
+            return mUniqueStrIdGen.getCurId();
+        }
+
+        public string genStrIdById(uint id)
+        {
+            return mUniqueStrIdGen.genStrIdById(id);
+        }
+
         public int getEntityCount()
         {
             return this.mSceneEntityList.Count();
@@ -226,6 +241,12 @@ namespace SDK.Lib
             }
 
             decDepth();
+        }
+
+        public void changeThisId(uint srcThisId, uint destThisId, SceneEntityBase entity)
+        {
+            this.mThisId2EntityDic.Remove(srcThisId);
+            this.mThisId2EntityDic[destThisId] = entity;
         }
     }
 }

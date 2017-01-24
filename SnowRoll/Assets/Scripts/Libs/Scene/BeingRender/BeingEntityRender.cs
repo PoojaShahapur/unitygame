@@ -9,6 +9,7 @@ namespace SDK.Lib
         //public UnityEngine.CharacterController characterController;
         protected GameObject mModel;    // Model 节点
         protected GameObject mModelRender;    // ModelRender 节点
+        protected AuxTextureLoader mAuxTextureLoader;
 
         /**
          * @brief 资源加载之类的基本操作写在这里
@@ -28,7 +29,14 @@ namespace SDK.Lib
         {
             if(null != this.mAuxPrefabLoader)
             {
-                mAuxPrefabLoader.dispose();
+                this.mAuxPrefabLoader.dispose();
+                this.mAuxPrefabLoader = null;
+            }
+
+            if (null != this.mAuxTextureLoader)
+            {
+                this.mAuxTextureLoader.dispose();
+                this.mAuxTextureLoader = null;
             }
 
             base.onDestroy();
@@ -64,7 +72,6 @@ namespace SDK.Lib
             //}
 
             this.mModel = UtilApi.TransFindChildByPObjAndPath(this.selfGo, UtilApi.MODEL_NAME);
-            this.mModelRender = UtilApi.TransFindChildByPObjAndPath(this.selfGo, UtilApi.MODEL_RENDER_NAME);
         }
 
         override public Bounds getBounds()
@@ -86,6 +93,52 @@ namespace SDK.Lib
             }
 
             return this.mModel;
+        }
+
+        override public void setTexture(string path)
+        {
+            if (null == this.mAuxTextureLoader)
+            {
+                this.mAuxTextureLoader = new AuxTextureLoader();
+            }
+
+            this.mAuxTextureLoader.asyncLoad(path, onTextureLoaded);
+        }
+
+        override public void setTexTile(TileInfo tileInfo)
+        {
+            this.setModelTexTile();
+        }
+
+        public void onTextureLoaded(IDispatchObject dispObj)
+        {
+            if (this.mAuxTextureLoader.hasSuccessLoaded())
+            {
+                this.setModelMat();
+            }
+            else
+            {
+                this.mAuxTextureLoader.dispose();
+                this.mAuxTextureLoader = null;
+            }
+        }
+
+        protected void setModelMat()
+        {
+            if (null != this.mModelRender &&
+                null != this.mAuxTextureLoader &&
+                this.mAuxTextureLoader.hasSuccessLoaded())
+            {
+                UtilApi.setGameObjectMainTexture(this.mModelRender, this.mAuxTextureLoader.getTexture());
+            }
+        }
+
+        protected void setModelTexTile()
+        {
+            if (null != this.mModelRender)
+            {
+                UtilApi.setGoTile(this.mModelRender, (this.mEntity as BeingEntity).getTileInfo());
+            }
         }
     }
 }

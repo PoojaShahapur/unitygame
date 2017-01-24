@@ -31,6 +31,14 @@
             mRender.init();
         }
 
+        public override void postInit()
+        {
+            base.postInit();
+
+            //this.setTexture(Ctx.mInstance.mSnowBallCfg.getRandomSnowBlockTex());
+            this.setTexTile(Ctx.mInstance.mSnowBallCfg.getRandomSnowBlockTexTile());
+        }
+
         // 雪块不能吃，只能被吃
         override public bool canEatOther(BeingEntity other)
         {

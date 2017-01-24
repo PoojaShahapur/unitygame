@@ -20,10 +20,10 @@ namespace Game.Login
 
         private Dictionary<UInt64, Dictionary<string, object>> ui_avatarList = null;
 
-        private string stringAvatarName = "";
-        private bool startCreateAvatar = false;
+        //private string stringAvatarName = "";
+        //private bool startCreateAvatar = false;
 
-        private UInt64 selAvatarDBID = 0;
+        //private UInt64 selAvatarDBID = 0;
         public bool showReliveGUI = false;
 
         private bool isrelogin = false;

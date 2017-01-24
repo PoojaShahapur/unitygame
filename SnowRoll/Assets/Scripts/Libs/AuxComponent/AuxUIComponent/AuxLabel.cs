@@ -121,9 +121,13 @@ namespace SDK.Lib
             return this.mText.color;
         }
 
-        public void changeSize()
+        public void changeSize(float scale)
         {
-            this.mText.rectTransform.sizeDelta = new Vector2(this.mText.rectTransform.sizeDelta.x, this.mText.preferredHeight);
+            if (this.mText != null)
+            {
+                //this.mText.rectTransform.sizeDelta = new Vector2(this.mText.rectTransform.sizeDelta.x, this.mText.preferredHeight);
+                this.mText.rectTransform.localScale = new Vector2(scale, scale);
+            }
         }
     }
 }

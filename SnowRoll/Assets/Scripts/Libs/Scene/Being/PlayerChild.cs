@@ -4,16 +4,14 @@
     {
         public Player mParentPlayer; // Parent 
         protected UnityEngine.Vector3 mHudPos;
-        protected string mTexPath;  // 纹理目录
         private UnityEngine.Vector3 preSendPosition; //上一次发送时的位置
 
         public PlayerChild(Player parentPlayer)
         {
             this.mParentPlayer = parentPlayer;
 
-            this.mAnimatorControl = new BeingAnimatorControl(this);
+            //this.mAnimatorControl = new BeingAnimatorControl(this);
             this.mAnimFSM = new AnimFSM(this);
-            this.mTexPath = "";
             this.preSendPosition = UnityEngine.Vector3.zero;
         }
 
@@ -62,8 +60,9 @@
             base.postInit();
 
             //this.mAnimFSM.UpdateFSM();
-
             this.mHud = Ctx.mInstance.mHudSystem.createHud(this);
+            //this.setTexture(Ctx.mInstance.mSnowBallCfg.getRandomBallTex());
+            this.setTexTile(Ctx.mInstance.mSnowBallCfg.getRandomBallTexTile());
         }
 
         //override public void onTick(float delta)
@@ -82,16 +81,6 @@
             this.mHudPos.y += this.mBallRadius;
 
             return this.mHudPos;
-        }
-
-        override public void setTexture(string path)
-        {
-            if(path != mTexPath)
-            {
-                this.mTexPath = path;
-
-                base.setTexture(this.mTexPath);
-            }
         }
 
         override public void show()

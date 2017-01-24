@@ -21,10 +21,10 @@ public class ExportTerrain : EditorWindow
         Sixteenth,
     }
 
-    SaveFormat saveFormat = SaveFormat.Triangles;
+    //SaveFormat saveFormat = SaveFormat.Triangles;
     SaveResolution saveResolution = SaveResolution.Full;
     static TerrainData terrainData;
-    static Vector3 terrainPos;
+    //static Vector3 terrainPos;
 
     protected int tCount;
     protected int counter;
@@ -45,7 +45,7 @@ public class ExportTerrain : EditorWindow
         if (terrainObject)
         {
             terrainData = terrainObject.terrainData;
-            terrainPos = terrainObject.transform.position;
+            //terrainPos = terrainObject.transform.position;
         }
         EditorWindow.GetWindow(typeof(ExportTerrain)).Show();
     }
@@ -211,7 +211,7 @@ public class ExportTerrain : EditorWindow
 
         w = (int)((w - 1) / tRes + 1);
         h = (int)((h - 1) / tRes + 1);
-        Vector3[] tVertices = new Vector3[w * h];
+        //Vector3[] tVertices = new Vector3[w * h];
         float height = 0;
         Texture2D heightMap = new Texture2D(w, h, TextureFormat.BGRA32, true);
         Color color = new Color(0, 0, 0, 0);
@@ -240,12 +240,12 @@ public class ExportTerrain : EditorWindow
         Vector3 meshScale = terrainData.size;
         float tRes = Mathf.Pow(2, (int)saveResolution);
         meshScale = new Vector3(meshScale.x / (w - 1) * tRes, meshScale.y, meshScale.z / (h - 1) * tRes);
-        Vector2 uvScale = new Vector2(1.0f / (w - 1), 1.0f / (h - 1));
+        //Vector2 uvScale = new Vector2(1.0f / (w - 1), 1.0f / (h - 1));
         float[,] tData = terrainData.GetHeights(0, 0, w, h);
 
         w = (int)((w - 1) / tRes + 1);
         h = (int)((h - 1) / tRes + 1);
-        Vector3[] tVertices = new Vector3[w * h];
+        //Vector3[] tVertices = new Vector3[w * h];
 
         float height = 0;
         ByteBuffer buffer = new ByteBuffer();

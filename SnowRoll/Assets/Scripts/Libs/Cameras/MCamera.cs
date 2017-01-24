@@ -248,6 +248,7 @@ namespace SDK.Lib
                 mRecalcWindow = true;
             }
 
+            // warning CS0472: The result of comparing value type `SDK.Lib.MPlane' with null is always `true'
             if (mReflect && mReflectPlane != null &&
                 !(mLastLinkedReflectionPlane == mReflectPlane))
             {

@@ -169,5 +169,10 @@
         {
 
         }
+
+        virtual public void setTexTile(TileInfo tileInfo)
+        {
+
+        }
     }
 }

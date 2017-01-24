@@ -25,13 +25,13 @@
         static public bool MSG_COMPRESS = false;
 
         // 开启窗口日志
-        static public bool ENABLE_WINLOG = true;
+        static public bool ENABLE_WINLOG = false;
 
         // 开启网络日志
         static public bool ENABLE_NETLOG = false;
 
         // 开启文件日志
-        static public bool ENABLE_FILELOG = false;
+        static public bool ENABLE_FILELOG = true;
 
         // 使用打包模式加载资源
         static public bool PKG_RES_LOAD = false;

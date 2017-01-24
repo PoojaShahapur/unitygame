@@ -16,8 +16,24 @@
 		<MoveSpeed MoveSpeed_k="15.0" MoveSpeed_b="15.0" />
     </SnowBallBasic>
 	
+	<!-- 地图配置 -->
 	<Map Width="835" Height="835" />
-		
+	
+	<!-- Ball 纹理配置 -->
+	<BallTex >
+		<Tile OffsetX="0" OffsetY="0" TileX="0.5" TileY="0.5" />
+		<Tile OffsetX="0" OffsetY="0.5" TileX="0.5" TileY="0.5" />
+		<Tile OffsetX="0.5" OffsetY="0" TileX="0.5" TileY="0.5" />
+		<Tile OffsetX="0.5" OffsetY="0.5" TileX="0.5" TileY="0.5" />
+	</BallTex>
+	<!-- SnowBlock 纹理配置 -->
+	<SnowBlockTex >
+		<Tile OffsetX="0" OffsetY="0" TileX="0.5" TileY="0.5" />
+		<Tile OffsetX="0" OffsetY="0.5" TileX="0.5" TileY="0.5" />
+		<Tile OffsetX="0.5" OffsetY="0" TileX="0.5" TileY="0.5" />
+		<Tile OffsetX="0.5" OffsetY="0.5" TileX="0.5" TileY="0.5" />
+	</SnowBlockTex>
+
 	<CameraBasic>
 		<!--相机控制参数 z：相机水平距离 y：相机垂直距离  注意参数为0的错误-->
 		<!--初始时：z=dis_z + factor_z * pow(r, 0.5) + r    超过临界半径后：z = dis_z + factor_z * pow(lim_r, 0.5) + (r - lim_r) + r-->

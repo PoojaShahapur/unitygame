@@ -55,7 +55,7 @@ namespace SDK.Lib
         public static InputKey Colon = new InputKey(KeyCode.Colon, "Colon");
         public static InputKey Semicolon = new InputKey(KeyCode.Semicolon, "Semicolon");
         public static InputKey Less = new InputKey(KeyCode.Less, "Less");
-        public static InputKey Equals = new InputKey(KeyCode.Equals, "Equals");
+        public static InputKey _Equals = new InputKey(KeyCode.Equals, "Equals");    // warning CS0108: `SDK.Lib.InputKey.Equals' hides inherited member `object.Equals(object)'. Use the new keyword if hiding was intended
         public static InputKey Greater = new InputKey(KeyCode.Greater, "Greater");
         public static InputKey Question = new InputKey(KeyCode.Question, "Question");
         public static InputKey At = new InputKey(KeyCode.At, "At");
@@ -404,7 +404,7 @@ namespace SDK.Lib
                 mInputKeyArray[(int)KeyCode.Colon] = Colon;
                 mInputKeyArray[(int)KeyCode.Semicolon] = Semicolon;
                 mInputKeyArray[(int)KeyCode.Less] = Less;
-                mInputKeyArray[(int)KeyCode.Equals] = Equals;
+                mInputKeyArray[(int)KeyCode.Equals] = _Equals;
                 mInputKeyArray[(int)KeyCode.Greater] = Greater;
                 mInputKeyArray[(int)KeyCode.Question] = Question;
                 mInputKeyArray[(int)KeyCode.At] = At;
