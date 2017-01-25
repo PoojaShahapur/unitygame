@@ -19,12 +19,20 @@ namespace KBEngine
                 UnityEngine.Vector3 frompos = (UnityEngine.Vector3)this.getDefinedProperty("frompos");
                 UnityEngine.Vector3 topos = (UnityEngine.Vector3)this.getDefinedProperty("topos");
 
-                System.UInt64 uniqueId = (System.UInt64)this.getDefinedProperty("uniqueid");
+                object uniqueIdObj = this.getDefinedProperty("uniqueid");
+                ulong uniqueId = 0;
                 uint aId = 0;
                 uint bId = 0;
-                UtilMath.getSingleId(uniqueId, ref aId, ref bId);
-                if (!Ctx.mInstance.mPlayerMgr.getHero().isExistThisId(aId))
+                if (null != uniqueIdObj)
                 {
+                    uniqueId = (ulong)uniqueIdObj;
+                    UtilMath.getSingleId(uniqueId, ref aId, ref bId);
+                }
+
+                if (!Ctx.mInstance.mPlayerSnowBlockMgr.isExistNumId(aId))
+                {
+                    Ctx.mInstance.mLogSys.log("Shit::__init__, Shit not find, create new", LogTypeId.eLogSceneInterActive);
+
                     this.mEntity_SDK = new PlayerSnowBlock();
                     this.mEntity_SDK.setRotateEulerAngle(this.direction);
                     this.mEntity_SDK.setPos(frompos);
@@ -37,6 +45,8 @@ namespace KBEngine
                 }
                 else
                 {
+                    Ctx.mInstance.mLogSys.log("Shit::__init__, Shit find, not create new", LogTypeId.eLogSceneInterActive);
+
                     this.mEntity_SDK = Ctx.mInstance.mPlayerSnowBlockMgr.getEntityByUniqueId(Ctx.mInstance.mPlayerSnowBlockMgr.genStrIdById(bId));
                     uint preThisId = this.mEntity_SDK.getThisId();
                     this.mEntity_SDK.setThisId((uint)this.id);
@@ -45,7 +55,7 @@ namespace KBEngine
 
                 Ctx.mInstance.mPlayerMgr.getHero().onChildChanged();
 
-                Ctx.mInstance.mLogSys.log(string.Format("Shit Created, eid = {0}", this.id), LogTypeId.eLogSceneInterActive);
+                Ctx.mInstance.mLogSys.log(string.Format("Shit::__init__, Shit Created, eid = {0} uniqueId = {1}", this.id, uniqueId), LogTypeId.eLogSceneInterActive);
             }
         }
 

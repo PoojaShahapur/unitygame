@@ -73,6 +73,18 @@
             
         }
 
+        // 强制显示
+        public void forceShow()
+        {
+            base.show();
+        }
+
+        // 强制隐藏
+        public void forceHide()
+        {
+            base.hide();
+        }
+
         public bool isValid()
         {
             return null != this.mSelfGo;

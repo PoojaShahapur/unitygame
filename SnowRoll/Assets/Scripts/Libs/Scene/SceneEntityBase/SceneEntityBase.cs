@@ -24,7 +24,7 @@ namespace SDK.Lib
 
         protected bool mIsVisible;          // 是否可见，通过裁剪设置是否可见
         protected bool mWillVisible;        // 主要是客户端主动设置是否可见
-        protected uint mThisId;             // 唯一 Id
+        protected uint mThisId;             // 唯一 Id    
 
         public SceneEntityBase()
         {
@@ -136,6 +136,35 @@ namespace SDK.Lib
                 if (null != mRender)
                 {
                     mRender.hide();
+                }
+            }
+        }
+
+        virtual public void forceShow()
+        {
+            if (!this.mIsVisible)
+            {
+                if (this.mWillVisible)
+                {
+                    this.mIsVisible = true;
+
+                    if (null != mRender)
+                    {
+                        mRender.forceShow();
+                    }
+                }
+            }
+        }
+
+        virtual public void forceHide()
+        {
+            if (this.mIsVisible)
+            {
+                this.mIsVisible = false;
+
+                if (null != mRender)
+                {
+                    mRender.forceHide();
                 }
             }
         }

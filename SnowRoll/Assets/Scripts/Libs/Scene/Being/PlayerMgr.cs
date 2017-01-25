@@ -218,6 +218,28 @@ namespace SDK.Lib
             return false;
         }
 
+        // 获取 Child
+        public PlayerChild getChildByThisId(uint thisId)
+        {
+            PlayerChild child = null;
+
+            int idx = 0;
+            int len = this.getEntityCount();
+
+            while(idx < len)
+            {
+                child = (this.getEntityByIndex(idx) as Player).mPlayerSplitMerge.mPlayerChildMgr.getEntityByThisId(thisId) as PlayerChild;
+                if(null != child)
+                {
+                    break;
+                }
+
+                ++idx;
+            }
+
+            return child;
+        }
+
         //public void eatSnowing(uint snowId, uint mainChildId)
         //{
         //    this.mSnowId2MainChildIdDic[snowId] = mainChildId;

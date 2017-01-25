@@ -76,6 +76,7 @@
 
                     //bBeingEntity.setClientDispose(true);
                     (bBeingEntity as BeingEntity).setIsEatedByOther(true);
+                    (bBeingEntity as BeingEntity).forceHide();  // 客户端自己隐藏
                     //Ctx.mInstance.mPlayerMgr.eatSnowing(bBeingEntity.getThisId(), this.mEntity.getThisId());
 
                     if (!MacroDef.DEBUG_NOTNET)
@@ -161,6 +162,7 @@
             if (!(bBeingEntity as BeingEntity).getIsEatedByOther())
             {
                 (bBeingEntity as BeingEntity).setIsEatedByOther(true);
+                (bBeingEntity as BeingEntity).forceHide();  // 客户端自己隐藏
 
                 Ctx.mInstance.mLogSys.log(string.Format("PlayerMainChildAttack::eatPlayerSnowBlock, MainChildThisId = {0}, PlayerSnowBlockThisId = {1}", this.mEntity.getThisId(), bBeingEntity.getThisId()), LogTypeId.eLogScene);
 

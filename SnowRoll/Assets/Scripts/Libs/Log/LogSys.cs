@@ -46,7 +46,7 @@ namespace SDK.Lib
             mEnableLogTypeList.Add(LogTypeId.eLogScene);
             mEnableLogTypeList.Add(LogTypeId.eLogBeingMove);
 
-            this.mEnableLog = true;
+            this.mEnableLog = false;
             this.mIsOutStack = true;
             this.mIsOutTimeStamp = false;
         }

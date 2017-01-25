@@ -10,32 +10,32 @@ namespace Game.Main
      */
     public class MainModule
     {
-        private string m_appURL = "http://127.0.0.1/StreamingAssets/Module/App.unity3d";
-        private string m_appName = "NoDestroy";
-        private string m_appPath = "Assets/Resources/Module/App.prefab";
-        private int m_loadType;
+        private string mAppURL = "http://127.0.0.1/StreamingAssets/Module/App.unity3d";
+        private string mAppName = "NoDestroy";
+        private string mAppPath = "Assets/Resources/Module/App.prefab";
+        private int mLoadType;
         public MonoBehaviour mEntry;
 
         public void run()
         {
             if (MacroDef.PKG_RES_LOAD)
             {
-                m_loadType = 1;
+                mLoadType = 1;
             }
             else
             {
-                m_loadType = 0;
+                mLoadType = 0;
             }
 
-            if (m_loadType == 0)
+            if (mLoadType == 0)
             {
                 loadFromDefaultAssetBundle();
             }
-            else if (m_loadType == 1)   // 直接动本地文件加载
+            else if (mLoadType == 1)   // 直接动本地文件加载
             {
                 loadFromAssetBundle();
             }
-            else if (m_loadType == 2)
+            else if (mLoadType == 2)
             {
                 mEntry.StartCoroutine(DownloadAppAsset());
             }
@@ -56,15 +56,15 @@ namespace Game.Main
 
         //    if (GUI.Button(new Rect(100, 100, 300, 40), "点击加载游戏代码，开始游戏"))
         //    {
-        //        if (m_loadType == 0)
+        //        if (mLoadType == 0)
         //        {
         //            loadFromDefaultAssetBundle();
         //        }
-        //        else if (m_loadType == 1)
+        //        else if (mLoadType == 1)
         //        {
         //            loadFromAssetBundle();
         //        }
-        //        else if (m_loadType == 2)
+        //        else if (mLoadType == 2)
         //        {
         //            StartCoroutine(DownloadAppAsset());
         //        }
@@ -73,13 +73,13 @@ namespace Game.Main
 
         protected void loadFromDefaultAssetBundle()
         {
-            m_appURL = "Module/MainModule";
+            mAppURL = "Module/MainModule";
 
-            UnityEngine.Object prefabObj = Resources.Load(m_appURL);
+            UnityEngine.Object prefabObj = Resources.Load(mAppURL);
             if (prefabObj)
             {
                 GameObject noDestroy = UnityEngine.Object.Instantiate(prefabObj) as GameObject;
-                noDestroy.name = m_appName;            // 程序里面获取都是按照 "NoDestroy" 获取名字的
+                noDestroy.name = mAppName;            // 程序里面获取都是按照 "NoDestroy" 获取名字的
                 GameObject appGo = noDestroy.transform.Find("AppGo").gameObject;
                 appGo.AddComponent<AppRoot>();
             }
@@ -89,10 +89,10 @@ namespace Game.Main
         // AssetBundle.CreateFromFile 这个函数仅支持未压缩的资源。这是加载资产包的最快方式。自己被这个函数坑了好几次，一定是非压缩的资源，如果压缩式不能加载的，加载后，内容也是空的
         protected void loadFromAssetBundle()
         {
-            m_appURL = Path.Combine(MainUtil.getLocalReadDir(), "Module/App.unity3d");
+            mAppURL = Path.Combine(MainUtil.getLocalReadDir(), "Module/App.unity3d");
 
-            //AssetBundle assetBundle = AssetBundle.CreateFromFile(m_appURL);
-            byte[] bytes = MainUtil.LoadFileByte(m_appURL);
+            //AssetBundle assetBundle = AssetBundle.CreateFromFile(mAppURL);
+            byte[] bytes = MainUtil.LoadFileByte(mAppURL);
             AssetBundle assetBundle = AssetBundle.LoadFromMemory(bytes);
 
             if (assetBundle != null)
@@ -100,13 +100,13 @@ namespace Game.Main
                 //string[] nameList = assetBundle.GetAllAssetNames();
 #if UNITY_5
                 // Unity5
-                Object bt = assetBundle.LoadAsset(m_appPath);
+                Object bt = assetBundle.LoadAsset(mAppPath);
 #elif UNITY_4_6 || UNITY_4_5
                 // Unity4
-                Object bt = assetBundle.Load(m_appPath);
+                Object bt = assetBundle.Load(mAppPath);
 #endif
                 GameObject appGo = UnityEngine.Object.Instantiate(bt) as GameObject;
-                appGo.name = m_appName;            // 程序里面获取都是按照 "App" 获取名字的
+                appGo.name = mAppName;            // 程序里面获取都是按照 "App" 获取名字的
                 GameObject noDestroy = GameObject.Find("NoDestroy");
                 Object.DontDestroyOnLoad(noDestroy);
                 appGo.transform.parent = noDestroy.transform;
@@ -121,23 +121,23 @@ namespace Game.Main
         // 下载 app 模块
         IEnumerator DownloadAppAsset()
         {
-            m_appURL = "http://127.0.0.1/StreamingAssets/Module/App.unity3d";
+            mAppURL = "http://127.0.0.1/StreamingAssets/Module/App.unity3d";
 
             //下载场景，加载场景
-            WWW app3w = WWW.LoadFromCacheOrDownload(m_appURL, 15);
+            WWW app3w = WWW.LoadFromCacheOrDownload(mAppURL, 15);
             yield return app3w;
 
             // 使用预设加载
             AssetBundle bundle = app3w.assetBundle;
 #if UNITY_5
             // Unity5
-            Object bt = bundle.LoadAsset(m_appName);
+            Object bt = bundle.LoadAsset(mAppName);
 #elif UNITY_4_6 || UNITY_4_5
             // Unity4
-            Object bt = bundle.Load(m_appName);
+            Object bt = bundle.Load(mAppName);
 #endif
             GameObject appGo = UnityEngine.Object.Instantiate(bt) as GameObject;
-            appGo.name = m_appName;            // 程序里面获取都是按照 "App" 获取名字的
+            appGo.name = mAppName;            // 程序里面获取都是按照 "App" 获取名字的
             GameObject noDestroy = GameObject.Find("NoDestroy");
             Object.DontDestroyOnLoad(noDestroy);
             appGo.transform.parent = noDestroy.transform;

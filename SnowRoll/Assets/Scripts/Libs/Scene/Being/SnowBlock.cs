@@ -27,6 +27,8 @@
 
         override public void initRender()
         {
+            this.setPrefabPath(Ctx.mInstance.mSnowBallCfg.getRandomSnowBlockTex());
+
             mRender = new SnowBlockRender(this);
             mRender.init();
         }
@@ -36,7 +38,7 @@
             base.postInit();
 
             //this.setTexture(Ctx.mInstance.mSnowBallCfg.getRandomSnowBlockTex());
-            this.setTexTile(Ctx.mInstance.mSnowBallCfg.getRandomSnowBlockTexTile());
+            //this.setTexTile(Ctx.mInstance.mSnowBallCfg.getRandomSnowBlockTexTile());
         }
 
         // 雪块不能吃，只能被吃

@@ -7,7 +7,7 @@
 		<!-- 雪球分裂配置， K,N: AC=K*AB+N, CanSplitFactor: 可以分裂的雪块的质量, Max: 最大的雪球数量, RelStartPos: 分裂开始的时候，距离多远开始， RelDist: 分裂需要运动的距离-->
 		<Split K="10" N="10" CanSplitMass="3.2" Max="16" RelStartPos="0" RelDist="35" />
 		<!-- 雪球融合配置， MergeContactTime: 在一起的秒数，才能融合, Inter: 融合冷却时间, Range: 在这个范围内说明一直在融合, SpeedFactor: 融合时，速度变化因子-->
-		<Merge ContactTime="1" CoolTime="15" Range="1" SpeedFactor="1" />
+		<Merge ContactTime="1" CoolTime="15" Range="1" SpeedFactor="1.3" />
 		<!-- 雪球吞吐配置, SnowMass:吐出积雪的质量, CanEmitSnowMass: 雪球质量达到 CanEmitSnowMass 才可以吐积雪, S\A\L: 在 S 秒内，球受力角度小于 a 或者不受力，雪球移动距离小于 L   Interval：长按吐雪块时间间隔-->
 		<Emit SnowMass="1.4" CanEmitSnowMass="3.2"  RelStartPos="0" RelDist="35" S="1" A="1" L="1" Interval="0.618"/>
 		<!-- 吞噬 , AttackFactor: 可以吞噬的因子, A: 吞食雪块半径计算中公式中的指数 -->
@@ -20,19 +20,10 @@
 	<Map Width="835" Height="835" />
 	
 	<!-- Ball 纹理配置 -->
-	<BallTex >
-		<Tile OffsetX="0" OffsetY="0" TileX="0.5" TileY="0.5" />
-		<Tile OffsetX="0" OffsetY="0.5" TileX="0.5" TileY="0.5" />
-		<Tile OffsetX="0.5" OffsetY="0" TileX="0.5" TileY="0.5" />
-		<Tile OffsetX="0.5" OffsetY="0.5" TileX="0.5" TileY="0.5" />
-	</BallTex>
+	<BallSelfTex Src="World/Model/PlayerTestblue.prefab,World/Model/PlayerTestgold.prefab,World/Model/PlayerTestgreen.prefab,World/Model/PlayerTestred.prefab" />
+	<BallOtherTex Src="World/Model/PlayerOtherTestblue.prefab,World/Model/PlayerOtherTestgold.prefab,World/Model/PlayerOtherTestgreen.prefab,World/Model/PlayerOtherTestred.prefab" />
 	<!-- SnowBlock 纹理配置 -->
-	<SnowBlockTex >
-		<Tile OffsetX="0" OffsetY="0" TileX="0.5" TileY="0.5" />
-		<Tile OffsetX="0" OffsetY="0.5" TileX="0.5" TileY="0.5" />
-		<Tile OffsetX="0.5" OffsetY="0" TileX="0.5" TileY="0.5" />
-		<Tile OffsetX="0.5" OffsetY="0.5" TileX="0.5" TileY="0.5" />
-	</SnowBlockTex>
+	<SnowBlockTex Src="World/Model/SnowBlockTestblue.prefab,World/Model/SnowBlockTestgold.prefab,World/Model/SnowBlockTestgreen.prefab,World/Model/SnowBlockTestred.prefab" />
 
 	<CameraBasic>
 		<!--相机控制参数 z：相机水平距离 y：相机垂直距离  注意参数为0的错误-->

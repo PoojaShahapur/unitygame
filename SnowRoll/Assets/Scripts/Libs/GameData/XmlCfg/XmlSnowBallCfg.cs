@@ -231,7 +231,8 @@ namespace SDK.Lib
         public XmlItemCameraControl mXmlItemCameraControl;
         public XmlShop mXmlShop;
         public XmlItemMap mXmlItemMap;
-        public XmlItemBallTex mXmlItemBallTex;
+        public XmlItemBallTex mXmlItemBallSelfTex;
+        public XmlItemBallTex mXmlItemBallOtherTex;
         public XmlItemSnowBlockTex mXmlItemSnowBlockTex;
 
         public XmlSnowBallCfg()
@@ -314,20 +315,21 @@ namespace SDK.Lib
 
         protected void parseBallTex()
         {
-            SecurityElement ballElem = null;
-            UtilXml.getXmlChild(this.mXmlConfig, "BallTex", ref ballElem);
+            //SecurityElement ballElem = null;
+            //UtilXml.getXmlChild(this.mXmlConfig, "BallTex", ref ballElem);
 
-            this.mXmlItemBallTex = parseXml<XmlItemBallTex>(this.mXmlConfig, "BallTex")[0] as XmlItemBallTex;
-            this.mXmlItemBallTex.mTileInfoList = parseXml<TileInfo>(ballElem, "Tile");
+            this.mXmlItemBallSelfTex = parseXml<XmlItemBallTex>(this.mXmlConfig, "BallSelfTex")[0] as XmlItemBallTex;
+            this.mXmlItemBallOtherTex = parseXml<XmlItemBallTex>(this.mXmlConfig, "BallOtherTex")[0] as XmlItemBallTex;
+            //this.mXmlItemBallTex.mTileInfoList = parseXml<TileInfo>(ballElem, "Tile");
         }
 
         protected void parseSnowBlockTex()
         {
-            SecurityElement snowBlockElem = null;
-            UtilXml.getXmlChild(this.mXmlConfig, "SnowBlockTex", ref snowBlockElem);
+            //SecurityElement snowBlockElem = null;
+            //UtilXml.getXmlChild(this.mXmlConfig, "SnowBlockTex", ref snowBlockElem);
 
             this.mXmlItemSnowBlockTex = parseXml<XmlItemSnowBlockTex>(this.mXmlConfig, "SnowBlockTex")[0] as XmlItemSnowBlockTex;
-            this.mXmlItemSnowBlockTex.mTileInfoList = parseXml<TileInfo>(snowBlockElem, "Tile");
+            //this.mXmlItemSnowBlockTex.mTileInfoList = parseXml<TileInfo>(snowBlockElem, "Tile");
         }
     }
 }

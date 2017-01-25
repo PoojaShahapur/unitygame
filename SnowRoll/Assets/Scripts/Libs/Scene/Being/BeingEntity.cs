@@ -32,6 +32,7 @@ namespace SDK.Lib
 
         protected string mTexPath;  // 纹理目录
         protected TileInfo mTileInfo;    // 纹理偏移信息
+        protected string mPrefabPath;       // 预制的目录
 
         public BeingEntity()
         {
@@ -737,6 +738,22 @@ namespace SDK.Lib
         public bool getIsEatedByOther()
         {
             return this.mIsEatedByOther;
+        }
+
+        // 预制目录是否有效
+        public bool isPrefabPathValid()
+        {
+            return !string.IsNullOrEmpty(this.mPrefabPath);
+        }
+
+        public void setPrefabPath(string path)
+        {
+            this.mPrefabPath = path;
+        }
+
+        public string getPrefabPath()
+        {
+            return this.mPrefabPath;
         }
     }
 }

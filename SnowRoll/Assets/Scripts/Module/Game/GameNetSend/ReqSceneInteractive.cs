@@ -269,6 +269,7 @@ namespace Game.Game
 
             KBEngine.Entity kbeEntity = null;
             System.Int32 eid = 0;
+            ulong uniqueId = 0;
 
             int split_num = 0;
             while (idx < num)
@@ -302,8 +303,10 @@ namespace Game.Game
                     info["eid"] = eid;
                     info["frompos"] = initPos;
                     info["topos"] = toPos;
+                    uniqueId = (ulong)eid;
+                    info["uniqueid"] = uniqueId;
 
-                    Ctx.mInstance.mLogSys.log(string.Format("ReqSceneInteractive::sendSplit, Send Split eid = {0}, initPos.x = {1}, initPos.y = {2}, initPos.z = {3}, toPos.x = {4}, toPos.y = {5}, toPos.z = {6}", eid, initPos.x, initPos.y, initPos.z, toPos.x, toPos.y, toPos.z), LogTypeId.eLogSplitMergeEmit);
+                    Ctx.mInstance.mLogSys.log(string.Format("ReqSceneInteractive::sendSplit, Send Split eid = {0}, initPos.x = {1}, initPos.y = {2}, initPos.z = {3}, toPos.x = {4}, toPos.y = {5}, toPos.z = {6}, uniqueid = {7}", eid, initPos.x, initPos.y, initPos.z, toPos.x, toPos.y, toPos.z, uniqueId), LogTypeId.eLogSplitMergeEmit);
                 }
                 else
                 {
@@ -419,6 +422,7 @@ namespace Game.Game
             System.Int32 eid = 0;
             float emitRadius = 1;
             bool isEmited = false;
+            ulong uniqueId = 0;
 
             while (idx < num)
             {
@@ -448,9 +452,10 @@ namespace Game.Game
                     info["eid"] = eid;
                     info["frompos"] = initPos;
                     info["topos"] = toPos;
-                    info["uniqueid"] = UtilMath.makeUniqueId((uint)eid, Ctx.mInstance.mPlayerSnowBlockMgr.getCurId());
+                    uniqueId = UtilMath.makeUniqueId((uint)eid, Ctx.mInstance.mPlayerSnowBlockMgr.getCurId());
+                    info["uniqueid"] = uniqueId;
 
-                    Ctx.mInstance.mLogSys.log(string.Format("ReqSceneInteractive::sendShit, Shit One eid = {0}, initPos.x = {1}, initPos.x = {2}, initPos.x = {3}, toPos.x = {4}, toPos.y = {5}, toPos.z = {6}", eid, initPos.x, initPos.y, initPos.z, toPos.x, toPos.y, toPos.z), LogTypeId.eLogSplitMergeEmit);
+                    Ctx.mInstance.mLogSys.log(string.Format("ReqSceneInteractive::sendShit, Shit One eid = {0}, initPos.x = {1}, initPos.x = {2}, initPos.x = {3}, toPos.x = {4}, toPos.y = {5}, toPos.z = {6}, uniqueId = {7}", eid, initPos.x, initPos.y, initPos.z, toPos.x, toPos.y, toPos.z, uniqueId), LogTypeId.eLogSplitMergeEmit);
 
                     Ctx.mInstance.mPlayerSnowBlockMgr.emitOne(initPos, toPos, UnityEngine.Quaternion.identity, 10);
                 }

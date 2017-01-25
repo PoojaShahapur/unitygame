@@ -51,5 +51,11 @@
         {
             base.changeThisId(srcThisId, playerSnowBlock.getThisId(), playerSnowBlock);
         }
+
+        public bool isExistNumId(uint numId)
+        {
+            string uniqueId = this.genStrIdById(numId);
+            return this.mId2EntityDic.ContainsKey(uniqueId);
+        }
     }
 }

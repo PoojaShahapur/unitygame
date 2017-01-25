@@ -53,7 +53,8 @@
         public float mSnowBlockCollideRadius;    // 初始雪块的碰撞半径
         public float mShitCollideRadius;    // 初始吐出的雪块的碰撞半径
 
-        public string[] mBallTexArray;      // BallTex 数组
+        public string[] mBallSelfTexArray;      // BallTex 数组
+        public string[] mBallOtherTexArray;     // BallTex 数组
         public string[] mSnowBlockTexArray;      // SnowBlockTex 数组
         public MList<TileInfo> mBallTileTexList;
         public MList<TileInfo> mSnowBlockTexList;
@@ -141,31 +142,31 @@
             this.shape = this.mXmlSnowBallCfg.mXmlShop.shape;
             this.child = this.mXmlSnowBallCfg.mXmlShop.child;
 
-            this.mBallTexArray = UtilStr.split(ref this.mXmlSnowBallCfg.mXmlItemBallTex.mSrc, ',');
+            this.mBallSelfTexArray = UtilStr.split(ref this.mXmlSnowBallCfg.mXmlItemBallSelfTex.mSrc, ',');
+            this.mBallOtherTexArray = UtilStr.split(ref this.mXmlSnowBallCfg.mXmlItemBallOtherTex.mSrc, ',');
             this.mSnowBlockTexArray = UtilStr.split(ref this.mXmlSnowBallCfg.mXmlItemSnowBlockTex.mSrc, ',');
 
-            // 
-            int idx = 0;
-            int len = this.mXmlSnowBallCfg.mXmlItemBallTex.mTileInfoList.length();
-            this.mBallTileTexList = new MList<TileInfo>();
+            //int idx = 0;
+            //int len = this.mXmlSnowBallCfg.mXmlItemBallTex.mTileInfoList.length();
+            //this.mBallTileTexList = new MList<TileInfo>();
 
-            while (idx < len)
-            {
-                this.mBallTileTexList.Add(this.mXmlSnowBallCfg.mXmlItemBallTex.mTileInfoList[idx] as TileInfo);
+            //while (idx < len)
+            //{
+            //    this.mBallTileTexList.Add(this.mXmlSnowBallCfg.mXmlItemBallTex.mTileInfoList[idx] as TileInfo);
 
-                ++idx;
-            }
+            //    ++idx;
+            //}
 
-            idx = 0;
-            len = this.mXmlSnowBallCfg.mXmlItemSnowBlockTex.mTileInfoList.length();
-            this.mSnowBlockTexList = new MList<TileInfo>();
+            //idx = 0;
+            //len = this.mXmlSnowBallCfg.mXmlItemSnowBlockTex.mTileInfoList.length();
+            //this.mSnowBlockTexList = new MList<TileInfo>();
 
-            while (idx < len)
-            {
-                this.mSnowBlockTexList.Add(this.mXmlSnowBallCfg.mXmlItemSnowBlockTex.mTileInfoList[idx] as TileInfo);
+            //while (idx < len)
+            //{
+            //    this.mSnowBlockTexList.Add(this.mXmlSnowBallCfg.mXmlItemSnowBlockTex.mTileInfoList[idx] as TileInfo);
 
-                ++idx;
-            }
+            //    ++idx;
+            //}
         }
 
         public void dispose()
@@ -185,17 +186,33 @@
             return num >= mMaxSnowNum;
         }
 
-        public string getRandomBallTex()
+        public string getRandomBallSelfTex()
         {
             string ret = "";
 
-            if (this.mBallTexArray.Length > 0)
+            if (this.mBallSelfTexArray.Length > 0)
             {
                 int min = 0;
-                int max = this.mBallTexArray.Length - 1;
+                int max = this.mBallSelfTexArray.Length;
 
                 int cur = UtilMath.RangeRandom(min, max);
-                ret = this.mBallTexArray[cur];
+                ret = this.mBallSelfTexArray[cur];
+            }
+
+            return ret;
+        }
+
+        public string getRandomBallOtherTex()
+        {
+            string ret = "";
+
+            if (this.mBallOtherTexArray.Length > 0)
+            {
+                int min = 0;
+                int max = this.mBallOtherTexArray.Length;
+
+                int cur = UtilMath.RangeRandom(min, max);
+                ret = this.mBallOtherTexArray[cur];
             }
 
             return ret;
@@ -208,7 +225,7 @@
             if (this.mSnowBlockTexArray.Length > 0)
             {
                 int min = 0;
-                int max = this.mSnowBlockTexArray.Length - 1;
+                int max = this.mSnowBlockTexArray.Length;
 
                 int cur = UtilMath.RangeRandom(min, max);
                 ret = this.mSnowBlockTexArray[cur];

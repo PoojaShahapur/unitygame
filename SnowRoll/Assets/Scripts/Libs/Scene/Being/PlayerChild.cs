@@ -62,7 +62,7 @@
             //this.mAnimFSM.UpdateFSM();
             this.mHud = Ctx.mInstance.mHudSystem.createHud(this);
             //this.setTexture(Ctx.mInstance.mSnowBallCfg.getRandomBallTex());
-            this.setTexTile(Ctx.mInstance.mSnowBallCfg.getRandomBallTexTile());
+            //this.setTexTile(Ctx.mInstance.mSnowBallCfg.getRandomBallTexTile());
         }
 
         //override public void onTick(float delta)

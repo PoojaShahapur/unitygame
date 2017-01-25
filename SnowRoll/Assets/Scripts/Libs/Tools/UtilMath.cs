@@ -850,12 +850,14 @@ namespace SDK.Lib
         }
 
         // 生成一个唯一 id
-        public static System.UInt64 makeUniqueId(uint aId, uint bId)
+        public static ulong makeUniqueId(uint aId, uint bId)
         {
-            return aId << 32 | bId;
+            ulong ret = 0;
+            ret = ((aId << 31) | bId);
+            return ret;
         }
 
-        public static bool getSingleId(System.UInt64 uniqueId, ref uint aId, ref uint bId)
+        public static bool getSingleId(ulong uniqueId, ref uint aId, ref uint bId)
         {
             aId = (uint)(uniqueId >> 32);
             bId = (uint)(uniqueId & 0xFFFFFFFF00000000);

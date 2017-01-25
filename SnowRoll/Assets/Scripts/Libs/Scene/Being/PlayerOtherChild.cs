@@ -14,6 +14,11 @@
 
         override public void initRender()
         {
+            if (!this.isPrefabPathValid())
+            {
+                this.setPrefabPath(Ctx.mInstance.mSnowBallCfg.getRandomBallOtherTex());
+            }
+
             mRender = new PlayerOtherChildRender(this);
             mRender.init();
         }

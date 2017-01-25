@@ -1638,7 +1638,9 @@ namespace SDK.Lib
 
                 if (null != renderer)
                 {
+                    // 修改共享材质，这样会修改所有共享这个对象的材质
                     Material material = renderer.sharedMaterial;
+                    // 这样修改材质，需要注意了，所有的材质都会不同，即使相同参数的材质也是不同的，如果想要相同参数的材质使用同一个，需要先生成一个材质，然后赋值给不同的 Render，但是改变参数生成的材质通常很难释放，最后制作几个不同的预制，这样可能会好些
                     //Material material = renderer.material;
                     if (null != material)
                     {

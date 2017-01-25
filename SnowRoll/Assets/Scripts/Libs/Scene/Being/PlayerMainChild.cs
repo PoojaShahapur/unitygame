@@ -4,6 +4,8 @@
     {
         protected uint mLastMergedTime;    // 最后一次融合时间
         //protected bool mIsMerge;            // 是否正在融合
+        protected uint mMergeThisId;        // 融合 Id
+        //protected PlayerMainChild mMergeChild;  // 融合的 PlayerMainChild
 
         public PlayerMainChild(Player parentPlayer)
             : base(parentPlayer)
@@ -20,6 +22,11 @@
 
         override public void initRender()
         {
+            if (!this.isPrefabPathValid())
+            {
+                this.setPrefabPath(Ctx.mInstance.mSnowBallCfg.getRandomBallSelfTex());
+            }
+
             this.mRender = new PlayerMainChildRender(this);
             this.mRender.init();
         }
@@ -30,6 +37,26 @@
 
             this.mMovement.init();
             this.mAttack.init();
+        }
+
+        public override void onTick(float delta)
+        {
+            // 如果是在融合阶段
+            if (BeingSubState.eBSSMerge == this.getBeingSubState())
+            {
+                PlayerMainChild child = this.getMergeEntity();
+                if (null != child)
+                {
+                    this.setDestPos(child.getPos(), false);
+                }
+                else
+                {
+                    this.dispose();
+                    return;
+                }
+            }
+
+            base.onTick(delta);
         }
 
         public void postUpdate()
@@ -179,5 +206,18 @@
         //{
         //    return this.mIsMerge;
         //}
+
+        public void setMergeEntity(PlayerMainChild entity)
+        {
+            this.mMergeThisId = entity.getThisId();
+            //this.mMergeChild = entity;
+        }
+
+        public PlayerMainChild getMergeEntity()
+        {
+            //return this.mMergeChild;
+            PlayerMainChild child = this.mParentPlayer.mPlayerSplitMerge.mPlayerChildMgr.getEntityByThisId(this.mMergeThisId) as PlayerMainChild;
+            return child;
+        }
     }
 }
