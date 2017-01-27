@@ -28,8 +28,8 @@ namespace SDK.Lib
 
             if(ResLoadType.eLoadResource == mResLoadType)
             {
-                m_nonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
-                m_nonRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
+                mNonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
+                mNonRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
             }
             else if (ResLoadType.eLoadStreamingAssets == mResLoadType ||
                 ResLoadType.eLoadLocalPersistentData == mResLoadType)
@@ -108,14 +108,14 @@ namespace SDK.Lib
         {
             if (mAssetBundle != null)
             {
-                m_nonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
+                mNonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }
             else
             {
-                m_nonRefCountResLoadResultNotify.resLoadState.setFailed();
+                mNonRefCountResLoadResultNotify.resLoadState.setFailed();
             }
 
-            m_nonRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
+            mNonRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
     }
 }

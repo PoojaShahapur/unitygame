@@ -18,14 +18,14 @@ namespace SDK.Lib
 
         protected AssetBundle mAssetBundle;
 
-        protected NonRefCountResLoadResultNotify m_nonRefCountResLoadResultNotify;
+        protected NonRefCountResLoadResultNotify mNonRefCountResLoadResultNotify;
         protected bool mIsLoadAll;               // 是否加载所有的内容
         protected string mResUniqueId;
 
         public LoadItem()
         {
             mIsLoadAll = false;
-            m_nonRefCountResLoadResultNotify = new NonRefCountResLoadResultNotify();
+            mNonRefCountResLoadResultNotify = new NonRefCountResLoadResultNotify();
         }
 
         public ResPackType resPackType
@@ -134,11 +134,11 @@ namespace SDK.Lib
         {
             get
             {
-                return m_nonRefCountResLoadResultNotify;
+                return mNonRefCountResLoadResultNotify;
             }
             set
             {
-                m_nonRefCountResLoadResultNotify = value;
+                mNonRefCountResLoadResultNotify = value;
             }
         }
 
@@ -164,7 +164,7 @@ namespace SDK.Lib
 
         virtual public void load()
         {
-            m_nonRefCountResLoadResultNotify.resLoadState.setLoading();
+            mNonRefCountResLoadResultNotify.resLoadState.setLoading();
         }
 
         // 这个是卸载，因为有时候资源加载进来可能已经不用了，需要直接卸载掉
@@ -218,14 +218,14 @@ namespace SDK.Lib
             {
                 mAssetBundle = mW3File.assetBundle;
 
-                m_nonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
+                mNonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }
             else
             {
-                m_nonRefCountResLoadResultNotify.resLoadState.setFailed();
+                mNonRefCountResLoadResultNotify.resLoadState.setFailed();
             }
 
-            m_nonRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
+            mNonRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
 
         protected void deleteFromCache(string path)

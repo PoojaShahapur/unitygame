@@ -97,14 +97,14 @@ namespace SDK.Lib
 
             if (isSuccess)
             {
-                m_nonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
+                mNonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }
             else
             {
-                m_nonRefCountResLoadResultNotify.resLoadState.setFailed();
+                mNonRefCountResLoadResultNotify.resLoadState.setFailed();
             }
 
-            m_nonRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
+            mNonRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
 
         protected IEnumerator loadFromDefaultAssetBundleByCoroutine()
@@ -117,11 +117,11 @@ namespace SDK.Lib
                 if (req.asset != null && req.isDone)
                 {
                     mPrefabObj = req.asset;
-                    m_nonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
+                    mNonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
                 }
                 else
                 {
-                    m_nonRefCountResLoadResultNotify.resLoadState.setFailed();
+                    mNonRefCountResLoadResultNotify.resLoadState.setFailed();
                 }
             }
             else
@@ -130,17 +130,17 @@ namespace SDK.Lib
 
                 if (mAllPrefabObj != null)
                 {
-                    m_nonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
+                    mNonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
                 }
                 else
                 {
-                    m_nonRefCountResLoadResultNotify.resLoadState.setFailed();
+                    mNonRefCountResLoadResultNotify.resLoadState.setFailed();
                 }
 
                 yield return null;
             }
 
-            m_nonRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
+            mNonRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
     }
 }
