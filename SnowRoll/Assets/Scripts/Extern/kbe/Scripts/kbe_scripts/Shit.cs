@@ -29,7 +29,7 @@ namespace KBEngine
                     UtilMath.getSingleId(uniqueId, ref aId, ref bId);
                 }
 
-                if (!Ctx.mInstance.mPlayerSnowBlockMgr.isExistNumId(aId))
+                if (!Ctx.mInstance.mPlayerMgr.isSelfChild(aId))
                 {
                     Ctx.mInstance.mLogSys.log("Shit::__init__, Shit not find, create new", LogTypeId.eLogSceneInterActive);
 

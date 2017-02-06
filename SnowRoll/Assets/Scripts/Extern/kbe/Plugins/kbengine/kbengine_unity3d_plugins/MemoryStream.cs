@@ -21,7 +21,7 @@
     	public int wpos = 0;
     	private byte[] datas_ = new byte[BUFFER_MAX]; 
     	
-    	private static System.Text.ASCIIEncoding _converter = new System.Text.ASCIIEncoding();
+    	private static System.Text.UTF8Encoding _converter = new System.Text.UTF8Encoding();
     	
 		[StructLayout(LayoutKind.Explicit, Size = 4)]
 		struct PackFloatXType

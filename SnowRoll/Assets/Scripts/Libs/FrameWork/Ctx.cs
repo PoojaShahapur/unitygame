@@ -120,6 +120,7 @@
         public GlobalDelegate mGlobalDelegate;
         public CommonData mCommonData;
         public EventHandleSystem mEventHandleSystem;
+        public DelayTaskMgr mDelayTaskMgr;
 
         public Ctx()
         {
@@ -259,6 +260,7 @@
             this.mGlobalDelegate = new GlobalDelegate();
             this.mCommonData = new CommonData();
             this.mEventHandleSystem = new EventHandleSystem();
+            this.mDelayTaskMgr = new DelayTaskMgr();
         }
 
         public void logicInit()
@@ -295,6 +297,7 @@
             this.mEventHandleSystem.init();
             this.mResizeMgr.init();
             this.mCameraPositonMgr.init();
+            this.mDelayTaskMgr.init();
 
             // 添加事件处理
             Ctx.mInstance.mCamSys.setUiCamera(Ctx.mInstance.mLayerMgr.mPath2Go[NotDestroyPath.ND_CV_App].AddComponent<UICamera>());
@@ -319,33 +322,109 @@
 
         public void dispose()
         {
-            this.mResizeMgr.dispose();
-            this.mTickMgr.dispose();
-            this.mPlayerMgr.dispose();
-            this.mSnowBlockMgr.dispose();
-            this.mComputerBallMgr.dispose();
-            this.mPlayerSnowBlockMgr.dispose();
-            this.mInputMgr.dispose();
-            this.mUiMgr.dispose();
-            this.mCameraPositonMgr.dispose();
+            if (null != this.mResizeMgr)
+            {
+                this.mResizeMgr.dispose();
+                this.mResizeMgr = null;
+            }
+            if (null != this.mTickMgr)
+            {
+                this.mTickMgr.dispose();
+                this.mTickMgr = null;
+            }
+            if (null != this.mPlayerMgr)
+            {
+                this.mPlayerMgr.dispose();
+                this.mPlayerMgr = null;
+            }
+            if (null != this.mSnowBlockMgr)
+            {
+                this.mSnowBlockMgr.dispose();
+                this.mSnowBlockMgr = null;
+            }
+            if (null != this.mComputerBallMgr)
+            {
+                this.mComputerBallMgr.dispose();
+                this.mComputerBallMgr = null;
+            }
+            if (null != this.mPlayerSnowBlockMgr)
+            {
+                this.mPlayerSnowBlockMgr.dispose();
+                this.mPlayerSnowBlockMgr = null;
+            }
+            if (null != this.mInputMgr)
+            {
+                this.mInputMgr.dispose();
+                this.mInputMgr = null;
+            }
+            if (null != this.mUiMgr)
+            {
+                this.mUiMgr.dispose();
+                this.mUiMgr = null;
+            }
+            if (null != this.mCameraPositonMgr)
+            {
+                this.mCameraPositonMgr.dispose();
+                this.mCameraPositonMgr = null;
+            }
 
             // 等待网络关闭
-            this.mNetMgr.dispose();
+            if (null != this.mNetMgr)
+            {
+                this.mNetMgr.dispose();
+                this.mNetMgr = null;
+            }
             // 卸载所有的模型
-            this.mModelMgr.dispose();
+            if (null != this.mModelMgr)
+            {
+                this.mModelMgr.dispose();
+                this.mModelMgr = null;
+            }
             // 卸载所有的材质
-            this.mMatMgr.dispose();
+            if (null != this.mMatMgr)
+            {
+                this.mMatMgr.dispose();
+                this.mMatMgr = null;
+            }
             // 卸载所有的纹理
-            this.mTexMgr.dispose();
+            if (null != this.mTexMgr)
+            {
+                this.mTexMgr.dispose();
+                this.mTexMgr = null;
+            }
             // 卸载音乐
-            this.mSoundMgr.dispose();
+            if (null != this.mSoundMgr)
+            {
+                this.mSoundMgr.dispose();
+                this.mSoundMgr = null;
+            }
             // 场景卸载
-            this.mSceneSys.dispose();
+            if (null != this.mSceneSys)
+            {
+                this.mSceneSys.dispose();
+                this.mSceneSys = null;
+            }
             // 关闭日志设备
-            this.mLogSys.dispose();
-
-            this.mCommonData.dispose();
-            this.mEventHandleSystem.dispose();
+            if (null != this.mLogSys)
+            {
+                this.mLogSys.dispose();
+                this.mLogSys = null;
+            }
+            if (null != this.mCommonData)
+            {
+                this.mCommonData.dispose();
+                this.mCommonData = null;
+            }
+            if (null != this.mEventHandleSystem)
+            {
+                this.mEventHandleSystem.dispose();
+                this.mEventHandleSystem = null;
+            }
+            if (null != this.mDelayTaskMgr)
+            {
+                this.mDelayTaskMgr.dispose();
+                this.mDelayTaskMgr = null;
+            }
         }
 
         public void quitApp()
@@ -377,6 +456,7 @@
                 this.mTickMgr.addTick(this.mPlayerSnowBlockMgr as ITickedObject, TickPriority.eTPPlayerSnowBlockMgr);
                 this.mTickMgr.addTick(this.mComputerBallMgr as ITickedObject, TickPriority.eTPComputerBallMgr);
                 this.mTickMgr.addTick(this.mCameraPositonMgr as ITickedObject, TickPriority.eTPCameraMgr);
+                this.mTickMgr.addTick(this.mDelayTaskMgr as ITickedObject, TickPriority.eTPDelayTaskMgr);
             }
         }
 

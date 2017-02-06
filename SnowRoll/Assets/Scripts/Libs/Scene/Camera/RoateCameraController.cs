@@ -79,7 +79,7 @@ namespace SDK.Lib
         {
             PlayerMain playerMain = Ctx.mInstance.mPlayerMgr.getHero();
 
-            if(null != playerMain)
+            if(null != playerMain && !playerMain.getIsDead())
             {
                 Ctx.mInstance.mCommonData.setEulerAngles_y(ClampAngle(Ctx.mInstance.mCommonData.getEulerAngles_y(), (float)this.yMinLimit, (float)this.yMaxLimit));
                 Quaternion quaternion = Quaternion.Euler(Ctx.mInstance.mCommonData.getEulerAngles_y(), Ctx.mInstance.mCommonData.getEulerAngles_x(), (float)0);
@@ -99,7 +99,7 @@ namespace SDK.Lib
 
                 float cur_distance_Y = Ctx.mInstance.mSnowBallCfg.mCameraDistance_Y * radius * Ctx.mInstance.mSnowBallCfg.mCameraChangeFactor_Y;
 
-                //Ctx.mInstance.mLogSys.error("centerPos: " + centerPos + "  radius: " + radius + "      Z: " + cur_distance_Z + "       Y: " + cur_distance_Y + "   log: " + Mathf.Log(Ctx.mInstance.mSnowBallCfg.mCameraChangeFactor_Z, radius));
+                //SDK.Lib.Ctx.mInstance.mLuaSystem.PrintConsoleMessage("<color=#FF0000>[Camera——1]: </color>" + "centerPos: " + centerPos + "  radius: " + radius + "      Z: " + cur_distance_Z + "       Y: " + cur_distance_Y);
 
                 //从目标物体处，到当前脚本所依附的对象（主相机）发射一个射线，如果中间有物体阻隔，则更改this.distance（这样做的目的是为了不被挡住）  
                 /*RaycastHit hitInfo = new RaycastHit();

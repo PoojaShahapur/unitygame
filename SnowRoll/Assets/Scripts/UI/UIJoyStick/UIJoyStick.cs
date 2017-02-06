@@ -150,6 +150,9 @@ namespace Game.UI
                 else
                 {
                     StillTouch = false;
+                    isTouchBegin = false;
+                    isTouchEnd = true;
+                    isTouchMove = false;
                     if (Joystick != null) Joystick.gameObject.SetActive(false);
                     if (BackGrounds != null) BackGrounds.gameObject.SetActive(false);
                 }
@@ -172,6 +175,9 @@ namespace Game.UI
                 else
                 {
                     StillTouch = false;
+                    isTouchBegin = false;
+                    isTouchEnd = true;
+                    isTouchMove = false;
                     if (Joystick != null) Joystick.gameObject.SetActive(false);
                     if (BackGrounds != null) BackGrounds.gameObject.SetActive(false);
                 }

@@ -15,5 +15,6 @@
         eLogBeingMove,      // Being 移动
         eLogKBE,            // KBEngine 日志
         eLogScene,          // Scene 日志
+        eUnityCB,          // Unity回调日志
     }
 }

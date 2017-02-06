@@ -40,14 +40,15 @@ namespace SDK.Lib
             //mEnableLogTypeList.Add(LogTypeId.eLogLocalFile);
             //mEnableLogTypeList.Add(LogTypeId.eLogTestRL);
             //mEnableLogTypeList.Add(LogTypeId.eLogAcceleration);
+            //mEnableLogTypeList.Add(LogTypeId.eUnityCB);
             mEnableLogTypeList.Add(LogTypeId.eLogSplitMergeEmit);
             mEnableLogTypeList.Add(LogTypeId.eLogSceneInterActive);
             mEnableLogTypeList.Add(LogTypeId.eLogKBE);
             mEnableLogTypeList.Add(LogTypeId.eLogScene);
             mEnableLogTypeList.Add(LogTypeId.eLogBeingMove);
 
-            this.mEnableLog = false;
-            this.mIsOutStack = true;
+            this.mEnableLog = true;
+            this.mIsOutStack = false;
             this.mIsOutTimeStamp = false;
         }
 
@@ -350,15 +351,15 @@ namespace SDK.Lib
             // LogType.Log 日志直接自己输出
             if (LogType.Error == type || LogType.Exception == type)
             {
-                Ctx.mInstance.mLogSys.error("onDebugLogCallbackHandler ---- Error");
-                Ctx.mInstance.mLogSys.error(name);
-                Ctx.mInstance.mLogSys.error(stack);
+                Ctx.mInstance.mLogSys.error("onDebugLogCallbackHandler ---- Error", LogTypeId.eUnityCB);
+                Ctx.mInstance.mLogSys.error(name, LogTypeId.eUnityCB);
+                Ctx.mInstance.mLogSys.error(stack, LogTypeId.eUnityCB);
             }
             else if(LogType.Assert == type || LogType.Warning == type)
             {
-                Ctx.mInstance.mLogSys.warn("onDebugLogCallbackHandler ---- Warning");
-                Ctx.mInstance.mLogSys.warn(name);
-                Ctx.mInstance.mLogSys.warn(stack);
+                Ctx.mInstance.mLogSys.warn("onDebugLogCallbackHandler ---- Warning", LogTypeId.eUnityCB);
+                Ctx.mInstance.mLogSys.warn(name, LogTypeId.eUnityCB);
+                Ctx.mInstance.mLogSys.warn(stack, LogTypeId.eUnityCB);
             }
         }
 
@@ -369,18 +370,18 @@ namespace SDK.Lib
                 //Ctx.mInstance.mLogSys.asyncError("onDebugLogCallbackThreadHandler ---- Error");
                 //Ctx.mInstance.mLogSys.asyncError(name);
                 //Ctx.mInstance.mLogSys.asyncError(stack);
-                Ctx.mInstance.mLogSys.error("onDebugLogCallbackThreadHandler ---- Error");
-                Ctx.mInstance.mLogSys.error(name);
-                Ctx.mInstance.mLogSys.error(stack);
+                Ctx.mInstance.mLogSys.error("onDebugLogCallbackThreadHandler ---- Error", LogTypeId.eUnityCB);
+                Ctx.mInstance.mLogSys.error(name, LogTypeId.eUnityCB);
+                Ctx.mInstance.mLogSys.error(stack, LogTypeId.eUnityCB);
             }
             else if (LogType.Assert == type || LogType.Warning == type)
             {
                 //Ctx.mInstance.mLogSys.asyncWarn("onDebugLogCallbackThreadHandler ---- Warning");
                 //Ctx.mInstance.mLogSys.asyncWarn(name);
                 //Ctx.mInstance.mLogSys.asyncWarn(stack);
-                Ctx.mInstance.mLogSys.warn("onDebugLogCallbackThreadHandler ---- Warning");
-                Ctx.mInstance.mLogSys.warn(name);
-                Ctx.mInstance.mLogSys.warn(stack);
+                Ctx.mInstance.mLogSys.warn("onDebugLogCallbackThreadHandler ---- Warning", LogTypeId.eUnityCB);
+                Ctx.mInstance.mLogSys.warn(name, LogTypeId.eUnityCB);
+                Ctx.mInstance.mLogSys.warn(stack, LogTypeId.eUnityCB);
             }
         }
 

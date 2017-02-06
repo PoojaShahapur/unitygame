@@ -5,29 +5,30 @@
      */
     public class RefCountResLoadResultNotify : ResLoadResultNotify
     {
-        protected RefCount m_refCount;                  // 引用计数
+        protected RefCount mRefCount;                  // 引用计数
 
         public RefCountResLoadResultNotify()
         {
-            m_refCount = new RefCount();
+            this.mRefCount = new RefCount();
         }
 
         public RefCount refCount
         {
             get
             {
-                return m_refCount;
+                return this.mRefCount;
             }
             set
             {
-                m_refCount = value;
+                this.mRefCount = value;
             }
         }
 
         override public void copyFrom(ResLoadResultNotify rhv)
         {
             base.copyFrom(rhv);
-            m_refCount.copyFrom((rhv as RefCountResLoadResultNotify).refCount);
+
+            this.mRefCount.copyFrom((rhv as RefCountResLoadResultNotify).refCount);
         }
     }
 }

@@ -200,5 +200,10 @@ namespace SDK.Lib
 
             return false;
         }
+
+        public bool getIsDead()
+        {
+            return 0 == this.mPlayerSplitMerge.mPlayerChildMgr.getEntityCount();
+        }
     }
 }

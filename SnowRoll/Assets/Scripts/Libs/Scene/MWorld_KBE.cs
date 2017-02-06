@@ -166,12 +166,24 @@ public class MWorld_KBE
         //((UnityEngine.GameObject)entity.renderObj).GetComponent<GameEntity>().position = entity.position;
 
         Player player = entity.getEntity_SDK() as Player;
+        SDK.Lib.ComputerBall AIBall = null;
         if (player == null)
-            return;
-
-        if (EntityType.ePlayerMain != player.getEntityType())
         {
-            player.setDestPos(entity.position, true);
+            AIBall = entity.getEntity_SDK() as SDK.Lib.ComputerBall;
+        }
+        if (player == null && AIBall == null) return;
+
+        if(player != null)
+        {
+            if (EntityType.ePlayerMain != player.getEntityType())
+            {
+                player.setDestPos(entity.position, true);
+            }
+        }        
+
+        if(AIBall != null)
+        {
+            AIBall.setDestPos(entity.position, true);
         }
 
         if (entity.isPlayer())
@@ -191,17 +203,30 @@ public class MWorld_KBE
         //gameEntity.isOnGround = entity.isOnGround;
 
         Player player = entity.getEntity_SDK() as Player;
+        SDK.Lib.ComputerBall AIBall = null;
         if (player == null)
-            return;
+        {
+            AIBall = entity.getEntity_SDK() as SDK.Lib.ComputerBall;
+        }
+        if (player == null && AIBall == null) return;
 
-        if (EntityType.ePlayerMainChild == player.getEntityType())
+        if(player != null)
         {
-            player.setDestPos(entity.position, true);
+            if (EntityType.ePlayerMainChild == player.getEntityType())
+            {
+                player.setDestPos(entity.position, true);
+            }
+            else
+            {
+                player.setDestPos(entity.position, false);
+            }
         }
-        else
+
+        if (AIBall != null)
         {
-            player.setDestPos(entity.position, false);
+            AIBall.setDestPos(entity.position, false);
         }
+
         //player.isOnGround = entity.isOnGround;
 
         if (EntityType.ePlayerMainChild == player.getEntityType())

@@ -17,5 +17,6 @@
         public static float eTPJoyStick = 1f;   // 摇杆控制器
         public static float eTPForwardForce = 1f;   // 反重力控制器
         public static float eTPCameraMgr = 1f;   // 相机位置更新控制器
+        public static float eTPDelayTaskMgr = 1f;   // 延迟任务
     }
 }

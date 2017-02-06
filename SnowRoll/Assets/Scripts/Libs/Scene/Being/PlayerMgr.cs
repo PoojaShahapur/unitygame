@@ -240,6 +240,19 @@ namespace SDK.Lib
             return child;
         }
 
+        public bool isSelfChild(uint thisId)
+        {
+            PlayerChild child = null;
+
+            child = this.mHero.mPlayerSplitMerge.mPlayerChildMgr.getEntityByThisId(thisId) as PlayerChild;
+            if (null != child)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         //public void eatSnowing(uint snowId, uint mainChildId)
         //{
         //    this.mSnowId2MainChildIdDic[snowId] = mainChildId;

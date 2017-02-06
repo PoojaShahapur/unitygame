@@ -2118,7 +2118,7 @@
                 SDK.Lib.Ctx.mInstance.mLuaSystem.receiveToLua_KBE("notifyGameLeftSeconds", new object[] { leftsencods });
             }
 
-            Event.fireOut("onSetSpaceData", new object[]{spaceID, key, value});
+            //Event.fireOut("onSetSpaceData", new object[]{spaceID, key, value});
 		}
 
 		/*

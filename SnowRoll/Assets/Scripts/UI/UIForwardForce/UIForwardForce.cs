@@ -149,6 +149,9 @@ namespace Game.UI
                 }
                 else
                 {
+                    isTouchBegin = false;
+                    isTouchEnd = true;
+                    isTouchHold = false;
                     if (ForceBtn != null) ForceBtn.gameObject.SetActive(false);
                 }
             }
@@ -169,6 +172,9 @@ namespace Game.UI
                 }
                 else
                 {
+                    isTouchBegin = false;
+                    isTouchEnd = true;
+                    isTouchHold = false;
                     if (ForceBtn != null) ForceBtn.gameObject.SetActive(false);
                 }
             }

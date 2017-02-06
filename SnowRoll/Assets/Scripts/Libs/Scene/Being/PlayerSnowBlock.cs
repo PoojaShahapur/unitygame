@@ -20,14 +20,16 @@
         {
             base.dispose();
 
-            Ctx.mInstance.mPlayerSnowBlockMgr.removePlayerSnowBlock(this);
+            if(Ctx.mInstance.mPlayerSnowBlockMgr != null)
+                Ctx.mInstance.mPlayerSnowBlockMgr.removePlayerSnowBlock(this);
         }
 
         override public void autoHandle()
         {
             base.autoHandle();
 
-            Ctx.mInstance.mPlayerSnowBlockMgr.addEntity(this);
+            if (Ctx.mInstance.mPlayerSnowBlockMgr != null)
+                Ctx.mInstance.mPlayerSnowBlockMgr.addEntity(this);
         }
 
         override public void initRender()

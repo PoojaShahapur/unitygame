@@ -323,7 +323,7 @@ namespace SDK.Lib
         {
             return mIsInSceneGraph;
         }
-
+        
         virtual public void setPos(Vector3 pos)
         {
             if (!UtilMath.isEqualVec3(this.mPos, pos))
@@ -346,6 +346,8 @@ namespace SDK.Lib
             if (!UtilMath.isEqualVec3(this.mPos, pos))
             {
                 this.mPos = pos;
+
+                Ctx.mInstance.mLogSys.log(string.Format("BeingEntity::setRenderPos, BasicInfo is {0}, mPosX = {1}, mPosY = {2}, mPosZ = {3}", this.getBasicInfoStr(), this.mPos.x, this.mPos.y, this.mPos.z), LogTypeId.eLogBeingMove);
             }
         }
 

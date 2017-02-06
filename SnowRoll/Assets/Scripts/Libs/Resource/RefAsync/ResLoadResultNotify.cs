@@ -10,19 +10,19 @@
 
         public ResLoadResultNotify()
         {
-            mResLoadState = new ResLoadState();
-            mLoadResEventDispatch = new ResEventDispatch();
+            this.mResLoadState = new ResLoadState();
+            this.mLoadResEventDispatch = new ResEventDispatch();
         }
 
         public ResLoadState resLoadState
         {
             get
             {
-                return mResLoadState;
+                return this.mResLoadState;
             }
             set
             {
-                mResLoadState = value;
+                this.mResLoadState = value;
             }
         }
 
@@ -30,24 +30,24 @@
         {
             get
             {
-                return mLoadResEventDispatch;
+                return this.mLoadResEventDispatch;
             }
             set
             {
-                mLoadResEventDispatch = value;
+                this.mLoadResEventDispatch = value;
             }
         }
 
         public void onLoadEventHandle(IDispatchObject dispObj)
         {
-            mLoadResEventDispatch.dispatchEvent(dispObj);
-            mLoadResEventDispatch.clearEventHandle();
+            this.mLoadResEventDispatch.dispatchEvent(dispObj);
+            this.mLoadResEventDispatch.clearEventHandle();
         }
 
         virtual public void copyFrom(ResLoadResultNotify rhv)
         {
-            mResLoadState.copyFrom(rhv.resLoadState);
-            mLoadResEventDispatch = rhv.loadResEventDispatch;
+            this.mResLoadState.copyFrom(rhv.resLoadState);
+            this.mLoadResEventDispatch = rhv.loadResEventDispatch;
         }
     }
 }

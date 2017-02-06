@@ -244,6 +244,8 @@
 		*/
 		public static void fireOut(string eventname, params object[] args)
 		{
+            monitor_Enter(events_out);
+
             List<Pair> lst = null;
             if (!events_out.TryGetValue(eventname, out lst))
             {
@@ -264,8 +266,9 @@
                 }                
             }
 
+            monitor_Exit(events_out);
             //fire_(events_out, firedEvents_out, eventname, args);
-		}
+        }
 
 		/*
 			渲染表现层抛出事件(in = render->kbe)
@@ -273,6 +276,8 @@
 		*/
 		public static void fireIn(string eventname, params object[] args)
 		{
+            monitor_Enter(events_in);
+
             List<Pair> lst = null;
             if (!events_in.TryGetValue(eventname, out lst))
             {
@@ -292,8 +297,10 @@
                     Dbg.ERROR_MSG("Event::processInEvents: event=" + lst[i].funcname + "\n" + e.ToString());
                 }
             }
+
+            monitor_Exit(events_in);
             //fire_(events_in, firedEvents_in, eventname, args);
-		}
+        }
 
 		/*
 			触发kbe插件和渲染表现层都能够收到的事件

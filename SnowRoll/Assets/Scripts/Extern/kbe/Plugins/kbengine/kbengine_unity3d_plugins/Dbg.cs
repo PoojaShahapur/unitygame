@@ -33,8 +33,12 @@ namespace KBEngine
 		{
             if (DEBUGLEVEL.INFO >= debugLevel)
             {
-                //Debug.Log(getHead() + s);
-                SDK.Lib.Ctx.mInstance.mLogSys.log(string.Format("{0}{1}", getHead(), s), SDK.Lib.LogTypeId.eLogKBE);
+                if (SDK.Lib.Ctx.mInstance.mLogSys == null)
+                {
+                    Debug.Log(getHead() + s);
+                }
+                else
+                    SDK.Lib.Ctx.mInstance.mLogSys.log(string.Format("{0}{1}", getHead(), s), SDK.Lib.LogTypeId.eLogKBE);
             }
 		}
 
@@ -42,8 +46,12 @@ namespace KBEngine
 		{
             if (DEBUGLEVEL.DEBUG >= debugLevel)
             {
-                //Debug.Log(getHead() + s);
-                SDK.Lib.Ctx.mInstance.mLogSys.log(string.Format("{0}{1}", getHead(), s), SDK.Lib.LogTypeId.eLogKBE);
+                if(SDK.Lib.Ctx.mInstance.mLogSys == null)
+                {
+                    Debug.Log(getHead() + s);
+                }
+                else
+                    SDK.Lib.Ctx.mInstance.mLogSys.log(string.Format("{0}{1}", getHead(), s), SDK.Lib.LogTypeId.eLogKBE);
             }
 		}
 
@@ -51,8 +59,12 @@ namespace KBEngine
 		{
             if (DEBUGLEVEL.WARNING >= debugLevel)
             {
-                //Debug.LogWarning(getHead() + s);
-                SDK.Lib.Ctx.mInstance.mLogSys.warn(string.Format("{0}{1}", getHead(), s), SDK.Lib.LogTypeId.eLogKBE);
+                if (SDK.Lib.Ctx.mInstance.mLogSys == null)
+                {
+                    Debug.LogWarning(getHead() + s);
+                }
+                else
+                    SDK.Lib.Ctx.mInstance.mLogSys.warn(string.Format("{0}{1}", getHead(), s), SDK.Lib.LogTypeId.eLogKBE);
             }
 		}
 
@@ -60,8 +72,12 @@ namespace KBEngine
 		{
             if (DEBUGLEVEL.ERROR >= debugLevel)
             {
-                //Debug.LogError(getHead() + s);
-                SDK.Lib.Ctx.mInstance.mLogSys.error(string.Format("{0}{1}", getHead(), s), SDK.Lib.LogTypeId.eLogKBE);
+                if (SDK.Lib.Ctx.mInstance.mLogSys == null)
+                {
+                    Debug.LogError(getHead() + s);
+                }
+                else
+                    SDK.Lib.Ctx.mInstance.mLogSys.error(string.Format("{0}{1}", getHead(), s), SDK.Lib.LogTypeId.eLogKBE);
             }
 		}
 

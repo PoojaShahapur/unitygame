@@ -853,14 +853,14 @@ namespace SDK.Lib
         public static ulong makeUniqueId(uint aId, uint bId)
         {
             ulong ret = 0;
-            ret = ((aId << 31) | bId);
+            ret = (((ulong)aId << 32) | bId);
             return ret;
         }
 
         public static bool getSingleId(ulong uniqueId, ref uint aId, ref uint bId)
         {
             aId = (uint)(uniqueId >> 32);
-            bId = (uint)(uniqueId & 0xFFFFFFFF00000000);
+            bId = (uint)(uniqueId & 0x00000000FFFFFFFF);
             return true;
         }
     }
