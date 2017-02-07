@@ -1,0 +1,18 @@
+ManifestFileVersion: 0
+CRC: 1638623689
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 00bc763566585eef6cb074676ab88d76
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 1033bf7ddfd4c6d43e7a6382c0a0a61a
+HashAppended: 0
+ClassTypes:
+- Class: 49
+  Script: {instanceID: 0}
+Assets:
+- Assets/Lua/MyLua/Libs/Network/NetCommand.lua.bytes
+- Assets/Lua/MyLua/Libs/Network/NetMgr.lua.bytes
+- Assets/Lua/MyLua/Libs/Network/PBFileList.lua.bytes
+Dependencies: []

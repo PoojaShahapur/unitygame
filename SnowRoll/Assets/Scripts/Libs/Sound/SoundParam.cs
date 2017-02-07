@@ -10,9 +10,9 @@ namespace SDK.Lib
 
         public void resetDefault()
         {
-            mPath = "";
-            mIsLoop = true;
-            mTrans = null;
+            this.mPath = "";
+            this.mIsLoop = true;
+            this.mTrans = null;
         }
     }
 }

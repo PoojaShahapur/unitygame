@@ -337,13 +337,19 @@ namespace SDK.Lib
                     mRender.setPos(pos);
                 }
 
+                if(EntityType.ePlayerMain == this.mEntityType ||
+                   EntityType.ePlayerMainChild == this.mEntityType)
+                {
+                    Ctx.mInstance.mPlayerMgr.setIsMainPosOrOrientChanged(true);
+                }
+
                 Ctx.mInstance.mLogSys.log(string.Format("BeingEntity::setPos, BasicInfo is {0}, X = {1}, Y = {2}, Z = {3}", this.getBasicInfoStr(), this.mPos.x, this.mPos.y, this.mPos.z), LogTypeId.eLogBeingMove);
             }
         }
 
         public void setRenderPos(Vector3 pos)
         {
-            if (!UtilMath.isEqualVec3(this.mPos, pos))
+            if (!UtilApi.isInFakePos(pos) && !UtilMath.isEqualVec3(this.mPos, pos))
             {
                 this.mPos = pos;
 
@@ -365,6 +371,12 @@ namespace SDK.Lib
                 if (null != mRender)
                 {
                     mRender.setRotate(rotation);
+                }
+
+                if (EntityType.ePlayerMain == this.mEntityType ||
+                   EntityType.ePlayerMainChild == this.mEntityType)
+                {
+                    Ctx.mInstance.mPlayerMgr.setIsMainPosOrOrientChanged(true);
                 }
 
                 Ctx.mInstance.mLogSys.log(string.Format("BeingEntity::setRotation, BasicInfo is {0}, X = {1}, Y = {2}, Z = {3}, W = {4}", this.getBasicInfoStr(), this.mRotate.x, this.mRotate.y, this.mRotate.z, this.mRotate.w), LogTypeId.eLogBeingMove);

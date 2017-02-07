@@ -9,50 +9,127 @@ namespace SDK.Lib
     public class LevelLoadItem : LoadItem
     {
         protected string mLevelName;
+        protected bool mIsSuccess;
+        protected AssetBundleCreateRequest mAsyncRequest;
+        protected AsyncOperation mAsyncOperation;
+
+        public LevelLoadItem()
+        {
+            this.mIsSuccess = false;
+            this.mAsyncRequest = null;
+            this.mAsyncOperation = null;
+        }
 
         public string levelName
         {
             get
             {
-                return mLevelName;
+                return this.mLevelName;
             }
             set
             {
-                mLevelName = value;
+                this.mLevelName = value;
             }
+        }
+
+        override public void reset()
+        {
+            base.reset();
         }
 
         override public void load()
         {
             base.load();
 
-            if(ResLoadType.eLoadResource == mResLoadType)
+            if(ResLoadType.eLoadResource == this.mResLoadType)
             {
-                mNonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
-                mNonRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
+                //this.mNonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
+                //this.mNonRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
+                if (mLoadNeedCoroutine)
+                {
+                    Ctx.mInstance.mCoroutineMgr.StartCoroutine(this.loadFromDefaultAssetBundleByCoroutine());
+                }
+                else
+                {
+                    this.loadFromDefaultAssetBundle();
+                }
             }
-            else if (ResLoadType.eLoadStreamingAssets == mResLoadType ||
-                ResLoadType.eLoadLocalPersistentData == mResLoadType)
+            else if (ResLoadType.eLoadStreamingAssets == this.mResLoadType ||
+                ResLoadType.eLoadLocalPersistentData == this.mResLoadType)
             {
                 // 需要加载 AssetBundles 加载
                 if (mLoadNeedCoroutine)
                 {
-                    Ctx.mInstance.mCoroutineMgr.StartCoroutine(loadFromAssetBundleByCoroutine());
+                    Ctx.mInstance.mCoroutineMgr.StartCoroutine(this.loadFromAssetBundleByCoroutine());
                 }
                 else
                 {
-                    loadFromAssetBundle();
+                    this.loadFromAssetBundle();
                 }
             }
-            else if (ResLoadType.eLoadWeb == mResLoadType)
+            else if (ResLoadType.eLoadWeb == this.mResLoadType)
             {
-                Ctx.mInstance.mCoroutineMgr.StartCoroutine(downloadAsset());
+                Ctx.mInstance.mCoroutineMgr.StartCoroutine(this.downloadAsset());
             }
         }
 
         override public void unload()
         {
+            this.mIsSuccess = false;
+            this.mAsyncRequest = null;
+            this.mAsyncOperation = null;
+
             base.unload();
+        }
+
+        protected IEnumerator loadFromDefaultAssetBundleByCoroutine()
+        {
+            //string path = Application.dataPath + "/" + mPath;
+#if UNITY_4 || UNITY_5_0 || UNITY_5_1 || UNITY_5_2
+            this.mAsyncOperation = Application.LoadLevelAsync(mLevelName);
+#else
+            this.mAsyncOperation = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(mLevelName);
+#endif
+
+            yield return this.mAsyncOperation;
+
+            if (null != this.mAsyncOperation && this.mAsyncOperation.isDone)
+            {
+                this.mIsSuccess = true;
+            }
+            else
+            {
+                this.mIsSuccess = false;
+            }
+
+            this.assetAssetBundlesLevelLoaded();
+        }
+
+        protected void loadFromDefaultAssetBundle()
+        {
+#if UNITY_4 || UNITY_5_0 || UNITY_5_1 || UNITY_5_2
+            if (Application.CanStreamedLevelBeLoaded(mLevelName))
+            {
+                this.mIsSuccess = true;
+                Application.LoadLevel(mLevelName);
+            }
+            else
+            {
+                this.mIsSuccess = false;
+            }
+#else
+            if (Application.CanStreamedLevelBeLoaded(mLevelName))
+            {
+                this.mIsSuccess = true;
+                UnityEngine.SceneManagement.SceneManager.LoadScene(mLevelName);
+            }
+            else
+            {
+                this.mIsSuccess = false;
+            }
+#endif
+
+            this.assetAssetBundlesLevelLoaded();
         }
 
         protected IEnumerator loadFromAssetBundleByCoroutine()
@@ -76,46 +153,93 @@ namespace SDK.Lib
             www.Dispose();
             www = null;
 #else
-            AssetBundleCreateRequest req = null;
+            //AssetBundleCreateRequest req = null;
 
-            path = ResPathResolve.msABLoadRootPathList[(int)mResLoadType] + "/" + mLoadPath;
+            //path = ResPathResolve.msABLoadRootPathList[(int)mResLoadType] + "/" + mLoadPath;
+
+            //req = AssetBundle.LoadFromFileAsync(path);
+            //yield return req;
+
+            //this.mAssetBundle = req.assetBundle;
             
-            req = AssetBundle.LoadFromFileAsync(path);
-            yield return req;
+            path = ResPathResolve.msABLoadRootPathList[(int)mResLoadType] + "/" + mLoadPath;
 
-            mAssetBundle = req.assetBundle;
+            this.mAsyncRequest = AssetBundle.LoadFromFileAsync(path);
+            yield return this.mAsyncRequest;
+
+            this.mAssetBundle = this.mAsyncRequest.assetBundle;
 #endif
 
-            assetAssetBundlesLevelLoaded();
+            this.assetAssetBundlesLevelLoaded();
         }
 
         protected void loadFromAssetBundle()
         {
             string path = "";
-            path = ResPathResolve.msABLoadRootPathList[(int)mResLoadType] + "/" + mLoadPath;
-            
+
+            path = ResPathResolve.msABLoadRootPathList[(int)this.mResLoadType] + "/" + mLoadPath;
+
             // UNITY_5_2 没有
 #if UNITY_5_0 || UNITY_5_1 || UNITY_5_2
-            mAssetBundle = AssetBundle.CreateFromFile(path);
+            this.mAssetBundle = AssetBundle.CreateFromFile(path);
 #else
-            mAssetBundle = AssetBundle.LoadFromFile(path);
+            this.mAssetBundle = AssetBundle.LoadFromFile(path);
 #endif
 
-            assetAssetBundlesLevelLoaded();
+            this.assetAssetBundlesLevelLoaded();
         }
 
         protected void assetAssetBundlesLevelLoaded()
         {
-            if (mAssetBundle != null)
+            if (ResLoadType.eLoadResource == this.mResLoadType)
             {
-                mNonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
+                if (this.mIsSuccess)
+                {
+                    this.mNonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
+                }
+                else
+                {
+                    this.mNonRefCountResLoadResultNotify.resLoadState.setFailed();
+                }
             }
             else
             {
-                mNonRefCountResLoadResultNotify.resLoadState.setFailed();
+                if (this.mAssetBundle != null)
+                {
+                    this.mNonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
+                }
+                else
+                {
+                    this.mNonRefCountResLoadResultNotify.resLoadState.setFailed();
+                }
             }
 
-            mNonRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
+            this.mNonRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
+        }
+
+        public bool hasSuccessLoaded()
+        {
+            return this.mNonRefCountResLoadResultNotify.resLoadState.hasSuccessLoaded();
+        }
+
+        override protected void updateProgress()
+        {
+            if (ResLoadType.eLoadResource == this.mResLoadType)
+            {
+                if (null != this.mAsyncOperation)
+                {
+                    this.mLoadProgress = this.mAsyncOperation.progress;
+                }
+            }
+            else
+            {
+                if (null != this.mAsyncRequest)
+                {
+                    this.mLoadProgress = this.mAsyncRequest.progress;
+                }
+            }
+
+            base.updateProgress();
         }
     }
 }

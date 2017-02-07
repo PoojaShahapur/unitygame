@@ -8,38 +8,48 @@ namespace SDK.Lib
      */
     public class BundleLoadItem : LoadItem
     {
+        protected AssetBundleCreateRequest mAsyncRequest;
+
+        public BundleLoadItem()
+        {
+            this.mAsyncRequest = null;
+        }
+
         override public void load()
         {
             base.load();
 
-            if (ResLoadType.eLoadStreamingAssets == mResLoadType ||
-                ResLoadType.eLoadLocalPersistentData == mResLoadType)
+            if (ResLoadType.eLoadStreamingAssets == this.mResLoadType ||
+                ResLoadType.eLoadLocalPersistentData == this.mResLoadType)
             {
-                if (mLoadNeedCoroutine)
+                if (this.mLoadNeedCoroutine)
                 {
                     // 如果有协程的直接这么调用，编辑器会卡死
                     //loadFromAssetBundleByCoroutine()
-                    Ctx.mInstance.mCoroutineMgr.StartCoroutine(loadFromAssetBundleByCoroutine());
+                    Ctx.mInstance.mCoroutineMgr.StartCoroutine(this.loadFromAssetBundleByCoroutine());
                 }
                 else
                 {
-                    loadFromAssetBundle();
+                    this.loadFromAssetBundle();
                 }
             }
-            else if (ResLoadType.eLoadWeb == mResLoadType)
+            else if (ResLoadType.eLoadWeb == this.mResLoadType)
             {
-                Ctx.mInstance.mCoroutineMgr.StartCoroutine(downloadAsset());
+                Ctx.mInstance.mCoroutineMgr.StartCoroutine(this.downloadAsset());
             }
         }
 
         // 这个是卸载，因为有时候资源加载进来可能已经不用了，需要直接卸载掉
         override public void unload()
         {
-            if (mAssetBundle != null)
+            this.mAsyncRequest = null;
+
+            if (this.mAssetBundle != null)
             {
-                mAssetBundle.Unload(true);
-                mAssetBundle = null;
+                this.mAssetBundle.Unload(true);
+                this.mAssetBundle = null;
             }
+
             base.unload();
         }
 
@@ -66,44 +76,62 @@ namespace SDK.Lib
             www.Dispose();
             www = null;
 #else
-            AssetBundleCreateRequest req = null;
+            //AssetBundleCreateRequest req = null;
 
-            path = ResPathResolve.msABLoadRootPathList[(int)mResLoadType] + "/" + mLoadPath;
-                        
-            req = AssetBundle.LoadFromFileAsync(path);
-            yield return req;
+            //path = ResPathResolve.msABLoadRootPathList[(int)mResLoadType] + "/" + mLoadPath;
 
-            mAssetBundle = req.assetBundle;
+            //req = AssetBundle.LoadFromFileAsync(path);
+            //yield return req;
+
+            //this.mAssetBundle = req.assetBundle;
+            
+            path = ResPathResolve.msABLoadRootPathList[(int)this.mResLoadType] + "/" + mLoadPath;
+
+            this.mAsyncRequest = AssetBundle.LoadFromFileAsync(path);
+            yield return this.mAsyncRequest;
+
+            this.mAssetBundle = this.mAsyncRequest.assetBundle;
 #endif
 
-            assetBundleLoaded();
+            this.assetBundleLoaded();
         }
 
         protected void loadFromAssetBundle()
         {
             string path;
+
             path = ResPathResolve.msABLoadRootPathList[(int)mResLoadType] + "/" + mLoadPath;
             // UNITY_5_2 没有
 #if UNITY_5_0 || UNITY_5_1 || UNITY_5_2
-            mAssetBundle = AssetBundle.CreateFromFile(path);
+            this.mAssetBundle = AssetBundle.CreateFromFile(path);
 #else
-            mAssetBundle = AssetBundle.LoadFromFile(path);
+            this.mAssetBundle = AssetBundle.LoadFromFile(path);
 #endif
-            assetBundleLoaded();
+            this.assetBundleLoaded();
         }
 
         protected void assetBundleLoaded()
         {
-            if (mAssetBundle != null)
+            if (this.mAssetBundle != null)
             {
-                mNonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
+                this.mNonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }
             else
             {
-                mNonRefCountResLoadResultNotify.resLoadState.setFailed();
+                this.mNonRefCountResLoadResultNotify.resLoadState.setFailed();
             }
 
-            mNonRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
+            this.mNonRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
+        }
+
+        override protected void updateProgress()
+        {
+            if (null != this.mAsyncRequest)
+            {
+                this.mLoadProgress = this.mAsyncRequest.progress;
+            }
+
+            base.updateProgress();
         }
     }
 }

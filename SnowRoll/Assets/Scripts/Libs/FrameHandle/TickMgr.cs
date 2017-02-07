@@ -12,12 +12,12 @@ namespace SDK.Lib
             this.mTickList = new MList<TickProcessObject>();
         }
 
-        public void init()
+        override public void init()
         {
 
         }
 
-        public void dispose()
+        override public void dispose()
         {
             this.mTickList.Clear();
         }

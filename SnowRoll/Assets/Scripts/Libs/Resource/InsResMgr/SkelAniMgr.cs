@@ -1,5 +1,3 @@
-using LuaInterface;
-
 namespace SDK.Lib
 {
     public class SkelAniMgr : InsResMgrBase
@@ -9,24 +7,24 @@ namespace SDK.Lib
 
         }
 
-        public SkelAnimRes getAndSyncLoadRes(string path, MAction<IDispatchObject> handle)
+        public SkelAnimRes getAndSyncLoadRes(string path, MAction<IDispatchObject> handle, MAction<IDispatchObject> progressHandle)
         {
-            return getAndSyncLoad<SkelAnimRes>(path, handle);
+            return getAndSyncLoad<SkelAnimRes>(path, handle, progressHandle);
         }
 
-        public SkelAnimRes getAndSyncLoadRes(string path, LuaTable luaTable = null, LuaFunction luaFunction = null)
+        public SkelAnimRes getAndSyncLoadRes(string path, LuaInterface.LuaTable luaTable = null, LuaInterface.LuaFunction luaFunction = null, LuaInterface.LuaFunction progressLuaFunction = null)
         {
-            return getAndSyncLoad<SkelAnimRes>(path, luaTable, luaFunction);
+            return getAndSyncLoad<SkelAnimRes>(path, luaTable, luaFunction, progressLuaFunction);
         }
 
-        public SkelAnimRes getAndAsyncLoadRes(string path, MAction<IDispatchObject> handle)
+        public SkelAnimRes getAndAsyncLoadRes(string path, MAction<IDispatchObject> handle, MAction<IDispatchObject> progressHandle)
         {
-            return getAndAsyncLoad<SkelAnimRes>(path, handle);
+            return getAndAsyncLoad<SkelAnimRes>(path, handle, progressHandle);
         }
 
-        public SkelAnimRes getAndAsyncLoadRes(string path, LuaTable luaTable = null, LuaFunction luaFunction = null)
+        public SkelAnimRes getAndAsyncLoadRes(string path, LuaInterface.LuaTable luaTable = null, LuaInterface.LuaFunction luaFunction = null, LuaInterface.LuaFunction progressLuaFunction = null)
         {
-            return getAndAsyncLoad<SkelAnimRes>(path, luaTable, luaFunction, true);
+            return getAndAsyncLoad<SkelAnimRes>(path, luaTable, luaFunction, progressLuaFunction, true);
         }
     }
 }

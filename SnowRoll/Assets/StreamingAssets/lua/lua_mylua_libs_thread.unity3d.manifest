@@ -1,0 +1,17 @@
+ManifestFileVersion: 0
+CRC: 303982609
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 1d792baaa832ae09d00ac3e52ca03f75
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 1033bf7ddfd4c6d43e7a6382c0a0a61a
+HashAppended: 0
+ClassTypes:
+- Class: 49
+  Script: {instanceID: 0}
+Assets:
+- Assets/Lua/MyLua/Libs/Thread/MCoroutine.lua.bytes
+- Assets/Lua/MyLua/Libs/Thread/TaskCoroutine.lua.bytes
+Dependencies: []

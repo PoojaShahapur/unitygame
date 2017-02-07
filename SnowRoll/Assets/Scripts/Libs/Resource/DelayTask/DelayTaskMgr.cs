@@ -1,6 +1,6 @@
 namespace SDK.Lib
 {
-    public class DelayTaskMgr : ITickedObject
+    public class DelayTaskMgr : ITickedObject, IDelayHandleItem
     {
 	    protected int mFrameInterval;   // 帧间隔
         protected int mTaskNumPerFrameInterval; // 每一个帧间隔执行任务数量
@@ -17,6 +17,7 @@ namespace SDK.Lib
             this.mCurTaskNum = 0;
             this.mPreFrame = 0;
             this.mCurFrame = 0;
+            this.mDelayTaskList = new MList<IDelayTask>();
         }
 
         public void init()
@@ -27,6 +28,16 @@ namespace SDK.Lib
         public void dispose()
         {
 
+        }
+
+        public void setClientDispose(bool isDispose)
+        {
+
+        }
+
+        public bool isClientDispose()
+        {
+            return false;
         }
 
         public virtual void onTick(float delta)

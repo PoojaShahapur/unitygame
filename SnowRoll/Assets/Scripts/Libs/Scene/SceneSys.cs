@@ -13,9 +13,9 @@
 
         public SceneSys()
         {
-            mSceneParse = new SceneParse();
-            mOnSceneLoadedDisp = new AddOnceAndCallOnceEventDispatch();
-            mAuxLevelLoader = new AuxLevelLoader();
+            this.mSceneParse = new SceneParse();
+            this.mOnSceneLoadedDisp = new AddOnceAndCallOnceEventDispatch();
+            this.mAuxLevelLoader = new AuxLevelLoader();
         }
 
         public void init()
@@ -30,7 +30,7 @@
 
         public Scene getCurScene()
         {
-            return mScene;
+            return this.mScene;
         }
 
         public bool isSceneLoaded()
@@ -46,32 +46,32 @@
         public void loadScene(string filename, MAction<IDispatchObject> func)
         {
             // 卸载之前的场景
-            unloadScene();
+            this.unloadScene();
 
             // 加载新的场景
-            mScene = new Scene();
-            mScene.getSceneCfg().initSize();
-            mScene.file = Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathScene] + filename;
+            this.mScene = new Scene();
+            this.mScene.getSceneCfg().initSize();
+            this.mScene.file = Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathScene] + filename;
 
             if(func != null)
             {
-                mOnSceneLoadedDisp.addEventHandle(null, func);
+                this.mOnSceneLoadedDisp.addEventHandle(null, func);
             }
             //loadSceneCfg(filename);
-            loadSceneRes(filename);
+            this.loadSceneRes(filename);
         }
 
         protected void unloadScene()
         {
-            if(null != mScene)
+            if(null != this.mScene)
             {
-                mScene.dispose();
-                mScene = null;
+                this.mScene.dispose();
+                this.mScene = null;
             }
-            if(null != mAuxLevelLoader)
+            if(null != this.mAuxLevelLoader)
             {
-                mAuxLevelLoader.unload();
-                mAuxLevelLoader = null;
+                this.mAuxLevelLoader.unload();
+                this.mAuxLevelLoader = null;
             }
         }
 
@@ -87,9 +87,9 @@
         protected void onSceneCfgLoadded(IDispatchObject dispObj)
         {
             ResItem res = dispObj as ResItem;
-            mSceneParse.sceneCfg = mScene.getSceneCfg();
+            this.mSceneParse.sceneCfg = mScene.getSceneCfg();
             string text = res.getText(mScene.file);
-            mSceneParse.parse(text);
+            this.mSceneParse.parse(text);
         }
 
         public void loadSceneRes(string filename)
@@ -101,46 +101,53 @@
                 this.mAuxLevelLoader = new AuxLevelLoader();
             }
 
-            mAuxLevelLoader.asyncLoad(filename, onSceneResLoadded);
+            this.mAuxLevelLoader.asyncLoad(filename, this.onSceneResLoaded, this.onSceneLoadProgress);
         }
 
-        public void onSceneResLoadded(IDispatchObject dispObj)
+        public void onSceneResLoaded(IDispatchObject dispObj)
         {
             //ResItem res = dispObj as ResItem;
-            mOnSceneLoadedDisp.dispatchEvent(mScene);
+            this.mOnSceneLoadedDisp.dispatchEvent(this.mScene);
 
             Ctx.mInstance.mNetCmdNotify.isStopNetHandle = false;        // 加载场景完成需要处理处理消息
 
-            mAuxLevelLoader.unload();
+            this.mAuxLevelLoader.unload();
 
-            mScene.init();
+            this.mScene.init();
+        }
+
+        public void onSceneLoadProgress(IDispatchObject dispObj)
+        {
+            LoadItem item = dispObj as LoadItem;
+            float progress = item.getProgress();
+            UnityEngine.Debug.Log(string.Format("aaaaa = {0}", progress));
         }
 
         // 卸载多有的场景
         public void unloadAll()
         {
-            unloadScene();
+            this.unloadScene();
         }
 
         // 创建当前场景对应的地图
         public void createTerrain()
         {
-            if(mScene != null)
+            if(this.mScene != null)
             {
-                mScene.createTerrain();
+                this.mScene.createTerrain();
             }
         }
 
         public void updateClip()
         {
-            mScene.updateClip();
+            this.mScene.updateClip();
         }
 
         public float getHeightAt(float x, float z)
         {
-            if (mScene != null)
+            if (this.mScene != null)
             {
-                return mScene.getHeightAt(x, z);
+                return this.mScene.getHeightAt(x, z);
             }
 
             return 0;

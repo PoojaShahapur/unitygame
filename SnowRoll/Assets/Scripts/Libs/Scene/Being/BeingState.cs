@@ -13,6 +13,7 @@
         eBSBirth,        // 出生状态
         eBSIOControlWalk,// 控制走状态
         eBSSplit,        // 分裂状态
+        eBSMoveCenter,   // 向中心移动
     }
 
     /**

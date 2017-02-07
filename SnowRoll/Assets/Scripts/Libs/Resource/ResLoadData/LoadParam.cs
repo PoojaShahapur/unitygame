@@ -1,6 +1,4 @@
-﻿using LuaInterface;
-
-namespace SDK.Lib
+﻿namespace SDK.Lib
 {
     public class LoadParam : IRecycle
     {
@@ -20,29 +18,33 @@ namespace SDK.Lib
 
         public string mVersion = "";               // 加载的资源的版本号
         protected string mLvlName = "";            // 关卡名字
+
         public MAction<IDispatchObject> mLoadEventHandle;    // 加载事件回调函数
+        public MAction<IDispatchObject> mProgressEventHandle;// 加载进度事件处理器
 
         public bool mResNeedCoroutine = true;      // 资源是否需要协同程序
         public bool mLoadNeedCoroutine = true;     // 加载是否需要协同程序
 
         public ResItem mLoadRes = null;
         public InsResBase mLoadInsRes = null;
-        public LuaTable mLuaTable;
-        public LuaFunction mLuaFunction;
+        public LuaInterface.LuaTable mLuaTable;
+        public LuaInterface.LuaFunction mLuaFunction;
+        public LuaInterface.LuaFunction mProgressLuaFunction;
+
         public bool mIsLoadAll;                 // 是否一次性加载所有的内容
         public bool mIsCheckDep;                // 是否检查依赖
 
         public LoadParam()
         {
-            mLoadPath = "";
-            mIsLoadAll = false;
+            this.mLoadPath = "";
+            this.mIsLoadAll = false;
         }
 
         public string prefabName
         {
             get
             {
-                return mPrefabName;
+                return this.mPrefabName;
             }
         }
 
@@ -50,7 +52,7 @@ namespace SDK.Lib
         {
             get
             {
-                return mExtName;
+                return this.mExtName;
             }
         }
 
@@ -58,58 +60,62 @@ namespace SDK.Lib
         {
             get
             {
-                return mLvlName;
+                return this.mLvlName;
             }
         }
 
         public void resetDefault()          // 将数据清空，有时候上一次调用的时候的参数 m_loaded 还在，结果被认为是这一次的回调了
         {
-            mLoadEventHandle = null;
-            mVersion = "";
-            mExtName = "prefab";
-            mOrigPath = "";
+            this.mLoadEventHandle = null;
+            this.mProgressEventHandle = null;
 
-            mLoadRes = null;
-            mLoadInsRes = null;
+            this.mVersion = "";
+            this.mExtName = "prefab";
+            this.mOrigPath = "";
+
+            this.mLoadRes = null;
+            this.mLoadInsRes = null;
         }
 
         // 解析目录
         public void resolvePath()
         {
-            int dotIdx = mLoadPath.IndexOf(".");
+            int dotIdx = this.mLoadPath.IndexOf(".");
 
             if (-1 == dotIdx)
             {
-                mExtName = "";
-                mPathNoExt = mLoadPath;
+                this.mExtName = "";
+                this.mPathNoExt = mLoadPath;
             }
             else
             {
-                mExtName = mLoadPath.Substring(dotIdx + 1);
-                mPathNoExt = mLoadPath.Substring(0, dotIdx);
+                this.mExtName = mLoadPath.Substring(dotIdx + 1);
+                this.mPathNoExt = mLoadPath.Substring(0, dotIdx);
             }
 
-            mPrefabName = mLoadPath;
+            this.mPrefabName = mLoadPath;
         }
 
         public void resolveLevel()
         {
             int slashIdx = 0;
-            if (string.IsNullOrEmpty(mOrigPath))
+
+            if (string.IsNullOrEmpty(this.mOrigPath))
             {
-                slashIdx = mPathNoExt.LastIndexOf("/");
+                slashIdx = this.mPathNoExt.LastIndexOf("/");
+
                 if (slashIdx != -1)
                 {
-                    mLvlName = mPathNoExt.Substring(slashIdx + 1);
+                    this.mLvlName = this.mPathNoExt.Substring(slashIdx + 1);
                 }
                 else
                 {
-                    mLvlName = mPathNoExt;
+                    this.mLvlName = this.mPathNoExt;
                 }
             }
             else        // 如果是打包，需要从原始加载目录获取关卡名字
             {
-                mLvlName = UtilLogic.convScenePath2LevelName(mOrigPath);
+                this.mLvlName = UtilLogic.convScenePath2LevelName(this.mOrigPath);
             }
         }
 
@@ -141,37 +147,39 @@ namespace SDK.Lib
         public void setPath(string path)
         {
             string fullPath = "";
-            mOrigPath = path;
+            this.mOrigPath = path;
 
-            int dotIdx = mOrigPath.IndexOf(".");
+            int dotIdx = this.mOrigPath.IndexOf(".");
+
             if (-1 == dotIdx)
             {
-                mExtName = "";
-                mLogicPath = mOrigPath;
+                this.mExtName = "";
+                this.mLogicPath = this.mOrigPath;
             }
             else
             {
-                mExtName = mOrigPath.Substring(dotIdx + 1);
+                this.mExtName = this.mOrigPath.Substring(dotIdx + 1);
                 //mLogicPath = mOrigPath.Substring(0, dotIdx);     // mLogicPath 没有扩展名字
-                mLogicPath = mOrigPath;        // mLogicPath 有扩展名字
+                this.mLogicPath = this.mOrigPath;        // mLogicPath 有扩展名字
             }
 
             ResRedirectItem redirectItem = Ctx.mInstance.mResRedirect.getResRedirectItem(mOrigPath);
+
             if(redirectItem != null && redirectItem.mFileVerInfo != null)
             {
-                mResUniqueId = redirectItem.mFileVerInfo.mResUniqueId;
-                mLoadPath = redirectItem.mFileVerInfo.mLoadPath;
-                mResLoadType = redirectItem.mResLoadType;
+                this.mResUniqueId = redirectItem.mFileVerInfo.mResUniqueId;
+                this.mLoadPath = redirectItem.mFileVerInfo.mLoadPath;
+                this.mResLoadType = redirectItem.mResLoadType;
                 // 解析加载方式
-                setPackAndLoadType(redirectItem);
+                this.setPackAndLoadType(redirectItem);
             }
             else
             {
                 // 如果没有就从 Resources 文件夹下加载
-                mResLoadType = ResLoadType.eLoadResource;
-                mResPackType = ResPackType.eResourcesType;
-                mResUniqueId = UtilPath.getFilePathNoExt(mOrigPath);
-                mLoadPath = mResUniqueId;
+                this.mResLoadType = ResLoadType.eLoadResource;
+                this.mResPackType = ResPackType.eResourcesType;
+                this.mResUniqueId = UtilPath.getFilePathNoExt(mOrigPath);
+                this.mLoadPath = this.mResUniqueId;
             }
 
             fullPath = mLoadPath;
@@ -179,21 +187,21 @@ namespace SDK.Lib
             dotIdx = fullPath.IndexOf(".");
             if (-1 == dotIdx)
             {
-                mPathNoExt = fullPath;
+                this.mPathNoExt = fullPath;
             }
             else
             {
-                mPathNoExt = fullPath.Substring(0, dotIdx);
+                this.mPathNoExt = fullPath.Substring(0, dotIdx);
             }
 
-            if (mExtName != UtilApi.UNITY3D)
+            if (this.mExtName != UtilApi.UNITY3D)
             {
-                mPrefabName = mPathNoExt + "." + mExtName;
+                this.mPrefabName = this.mPathNoExt + "." + this.mExtName;
             }
             else
             {
                 // 如果直接加载一个 .unity3d 文件，可能是一个仅仅被依赖的 AssetBundles ，也可能是一个其它被引用的 AssetBundles ，这个时候可能从 AssetBundles 里面获取任何东西，也可能不获取，因此 m_PrefabName 也需要设置对应的在 AssetBundles 中的路径。 所有依赖的 unity3d 这个文件不太一样，它在 AssetBundles 中的名字是  AssetBundleManifest ，不是 unity3d 的名字，这个需要注意
-                mPrefabName = mPathNoExt + "." + mExtName;
+                this.mPrefabName = this.mPathNoExt + "." + this.mExtName;
             }
         }
 
@@ -206,22 +214,22 @@ namespace SDK.Lib
             }
             else if (isPrefabType(mExtName))
             {
-                if (mResLoadType == ResLoadType.eLoadResource)
+                if (this.mResLoadType == ResLoadType.eLoadResource)
                 {
-                    mResPackType = ResPackType.eResourcesType;
+                    this.mResPackType = ResPackType.eResourcesType;
                 }
                 else
                 {
-                    mResPackType = ResPackType.eBundleType;
+                    this.mResPackType = ResPackType.eBundleType;
                 }
             }
             else if (isAssetBundleType(mExtName))
             {
-                mResPackType = ResPackType.eBundleType;
+                this.mResPackType = ResPackType.eBundleType;
             }
             else
             {
-                mResPackType = ResPackType.eDataType;
+                this.mResPackType = ResPackType.eDataType;
             }
         }
 
@@ -235,7 +243,8 @@ namespace SDK.Lib
                    extName == UtilApi.TGA ||
                    extName == UtilApi.SHADER ||
                    extName == UtilApi.TXT ||
-                   extName == UtilApi.BYTES;
+                   extName == UtilApi.BYTES ||
+                   extName == UtilApi.MP3;
         }
 
         static public bool isAssetBundleType(string extName)
@@ -263,6 +272,7 @@ namespace SDK.Lib
         {
             string resUniqueId = "";
             ResRedirectItem redirectItem = Ctx.mInstance.mResRedirect.getResRedirectItem(origPath);
+
             if (redirectItem != null && redirectItem.mFileVerInfo != null)
             {
                 resUniqueId = redirectItem.mFileVerInfo.mResUniqueId;

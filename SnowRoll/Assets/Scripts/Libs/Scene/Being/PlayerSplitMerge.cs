@@ -235,5 +235,11 @@
         {
             return 0;
         }
+
+        // 移动到中心点
+        virtual public void moveToCenter()
+        {
+
+        }
     }
 }

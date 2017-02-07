@@ -42,9 +42,9 @@ namespace SDK.Lib
 
         }
 
-        public bool bInCurState(SoundPlayState state)
+        public bool isInCurState(SoundPlayState state)
         {
-            return mPlayState == state;
+            return this.mPlayState == state;
         }
 
         public virtual void setResObj(UnityEngine.Object go_)
@@ -54,20 +54,20 @@ namespace SDK.Lib
 
         public void initParam(SoundParam soundParam)
         {
-            mTrans = soundParam.mTrans;
-            mIsLoop = soundParam.mIsLoop;
-            mPath = soundParam.mPath;
+            this.mTrans = soundParam.mTrans;
+            this.mIsLoop = soundParam.mIsLoop;
+            this.mPath = soundParam.mPath;
         }
 
         protected void updateParam()
         {
-            if (mTrans != null)
+            if (this.mTrans != null)
             {
-                mGo.transform.position = mTrans.position;
+                this.mGo.transform.position = mTrans.position;
             }
-            mAudio = mGo.GetComponent<AudioSource>();
+            this.mAudio = mGo.GetComponent<AudioSource>();
             //mAudio.rolloffMode = AudioRolloffMode.Logarithmic;
-            mAudio.loop = mIsLoop;
+            this.mAudio.loop = mIsLoop;
             //mAudio.dopplerLevel = 0f;
             //mAudio.spatialBlend = 0f;
             volume = mVolume;
@@ -80,19 +80,19 @@ namespace SDK.Lib
         {
             get 
             { 
-                return mVolume; 
+                return this.mVolume; 
             }
             set
             {
                 if (mScaleOutputVolume)
                 {
-                    mAudio.volume = ScaleVolume(value);
+                    this.mAudio.volume = ScaleVolume(value);
                 }
                 else
                 {
-                    mAudio.volume = value;
+                    this.mAudio.volume = value;
                 }
-                mVolume = value;
+                this.mVolume = value;
             }
         }
 
@@ -100,47 +100,47 @@ namespace SDK.Lib
         {
             get 
             {
-                return mPitch; 
+                return this.mPitch; 
             }
             set
             {
-                mAudio.pitch = value;
-                mPitch = value;
+                this.mAudio.pitch = value;
+                this.mPitch = value;
             }
         }
 
         void Start()
         {
-            if (mPlayOnStart)
+            if (this.mPlayOnStart)
             {
-                Play();
+                this.Play();
             }
         }
 
         public void Pause()
         {
-            mPlayState = SoundPlayState.eSS_Pause;
-            mAudio.Pause();
+            this.mPlayState = SoundPlayState.eSS_Pause;
+            this.mAudio.Pause();
         }
 
         public void Play()
         {
             if (SoundPlayState.eSS_Pause == mPlayState)
             {
-                mAudio.UnPause();
+                this.mAudio.UnPause();
             }
             else
             {
-                mAudio.Play(mDelay);
+                this.mAudio.Play(mDelay);
             }
 
-            mPlayState = SoundPlayState.eSS_Play;
+            this.mPlayState = SoundPlayState.eSS_Play;
         }
 
         public void Stop()
         {
-            mPlayState = SoundPlayState.eSS_Stop;
-            mAudio.Stop();
+            this.mPlayState = SoundPlayState.eSS_Stop;
+            this.mAudio.Stop();
         }
 
         public void SetPitch(float p)
@@ -169,7 +169,7 @@ namespace SDK.Lib
         {
             if (SoundPlayState.eSS_Play == mPlayState)     // 如果处于播放状态的
             {
-                return !mAudio.isPlaying;
+                return !this.mAudio.isPlaying;
             }
 
             return false;

@@ -20,7 +20,7 @@ namespace SDK.Lib
         protected float mMass;          // 质量
 
         public SceneEntityMovement mMovement;    // 移动组件
-        protected BeingEntityAttack mAttack;
+        public BeingEntityAttack mAttack;
         protected int reliveseconds; // 复活时间
         protected HudItemBase mHud; // HUD
 
@@ -28,11 +28,14 @@ namespace SDK.Lib
         public BeingAnimatorControl mAnimatorControl;
         public AnimFSM mAnimFSM;
         protected bool mIsFreezeXZ;     // 是否锁定 XZ 位置
-        protected bool mIsEatedByOther;        // 是否被被吃掉
+        protected bool mIsEatedByOther;        // 是否被吃掉
+        protected bool mIsEatedByServer;       // 自己吐的雪块是否服务器返回被自己吃掉
 
         protected string mTexPath;  // 纹理目录
         protected TileInfo mTileInfo;    // 纹理偏移信息
         protected string mPrefabPath;       // 预制的目录
+
+        protected UnityEngine.Vector3 mHudPos;
 
         public BeingEntity()
         {
@@ -155,9 +158,24 @@ namespace SDK.Lib
             this.mMoveSpeedFactor = value / this.mMoveSpeed;
         }
 
-        public float getMoveSpeed()
+        public float getMoveSpeed(bool isOrig = false)
         {
-            return this.mMoveSpeed * this.mMoveSpeedFactor;
+            if (isOrig)
+            {
+                return this.mMoveSpeed;
+            }
+            else
+            {
+                // 如果向中间靠拢，速度需要很慢
+                if (BeingState.eBSMoveCenter == this.mBeingState)
+                {
+                    return 1;
+                }
+                else
+                {
+                    return this.mMoveSpeed * this.mMoveSpeedFactor;
+                }
+            }
         }
 
         public void setRotateSpeed(float value)
@@ -213,6 +231,19 @@ namespace SDK.Lib
             if (null != mMovement)
             {
                 (mMovement as BeingEntityMovement).setDestPosForMerge(pos);
+            }
+        }
+
+        // 向中心移动
+        public void setDestPosForMoveCenter(UnityEngine.Vector3 pos, bool immePos)
+        {
+            if (immePos)
+            {
+                this.setPos(pos);
+            }
+            if (null != mMovement)
+            {
+                (mMovement as BeingEntityMovement).setDestPosForMoveCenter(pos);
             }
         }
 
@@ -432,7 +463,10 @@ namespace SDK.Lib
         // 获取 Hud 场景中的位置
         virtual public UnityEngine.Vector3 getHudPos()
         {
-            return this.mPos;
+            this.mHudPos = this.mPos;
+            this.mHudPos.y += this.mBallRadius;
+
+            return this.mHudPos;
         }
 
         virtual public void setBeingState(BeingState state)
@@ -738,6 +772,16 @@ namespace SDK.Lib
         public bool getIsEatedByOther()
         {
             return this.mIsEatedByOther;
+        }
+
+        public void setIsEatedByServer(bool value)
+        {
+            this.mIsEatedByServer = value;
+        }
+
+        public bool getIsEatedByServer()
+        {
+            return this.mIsEatedByServer;
         }
 
         // 预制目录是否有效

@@ -1,0 +1,27 @@
+ManifestFileVersion: 0
+CRC: 1769243039
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 816d9f53164a61b105b9b67345338a4d
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 1033bf7ddfd4c6d43e7a6382c0a0a61a
+HashAppended: 0
+ClassTypes:
+- Class: 49
+  Script: {instanceID: 0}
+Assets:
+- Assets/Lua/MyLua/Libs/FrameHandle/FrameTimerItem.lua.bytes
+- Assets/Lua/MyLua/Libs/FrameHandle/TextCompTimer.lua.bytes
+- Assets/Lua/MyLua/Libs/FrameHandle/SystemTimeData.lua.bytes
+- Assets/Lua/MyLua/Libs/FrameHandle/TickProcessObject.lua.bytes
+- Assets/Lua/MyLua/Libs/FrameHandle/TimerFunctionObject.lua.bytes
+- Assets/Lua/MyLua/Libs/FrameHandle/ITickedObject.lua.bytes
+- Assets/Lua/MyLua/Libs/FrameHandle/DaoJiShiTimer.lua.bytes
+- Assets/Lua/MyLua/Libs/FrameHandle/TimerItemBase.lua.bytes
+- Assets/Lua/MyLua/Libs/FrameHandle/TimerMgr.lua.bytes
+- Assets/Lua/MyLua/Libs/FrameHandle/FrameTimerMgr.lua.bytes
+- Assets/Lua/MyLua/Libs/FrameHandle/SystemFrameData.lua.bytes
+- Assets/Lua/MyLua/Libs/FrameHandle/TickMgr.lua.bytes
+Dependencies: []

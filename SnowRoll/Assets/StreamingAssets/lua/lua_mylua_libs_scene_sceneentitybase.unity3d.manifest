@@ -1,0 +1,18 @@
+ManifestFileVersion: 0
+CRC: 306096237
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: cb027dadb61384908735ef5c9891a48b
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 1033bf7ddfd4c6d43e7a6382c0a0a61a
+HashAppended: 0
+ClassTypes:
+- Class: 49
+  Script: {instanceID: 0}
+Assets:
+- Assets/Lua/MyLua/Libs/Scene/SceneEntityBase/SceneEntityBase.lua.bytes
+- Assets/Lua/MyLua/Libs/Scene/SceneEntityBase/EntityMgrBase.lua.bytes
+- Assets/Lua/MyLua/Libs/Scene/SceneEntityBase/EntityRenderBase.lua.bytes
+Dependencies: []

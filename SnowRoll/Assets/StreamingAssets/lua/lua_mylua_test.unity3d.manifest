@@ -1,0 +1,18 @@
+ManifestFileVersion: 0
+CRC: 2233544034
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: a75ada62f35dbf611d24230017750209
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 1033bf7ddfd4c6d43e7a6382c0a0a61a
+HashAppended: 0
+ClassTypes:
+- Class: 49
+  Script: {instanceID: 0}
+Assets:
+- Assets/Lua/MyLua/Test/GlobalEventCmdTest.lua.bytes
+- Assets/Lua/MyLua/Test/CSSystemTest.lua.bytes
+- Assets/Lua/MyLua/Test/TestMain.lua.bytes
+Dependencies: []

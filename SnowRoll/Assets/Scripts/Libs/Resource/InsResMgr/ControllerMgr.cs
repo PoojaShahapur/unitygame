@@ -5,24 +5,24 @@
      */
     public class ControllerMgr : InsResMgrBase
     {
-        public ControllerRes getAndSyncLoadRes(string path, MAction<IDispatchObject> handle)
+        public ControllerRes getAndSyncLoadRes(string path, MAction<IDispatchObject> handle, MAction<IDispatchObject> progressHandle)
         {
-            return this.getAndSyncLoad<ControllerRes>(path, handle);
+            return this.getAndSyncLoad<ControllerRes>(path, handle, progressHandle);
         }
 
-        public ControllerRes getAndSyncLoadRes(string path, LuaInterface.LuaTable luaTable = null, LuaInterface.LuaFunction luaFunction = null)
+        public ControllerRes getAndSyncLoadRes(string path, LuaInterface.LuaTable luaTable = null, LuaInterface.LuaFunction luaFunction = null, LuaInterface.LuaFunction progressLuaFunction = null)
         {
-            return this.getAndSyncLoad<ControllerRes>(path, luaTable, luaFunction);
+            return this.getAndSyncLoad<ControllerRes>(path, luaTable, luaFunction, progressLuaFunction);
         }
 
-        public ControllerRes getAndAsyncLoadRes(string path, MAction<IDispatchObject> handle)
+        public ControllerRes getAndAsyncLoadRes(string path, MAction<IDispatchObject> handle, MAction<IDispatchObject> progressHandle)
         {
-            return this.getAndAsyncLoad<ControllerRes>(path, handle);
+            return this.getAndAsyncLoad<ControllerRes>(path, handle, progressHandle);
         }
 
-        public ControllerRes getAndAsyncLoadRes(string path, LuaInterface.LuaTable luaTable = null, LuaInterface.LuaFunction luaFunction = null)
+        public ControllerRes getAndAsyncLoadRes(string path, LuaInterface.LuaTable luaTable = null, LuaInterface.LuaFunction luaFunction = null, LuaInterface.LuaFunction progressLuaFunction = null)
         {
-            return this.getAndAsyncLoad<ControllerRes>(path, luaTable, luaFunction);
+            return this.getAndAsyncLoad<ControllerRes>(path, luaTable, luaFunction, progressLuaFunction);
         }
     }
 }

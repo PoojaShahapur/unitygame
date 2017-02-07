@@ -29,21 +29,21 @@ namespace SDK.Lib
             this.unloadAll();
         }
 
-        public T getAndSyncLoad<T>(string path, MAction<IDispatchObject> loadEventHandle, bool isLoadAll = false) where T : InsResBase, new()
+        public T getAndSyncLoad<T>(string path, MAction<IDispatchObject> loadEventHandle, MAction<IDispatchObject> progressHandle = null, bool isLoadAll = false) where T : InsResBase, new()
         {
-            syncLoad<T>(path, loadEventHandle, isLoadAll);
+            syncLoad<T>(path, loadEventHandle, progressHandle, isLoadAll);
             string resUniqueId = LoadParam.convOrigPathToUniqueId(path);
             return getRes(resUniqueId) as T;
         }
 
-        public T getAndSyncLoad<T>(string path, LuaTable luaTable = null, LuaFunction luaFunction = null, bool isLoadAll = false) where T : InsResBase, new()
+        public T getAndSyncLoad<T>(string path, LuaTable luaTable = null, LuaFunction luaFunction = null, LuaInterface.LuaFunction progressLuaFunction = null, bool isLoadAll = false) where T : InsResBase, new()
         {
-            syncLoad<T>(path, luaTable, luaFunction, isLoadAll);
+            syncLoad<T>(path, luaTable, luaFunction, progressLuaFunction, isLoadAll);
             string resUniqueId = LoadParam.convOrigPathToUniqueId(path);
             return getRes(resUniqueId) as T;
         }
 
-        public T getAndAsyncLoad<T>(string path, MAction<IDispatchObject> handle, bool isLoadAll = false) where T : InsResBase, new()
+        public T getAndAsyncLoad<T>(string path, MAction<IDispatchObject> handle, MAction<IDispatchObject> progressHandle = null, bool isLoadAll = false) where T : InsResBase, new()
         {
             T ret = null;
             LoadParam param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
@@ -51,6 +51,7 @@ namespace SDK.Lib
             param.mLoadNeedCoroutine = true;
             param.mResNeedCoroutine = true;
             param.mLoadEventHandle = handle;
+            param.mProgressEventHandle = progressHandle;
             param.mIsLoadAll = isLoadAll;
             ret = getAndLoad<T>(param);
             Ctx.mInstance.mPoolSys.deleteObj(param);
@@ -58,7 +59,7 @@ namespace SDK.Lib
             return ret;
         }
 
-        public T getAndAsyncLoad<T>(string path, LuaTable luaTable = null, LuaFunction luaFunction = null, bool isLoadAll = false) where T : InsResBase, new()
+        public T getAndAsyncLoad<T>(string path, LuaTable luaTable = null, LuaFunction luaFunction = null, LuaInterface.LuaFunction progressLuaFunction = null, bool isLoadAll = false) where T : InsResBase, new()
         {
             T ret = null;
             LoadParam param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
@@ -67,6 +68,7 @@ namespace SDK.Lib
             param.mResNeedCoroutine = true;
             param.mLuaTable = luaTable;
             param.mLuaFunction = luaFunction;
+            param.mProgressLuaFunction = progressLuaFunction;
             param.mIsLoadAll = isLoadAll;
             ret = getAndLoad<T>(param);
             Ctx.mInstance.mPoolSys.deleteObj(param);
@@ -81,13 +83,14 @@ namespace SDK.Lib
         }
 
         // 同步加载，立马加载完成，并且返回加载的资源， syncLoad 同步加载资源不能喝异步加载资源的接口同时去加载一个资源，如果异步加载一个资源，这个时候资源还没有加载完成，然后又同步加载一个资源，这个时候获取的资源是没有加载完成的，由于同步加载资源没有回调，因此即使同步加载的资源加载完成，也不可能获取加载完成事件
-        public void syncLoad<T>(string path, MAction<IDispatchObject> loadEventHandle, bool isLoadAll = false) where T : InsResBase, new()
+        public void syncLoad<T>(string path, MAction<IDispatchObject> loadEventHandle, MAction<IDispatchObject> progressHandle = null, bool isLoadAll = false) where T : InsResBase, new()
         {
             LoadParam param;
             param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
             param.setPath(path);
             // param.mLoadEventHandle = onLoadEventHandle;        // 这个地方是同步加载，因此不需要回调，如果写了，就会形成死循环， InsResBase 中的 init 又会调用 onLoadEventHandle 这个函数，这个函数是外部回调的函数，由于同步加载，没有回调，因此不要设置这个 param.mLoadEventHandle = onLoadEventHandle ，内部会自动调用
             param.mLoadEventHandle = loadEventHandle;
+            param.mProgressEventHandle = progressHandle;
             param.mLoadNeedCoroutine = false;
             param.mResNeedCoroutine = false;
             param.mIsLoadAll = isLoadAll;
@@ -95,7 +98,7 @@ namespace SDK.Lib
             Ctx.mInstance.mPoolSys.deleteObj(param);
         }
 
-        public void syncLoad<T>(string path, LuaTable luaTable = null, LuaFunction luaFunction = null, bool isLoadAll = false) where T : InsResBase, new()
+        public void syncLoad<T>(string path, LuaTable luaTable = null, LuaFunction luaFunction = null, LuaInterface.LuaFunction progressLuaFunction = null, bool isLoadAll = false) where T : InsResBase, new()
         {
             LoadParam param;
             param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
@@ -103,6 +106,7 @@ namespace SDK.Lib
             // param.mLoadEventHandle = onLoadEventHandle;        // 这个地方是同步加载，因此不需要回调，如果写了，就会形成死循环， InsResBase 中的 init 又会调用 onLoadEventHandle 这个函数，这个函数是外部回调的函数，由于同步加载，没有回调，因此不要设置这个 param.mLoadEventHandle = onLoadEventHandle ，内部会自动调用
             param.mLuaTable = luaTable;
             param.mLuaFunction = luaFunction;
+            param.mProgressLuaFunction = progressLuaFunction;
             param.mLoadNeedCoroutine = false;
             param.mResNeedCoroutine = false;
             param.mIsLoadAll = isLoadAll;

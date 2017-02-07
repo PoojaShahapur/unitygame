@@ -1,5 +1,3 @@
-using LuaInterface;
-
 namespace SDK.Lib
 {
     public class TextResMgr : InsResMgrBase
@@ -9,24 +7,24 @@ namespace SDK.Lib
 
         }
 
-        public TextRes getAndSyncLoadRes(string path, MAction<IDispatchObject> handle)
+        public TextRes getAndSyncLoadRes(string path, MAction<IDispatchObject> handle, MAction<IDispatchObject> progressHandle)
         {
-            return getAndSyncLoad<TextRes>(path, handle);
+            return getAndSyncLoad<TextRes>(path, handle, progressHandle);
         }
 
-        public TextRes getAndSyncLoadRes(string path, LuaTable luaTable = null, LuaFunction luaFunction = null)
+        public TextRes getAndSyncLoadRes(string path, LuaInterface.LuaTable luaTable = null, LuaInterface.LuaFunction luaFunction = null, LuaInterface.LuaFunction progressLuaFunction = null)
         {
-            return getAndSyncLoad<TextRes>(path, luaTable, luaFunction);
+            return getAndSyncLoad<TextRes>(path, luaTable, luaFunction, progressLuaFunction);
         }
 
-        public TextRes getAndAsyncLoadRes(string path, MAction<IDispatchObject> handle)
+        public TextRes getAndAsyncLoadRes(string path, MAction<IDispatchObject> handle, MAction<IDispatchObject> progressHandle)
         {
-            return getAndAsyncLoad<TextRes>(path, handle);
+            return getAndAsyncLoad<TextRes>(path, handle, progressHandle);
         }
 
-        public TextRes getAndAsyncLoadRes(string path, LuaTable luaTable = null, LuaFunction luaFunction = null)
+        public TextRes getAndAsyncLoadRes(string path, LuaInterface.LuaTable luaTable = null, LuaInterface.LuaFunction luaFunction = null, LuaInterface.LuaFunction progressLuaFunction = null)
         {
-            return getAndAsyncLoad<TextRes>(path, luaTable, luaFunction);
+            return getAndAsyncLoad<TextRes>(path, luaTable, luaFunction, progressLuaFunction);
         }
     }
 }

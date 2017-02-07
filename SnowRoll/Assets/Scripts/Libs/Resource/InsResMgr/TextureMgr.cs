@@ -1,5 +1,3 @@
-using LuaInterface;
-
 namespace SDK.Lib
 {
     public class TextureMgr : InsResMgrBase
@@ -9,24 +7,24 @@ namespace SDK.Lib
 
         }
 
-        public TextureRes getAndSyncLoadRes(string path, MAction<IDispatchObject> handle)
+        public TextureRes getAndSyncLoadRes(string path, MAction<IDispatchObject> handle, MAction<IDispatchObject> progressHandle)
         {
-            return getAndSyncLoad<TextureRes>(path, handle);
+            return getAndSyncLoad<TextureRes>(path, handle, progressHandle);
         }
 
-        public TextureRes getAndSyncLoadRes(string path, LuaTable luaTable = null, LuaFunction luaFunction = null)
+        public TextureRes getAndSyncLoadRes(string path, LuaInterface.LuaTable luaTable = null, LuaInterface.LuaFunction luaFunction = null, LuaInterface.LuaFunction progressLuaFunction = null)
         {
-            return getAndSyncLoad<TextureRes>(path, luaTable, luaFunction);
+            return getAndSyncLoad<TextureRes>(path, luaTable, luaFunction, progressLuaFunction);
         }
 
-        public TextureRes getAndAsyncLoadRes(string path, MAction<IDispatchObject> handle)
+        public TextureRes getAndAsyncLoadRes(string path, MAction<IDispatchObject> handle, MAction<IDispatchObject> progressHandle)
         {
-            return getAndAsyncLoad<TextureRes>(path, handle);
+            return getAndAsyncLoad<TextureRes>(path, handle, progressHandle);
         }
 
-        public TextureRes getAndAsyncLoadRes(string path, LuaTable luaTable = null, LuaFunction luaFunction = null)
+        public TextureRes getAndAsyncLoadRes(string path, LuaInterface.LuaTable luaTable = null, LuaInterface.LuaFunction luaFunction = null, LuaInterface.LuaFunction progressLuaFunction = null)
         {
-            return getAndAsyncLoad<TextureRes>(path, luaTable, luaFunction);
+            return getAndAsyncLoad<TextureRes>(path, luaTable, luaFunction, progressLuaFunction);
         }
     }
 }

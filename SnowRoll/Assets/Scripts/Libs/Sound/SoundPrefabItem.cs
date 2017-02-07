@@ -9,21 +9,21 @@ namespace SDK.Lib
     {
         public override void setResObj(UnityEngine.Object go_)
         {
-            mGo = go_ as GameObject;
-            updateParam();
+            this.mGo = go_ as GameObject;
+            this.updateParam();
         }
 
         // 卸载
         public override void unload()
         {
-            if (bInCurState(SoundPlayState.eSS_Play))
+            if (this.isInCurState(SoundPlayState.eSS_Play))
             {
-                Stop();
+                this.Stop();
             }
 
-            if (mGo != null)
+            if (this.mGo != null)
             {
-                UtilApi.Destroy(mGo);
+                UtilApi.Destroy(this.mGo);
                 //UtilApi.UnloadUnusedAssets();
             }
         }

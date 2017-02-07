@@ -16,11 +16,11 @@ namespace SDK.Lib
         {
             get
             {
-                return mLevelName;
+                return this.mLevelName;
             }
             set
             {
-                mLevelName = value;
+                this.mLevelName = value;
             }
         }
 
@@ -34,15 +34,27 @@ namespace SDK.Lib
             //AssetBundle asset = AssetBundle.CreateFromFile(path);
             //asset.LoadAll();
             //Object[] resArr = asset.LoadAllAssets();
-            if (mResNeedCoroutine)
+
+            //if (this.mResNeedCoroutine)
+            //{
+            //    Ctx.mInstance.mCoroutineMgr.StartCoroutine(initAssetByCoroutine());
+            //}
+            //else
+            //{
+            //    this.initAsset();
+            //    //Ctx.mInstance.mCoroutineMgr.StartCoroutine(initAssetNextFrame());
+            //}
+
+            if ((item as LevelLoadItem).hasSuccessLoaded())
             {
-                Ctx.mInstance.mCoroutineMgr.StartCoroutine(initAssetByCoroutine());
+                this.mRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }
             else
             {
-                initAsset();
-                //Ctx.mInstance.mCoroutineMgr.StartCoroutine(initAssetNextFrame());
+                this.mRefCountResLoadResultNotify.resLoadState.setFailed();
             }
+
+            this.mRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
 
         override public void reset()
@@ -88,14 +100,14 @@ namespace SDK.Lib
 
             if (isSuccess)
             {
-                mRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
+                this.mRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }
             else
             {
-                mRefCountResLoadResultNotify.resLoadState.setFailed();
+                this.mRefCountResLoadResultNotify.resLoadState.setFailed();
             }
 
-            mRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
+            this.mRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
 
         // 奇怪，Level 加载完成后立马获取里面的 GameObject ，有的时候可以，有的时候获取不到，因此间隔一帧后再获取
@@ -109,8 +121,8 @@ namespace SDK.Lib
 
             yield return new WaitForEndOfFrame();
 
-            mRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
-            mRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
+            this.mRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
+            this.mRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
 
         protected IEnumerator initAssetByCoroutine()
@@ -135,14 +147,14 @@ namespace SDK.Lib
             // asyncOpt.progress == 1.0f
             if (null != asyncOpt && asyncOpt.isDone)
             {
-                mRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
+                this.mRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }
             else
             {
-                mRefCountResLoadResultNotify.resLoadState.setFailed();
+                this.mRefCountResLoadResultNotify.resLoadState.setFailed();
             }
 
-            mRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
+            this.mRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
 
         public override void unload(bool unloadAllLoadedObjects = true)

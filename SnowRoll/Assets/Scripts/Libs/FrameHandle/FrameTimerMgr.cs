@@ -14,6 +14,16 @@ namespace SDK.Lib
             this.mTimerLists = new List<FrameTimerItem>();
         }
 
+        override public void init()
+        {
+
+        }
+
+        override public void dispose()
+        {
+
+        }
+
         override protected void addObject(IDelayHandleItem delayObject, float priority = 0.0f)
         {
             // 检查当前是否已经在队列中

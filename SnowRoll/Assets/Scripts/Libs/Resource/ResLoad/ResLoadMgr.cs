@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace SDK.Lib
+﻿namespace SDK.Lib
 {
     public class ResLoadMgr
     {
@@ -9,16 +7,16 @@ namespace SDK.Lib
         protected ResLoadData mLoadData;
         protected LoadItem mRetLoadItem;
         protected ResItem mRetResItem;
-        protected List<string> mZeroRefResIDList;      // 没有引用的资源 ID 列表
+        protected MList<string> mZeroRefResIDList;      // 没有引用的资源 ID 列表
         protected int mLoadingDepth;                   // 加载深度
 
         public ResLoadMgr()
         {
-            mMaxParral = 8;
-            mCurNum = 0;
-            mLoadData = new ResLoadData();
-            mZeroRefResIDList = new List<string>();
-            mLoadingDepth = 0;
+            this.mMaxParral = 8;
+            this.mCurNum = 0;
+            this.mLoadData = new ResLoadData();
+            this.mZeroRefResIDList = new MList<string>();
+            this.mLoadingDepth = 0;
         }
 
         public void init()
@@ -34,7 +32,7 @@ namespace SDK.Lib
         // 是否有正在加载的 LoadItem
         public bool hasLoadItem(string resUniqueId)
         {
-            foreach(LoadItem loadItem in mLoadData.mPath2LDItem.Values)
+            foreach(LoadItem loadItem in this.mLoadData.mPath2LDItem.Values)
             {
                 if(loadItem.getResUniqueId() == resUniqueId)
                 {
@@ -64,6 +62,7 @@ namespace SDK.Lib
         public bool isResLoaded(string resUniqueId)
         {
             ResItem res = this.getResource(resUniqueId);
+
             if (res == null)
             {
                 return false;
@@ -124,25 +123,27 @@ namespace SDK.Lib
                 {
                     param.mResPackType = ResPackType.eUnPakType;
                 }
-                load(param);
+
+                this.load(param);
             }
             else if (MacroDef.UNPKG_RES_LOAD)
             {
                 // 判断资源所在的目录，是在 StreamingAssets 目录还是在 persistentData 目录下，目前由于没有完成，只能从 StreamingAssets 目录下加载
                 param.mResPackType = ResPackType.eUnPakType;
                 param.mResLoadType = ResLoadType.eLoadStreamingAssets;
-                load(param);
+
+                this.load(param);
             }
             else
             {
-                load(param);
+                this.load(param);
             }
         }
 
         // eBundleType 打包类型资源加载
         public void loadBundle(LoadParam param)
         {
-            load(param);
+            this.load(param);
         }
 
         // eLevelType 打包类型资源加载，都用协程加载
@@ -154,17 +155,17 @@ namespace SDK.Lib
             {
                 param.mResPackType = ResPackType.ePakLevelType;
                 param.resolvePath();
-                load(param);
+                this.load(param);
             }
             else if (MacroDef.UNPKG_RES_LOAD)
             {
                 param.mResPackType = ResPackType.eUnPakLevelType;
                 param.mResLoadType = ResLoadType.eLoadStreamingAssets;
-                load(param);
+                this.load(param);
             }
             else
             {
-                load(param);
+                this.load(param);
             }
         }
 
@@ -176,26 +177,27 @@ namespace SDK.Lib
                 param.mResPackType = ResPackType.eResourcesType;
                 param.mResLoadType = ResLoadType.eLoadResource;
 
-                loadResources(param);
+                this.loadResources(param);
             }
             else if (param.mResPackType == ResPackType.eBundleType)
             {
                 param.mIsCheckDep = isCheckDep;
-                loadBundle(param);
+                this.loadBundle(param);
             }
             else if (param.mResPackType == ResPackType.eLevelType)
             {
-                loadLevel(param);
+                this.loadLevel(param);
             }
             else
             {
-                loadData(param);
+                this.loadData(param);
             }
         }
 
         public ResItem createResItem(LoadParam param)
         {
             ResItem resItem = findResFormPool(param.mResPackType);
+
             if (ResPackType.eLevelType == param.mResPackType)
             {
                 if (resItem == null)
@@ -403,33 +405,33 @@ namespace SDK.Lib
         // 通用类型，需要自己设置很多参数
         public void load(LoadParam param)
         {
-            ++mLoadingDepth;
+            ++this.mLoadingDepth;
 
-            if (mLoadData.mPath2Res.ContainsKey(param.mResUniqueId))
+            if (this.mLoadData.mPath2Res.ContainsKey(param.mResUniqueId))
             {
-                loadWithResCreatedAndLoad(param);
+                this.loadWithResCreatedAndLoad(param);
             }
             else if(param.mLoadRes != null)
             {
-                loadWithResCreatedAndNotLoad(param, mLoadData.mPath2Res[param.mResUniqueId]);
+                this.loadWithResCreatedAndNotLoad(param, this.mLoadData.mPath2Res[param.mResUniqueId]);
             }
             else
             {
-                loadWithNotResCreatedAndNotLoad(param);
+                this.loadWithNotResCreatedAndNotLoad(param);
             }
 
-            --mLoadingDepth;
+            --this.mLoadingDepth;
 
-            if (mLoadingDepth == 0)
+            if (this.mLoadingDepth == 0)
             {
-                unloadNoRefResFromList();
+                this.unloadNoRefResFromList();
             }
         }
 
         public ResItem getAndLoad(LoadParam param)
         {
             param.resolvePath();
-            load(param);
+            this.load(param);
 
             return getResource(param.mResUniqueId);
         }
@@ -437,20 +439,21 @@ namespace SDK.Lib
         // 这个卸载有引用计数，如果有引用计数就卸载不了
         public void unload(string resUniqueId, MAction<IDispatchObject> loadEventHandle)
         {
-            if (mLoadData.mPath2Res.ContainsKey(resUniqueId))
+            if (this.mLoadData.mPath2Res.ContainsKey(resUniqueId))
             {
                 // 移除事件监听器，因为很有可能移除的时候，资源还没加载完成，这个时候事件监听器中的处理函数列表还没有清理
-                mLoadData.mPath2Res[resUniqueId].refCountResLoadResultNotify.loadResEventDispatch.removeEventHandle(null, loadEventHandle);
-                mLoadData.mPath2Res[resUniqueId].refCountResLoadResultNotify.refCount.decRef();
-                if (mLoadData.mPath2Res[resUniqueId].refCountResLoadResultNotify.refCount.isNoRef())
+                this.mLoadData.mPath2Res[resUniqueId].refCountResLoadResultNotify.loadResEventDispatch.removeEventHandle(null, loadEventHandle);
+                this.mLoadData.mPath2Res[resUniqueId].refCountResLoadResultNotify.refCount.decRef();
+
+                if (this.mLoadData.mPath2Res[resUniqueId].refCountResLoadResultNotify.refCount.isNoRef())
                 {
-                    if (mLoadingDepth != 0)
+                    if (this.mLoadingDepth != 0)
                     {
-                        addNoRefResID2List(resUniqueId);
+                        this.addNoRefResID2List(resUniqueId);
                     }
                     else
                     {
-                        unloadNoRef(resUniqueId);
+                        this.unloadNoRef(resUniqueId);
                     }
                 }
             }
@@ -460,6 +463,7 @@ namespace SDK.Lib
         public void unloadAll()
         {
             MList<string> resUniqueIdList = new MList<string>();
+
             foreach(string resUniqueId in mLoadData.mPath2Res.Keys)
             {
                 resUniqueIdList.Add(resUniqueId);
@@ -467,6 +471,7 @@ namespace SDK.Lib
 
             int idx = 0;
             int len = resUniqueIdList.length();
+
             while(idx < len)
             {
                 this.unloadNoRef(resUniqueIdList[idx]);
@@ -480,35 +485,44 @@ namespace SDK.Lib
         // 添加无引用资源到 List
         protected void addNoRefResID2List(string resUniqueId)
         {
-            mZeroRefResIDList.Add(resUniqueId);
+            this.mZeroRefResIDList.Add(resUniqueId);
         }
 
         // 卸载没有引用的资源列表中的资源
         protected void unloadNoRefResFromList()
         {
-            foreach(string path in mZeroRefResIDList)
+            //foreach(string path in this.mZeroRefResIDList)
+            int idx = 0;
+            int len = this.mZeroRefResIDList.Count();
+            string path = "";
+
+            while(idx < len)
             {
-                if (mLoadData.mPath2Res[path].refCountResLoadResultNotify.refCount.isNoRef())
+                path = this.mZeroRefResIDList[idx];
+
+                if (this.mLoadData.mPath2Res[path].refCountResLoadResultNotify.refCount.isNoRef())
                 {
-                    unloadNoRef(path);
+                    this.unloadNoRef(path);
                 }
+
+                ++idx;
             }
 
-            mZeroRefResIDList.Clear();
+            this.mZeroRefResIDList.Clear();
         }
 
         // 不考虑引用计数，直接卸载
         protected void unloadNoRef(string resUniqueId)
         {
-            if (mLoadData.mPath2Res.ContainsKey(resUniqueId))
+            if (this.mLoadData.mPath2Res.ContainsKey(resUniqueId))
             {
-                mLoadData.mPath2Res[resUniqueId].unload();
-                mLoadData.mPath2Res[resUniqueId].reset();
-                mLoadData.mNoUsedResItem.Add(mLoadData.mPath2Res[resUniqueId]);
-                mLoadData.mPath2Res.Remove(resUniqueId);
+                this.mLoadData.mPath2Res[resUniqueId].unload();
+                this.mLoadData.mPath2Res[resUniqueId].reset();
+                this.mLoadData.mNoUsedResItem.Add(mLoadData.mPath2Res[resUniqueId]);
+                this.mLoadData.mPath2Res.Remove(resUniqueId);
 
                 // 检查是否存在还没有执行的 LoadItem，如果存在就直接移除
-                removeWillLoadItem(resUniqueId);
+                this.removeWillLoadItem(resUniqueId);
             }
             else
             {
@@ -522,7 +536,7 @@ namespace SDK.Lib
             {
                 if(loadItem.getResUniqueId() == resUniqueId)
                 {
-                    releaseLoadItem(loadItem);      // 必然只有一个，如果有多个就是错误
+                    this.releaseLoadItem(loadItem);      // 必然只有一个，如果有多个就是错误
                     break;
                 }
             }
@@ -532,22 +546,25 @@ namespace SDK.Lib
         {
             LoadItem item = dispObj as LoadItem;
             item.nonRefCountResLoadResultNotify.loadResEventDispatch.removeEventHandle(null, onLoadEventHandle);
+
             if (item.nonRefCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
             {
-                onLoaded(item);
+                this.onLoaded(item);
             }
             else if (item.nonRefCountResLoadResultNotify.resLoadState.hasFailed())
             {
-                onFailed(item);
+                this.onFailed(item);
             }
 
-            releaseLoadItem(item);
-            --mCurNum;
-            loadNextItem();
+            this.releaseLoadItem(item);
+            --this.mCurNum;
+            this.loadNextItem();
         }
 
         public void onLoaded(LoadItem item)
         {
+            item.onLoaded();
+
             if (mLoadData.mPath2Res.ContainsKey(item.getResUniqueId()))
             {
                 mLoadData.mPath2Res[item.getResUniqueId()].init(mLoadData.mPath2LDItem[item.getResUniqueId()]);
@@ -560,10 +577,13 @@ namespace SDK.Lib
 
         public void onFailed(LoadItem item)
         {
+            item.onFailed();
+
             string resUniqueId = item.getResUniqueId();
-            if (mLoadData.mPath2Res.ContainsKey(resUniqueId))
+
+            if (this.mLoadData.mPath2Res.ContainsKey(resUniqueId))
             {
-                mLoadData.mPath2Res[resUniqueId].failed(mLoadData.mPath2LDItem[resUniqueId]);
+                this.mLoadData.mPath2Res[resUniqueId].failed(this.mLoadData.mPath2LDItem[resUniqueId]);
             }
         }
 
@@ -571,59 +591,59 @@ namespace SDK.Lib
         {
             item.reset();
 
-            mLoadData.mNoUsedLDItem.Add(item);
-            mLoadData.mWillLDItem.Remove(item);
-            mLoadData.mPath2LDItem.Remove(item.getResUniqueId());
+            this.mLoadData.mNoUsedLDItem.Add(item);
+            this.mLoadData.mWillLDItem.Remove(item);
+            this.mLoadData.mPath2LDItem.Remove(item.getResUniqueId());
         }
 
         protected void loadNextItem()
         {
-            if (mCurNum < mMaxParral)
+            if (this.mCurNum < this.mMaxParral)
             {
-                if (mLoadData.mWillLDItem.Count > 0)
+                if (this.mLoadData.mWillLDItem.Count > 0)
                 {
                     string resUniqueId = (mLoadData.mWillLDItem[0] as LoadItem).getResUniqueId();
-                    mLoadData.mPath2LDItem[resUniqueId] = mLoadData.mWillLDItem[0] as LoadItem;
-                    mLoadData.mWillLDItem.RemoveAt(0);
-                    mLoadData.mPath2LDItem[resUniqueId].load();
+                    this.mLoadData.mPath2LDItem[resUniqueId] = this.mLoadData.mWillLDItem[0] as LoadItem;
+                    this.mLoadData.mWillLDItem.RemoveAt(0);
+                    this.mLoadData.mPath2LDItem[resUniqueId].load();
 
-                    ++mCurNum;
+                    ++this.mCurNum;
                 }
             }
         }
 
         protected ResItem findResFormPool(ResPackType type)
         {
-            mRetResItem = null;
+            this.mRetResItem = null;
 
-            foreach (ResItem item in mLoadData.mNoUsedResItem)
+            foreach (ResItem item in this.mLoadData.mNoUsedResItem)
             {
                 if (item.resPackType == type)
                 {
-                    mRetResItem = item;
-                    mLoadData.mNoUsedResItem.Remove(mRetResItem);
+                    this.mRetResItem = item;
+                    this.mLoadData.mNoUsedResItem.Remove(mRetResItem);
                     break;
                 }
             }
 
-            return mRetResItem;
+            return this.mRetResItem;
         }
 
         protected LoadItem findLoadItemFormPool(ResPackType type)
         {
-            mRetLoadItem = null;
+            this.mRetLoadItem = null;
 
-            foreach (LoadItem item in mLoadData.mNoUsedLDItem)
+            foreach (LoadItem item in this.mLoadData.mNoUsedLDItem)
             {
                 if (item.resPackType == type)
                 {
-                    mRetLoadItem = item;
-                    mLoadData.mNoUsedLDItem.Remove(mRetLoadItem);
+                    this.mRetLoadItem = item;
+                    this.mLoadData.mNoUsedLDItem.Remove(this.mRetLoadItem);
                     break;
                 }
             }
 
-            return mRetLoadItem;
+            return this.mRetLoadItem;
         }
     }
 }

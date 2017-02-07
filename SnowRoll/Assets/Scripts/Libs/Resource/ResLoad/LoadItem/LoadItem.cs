@@ -3,7 +3,7 @@ using System.Collections;
 
 namespace SDK.Lib
 {
-    public class LoadItem : IDispatchObject
+    public class LoadItem : IDispatchObject, IDelayHandleItem, ITickedObject
     {
         protected ResPackType mResPackType;    // 资源打包类型
         protected ResLoadType mResLoadType;    // 资源加载类型
@@ -22,21 +22,27 @@ namespace SDK.Lib
         protected bool mIsLoadAll;               // 是否加载所有的内容
         protected string mResUniqueId;
 
+        protected float mLoadProgress;           // 加载进度
+
+        protected AddOnceEventDispatch mProgressEventDispatch;
+
         public LoadItem()
         {
-            mIsLoadAll = false;
-            mNonRefCountResLoadResultNotify = new NonRefCountResLoadResultNotify();
+            this.mIsLoadAll = false;
+            this.mNonRefCountResLoadResultNotify = new NonRefCountResLoadResultNotify();
+            this.mProgressEventDispatch = null;
+            this.mLoadProgress = 0;
         }
 
         public ResPackType resPackType
         {
             get
             {
-                return mResPackType;
+                return this.mResPackType;
             }
             set
             {
-                mResPackType = value;
+                this.mResPackType = value;
             }
         }
 
@@ -44,11 +50,11 @@ namespace SDK.Lib
         {
             get
             {
-                return mLoadPath;
+                return this.mLoadPath;
             }
             set
             {
-                mLoadPath = value;
+                this.mLoadPath = value;
             }
         }
 
@@ -56,11 +62,11 @@ namespace SDK.Lib
         {
             get
             {
-                return mOrigPath;
+                return this.mOrigPath;
             }
             set
             {
-                mOrigPath = value;
+                this.mOrigPath = value;
             }
         }
 
@@ -68,11 +74,11 @@ namespace SDK.Lib
         {
             get
             {
-                return mExtName;
+                return this.mExtName;
             }
             set
             {
-                mExtName = value;
+                this.mExtName = value;
             }
         }
 
@@ -80,7 +86,7 @@ namespace SDK.Lib
         {
             get
             {
-                return mW3File;
+                return this.mW3File;
             }
         }
 
@@ -88,11 +94,11 @@ namespace SDK.Lib
         {
             get
             {
-                return mLoadNeedCoroutine;
+                return this.mLoadNeedCoroutine;
             }
             set
             {
-                mLoadNeedCoroutine = value;
+                this.mLoadNeedCoroutine = value;
             }
         }
 
@@ -100,11 +106,11 @@ namespace SDK.Lib
         {
             get
             {
-                return mResLoadType;
+                return this.mResLoadType;
             }
             set
             {
-                mResLoadType = value;
+                this.mResLoadType = value;
             }
         }
 
@@ -112,92 +118,129 @@ namespace SDK.Lib
         {
             get
             {
-                return mAssetBundle;
+                return this.mAssetBundle;
             }
             set
             {
-                mAssetBundle = value;
+                this.mAssetBundle = value;
             }
         }
 
         public void setLogicPath(string value)
         {
-            mLogicPath = value;
+            this.mLogicPath = value;
         }
 
         public string getLogicPath()
         {
-            return mLogicPath;
+            return this.mLogicPath;
         }
 
         public NonRefCountResLoadResultNotify nonRefCountResLoadResultNotify
         {
             get
             {
-                return mNonRefCountResLoadResultNotify;
+                return this.mNonRefCountResLoadResultNotify;
             }
             set
             {
-                mNonRefCountResLoadResultNotify = value;
+                this.mNonRefCountResLoadResultNotify = value;
             }
         }
 
         public void setLoadAll(bool value)
         {
-            mIsLoadAll = value;
+            this.mIsLoadAll = value;
         }
 
         public bool getLoadAll()
         {
-            return mIsLoadAll;
+            return this.mIsLoadAll;
         }
 
         public void setResUniqueId(string value)
         {
-            mResUniqueId = value;
+            this.mResUniqueId = value;
         }
 
         public string getResUniqueId()
         {
-            return mResUniqueId;
+            return this.mResUniqueId;
+        }
+
+        protected void clearProgressHandle(bool isNeedDispatch = true)
+        {
+            if (null != this.mProgressEventDispatch)
+            {
+                if (isNeedDispatch)
+                {
+                    this.mProgressEventDispatch.dispatchEvent(this);
+                }
+                this.mProgressEventDispatch.clearEventHandle();
+                Ctx.mInstance.mLoadProgressMgr.removeProgress(this);
+            }
         }
 
         virtual public void load()
         {
-            mNonRefCountResLoadResultNotify.resLoadState.setLoading();
+            if (null != this.mProgressEventDispatch && this.mProgressEventDispatch.hasEventHandle())
+            {
+                Ctx.mInstance.mLoadProgressMgr.addProgress(this);
+                this.mProgressEventDispatch.dispatchEvent(this);
+            }
+
+            this.mNonRefCountResLoadResultNotify.resLoadState.setLoading();
         }
 
         // 这个是卸载，因为有时候资源加载进来可能已经不用了，需要直接卸载掉
         virtual public void unload()
         {
-
+            this.clearProgressHandle();
+            this.mLoadProgress = 0.0f;
         }
 
         virtual public void reset()
         {
-            mLoadPath = "";
-            mW3File = null;
-            mLoadNeedCoroutine = false;
+            this.mLoadPath = "";
+            this.mW3File = null;
+            this.mLoadNeedCoroutine = false;
+            this.mLoadProgress = 0;
+        }
+
+        // 成功加载
+        public void onLoaded()
+        {
+            this.mLoadProgress = 1.0f;
+            this.clearProgressHandle();
+        }
+
+        // 成功失败
+        public void onFailed()
+        {
+            this.mLoadProgress = 0.0f;
+            this.clearProgressHandle();
         }
 
         virtual protected IEnumerator downloadAsset()
         {
             string path = "";
-            if (mResLoadType == ResLoadType.eLoadStreamingAssets)
+
+            if (this.mResLoadType == ResLoadType.eLoadStreamingAssets)
             {
                 path = "file://" + Application.dataPath + "/" + mLoadPath;
             }
-            else if (mResLoadType == ResLoadType.eLoadWeb)
+            else if (this.mResLoadType == ResLoadType.eLoadWeb)
             {
-                path = Ctx.mInstance.mCfg.mWebIP + mLoadPath;
+                path = Ctx.mInstance.mCfg.mWebIP + this.mLoadPath;
             }
-            deleteFromCache(path);
-            mW3File = WWW.LoadFromCacheOrDownload(path, 1);
+
+            this.deleteFromCache(path);
+            this.mW3File = WWW.LoadFromCacheOrDownload(path, 1);
             // WWW::LoadFromCacheOrDownload 是加载 AssetBundles 使用的
             //mW3File = WWW.LoadFromCacheOrDownload(path, UnityEngine.Random.Range(0, int.MaxValue));
-            yield return mW3File;
+            yield return this.mW3File;
 
-            onWWWEnd();
+            this.onWWWEnd();
         }
 
         // 检查加载成功
@@ -214,18 +257,18 @@ namespace SDK.Lib
         // 加载完成回调处理
         virtual protected void onWWWEnd()
         {
-            if (isLoadedSuccess(mW3File))
+            if (this.isLoadedSuccess(this.mW3File))
             {
-                mAssetBundle = mW3File.assetBundle;
+                this.mAssetBundle = this.mW3File.assetBundle;
 
-                mNonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
+                this.mNonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }
             else
             {
-                mNonRefCountResLoadResultNotify.resLoadState.setFailed();
+                this.mNonRefCountResLoadResultNotify.resLoadState.setFailed();
             }
 
-            mNonRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
+            this.mNonRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
 
         protected void deleteFromCache(string path)
@@ -248,6 +291,51 @@ namespace SDK.Lib
             this.setLoadAll(param.mIsLoadAll);
             this.setLogicPath(param.mLogicPath);
             this.setResUniqueId(param.mResUniqueId);
+
+            // 设置加载参数
+            if (null != param.mProgressEventHandle)
+            {
+                if (null == this.mProgressEventDispatch)
+                {
+                    this.mProgressEventDispatch = new AddOnceEventDispatch();
+                }
+
+                this.mProgressEventDispatch.addEventHandle(null, param.mProgressEventHandle);
+            }
+        }
+
+        public void onTick(float delta)
+        {
+            this.updateProgress();
+        }
+
+        // 更新加载进度
+        virtual protected void updateProgress()
+        {
+            if (null != this.mProgressEventDispatch)
+            {
+                this.mProgressEventDispatch.dispatchEvent(this);
+            }
+
+            if(this.mLoadProgress == 1.0f)
+            {
+                this.clearProgressHandle(false);
+            }
+        }
+
+        public void setClientDispose(bool isDispose)
+        {
+
+        }
+
+        public bool isClientDispose()
+        {
+            return false;
+        }
+
+        public float getProgress()
+        {
+            return this.mLoadProgress;
         }
     }
 }

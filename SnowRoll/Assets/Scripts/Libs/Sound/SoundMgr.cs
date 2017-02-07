@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace SDK.Lib
 {
     /**
@@ -36,13 +34,13 @@ namespace SDK.Lib
                 addTimer();
             }
 
-            soundParam.mPath = Ctx.mInstance.mPakSys.getCurResPakPathByResPath(soundParam.mPath, null);
+            //soundParam.mPath = Ctx.mInstance.mPakSys.getCurResPakPathByResPath(soundParam.mPath, null);
 
-            if (mPath2SoundDic.ContainsKey(soundParam.mPath))      // 如果已经有了直接返回
+            if (this.mPath2SoundDic.ContainsKey(soundParam.mPath))      // 如果已经有了直接返回
             {
-                if (!mPath2SoundDic[soundParam.mPath].bInCurState(SoundPlayState.eSS_Play))
+                if (!this.mPath2SoundDic[soundParam.mPath].isInCurState(SoundPlayState.eSS_Play))
                 {
-                    mPath2SoundDic[soundParam.mPath].Play();
+                    this.mPath2SoundDic[soundParam.mPath].Play();
                 }
             }
             else
@@ -50,16 +48,17 @@ namespace SDK.Lib
                 // 创建
                 if (isPrefab(soundParam.mPath))
                 {
-                    mPath2SoundDic[soundParam.mPath] = new SoundPrefabItem();
-                    mPath2SoundDic[soundParam.mPath].mSoundResType = SoundResType.eSRT_Prefab;
+                    this.mPath2SoundDic[soundParam.mPath] = new SoundPrefabItem();
+                    this.mPath2SoundDic[soundParam.mPath].mSoundResType = SoundResType.eSRT_Prefab;
                 }
                 else
                 {
-                    mPath2SoundDic[soundParam.mPath] = new SoundClipItem();
-                    mPath2SoundDic[soundParam.mPath].mSoundResType = SoundResType.eSRT_Clip;
+                    this.mPath2SoundDic[soundParam.mPath] = new SoundClipItem();
+                    this.mPath2SoundDic[soundParam.mPath].mSoundResType = SoundResType.eSRT_Clip;
                 }
-                mAudioList.Add(mPath2SoundDic[soundParam.mPath]);
-                mPath2SoundDic[soundParam.mPath].initParam(soundParam);
+
+                this.mAudioList.Add(mPath2SoundDic[soundParam.mPath]);
+                this.mPath2SoundDic[soundParam.mPath].initParam(soundParam);
 
                 LoadParam param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
                 param.setPath(soundParam.mPath);
@@ -90,38 +89,44 @@ namespace SDK.Lib
 
         public void stop(string path)
         {
-            path = Ctx.mInstance.mPakSys.getCurResPakPathByResPath(path, null);
-            unload(path);
+            //path = Ctx.mInstance.mPakSys.getCurResPakPathByResPath(path, null);
+            this.unload(path);
         }
 
         public void onLoadEventHandle(IDispatchObject dispObj)
         {
             ResItem res = dispObj as ResItem;
+
+            string logicPath = res.getLogicPath();
+            string uniqueId = res.getResUniqueId();
+
             if (res.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
             {
                 Ctx.mInstance.mLogSys.debugLog_1(LangItemID.eItem0, res.getLoadPath());
 
-                if (mPath2SoundDic.ContainsKey(res.getResUniqueId()))      // 如果有，说明还没被停止
+                if (this.mPath2SoundDic.ContainsKey(logicPath))      // 如果有，说明还没被停止
                 {
-                    if (mPath2SoundDic[res.getResUniqueId()].mSoundResType == SoundResType.eSRT_Prefab)
+                    if (this.mPath2SoundDic[logicPath].mSoundResType == SoundResType.eSRT_Prefab)
                     {
-                        mPath2SoundDic[res.getResUniqueId()].setResObj(res.InstantiateObject(res.getPrefabName()));
+                        this.mPath2SoundDic[logicPath].setResObj(res.InstantiateObject(res.getPrefabName()));
                     }
                     else
                     {
-                        mPath2SoundDic[res.getResUniqueId()].setResObj(res.getObject(res.getPrefabName()));
+                        this.mPath2SoundDic[logicPath].setResObj(res.getObject(res.getPrefabName()));
                     }
                 }
+
                 // 播放音乐
-                play(res.getResUniqueId());
+                this.play(logicPath);
             }
             else if (res.refCountResLoadResultNotify.resLoadState.hasFailed())
             {
                 Ctx.mInstance.mLogSys.debugLog_1(LangItemID.eItem0, res.getLoadPath());
-                delSoundItem(mPath2SoundDic[res.getResUniqueId()]);
+                this.delSoundItem(mPath2SoundDic[logicPath]);
             }
+
             // 卸载数据
-            Ctx.mInstance.mResLoadMgr.unload(res.getResUniqueId(), onLoadEventHandle);
+            Ctx.mInstance.mResLoadMgr.unload(uniqueId, onLoadEventHandle);
         }
 
         protected void unload(string path)

@@ -425,6 +425,31 @@
             }
         }
 
+        // 向前移动出生
+        public void setDestPosForMoveCenter(UnityEngine.Vector3 destPos)
+        {
+            if (!UtilMath.isEqualVec3(this.mDestPos, destPos))
+            {
+                destPos = Ctx.mInstance.mSceneSys.adjustPosInRange(destPos);
+
+                this.mDestPos = destPos;
+
+                if (!UtilMath.isEqualVec3(mDestPos, mEntity.getPos()))
+                {
+                    this.setIsMoveToDest(true);
+                    this.mMoveWay = MoveWay.eAutoPathMove;
+
+                    (this.mEntity as BeingEntity).setBeingState(BeingState.eBSMoveCenter);
+                }
+                else
+                {
+                    this.setIsMoveToDest(false);
+
+                    this.onArriveDestPos();
+                }
+            }
+        }
+
         // 直接到具体位置，不用移动
         public void gotoPos(UnityEngine.Vector3 destPos)
         {

@@ -211,7 +211,7 @@ namespace Game.UI
             }
             else
             {
-                Ctx.mInstance.mPlayerMgr.getHero().stopMove();
+                Ctx.mInstance.mPlayerMgr.getHero().onPressButNoMove();
 
                 //防止摇杆出了屏幕
                 if (Pos.x < HalfBGWidth + HalfJoyWidth) Pos.x = HalfBGWidth + HalfJoyWidth;
@@ -300,7 +300,7 @@ namespace Game.UI
         {
             if(Vector2.Equals(MoveVec, Vector2.zero))
             {
-                Ctx.mInstance.mPlayerMgr.getHero().stopMove();
+                Ctx.mInstance.mPlayerMgr.getHero().onPressButNoMove();
             }
             else
             {

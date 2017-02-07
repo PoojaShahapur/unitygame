@@ -17,12 +17,12 @@
             this.mResizeList = new MList<IResizeObject>();
         }
 
-        public void init()
+        override public void init()
         {
 
         }
 
-        public void dispose()
+        override public void dispose()
         {
             this.mResizeList.Clear();
         }

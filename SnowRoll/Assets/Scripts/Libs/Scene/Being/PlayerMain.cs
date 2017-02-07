@@ -94,6 +94,16 @@ namespace SDK.Lib
             (this.mMovement as PlayerMainMovement).moveForward();
         }
 
+        // 摇杆按下，但是不移动
+        public void onPressButNoMove()
+        {
+            if (BeingState.eBSMoveCenter != this.mBeingState)
+            {
+                this.stopMove();
+                this.mPlayerSplitMerge.moveToCenter();
+            }
+        }
+
         public void stopMove()
         {
             (this.mMovement as PlayerMainMovement).stopMove();

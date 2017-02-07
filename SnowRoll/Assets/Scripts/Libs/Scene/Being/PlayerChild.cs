@@ -2,8 +2,7 @@
 {
     public class PlayerChild : Player
     {
-        public Player mParentPlayer; // Parent 
-        protected UnityEngine.Vector3 mHudPos;
+        public Player mParentPlayer; // Parent
         private UnityEngine.Vector3 preSendPosition; //上一次发送时的位置
 
         public PlayerChild(Player parentPlayer)
@@ -77,10 +76,7 @@
 
         override public UnityEngine.Vector3 getHudPos()
         {
-            this.mHudPos = this.mPos;
-            this.mHudPos.y += this.mBallRadius;
-
-            return this.mHudPos;
+            return base.getHudPos();
         }
 
         override public void show()

@@ -11,35 +11,37 @@ namespace SDK.Lib
 
         public override void setResObj(UnityEngine.Object go_)
         {
-            mClip = go_ as AudioClip;
-            mGo = UtilApi.createGameObject("SoundGO");
+            this.mClip = go_ as AudioClip;
+            this.mGo = UtilApi.createGameObject("SoundGO");
 
-            if (mClip == null)
+            if (this.mClip == null)
             {
                 return;
             }
 
-            mAudio = mGo.GetComponent<AudioSource>();
-            if (mAudio == null)
-            {
-                mAudio = (AudioSource)mGo.AddComponent<AudioSource>();
-            }
-            mAudio.clip = mClip;
+            this.mAudio = mGo.GetComponent<AudioSource>();
 
-            updateParam();
+            if (this.mAudio == null)
+            {
+                this.mAudio = (AudioSource)mGo.AddComponent<AudioSource>();
+            }
+
+            this.mAudio.clip = mClip;
+
+            this.updateParam();
         }
 
         public override void unload()
         {
-            if (bInCurState(SoundPlayState.eSS_Play))
+            if (this.isInCurState(SoundPlayState.eSS_Play))
             {
-                Stop();
+                this.Stop();
             }
 
-            if (mGo != null)
+            if (this.mGo != null)
             {
                 //mClip.UnloadAudioData();
-                UtilApi.Destroy(mGo);
+                UtilApi.Destroy(this.mGo);
                 //UtilApi.UnloadUnusedAssets();
             }
         }

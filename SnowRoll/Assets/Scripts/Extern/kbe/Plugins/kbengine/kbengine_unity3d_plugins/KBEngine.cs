@@ -1,17 +1,18 @@
 ﻿namespace KBEngine
 {
-  	using UnityEngine; 
-	using System; 
-	using System.Collections; 
-	using System.Collections.Generic;
-	using System.Text;
+    using UnityEngine;
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Text;
     using System.Threading;
-	using System.Text.RegularExpressions;
-	
-	using MessageID = System.UInt16;
-	using MessageLength = System.UInt16;
-	
-	/*
+    using System.Text.RegularExpressions;
+
+    using MessageID = System.UInt16;
+    using MessageLength = System.UInt16;
+    using SDK.Lib;
+
+    /*
 		这是KBEngine插件的核心模块
 		包括网络创建、持久化协议、entities的管理、以及引起对外可调用接口。
 		
@@ -22,7 +23,7 @@
 		http://www.kbengine.org/cn/docs/programming/clientsdkprogramming.html
 		http://www.kbengine.org/cn/docs/programming/kbe_message_format.html
 	*/
-	public class KBEngineApp
+    public class KBEngineApp
 	{
 		public static KBEngineApp app = null;
 		private NetworkInterface _networkInterface = null;
@@ -1797,7 +1798,10 @@
 			}
 
             //进入场景后的逻辑处理
-            SDK.Lib.GlobalEventCmd.onEnterWorld();
+            if (entity.isPlayer())
+            {
+                SDK.Lib.GlobalEventCmd.onEnterWorld();
+            }
         }
 
 		/*
@@ -1971,9 +1975,11 @@
 			
 			bool posHasChanged = Vector3.Distance(playerEntity._entityLastLocalPos, position) > 0.001f;
 			bool dirHasChanged = Vector3.Distance(playerEntity._entityLastLocalDir, direction) > 0.001f;
-			
-			if(posHasChanged || dirHasChanged)
-			{
+
+            //if(posHasChanged || dirHasChanged)
+            if(Ctx.mInstance.mPlayerMgr.isMainPosOrOrientChanged())
+            {
+                Ctx.mInstance.mPlayerMgr.setIsMainPosOrOrientChanged(false);
                 Game.Game.ReqSceneInteractive.sendPlayerMove(playerEntity, spaceID, _networkInterface);
             }
 

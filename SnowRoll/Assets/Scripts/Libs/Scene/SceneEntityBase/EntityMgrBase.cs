@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace SDK.Lib
+﻿namespace SDK.Lib
 {
     public class EntityMgrBase : DelayHandleMgrBase, ITickedObject, IDelayHandleItem
     {
@@ -18,12 +16,12 @@ namespace SDK.Lib
             this.mBufferPool = new MList<SceneEntityBase>();
         }
 
-        virtual public void init()
+        override public void init()
         {
 
         }
 
-        virtual public void dispose()
+        override public void dispose()
         {
             this.clearAll();
             this.mBufferPool.Clear();   // 清理缓冲池

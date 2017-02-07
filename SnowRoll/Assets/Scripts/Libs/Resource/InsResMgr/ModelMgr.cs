@@ -1,5 +1,3 @@
-using LuaInterface;
-
 namespace SDK.Lib
 {
     public class ModelMgr : InsResMgrBase
@@ -12,24 +10,24 @@ namespace SDK.Lib
 
         }
 
-        public ModelRes getAndSyncLoadRes(string path, MAction<IDispatchObject> handle)
+        public ModelRes getAndSyncLoadRes(string path, MAction<IDispatchObject> handle, MAction<IDispatchObject> progressHandle)
         {
-            return getAndSyncLoad<ModelRes>(path, handle);
+            return getAndSyncLoad<ModelRes>(path, handle, progressHandle);
         }
 
-        public ModelRes getAndSyncLoadRes(string path, LuaTable luaTable = null, LuaFunction luaFunction = null)
+        public ModelRes getAndSyncLoadRes(string path, LuaInterface.LuaTable luaTable = null, LuaInterface.LuaFunction luaFunction = null, LuaInterface.LuaFunction progressLuaFunction = null)
         {
-            return getAndSyncLoad<ModelRes>(path, luaTable, luaFunction);
+            return getAndSyncLoad<ModelRes>(path, luaTable, luaFunction, progressLuaFunction);
         }
 
-        public ModelRes getAndAsyncLoadRes(string path, MAction<IDispatchObject> handle)
+        public ModelRes getAndAsyncLoadRes(string path, MAction<IDispatchObject> handle, MAction<IDispatchObject> progressHandle)
         {
-            return getAndAsyncLoad<ModelRes>(path, handle);
+            return getAndAsyncLoad<ModelRes>(path, handle, progressHandle);
         }
 
-        public ModelRes getAndAsyncLoadRes(string path, LuaTable luaTable = null, LuaFunction luaFunction = null)
+        public ModelRes getAndAsyncLoadRes(string path, LuaInterface.LuaTable luaTable = null, LuaInterface.LuaFunction luaFunction = null, LuaInterface.LuaFunction progressLuaFunction = null)
         {
-            return getAndAsyncLoad<ModelRes>(path, luaTable, luaFunction, true);
+            return getAndAsyncLoad<ModelRes>(path, luaTable, luaFunction, progressLuaFunction, true);
         }
 
         //public string[] getBonesListByName(string name)

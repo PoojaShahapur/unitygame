@@ -1,0 +1,19 @@
+ManifestFileVersion: 0
+CRC: 3591581071
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: c2b24606fd31c86ffdab784b3dad93e9
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 1033bf7ddfd4c6d43e7a6382c0a0a61a
+HashAppended: 0
+ClassTypes:
+- Class: 49
+  Script: {instanceID: 0}
+Assets:
+- Assets/Lua/MyLua/UI/UISettingsPanel/SettingsPanelData.lua.bytes
+- Assets/Lua/MyLua/UI/UISettingsPanel/SettingsPanelNS.lua.bytes
+- Assets/Lua/MyLua/UI/UISettingsPanel/UISettingsPanel.lua.bytes
+- Assets/Lua/MyLua/UI/UISettingsPanel/SettingsPanelCV.lua.bytes
+Dependencies: []

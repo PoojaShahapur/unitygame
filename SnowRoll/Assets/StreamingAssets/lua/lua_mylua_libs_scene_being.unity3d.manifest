@@ -1,0 +1,30 @@
+ManifestFileVersion: 0
+CRC: 3954231690
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: dd9d63de4fafc298e18436cf6a403cfc
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 1033bf7ddfd4c6d43e7a6382c0a0a61a
+HashAppended: 0
+ClassTypes:
+- Class: 49
+  Script: {instanceID: 0}
+Assets:
+- Assets/Lua/MyLua/Libs/Scene/Being/PlayerOther.lua.bytes
+- Assets/Lua/MyLua/Libs/Scene/Being/Home.lua.bytes
+- Assets/Lua/MyLua/Libs/Scene/Being/Monster.lua.bytes
+- Assets/Lua/MyLua/Libs/Scene/Being/FallObjectEntity.lua.bytes
+- Assets/Lua/MyLua/Libs/Scene/Being/PlayerMain.lua.bytes
+- Assets/Lua/MyLua/Libs/Scene/Being/HomeOther.lua.bytes
+- Assets/Lua/MyLua/Libs/Scene/Being/NpcMgr.lua.bytes
+- Assets/Lua/MyLua/Libs/Scene/Being/NpcVisit.lua.bytes
+- Assets/Lua/MyLua/Libs/Scene/Being/PlayerMgr.lua.bytes
+- Assets/Lua/MyLua/Libs/Scene/Being/Npc.lua.bytes
+- Assets/Lua/MyLua/Libs/Scene/Being/Player.lua.bytes
+- Assets/Lua/MyLua/Libs/Scene/Being/BeingEntity.lua.bytes
+- Assets/Lua/MyLua/Libs/Scene/Being/HomeMain.lua.bytes
+- Assets/Lua/MyLua/Libs/Scene/Being/FObjectMgr.lua.bytes
+- Assets/Lua/MyLua/Libs/Scene/Being/MonsterMgr.lua.bytes
+Dependencies: []

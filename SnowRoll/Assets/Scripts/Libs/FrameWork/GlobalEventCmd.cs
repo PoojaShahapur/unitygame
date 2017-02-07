@@ -29,6 +29,7 @@
                 Ctx.mInstance.mUiMgr.loadAndShow(UIFormId.eUIJoyStick);
             }
             Ctx.mInstance.mLuaSystem.onPlayerMainLoaded();
+            Ctx.mInstance.mSoundMgr.play("Sound/Music/StudioEIM - myseabed.mp3", true);
         }
     }
 }

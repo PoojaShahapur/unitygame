@@ -439,5 +439,23 @@
 
             return totlaMass;
         }
+
+        override public void moveToCenter()
+        {
+            UnityEngine.Vector3 targetPoint;
+            targetPoint = this.getCenterPoint();
+
+            int total = this.mPlayerChildMgr.getEntityCount();
+            int index = 0;
+            Player player = null;
+
+            while (index < total)
+            {
+                player = this.mPlayerChildMgr.getEntityByIndex(index) as Player;
+                player.setDestPosForMoveCenter(targetPoint, false);
+
+                ++index;
+            }
+        }
     }
 }

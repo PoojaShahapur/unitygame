@@ -22,6 +22,7 @@ namespace SDK.Lib
         //protected MDictionary<uint, uint> mSnowId2MainChildIdDic;   // 吃的雪块 Id 到 PlayerMainChild Id 映射
         //protected MDictionary<uint, uint> mOtherChildId2MainChildIdDic;
         //protected MDictionary<uint, uint> mPlayerSnowId2MainChildIdDic;
+        protected bool mIsMainPosOrOrientChanged;   // 主角自己或者 Child 位置或者方向发生改变
 
         public PlayerMgr()
 		{
@@ -37,6 +38,8 @@ namespace SDK.Lib
             //this.mSnowId2MainChildIdDic = new MDictionary<uint, uint>();
             //this.mOtherChildId2MainChildIdDic = new MDictionary<uint, uint>();
             //this.mPlayerSnowId2MainChildIdDic = new MDictionary<uint, uint>();
+
+            this.mIsMainPosOrOrientChanged = false;
         }
 
         public void setMoveVec(UnityEngine.Vector2 value)
@@ -53,10 +56,10 @@ namespace SDK.Lib
         {
             base.onTickExec(delta);
             // 检查是否发送移动消息
-            if (Ctx.mInstance.mCommonData.isClickSplit())
-            {
-                Game.Game.ReqSceneInteractive.checkChildAndSendPlayerMove();
-            }
+            //if (Ctx.mInstance.mCommonData.isClickSplit())
+            //{
+            //    Game.Game.ReqSceneInteractive.checkChildAndSendPlayerMove();
+            //}
             this.emitSnowBlock(delta);
         }
 
@@ -323,5 +326,15 @@ namespace SDK.Lib
         //{
         //    return this.mOtherChildId2MainChildIdDic.Count() > 0 || this.mPlayerSnowId2MainChildIdDic.Count() > 0;
         //}
+
+        public void setIsMainPosOrOrientChanged(bool value)
+        {
+            this.mIsMainPosOrOrientChanged = value;
+        }
+
+        public bool isMainPosOrOrientChanged()
+        {
+            return this.mIsMainPosOrOrientChanged;
+        }
     }
 }

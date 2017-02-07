@@ -18,15 +18,25 @@
             this.mLoopDepth = 0;
         }
 
+        virtual public void init()
+        {
+
+        }
+
+        virtual public void dispose()
+        {
+
+        }
+
         virtual protected void addObject(IDelayHandleItem delayObject, float priority = 0.0f)
         {
             if (this.mLoopDepth > 0)
             {
-                if (!existAddList(delayObject))        // 如果添加列表中没有
+                if (!this.existAddList(delayObject))        // 如果添加列表中没有
                 {
-                    if (existDelList(delayObject))    // 如果已经添加到删除列表中
+                    if (this.existDelList(delayObject))    // 如果已经添加到删除列表中
                     {
-                        delFromDelayDelList(delayObject);
+                        this.delFromDelayDelList(delayObject);
                     }
 
                     DelayHandleObject delayHandleObject = new DelayHandleObject();
@@ -43,11 +53,11 @@
         {
             if (this.mLoopDepth > 0)
             {
-                if (!existDelList(delayObject))
+                if (!this.existDelList(delayObject))
                 {
-                    if (existAddList(delayObject))    // 如果已经添加到删除列表中
+                    if (this.existAddList(delayObject))    // 如果已经添加到删除列表中
                     {
-                        delFromDelayAddList(delayObject);
+                        this.delFromDelayAddList(delayObject);
                     }
 
                     delayObject.setClientDispose(true);
@@ -117,6 +127,7 @@
             int idx = 0;
             // len 是 Python 的关键字
             int elemLen = 0;
+
             if (0 == this.mLoopDepth)       // 只有全部退出循环后，才能处理添加删除
             {
                 if (this.mDeferredAddQueue.Count() > 0)
@@ -125,7 +136,7 @@
                     elemLen = this.mDeferredAddQueue.Count();
                     while(idx < elemLen)
                     {
-                        addObject(this.mDeferredAddQueue[idx].mDelayObject, (this.mDeferredAddQueue[idx].mDelayParam as DelayAddParam).mPriority);
+                        this.addObject(this.mDeferredAddQueue[idx].mDelayObject, (this.mDeferredAddQueue[idx].mDelayParam as DelayAddParam).mPriority);
 
                         idx += 1;
                     }
@@ -137,9 +148,10 @@
                 {
                     idx = 0;
                     elemLen = this.mDeferredDelQueue.Count();
+
                     while(idx < elemLen)
                     {
-                        removeObject(this.mDeferredDelQueue[idx].mDelayObject);
+                        this.removeObject(this.mDeferredDelQueue[idx].mDelayObject);
 
                         idx += 1;
                     }
@@ -157,6 +169,7 @@
         public void decDepth()
         {
             --this.mLoopDepth;
+
             processDelayObjects();
         }
 

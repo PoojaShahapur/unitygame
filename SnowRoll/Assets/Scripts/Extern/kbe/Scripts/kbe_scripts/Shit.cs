@@ -31,6 +31,7 @@ namespace KBEngine
 
                 if (!Ctx.mInstance.mPlayerMgr.isSelfChild(aId))
                 {
+                    //别人吐出的雪块
                     Ctx.mInstance.mLogSys.log("Shit::__init__, Shit not find, create new", LogTypeId.eLogSceneInterActive);
 
                     this.mEntity_SDK = new PlayerSnowBlock();
@@ -45,12 +46,31 @@ namespace KBEngine
                 }
                 else
                 {
-                    Ctx.mInstance.mLogSys.log("Shit::__init__, Shit find, not create new", LogTypeId.eLogSceneInterActive);
-
                     this.mEntity_SDK = Ctx.mInstance.mPlayerSnowBlockMgr.getEntityByUniqueId(Ctx.mInstance.mPlayerSnowBlockMgr.genStrIdById(bId));
-                    uint preThisId = this.mEntity_SDK.getThisId();
-                    this.mEntity_SDK.setThisId((uint)this.id);
-                    Ctx.mInstance.mPlayerSnowBlockMgr.changeThisId(preThisId, this.mEntity_SDK as PlayerSnowBlock);
+                    if(null != this.mEntity_SDK)
+                    {
+                        //自己吐出的雪块在视野内
+                        Ctx.mInstance.mLogSys.log("Shit::__init__, Shit find, not create new", LogTypeId.eLogSceneInterActive);
+                        uint preThisId = this.mEntity_SDK.getThisId();
+                        this.mEntity_SDK.setThisId((uint)this.id);
+                        Ctx.mInstance.mPlayerSnowBlockMgr.changeThisId(preThisId, this.mEntity_SDK as PlayerSnowBlock);
+
+                        (this.mEntity_SDK as PlayerSnowBlock).sendEat();
+                    }
+                    else
+                    {
+                        //自己吐出的雪块重新进入视野后是没有保存的，需要重新生成一个
+                        Ctx.mInstance.mLogSys.log("Shit::__init__, Shit find, also create new", LogTypeId.eLogSceneInterActive);
+                        this.mEntity_SDK = new PlayerSnowBlock();
+                        this.mEntity_SDK.setRotateEulerAngle(this.direction);
+                        this.mEntity_SDK.setPos(frompos);
+                        (this.mEntity_SDK as BeingEntity).setDestPos(topos, false);
+                        (this.mEntity_SDK as BeingEntity).setEntity_KBE(this);
+                        this.mEntity_SDK.setThisId((uint)this.id);
+                        this.mEntity_SDK.init();
+
+                        Ctx.mInstance.mPlayerSnowBlockMgr.addEntity(this.mEntity_SDK);
+                    }
                 }
 
                 Ctx.mInstance.mPlayerMgr.getHero().onChildChanged();

@@ -1,5 +1,3 @@
-using LuaInterface;
-
 namespace SDK.Lib
 {
     public class MaterialMgr : InsResMgrBase
@@ -11,24 +9,24 @@ namespace SDK.Lib
 
         }
 
-        public MatRes getAndSyncLoadRes(string path, MAction<IDispatchObject> handle)
+        public MatRes getAndSyncLoadRes(string path, MAction<IDispatchObject> handle, MAction<IDispatchObject> progressHandle)
         {
-            return getAndSyncLoad<MatRes>(path, handle);
+            return getAndSyncLoad<MatRes>(path, handle, progressHandle);
         }
 
-        public MatRes getAndSyncLoadRes(string path, LuaTable luaTable = null, LuaFunction luaFunction = null)
+        public MatRes getAndSyncLoadRes(string path, LuaInterface.LuaTable luaTable = null, LuaInterface.LuaFunction luaFunction = null, LuaInterface.LuaFunction progressLuaFunction = null)
         {
-            return getAndSyncLoad<MatRes>(path, luaTable, luaFunction);
+            return getAndSyncLoad<MatRes>(path, luaTable, luaFunction, progressLuaFunction);
         }
 
-        public MatRes getAndAsyncLoadRes(string path, MAction<IDispatchObject> handle)
+        public MatRes getAndAsyncLoadRes(string path, MAction<IDispatchObject> handle, MAction<IDispatchObject> progressHandle)
         {
-            return getAndAsyncLoad<MatRes>(path, handle);
+            return getAndAsyncLoad<MatRes>(path, handle, progressHandle);
         }
 
-        public MatRes getAndAsyncLoadRes(string path, LuaTable luaTable = null, LuaFunction luaFunction = null)
+        public MatRes getAndAsyncLoadRes(string path, LuaInterface.LuaTable luaTable = null, LuaInterface.LuaFunction luaFunction = null, LuaInterface.LuaFunction progressLuaFunction = null)
         {
-            return getAndAsyncLoad<MatRes>(path, luaTable, luaFunction, true);
+            return getAndAsyncLoad<MatRes>(path, luaTable, luaFunction, progressLuaFunction, true);
         }
     }
 }

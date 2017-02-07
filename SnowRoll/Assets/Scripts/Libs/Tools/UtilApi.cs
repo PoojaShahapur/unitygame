@@ -26,6 +26,7 @@ namespace SDK.Lib
         public const string UNITY = "unity";
         public const string TXT = "txt";
         public const string BYTES = "bytes";
+        public const string MP3 = "mp3";
 
         public const string DOTUNITY3D = ".unity3d";
         public const string UNITY3D = "unity3d";

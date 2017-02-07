@@ -1,0 +1,20 @@
+ManifestFileVersion: 0
+CRC: 418950392
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: c146f6cc1ff33ebd18a196c5c1dec4fd
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 1033bf7ddfd4c6d43e7a6382c0a0a61a
+HashAppended: 0
+ClassTypes:
+- Class: 49
+  Script: {instanceID: 0}
+Assets:
+- Assets/Lua/MyLua/UI/UIShop_SkinPanel/UIShop_SkinPanel.lua.bytes
+- Assets/Lua/MyLua/UI/UIShop_SkinPanel/Shop_SkinPanelNS.lua.bytes
+- Assets/Lua/MyLua/UI/UIShop_SkinPanel/GoodsItemData.lua.bytes
+- Assets/Lua/MyLua/UI/UIShop_SkinPanel/Shop_SkinPanelCV.lua.bytes
+- Assets/Lua/MyLua/UI/UIShop_SkinPanel/Shop_SkinPanelData.lua.bytes
+Dependencies: []

@@ -53,6 +53,16 @@ namespace SDK.Lib
             }
         }
 
+        override public void init()
+        {
+
+        }
+
+        override public void dispose()
+        {
+
+        }
+
         // 相同的函数只能增加一次，Lua ，Python 这些语言不支持同时存在几个相同名字的函数，只支持参数可以赋值，因此不单独提供同一个名字不同参数的接口了
         virtual public void addEventHandle(ICalleeObject pThis, MAction<IDispatchObject> handle, LuaTable luaTable = null, LuaFunction luaFunction = null)
         {

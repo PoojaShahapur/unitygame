@@ -1,0 +1,235 @@
+ManifestFileVersion: 0
+CRC: 4115938916
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: lua/lua_cjson.unity3d
+      Dependencies: {}
+    Info_1:
+      Name: lua/lua_common.unity3d
+      Dependencies: {}
+    Info_2:
+      Name: lua/lua_controller.unity3d
+      Dependencies: {}
+    Info_3:
+      Name: lua/lua_logic.unity3d
+      Dependencies: {}
+    Info_4:
+      Name: lua/lua_lpeg.unity3d
+      Dependencies: {}
+    Info_5:
+      Name: lua/lua_misc.unity3d
+      Dependencies: {}
+    Info_6:
+      Name: lua/lua_protobuf.unity3d
+      Dependencies: {}
+    Info_7:
+      Name: lua/lua_socket.unity3d
+      Dependencies: {}
+    Info_8:
+      Name: lua/lua_system.unity3d
+      Dependencies: {}
+    Info_9:
+      Name: lua/lua_unityengine.unity3d
+      Dependencies: {}
+    Info_10:
+      Name: lua/lua_view.unity3d
+      Dependencies: {}
+    Info_11:
+      Name: lua/lua_3rd_cjson.unity3d
+      Dependencies: {}
+    Info_12:
+      Name: lua/lua_3rd_luabitop.unity3d
+      Dependencies: {}
+    Info_13:
+      Name: lua/lua_3rd_pbc.unity3d
+      Dependencies: {}
+    Info_14:
+      Name: lua/lua_3rd_pblua.unity3d
+      Dependencies: {}
+    Info_15:
+      Name: lua/lua_3rd_sproto.unity3d
+      Dependencies: {}
+    Info_16:
+      Name: lua/lua_mylua_test.unity3d
+      Dependencies: {}
+    Info_17:
+      Name: lua/lua_mylua_libs_auxcomponent.unity3d
+      Dependencies: {}
+    Info_18:
+      Name: lua/lua_mylua_libs_common.unity3d
+      Dependencies: {}
+    Info_19:
+      Name: lua/lua_mylua_libs_core.unity3d
+      Dependencies: {}
+    Info_20:
+      Name: lua/lua_mylua_libs_datastruct.unity3d
+      Dependencies: {}
+    Info_21:
+      Name: lua/lua_mylua_libs_delayhandle.unity3d
+      Dependencies: {}
+    Info_22:
+      Name: lua/lua_mylua_libs_eventhandle.unity3d
+      Dependencies: {}
+    Info_23:
+      Name: lua/lua_mylua_libs_framehandle.unity3d
+      Dependencies: {}
+    Info_24:
+      Name: lua/lua_mylua_libs_framework.unity3d
+      Dependencies: {}
+    Info_25:
+      Name: lua/lua_mylua_libs_functor.unity3d
+      Dependencies: {}
+    Info_26:
+      Name: lua/lua_mylua_libs_gamedata.unity3d
+      Dependencies: {}
+    Info_27:
+      Name: lua/lua_mylua_libs_log.unity3d
+      Dependencies: {}
+    Info_28:
+      Name: lua/lua_mylua_libs_module.unity3d
+      Dependencies: {}
+    Info_29:
+      Name: lua/lua_mylua_libs_network.unity3d
+      Dependencies: {}
+    Info_30:
+      Name: lua/lua_mylua_libs_protobuf.unity3d
+      Dependencies: {}
+    Info_31:
+      Name: lua/lua_mylua_libs_table.unity3d
+      Dependencies: {}
+    Info_32:
+      Name: lua/lua_mylua_libs_thread.unity3d
+      Dependencies: {}
+    Info_33:
+      Name: lua/lua_mylua_libs_tools.unity3d
+      Dependencies: {}
+    Info_34:
+      Name: lua/lua_mylua_libs_auxcomponent_auxloader.unity3d
+      Dependencies: {}
+    Info_35:
+      Name: lua/lua_mylua_libs_auxcomponent_auxuicomponent.unity3d
+      Dependencies: {}
+    Info_36:
+      Name: lua/lua_mylua_libs_network_cmddisp.unity3d
+      Dependencies: {}
+    Info_37:
+      Name: lua/lua_mylua_libs_resource_resloaddata.unity3d
+      Dependencies: {}
+    Info_38:
+      Name: lua/lua_mylua_libs_scene_being.unity3d
+      Dependencies: {}
+    Info_39:
+      Name: lua/lua_mylua_libs_scene_sceneentitybase.unity3d
+      Dependencies: {}
+    Info_40:
+      Name: lua/lua_mylua_libs_table_itemobject.unity3d
+      Dependencies: {}
+    Info_41:
+      Name: lua/lua_mylua_libs_ui_uicore.unity3d
+      Dependencies: {}
+    Info_42:
+      Name: lua/lua_mylua_libs_ui_uicore_componentstyle.unity3d
+      Dependencies: {}
+    Info_43:
+      Name: lua/lua_mylua_module_app.unity3d
+      Dependencies: {}
+    Info_44:
+      Name: lua/lua_mylua_module_entry.unity3d
+      Dependencies: {}
+    Info_45:
+      Name: lua/lua_mylua_module_game.unity3d
+      Dependencies: {}
+    Info_46:
+      Name: lua/lua_mylua_module_login.unity3d
+      Dependencies: {}
+    Info_47:
+      Name: lua/lua_mylua_module_game_eventcb.unity3d
+      Dependencies: {}
+    Info_48:
+      Name: lua/lua_mylua_module_game_gamenethandle.unity3d
+      Dependencies: {}
+    Info_49:
+      Name: lua/lua_mylua_module_login_eventcb.unity3d
+      Dependencies: {}
+    Info_50:
+      Name: lua/lua_mylua_module_login_loginnethandle.unity3d
+      Dependencies: {}
+    Info_51:
+      Name: lua/lua_mylua_test_testcmddisp.unity3d
+      Dependencies: {}
+    Info_52:
+      Name: lua/lua_mylua_test_testprotobuf.unity3d
+      Dependencies: {}
+    Info_53:
+      Name: lua/lua_mylua_test_teststr.unity3d
+      Dependencies: {}
+    Info_54:
+      Name: lua/lua_mylua_test_testtable.unity3d
+      Dependencies: {}
+    Info_55:
+      Name: lua/lua_mylua_test_testui.unity3d
+      Dependencies: {}
+    Info_56:
+      Name: lua/lua_mylua_ui_uiconsoledlg.unity3d
+      Dependencies: {}
+    Info_57:
+      Name: lua/lua_mylua_ui_uimessagepanel.unity3d
+      Dependencies: {}
+    Info_58:
+      Name: lua/lua_mylua_ui_uioptionpanel.unity3d
+      Dependencies: {}
+    Info_59:
+      Name: lua/lua_mylua_ui_uipack.unity3d
+      Dependencies: {}
+    Info_60:
+      Name: lua/lua_mylua_ui_uiplayerdatapanel.unity3d
+      Dependencies: {}
+    Info_61:
+      Name: lua/lua_mylua_ui_uiranklistpanel.unity3d
+      Dependencies: {}
+    Info_62:
+      Name: lua/lua_mylua_ui_uirelivepanel.unity3d
+      Dependencies: {}
+    Info_63:
+      Name: lua/lua_mylua_ui_uisettingspanel.unity3d
+      Dependencies: {}
+    Info_64:
+      Name: lua/lua_mylua_ui_uishop_skinpanel.unity3d
+      Dependencies: {}
+    Info_65:
+      Name: lua/lua_mylua_ui_uisignpanel.unity3d
+      Dependencies: {}
+    Info_66:
+      Name: lua/lua_mylua_ui_uistartgame.unity3d
+      Dependencies: {}
+    Info_67:
+      Name: lua/lua_mylua_ui_uitest.unity3d
+      Dependencies: {}
+    Info_68:
+      Name: lua/lua_mylua_ui_uitopxrankpanel.unity3d
+      Dependencies: {}
+    Info_69:
+      Name: lua/lua_mylua_ui_createnewform_defaultform.unity3d
+      Dependencies: {}
+    Info_70:
+      Name: lua/lua_system_reflection.unity3d
+      Dependencies: {}
+    Info_71:
+      Name: lua/lua.unity3d
+      Dependencies: {}
+    Info_72:
+      Name: prompt.unity3d
+      Dependencies:
+        Dependency_0: prompt_asset.unity3d
+        Dependency_1: shared_asset.unity3d
+    Info_73:
+      Name: message.unity3d
+      Dependencies:
+        Dependency_0: shared_asset.unity3d
+    Info_74:
+      Name: prompt_asset.unity3d
+      Dependencies: {}
+    Info_75:
+      Name: shared_asset.unity3d
+      Dependencies: {}

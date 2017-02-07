@@ -5,6 +5,8 @@
      */
     public class PlayerSnowBlock : BeingEntity
     {
+        protected uint mOwnerThisId;
+
         public PlayerSnowBlock()
         {
             this.mTypeId = "PlayerSnowBlock";
@@ -52,6 +54,23 @@
         override public float getBallWorldRadius()
         {
             return this.mBallRadius * Ctx.mInstance.mSnowBallCfg.mShitCollideRadius;
+        }
+
+        public void setOwnerThisId(uint value)
+        {
+            this.mOwnerThisId = value;
+        }
+
+        public void sendEat()
+        {
+            if (this.mOwnerThisId > 0)
+            {
+                PlayerChild child = Ctx.mInstance.mPlayerMgr.getHero().mPlayerSplitMerge.mPlayerChildMgr.getEntityByThisId(this.mOwnerThisId) as PlayerChild;
+                if (null != child)
+                {
+                    ((child as PlayerMainChild).mAttack as PlayerMainChildAttack).eatPlayerSnowBlock(this);
+                }
+            }
         }
     }
 }

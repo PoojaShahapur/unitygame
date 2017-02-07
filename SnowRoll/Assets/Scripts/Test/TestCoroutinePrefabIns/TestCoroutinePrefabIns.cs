@@ -16,7 +16,7 @@ namespace UnitTest
         protected void testIns()
         {
             string path = "Model/Character/ChangCard";
-            mPrefabRes = Ctx.mInstance.mPrefabMgr.getAndAsyncLoadRes(path, onResLoaded);
+            mPrefabRes = Ctx.mInstance.mPrefabMgr.getAndAsyncLoadRes(path, this.onResLoaded, null);
         }
 
         protected void onResLoaded(IDispatchObject dispObj)

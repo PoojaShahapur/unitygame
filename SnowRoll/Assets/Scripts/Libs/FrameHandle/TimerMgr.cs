@@ -15,6 +15,16 @@ namespace SDK.Lib
             this.mTimerList = new MList<TimerItemBase>();
         }
 
+        override public void init()
+        {
+
+        }
+
+        override public void dispose()
+        {
+
+        }
+
         protected override void addObject(IDelayHandleItem delayObject, float priority = 0.0f)
         {
             // 检查当前是否已经在队列中

@@ -122,6 +122,8 @@
         public EventHandleSystem mEventHandleSystem;
         public DelayTaskMgr mDelayTaskMgr;
 
+        public LoadProgressMgr mLoadProgressMgr;
+
         public Ctx()
         {
             
@@ -261,6 +263,8 @@
             this.mCommonData = new CommonData();
             this.mEventHandleSystem = new EventHandleSystem();
             this.mDelayTaskMgr = new DelayTaskMgr();
+
+            this.mLoadProgressMgr = new LoadProgressMgr();
         }
 
         public void logicInit()
@@ -298,6 +302,7 @@
             this.mResizeMgr.init();
             this.mCameraPositonMgr.init();
             this.mDelayTaskMgr.init();
+            this.mLoadProgressMgr.init();
 
             // 添加事件处理
             Ctx.mInstance.mCamSys.setUiCamera(Ctx.mInstance.mLayerMgr.mPath2Go[NotDestroyPath.ND_CV_App].AddComponent<UICamera>());
@@ -425,6 +430,11 @@
                 this.mDelayTaskMgr.dispose();
                 this.mDelayTaskMgr = null;
             }
+            if(null != this.mLoadProgressMgr)
+            {
+                this.mLoadProgressMgr.dispose();
+                this.mLoadProgressMgr = null;
+            }
         }
 
         public void quitApp()
@@ -448,6 +458,9 @@
 
             this.mTickMgr.addTick(this.mResizeMgr as ITickedObject, TickPriority.eTPResizeMgr);
             this.mTickMgr.addTick(this.mInputMgr as ITickedObject, TickPriority.eTPInputMgr);
+            this.mTickMgr.addTick(this.mLoadProgressMgr as ITickedObject, TickPriority.eTPLoadProgressMgr);
+            this.mTickMgr.addTick(this.mCameraPositonMgr as ITickedObject, TickPriority.eTPCameraMgr);
+            this.mTickMgr.addTick(this.mDelayTaskMgr as ITickedObject, TickPriority.eTPDelayTaskMgr);
 
             if (!Ctx.mInstance.mCfg.mIsActorMoveUseFixUpdate)
             {
@@ -455,8 +468,6 @@
                 this.mTickMgr.addTick(this.mSnowBlockMgr as ITickedObject, TickPriority.eTPSnowBlockMgr);
                 this.mTickMgr.addTick(this.mPlayerSnowBlockMgr as ITickedObject, TickPriority.eTPPlayerSnowBlockMgr);
                 this.mTickMgr.addTick(this.mComputerBallMgr as ITickedObject, TickPriority.eTPComputerBallMgr);
-                this.mTickMgr.addTick(this.mCameraPositonMgr as ITickedObject, TickPriority.eTPCameraMgr);
-                this.mTickMgr.addTick(this.mDelayTaskMgr as ITickedObject, TickPriority.eTPDelayTaskMgr);
             }
         }
 

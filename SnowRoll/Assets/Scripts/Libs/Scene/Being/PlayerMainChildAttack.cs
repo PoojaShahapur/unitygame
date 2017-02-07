@@ -157,6 +157,11 @@
         // 吃玩家吐出的雪块
         public void eatPlayerSnowBlock(BeingEntity bBeingEntity)
         {
+            //id为0说明是客户端自己生成的雪块，不处理
+            //if(0 == bBeingEntity.getThisId())
+            //{
+            //    return;
+            //}
             //bBeingEntity.setClientDispose(true);
             //Ctx.mInstance.mPlayerMgr.eatPlayerSnowing(bBeingEntity.getThisId(), this.mEntity.getThisId());
             if (!(bBeingEntity as BeingEntity).getIsEatedByOther())
@@ -168,7 +173,15 @@
 
                 if (!MacroDef.DEBUG_NOTNET)
                 {
-                    this.mEntity.cellCall("eatSnowBlock", bBeingEntity.getThisId());
+                    if (0 != bBeingEntity.getThisId())
+                    {
+                        this.mEntity.cellCall("eatSnowBlock", bBeingEntity.getThisId());
+                    }
+                    else
+                    {
+                        (bBeingEntity as BeingEntity).setIsEatedByServer(true);
+                        (bBeingEntity as PlayerSnowBlock).setOwnerThisId(this.mEntity.getThisId());
+                    }
                 }
                 else
                 {
@@ -178,6 +191,11 @@
                     this.mEntity.setBallRadius(newRadius);
                     bBeingEntity.dispose();
                 }
+            }
+            else if((bBeingEntity as BeingEntity).getIsEatedByServer())
+            {
+                (bBeingEntity as BeingEntity).setIsEatedByServer(false);
+                this.mEntity.cellCall("eatSnowBlock", bBeingEntity.getThisId());
             }
         }
 
