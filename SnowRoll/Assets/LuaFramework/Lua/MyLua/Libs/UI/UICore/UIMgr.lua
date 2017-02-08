@@ -6,7 +6,7 @@ MLoader("MyLua.Libs.DataStruct.MStack");
 MLoader("MyLua.Libs.DataStruct.MDictionary");
 MLoader("MyLua.Libs.UI.UICore.UIFormId");
 MLoader("MyLua.Libs.UI.UICore.UICanvas");
-MLoader("MyLua.Libs.AuxComponent.AuxLoader.AuxUIPrefabLoader");
+MLoader("MyLua.Libs.Auxiliary.AuxLoader.AuxUIPrefabLoader");
 
 local M = GlobalNS.Class(GlobalNS.GObject);
 M.clsName = "UIMgr";
@@ -114,7 +114,7 @@ function M:loadForm(formId, param)
 		local uiPrefabLoader = GlobalNS.new(GlobalNS.AuxUIPrefabLoader, "", true, true);
 		self.mFormId2LoadItemDic:Add(formId, uiPrefabLoader);
 		uiPrefabLoader:setFormId(formId);
-		uiPrefabLoader:asyncLoad(GlobalNS.UIAttrSystem[formId].mWidgetPath, self, self.onFormPrefabLoaded);
+		uiPrefabLoader:asyncLoad(GlobalNS.UIAttrSystem[formId].mWidgetPath, self, self.onFormPrefabLoaded, nil);
     end
 end
 

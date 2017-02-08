@@ -11,11 +11,9 @@
         protected ResEventDispatch mEvtHandle;              // 事件分发器
         protected AddOnceEventDispatch mProgressEventDispatch;  // 加载进度事件分发器，这个最终分发的参数是 LoadItem，直接分发
         protected bool mIsInvalid;      // 加载器是否无效
-        protected string mInitPath;     // 初始化目录
 
         public AuxLoaderBase(string path = "")
         {
-            this.mInitPath = path;
             this.mResLoadState = new ResLoadState();
 
             this.reset();

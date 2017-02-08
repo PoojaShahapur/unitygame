@@ -123,6 +123,7 @@
         public DelayTaskMgr mDelayTaskMgr;
 
         public LoadProgressMgr mLoadProgressMgr;
+        public SoundLoadStateCheckMgr mSoundLoadStateCheckMgr;
 
         public Ctx()
         {
@@ -265,6 +266,7 @@
             this.mDelayTaskMgr = new DelayTaskMgr();
 
             this.mLoadProgressMgr = new LoadProgressMgr();
+            this.mSoundLoadStateCheckMgr = new SoundLoadStateCheckMgr();
         }
 
         public void logicInit()
@@ -303,6 +305,8 @@
             this.mCameraPositonMgr.init();
             this.mDelayTaskMgr.init();
             this.mLoadProgressMgr.init();
+
+            this.mSoundLoadStateCheckMgr.init();
 
             // 添加事件处理
             Ctx.mInstance.mCamSys.setUiCamera(Ctx.mInstance.mLayerMgr.mPath2Go[NotDestroyPath.ND_CV_App].AddComponent<UICamera>());
@@ -435,6 +439,11 @@
                 this.mLoadProgressMgr.dispose();
                 this.mLoadProgressMgr = null;
             }
+            if(null != this.mSoundLoadStateCheckMgr)
+            {
+                this.mSoundLoadStateCheckMgr.dispose();
+                this.mSoundLoadStateCheckMgr = null;
+            }
         }
 
         public void quitApp()
@@ -461,6 +470,7 @@
             this.mTickMgr.addTick(this.mLoadProgressMgr as ITickedObject, TickPriority.eTPLoadProgressMgr);
             this.mTickMgr.addTick(this.mCameraPositonMgr as ITickedObject, TickPriority.eTPCameraMgr);
             this.mTickMgr.addTick(this.mDelayTaskMgr as ITickedObject, TickPriority.eTPDelayTaskMgr);
+            this.mTickMgr.addTick(this.mSoundLoadStateCheckMgr as ITickedObject, TickPriority.eTPSoundLoadStateCheckMgr);
 
             if (!Ctx.mInstance.mCfg.mIsActorMoveUseFixUpdate)
             {

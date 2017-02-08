@@ -5,7 +5,7 @@
      */
     public class SceneSys
     {
-        protected AddOnceAndCallOnceEventDispatch mOnSceneLoadedDisp;
+        protected AddOnceAndCallOnceEventDispatch mOnSceneLoadedEventDispatch;
 
         protected SceneParse mSceneParse;
         protected Scene mScene;
@@ -14,7 +14,7 @@
         public SceneSys()
         {
             this.mSceneParse = new SceneParse();
-            this.mOnSceneLoadedDisp = new AddOnceAndCallOnceEventDispatch();
+            this.mOnSceneLoadedEventDispatch = new AddOnceAndCallOnceEventDispatch();
             this.mAuxLevelLoader = new AuxLevelLoader();
         }
 
@@ -43,7 +43,7 @@
             return false;
         }
 
-        public void loadScene(string filename, MAction<IDispatchObject> func)
+        public void loadScene(string filename, MAction<IDispatchObject> sceneLoadHandle)
         {
             // 卸载之前的场景
             this.unloadScene();
@@ -53,9 +53,9 @@
             this.mScene.getSceneCfg().initSize();
             this.mScene.file = Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathScene] + filename;
 
-            if(func != null)
+            if(null != sceneLoadHandle)
             {
-                this.mOnSceneLoadedDisp.addEventHandle(null, func);
+                this.mOnSceneLoadedEventDispatch.addEventHandle(null, sceneLoadHandle);
             }
             //loadSceneCfg(filename);
             this.loadSceneRes(filename);
@@ -107,7 +107,7 @@
         public void onSceneResLoaded(IDispatchObject dispObj)
         {
             //ResItem res = dispObj as ResItem;
-            this.mOnSceneLoadedDisp.dispatchEvent(this.mScene);
+            this.mOnSceneLoadedEventDispatch.dispatchEvent(this.mScene);
 
             Ctx.mInstance.mNetCmdNotify.isStopNetHandle = false;        // 加载场景完成需要处理处理消息
 
@@ -120,7 +120,8 @@
         {
             LoadItem item = dispObj as LoadItem;
             float progress = item.getProgress();
-            UnityEngine.Debug.Log(string.Format("aaaaa = {0}", progress));
+            //UnityEngine.Debug.Log(string.Format("aaaaa = {0}", progress));
+            Ctx.mInstance.mLuaSystem.onSceneLoadProgress(progress);
         }
 
         // 卸载多有的场景

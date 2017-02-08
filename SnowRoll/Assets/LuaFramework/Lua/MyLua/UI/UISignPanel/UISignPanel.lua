@@ -2,7 +2,7 @@ MLoader("MyLua.Libs.Core.GlobalNS");
 MLoader("MyLua.Libs.Core.Class");
 MLoader("MyLua.Libs.UI.UICore.Form");
 
-MLoader("MyLua.Libs.AuxComponent.AuxUIComponent.AuxButton");
+MLoader("MyLua.Libs.Auxiliary.AuxUIComponent.AuxButton");
 
 MLoader("MyLua.UI.UISignPanel.SignPanelNS");
 MLoader("MyLua.UI.UISignPanel.SignPanelData");
@@ -84,7 +84,7 @@ function M:onReady()
     local viewport =  GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.scrollrect, "Viewport");
     self.Content = GlobalNS.UtilApi.getComByPath(viewport, "Content", "RectTransform");
     --加载items
-	self.mItem_prefab:asyncLoad("UI/UISignPanel/DayItem.prefab", self, self.onPrefabLoaded);
+	self.mItem_prefab:asyncLoad("UI/UISignPanel/DayItem.prefab", self, self.onPrefabLoaded, nil);
 end
 
 function M:onShow()

@@ -2,7 +2,7 @@ MLoader("MyLua.Libs.Core.GlobalNS");
 MLoader("MyLua.Libs.Core.Class");
 MLoader("MyLua.Libs.UI.UICore.Form");
 
-MLoader("MyLua.Libs.AuxComponent.AuxUIComponent.AuxButton");
+MLoader("MyLua.Libs.Auxiliary.AuxUIComponent.AuxButton");
 
 MLoader("MyLua.UI.UIDefaultForm.DefaultFormNS");
 MLoader("MyLua.UI.UIDefaultForm.DefaultFormData");

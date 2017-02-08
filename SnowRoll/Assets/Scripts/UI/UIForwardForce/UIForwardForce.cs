@@ -126,7 +126,8 @@ namespace Game.UI
 
             if (MoveVec.x == 0 && MoveVec.y == 0)
             {
-                Ctx.mInstance.mPlayerMgr.getHero().stopMove();
+                if (Ctx.mInstance.mPlayerMgr != null && Ctx.mInstance.mPlayerMgr.getHero() != null)
+                    Ctx.mInstance.mPlayerMgr.getHero().stopMove();
             }
             else
             {
@@ -228,18 +229,21 @@ namespace Game.UI
 
         private void Move(Vector2 MoveVec)
         {
-            if (Vector2.Equals(MoveVec, Vector2.zero))
+            if (Ctx.mInstance.mPlayerMgr != null && Ctx.mInstance.mPlayerMgr.getHero() != null)
             {
-                Ctx.mInstance.mPlayerMgr.getHero().stopMove();
-            }
-            else
-            {
-                if (!Ctx.mInstance.mPlayerMgr.getHero().getCanMove())
+                if (Vector2.Equals(MoveVec, Vector2.zero))
                 {
-                    Ctx.mInstance.mLuaSystem.exitForm(10003);//关闭重生界面
+                    Ctx.mInstance.mPlayerMgr.getHero().stopMove();
                 }
+                else
+                {
+                    if (!Ctx.mInstance.mPlayerMgr.getHero().getCanMove())
+                    {
+                        Ctx.mInstance.mLuaSystem.exitForm(10003);//关闭重生界面
+                    }
 
-                Ctx.mInstance.mPlayerMgr.getHero().moveForwardByOrient(MoveVec);
+                    Ctx.mInstance.mPlayerMgr.getHero().moveForwardByOrient(MoveVec);
+                }
             }
         }
 

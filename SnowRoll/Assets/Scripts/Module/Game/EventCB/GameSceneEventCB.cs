@@ -30,6 +30,9 @@ namespace Game.Game
             // 创建所有的 Robot
             //Ctx.mInstance.mRobotMgr.createAllRobot();
             //Ctx.mInstance.mUiMgr.loadAndShow(UIFormId.eUIPack);
+
+            // 场景加载完成，关闭登陆界面
+            Ctx.mInstance.mLuaSystem.exitForm((int)SDK.Lib.UIFormId.eUIStartGame_Lua);
             runTest();
         }
 

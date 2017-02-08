@@ -205,6 +205,12 @@ namespace SDK.Lib
             this.callLuaFunction("GlobalNS.GlobalEventCmd.exitForm", formId);
         }
 
+        // 场景加载进度
+        public void onSceneLoadProgress(float progress)
+        {
+            this.callLuaFunction("GlobalNS.GlobalEventCmd.onSceneLoadProgress", progress);
+        }
+
         // 添加单击事件
         public void addClick(GameObject go, LuaFunction luafunc)
         {

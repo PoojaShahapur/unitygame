@@ -148,7 +148,22 @@ namespace SDK.Lib
 
         public void startEmitSnowBlock()
         {
-            this.mIsEmitSnowBall = true;
+            if (Ctx.mInstance.mSystemSetting.hasKey("SwallowModel"))
+            {
+                if (Ctx.mInstance.mSystemSetting.getInt("SwallowModel") == 1)
+                {
+                    this.mIsEmitSnowBall = true;
+                }
+                else
+                {
+                    this.mIsEmitSnowBall = false;
+                }
+            }
+            else
+            {
+                this.mIsEmitSnowBall = true;
+            }
+            
             Game.Game.ReqSceneInteractive.sendShit();
         }
 

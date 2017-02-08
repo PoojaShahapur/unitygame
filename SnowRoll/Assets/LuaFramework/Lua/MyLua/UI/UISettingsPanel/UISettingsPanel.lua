@@ -2,7 +2,7 @@ MLoader("MyLua.Libs.Core.GlobalNS");
 MLoader("MyLua.Libs.Core.Class");
 MLoader("MyLua.Libs.UI.UICore.Form");
 
-MLoader("MyLua.Libs.AuxComponent.AuxUIComponent.AuxButton");
+MLoader("MyLua.Libs.Auxiliary.AuxUIComponent.AuxButton");
 
 MLoader("MyLua.UI.UISettingsPanel.SettingsPanelNS");
 MLoader("MyLua.UI.UISettingsPanel.SettingsPanelData");
@@ -27,23 +27,55 @@ function M:onInit()
 	
 	self.CloseBtn = GlobalNS.new(GlobalNS.AuxButton);
 	self.CloseBtn:addEventHandle(self, self.onCloseBtnClk);
+
+    self.TipBtn = GlobalNS.new(GlobalNS.AuxButton);
+    self.TipBtn:addEventHandle(self, self.onTipBtnClk);
 end
 
 function M:onReady()
     M.super.onReady(self);
+    local BG = GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.mGuiWin, "BG");
 	self.CloseBtn:setSelfGo(GlobalNS.UtilApi.TransFindChildByPObjAndPath(
-			self.mGuiWin, 
+			BG, 
 			GlobalNS.SettingsPanelNS.SettingsPanelPath.CloseBtn)
 		);
 
     self:setOptModel();
     self:setServerAddr();
+    self:setBgMusic();
+    self:setSwallowState();
+end
+
+function M:setBgMusic()
+    local BG = GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.mGuiWin, "BG");
+    local Bg_Center = GlobalNS.UtilApi.TransFindChildByPObjAndPath(BG, "Bg_Center");
+    local Op_Bg = GlobalNS.UtilApi.TransFindChildByPObjAndPath(Bg_Center, "Op_Bg");
+
+    local Music_Switch = GlobalNS.UtilApi.TransFindChildByPObjAndPath(Op_Bg, "Music_Switch");
+    local MusicModel = GlobalNS.UtilApi.TransFindChildByPObjAndPath(Music_Switch, "MusicModel");
+    self.BG_Music = GlobalNS.UtilApi.getComByPath(MusicModel, "BG_Music", "Toggle");
+
+    if GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:hasKey("MusicModel") then
+        if GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:getInt("MusicModel") == 1 then
+            self.BG_Music.isOn = true;
+        else
+            self.BG_Music.isOn = false;
+        end
+    else
+        self.BG_Music.isOn = true;
+    end
 end
 
 function M:setOptModel()
-    local OpModel = GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.mGuiWin, "OptModel");
+    local BG = GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.mGuiWin, "BG");
+    local Bg_Center = GlobalNS.UtilApi.TransFindChildByPObjAndPath(BG, "Bg_Center");
+    local Op_Bg = GlobalNS.UtilApi.TransFindChildByPObjAndPath(Bg_Center, "Op_Bg");
+
+    local Opt_Switch = GlobalNS.UtilApi.TransFindChildByPObjAndPath(Op_Bg, "Opt_Switch");
+    local OpModel = GlobalNS.UtilApi.TransFindChildByPObjAndPath(Opt_Switch, "OptModel");
     self.JoyStickOp = GlobalNS.UtilApi.getComByPath(OpModel, "JoyStick", "Toggle");
     self.GravityOp = GlobalNS.UtilApi.getComByPath(OpModel, "Gravity", "Toggle");
+    self.TipBtn:setSelfGo(GlobalNS.UtilApi.TransFindChildByPObjAndPath(OpModel, "Tip_BtnTouch"));
 
     if GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:hasKey("OptionModel") then
         if GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:getInt("OptionModel") == 1 then
@@ -60,7 +92,12 @@ function M:setOptModel()
 end
 
 function M:setServerAddr()
-    local ServerAddr = GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.mGuiWin, "ServerAddr");
+    local BG = GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.mGuiWin, "BG");
+    local Bg_Center = GlobalNS.UtilApi.TransFindChildByPObjAndPath(BG, "Bg_Center");
+    local Op_Bg = GlobalNS.UtilApi.TransFindChildByPObjAndPath(Bg_Center, "Op_Bg");
+
+    local Server_Switch = GlobalNS.UtilApi.TransFindChildByPObjAndPath(Op_Bg, "Server_Switch");
+    local ServerAddr = GlobalNS.UtilApi.TransFindChildByPObjAndPath(Server_Switch, "ServerAddr");
     self.Server1 = GlobalNS.UtilApi.getComByPath(ServerAddr, "Server1", "Toggle");
     self.Server2 = GlobalNS.UtilApi.getComByPath(ServerAddr, "Server2", "Toggle");
     self.Server_input = GlobalNS.UtilApi.getComByPath(ServerAddr, "Server_input", "Toggle");
@@ -103,6 +140,26 @@ function M:setServerAddr()
     end
 end
 
+function M:setSwallowState()
+    local BG = GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.mGuiWin, "BG");
+    local Bg_Center = GlobalNS.UtilApi.TransFindChildByPObjAndPath(BG, "Bg_Center");
+    local Op_Bg = GlobalNS.UtilApi.TransFindChildByPObjAndPath(Bg_Center, "Op_Bg");
+
+    local Swallow_Switch = GlobalNS.UtilApi.TransFindChildByPObjAndPath(Op_Bg, "Swallow_Switch");
+    local SwallowModel = GlobalNS.UtilApi.TransFindChildByPObjAndPath(Swallow_Switch, "SwallowModel");
+    self.BtnState = GlobalNS.UtilApi.getComByPath(SwallowModel, "BtnState", "Toggle");
+
+    if GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:hasKey("SwallowModel") then
+        if GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:getInt("SwallowModel") == 1 then
+            self.BtnState.isOn = true;
+        else
+            self.BtnState.isOn = false;
+        end
+    else
+        self.BtnState.isOn = true;
+    end
+end
+
 function M:onShow()
     M.super.onShow(self);
 end
@@ -116,10 +173,22 @@ function M:onExit()
 end
 
 function M:onCloseBtnClk()
+    if self.BG_Music.isOn then
+        GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:setInt("MusicModel", 1);
+    else
+        GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:setInt("MusicModel", 0);
+    end
+
     if self.JoyStickOp.isOn then
         GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:setInt("OptionModel", 1);
     else
         GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:setInt("OptionModel", 2);
+    end
+
+    if self.BtnState.isOn then
+        GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:setInt("SwallowModel", 1);
+    else
+        GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:setInt("SwallowModel", 0);
     end
 
     if self.Server1.isOn then
@@ -134,6 +203,10 @@ function M:onCloseBtnClk()
     GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:SetServerIP();
 
 	self:exit();
+end
+
+function M:onTipBtnClk()
+    GCtx.mGameData:ShowMessageBox("摇杆控制：使用左侧摇杆控制方向\n重力模式：使用重力控制方向");
 end
 
 return M;

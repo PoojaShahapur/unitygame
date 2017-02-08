@@ -19,7 +19,7 @@ namespace SDK.Lib
     /**
      * @brief 音乐和音效都是这个类
      */
-    public class SoundItem
+    public class SoundItem : ITickedObject, IDelayHandleItem
     {
         public string mPath;           // 资源目录
         public SoundResType mSoundResType = SoundResType.eSRT_Prefab;
@@ -38,6 +38,26 @@ namespace SDK.Lib
         public bool mScaleOutputVolume = true;
 
         public SoundItem()
+        {
+
+        }
+
+        public void onTick(float delta)
+        {
+            this.checkLoadState();
+        }
+
+        public void setClientDispose(bool isDispose)
+        {
+
+        }
+
+        public bool isClientDispose()
+        {
+            return false;
+        }
+
+        virtual protected void checkLoadState()
         {
 
         }
@@ -92,6 +112,7 @@ namespace SDK.Lib
                 {
                     this.mAudio.volume = value;
                 }
+
                 this.mVolume = value;
             }
         }
@@ -109,7 +130,7 @@ namespace SDK.Lib
             }
         }
 
-        void Start()
+        public void Start()
         {
             if (this.mPlayOnStart)
             {
@@ -123,15 +144,15 @@ namespace SDK.Lib
             this.mAudio.Pause();
         }
 
-        public void Play()
+        virtual public void Play()
         {
-            if (SoundPlayState.eSS_Pause == mPlayState)
+            if (SoundPlayState.eSS_Pause == this.mPlayState)
             {
                 this.mAudio.UnPause();
             }
             else
             {
-                this.mAudio.Play(mDelay);
+                this.mAudio.Play(this.mDelay);
             }
 
             this.mPlayState = SoundPlayState.eSS_Play;

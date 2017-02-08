@@ -8,6 +8,12 @@ namespace SDK.Lib
     public class SoundClipItem : SoundItem
     {
         public AudioClip mClip;            // 声音资源放在 prefab 中国
+        protected bool mIsLoaded;           // 资源是否加载完成
+
+        public SoundClipItem()
+        {
+            this.mIsLoaded = false;
+        }
 
         public override void setResObj(UnityEngine.Object go_)
         {
@@ -33,6 +39,8 @@ namespace SDK.Lib
 
         public override void unload()
         {
+            Ctx.mInstance.mSoundLoadStateCheckMgr.removeSound(this);
+
             if (this.isInCurState(SoundPlayState.eSS_Play))
             {
                 this.Stop();
@@ -43,6 +51,31 @@ namespace SDK.Lib
                 //mClip.UnloadAudioData();
                 UtilApi.Destroy(this.mGo);
                 //UtilApi.UnloadUnusedAssets();
+                this.mGo = null;
+            }
+
+            base.unload();
+        }
+
+        override public void Play()
+        {
+            //if(AudioDataLoadState.Loaded != this.mClip.loadState)
+            if(!this.mIsLoaded)
+            {
+                Ctx.mInstance.mSoundLoadStateCheckMgr.addSound(this);
+            }
+
+            base.Play();
+        }
+
+        // 检查加载状态
+        override protected void checkLoadState()
+        {
+            if (AudioDataLoadState.Loaded == this.mClip.loadState)
+            {
+                this.mIsLoaded = true;
+                this.Play();
+                Ctx.mInstance.mSoundLoadStateCheckMgr.removeSound(this);
             }
         }
     }

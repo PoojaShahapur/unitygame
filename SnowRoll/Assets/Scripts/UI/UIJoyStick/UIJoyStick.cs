@@ -211,7 +211,8 @@ namespace Game.UI
             }
             else
             {
-                Ctx.mInstance.mPlayerMgr.getHero().onPressButNoMove();
+                if (Ctx.mInstance.mPlayerMgr != null && Ctx.mInstance.mPlayerMgr.getHero() != null)
+                    Ctx.mInstance.mPlayerMgr.getHero().onPressButNoMove();
 
                 //防止摇杆出了屏幕
                 if (Pos.x < HalfBGWidth + HalfJoyWidth) Pos.x = HalfBGWidth + HalfJoyWidth;
@@ -298,18 +299,21 @@ namespace Game.UI
 
         private void Move(Vector2 MoveVec)
         {
-            if(Vector2.Equals(MoveVec, Vector2.zero))
+            if(Ctx.mInstance.mPlayerMgr != null && Ctx.mInstance.mPlayerMgr.getHero() != null)
             {
-                Ctx.mInstance.mPlayerMgr.getHero().onPressButNoMove();
-            }
-            else
-            {
-                if (!Ctx.mInstance.mPlayerMgr.getHero().getCanMove())
+                if (Vector2.Equals(MoveVec, Vector2.zero))
                 {
-                    Ctx.mInstance.mLuaSystem.exitForm(10003);//关闭重生界面
+                    Ctx.mInstance.mPlayerMgr.getHero().onPressButNoMove();
                 }
+                else
+                {
+                    if (!Ctx.mInstance.mPlayerMgr.getHero().getCanMove())
+                    {
+                        Ctx.mInstance.mLuaSystem.exitForm(10003);//关闭重生界面
+                    }
 
-                Ctx.mInstance.mPlayerMgr.getHero().moveForwardByOrient(MoveVec);
+                    Ctx.mInstance.mPlayerMgr.getHero().moveForwardByOrient(MoveVec);
+                }
             }
         }
 

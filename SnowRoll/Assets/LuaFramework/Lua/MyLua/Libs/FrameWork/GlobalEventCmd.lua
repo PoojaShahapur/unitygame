@@ -76,4 +76,12 @@ function M.getUserNickName()
     return "海盗一号";
 end
 
+--场景加载进度, progress: [0, 1]
+function M.onSceneLoadProgress(progress)
+	local form = GCtx.mUiMgr:getForm(GlobalNS.UIFormId.eUIStartGame);
+	if(nil ~= form) then
+		form:setProgress(progress);
+	end
+end
+
 return M;

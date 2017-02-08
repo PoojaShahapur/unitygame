@@ -2,7 +2,7 @@ MLoader("MyLua.Libs.Core.GlobalNS");
 MLoader("MyLua.Libs.Core.Class");
 MLoader("MyLua.Libs.UI.UICore.Form");
 
-MLoader("MyLua.Libs.AuxComponent.AuxUIComponent.AuxButton");
+MLoader("MyLua.Libs.Auxiliary.AuxUIComponent.AuxButton");
 
 MLoader("MyLua.UI.UIStartGame.StartGameNS");
 MLoader("MyLua.UI.UIStartGame.StartGameData");
@@ -60,6 +60,12 @@ function M:onInit()
     --商城按钮
     self.mShopBtn = GlobalNS.new(GlobalNS.AuxButton);
     self.mShopBtn:addEventHandle(self, self.onShopBtnClk);
+	
+	self.mBarImage = GlobalNS.new(GlobalNS.AuxImage);
+	self.mBarImage:hide();	-- 默认隐藏
+	self.mBarImage:setScale(0);
+	self.mBgImage = GlobalNS.new(GlobalNS.AuxImage);
+	self.mBgImage:hide();
 end
 
 function M:onReady()
@@ -114,6 +120,10 @@ function M:initForm()
     self.mRankBtn:setSelfGo(GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.mBottomImage, "Ranking_BtnTouch"));
     --商城按钮
     self.mShopBtn:setSelfGo(GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.mBottomImage, "Shop_BtnTouch"));
+	
+	-- 进度条
+	self.mBarImage:setSelfGo(GlobalNS.UtilApi.TransFindChildByPObjAndPath(bg_image, "ProgressBar/Bar"));
+	self.mBgImage:setSelfGo(GlobalNS.UtilApi.TransFindChildByPObjAndPath(bg_image, "ProgressBar/BG"));
 end
 
 function M:setUsernameAndPassword()
@@ -186,6 +196,10 @@ function M:onStartGameBtnClk()
     --GCtx.mUiMgr:exitForm(GlobalNS.UIFormId.eUIStartGame);
     --GlobalNS.CSSystem.Ctx.mInstance.mModuleSys:unloadModule(GlobalNS.CSSystem.ModuleId.LOGINMN);
     --GlobalNS.CSSystem.Ctx.mInstance.mModuleSys:loadModule(GlobalNS.CSSystem.ModuleId.GAMEMN);
+	
+	self.mBgImage:show();
+	self.mBarImage:show();
+	
     self:loginOrCreateAccount(SDK.Lib.SelectEnterMode.eLoginAccount);
 end
 
@@ -231,6 +245,10 @@ function M:onShopBtnClk()
     GCtx.mGoodsData:init();--打开商店时加载配置
     GCtx.mGoodsData.CurrentShopType = GlobalNS.UIFormId.eUIShop_SkinPanel;
     GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormId.eUIShop_SkinPanel);
+end
+
+function M:setProgress(value)
+	self.mBarImage:setScale(value);
 end
 
 return M;

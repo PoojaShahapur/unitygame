@@ -2,7 +2,7 @@ MLoader("MyLua.Libs.Core.GlobalNS");
 MLoader("MyLua.Libs.Core.Class");
 MLoader("MyLua.Libs.UI.UICore.Form");
 
-MLoader("MyLua.Libs.AuxComponent.AuxUIComponent.AuxButton");
+MLoader("MyLua.Libs.Auxiliary.AuxUIComponent.AuxButton");
 
 MLoader("MyLua.UI.UIShop_SkinPanel.Shop_SkinPanelNS");
 MLoader("MyLua.UI.UIShop_SkinPanel.Shop_SkinPanelData");
@@ -91,7 +91,7 @@ function M:onReady()
     self.Tip = GlobalNS.UtilApi.TransFindChildByPObjAndPath(MiddlePanel, "Tip");
     self.Tip:SetActive(false);
     --加载goodsitems
-	self.mGoodsitem_prefab:asyncLoad("UI/UIShop_SkinPanel/GoodsItem.prefab", self, self.onPrefabLoaded);    
+	self.mGoodsitem_prefab:asyncLoad("UI/UIShop_SkinPanel/GoodsItem.prefab", self, self.onPrefabLoaded, nil);    
 
     --底部
     local BottomBG = GlobalNS.UtilApi.TransFindChildByPObjAndPath(BG, "BottomBGImage");

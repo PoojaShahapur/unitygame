@@ -29,7 +29,18 @@
                 Ctx.mInstance.mUiMgr.loadAndShow(UIFormId.eUIJoyStick);
             }
             Ctx.mInstance.mLuaSystem.onPlayerMainLoaded();
-            Ctx.mInstance.mSoundMgr.play("Sound/Music/StudioEIM - myseabed.mp3", true);
+
+            if (Ctx.mInstance.mSystemSetting.hasKey("MusicModel"))
+            {
+                if (Ctx.mInstance.mSystemSetting.getInt("MusicModel") == 1)
+                {
+                    Ctx.mInstance.mSoundMgr.play("Sound/Music/StudioEIM - myseabed.mp3", true);
+                }
+            }
+            else
+            {
+                Ctx.mInstance.mSoundMgr.play("Sound/Music/StudioEIM - myseabed.mp3", true);
+            }
         }
     }
 }

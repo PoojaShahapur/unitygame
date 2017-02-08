@@ -31,7 +31,7 @@ namespace SDK.Lib
         {
             if (!soundParam.mIsLoop)
             {
-                addTimer();
+                this.addTimer();
             }
 
             //soundParam.mPath = Ctx.mInstance.mPakSys.getCurResPakPathByResPath(soundParam.mPath, null);
@@ -46,7 +46,7 @@ namespace SDK.Lib
             else
             {
                 // 创建
-                if (isPrefab(soundParam.mPath))
+                if (this.isPrefab(soundParam.mPath))
                 {
                     this.mPath2SoundDic[soundParam.mPath] = new SoundPrefabItem();
                     this.mPath2SoundDic[soundParam.mPath].mSoundResType = SoundResType.eSRT_Prefab;
@@ -72,10 +72,10 @@ namespace SDK.Lib
 
         public void play(string path, bool loop_ = true)
         {
-            if (mPath2SoundDic.ContainsKey(path))
+            if (this.mPath2SoundDic.ContainsKey(path))
             {
                 //mPath2SoundDic[path].mIsLoop = loop_;
-                mPath2SoundDic[path].Play();
+                this.mPath2SoundDic[path].Play();
             }
             else
             {
@@ -122,27 +122,27 @@ namespace SDK.Lib
             else if (res.refCountResLoadResultNotify.resLoadState.hasFailed())
             {
                 Ctx.mInstance.mLogSys.debugLog_1(LangItemID.eItem0, res.getLoadPath());
-                this.delSoundItem(mPath2SoundDic[logicPath]);
+                this.delSoundItem(this.mPath2SoundDic[logicPath]);
             }
 
             // 卸载数据
-            Ctx.mInstance.mResLoadMgr.unload(uniqueId, onLoadEventHandle);
+            Ctx.mInstance.mResLoadMgr.unload(uniqueId, this.onLoadEventHandle);
         }
 
         protected void unload(string path)
         {
-            if (mPath2SoundDic.ContainsKey(path))
+            if (this.mPath2SoundDic.ContainsKey(path))
             {
-                mPath2SoundDic[path].unload();
-                delSoundItem(mPath2SoundDic[path]);
+                this.mPath2SoundDic[path].unload();
+                this.delSoundItem(this.mPath2SoundDic[path]);
             }
         }
 
         // 不要遍历中使用这个函数
         protected void delSoundItem(SoundItem item)
         {
-            mPath2SoundDic.Remove(item.mPath);
-            mAudioList.Remove(item);
+            this.mPath2SoundDic.Remove(item.mPath);
+            this.mAudioList.Remove(item);
         }
 
         // 定时释放资源
@@ -150,11 +150,11 @@ namespace SDK.Lib
         {
             bool hasNoLoop = false;
             // 遍历看有没有播放完成的
-            foreach(SoundItem sound in mAudioList.list())
+            foreach(SoundItem sound in this.mAudioList.list())
             {
                 if(sound.isEnd())
                 {
-                    mClearList.Add(sound);
+                    this.mClearList.Add(sound);
                 }
                 else if (!sound.mIsLoop)
                 {
@@ -164,10 +164,10 @@ namespace SDK.Lib
 
             foreach(SoundItem sound in mClearList.list())
             {
-                unload(sound.mPath);
+                this.unload(sound.mPath);
             }
 
-            mClearList.Clear();
+            this.mClearList.Clear();
 
             if (!hasNoLoop)
             {
@@ -202,19 +202,19 @@ namespace SDK.Lib
         // 卸载所有的资源
         public void unloadAll()
         {
-            if (mTimer != null)
+            if (this.mTimer != null)
             {
-                mTimer.stopTimer();
+                this.mTimer.stopTimer();
             }
 
             // 遍历看有没有播放完成的
-            foreach (SoundItem sound in mAudioList.list())
+            foreach (SoundItem sound in this.mAudioList.list())
             {
                 sound.unload();
             }
 
-            mAudioList.Clear();
-            mPath2SoundDic.Clear();
+            this.mAudioList.Clear();
+            this.mPath2SoundDic.Clear();
         }
     }
 }

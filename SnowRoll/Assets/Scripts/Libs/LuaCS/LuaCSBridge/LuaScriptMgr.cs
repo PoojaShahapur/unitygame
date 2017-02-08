@@ -175,9 +175,9 @@ namespace SDK.Lib
                 //loader.AddBundle("lua/lua_3rd_sproto.unity3d");
 
                 //--------------------------MyLua Start --------------------------------
-                loader.AddBundle("lua/lua_mylua_libs_auxcomponent.unity3d");
-                loader.AddBundle("lua/lua_mylua_libs_auxcomponent_auxloader.unity3d");
-                loader.AddBundle("lua/lua_mylua_libs_auxcomponent_auxuicomponent.unity3d");
+                loader.AddBundle("lua/lua_mylua_libs_auxiliary.unity3d");
+                loader.AddBundle("lua/lua_mylua_libs_auxiliary_auxloader.unity3d");
+                loader.AddBundle("lua/lua_mylua_libs_auxiliary_auxuicomponent.unity3d");
                 loader.AddBundle("lua/lua_mylua_libs_common.unity3d");
 
                 loader.AddBundle("lua/lua_mylua_libs_core.unity3d");

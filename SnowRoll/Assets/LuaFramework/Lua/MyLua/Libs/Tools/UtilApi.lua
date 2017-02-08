@@ -76,11 +76,17 @@ function M.SetRectTransformParent(child, parent, worldPositionStays)
 end
 
 function M.SetActive(target, bShow)
-    target:SetActive(bShow);
+	if(nil ~= target and (GlobalNS.UtilApi.IsActive(target) ~= bShow)) then
+		target:SetActive(bShow);
+	end
 end
 
 function M.IsActive(target)
-    return target.activeSelf;
+	if(nil ~= target) then
+		return target.activeSelf;
+	end
+	
+	return false;
 end
 
 function M.AddComponent(target, name)
@@ -174,6 +180,27 @@ function M.setRectTransformSizeDelta(go, width, height)
     local sizeDelta = rectTransform.sizeDela;
     sizeDelta.x = width;
     sizeDelta.y = height;
+end
+
+function M.setRectScale(rectTrans, scale)
+	if (nil ~= rectTrans) then
+		rectTrans.localScale = scale;
+	end
+end
+
+function M.setGoRectScale(go, scale)
+	if (nil ~= go) then
+		local rectTransform = M.GetComponent(go, 'RectTransform');
+		if(nil ~= rectTransform) then
+			rectTransform.localScale = scale;
+		end
+	end
+end
+
+function M.setUGuiRectScale(uguiElement, scale)
+	if (nil ~= uguiElement) then
+		uguiElement.rectTransform.localScale = scale;
+	end
 end
 
 function M.enableBtn(go)

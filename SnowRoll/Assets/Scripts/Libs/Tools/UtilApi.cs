@@ -607,10 +607,12 @@ namespace SDK.Lib
             {
                 if (mat.mainTexture != null)
                 {
-                    UtilApi.UnloadAsset(mat.mainTexture);
+                    // 小心使用这个资源，这个函数把共享资源卸载掉了，如果有引用，就会有问题，确切的知道释放哪个资源，这个卸载除了 GameObject 之外的资源
+                    //UtilApi.UnloadAsset(mat.mainTexture);
                     mat.mainTexture = null;
                 }
-                UtilApi.UnloadAsset(mat);
+                // 小心使用这个资源，这个函数把共享资源卸载掉了，如果有引用，就会有问题，确切的知道释放哪个资源，这个卸载除了 GameObject 之外的资源
+                //UtilApi.UnloadAsset(mat);
                 mat = null;
             }
 
@@ -622,7 +624,8 @@ namespace SDK.Lib
                 {
                     if(image.sprite.texture != null)
                     {
-                        UtilApi.UnloadAsset(image.sprite.texture);
+                        // 小心使用这个资源，这个函数把共享资源卸载掉了，如果有引用，就会有问题，确切的知道释放哪个资源，这个卸载除了 GameObject 之外的资源
+                        //UtilApi.UnloadAsset(image.sprite.texture);
                     }
 
                     image.sprite = null;
@@ -661,7 +664,8 @@ namespace SDK.Lib
                     {
                         if (image.sprite.texture != null)
                         {
-                            UtilApi.UnloadAsset(image.sprite.texture);
+                            // 小心使用这个资源，这个函数把共享资源卸载掉了，如果有引用，就会有问题，确切的知道释放哪个资源，这个卸载除了 GameObject 之外的资源
+                            //UtilApi.UnloadAsset(image.sprite.texture);
                         }
 
                         image.sprite = null;
@@ -683,7 +687,7 @@ namespace SDK.Lib
 
         public static void SetActive(GameObject target, bool bshow)
         {
-            if (null != target)
+            if (null != target && (UtilApi.IsActive(target) != bshow))
             {
                 target.SetActive(bshow);
             }
@@ -802,24 +806,58 @@ namespace SDK.Lib
             }
         }
 
-        public static void setRectPos(RectTransform tran, Vector3 pos)
+        public static void setRectPos(RectTransform rectTrans, Vector3 pos)
         {
-            tran.localPosition = pos;
+            if (null != rectTrans)
+            {
+                rectTrans.localPosition = pos;
+            }
         }
 
-        public static void setRectRotate(RectTransform tran, Vector3 rotate)
+        public static void setRectRotate(RectTransform rectTrans, Vector3 rotate)
         {
-            Vector3 rot = tran.localEulerAngles;
-            rot.x = rotate.x;
-            rot.y = rotate.y;
-            rot.z = rotate.z;
-            tran.localEulerAngles = rot;
+            if (null != rectTrans)
+            {
+                Vector3 rot = rectTrans.localEulerAngles;
+                rot.x = rotate.x;
+                rot.y = rotate.y;
+                rot.z = rotate.z;
+                rectTrans.localEulerAngles = rot;
+            }
         }
 
         // 设置 RectTransform大小
-        public static void setRectSize(RectTransform tran, Vector2 size)
+        public static void setRectSize(RectTransform rectTrans, Vector2 size)
         {
-            tran.sizeDelta = size;
+            if (null != rectTrans)
+            {
+                rectTrans.sizeDelta = size;
+            }
+        }
+
+        public static void setRectSize(Graphic uguiElement, Vector2 size)
+        {
+            if (null != uguiElement)
+            {
+                uguiElement.rectTransform.sizeDelta = size;
+            }
+        }
+
+        // 设置矩形缩放
+        public static void setRectScale(RectTransform rectTrans, Vector3 scale)
+        {
+            if (null != rectTrans)
+            {
+                rectTrans.localScale = scale;
+            }
+        }
+
+        public static void setRectScale(Graphic uguiElement, Vector3 scale)
+        {
+            if (null != uguiElement)
+            {
+                uguiElement.rectTransform.localScale = scale;
+            }
         }
 
         public static void adjustEffectRST(Transform transform)
@@ -1693,6 +1731,17 @@ namespace SDK.Lib
         {
             //return "[" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss fff") + "] ";
             return "[" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "] ";
+        }
+
+        static public void enableBehaviour(Behaviour behaviour, bool isEnable)
+        {
+            if(null != behaviour)
+            {
+                if(behaviour.enabled != isEnable)
+                {
+                    behaviour.enabled = isEnable;
+                }
+            }
         }
     }
 }

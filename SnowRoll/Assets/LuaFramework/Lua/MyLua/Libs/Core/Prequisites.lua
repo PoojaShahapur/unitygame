@@ -69,15 +69,17 @@ MLoader("MyLua.Libs.UI.UICore.ComponentStyle.ButtonStyleBase");
 MLoader("MyLua.Libs.UI.UICore.ComponentStyle.WidgetStyleMgr");
 
 -- Aux 组件
-MLoader("MyLua.Libs.AuxComponent.AuxComponent");
-MLoader("MyLua.Libs.AuxComponent.AuxUIComponent.AuxWindow");
-MLoader("MyLua.Libs.AuxComponent.AuxUIComponent.AuxButton");
-MLoader("MyLua.Libs.AuxComponent.AuxUIComponent.AuxInputField");
-MLoader("MyLua.Libs.AuxComponent.AuxUIComponent.AuxLabel");
-MLoader("MyLua.Libs.AuxComponent.AuxLoader.AuxLoaderBase");
-MLoader("MyLua.Libs.AuxComponent.AuxLoader.AuxPrefabLoader");
-MLoader("MyLua.Libs.AuxComponent.AuxLoader.AuxUIPrefabLoader");
-MLoader("MyLua.Libs.AuxComponent.AuxLoader.AuxBytesLoader");
+MLoader("MyLua.Libs.Auxiliary.AuxComponent");
+MLoader("MyLua.Libs.Auxiliary.AuxUIComponent.AuxWindow");
+MLoader("MyLua.Libs.Auxiliary.AuxUIComponent.AuxButton");
+MLoader("MyLua.Libs.Auxiliary.AuxUIComponent.AuxInputField");
+MLoader("MyLua.Libs.Auxiliary.AuxUIComponent.AuxLabel");
+MLoader("MyLua.Libs.Auxiliary.AuxUIComponent.AuxImage");
+
+MLoader("MyLua.Libs.Auxiliary.AuxLoader.AuxLoaderBase");
+MLoader("MyLua.Libs.Auxiliary.AuxLoader.AuxPrefabLoader");
+MLoader("MyLua.Libs.Auxiliary.AuxLoader.AuxUIPrefabLoader");
+MLoader("MyLua.Libs.Auxiliary.AuxLoader.AuxBytesLoader");
 
 -- FrameWork 脚本
 MLoader("MyLua.Libs.FrameWork.ProcessSys");
