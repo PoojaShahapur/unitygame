@@ -1,5 +1,4 @@
 ﻿using LuaInterface;
-using System;
 
 namespace SDK.Lib
 {
@@ -63,12 +62,23 @@ namespace SDK.Lib
 
         }
 
+        public void addDispatch(EventDispatchFunctionObject dispatch)
+        {
+            this.addObject(dispatch);
+        }
+
+        public void removeDispatch(EventDispatchFunctionObject dispatch)
+        {
+            this.removeObject(dispatch);
+        }
+
         // 相同的函数只能增加一次，Lua ，Python 这些语言不支持同时存在几个相同名字的函数，只支持参数可以赋值，因此不单独提供同一个名字不同参数的接口了
         virtual public void addEventHandle(ICalleeObject pThis, MAction<IDispatchObject> handle, LuaTable luaTable = null, LuaFunction luaFunction = null)
         {
             if (null != pThis || null != handle || null != luaTable || null != luaFunction)
             {
                 EventDispatchFunctionObject funcObject = new EventDispatchFunctionObject();
+
                 if (null != handle)
                 {
                     funcObject.setFuncObject(pThis, handle);
@@ -77,7 +87,8 @@ namespace SDK.Lib
                 {
                     funcObject.setLuaFunctor(luaTable, luaFunction);
                 }
-                addObject(funcObject);
+
+                this.addDispatch(funcObject);
             }
             else
             {
@@ -90,6 +101,7 @@ namespace SDK.Lib
             int idx = 0;
             int elemLen = 0;
             elemLen = this.mHandleList.Count();
+
             while (idx < elemLen)
             {
                 if (this.mHandleList[idx].isEqual(pThis, handle, luaTable, luaFunction))
@@ -99,9 +111,10 @@ namespace SDK.Lib
 
                 idx += 1;
             }
+
             if (idx < this.mHandleList.Count())
             {
-                removeObject(this.mHandleList[idx]);
+                this.removeDispatch(this.mHandleList[idx]);
             }
             else
             {
@@ -111,7 +124,7 @@ namespace SDK.Lib
 
         override protected void addObject(IDelayHandleItem delayObject, float priority = 0.0f)
         {
-            if (isInDepth())
+            if (this.isInDepth())
             {
                 base.addObject(delayObject, priority);
             }
@@ -124,7 +137,7 @@ namespace SDK.Lib
 
         override protected void removeObject(IDelayHandleItem delayObject)
         {
-            if (isInDepth())
+            if (this.isInDepth())
             {
                 base.removeObject(delayObject);
             }
@@ -141,7 +154,7 @@ namespace SDK.Lib
         {
             //try
             //{
-            incDepth();
+            this.incDepth();
 
             //foreach (EventDispatchFunctionObject handle in this.mHandleList.list())
 
@@ -166,7 +179,7 @@ namespace SDK.Lib
                 this.mLuaCSBridgeDispatch.handleGlobalEvent(this.mEventId, dispatchObject);
             }
 
-            decDepth();
+            this.decDepth();
             //}
             //catch (Exception ex)
             //{
@@ -176,7 +189,7 @@ namespace SDK.Lib
 
         public void clearEventHandle()
         {
-            if (isInDepth())
+            if (this.isInDepth())
             {
                 //foreach (EventDispatchFunctionObject item in this.mHandleList.list())
                 int idx = 0;
@@ -187,7 +200,7 @@ namespace SDK.Lib
                 {
                     item = this.mHandleList[idx];
 
-                    removeObject(item);
+                    this.removeDispatch(item);
 
                     ++idx;
                 }
