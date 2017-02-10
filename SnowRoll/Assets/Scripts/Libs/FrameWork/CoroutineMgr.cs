@@ -20,11 +20,12 @@ namespace SDK.Lib
 
         public Coroutine StartCoroutine(IEnumerator routine)
         {
-            if (mCoroutineComponent == null)
+            if (this.mCoroutineComponent == null)
             {
-                mCoroutineComponent = Ctx.mInstance.mLayerMgr.mPath2Go[NotDestroyPath.ND_CV_App].AddComponent<CoroutineComponent>();
+                this.mCoroutineComponent = Ctx.mInstance.mLayerMgr.mPath2Go[NotDestroyPath.ND_CV_App].AddComponent<CoroutineComponent>();
             }
-            return mCoroutineComponent.StartCoroutine(routine);
+
+            return this.mCoroutineComponent.StartCoroutine(routine);
         }
     }
 }
