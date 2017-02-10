@@ -10,7 +10,7 @@ namespace SDK.Lib
     {
         // 目标信息
         protected Vector3 mDestPos;       // 最终位置
-        protected Vector3 m_destRot;       // 最终旋转
+        protected Vector3 mDestRot;       // 最终旋转
 
         public RTAni()
         {
@@ -33,7 +33,7 @@ namespace SDK.Lib
         {
             set
             {
-                m_destRot = value;
+                mDestRot = value;
             }
         }
 
@@ -50,11 +50,11 @@ namespace SDK.Lib
             base.buildAniBasicParam(args);
 
             args["position"] = mDestPos;
-            args["time"] = m_time;
+            args["time"] = mTime;
             args["islocal"] = true;
 
-            args["easetype"] = m_easeType;
-            args["looptype"] = m_loopType;
+            args["easetype"] = mEaseType;
+            args["looptype"] = mLoopType;
             //args["method"] = "to";
             //args["type"] = "color";
             incItweenCount();
@@ -62,11 +62,11 @@ namespace SDK.Lib
 
             args = new Hashtable();
             base.buildAniBasicParam(args);
-            args["rotation"] = m_destRot;
-            args["time"] = m_time;
+            args["rotation"] = mDestRot;
+            args["time"] = mTime;
             args["islocal"] = true;
-            args["easetype"] = m_easeType;
-            args["looptype"] = m_loopType;
+            args["easetype"] = mEaseType;
+            args["looptype"] = mLoopType;
             incItweenCount();
             iTween.RotateTo(mGo, args);
         }

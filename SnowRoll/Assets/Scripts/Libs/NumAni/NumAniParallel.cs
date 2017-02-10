@@ -5,7 +5,7 @@
      */
     public class NumAniParallel : NumAniSeqBase
     {
-        protected NumAniBase m_lastAni;
+        protected NumAniBase mLastAni;
 
         public NumAniParallel()
         {
@@ -17,11 +17,11 @@
 
         public void play()
         {
-            if (m_numAniList.Count > 0)
+            if (mNumAniList.Count > 0)
             {
-                m_lastAni = m_numAniList[0];
+                mLastAni = mNumAniList[0];
 
-                foreach (NumAniBase ani in m_numAniList)
+                foreach (NumAniBase ani in mNumAniList)
                 {
                     if (!ani.isPlaying())
                     {
@@ -29,13 +29,13 @@
                     }
                 }
 
-                m_numAniList.Clear();
+                mNumAniList.Clear();
             }
             else
             {
-                if (m_aniSeqEndDisp != null)
+                if (mAniSeqEndDisp != null)
                 {
-                    m_aniSeqEndDisp(this);
+                    mAniSeqEndDisp(this);
                 }
             }
         }
@@ -44,11 +44,11 @@
         {
             if (ani.decItweenCount() == 0)      // 如果 ITween 全部播放完成
             {
-                if (UtilApi.isAddressEqual(m_lastAni, ani))
+                if (UtilApi.isAddressEqual(mLastAni, ani))
                 {
-                    if (m_aniSeqEndDisp != null)
+                    if (mAniSeqEndDisp != null)
                     {
-                        m_aniSeqEndDisp(this);
+                        mAniSeqEndDisp(this);
                     }
                 }
             }

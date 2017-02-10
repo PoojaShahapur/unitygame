@@ -25,9 +25,9 @@
                 endCurAni(ani);
                 if (!nextAni())
                 {
-                    if (m_aniSeqEndDisp != null)
+                    if (mAniSeqEndDisp != null)
                     {
-                        m_aniSeqEndDisp(this);
+                        mAniSeqEndDisp(this);
                     }
                 }
             }
@@ -36,11 +36,11 @@
         // 成功开始下一个动画返回 true ，否则返回 false
         protected bool nextAni()
         {
-            if(m_numAniList.Count > 0)
+            if(mNumAniList.Count > 0)
             {
-                if (!m_numAniList[0].isPlaying())
+                if (!mNumAniList[0].isPlaying())
                 {
-                    m_numAniList[0].play();
+                    mNumAniList[0].play();
                     return true;
                 }
             }

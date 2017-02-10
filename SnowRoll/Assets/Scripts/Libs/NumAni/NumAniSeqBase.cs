@@ -7,13 +7,13 @@ namespace SDK.Lib
     public class NumAniSeqBase
     {
         protected GameObject mGo;
-        protected List<NumAniBase> m_numAniList = new List<NumAniBase>();
-        protected Action<NumAniSeqBase> m_aniSeqEndDisp;          // 动画结束分发
+        protected List<NumAniBase> mNumAniList = new List<NumAniBase>();
+        protected Action<NumAniSeqBase> mAniSeqEndDisp;          // 动画结束分发
 
         public void destroy()
         {
-            m_numAniList.Clear();
-            m_aniSeqEndDisp = null;
+            mNumAniList.Clear();
+            mAniSeqEndDisp = null;
             mGo.transform.parent = null;
             UtilApi.Destroy(mGo);
 
@@ -32,7 +32,7 @@ namespace SDK.Lib
 
         public void addOneNumAni(NumAniBase ani)
         {
-            m_numAniList.Add(ani);
+            mNumAniList.Add(ani);
 
             if (ani is ITweenAniBase)   // 如果是补间动画
             {
@@ -47,7 +47,7 @@ namespace SDK.Lib
 
         public void setAniSeqEndDisp(Action<NumAniSeqBase> disp)
         {
-            m_aniSeqEndDisp = disp;
+            mAniSeqEndDisp = disp;
         }
 
         protected void endCurAni(NumAniBase ani)
@@ -57,7 +57,7 @@ namespace SDK.Lib
                 ani.getAniEndDisp()(ani);
             }
             ani.stop();                 // 停止动画
-            m_numAniList.Remove(ani);
+            mNumAniList.Remove(ani);
         }
 
         virtual protected void onOneAniEndHandle(NumAniBase ani)

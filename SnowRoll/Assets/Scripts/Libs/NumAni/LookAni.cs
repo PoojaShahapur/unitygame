@@ -5,24 +5,24 @@ namespace SDK.Lib
 {
     public class LookAni : ITweenAniBase
     {
-        protected Vector3 m_looktarget;         // 观察的位置
-        protected string m_axis;                // 轴
-        protected float m_speed;                // 旋转速度 iTween.cs , if(tweenArguments.Contains("speed")){ speed 暂时不用
+        protected Vector3 mLooktarget;         // 观察的位置
+        protected string mAxis;                // 轴
+        protected float mSpeed;                // 旋转速度 iTween.cs , if(tweenArguments.Contains("speed")){ speed 暂时不用
 
         public LookAni()
         {
-            m_axis = "y";
+            mAxis = "y";
         }
 
         public Vector3 looktarget
         {
             get
             {
-                return m_looktarget;
+                return mLooktarget;
             }
             set
             {
-                m_looktarget = value;
+                mLooktarget = value;
             }
         }
 
@@ -30,11 +30,11 @@ namespace SDK.Lib
         {
             get
             {
-                return m_axis;
+                return mAxis;
             }
             set
             {
-                m_axis = value;
+                mAxis = value;
             }
         }
 
@@ -42,11 +42,11 @@ namespace SDK.Lib
         {
             get
             {
-                return m_speed;
+                return mSpeed;
             }
             set
             {
-                m_speed = value;
+                mSpeed = value;
             }
         }
 
@@ -63,13 +63,13 @@ namespace SDK.Lib
             base.buildAniBasicParam(args);
 
             args["looktarget"] = looktarget;
-            args["time"] = m_time;
+            args["time"] = mTime;
             args["islocal"] = true;
 
-            args["easetype"] = m_easeType;
-            args["looptype"] = m_loopType;
+            args["easetype"] = mEaseType;
+            args["looptype"] = mLoopType;
 
-            args["axis"] = m_axis;
+            args["axis"] = mAxis;
             //args["speed"] = "speed";
 
             incItweenCount();

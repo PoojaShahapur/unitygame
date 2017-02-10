@@ -34,9 +34,9 @@ namespace SDK.Lib
             base.buildAniBasicParam(args);
 
             args["scale"] = mDestScale;
-            args["time"] = m_time;
-            args["easetype"] = m_easeType;
-            args["looptype"] = m_loopType;
+            args["time"] = mTime;
+            args["easetype"] = mEaseType;
+            args["looptype"] = mLoopType;
             incItweenCount();
             iTween.ScaleTo(mGo, args);
         }
