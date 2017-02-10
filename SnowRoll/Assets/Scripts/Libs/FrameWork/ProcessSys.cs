@@ -25,5 +25,15 @@ namespace SDK.Lib
             Ctx.mInstance.mTimerMgr.Advance(delta);           // 定时器
             Ctx.mInstance.mFrameTimerMgr.Advance(delta);      // 帧定时器
         }
+
+        public void ProcessNextFixedFrame()
+        {
+            this.FixedAdvance(Ctx.mInstance.mSystemTimeData.getFixedTimestep());
+        }
+
+        public void FixedAdvance(float delta)
+        {
+            Ctx.mInstance.mFixedTickMgr.Advance(delta);
+        }
     }
 }

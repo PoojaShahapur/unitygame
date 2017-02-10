@@ -106,7 +106,7 @@ namespace Game.UI
             //Ctx.mInstance.mInputMgr.removeMouseListener(MMouseDevice.MouseLeftButton, EventId.MOUSEUP_EVENT, onTouchEnd);
             Ctx.mInstance.mInputMgr.removeTouchListener(EventId.TOUCHENDED_EVENT, onTouchEnd);
 
-            Ctx.mInstance.mTickMgr.delTick(this as ITickedObject);
+            Ctx.mInstance.mTickMgr.removeTick(this as ITickedObject);
         }
 
         void ITickedObject.onTick(float delta)

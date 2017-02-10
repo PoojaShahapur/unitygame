@@ -16,6 +16,7 @@
         public IGameSys mGameSys;                 // 游戏系统
         public SceneSys mSceneSys;                // 场景系统
         public TickMgr mTickMgr;                  // 心跳管理器
+        public TickMgr mFixedTickMgr;             // 固定间隔心跳管理器
         public ProcessSys mProcessSys;            // 游戏处理系统
 
         public TimerMgr mTimerMgr;                // 定时器系统
@@ -219,6 +220,7 @@
 
             this.mProcessSys = new ProcessSys();
             this.mTickMgr = new TickMgr();
+            this.mFixedTickMgr = new TickMgr();
             this.mTimerMgr = new TimerMgr();
             this.mFrameTimerMgr = new FrameTimerMgr();
             this.mCoroutineMgr = new CoroutineMgr();
@@ -276,6 +278,9 @@
             this.mLogSys.init();
             this.mInputMgr.init();
             this.mDataPlayer.mDataPack.postConstruct();
+
+            this.mTickMgr.init();
+            this.mFixedTickMgr.init();
 
             // 初始化重定向
             this.mResRedirect.init();
@@ -343,6 +348,11 @@
             {
                 this.mTickMgr.dispose();
                 this.mTickMgr = null;
+            }
+            if (null != this.mFixedTickMgr)
+            {
+                this.mFixedTickMgr.dispose();
+                this.mFixedTickMgr = null;
             }
             if (null != this.mPlayerMgr)
             {
@@ -487,19 +497,26 @@
                 this.mTickMgr.addTick(this.mPlayerSnowBlockMgr as ITickedObject, TickPriority.eTPPlayerSnowBlockMgr);
                 this.mTickMgr.addTick(this.mComputerBallMgr as ITickedObject, TickPriority.eTPComputerBallMgr);
             }
-        }
-
-        public void fixUpdateActor()
-        {
-            if (Ctx.mInstance.mCfg.mIsActorMoveUseFixUpdate)
+            else
             {
-                this.mPlayerMgr.onTick(Ctx.mInstance.mSystemTimeData.getFixedTimestep());
-                this.mSnowBlockMgr.onTick(Ctx.mInstance.mSystemTimeData.getFixedTimestep());
-                this.mPlayerSnowBlockMgr.onTick(Ctx.mInstance.mSystemTimeData.getFixedTimestep());
-                this.mComputerBallMgr.onTick(Ctx.mInstance.mSystemTimeData.getFixedTimestep());
-                this.mCameraPositonMgr.onTick(Ctx.mInstance.mSystemTimeData.getFixedTimestep());
+                this.mFixedTickMgr.addTick(this.mPlayerMgr as ITickedObject, TickPriority.eTPPlayerMgr);
+                this.mFixedTickMgr.addTick(this.mSnowBlockMgr as ITickedObject, TickPriority.eTPSnowBlockMgr);
+                this.mFixedTickMgr.addTick(this.mPlayerSnowBlockMgr as ITickedObject, TickPriority.eTPPlayerSnowBlockMgr);
+                this.mFixedTickMgr.addTick(this.mComputerBallMgr as ITickedObject, TickPriority.eTPComputerBallMgr);
             }
         }
+
+        //public void fixUpdateActor()
+        //{
+        //    if (Ctx.mInstance.mCfg.mIsActorMoveUseFixUpdate)
+        //    {
+        //        this.mPlayerMgr.onTick(Ctx.mInstance.mSystemTimeData.getFixedTimestep());
+        //        this.mSnowBlockMgr.onTick(Ctx.mInstance.mSystemTimeData.getFixedTimestep());
+        //        this.mPlayerSnowBlockMgr.onTick(Ctx.mInstance.mSystemTimeData.getFixedTimestep());
+        //        this.mComputerBallMgr.onTick(Ctx.mInstance.mSystemTimeData.getFixedTimestep());
+        //        this.mCameraPositonMgr.onTick(Ctx.mInstance.mSystemTimeData.getFixedTimestep());
+        //    }
+        //}
 
         public void setNoDestroyObject()
         {

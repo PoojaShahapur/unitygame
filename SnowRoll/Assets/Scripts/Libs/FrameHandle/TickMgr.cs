@@ -24,12 +24,12 @@ namespace SDK.Lib
 
         public void addTick(ITickedObject tickObj, float priority = 0.0f)
         {
-            addObject(tickObj as IDelayHandleItem, priority);
+            this.addObject(tickObj as IDelayHandleItem, priority);
         }
 
         override protected void addObject(IDelayHandleItem delayObject, float priority = 0.0f)
         {
-            if (isInDepth())
+            if (this.isInDepth())
             {
                 base.addObject(delayObject, priority);
             }
@@ -38,6 +38,7 @@ namespace SDK.Lib
                 int position = -1;
                 int idx = 0;
                 int elemLen = this.mTickList.Count();
+
                 while(idx < elemLen)
                 {
                     if (this.mTickList[idx] == null)
@@ -74,14 +75,14 @@ namespace SDK.Lib
             }
         }
 
-        public void delTick(ITickedObject tickObj)
+        public void removeTick(ITickedObject tickObj)
         {
             this.removeObject(tickObj as IDelayHandleItem);
         }
 
         override protected void removeObject(IDelayHandleItem delayObject)
         {
-            if (isInDepth())
+            if (this.isInDepth())
             {
                 base.removeObject(delayObject);
             }
@@ -100,7 +101,7 @@ namespace SDK.Lib
 
         public void Advance(float delta)
         {
-            incDepth();
+            this.incDepth();
 
             foreach (TickProcessObject tk in this.mTickList.list())
             {
@@ -110,7 +111,7 @@ namespace SDK.Lib
                 }
             }
 
-            decDepth();
+            this.decDepth();
         }
     }
 }
