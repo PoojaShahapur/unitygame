@@ -22,7 +22,10 @@
             // 如果是被合并掉的
             if (BeingSubState.eBSSMerge == (this.mEntity as BeingEntity).getBeingSubState())
             {
-                Ctx.mInstance.mLogSys.log(string.Format("PlayerChildMovement::onArriveDestPos, Merge success, dispose thisId = {0}", this.mEntity.getThisId()), LogTypeId.eLogSplitMergeEmit);
+                if (MacroDef.ENABLE_LOG)
+                {
+                    Ctx.mInstance.mLogSys.log(string.Format("PlayerChildMovement::onArriveDestPos, Merge success, dispose thisId = {0}", this.mEntity.getThisId()), LogTypeId.eLogSplitMergeEmit);
+                }
 
                 this.mEntity.dispose();
             }

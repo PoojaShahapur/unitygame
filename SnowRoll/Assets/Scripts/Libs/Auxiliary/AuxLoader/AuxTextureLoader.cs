@@ -40,12 +40,15 @@ namespace SDK.Lib
 
             if (this.isInvalid())
             {
+                this.onStartLoad();
+
                 this.mTextureRes = Ctx.mInstance.mTexMgr.getAndSyncLoadRes(path, null, null);
-                this.onTexLoaded(this.mTextureRes);
+                this.onTextureLoaded(this.mTextureRes);
             }
             else if (this.hasLoadEnd())
             {
-                this.onTexLoaded(this.mTextureRes);
+                //this.onTextureLoaded(this.mTextureRes);
+                this.onTextureLoaded(null);
             }
         }
 
@@ -55,12 +58,14 @@ namespace SDK.Lib
 
             if (this.isInvalid())
             {
+                this.onStartLoad();
+
                 this.mTextureRes = Ctx.mInstance.mTexMgr.getAndSyncLoadRes(path, null, null);
-                this.onTexLoaded(this.mTextureRes);
+                this.onTextureLoaded(this.mTextureRes);
             }
             else if (this.hasLoadEnd())
             {
-                this.onTexLoaded(this.mTextureRes);
+                this.onTextureLoaded(null);
             }
         }
 
@@ -71,18 +76,20 @@ namespace SDK.Lib
 
             if (this.isInvalid())
             {
+                this.onStartLoad();
+
                 if (null == progressHandle)
                 {
-                    this.mTextureRes = Ctx.mInstance.mTexMgr.getAndAsyncLoadRes(path, this.onTexLoaded, null);
+                    this.mTextureRes = Ctx.mInstance.mTexMgr.getAndAsyncLoadRes(path, this.onTextureLoaded, null);
                 }
                 else
                 {
-                    this.mTextureRes = Ctx.mInstance.mTexMgr.getAndAsyncLoadRes(path, this.onTexLoaded, this.onProgressEventHandle);
+                    this.mTextureRes = Ctx.mInstance.mTexMgr.getAndAsyncLoadRes(path, this.onTextureLoaded, this.onProgressEventHandle);
                 }
             }
             else if (this.hasLoadEnd())
             {
-                this.onTexLoaded(this.mTextureRes);
+                this.onTextureLoaded(null);
             }
         }
 
@@ -92,22 +99,24 @@ namespace SDK.Lib
 
             if (this.isInvalid())
             {
+                this.onStartLoad();
+
                 if (null == progressLuaFunction)
                 {
-                    this.mTextureRes = Ctx.mInstance.mTexMgr.getAndAsyncLoadRes(path, this.onTexLoaded, null);
+                    this.mTextureRes = Ctx.mInstance.mTexMgr.getAndAsyncLoadRes(path, this.onTextureLoaded, null);
                 }
                 else
                 {
-                    this.mTextureRes = Ctx.mInstance.mTexMgr.getAndAsyncLoadRes(path, this.onTexLoaded, this.onProgressEventHandle);
+                    this.mTextureRes = Ctx.mInstance.mTexMgr.getAndAsyncLoadRes(path, this.onTextureLoaded, this.onProgressEventHandle);
                 }
             }
             else if (this.hasLoadEnd())
             {
-                this.onTexLoaded(this.mTextureRes);
+                this.onTextureLoaded(null);
             }
         }
 
-        public void onTexLoaded(IDispatchObject dispObj)
+        public void onTextureLoaded(IDispatchObject dispObj)
         {
             if (null != dispObj)
             {
@@ -121,7 +130,7 @@ namespace SDK.Lib
                 else if (this.mTextureRes.hasFailed())
                 {
                     this.mResLoadState.setFailed();
-                    Ctx.mInstance.mTexMgr.unload(this.mTextureRes.getResUniqueId(), this.onTexLoaded);
+                    Ctx.mInstance.mTexMgr.unload(this.mTextureRes.getResUniqueId(), this.onTextureLoaded);
                     this.mTextureRes = null;
                 }
             }
@@ -136,11 +145,24 @@ namespace SDK.Lib
         {
             if(null != this.mTextureRes)
             {
-                Ctx.mInstance.mTexMgr.unload(mTextureRes.getResUniqueId(), this.onTexLoaded);
+                Ctx.mInstance.mTexMgr.unload(mTextureRes.getResUniqueId(), this.onTextureLoaded);
                 this.mTextureRes = null;
             }
 
             base.unload();
+        }
+
+        public static AuxTextureLoader newObject(string path = "")
+        {
+            AuxTextureLoader ret = null;
+            ret = AuxTextureLoader.getObject(path) as AuxTextureLoader;
+
+            if (null == ret)
+            {
+                ret = new AuxTextureLoader(path);
+            }
+
+            return ret;
         }
     }
 }

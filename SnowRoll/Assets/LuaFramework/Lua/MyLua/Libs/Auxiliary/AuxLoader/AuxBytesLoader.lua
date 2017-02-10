@@ -21,6 +21,8 @@ function M:dispose()
         self.mNativeBytesLoader:dispose();
         self.mNativeBytesLoader = nil;
     end
+	
+	M.super.dispose(self);
 end
 
 function M:getNativeLoader()
@@ -31,18 +33,40 @@ function M:getBytes()
 	return self.mNativeBytesLoader:getBytes();
 end
 
-function M:syncLoad(path, pThis, handle)
-    self.mEvtHandle = GlobalNS.new(GlobalNS.ResEventDispatch);
-    self.mEvtHandle:addEventHandle(pThis, handle);
-    self.mNativeBytesLoader = GlobalNS.CSSystem.AuxBytesLoader.New("");
-    self.mNativeBytesLoader:syncLoad(path, self, self.onBytesLoaded);
+function M:syncLoad(path, pThis, handle, progressHandle)
+	M.super.asyncLoad(self, path, pThis, handle, progressHandle);
+	
+	if (self:isInvalid()) then
+		if(nil == self.mNativeBytesLoader) then
+			self.mNativeBytesLoader = GlobalNS.CSSystem.AuxBytesLoader.New("");
+		end
+		
+		if(nil == progressHandle) then
+			self.mNativeBytesLoader:syncLoad(path, self, self.onBytesLoaded, nil);
+		else
+			self.mNativeBytesLoader:syncLoad(path, self, self.onBytesLoaded, self.onProgressEventHandle);
+		end
+	elseif (self:hasLoadEnd()) then
+		self:onBytesLoaded(nil);
+	end
 end
 
-function M:asyncLoad(path, pThis, handle)
-    self.mEvtHandle = GlobalNS.new(GlobalNS.ResEventDispatch);
-    self.mEvtHandle:addEventHandle(pThis, handle);
-    self.mNativeBytesLoader = GlobalNS.CSSystem.AuxBytesLoader.New("");
-    self.mNativeBytesLoader:asyncLoad(path, self, self.onBytesLoaded);
+function M:asyncLoad(path, pThis, handle, progressHandle)
+	M.super.asyncLoad(self, path, pThis, handle, progressHandle);
+	
+	if (self:isInvalid()) then
+		if(nil == self.mNativeBytesLoader) then
+			self.mNativeBytesLoader = GlobalNS.CSSystem.AuxBytesLoader.New("");
+		end
+		
+		if(nil == progressHandle) then
+			self.mNativeBytesLoader:asyncLoad(path, self, self.onBytesLoaded, nil);
+		else
+			self.mNativeBytesLoader:asyncLoad(path, self, self.onBytesLoaded, self.onProgressEventHandle);
+		end
+	elseif (self:hasLoadEnd()) then
+		self:onBytesLoaded(nil);
+	end
 end
 
 function M:onBytesLoaded(dispObj)

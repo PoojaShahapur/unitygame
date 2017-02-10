@@ -57,6 +57,15 @@
         // Lua 加载方式
         static public bool LUA_EDITOR = true;
 
+        // 开启日志
+        static public bool ENABLE_LOG = false;
+
+        // 开启警告
+        static public bool ENABLE_WARN = false;
+
+        // 开启错误
+        static public bool ENABLE_ERROR = false;
+
         // 宏定义结束
     }
 }

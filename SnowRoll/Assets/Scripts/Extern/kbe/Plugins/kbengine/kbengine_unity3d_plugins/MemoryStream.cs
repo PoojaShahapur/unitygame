@@ -278,7 +278,7 @@
 				return;
 			}
 
-			byte[] getdata = System.Text.Encoding.ASCII.GetBytes(v);
+			byte[] getdata = System.Text.Encoding.UTF8.GetBytes(v);
 			for(int i=0; i<getdata.Length; i++)
 			{
 				datas_[wpos++] = getdata[i];

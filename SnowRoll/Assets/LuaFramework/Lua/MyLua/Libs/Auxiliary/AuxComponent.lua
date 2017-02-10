@@ -1,5 +1,5 @@
 local M = GlobalNS.Class(GlobalNS.GObject);
-M.clsName = "Auxiliary";
+M.clsName = "AuxComponent";
 GlobalNS[M.clsName] = M;
 
 function M:ctor()

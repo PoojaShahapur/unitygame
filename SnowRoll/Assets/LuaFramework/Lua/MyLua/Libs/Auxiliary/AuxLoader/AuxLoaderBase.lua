@@ -117,6 +117,11 @@ function M:asyncLoad(path, pThis, evtHandle, progressHandle)
 	self:addEventHandle(pThis, evtHandle, progressHandle);
 end
 
+function M:download(origPath, pThis, evtHandle, progressHandle, fileLen, isWriteFile, downloadType)
+	self:updatePath(origPath);
+	self:addEventHandle(evtHandle, progressHandle);
+end
+
 function M:unload()
 	if (nil ~= self.mEvtHandle) then
 		self.mEvtHandle:clearEventHandle();

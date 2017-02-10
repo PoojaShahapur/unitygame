@@ -10,7 +10,8 @@
 
         public EntityRenderBase(SceneEntityBase entity_)
         {
-            mEntity = entity_;
+            this.mEntity = entity_;
+            this.mIsDestroySelf = false;
         }
 
         virtual public void setClientDispose(bool isDispose)
@@ -20,7 +21,7 @@
 
         virtual public bool isClientDispose()
         {
-            return mEntity.isClientDispose();
+            return this.mEntity.isClientDispose();
         }
 
         virtual public void onTick(float delta)
@@ -49,7 +50,20 @@
         // 资源释放事件，仅仅是释放基本的资源，不修改销毁流程
         override public void onDestroy()
         {
+            this.onRetPool();
+
             base.onDestroy();
+        }
+
+        // 放到 Pool 中
+        virtual protected void onRetPool()
+        {
+
+        }
+
+        virtual protected void onGetPool()
+        {
+
         }
 
         virtual public bool checkRender()
@@ -103,6 +117,8 @@
         // 资源加载完成，初始化一些基本资源
         override protected void onSelfChanged()
         {
+            this.onGetPool();
+
             base.onSelfChanged();
 
             this.mRigidbody = UtilApi.getComByP<UnityEngine.Rigidbody>(this.selfGo);

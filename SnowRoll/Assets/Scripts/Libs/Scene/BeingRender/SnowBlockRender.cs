@@ -21,7 +21,7 @@
             this.mModelRender = this.selfGo;
 
             //this.setModelMat();
-            this.setModelTexTile();
+            //this.setModelTexTile();
 
             //GameObject collide = UtilApi.TransFindChildByPObjAndPath(this.selfGo, UtilApi.COLLIDE_NAME);
             //AuxSnowBlockUserData auxData = UtilApi.AddComponent<AuxSnowBlockUserData>(collide);
@@ -47,6 +47,32 @@
                     this.mIsRotDirty = false;
                     UtilApi.setRot(this.mSelfGo.transform, this.mEntity.getRotate());
                 }
+            }
+        }
+
+        override protected void onRetPool()
+        {
+            base.onRetPool();
+
+            if (null != this.mSelfGo)
+            {
+                // 关闭组件
+                UtilApi.enableMeshRenderComponent(this.mSelfGo, false);
+                UtilApi.enableAnimatorComponent(this.mSelfGo, false);
+                UtilApi.enableCollider<UnityEngine.SphereCollider>(this.mSelfGo, false);
+            }
+        }
+
+        override protected void onGetPool()
+        {
+            base.onGetPool();
+
+            if (null != this.mSelfGo)
+            {
+                // 关闭组件
+                UtilApi.enableMeshRenderComponent(this.mSelfGo, true);
+                UtilApi.enableAnimatorComponent(this.mSelfGo, true);
+                UtilApi.enableCollider<UnityEngine.SphereCollider>(this.mSelfGo, true);
             }
         }
     }

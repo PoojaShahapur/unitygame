@@ -24,6 +24,8 @@
 
             if (this.isInvalid())
             {
+                this.onStartLoad();
+
                 LoadParam param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
                 param.setPath(string.Format("{0}{1}", Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathScene], mPath));
                 param.mLoadEventHandle = onLevelLoaded;
@@ -37,7 +39,8 @@
             }
             else if (this.hasLoadEnd())
             {
-                this.onLevelLoaded(this.mLevelResItem);
+                //this.onLevelLoaded(this.mLevelResItem);
+                this.onLevelLoaded(null);
             }
         }
 
@@ -45,10 +48,10 @@
         {
             base.syncLoad(path, luaTable, luaFunction, progressLuaFunction);
 
-            this.updatePath(path);
-
             if (this.isInvalid())
             {
+                this.onStartLoad();
+
                 LoadParam param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
                 param.setPath(string.Format("{0}{1}", Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathScene], mPath));
                 param.mLoadEventHandle = onLevelLoaded;
@@ -66,7 +69,7 @@
             }
             else if (this.hasLoadEnd())
             {
-                this.onLevelLoaded(this.mLevelResItem);
+                this.onLevelLoaded(null);
             }
         }
 
@@ -77,6 +80,8 @@
 
             if (this.isInvalid())
             {
+                this.onStartLoad();
+
                 LoadParam param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
                 param.setPath(string.Format("{0}{1}", Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathScene], mPath));
                 param.mLoadEventHandle = this.onLevelLoaded;
@@ -91,7 +96,7 @@
             }
             else if (this.hasLoadEnd())
             {
-                this.onLevelLoaded(this.mLevelResItem);
+                this.onLevelLoaded(null);
             }
         }
 
@@ -99,10 +104,10 @@
         {
             base.asyncLoad(path, luaTable, luaFunction, progressLuaFunction);
 
-            this.updatePath(path);
-
             if (this.isInvalid())
             {
+                this.onStartLoad();
+
                 LoadParam param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
                 param.setPath(string.Format("{0}{1}", Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathScene], mPath));
                 param.mLoadEventHandle = this.onLevelLoaded;
@@ -117,7 +122,7 @@
             }
             else if (this.hasLoadEnd())
             {
-                this.onLevelLoaded(this.mLevelResItem);
+                this.onLevelLoaded(null);
             }
         }
 

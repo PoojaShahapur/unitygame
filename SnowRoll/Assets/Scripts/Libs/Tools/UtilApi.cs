@@ -43,6 +43,8 @@ namespace SDK.Lib
         public const string COLLIDE_NAME = "Collide"; // 模型 GameObject 的 name
         public const string MODEL_RENDER_NAME = "model/model (1)";   // 模型 GameObject 的 MeshRender 名字
 
+        public const string POOL_SUFFIX = "_HIDE";          // 隐藏对象后缀名字
+
         public static GameObject[] FindGameObjectsWithTag(string tag)
         {
             return GameObject.FindGameObjectsWithTag(tag);
@@ -215,12 +217,12 @@ namespace SDK.Lib
         {
             EventTrigger trigger = go.GetComponent<EventTrigger>();
 
-            if(trigger == null)
+            if (trigger == null)
             {
                 trigger = UtilApi.AddComponent<EventTrigger>(go);
             }
 
-            if(trigger != null)
+            if (trigger != null)
             {
                 EventTrigger.Entry entry = new EventTrigger.Entry();
                 // 这一行就相当于在 EventTrigger 组件编辑器中点击[Add New Event Type] 添加一个新的事件类型
@@ -312,12 +314,12 @@ namespace SDK.Lib
         {
             Transform goTrans = go.GetComponent<Transform>();
 
-            if(goTrans == null)
+            if (goTrans == null)
             {
                 goTrans = go.GetComponent<RectTransform>();
             }
 
-            if(goTrans != null)
+            if (goTrans != null)
             {
                 Transform evtTrans = goTrans.Find(path);
                 if (evtTrans != null)
@@ -355,14 +357,14 @@ namespace SDK.Lib
                 else
                 {
                     AuxButtonUserData userData = go.GetComponent<AuxButtonUserData>();
-                    if(userData == null)
+                    if (userData == null)
                     {
                         userData = UtilApi.AddComponent<AuxButtonUserData>(go);
                     }
                     if (userData != null)
                     {
                         AuxButton auxBtn = userData.getUserData();
-                        if(auxBtn == null)
+                        if (auxBtn == null)
                         {
                             auxBtn = userData.addUserData();
                         }
@@ -465,7 +467,7 @@ namespace SDK.Lib
         public static void addEventHandle(UnityEvent<bool> unityEvent, LuaTable luaTable, LuaFunction luaFunction)
         {
             unityEvent.AddListener(
-                (param) => 
+                (param) =>
                 {
                     if (luaTable != null)
                     {
@@ -538,7 +540,7 @@ namespace SDK.Lib
             {
                 childTrans = go_.transform.GetChild(idx);
 
-                if(UtilApi.CheckComponent<T>(childTrans.gameObject))
+                if (UtilApi.CheckComponent<T>(childTrans.gameObject))
                 {
                     return true;
                 }
@@ -595,7 +597,10 @@ namespace SDK.Lib
 
         public static void DontDestroyOnLoad(UnityEngine.Object target)
         {
-            UnityEngine.Object.DontDestroyOnLoad(target);
+            if (null != target)
+            {
+                UnityEngine.Object.DontDestroyOnLoad(target);
+            }
         }
 
         // 纹理材质都是实例化，都对资源有引用计数，深度遍历释放资源
@@ -603,7 +608,7 @@ namespace SDK.Lib
         {
             Material mat = go_.GetComponent<Material>();
 
-            if(mat != null)
+            if (mat != null)
             {
                 if (mat.mainTexture != null)
                 {
@@ -618,11 +623,11 @@ namespace SDK.Lib
 
             Image image = go_.GetComponent<Image>();
 
-            if(image != null)
+            if (image != null)
             {
-                if(image.sprite != null)
+                if (image.sprite != null)
                 {
-                    if(image.sprite.texture != null)
+                    if (image.sprite.texture != null)
                     {
                         // 小心使用这个资源，这个函数把共享资源卸载掉了，如果有引用，就会有问题，确切的知道释放哪个资源，这个卸载除了 GameObject 之外的资源
                         //UtilApi.UnloadAsset(image.sprite.texture);
@@ -670,7 +675,7 @@ namespace SDK.Lib
 
                         image.sprite = null;
                         image = null;
-                    }          
+                    }
                 }
             }
 
@@ -695,7 +700,7 @@ namespace SDK.Lib
 
         public static void fakeSetActive(GameObject target, bool bshow)
         {
-            if(!bshow)
+            if (!bshow)
             {
                 if (null != target)
                 {
@@ -786,6 +791,15 @@ namespace SDK.Lib
             if (null != tran)
             {
                 tran.localPosition = pos;
+            }
+        }
+
+        public static void setActorPos(GameObject go_, Vector3 pos)
+        {
+            // 如果使用物理，使用 Transform 移动的时候，不会遵守物理运算，如果设置了 UnityEngine.Rigidbody.constraints ，对应的移动也会移动
+            if (null != go_)
+            {
+                go_.GetComponent<Transform>().localPosition = pos;
             }
         }
 
@@ -939,7 +953,7 @@ namespace SDK.Lib
             if (child != null && parent != null)
             {
                 childTrans = child.GetComponent<Transform>();
-                if(childTrans == null)
+                if (childTrans == null)
                 {
                     childTrans = child.GetComponent<RectTransform>();
                 }
@@ -954,7 +968,7 @@ namespace SDK.Lib
                     childTrans.SetParent(parentTrans, worldPositionStays);
                 }
             }
-            else if(child != null && parent == null)
+            else if (child != null && parent == null)
             {
                 childTrans = child.GetComponent<Transform>();
                 if (childTrans == null)
@@ -1043,10 +1057,15 @@ namespace SDK.Lib
         public static T AddComponent<T>(GameObject go_) where T : Component
         {
             T ret = null;
-            ret = go_.GetComponent<T>();
-            if (ret == null)
+
+            if (null != go_)
             {
-                ret = go_.AddComponent<T>();
+                ret = go_.GetComponent<T>();
+
+                if (ret == null)
+                {
+                    ret = go_.AddComponent<T>();
+                }
             }
 
             return ret;
@@ -1065,7 +1084,7 @@ namespace SDK.Lib
         {
             BoxCollider srcBox = src.GetComponent<BoxCollider>();
             BoxCollider destBox = dest.GetComponent<BoxCollider>();
-            if(destBox == null)
+            if (destBox == null)
             {
                 destBox = UtilApi.AddComponent<BoxCollider>(dest);
             }
@@ -1081,7 +1100,7 @@ namespace SDK.Lib
             {
                 ret = EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId);
             }
-            else if(Input.GetMouseButtonDown(0))
+            else if (Input.GetMouseButtonDown(0))
             {
                 ret = EventSystem.current.IsPointerOverGameObject();
             }
@@ -1093,7 +1112,7 @@ namespace SDK.Lib
         public static bool IsPointerOverGameObjectRaycast()
         {
             Vector2 ioPos = Vector2.zero;
-            if(Input.touchCount > 0)
+            if (Input.touchCount > 0)
             {
                 ioPos = Input.GetTouch(0).position;
             }
@@ -1107,9 +1126,9 @@ namespace SDK.Lib
             List<RaycastResult> objectsHit = new List<RaycastResult>();
             objectsHit.Clear();
             EventSystem.current.RaycastAll(cursor, objectsHit);
-            foreach(RaycastResult ray in objectsHit)
+            foreach (RaycastResult ray in objectsHit)
             {
-                if(ray.gameObject.layer == LayerMask.NameToLayer("UGUI"))
+                if (ray.gameObject.layer == LayerMask.NameToLayer("UGUI"))
                 {
                     return true;
                 }
@@ -1257,6 +1276,7 @@ namespace SDK.Lib
         public static Vector2 convWorldToUIPos(Canvas canvas, Camera worldCamera, Vector3 worldPos, Camera uiCamera)
         {
             Vector2 pos;
+            // 这个接口真的很耗时
             RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas.transform as RectTransform,
                 worldCamera.WorldToScreenPoint(worldPos), uiCamera, out pos);
 
@@ -1272,7 +1292,7 @@ namespace SDK.Lib
         static public void set(GameObject go, int preferredHeight)
         {
             LayoutElement layoutElem = go.GetComponent<LayoutElement>();
-            if(layoutElem != null)
+            if (layoutElem != null)
             {
                 layoutElem.preferredHeight = preferredHeight;
             }
@@ -1303,7 +1323,7 @@ namespace SDK.Lib
         static public void enableBtn(GameObject go)
         {
             Button btn = go.GetComponent<Button>();
-            if(btn != null)
+            if (btn != null)
             {
                 btn.enabled = false;
             }
@@ -1470,7 +1490,7 @@ namespace SDK.Lib
 
         static public bool isWWWNoError(WWW www)
         {
-            if(www != null)
+            if (www != null)
             {
                 return www.isDone && string.IsNullOrEmpty(www.error);
             }
@@ -1482,7 +1502,7 @@ namespace SDK.Lib
         {
             System.Text.Encoding retEncode = System.Text.Encoding.UTF8;
 
-            if(GkEncode.eUTF8 == gkEncode)
+            if (GkEncode.eUTF8 == gkEncode)
             {
                 retEncode = System.Text.Encoding.UTF8;
             }
@@ -1616,7 +1636,7 @@ namespace SDK.Lib
         // 指定纹理的名字设置材质
         static public void SetTexture(Material material, string propertyName, Texture texture)
         {
-            if(null != material && null != texture && !string.IsNullOrEmpty(propertyName))
+            if (null != material && null != texture && !string.IsNullOrEmpty(propertyName))
             {
                 material.SetTexture(propertyName, texture);
             }
@@ -1634,16 +1654,16 @@ namespace SDK.Lib
         // 直接设置 Shader 中指定的 MainTexture
         static public void setGameObjectMainTexture(GameObject go, Texture texture)
         {
-            if(null != go)
+            if (null != go)
             {
                 Renderer renderer = go.GetComponent<MeshRenderer>();
 
-                if(null == renderer)
+                if (null == renderer)
                 {
                     renderer = go.GetComponent<SkinnedMeshRenderer>();
                 }
 
-                if(null != renderer)
+                if (null != renderer)
                 {
                     Material material = renderer.sharedMaterial;
                     //Material material = renderer.material;
@@ -1696,10 +1716,11 @@ namespace SDK.Lib
         // 开启关闭碰撞
         static public void enableCollider<T>(GameObject go, bool enable) where T : Collider
         {
-            if(null != go)
+            if (null != go)
             {
                 T collider = UtilApi.getComByP<T>(go);
-                if (null != collider)
+
+                if (null != collider && collider.enabled != enable)
                 {
                     collider.enabled = enable;
                 }
@@ -1720,7 +1741,7 @@ namespace SDK.Lib
                     }
                     else
                     {
-                        rigid.constraints = UnityEngine.RigidbodyConstraints.FreezePositionY |                                                                   UnityEngine.RigidbodyConstraints.FreezeRotation;
+                        rigid.constraints = UnityEngine.RigidbodyConstraints.FreezePositionY | UnityEngine.RigidbodyConstraints.FreezeRotation;
                     }
                 }
             }
@@ -1735,13 +1756,106 @@ namespace SDK.Lib
 
         static public void enableBehaviour(Behaviour behaviour, bool isEnable)
         {
-            if(null != behaviour)
+            if (null != behaviour)
             {
-                if(behaviour.enabled != isEnable)
+                if (behaviour.enabled != isEnable)
                 {
                     behaviour.enabled = isEnable;
                 }
             }
+        }
+
+        static public byte[] getMacAddr()
+        {
+            System.Net.NetworkInformation.NetworkInterface[] nis = System.Net.NetworkInformation.NetworkInterface.GetAllNetworkInterfaces();
+            if (nis.Length > 0)
+                return nis[0].GetPhysicalAddress().GetAddressBytes();
+            return new byte[] { 255, 255, 255, 255, 255, 255 };
+        }
+
+        // 开启关闭组件
+        static public void enableMeshRenderComponent(GameObject go_, bool isEnable)
+        {
+            if (null != go_)
+            {
+                UnityEngine.MeshRenderer com = go_.GetComponent<UnityEngine.MeshRenderer>();
+
+                if (null != com && com.enabled != isEnable)
+                {
+                    com.enabled = isEnable;
+                }
+            }
+        }
+
+        // 开启关闭组件
+        static public void enableAnimatorComponent(GameObject go_, bool isEnable)
+        {
+            if (null != go_)
+            {
+                UnityEngine.Animator com = go_.GetComponent<UnityEngine.Animator>();
+
+                if (null != com && com.enabled != isEnable)
+                {
+                    com.enabled = isEnable;
+                }
+            }
+        }
+
+        // 开启关闭物理
+        static public void enableRigidbodyComponent(GameObject go_, bool isEnable)
+        {
+            if (null != go_)
+            {
+                UnityEngine.Rigidbody com = go_.GetComponent<UnityEngine.Rigidbody>();
+
+                // 好像物理没有开启关闭的属性
+                //if (null != com && com.enabled != isEnable)
+                //{
+                //    com.enabled = isEnable;
+                //}
+            }
+        }
+
+        // 转换资源目录到精灵名字
+        static public string convFullPath2SpriteName(string fullPath)
+        {
+            string spriteName = "";
+            int lastSlashIndex = -1;
+            int dotIndex = -1;
+
+            lastSlashIndex = fullPath.LastIndexOf("/");
+
+            if(-1 == lastSlashIndex)
+            {
+                lastSlashIndex = fullPath.LastIndexOf("\\");
+            }
+
+            dotIndex = fullPath.LastIndexOf(".");
+            
+            if (-1 == lastSlashIndex)
+            {
+                if (-1 == dotIndex)
+                {
+                    spriteName = fullPath;
+                }
+                else
+                {
+                    spriteName = fullPath.Substring(0, dotIndex);
+                }
+            }
+            else
+            {
+                if (-1 == dotIndex)
+                {
+                    spriteName = fullPath.Substring(lastSlashIndex + 1, fullPath.Length - lastSlashIndex);
+                }
+                else
+                {
+                    spriteName = fullPath.Substring(lastSlashIndex + 1, dotIndex - (lastSlashIndex + 1));
+                }
+            }
+
+            return spriteName;
         }
     }
 }

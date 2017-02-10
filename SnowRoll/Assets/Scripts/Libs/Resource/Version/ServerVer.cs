@@ -19,7 +19,7 @@ namespace SDK.Lib
         virtual public void loadMiniVerFile(string ver = "")
         {
             AuxDownloader auxDownload = new AuxDownloader();
-            auxDownload.download(VerFileName.VER_MINI, onMiniLoadEventHandle, 0, false, 0);
+            auxDownload.download(VerFileName.VER_MINI, onMiniLoadEventHandle, null, 0, false, 0);
         }
 
         // 加载一个表完成
@@ -52,7 +52,7 @@ namespace SDK.Lib
         public void loadVerFile(string ver = "")
         {
             AuxDownloader auxDownload = new AuxDownloader();
-            auxDownload.download(VerFileName.VER_P, onLoadEventHandle, 0, false, 0);
+            auxDownload.download(VerFileName.VER_P, onLoadEventHandle, null, 0, false, 0);
         }
 
         // 加载一个表完成

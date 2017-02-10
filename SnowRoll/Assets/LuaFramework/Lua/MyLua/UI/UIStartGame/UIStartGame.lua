@@ -26,6 +26,10 @@ function M:onInit()
 	--右侧收缩动画状态
     self.isPlay = false;
     self.password = "111111";
+        
+    --头像
+	self.mAvatarBtn = GlobalNS.new(GlobalNS.AuxButton);
+	self.mAvatarBtn:addEventHandle(self, self.onAvatarBtnClk);
 
     --昵称随机
 	self.mNickNameBtn = GlobalNS.new(GlobalNS.AuxButton);
@@ -71,7 +75,8 @@ end
 function M:onReady()
     M.super.onReady(self);
     self:initForm(); --初始化组件
-    self:setUsernameAndPassword();--设置用户名密码
+    --self:setUsernameAndPassword();--设置用户名密码
+    self:setNickName(); --昵称
     GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:SetServerIP();
 end
 
@@ -80,15 +85,22 @@ function M:initForm()
 
     --头像
     self.mAvatarBG = GlobalNS.UtilApi.TransFindChildByPObjAndPath(bg_image, "AvatarBG");
-    self.mAvatar = GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.mAvatarBG, "AvatarImage");
+    --self.mAvatar = GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.mAvatarBG, "AvatarImage");
+    self.mAvatarBtn:setSelfGo(GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.mAvatarBG, "Avatar_BtnTouch"));
     self.mGoldImage = GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.mAvatarBG, "GoldImage");
-    self.mLevelName = GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.mAvatarBG, "LevelName");
+    self.mLevelName = GlobalNS.UtilApi.getComByPath(self.mAvatarBG, "LevelName", "Text");
     self.mStar1 = GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.mAvatarBG, "Star1");
     self.mStar2 = GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.mAvatarBG, "Star2");
     self.mStar3 = GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.mAvatarBG, "Star3");
     self.mStar4 = GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.mAvatarBG, "Star4");
     self.mStar5 = GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.mAvatarBG, "Star5");
 	self.mLevelNum = GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.mAvatarBG, "LevelNum");
+
+    local username = GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:getString(SDK.Lib.SystemSetting.USERNAME);
+    if username == nil then
+        username = "游客";
+    end
+    self.mLevelName.text = username;
 
     --昵称
     self.mNameBG = GlobalNS.UtilApi.TransFindChildByPObjAndPath(bg_image, "NameBG");
@@ -137,6 +149,13 @@ function M:setUsernameAndPassword()
     --self.password = GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:getString(SDK.Lib.SystemSetting.PASSWORD);
 end
 
+function M:setNickName()
+    self.nickname = GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:getString(SDK.Lib.SystemSetting.NICKNAME);
+    if self.nickname ~= "" then
+           self.inputText.text = self.nickname;
+    end
+end
+
 function M:onShow()
     M.super.onShow(self);
 end
@@ -147,12 +166,6 @@ end
 
 function M:onExit()
     M.super.onExit(self);
-end
-
-function M:getRandomNickName()
-    local nickname = { "Bone", "哈哈哈", "红红火火", "吃豆人", "哆啦A梦"};
-    local index = math.random(1, 5);
-    return nickname[index];
 end
 
 function M:loginOrCreateAccount(selectEnterMode)
@@ -187,20 +200,71 @@ function M:loginOrCreateAccount(selectEnterMode)
     end
 end
 
+function M:GetNickNameWordNum(str)
+    local lenInByte = #str;
+    local count = 0;
+    local i = 1;
+    while i <= lenInByte do
+        local curByte = string.byte(str, i);
+        local byteCount = 1;
+        if curByte > 0 and curByte < 128 then
+            byteCount = 1;
+        elseif curByte>=128 and curByte<224 then
+            byteCount = 2;
+        elseif curByte>=224 and curByte<240 then
+            byteCount = 3;
+        elseif curByte>=240 and curByte<=247 then
+            byteCount = 4;
+        else
+            break;
+        end
+
+        i = i + byteCount;
+        count = count + 1;
+    end
+    return count;
+end
+
+function M:LoginOrCreateAccount_new(selectEnterMode)
+    local nickname = self.inputText.text;
+    if GlobalNS.CSSystem.Ctx.mInstance.mLoginSys:getLoginState() ~= SDK.Lib.LoginState.eLoginingLoginServer and GlobalNS.CSSystem.Ctx.mInstance.mLoginSys:getLoginState() ~= SDK.Lib.LoginState.eLoginingGateServer then  -- 如果没有正在登陆登陆服务器和网关服务器
+         self.nickname = nickname;
+         if string.len(self.nickname) > 0 and self:GetNickNameWordNum(self.nickname) < 9 then
+             GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:setString(SDK.Lib.SystemSetting.NICKNAME, self.nickname);
+         else
+             GCtx.mGameData:ShowMessageBox("昵称不能为空或多于8个字符"..self:GetNickNameWordNum(self.nickname));
+             return;
+         end
+
+         if not GCtx.mGameData.isRelogin then
+             GlobalNS.CSSystem.Ctx.mInstance.mLoginSys.mLoginNetHandleCB_KBE:login();
+             GCtx.mGameData.isRelogin = true;
+         else
+             GlobalNS.CSSystem.Ctx.mInstance.mLoginSys.mLoginNetHandleCB_KBE:relogin();
+         end
+    end
+end
+
+function M:onAvatarBtnClk()
+    GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormId.eUIAccountPanel);
+end
+
 function M:onNickNameBtnClk()
     --随机昵称
     self.inputText.text = self:getRandomNickName();
 end
 
+function M:getRandomNickName()
+    local index = math.random(1, #self.mData.nicknames);
+    return self.mData.nicknames[index];
+end
+
 function M:onStartGameBtnClk()
-    --GCtx.mUiMgr:exitForm(GlobalNS.UIFormId.eUIStartGame);
-    --GlobalNS.CSSystem.Ctx.mInstance.mModuleSys:unloadModule(GlobalNS.CSSystem.ModuleId.LOGINMN);
-    --GlobalNS.CSSystem.Ctx.mInstance.mModuleSys:loadModule(GlobalNS.CSSystem.ModuleId.GAMEMN);
-	
-	self.mBgImage:show();
+    --self:loginOrCreateAccount(SDK.Lib.SelectEnterMode.eLoginAccount);
+    self.mBgImage:show();
 	self.mBarImage:show();
-	
-    self:loginOrCreateAccount(SDK.Lib.SelectEnterMode.eLoginAccount);
+
+    self:LoginOrCreateAccount_new(SDK.Lib.SelectEnterMode.eLoginAccount);
 end
 
 function M:onDropBtnClk()

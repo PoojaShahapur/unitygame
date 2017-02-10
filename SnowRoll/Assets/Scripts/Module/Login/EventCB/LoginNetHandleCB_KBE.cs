@@ -13,8 +13,9 @@ namespace Game.Login
     public class LoginNetHandleCB_KBE
     {
         public int ui_state = 0;
+        private string stringNickName = "";
         private string stringAccount = "";
-        private string stringPasswd = "";
+        private string stringPasswd = "111111";
         private string labelMsg = "";
         private Color labelColor = Color.green;
 
@@ -42,6 +43,11 @@ namespace Game.Login
         {
             stringAccount = account;
             stringPasswd = passwd;
+        }
+
+        public void setNickName(string nickname)
+        {
+            stringNickName = nickname;
         }
 
         public void init()
@@ -103,7 +109,7 @@ namespace Game.Login
             labelColor = Color.green;
             labelMsg = s;
 
-            UILogin uiLogin = Ctx.mInstance.mUiMgr.getForm(UIFormId.eUILogin) as UILogin;
+            /*UILogin uiLogin = Ctx.mInstance.mUiMgr.getForm(UIFormId.eUILogin) as UILogin;
             if (null != uiLogin)
             {
                 uiLogin.info(s);
@@ -113,7 +119,7 @@ namespace Game.Login
             if (null != uiSelectRole)
             {
                 uiSelectRole.info(s);
-            }
+            }*/
         }
 
         public void login()
@@ -131,7 +137,7 @@ namespace Game.Login
             KBEngine.Event.fireIn("login", stringAccount, stringPasswd, System.Text.Encoding.UTF8.GetBytes("kbengine_unity3d_demo"));
             //KBEngineApp.app.login(stringAccount, stringPasswd, System.Text.Encoding.UTF8.GetBytes("kbengine_unity3d_demo"));
             //Ctx.mInstance.mSceneEventCB.onLevelLoaded();
-        }
+        }        
 
         public void createAccount()
         {
@@ -170,7 +176,7 @@ namespace Game.Login
         {
             if (failedcode == 20)
             {
-                err("login is failed(登陆失败), err=" + KBEngineApp.app.serverErr(failedcode) + ", " + System.Text.Encoding.ASCII.GetString(KBEngineApp.app.serverdatas()));
+                err("login is failed(登陆失败), err=" + KBEngineApp.app.serverErr(failedcode) + ", " + System.Text.Encoding.UTF8.GetString(KBEngineApp.app.serverdatas()));
             }
             else
             {
@@ -185,7 +191,7 @@ namespace Game.Login
 
         private void autoCreateAccount()
         {
-            string nickname = SDK.Lib.Ctx.mInstance.mLuaSystem.callLuaFunction("GlobalNS.GlobalEventCmd.getUserNickName")[0] as string;
+            string nickname = SDK.Lib.Ctx.mInstance.mSystemSetting.getString(SDK.Lib.SystemSetting.USERNAME);
             string password = "111111";
             KBEngine.Event.fireIn("createAccount", nickname, password, System.Text.Encoding.UTF8.GetBytes("kbengine_unity3d_demo"));
         }
@@ -228,7 +234,7 @@ namespace Game.Login
             //Application.LoadLevel("login");
 
             ui_state = 0;
-            Ctx.mInstance.mUiMgr.loadAndShow(UIFormId.eUILogin);
+            //Ctx.mInstance.mUiMgr.loadAndShow(UIFormId.eUILogin);
         }
 
         public void Loginapp_importClientMessages()

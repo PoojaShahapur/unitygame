@@ -153,7 +153,7 @@ namespace SDK.Lib
         {
             if (this.mEnableLog)
             {
-                if (this.mEnableLogTypeList.IndexOf(logTypeId) != -1)
+                if (this.mEnableLogTypeList.Contains(logTypeId))
                 {
                     return true;
                 }

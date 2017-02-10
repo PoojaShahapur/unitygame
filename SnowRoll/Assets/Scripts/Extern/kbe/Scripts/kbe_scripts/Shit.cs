@@ -32,7 +32,10 @@ namespace KBEngine
                 if (!Ctx.mInstance.mPlayerMgr.isSelfChild(aId))
                 {
                     //别人吐出的雪块
-                    Ctx.mInstance.mLogSys.log("Shit::__init__, Shit not find, create new", LogTypeId.eLogSceneInterActive);
+                    if (MacroDef.ENABLE_LOG)
+                    {
+                        Ctx.mInstance.mLogSys.log("Shit::__init__, Shit not find, create new", LogTypeId.eLogSceneInterActive);
+                    }
 
                     this.mEntity_SDK = new PlayerSnowBlock();
                     this.mEntity_SDK.setRotateEulerAngle(this.direction);
@@ -50,7 +53,10 @@ namespace KBEngine
                     if(null != this.mEntity_SDK)
                     {
                         //自己吐出的雪块在视野内
-                        Ctx.mInstance.mLogSys.log("Shit::__init__, Shit find, not create new", LogTypeId.eLogSceneInterActive);
+                        if (MacroDef.ENABLE_LOG)
+                        {
+                            Ctx.mInstance.mLogSys.log("Shit::__init__, Shit find, not create new", LogTypeId.eLogSceneInterActive);
+                        }
                         uint preThisId = this.mEntity_SDK.getThisId();
                         this.mEntity_SDK.setThisId((uint)this.id);
                         Ctx.mInstance.mPlayerSnowBlockMgr.changeThisId(preThisId, this.mEntity_SDK as PlayerSnowBlock);
@@ -60,7 +66,10 @@ namespace KBEngine
                     else
                     {
                         //自己吐出的雪块重新进入视野后是没有保存的，需要重新生成一个
-                        Ctx.mInstance.mLogSys.log("Shit::__init__, Shit find, also create new", LogTypeId.eLogSceneInterActive);
+                        if (MacroDef.ENABLE_LOG)
+                        {
+                            Ctx.mInstance.mLogSys.log("Shit::__init__, Shit find, also create new", LogTypeId.eLogSceneInterActive);
+                        }
                         this.mEntity_SDK = new PlayerSnowBlock();
                         this.mEntity_SDK.setRotateEulerAngle(this.direction);
                         this.mEntity_SDK.setPos(frompos);
@@ -75,7 +84,10 @@ namespace KBEngine
 
                 Ctx.mInstance.mPlayerMgr.getHero().onChildChanged();
 
-                Ctx.mInstance.mLogSys.log(string.Format("Shit::__init__, Shit Created, eid = {0} uniqueId = {1}", this.id, uniqueId), LogTypeId.eLogSceneInterActive);
+                if (MacroDef.ENABLE_LOG)
+                {
+                    Ctx.mInstance.mLogSys.log(string.Format("Shit::__init__, Shit Created, eid = {0} uniqueId = {1}", this.id, uniqueId), LogTypeId.eLogSceneInterActive);
+                }
             }
         }
 

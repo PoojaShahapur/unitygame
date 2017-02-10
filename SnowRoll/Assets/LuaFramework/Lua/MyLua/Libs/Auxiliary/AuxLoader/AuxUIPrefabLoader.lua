@@ -7,7 +7,7 @@ local M = GlobalNS.Class(GlobalNS.AuxPrefabLoader);
 M.clsName = "AuxUIPrefabLoader";
 GlobalNS[M.clsName] = M;
 
-function M:ctor(path, isNeedInsPrefab, isInsNeedCoroutine)
+function M:ctor(path)
     self.mFormId = 0;
 end
 

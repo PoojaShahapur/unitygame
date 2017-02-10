@@ -224,6 +224,7 @@ namespace SDK.Lib
                 loader.AddBundle("lua/lua_mylua_test_testtable.unity3d");
                 loader.AddBundle("lua/lua_mylua_test_testui.unity3d");
 
+                loader.AddBundle("lua/lua_mylua_ui_uiaccountpanel.unity3d");
                 loader.AddBundle("lua/lua_mylua_ui_uisettingspanel.unity3d");
                 loader.AddBundle("lua/lua_mylua_ui_uioptionpanel.unity3d");
                 loader.AddBundle("lua/lua_mylua_ui_uiplayerdatapanel.unity3d");
@@ -239,8 +240,8 @@ namespace SDK.Lib
                 loader.AddBundle("lua/lua_mylua_ui_uiconsoledlg.unity3d");
 
                 loader.AddBundle("lua/lua_mylua_libs_gamedata.unity3d");
-                loader.AddBundle("lua/lua_mylua_libs_uisignpanel.unity3d");
-                loader.AddBundle("lua/lua_mylua_libs_uimessagepanel.unity3d");
+                loader.AddBundle("lua/lua_mylua_ui_uisignpanel.unity3d");
+                loader.AddBundle("lua/lua_mylua_ui_uimessagepanel.unity3d");
                 //--------------------------MyLua End --------------------------------
             }
         }

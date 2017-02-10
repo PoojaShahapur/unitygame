@@ -12,9 +12,14 @@ namespace SDK.Lib
         protected List<T> mList;
         protected int mUniqueId;       // 唯一 Id ，调试使用
 
+        protected Dictionary<T, T> mDic;    // 为了加快查找速度 
+        protected bool mIsSpeedUpFind;  // 是否加快查询
+
         public MList()
         {
             this.mList = new List<T>();
+            this.mDic = new Dictionary<T, T>();
+            this.mIsSpeedUpFind = true;
         }
 
         public MList(int capacity)
@@ -63,6 +68,11 @@ namespace SDK.Lib
         public void Add(T item)
         {
             this.mList.Add(item);
+
+            if (this.mIsSpeedUpFind)
+            {
+                this.mDic[item] = item;
+            }
         }
 
         // 主要是 Add 一个 float 类型的 Vector3
@@ -71,6 +81,13 @@ namespace SDK.Lib
             this.mList.Add(item_1);
             this.mList.Add(item_2);
             this.mList.Add(item_3);
+
+            if(this.mIsSpeedUpFind)
+            {
+                this.mDic[item_1] = item_1;
+                this.mDic[item_2] = item_2;
+                this.mDic[item_3] = item_3;
+            }
         }
 
         // 主要是 Add 一个 float 类型的 UV
@@ -78,6 +95,12 @@ namespace SDK.Lib
         {
             this.mList.Add(item_1);
             this.mList.Add(item_2);
+
+            if (this.mIsSpeedUpFind)
+            {
+                this.mDic[item_1] = item_1;
+                this.mDic[item_2] = item_2;
+            }
         }
 
         // 主要是 Add 一个 byte 类型的 Color32
@@ -87,15 +110,33 @@ namespace SDK.Lib
             this.mList.Add(item_2);
             this.mList.Add(item_3);
             this.mList.Add(item_4);
+
+            if (this.mIsSpeedUpFind)
+            {
+                this.mDic[item_1] = item_1;
+                this.mDic[item_2] = item_2;
+                this.mDic[item_3] = item_3;
+                this.mDic[item_4] = item_4;
+            }
         }
 
         public void push(T item)
         {
             this.mList.Add(item);
+
+            if (this.mIsSpeedUpFind)
+            {
+                this.mDic[item] = item;
+            }
         }
 
         public bool Remove(T item)
         {
+            if (this.mIsSpeedUpFind)
+            {
+                this.mDic.Remove(item);
+            }
+
             return this.mList.Remove(item);
         }
 
@@ -107,6 +148,11 @@ namespace SDK.Lib
             }
             set
             {
+                if (this.mIsSpeedUpFind)
+                {
+                    this.mDic[value] = value;
+                }
+
                 this.mList[index] = value;
             }
         }
@@ -114,6 +160,11 @@ namespace SDK.Lib
         public void Clear()
         {
             this.mList.Clear();
+
+            if (this.mIsSpeedUpFind)
+            {
+                this.mDic.Clear();
+            }
         }
 
         public int Count()
@@ -133,6 +184,14 @@ namespace SDK.Lib
 
         public void RemoveAt(int index)
         {
+            if (this.mIsSpeedUpFind)
+            {
+                if (this.mDic.ContainsKey(this.mList[index]))
+                {
+                    this.mDic.Remove(this.mList[index]);
+                }
+            }
+
             this.mList.RemoveAt(index);
         }
 
@@ -145,16 +204,29 @@ namespace SDK.Lib
         {
             if (index <= this.Count())
             {
+                if (this.mIsSpeedUpFind)
+                {
+                    this.mDic[item] = item;
+                }
+
                 this.mList.Insert(index, item);
             }
             else
             {
+
             }
         }
 
         public bool Contains(T item)
         {
-            return this.mList.Contains(item);
+            if (this.mIsSpeedUpFind)
+            {
+                return this.mDic.ContainsKey(item);
+            }
+            else
+            {
+                return this.mList.Contains(item);
+            }
         }
 
         public void Sort(System.Comparison<T> comparer)
@@ -169,6 +241,11 @@ namespace SDK.Lib
                 foreach(T item in appendList.list())
                 {
                     this.mList.Add(item);
+
+                    if (this.mIsSpeedUpFind)
+                    {
+                        this.mDic[item] = item;
+                    }
                 }
             }
         }

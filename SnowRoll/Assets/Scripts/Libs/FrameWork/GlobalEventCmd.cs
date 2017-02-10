@@ -13,9 +13,12 @@
         static public void onEnterWorld()
         {
             //操作模式在UISettingsPanel.lua中设置
+            Ctx.mInstance.mUiMgr.exitForm(UIFormId.eUIJoyStick);
+            Ctx.mInstance.mUiMgr.exitForm(UIFormId.eUIForwardForce);
+
             if (Ctx.mInstance.mSystemSetting.hasKey("OptionModel"))
             {
-                if(Ctx.mInstance.mSystemSetting.getInt("OptionModel") == 1)
+                if (Ctx.mInstance.mSystemSetting.getInt("OptionModel") == 1)
                 {
                     Ctx.mInstance.mUiMgr.loadAndShow(UIFormId.eUIJoyStick);
                 }
@@ -34,12 +37,12 @@
             {
                 if (Ctx.mInstance.mSystemSetting.getInt("MusicModel") == 1)
                 {
-                    Ctx.mInstance.mSoundMgr.play("Sound/Music/StudioEIM - myseabed.mp3", true);
+                    Ctx.mInstance.mSoundMgr.play("Sound/Music/StudioEIM-myseabed.mp3", true);
                 }
             }
             else
             {
-                Ctx.mInstance.mSoundMgr.play("Sound/Music/StudioEIM - myseabed.mp3", true);
+                Ctx.mInstance.mSoundMgr.play("Sound/Music/StudioEIM-myseabed.mp3", true);
             }
         }
     }

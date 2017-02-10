@@ -9,6 +9,7 @@ namespace SDK.Lib
     {
         public const string USERNAME = "username";
         public const string PASSWORD = "password";
+        public const string NICKNAME = "nickname";
 
         public void setString(string key, string value)
         {

@@ -8,17 +8,24 @@ namespace SDK.Lib
     public class SoundClipItem : SoundItem
     {
         public AudioClip mClip;            // 声音资源放在 prefab 中国
-        protected bool mIsLoaded;           // 资源是否加载完成
+        protected bool mIsLoaded;          // 资源是否加载完成
+        protected bool mIsDontDestroy;     // 是否不销毁
 
         public SoundClipItem()
         {
             this.mIsLoaded = false;
+            this.mIsDontDestroy = true;
         }
 
         public override void setResObj(UnityEngine.Object go_)
         {
             this.mClip = go_ as AudioClip;
             this.mGo = UtilApi.createGameObject("SoundGO");
+
+            if(this.mIsDontDestroy)
+            {
+                UtilApi.DontDestroyOnLoad(this.mGo);
+            }
 
             if (this.mClip == null)
             {
@@ -71,7 +78,7 @@ namespace SDK.Lib
         // 检查加载状态
         override protected void checkLoadState()
         {
-            if (AudioDataLoadState.Loaded == this.mClip.loadState)
+            if (null != this.mClip && AudioDataLoadState.Loaded == this.mClip.loadState)
             {
                 this.mIsLoaded = true;
                 this.Play();

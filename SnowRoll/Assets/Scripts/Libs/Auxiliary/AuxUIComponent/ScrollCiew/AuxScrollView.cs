@@ -11,7 +11,9 @@
         {
             this.mResPath = "";
 
-            this.mPrefabLoader = new AuxPrefabLoader("", false, false);
+            this.mPrefabLoader = new AuxPrefabLoader("");
+            this.mPrefabLoader.setIsNeedInsPrefab(false);
+            this.mPrefabLoader.setIsInsNeedCoroutine(false);
             this.mPrefabLoader.setDestroySelf(false);
             this.mPrefabLoader.setIsInitOrientPos(false);
 
@@ -53,7 +55,10 @@
 
         public void onResLoaded(IDispatchObject dispObj)
         {
-            Ctx.mInstance.mLogSys.log("loaded", LogTypeId.eLogCommon);
+            if (MacroDef.ENABLE_LOG)
+            {
+                Ctx.mInstance.mLogSys.log("loaded", LogTypeId.eLogCommon);
+            }
         }
 
         virtual public UnityEngine.GameObject createResItem()

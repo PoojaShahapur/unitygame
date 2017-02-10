@@ -116,20 +116,23 @@ namespace Game.UI
 
         private void OneTouchUpdate()
         {
-            if (isTouchBegin)
+            if (Ctx.mInstance.mPlayerMgr != null && Ctx.mInstance.mPlayerMgr.getHero() != null)
             {
-                SetOldPos(CurMousePos);
-            }
+                if (isTouchBegin)
+                {
+                    SetOldPos(CurMousePos);
+                }
 
-            if (isTouchMove && StillTouch)
-            {
-                SetPos(CurMousePos);
-            }
+                if (isTouchMove && StillTouch)
+                {
+                    SetPos(CurMousePos);
+                }
 
-            //拖动摇杆放开后按最后的方向继续移动，直到点击停止            
-            if (!isStop && !isTouchMove)
-            {
-                Move(Ctx.mInstance.mPlayerMgr.getMoveVec());
+                //拖动摇杆放开后按最后的方向继续移动，直到点击停止            
+                if (!isStop && !isTouchMove)
+                {
+                    Move(Ctx.mInstance.mPlayerMgr.getMoveVec());
+                }
             }
         }
 
@@ -211,8 +214,7 @@ namespace Game.UI
             }
             else
             {
-                if (Ctx.mInstance.mPlayerMgr != null && Ctx.mInstance.mPlayerMgr.getHero() != null)
-                    Ctx.mInstance.mPlayerMgr.getHero().onPressButNoMove();
+                Ctx.mInstance.mPlayerMgr.getHero().onPressButNoMove();
 
                 //防止摇杆出了屏幕
                 if (Pos.x < HalfBGWidth + HalfJoyWidth) Pos.x = HalfBGWidth + HalfJoyWidth;

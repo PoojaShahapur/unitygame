@@ -184,7 +184,9 @@ namespace UnitTest
 
         protected void testLoadPreafab()
         {
-            AuxPrefabLoader loader = new AuxPrefabLoader("", false);
+            AuxPrefabLoader loader = new AuxPrefabLoader("");
+            loader.setIsNeedInsPrefab(false);
+            loader.setIsInsNeedCoroutine(true);
             loader.syncLoad("Model/TestCube.prefab");
             loader.dispose();
             loader = null;
@@ -200,7 +202,7 @@ namespace UnitTest
         protected void testDownload()
         {
             AuxDownloader auxDownload = new AuxDownloader();
-            auxDownload.download("XmlConfig/ReadMe.txt", null, 84);
+            auxDownload.download("XmlConfig/ReadMe.txt", null, null, 84);
         }
 
         // 测试加载 Lua 

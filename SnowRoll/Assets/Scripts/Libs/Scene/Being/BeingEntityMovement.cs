@@ -503,7 +503,10 @@
         {
             if(UtilMath.isInvalidNum(scale))
             {
-                Ctx.mInstance.mLogSys.log("Invalid num", LogTypeId.eLogCommon);
+                if (MacroDef.ENABLE_LOG)
+                {
+                    Ctx.mInstance.mLogSys.log("Invalid num", LogTypeId.eLogCommon);
+                }
             }
             this.mDestScale = new UnityEngine.Vector3(scale, scale, scale);
 

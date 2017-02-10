@@ -14,66 +14,66 @@
 
         public ResLoadState()
         {
-            mResLoadState = CVResLoadState.eNotLoad;
+            this.mResLoadState = CVResLoadState.eNotLoad;
         }
 
         public CVResLoadState resLoadState
         {
             get
             {
-                return mResLoadState;
+                return this.mResLoadState;
             }
             set
             {
-                mResLoadState = value;
+                this.mResLoadState = value;
             }
         }
 
         public void reset()
         {
-            mResLoadState = CVResLoadState.eNotLoad;
+            this.mResLoadState = CVResLoadState.eNotLoad;
         }
 
         // 是否加载完成，可能成功可能失败
         public bool hasLoaded()
         {
-            return mResLoadState == CVResLoadState.eFailed || mResLoadState == CVResLoadState.eLoaded;
+            return this.mResLoadState == CVResLoadState.eFailed || mResLoadState == CVResLoadState.eLoaded;
         }
 
         public bool hasSuccessLoaded()
         {
-            return mResLoadState == CVResLoadState.eLoaded;
+            return this.mResLoadState == CVResLoadState.eLoaded;
         }
 
         public bool hasFailed()
         {
-            return mResLoadState == CVResLoadState.eFailed;
+            return this.mResLoadState == CVResLoadState.eFailed;
         }
 
         // 没有加载或者正在加载中
         public bool hasNotLoadOrLoading()
         {
-            return (mResLoadState == CVResLoadState.eLoading || mResLoadState == CVResLoadState.eNotLoad);
+            return (this.mResLoadState == CVResLoadState.eLoading || this.mResLoadState == CVResLoadState.eNotLoad);
         }
 
         public void setSuccessLoaded()
         {
-            mResLoadState = CVResLoadState.eLoaded;
+            this.mResLoadState = CVResLoadState.eLoaded;
         }
 
         public void setFailed()
         {
-            mResLoadState = CVResLoadState.eFailed;
+            this.mResLoadState = CVResLoadState.eFailed;
         }
 
         public void setLoading()
         {
-            mResLoadState = CVResLoadState.eLoading;
+            this.mResLoadState = CVResLoadState.eLoading;
         }
 
         public void copyFrom(ResLoadState rhv)
         {
-            mResLoadState = rhv.resLoadState;
+            this.mResLoadState = rhv.resLoadState;
         }
     }
 }

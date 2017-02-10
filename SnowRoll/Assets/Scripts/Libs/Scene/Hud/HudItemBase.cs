@@ -46,7 +46,9 @@
         {
             if (null == this.mAuxPrefabLoader)
             {
-                this.mAuxPrefabLoader = new AuxPrefabLoader("", true, false);
+                this.mAuxPrefabLoader = new AuxPrefabLoader("");
+                this.mAuxPrefabLoader.setIsNeedInsPrefab(true);
+                this.mAuxPrefabLoader.setIsInsNeedCoroutine(false);
                 this.mAuxPrefabLoader.setDestroySelf(false); // 自己释放 GmmeObject
                 this.mAuxPrefabLoader.setIsInitOrientPos(true);
                 this.mAuxPrefabLoader.setIsFakePos(true);
@@ -66,11 +68,11 @@
 
             this.mName.setSelfGo(this.selfGo, "TextName");
 
-            if(this.mEntity.isWillVisible() && this.mEntity.IsVisible())
+            if (this.mEntity.isWillVisible() && this.mEntity.IsVisible())
             {
                 this.show();
             }
-            else if(!this.mEntity.IsVisible())
+            else if (!this.mEntity.IsVisible())
             {
                 this.hide();
             }
@@ -97,7 +99,7 @@
 
         virtual public void onNameChanged()
         {
-            this.mName.setText(this.mEntity.getName() + " " + mEntity.getThisId() + " " + mEntity.mMoveSpeed);
+            this.mName.setText(this.mEntity.getName());
             this.mName.changeSize(UnityEngine.Mathf.Pow(this.mEntity.getBallRadius(), 1/3.0f));
         }
 

@@ -3,7 +3,7 @@
     /**
      * @brief 资源加载器
      */
-    public class AuxLoaderBase : GObject, IDispatchObject
+    public class AuxLoaderBase : GObject, IDispatchObject, IRecycle, IDelayTask
     {
         protected ResLoadState mResLoadState;      // 资源加载状态
         protected string mPrePath;      // 之前加载的资源目录
@@ -31,6 +31,50 @@
         virtual public void dispose()
         {
             this.unload();
+        }
+
+        virtual public void resetDefault()
+        {
+
+        }
+
+        public static IRecycle getObject(string id)
+        {
+            IRecycle ret = null;
+            ret = Ctx.mInstance.mIdPoolSys.getObject(id);
+
+            if (null != ret)
+            {
+                (ret as AuxLoaderBase).onGetPool();
+            }
+
+            return ret;
+        }
+
+        // 从内存池获取
+        virtual protected void onGetPool()
+        {
+
+        }
+
+        public void deleteObj()
+        {
+            this.onRetPool();
+            Ctx.mInstance.mIdPoolSys.deleteObj(this.mPath, this);
+        }
+
+        // 放到内存池
+        virtual protected void onRetPool()
+        {
+            if (null != this.mEvtHandle)
+            {
+                this.mEvtHandle.clearEventHandle();
+            }
+
+            if (null != this.mProgressEventDispatch)
+            {
+                this.mProgressEventDispatch.clearEventHandle();
+            }
         }
 
         public bool hasSuccessLoaded()
@@ -90,6 +134,12 @@
             return this.mPath;
         }
 
+        // 真正的开始加载
+        protected void onStartLoad()
+        {
+            this.mResLoadState.setLoading();
+        }
+
         protected void addEventHandle(MAction<IDispatchObject> evtHandle = null, MAction<IDispatchObject> progressHandle = null)
         {
             if (null != evtHandle)
@@ -138,7 +188,7 @@
 
         virtual public void syncLoad(string path, MAction<IDispatchObject> evtHandle = null, MAction<IDispatchObject> progressHandle = null)
         {
-            this.mResLoadState.setLoading();
+            //this.mResLoadState.setLoading();
 
             this.updatePath(path);
 
@@ -147,7 +197,7 @@
 
         virtual public void syncLoad(string path, LuaInterface.LuaTable luaTable, LuaInterface.LuaFunction luaFunction, LuaInterface.LuaFunction progressLuaFunction = null)
         {
-            this.mResLoadState.setLoading();
+            //this.mResLoadState.setLoading();
 
             this.updatePath(path);
 
@@ -156,7 +206,7 @@
 
         virtual public void asyncLoad(string path, MAction<IDispatchObject> evtHandle, MAction<IDispatchObject> progressHandle = null)
         {
-            this.mResLoadState.setLoading();
+            //this.mResLoadState.setLoading();
 
             this.updatePath(path);
 
@@ -165,20 +215,29 @@
 
         virtual public void asyncLoad(string path, LuaInterface.LuaTable luaTable, LuaInterface.LuaFunction luaFunction, LuaInterface.LuaFunction progressLuaFunction = null)
         {
-            this.mResLoadState.setLoading();
+            //this.mResLoadState.setLoading();
 
             this.updatePath(path);
 
             this.addEventHandle(luaTable, luaFunction, progressLuaFunction);
         }
 
-        virtual public void download(string origPath, MAction<IDispatchObject> dispObj = null, long fileLen = 0, bool isWriteFile = true, int downloadType = (int)DownloadType.eHttpWeb)
+        virtual public void download(string origPath, MAction<IDispatchObject> evtHandle = null, MAction<IDispatchObject> progressHandle = null, long fileLen = 0, bool isWriteFile = true, int downloadType = (int)DownloadType.eHttpWeb)
         {
-            this.mResLoadState.setLoading();
+            //this.mResLoadState.setLoading();
 
             this.updatePath(origPath);
 
-            this.addEventHandle(dispObj);
+            this.addEventHandle(evtHandle, progressHandle);
+        }
+
+        virtual public void download(string origPath, LuaInterface.LuaTable luaTable, LuaInterface.LuaFunction luaFunction, LuaInterface.LuaFunction progressLuaFunction = null, long fileLen = 0, bool isWriteFile = true, int downloadType = (int)DownloadType.eHttpWeb)
+        {
+            //this.mResLoadState.setLoading();
+
+            this.updatePath(origPath);
+
+            this.addEventHandle(luaTable, luaFunction, progressLuaFunction);
         }
 
         virtual public void unload()
@@ -205,6 +264,11 @@
             {
                 this.mProgressEventDispatch.dispatchEvent(dispObj);
             }
+        }
+
+        virtual public void delayExec()
+        {
+
         }
     }
 }

@@ -29,6 +29,8 @@ function M.init()
     this.eUISignPanel = GCtx.mUiMgr.mUniqueNumIdGen:genNewId();
     this.eUIDayAwardPanel = GCtx.mUiMgr.mUniqueNumIdGen:genNewId();
     this.eUIOtherAwardPanel = GCtx.mUiMgr.mUniqueNumIdGen:genNewId();
+    this.eUIAccountPanel = GCtx.mUiMgr.mUniqueNumIdGen:genNewId();
+    this.eUIAccountAvatarPanel = GCtx.mUiMgr.mUniqueNumIdGen:genNewId();
     --[[替换占位符(勿删)--]]
 	this.eUICount = GCtx.mUiMgr.mUniqueNumIdGen:genNewId();
 end

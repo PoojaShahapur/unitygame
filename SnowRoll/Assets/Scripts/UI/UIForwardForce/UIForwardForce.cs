@@ -108,30 +108,32 @@ namespace Game.UI
 
         private void OneTouchUpdate()
         {
-            if (isTouchBegin)
+            if (Ctx.mInstance.mPlayerMgr != null && Ctx.mInstance.mPlayerMgr.getHero() != null)
             {
-                SetOldPos(CurMousePos);
-            }
+                if (isTouchBegin)
+                {
+                    SetOldPos(CurMousePos);
+                }
 
-            MoveVec.x = Input.acceleration.x;            
-            if (isTouchHold)
-            {
-                SetPos(CurMousePos);
-            }
-            else
-            {
-                MoveVec.y = Input.acceleration.y;                
-            }
-            Ctx.mInstance.mPlayerMgr.setMoveVec(MoveVec);
+                MoveVec.x = Input.acceleration.x;
+                if (isTouchHold)
+                {
+                    SetPos(CurMousePos);
+                }
+                else
+                {
+                    MoveVec.y = Input.acceleration.y;
+                }
+                Ctx.mInstance.mPlayerMgr.setMoveVec(MoveVec);
 
-            if (MoveVec.x == 0 && MoveVec.y == 0)
-            {
-                if (Ctx.mInstance.mPlayerMgr != null && Ctx.mInstance.mPlayerMgr.getHero() != null)
+                if (MoveVec.x == 0 && MoveVec.y == 0)
+                {
                     Ctx.mInstance.mPlayerMgr.getHero().stopMove();
-            }
-            else
-            {
-                Move(Ctx.mInstance.mPlayerMgr.getMoveVec());
+                }
+                else
+                {
+                    Move(Ctx.mInstance.mPlayerMgr.getMoveVec());
+                }
             }
         }
 

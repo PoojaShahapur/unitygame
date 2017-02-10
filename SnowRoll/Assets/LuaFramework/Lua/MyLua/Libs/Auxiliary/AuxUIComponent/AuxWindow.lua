@@ -3,7 +3,7 @@ MLoader("MyLua.Libs.Core.Class");
 MLoader("MyLua.Libs.Core.GObject");
 MLoader("MyLua.Libs.Auxiliary.AuxComponent");
 
-local M = GlobalNS.Class(GlobalNS.Auxiliary);
+local M = GlobalNS.Class(GlobalNS.AuxComponent);
 M.clsName = "AuxWindow";
 GlobalNS[M.clsName] = M;
 

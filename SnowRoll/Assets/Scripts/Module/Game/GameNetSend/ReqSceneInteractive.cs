@@ -182,9 +182,12 @@ namespace Game.Game
                         bundle.writeUint8((System.Byte)(kbeEntity.isOnGround == true ? 1 : 0));
                         bundle.writeUint32(spaceID);
 
-                        Ctx.mInstance.mLogSys.log(
+                        if (MacroDef.ENABLE_LOG)
+                        {
+                            Ctx.mInstance.mLogSys.log(
                             string.Format("ReqSceneInteractive::sendPlayerMove, Send Move eid = {0}, PosX = {1}, PosY = {2}, PosZ = {3}", eid, position.x, position.y, position.z),
                             LogTypeId.eLogBeingMove);
+                        }
 
                         ++idx;
                     }
@@ -235,7 +238,10 @@ namespace Game.Game
         {
             if (!Ctx.mInstance.mCommonData.isSplitSuccess())
             {
-                Ctx.mInstance.mLogSys.log("ReqSceneInteractive::sendSplit, Not send split, server not return", LogTypeId.eLogScene);
+                if (MacroDef.ENABLE_LOG)
+                {
+                    Ctx.mInstance.mLogSys.log("ReqSceneInteractive::sendSplit, Not send split, server not return", LogTypeId.eLogScene);
+                }
                 return;
             }
 
@@ -249,7 +255,10 @@ namespace Game.Game
             //已达到最大数量
             if(Ctx.mInstance.mSnowBallCfg.isGreatEqualMaxNum(num))
             {
-                Ctx.mInstance.mLogSys.log(string.Format("ReqSceneInteractive::sendSplit, Not send split, arrive max num ball, current ball num = {0}, Max ball num = {1}", num, Ctx.mInstance.mSnowBallCfg.mMaxSnowNum), LogTypeId.eLogScene);
+                if (MacroDef.ENABLE_LOG)
+                {
+                    Ctx.mInstance.mLogSys.log(string.Format("ReqSceneInteractive::sendSplit, Not send split, arrive max num ball, current ball num = {0}, Max ball num = {1}", num, Ctx.mInstance.mSnowBallCfg.mMaxSnowNum), LogTypeId.eLogScene);
+                }
                 return;
             }
 
@@ -306,11 +315,17 @@ namespace Game.Game
                     uniqueId = (ulong)eid;
                     info["uniqueid"] = uniqueId;
 
-                    Ctx.mInstance.mLogSys.log(string.Format("ReqSceneInteractive::sendSplit, Send Split eid = {0}, initPos.x = {1}, initPos.y = {2}, initPos.z = {3}, toPos.x = {4}, toPos.y = {5}, toPos.z = {6}, uniqueid = {7}", eid, initPos.x, initPos.y, initPos.z, toPos.x, toPos.y, toPos.z, uniqueId), LogTypeId.eLogSplitMergeEmit);
+                    if (MacroDef.ENABLE_LOG)
+                    {
+                        Ctx.mInstance.mLogSys.log(string.Format("ReqSceneInteractive::sendSplit, Send Split eid = {0}, initPos.x = {1}, initPos.y = {2}, initPos.z = {3}, toPos.x = {4}, toPos.y = {5}, toPos.z = {6}, uniqueid = {7}", eid, initPos.x, initPos.y, initPos.z, toPos.x, toPos.y, toPos.z, uniqueId), LogTypeId.eLogSplitMergeEmit);
+                    }
                 }
                 else
                 {
-                    Ctx.mInstance.mLogSys.log("ReqSceneInteractive::sendSplit, Can not Split", LogTypeId.eLogSplitMergeEmit);
+                    if (MacroDef.ENABLE_LOG)
+                    {
+                        Ctx.mInstance.mLogSys.log("ReqSceneInteractive::sendSplit, Can not Split", LogTypeId.eLogSplitMergeEmit);
+                    }
                 }
 
                 ++idx;
@@ -321,7 +336,10 @@ namespace Game.Game
                 Ctx.mInstance.mCommonData.setSplitSuccess(false);
                 player.cellCall("reqSplit", (int)MsgLogicCV.eSplit, infos);
 
-                Ctx.mInstance.mLogSys.log("ReqSceneInteractive::sendSplit, Send Split", LogTypeId.eLogSceneInterActive);
+                if (MacroDef.ENABLE_LOG)
+                {
+                    Ctx.mInstance.mLogSys.log("ReqSceneInteractive::sendSplit, Send Split", LogTypeId.eLogSceneInterActive);
+                }
             }
         }
 
@@ -388,7 +406,10 @@ namespace Game.Game
 
             //(KBEngine.KBEngineApp.app.findEntity((System.Int32)player.getThisId()) as KBEngine.Avatar).notifyMerge((System.Int32)aBeing.getThisId(), (System.Int32)bBeing.getThisId(), (System.Int32)aBeing.getThisId(), aBeing.getMass() + bBeing.getMass());
 
-            Ctx.mInstance.mLogSys.log(string.Format("ReqSceneInteractive::sendMerge, Send Merge aThisid = {0}, frompos.x = {1}, frompos.y = {2}, frompos.z = {3}, bThisId = {4}, bPos.x = {5}, , bPos.y = {6}, bPos.z = {7}, dist = {8}", aeid, aBeing.getPos().x, aBeing.getPos().y, aBeing.getPos().z, beid, bBeing.getPos().x, bBeing.getPos().y, bBeing.getPos().z, (bBeing.getPos() - aBeing.getPos()).magnitude), LogTypeId.eLogSceneInterActive);
+            if (MacroDef.ENABLE_LOG)
+            {
+                Ctx.mInstance.mLogSys.log(string.Format("ReqSceneInteractive::sendMerge, Send Merge aThisid = {0}, frompos.x = {1}, frompos.y = {2}, frompos.z = {3}, bThisId = {4}, bPos.x = {5}, , bPos.y = {6}, bPos.z = {7}, dist = {8}", aeid, aBeing.getPos().x, aBeing.getPos().y, aBeing.getPos().z, beid, bBeing.getPos().x, bBeing.getPos().y, bBeing.getPos().z, (bBeing.getPos() - aBeing.getPos()).magnitude), LogTypeId.eLogSceneInterActive);
+            }
         }
 
         // 吐雪块
@@ -396,7 +417,10 @@ namespace Game.Game
         {
             if (!Ctx.mInstance.mCommonData.isEmitSuccess())
             {
-                Ctx.mInstance.mLogSys.log("ReqSceneInteractive::sendShit, Emit SnowBall Wait Server Return", LogTypeId.eLogScene);
+                if (MacroDef.ENABLE_LOG)
+                {
+                    Ctx.mInstance.mLogSys.log("ReqSceneInteractive::sendShit, Emit SnowBall Wait Server Return", LogTypeId.eLogScene);
+                }
                 return;
             }
 
@@ -455,13 +479,19 @@ namespace Game.Game
                     uniqueId = UtilMath.makeUniqueId((uint)eid, Ctx.mInstance.mPlayerSnowBlockMgr.getCurId());
                     info["uniqueid"] = uniqueId;
 
-                    Ctx.mInstance.mLogSys.log(string.Format("ReqSceneInteractive::sendShit, Shit One eid = {0}, initPos.x = {1}, initPos.y = {2}, initPos.z = {3}, toPos.x = {4}, toPos.y = {5}, toPos.z = {6}, CurId = {7}", eid, initPos.x, initPos.y, initPos.z, toPos.x, toPos.y, toPos.z, Ctx.mInstance.mPlayerSnowBlockMgr.getCurId()), LogTypeId.eLogSplitMergeEmit);
+                    if (MacroDef.ENABLE_LOG)
+                    {
+                        Ctx.mInstance.mLogSys.log(string.Format("ReqSceneInteractive::sendShit, Shit One eid = {0}, initPos.x = {1}, initPos.y = {2}, initPos.z = {3}, toPos.x = {4}, toPos.y = {5}, toPos.z = {6}, CurId = {7}", eid, initPos.x, initPos.y, initPos.z, toPos.x, toPos.y, toPos.z, Ctx.mInstance.mPlayerSnowBlockMgr.getCurId()), LogTypeId.eLogSplitMergeEmit);
+                    }
 
                     Ctx.mInstance.mPlayerSnowBlockMgr.emitOne(initPos, toPos, UnityEngine.Quaternion.identity, 10);
                 }
                 else
                 {
-                    Ctx.mInstance.mLogSys.log("ReqSceneInteractive::sendShit, Can not Emit", LogTypeId.eLogSplitMergeEmit);
+                    if (MacroDef.ENABLE_LOG)
+                    {
+                        Ctx.mInstance.mLogSys.log("ReqSceneInteractive::sendShit, Can not Emit", LogTypeId.eLogSplitMergeEmit);
+                    }
                 }
 
                 ++idx;
@@ -472,7 +502,10 @@ namespace Game.Game
                 Ctx.mInstance.mCommonData.setEmitSuccess(false);
                 player.cellCall("reqSplit", (int)MsgLogicCV.eShit, infos);
 
-                Ctx.mInstance.mLogSys.log("ReqSceneInteractive::sendShit, Send Shit", LogTypeId.eLogSplitMergeEmit);
+                if (MacroDef.ENABLE_LOG)
+                {
+                    Ctx.mInstance.mLogSys.log("ReqSceneInteractive::sendShit, Send Shit", LogTypeId.eLogSplitMergeEmit);
+                }
             }
         }
     }

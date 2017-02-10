@@ -65,17 +65,6 @@ function M.requireFile(filePath)
 	return MLoader(filePath);
 end
 
--- 用户昵称
-function M.getUserNickName()
-    if GCtx.mUiMgr:hasForm(GlobalNS.UIFormId.eUIStartGame) then
-        local form = GCtx.mUiMgr:getForm(GlobalNS.UIFormId.eUIStartGame);
-        if nil ~= form and form:isVisible() then            
-            return form.username;
-        end
-    end
-    return "海盗一号";
-end
-
 --场景加载进度, progress: [0, 1]
 function M.onSceneLoadProgress(progress)
 	local form = GCtx.mUiMgr:getForm(GlobalNS.UIFormId.eUIStartGame);

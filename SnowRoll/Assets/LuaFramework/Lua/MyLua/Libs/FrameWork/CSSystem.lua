@@ -13,6 +13,7 @@ function M.init()
     this.GlobalEventCmd = SDK.Lib.GlobalEventCmd;
     this.AuxPrefabLoader = SDK.Lib.AuxPrefabLoader;
 	this.AuxBytesLoader = SDK.Lib.AuxBytesLoader;
+	this.AuxSpriteAtlasLoader = SDK.Lib.AuxSpriteAtlasLoader;
 	this.UtilApi = SDK.Lib.UtilApi;
 	this.MFileSys = SDK.Lib.MFileSys;
 	this.EEndian = SDK.Lib.EEndian;

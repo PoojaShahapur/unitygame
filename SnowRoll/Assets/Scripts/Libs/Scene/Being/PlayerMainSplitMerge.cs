@@ -112,7 +112,10 @@
                 }
                 else
                 {
-                    Ctx.mInstance.mLogSys.log("Can not Split", LogTypeId.eLogSplitMergeEmit);
+                    if (MacroDef.ENABLE_LOG)
+                    {
+                        Ctx.mInstance.mLogSys.log("Can not Split", LogTypeId.eLogSplitMergeEmit);
+                    }
                 }
 
                 ++idx;
@@ -122,7 +125,10 @@
             {
                 if (Ctx.mInstance.mSnowBallCfg.isGreatEqualMaxNum(this.mPlayerChildMgr.getEntityCount()))
                 {
-                    Ctx.mInstance.mLogSys.log("Split GreatEqual Max", LogTypeId.eLogSplitMergeEmit);
+                    if (MacroDef.ENABLE_LOG)
+                    {
+                        Ctx.mInstance.mLogSys.log("Split GreatEqual Max", LogTypeId.eLogSplitMergeEmit);
+                    }
                 }
 
                 // 设置自己到中心点
@@ -334,7 +340,10 @@
                 }
                 else
                 {
-                    Ctx.mInstance.mLogSys.log("Can not Emit", LogTypeId.eLogSplitMergeEmit);
+                    if (MacroDef.ENABLE_LOG)
+                    {
+                        Ctx.mInstance.mLogSys.log("Can not Emit", LogTypeId.eLogSplitMergeEmit);
+                    }
                 }
 
                 ++idx;

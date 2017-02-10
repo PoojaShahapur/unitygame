@@ -30,6 +30,8 @@ namespace SDK.Lib
 
             if (this.isInvalid())
             {
+                this.onStartLoad();
+
                 LoadParam param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
                 param.setPath(path);
                 param.mLoadEventHandle = this.onLoadEventHandle;

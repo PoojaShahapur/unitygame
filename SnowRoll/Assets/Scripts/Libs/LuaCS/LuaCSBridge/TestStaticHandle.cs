@@ -4,7 +4,10 @@
     {
         static public void log(string desc)
         {
-            Ctx.mInstance.mLogSys.log(desc);
+            if (MacroDef.ENABLE_LOG)
+            {
+                Ctx.mInstance.mLogSys.log(desc);
+            }
         }
     }
 }

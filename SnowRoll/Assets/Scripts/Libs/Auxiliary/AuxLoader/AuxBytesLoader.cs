@@ -39,12 +39,15 @@ namespace SDK.Lib
 
             if (this.isInvalid())
             {
+                this.onStartLoad();
+
                 this.mBytesRes = Ctx.mInstance.mBytesResMgr.getAndSyncLoadRes(path, null, null);
                 this.onBytesLoaded(this.mBytesRes);
             }
             else if (this.hasLoadEnd())
             {
-                this.onBytesLoaded(this.mBytesRes);
+                //this.onBytesLoaded(this.mBytesRes);
+                this.onBytesLoaded(null);
             }
         }
 
@@ -54,12 +57,14 @@ namespace SDK.Lib
 
             if (this.isInvalid())
             {
+                this.onStartLoad();
+
                 this.mBytesRes = Ctx.mInstance.mBytesResMgr.getAndSyncLoadRes(path, null, null);
                 this.onBytesLoaded(this.mBytesRes);
             }
             else if (this.hasLoadEnd())
             {
-                this.onBytesLoaded(this.mBytesRes);
+                this.onBytesLoaded(null);
             }
         }
 
@@ -70,6 +75,8 @@ namespace SDK.Lib
 
             if (this.isInvalid())
             {
+                this.onStartLoad();
+
                 if (null == progressHandle)
                 {
                     mBytesRes = Ctx.mInstance.mBytesResMgr.getAndAsyncLoadRes(path, this.onBytesLoaded, null);
@@ -81,7 +88,7 @@ namespace SDK.Lib
             }
             else if (this.hasLoadEnd())
             {
-                this.onBytesLoaded(this.mBytesRes);
+                this.onBytesLoaded(null);
             }
         }
 
@@ -91,6 +98,8 @@ namespace SDK.Lib
 
             if (this.isInvalid())
             {
+                this.onStartLoad();
+
                 if (null == progressLuaFunction)
                 {
                     this.mBytesRes = Ctx.mInstance.mBytesResMgr.getAndAsyncLoadRes(path, this.onBytesLoaded, null);
@@ -102,7 +111,7 @@ namespace SDK.Lib
             }
             else if (this.hasLoadEnd())
             {
-                this.onBytesLoaded(this.mBytesRes);
+                this.onBytesLoaded(null);
             }
         }
 

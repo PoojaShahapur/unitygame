@@ -173,6 +173,24 @@ function M.init()
 			mPreFormModeWhenOpen = GlobalNS.PreFormModeWhenOpen.eNONE,
 			mPreFormModeWhenClose = GlobalNS.PreFormModeWhenClose.eNONE,
         };
+	M[GlobalNS.UIFormId.eUIAccountPanel] = {
+            mWidgetPath = "UI/UIAccountPanel/UIAccountPanel.prefab",
+            mLuaScriptPath = "MyLua.UI.UIAccountPanel.UIAccountPanel",
+			mLuaScriptTableName = "GlobalNS.UILua",
+			mCanvasId = GlobalNS.UICanvasId.eUIFirstCanvas,
+			mLayerId = GlobalNS.UILayerID.eUISecondLayer,
+			mPreFormModeWhenOpen = GlobalNS.PreFormModeWhenOpen.eNONE,
+			mPreFormModeWhenClose = GlobalNS.PreFormModeWhenClose.eNONE,
+        };
+    M[GlobalNS.UIFormId.eUIAccountAvatarPanel] = {
+            mWidgetPath = "UI/UIAccountPanel/UIAccountAvatarPanel.prefab",
+            mLuaScriptPath = "MyLua.UI.UIAccountPanel.UIAccountAvatarPanel",
+			mLuaScriptTableName = "GlobalNS.UILua",
+			mCanvasId = GlobalNS.UICanvasId.eUIFirstCanvas,
+			mLayerId = GlobalNS.UILayerID.eUISecondLayer,
+			mPreFormModeWhenOpen = GlobalNS.PreFormModeWhenOpen.eNONE,
+			mPreFormModeWhenClose = GlobalNS.PreFormModeWhenClose.eNONE,
+        };
 	--[[替换占位符(勿删)--]]
 end
 

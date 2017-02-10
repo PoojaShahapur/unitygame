@@ -80,6 +80,11 @@ MLoader("MyLua.Libs.Auxiliary.AuxLoader.AuxLoaderBase");
 MLoader("MyLua.Libs.Auxiliary.AuxLoader.AuxPrefabLoader");
 MLoader("MyLua.Libs.Auxiliary.AuxLoader.AuxUIPrefabLoader");
 MLoader("MyLua.Libs.Auxiliary.AuxLoader.AuxBytesLoader");
+MLoader("MyLua.Libs.Auxiliary.AuxLoader.AuxSpriteAtlasLoader");
+MLoader("MyLua.Libs.Auxiliary.AuxLoader.AuxTextureLoader");
+MLoader("MyLua.Libs.Auxiliary.AuxLoader.AuxTextLoader");
+MLoader("MyLua.Libs.Auxiliary.AuxLoader.AuxLevelLoader");
+MLoader("MyLua.Libs.Auxiliary.AuxLoader.AuxDownloader");
 
 -- FrameWork 脚本
 MLoader("MyLua.Libs.FrameWork.ProcessSys");

@@ -65,7 +65,13 @@ function M:onExit()
 end
 
 function M:onOKBtnClk()
-	self:exit();
+    self:exit();
+
+    if 1 == GCtx.mGameData.mMessageMethond then
+        GCtx.mGameData:returnStartGame();
+    end
+
+    GCtx.mGameData.mMessageMethond = 0; --重置
 end
 
 function M:ShowPopMessage(msg)

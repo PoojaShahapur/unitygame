@@ -75,16 +75,13 @@ function M:onBtnReliveClk()
 end
 
 function M:onBtnBackRoomClk()
-	GlobalNS.CSSystem.Ctx.mInstance.mPlayerMgr:dispose();
-	GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormId.eUIStartGame);
-    --GlobalNS.CSSystem.Ctx.mInstance.mModuleSys:unloadModule(GlobalNS.CSSystem.ModuleId.GAMEMN);
-    GlobalNS.CSSystem.Ctx.mInstance.mModuleSys:loadModule(GlobalNS.CSSystem.ModuleId.LOGINMN);
+	GCtx.mGameData:returnStartGame();
 end
 
 function M:UpdateReliveTimeAndEnemyName(reliveseconds, enemyName)
     self.mReliveBtn:setText("立即复活（<color=#00FF01FF>" .. reliveseconds .. "</color>）");
 
-    self.roomFatherBtn:setText("你被  <color=#00FF01FF>" .. enemyName .. "</color> 吃掉了");
+    self.roomFatherBtn:setText("你被  <color=#00FF01FF>" .. enemyName .. "</color>  吃掉了");
 
     self.mTimer:setTotalTime(reliveseconds);
     self.mTimer:setFuncObject(self, self.onTick);

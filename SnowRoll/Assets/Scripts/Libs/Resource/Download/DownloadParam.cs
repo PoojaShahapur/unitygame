@@ -22,6 +22,7 @@ namespace SDK.Lib
         public string mVersion;
 
         public MAction<IDispatchObject> mLoadEventHandle;
+        public MAction<IDispatchObject> mProgressEventHandle;
         public DownloadType mDownloadType;
         public ResLoadType mResLoadType;
         public ResPackType mResPackType;

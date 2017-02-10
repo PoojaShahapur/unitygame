@@ -32,5 +32,33 @@
             }
             //UtilApi.setLayer(this.selfGo, "PlayerMainChild");
         }
+
+        override protected void onRetPool()
+        {
+            base.onRetPool();
+
+            if (null != this.mSelfGo)
+            {
+                // 关闭组件
+                UtilApi.enableMeshRenderComponent(this.mModelRender, false);
+                UtilApi.enableAnimatorComponent(this.mModel, false);
+                UtilApi.enableCollider<UnityEngine.SphereCollider>(this.mSelfGo, false);
+                UtilApi.enableRigidbodyComponent(this.mSelfGo, false);
+            }
+        }
+
+        override protected void onGetPool()
+        {
+            base.onGetPool();
+
+            if (null != this.mSelfGo)
+            {
+                // 关闭组件
+                UtilApi.enableMeshRenderComponent(this.mModelRender, true);
+                UtilApi.enableAnimatorComponent(this.mModel, true);
+                UtilApi.enableCollider<UnityEngine.SphereCollider>(this.mSelfGo, true);
+                UtilApi.enableRigidbodyComponent(this.mSelfGo, true);
+            }
+        }
     }
 }

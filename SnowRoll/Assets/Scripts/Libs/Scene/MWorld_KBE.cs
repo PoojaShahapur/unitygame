@@ -229,11 +229,14 @@ public class MWorld_KBE
 
         //player.isOnGround = entity.isOnGround;
 
-        if (EntityType.ePlayerMainChild == player.getEntityType())
+        if (null != player && EntityType.ePlayerMainChild == player.getEntityType())
         {
-            Ctx.mInstance.mLogSys.log(
+            if (MacroDef.ENABLE_LOG)
+            {
+                Ctx.mInstance.mLogSys.log(
                         string.Format("Update Move PosX = {0}, PosY = {1}, PosZ = {2}", entity.position.x, entity.position.y, entity.position.z),
                         LogTypeId.eLogBeingMove);
+            }
         }
     }
 

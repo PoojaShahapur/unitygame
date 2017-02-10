@@ -58,11 +58,18 @@
                 ret = UtilLogic.canContactMerge(this.mTimeStamp);
 
                 float leftTime = UtilApi.getUTCSec() - this.mTimeStamp;
-                Ctx.mInstance.mLogSys.log(string.Format("MergeItem::canMerge, aThisId = {0}, bThisId = {1}, merge cantact time = {2}, left time = {3}, ret = {4}", aChild.getThisId(), bChild.getThisId(), Ctx.mInstance.mSnowBallCfg.mMergeContactTime, leftTime, ret.ToString()), LogTypeId.eLogScene);
+
+                if (MacroDef.ENABLE_LOG)
+                {
+                    Ctx.mInstance.mLogSys.log(string.Format("MergeItem::canMerge, aThisId = {0}, bThisId = {1}, merge cantact time = {2}, left time = {3}, ret = {4}", aChild.getThisId(), bChild.getThisId(), Ctx.mInstance.mSnowBallCfg.mMergeContactTime, leftTime, ret.ToString()), LogTypeId.eLogScene);
+                }
             }
             else
             {
-                Ctx.mInstance.mLogSys.log("MergeItem::canMerge, can not find being", LogTypeId.eLogScene);
+                if (MacroDef.ENABLE_LOG)
+                {
+                    Ctx.mInstance.mLogSys.log("MergeItem::canMerge, can not find being", LogTypeId.eLogScene);
+                }
             }
 
             return ret;
@@ -133,11 +140,17 @@
             {
                 float squaredDistance = UtilMath.squaredDistance(aChild.getPos(), bChild.getPos());
 
-                Ctx.mInstance.mLogSys.log(string.Format("MergeItem::onAddMerge, aThisId = {0}, bThisId = {1}, aX = {2}, aY = {3}, aZ = {4}, bX = {5}, bY = {6}, bZ = {7}, CurSquaredDist = {8}, ContactSquaredDist = {9}", aChild.getThisId(), bChild.getThisId(), aChild.getPos().x, aChild.getPos().y, aChild.getPos().z, bChild.getPos().x, bChild.getPos().y, bChild.getPos().z, squaredDistance, this.mDistance), LogTypeId.eLogScene);
+                if (MacroDef.ENABLE_LOG)
+                {
+                    Ctx.mInstance.mLogSys.log(string.Format("MergeItem::onAddMerge, aThisId = {0}, bThisId = {1}, aX = {2}, aY = {3}, aZ = {4}, bX = {5}, bY = {6}, bZ = {7}, CurSquaredDist = {8}, ContactSquaredDist = {9}", aChild.getThisId(), bChild.getThisId(), aChild.getPos().x, aChild.getPos().y, aChild.getPos().z, bChild.getPos().x, bChild.getPos().y, bChild.getPos().z, squaredDistance, this.mDistance), LogTypeId.eLogScene);
+                }
             }
             else
             {
-                Ctx.mInstance.mLogSys.log("MergeItem::onExceedRange, can not find being", LogTypeId.eLogScene);
+                if (MacroDef.ENABLE_LOG)
+                {
+                    Ctx.mInstance.mLogSys.log("MergeItem::onExceedRange, can not find being", LogTypeId.eLogScene);
+                }
             }
         }
 
@@ -160,11 +173,17 @@
 
                 float squaredDistance = UtilMath.squaredDistance(aChild.getPos(), bChild.getPos());
 
-                Ctx.mInstance.mLogSys.log(string.Format("MergeItem::onExceedRange, aThisId = {0}, bThisId = {1}, aX = {2}, aY = {3}, aZ = {4}, bX = {5}, bY = {6}, bZ = {7}, CurSquaredDist = {8}, ContactSquaredDist = {9}", aChild.getThisId(), bChild.getThisId(), aChild.getPos().x, aChild.getPos().y, aChild.getPos().z, bChild.getPos().x, bChild.getPos().y, bChild.getPos().z, squaredDistance, this.mDistance), LogTypeId.eLogScene);
+                if (MacroDef.ENABLE_LOG)
+                {
+                    Ctx.mInstance.mLogSys.log(string.Format("MergeItem::onExceedRange, aThisId = {0}, bThisId = {1}, aX = {2}, aY = {3}, aZ = {4}, bX = {5}, bY = {6}, bZ = {7}, CurSquaredDist = {8}, ContactSquaredDist = {9}", aChild.getThisId(), bChild.getThisId(), aChild.getPos().x, aChild.getPos().y, aChild.getPos().z, bChild.getPos().x, bChild.getPos().y, bChild.getPos().z, squaredDistance, this.mDistance), LogTypeId.eLogScene);
+                }
             }
             else
             {
-                Ctx.mInstance.mLogSys.log("MergeItem::onExceedRange, can not find being", LogTypeId.eLogScene);
+                if (MacroDef.ENABLE_LOG)
+                {
+                    Ctx.mInstance.mLogSys.log("MergeItem::onExceedRange, can not find being", LogTypeId.eLogScene);
+                }
             }
         }
     }

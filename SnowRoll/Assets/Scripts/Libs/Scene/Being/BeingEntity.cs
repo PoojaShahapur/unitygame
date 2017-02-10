@@ -8,9 +8,8 @@ namespace SDK.Lib
         protected SkinModelSkelAnim mSkinAniModel;      // 模型数据
         protected BeingState mBeingState;       // 当前的状态
         protected BeingSubState mBeingSubState; // 当前子状态
-
-        // 临时改为 public,为了让策划配置和测试系数 k 和 b,在 HudItemBase.cs 中用到
-        public float mMoveSpeed;     // 移动速度
+        
+        protected float mMoveSpeed;     // 移动速度
         protected float mRotateSpeed;   // 旋转速度
         protected float mScaleSpeed;    // 缩放速度
 
@@ -90,7 +89,7 @@ namespace SDK.Lib
 
         public virtual void onSkeletonLoaded()
         {
-            
+
         }
 
         // 目前只有怪有 Steerings ,加载这里是为了测试，全部都有 Steerings
@@ -150,7 +149,10 @@ namespace SDK.Lib
             this.mMoveSpeed = value;
             this.setName(this.getName());
 
-            Ctx.mInstance.mLogSys.log(string.Format("BeingEntity::setMoveSpeed, BasicInfo is = {0}, MoveSpeed = {1}", this.getBasicInfoStr(), this.mMoveSpeed), LogTypeId.eLogBeingMove);
+            if (MacroDef.ENABLE_LOG)
+            {
+                Ctx.mInstance.mLogSys.log(string.Format("BeingEntity::setMoveSpeed, BasicInfo is = {0}, MoveSpeed = {1}", this.getBasicInfoStr(), this.mMoveSpeed), LogTypeId.eLogBeingMove);
+            }
         }
 
         public void setContactNotMergeSpeed(float value)
@@ -200,11 +202,11 @@ namespace SDK.Lib
 
         virtual public void setDestPos(UnityEngine.Vector3 pos, bool immePos)
         {
-            if(immePos)
+            if (immePos)
             {
                 this.setPos(pos);
             }
-            if(null != mMovement)
+            if (null != mMovement)
             {
                 (mMovement as BeingEntityMovement).setDestPos(pos);
             }
@@ -249,7 +251,7 @@ namespace SDK.Lib
 
         public void setDestRotate(UnityEngine.Vector3 rotate, bool immeRotate)
         {
-            if(immeRotate)
+            if (immeRotate)
             {
                 this.setRotateEulerAngle(rotate);
             }
@@ -288,7 +290,7 @@ namespace SDK.Lib
 
         public void setDestScale(float scale, bool immeScale)
         {
-            if(immeScale)
+            if (immeScale)
             {
                 this.setScale(new UnityEngine.Vector3(scale, scale, scale));
             }
@@ -315,7 +317,10 @@ namespace SDK.Lib
                 this.mBallRadius = size;
                 this.setDestScale(size, immScale);
 
-                Ctx.mInstance.mLogSys.log(string.Format("BeingEntity::setBallRadius, BasicInfo is = {0}, BallRadius = {1},", this.getBasicInfoStr(), this.mBallRadius), LogTypeId.eLogBeingMove);
+                if (MacroDef.ENABLE_LOG)
+                {
+                    Ctx.mInstance.mLogSys.log(string.Format("BeingEntity::setBallRadius, BasicInfo is = {0}, BallRadius = {1},", this.getBasicInfoStr(), this.mBallRadius), LogTypeId.eLogBeingMove);
+                }
 
                 if (isCalcMass)
                 {
@@ -329,11 +334,11 @@ namespace SDK.Lib
 
         public void setMass(float mass, bool isCalcRadius = true)
         {
-            if(this.mMass != mass && mass > 0 && !UtilMath.isInvalidNum(mass))
+            if (this.mMass != mass && mass > 0 && !UtilMath.isInvalidNum(mass))
             {
                 this.mMass = mass;
 
-                if(isCalcRadius)
+                if (isCalcRadius)
                 {
                     this.setBallRadius(UtilMath.getRadiusByMass(this.mMass));
                 }
@@ -341,7 +346,10 @@ namespace SDK.Lib
                 // 如果全部打日志会直接卡掉的
                 if (EntityType.ePlayerMainChild == this.mEntityType)
                 {
-                    Ctx.mInstance.mLogSys.log(string.Format("BeingEntity::setMass, BasicInfo is = {0}, mass = {1}", this.getBasicInfoStr(), this.mMass), LogTypeId.eLogScene);
+                    if (MacroDef.ENABLE_LOG)
+                    {
+                        Ctx.mInstance.mLogSys.log(string.Format("BeingEntity::setMass, BasicInfo is = {0}, mass = {1}", this.getBasicInfoStr(), this.mMass), LogTypeId.eLogScene);
+                    }
                 }
             }
         }
@@ -368,7 +376,7 @@ namespace SDK.Lib
             {
                 this.mName = name;
 
-                if(null != this.mHud)
+                if (null != this.mHud)
                 {
                     this.mHud.onNameChanged();
                 }
@@ -454,7 +462,7 @@ namespace SDK.Lib
                 this.mMovement.onTick(delta);
             }
 
-            if(null != this.mAttack)
+            if (null != this.mAttack)
             {
                 this.mAttack.onTick(delta);
             }
@@ -475,7 +483,7 @@ namespace SDK.Lib
             {
                 this.mBeingState = state;
 
-                if(null != this.mAnimFSM)
+                if (null != this.mAnimFSM)
                 {
                     this.mAnimFSM.MoveToState(AnimStateId.getStateIdByBeingState(this.mBeingState));
                 }
@@ -511,12 +519,12 @@ namespace SDK.Lib
             bool ret = false;
 
             // 判断半径
-            if(this.mBallRadius > other.getBallRadius())
+            if (this.mBallRadius > other.getBallRadius())
             {
                 if (this.mBallRadius >= other.getBallRadius() * Ctx.mInstance.mSnowBallCfg.mCanAttackRate)
                 {
                     // 判断中心点距离
-                    if(UtilMath.squaredDistance(this.mPos, other.getPos()) <= this.mBallRadius * this.mBallRadius)
+                    if (UtilMath.squaredDistance(this.mPos, other.getPos()) <= this.mBallRadius * this.mBallRadius)
                     {
                         ret = true;
                     }
@@ -566,7 +574,7 @@ namespace SDK.Lib
         {
             UnityEngine.Vector3 direction = other.getPos() - this.getPos();
 
-            if(direction.magnitude <= this.getBallRadius() + other.getBallRadius() + SnowBallCfg.msSeparateFactor)
+            if (direction.magnitude <= this.getBallRadius() + other.getBallRadius() + SnowBallCfg.msSeparateFactor)
             {
                 return true;
             }
@@ -577,7 +585,7 @@ namespace SDK.Lib
         // 通过当前状态判断是否可以进行分离
         public bool canSeparateByState()
         {
-            if(BeingState.eBSIdle == this.mBeingState ||
+            if (BeingState.eBSIdle == this.mBeingState ||
                BeingState.eBSSeparation == this.mBeingState)
             {
                 return true;
@@ -627,7 +635,10 @@ namespace SDK.Lib
             bool ret = false;
             ret = this.mMass >= Ctx.mInstance.mSnowBallCfg.mCanSplitMass;
 
-            Ctx.mInstance.mLogSys.log(string.Format("BeingEntity::canSplit, BasicInfo is = {0}, current mass = {1}, SplitMass = {2}", this.getBasicInfoStr(), this.mMass, Ctx.mInstance.mSnowBallCfg.mCanSplitMass), LogTypeId.eLogScene);
+            if (MacroDef.ENABLE_LOG)
+            {
+                Ctx.mInstance.mLogSys.log(string.Format("BeingEntity::canSplit, BasicInfo is = {0}, current mass = {1}, SplitMass = {2}", this.getBasicInfoStr(), this.mMass, Ctx.mInstance.mSnowBallCfg.mCanSplitMass), LogTypeId.eLogScene);
+            }
 
             return ret;
         }
@@ -652,15 +663,15 @@ namespace SDK.Lib
             {
                 can = false;
             }
-            else if(this.isClientDispose())
+            else if (this.isClientDispose())
             {
                 can = false;
             }
-            else if(UtilApi.isInFakePos(bBeingEntity.getPos()))
+            else if (UtilApi.isInFakePos(bBeingEntity.getPos()))
             {
                 can = false;
             }
-            else if(bBeingEntity.isClientDispose())
+            else if (bBeingEntity.isClientDispose())
             {
                 can = false;
             }
@@ -726,7 +737,7 @@ namespace SDK.Lib
 
         public UnityEngine.Quaternion getDestRotate()
         {
-            if(null != this.mMovement)
+            if (null != this.mMovement)
             {
                 return (this.mMovement as BeingEntityMovement).getDestRotate();
             }

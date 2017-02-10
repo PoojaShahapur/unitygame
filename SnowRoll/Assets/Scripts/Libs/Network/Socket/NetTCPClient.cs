@@ -173,12 +173,18 @@ namespace SDK.Lib
                     if (((SocketException)e).SocketErrorCode == SocketError.ConnectionRefused)
                     {
                         // 输出日志
-                        Ctx.mInstance.mLogSys.log(e.Message);
+                        if (MacroDef.ENABLE_LOG)
+                        {
+                            Ctx.mInstance.mLogSys.log(e.Message);
+                        }
                     }
                     else
                     {
                         // 输出日志
-                        Ctx.mInstance.mLogSys.log(e.Message);
+                        if (MacroDef.ENABLE_LOG)
+                        {
+                            Ctx.mInstance.mLogSys.log(e.Message);
+                        }
                     }
                 }
                 else
@@ -233,7 +239,11 @@ namespace SDK.Lib
 
                 if (read > 0)
                 {
-                    Ctx.mInstance.mLogSys.log("Receive data " + read.ToString());
+                    if (MacroDef.ENABLE_LOG)
+                    {
+                        Ctx.mInstance.mLogSys.log("Receive data " + read.ToString());
+                    }
+
                     mClientBuffer.dynBuffer.size = (uint)read; // 设置读取大小
                     //mClientBuffer.moveDyn2Raw();             // 将接收到的数据放到原始数据队列
                     //mClientBuffer.moveRaw2Msg();             // 将完整的消息移动到消息缓冲区
@@ -294,7 +304,10 @@ namespace SDK.Lib
 
                 try
                 {
-                    Ctx.mInstance.mLogSys.log(string.Format("Start send byte num {0} ", mClientBuffer.sendBuffer.bytesAvailable));
+                    if (MacroDef.ENABLE_LOG)
+                    {
+                        Ctx.mInstance.mLogSys.log(string.Format("Start send byte num {0} ", mClientBuffer.sendBuffer.bytesAvailable));
+                    }
 
                     IAsyncResult asyncSend = mSocket.BeginSend(mClientBuffer.sendBuffer.dynBuffer.buffer, (int)mClientBuffer.sendBuffer.position, (int)mClientBuffer.sendBuffer.bytesAvailable, 0, new System.AsyncCallback(SendCallback), 0);
                     //bool success = asyncSend.AsyncWaitHandle.WaitOne(m_sendTimeout, true);
@@ -332,11 +345,19 @@ namespace SDK.Lib
                 try
                 {
                     int bytesSent = mSocket.EndSend(ar);
-                    Ctx.mInstance.mLogSys.log(string.Format("End send bytes num {0} ", bytesSent));
+
+                    if (MacroDef.ENABLE_LOG)
+                    {
+                        Ctx.mInstance.mLogSys.log(string.Format("End send bytes num {0} ", bytesSent));
+                    }
 
                     if (mClientBuffer.sendBuffer.length < mClientBuffer.sendBuffer.position + (uint)bytesSent)
                     {
-                        Ctx.mInstance.mLogSys.log(string.Format("End send bytes error {0}", bytesSent));
+                        if (MacroDef.ENABLE_LOG)
+                        {
+                            Ctx.mInstance.mLogSys.log(string.Format("End send bytes error {0}", bytesSent));
+                        }
+
                         mClientBuffer.sendBuffer.setPos(mClientBuffer.sendBuffer.length);
                     }
                     else

@@ -8,7 +8,8 @@ namespace SDK.Lib
         protected int mPreFrame;    // 之前帧
         protected int mCurFrame;	// 当前帧
 
-	    MList<IDelayTask> mDelayTaskList;
+	    protected MList<IDelayTask> mDelayTaskList;
+        protected bool mCanExec;    // 是否可以执行任务
 
         public DelayTaskMgr()
         {
@@ -18,6 +19,7 @@ namespace SDK.Lib
             this.mPreFrame = 0;
             this.mCurFrame = 0;
             this.mDelayTaskList = new MList<IDelayTask>();
+            this.mCanExec = false;
         }
 
         public void init()
@@ -48,38 +50,49 @@ namespace SDK.Lib
             {
                 this.mPreFrame = this.mCurFrame;
                 this.mCurTaskNum = 0;
+                this.mCanExec = true;
 
                 this.execTask();
+            }
+            else
+            {
+                this.mCanExec = false;
             }
         }
 
         public void addTask(IDelayTask task)
         {
-            if (this.mCurTaskNum < this.mTaskNumPerFrameInterval)
+            this.mDelayTaskList.push(task);
+
+            this.execTask();
+        }
+
+        public void removeTask(IDelayTask task)
+        {
+            if(-1 != this.mDelayTaskList.IndexOf(task))
             {
-                ++this.mCurTaskNum;
-                task.delayExec();
-            }
-            else
-            {
-                this.mDelayTaskList.push(task);
+                this.mDelayTaskList.Remove(task);
             }
         }
 
         public void execTask()
         {
-            IDelayTask task = null;
-
-            while (this.mCurTaskNum < this.mTaskNumPerFrameInterval)
+            if (this.mCanExec &&
+                this.mCurTaskNum < this.mTaskNumPerFrameInterval)
             {
-                if (this.mDelayTaskList.Count() > 0)
-                {
-                    task = this.mDelayTaskList[0];
-                    this.mDelayTaskList.RemoveAt(0);
-                    task.delayExec();
-                }
+                IDelayTask task = null;
 
-                ++this.mCurTaskNum;
+                while (this.mCurTaskNum < this.mTaskNumPerFrameInterval)
+                {
+                    if (this.mDelayTaskList.Count() > 0)
+                    {
+                        task = this.mDelayTaskList[0];
+                        this.mDelayTaskList.RemoveAt(0);
+                        task.delayExec();
+                    }
+
+                    ++this.mCurTaskNum;
+                }
             }
         }
     }

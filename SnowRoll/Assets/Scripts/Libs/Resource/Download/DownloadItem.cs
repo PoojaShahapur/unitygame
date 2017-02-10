@@ -7,7 +7,7 @@ namespace SDK.Lib
     /**
     * @brief 从网络下载数据
     */
-    public class DownloadItem : ITask, IDispatchObject
+    public class DownloadItem : ITask, IDispatchObject, ILoadProgress
     {
         protected byte[] mBytes;
         protected string mText;
@@ -267,6 +267,11 @@ namespace SDK.Lib
                 dataStream.writeByte(mBytes);
                 dataStream.dispose();
             }
+        }
+
+        public float getProgress()
+        {
+            return 0;
         }
     }
 }

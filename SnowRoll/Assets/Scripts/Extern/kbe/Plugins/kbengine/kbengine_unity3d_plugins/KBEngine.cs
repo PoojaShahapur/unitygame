@@ -143,7 +143,9 @@
 		public static EntityDef entityDef = new EntityDef();
 		
 		// 按照标准，每个客户端部分都应该包含这个属性
-		public const string component = "client"; 
+		public const string component = "client";
+
+        private bool isSendCreateAccount = false;
 		
         public KBEngineApp(KBEngineArgs args)
         {
@@ -181,7 +183,7 @@
 		{
 			Event.registerIn("createAccount", this, "createAccount");
 			Event.registerIn("login", this, "login");
-			Event.registerIn("reLoginBaseapp", this, "reLoginBaseapp");
+            Event.registerIn("reLoginBaseapp", this, "reLoginBaseapp");
 			Event.registerIn("resetPassword", this, "resetPassword");
 			Event.registerIn("bindAccountEmail", this, "bindAccountEmail");
 			Event.registerIn("newPassword", this, "newPassword");
@@ -526,11 +528,11 @@
 			
 			KBEngineApp.app.login_loginapp(true);
 		}
-		
-		/*
+        
+        /*
 			登录到服务端(loginapp), 登录成功后还必须登录到网关(baseapp)登录流程才算完毕
 		*/
-		public void login_loginapp(bool noconnect)
+        public void login_loginapp(bool noconnect)
 		{
 			if(noconnect)
 			{
@@ -539,18 +541,58 @@
 			}
 			else
 			{
-				Dbg.DEBUG_MSG("KBEngine::login_loginapp(): send login! username=" + username);
-				Bundle bundle = Bundle.createObject();
-				bundle.newMessage(Message.messages["Loginapp_login"]);
-				bundle.writeInt8((sbyte)_args.clientType);
-				bundle.writeBlob(KBEngineApp.app._clientdatas);
-				bundle.writeString(username);
-				bundle.writeString(password);
-				bundle.send(_networkInterface);
-			}
+                /*Dbg.DEBUG_MSG("KBEngine::login_loginapp(): send login! username=" + username);
+                Bundle bundle = Bundle.createObject();
+                bundle.newMessage(Message.messages["Loginapp_login"]);
+                bundle.writeInt8((sbyte)_args.clientType);
+                bundle.writeBlob(KBEngineApp.app._clientdatas);
+                bundle.writeString(username);
+                bundle.writeString(password);
+                bundle.send(_networkInterface);*/
+                if (Ctx.mInstance.mSystemSetting.hasKey(SystemSetting.USERNAME))
+                {
+                    loginVisitor();
+                }
+                else
+                {
+                    reqCreateVisitorAccount();
+                }
+            }
 		}
 		
-		private void onConnectTo_loginapp_callback(string ip, int port, bool success, object userData)
+        //请求创建账号
+        public void reqCreateVisitorAccount()
+        {
+            if(!isSendCreateAccount)
+            {
+                isSendCreateAccount = true;
+                Bundle bundle = Bundle.createObject();
+                byte[] macaddr = UtilApi.getMacAddr();
+                bundle.newMessage(Message.messages["Loginapp_reqCreateVisitorAccount"]);
+                bundle.writeUint8(macaddr[0]);
+                bundle.writeUint8(macaddr[1]);
+                bundle.writeUint8(macaddr[2]);
+                bundle.writeUint8(macaddr[3]);
+                bundle.writeUint8(macaddr[4]);
+                bundle.writeUint8(macaddr[5]);
+                bundle.send(_networkInterface);
+            }
+        }
+
+        //登录账号
+        public void loginVisitor()
+        {
+            username = Ctx.mInstance.mSystemSetting.getString(SystemSetting.USERNAME);
+            Bundle bundle = Bundle.createObject();
+            bundle.newMessage(Message.messages["Loginapp_login"]);
+            bundle.writeInt8((sbyte)_args.clientType);
+            bundle.writeBlob(KBEngineApp.app._clientdatas);
+            bundle.writeString(username);
+            bundle.writeString(password);
+            bundle.send(_networkInterface);
+        }
+
+        private void onConnectTo_loginapp_callback(string ip, int port, bool success, object userData)
 		{
 			_lastTickCBTime = System.DateTime.Now;
 			
@@ -1497,9 +1539,21 @@
 			
 			if(_args.isOnInitCallPropertysSetMethods)
 				entity.callPropertysSetMethods();
-		}
-		
-		public Entity findEntity(Int32 entityID)
+
+            loadsence();
+        }
+        
+        private void loadsence()
+        {
+            Ctx.mInstance.mModuleSys.unloadModule(ModuleId.LOGINMN);
+            bool relogin = (Ctx.mInstance.mLoginSys as Game.Login.LoginSys).mLoginNetHandleCB_KBE.getIsRelogin();
+            if (relogin)
+                Ctx.mInstance.mSceneEventCB.onLevelLoaded();
+            else
+                Ctx.mInstance.mModuleSys.loadModule(ModuleId.GAMEMN);
+        }
+
+        public Entity findEntity(Int32 entityID)
 		{
 			Entity entity = null;
 			
@@ -1893,7 +1947,8 @@
 		*/
 		public void Client_onCreateAccountResult(MemoryStream stream)
 		{
-			UInt16 retcode = stream.readUint16();
+            isSendCreateAccount = false;
+            UInt16 retcode = stream.readUint16();
 			byte[] datas = stream.readBlob();
 			
 			Event.fireOut("onCreateAccountResult", new object[]{retcode, datas});
@@ -1907,10 +1962,18 @@
 			Dbg.DEBUG_MSG("KBEngine::Client_onCreateAccountResult: " + username + " create is successfully!");
 		}
 
-		/*
+        // 服务器返回账号account
+        public void Client_onCreateVisitorAccountResult(string account)
+        {
+            isSendCreateAccount = false;
+            Ctx.mInstance.mSystemSetting.setString(SystemSetting.USERNAME, account);
+            loginVisitor();
+        }
+
+        /*
 			告诉客户端：你当前负责（或取消）控制谁的位移同步
 		*/
-		public void Client_onControlEntity(Int32 eid, sbyte isControlled)
+        public void Client_onControlEntity(Int32 eid, sbyte isControlled)
 		{
 			Entity entity = null;
 

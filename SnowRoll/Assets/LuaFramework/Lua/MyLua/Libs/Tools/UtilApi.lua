@@ -22,8 +22,16 @@ function M.getTextComp(go, path)
     return this.getComp(go, path, 'Text');
 end
 
+function M.getImageCompByPath(go, path)
+	return this.getComp(go, path, 'Image');
+end
+
+function M.getImageCompNoPath(go)
+	return M.GetComponent(go, 'Image');
+end
+
 function M.getComp(go, path, comptName)
-    local retgo = uiMgr:TransFindChildByPath(go, path);
+    local retgo = GlobalNS.CSSystem.TransFindChildByPObjAndPath(go, path);
     return M.GetComponent(retgo, comptName);
 end
 
@@ -93,18 +101,31 @@ function M.AddComponent(target, name)
     target:AddComponent(name);
 end
 
-function M:setImageSprite(go, path)
-    M.GetComponent(go, 'Image').sprite = uiMgr:LoadSprite(path);
+function M.setImageSprite(go, path)
+	local auxSpriteAtlasLoader = GlobalNS.new(GlobalNS.AuxSpriteAtlasLoader);
+	auxSpriteAtlasLoader:syncLoad(path, nil, nil, nil);
+	local sprite = auxSpriteAtlasLoader:getSprite(path);
+	M.GetComponent(go, 'Image').sprite = sprite;
+	sprite = nil;
+end
+
+function M.setImageSpriteBySprite(image, sprite)
+	image.sprite = sprite;
 end
 
 function M.setSpriteRenderSprite(go, path)
-    local sprite = uiMgr:LoadSprite(path);
+    local auxSpriteAtlasLoader = GlobalNS.new(GlobalNS.AuxSpriteAtlasLoader);
+	auxSpriteAtlasLoader:syncLoad(path, nil, nil, nil);
+	local sprite = auxSpriteAtlasLoader:getSprite(path);
     M.GetComponent(go, 'SpriteRenderer').sprite = sprite;
 end
 
 function M.setSpriteRenderSpriteByGo(go, goPath, spritePath)
-    local sprite = uiMgr:LoadSprite(spritePath);
-    local spriteGo = uiMgr:TransFindChildByPath(goPath);
+	local auxSpriteAtlasLoader = GlobalNS.new(GlobalNS.AuxSpriteAtlasLoader);
+	auxSpriteAtlasLoader:syncLoad(path, nil, nil, nil);
+	local sprite = auxSpriteAtlasLoader:getSprite(spritePath);
+	
+    local spriteGo = GlobalNS.CSSystem.TransFindChildByPObjAndPath(go, goPath);
     M.GetComponent(spriteGo, 'SpriteRenderer').sprite = sprite;
 end
 

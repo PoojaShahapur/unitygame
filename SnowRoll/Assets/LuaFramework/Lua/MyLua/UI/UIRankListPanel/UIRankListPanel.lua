@@ -71,10 +71,7 @@ end
 
 function M:onBtnClk()
     self:exit();
-    GlobalNS.CSSystem.Ctx.mInstance.mPlayerMgr:dispose();
-	GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormId.eUIStartGame);
-    --GlobalNS.CSSystem.Ctx.mInstance.mModuleSys:unloadModule(GlobalNS.CSSystem.ModuleId.GAMEMN);
-    GlobalNS.CSSystem.Ctx.mInstance.mModuleSys:loadModule(GlobalNS.CSSystem.ModuleId.LOGINMN);
+    GCtx.mGameData:returnStartGame();
 end
 
 function M:onPrefabLoaded(dispObj)

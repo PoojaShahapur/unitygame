@@ -70,7 +70,10 @@
             //this.mPos = Ctx.mInstance.mCoordConv.getScenePointByScreenPoint(UnityEngine.Input.mousePosition, Ctx.mInstance.mCamSys.getMainCamera());
             this.mPos = UnityEngine.Input.acceleration * this.mSensitivity;
 
-            Ctx.mInstance.mLogSys.log(string.Format("LastPos is x = {0}, y = {1}, z = {2}, Pos is x = {3}, y = {4}, z = {5}", this.mLastPos.x, this.mLastPos.y, this.mLastPos.z, this.mPos.x, this.mPos.y, this.mPos.z), LogTypeId.eLogAcceleration);
+            if (MacroDef.ENABLE_LOG)
+            {
+                Ctx.mInstance.mLogSys.log(string.Format("LastPos is x = {0}, y = {1}, z = {2}, Pos is x = {3}, y = {4}, z = {5}", this.mLastPos.x, this.mLastPos.y, this.mLastPos.z, this.mPos.x, this.mPos.y, this.mPos.z), LogTypeId.eLogAcceleration);
+            }
 
             // 没有重力感应
             if (UnityEngine.Vector3.zero != this.mPos)
@@ -78,12 +81,20 @@
                 if (UnityEngine.Vector3.zero == this.mLastPos)
                 {
                     this.mAccelerationMode = MAccelerationMode.eBegan;
-                    Ctx.mInstance.mLogSys.log("Enter Began", LogTypeId.eLogAcceleration);
+
+                    if (MacroDef.ENABLE_LOG)
+                    {
+                        Ctx.mInstance.mLogSys.log("Enter Began", LogTypeId.eLogAcceleration);
+                    }
                 }
                 else
                 {
                     this.mAccelerationMode = MAccelerationMode.eMoved;
-                    Ctx.mInstance.mLogSys.log("Enter Move", LogTypeId.eLogAcceleration);
+
+                    if (MacroDef.ENABLE_LOG)
+                    {
+                        Ctx.mInstance.mLogSys.log("Enter Move", LogTypeId.eLogAcceleration);
+                    }
                 }
             }
             else
@@ -91,11 +102,18 @@
                 if (UnityEngine.Vector3.zero != this.mLastPos)
                 {
                     this.mAccelerationMode = MAccelerationMode.eEnded;
-                    Ctx.mInstance.mLogSys.log("Enter End", LogTypeId.eLogAcceleration);
+
+                    if (MacroDef.ENABLE_LOG)
+                    {
+                        Ctx.mInstance.mLogSys.log("Enter End", LogTypeId.eLogAcceleration);
+                    }
                 }
                 else
                 {
-                    Ctx.mInstance.mLogSys.log("Enter None", LogTypeId.eLogAcceleration);
+                    if (MacroDef.ENABLE_LOG)
+                    {
+                        Ctx.mInstance.mLogSys.log("Enter None", LogTypeId.eLogAcceleration);
+                    }
                 }
             }
 

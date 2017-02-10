@@ -13,51 +13,57 @@ namespace SDK.Lib
 
         override protected void initImpl(ResItem res)
         {
-            mSpriteAtlas = res.loadAllAssets<UnityEngine.Sprite>();
+            this.mSpriteAtlas = res.loadAllAssets<UnityEngine.Sprite>();
             base.initImpl(res);
         }
 
         public Sprite[] getSpriteAtlas()
         {
-            return mSpriteAtlas;
+            return this.mSpriteAtlas;
         }
 
         public UnityEngine.Sprite getSprite(string spriteName)
         {
+            spriteName = UtilApi.convFullPath2SpriteName(spriteName);
+
+            UnityEngine.Sprite sprite = null;
             int idx = 0;
-            int len = mSpriteAtlas.Length;
+            int len = this.mSpriteAtlas.Length;
+
             while(idx < len)
             {
-                if(mSpriteAtlas[idx].name == spriteName)
+                if(this.mSpriteAtlas[idx].name == spriteName)
                 {
-                    return mSpriteAtlas[idx];
+                    sprite = this.mSpriteAtlas[idx];
+                    break;
                 }
 
                 ++idx;
             }
 
-            return null;
+            return sprite;
         }
 
         public override void unload()
         {
-            if (mSpriteAtlas != null)
+            if (this.mSpriteAtlas != null)
             {
                 int idx = 0;
-                int len = mSpriteAtlas.Length;
+                int len = this.mSpriteAtlas.Length;
                 while (idx < len)
                 {
-                    if (mSpriteAtlas[idx] != null)
+                    if (this.mSpriteAtlas[idx] != null)
                     {
-                        UtilApi.UnloadAsset(mSpriteAtlas[idx]);
-                        mSpriteAtlas[idx] = null;
+                        UtilApi.UnloadAsset(this.mSpriteAtlas[idx]);
+                        this.mSpriteAtlas[idx] = null;
                     }
                 }
-                mSpriteAtlas = null;
+                this.mSpriteAtlas = null;
 
                 // 这个接口肯定可以
                 //UtilApi.UnloadUnusedAssets();
             }
+
             base.unload();
         }
     }

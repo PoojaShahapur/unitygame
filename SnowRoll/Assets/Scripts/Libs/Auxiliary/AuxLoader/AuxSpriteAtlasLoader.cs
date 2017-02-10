@@ -17,12 +17,17 @@
 
         public UnityEngine.Sprite getSprite(string spriteName)
         {
-            return this.mSpriteAtlasRes.getSprite(spriteName);
+            if (null != this.mSpriteAtlasRes)
+            {
+                return this.mSpriteAtlasRes.getSprite(spriteName);
+            }
+
+            return null;
         }
 
         override public string getLogicPath()
         {
-            if (this.mSpriteAtlasRes != null)
+            if (null != this.mSpriteAtlasRes)
             {
                 return this.mSpriteAtlasRes.getLogicPath();
             }
@@ -37,12 +42,15 @@
 
             if (this.isInvalid())
             {
+                this.onStartLoad();
+
                 this.mSpriteAtlasRes = Ctx.mInstance.mSpriteMgr.getAndSyncLoadRes(path, null, null);
                 this.onTexLoaded(this.mSpriteAtlasRes);
             }
             else if (this.hasLoadEnd())
             {
-                this.onTexLoaded(this.mSpriteAtlasRes);
+                //this.onTexLoaded(this.mSpriteAtlasRes);
+                this.onTexLoaded(null);
             }
         }
 
@@ -52,12 +60,15 @@
 
             if (this.isInvalid())
             {
+                this.onStartLoad();
+
                 this.mSpriteAtlasRes = Ctx.mInstance.mSpriteMgr.getAndSyncLoadRes(path, null, null);
                 this.onTexLoaded(this.mSpriteAtlasRes);
             }
             else if (this.hasLoadEnd())
             {
-                this.onTexLoaded(this.mSpriteAtlasRes);
+                //this.onTexLoaded(this.mSpriteAtlasRes);
+                this.onTexLoaded(null);
             }
         }
 
@@ -68,6 +79,8 @@
 
             if (this.isInvalid())
             {
+                this.onStartLoad();
+
                 if (null == progressHandle)
                 {
                     this.mSpriteAtlasRes = Ctx.mInstance.mSpriteMgr.getAndAsyncLoadRes(path, this.onTexLoaded, null);
@@ -79,7 +92,8 @@
             }
             else if (this.hasLoadEnd())
             {
-                this.onTexLoaded(this.mSpriteAtlasRes);
+                //this.onTexLoaded(this.mSpriteAtlasRes);
+                this.onTexLoaded(null);
             }
         }
 
@@ -89,6 +103,8 @@
 
             if (this.isInvalid())
             {
+                this.onStartLoad();
+
                 if (null == progressLuaFunction)
                 {
                     this.mSpriteAtlasRes = Ctx.mInstance.mSpriteMgr.getAndAsyncLoadRes(path, this.onTexLoaded, null);
@@ -100,7 +116,8 @@
             }
             else if (this.hasLoadEnd())
             {
-                this.onTexLoaded(this.mSpriteAtlasRes);
+                //this.onTexLoaded(this.mSpriteAtlasRes);
+                this.onTexLoaded(null);
             }
         }
 

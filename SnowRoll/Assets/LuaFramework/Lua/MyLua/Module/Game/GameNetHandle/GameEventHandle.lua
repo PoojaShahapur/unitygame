@@ -103,6 +103,7 @@ function M:notifyResultRankInfoList(params)
 end
 
 function M:notifyNetworkInvalid()
+    GCtx.mGameData.mMessageMethond = 1;
     GCtx.mGameData:ShowMessageBox("已与服务器断开连接");
 end
 

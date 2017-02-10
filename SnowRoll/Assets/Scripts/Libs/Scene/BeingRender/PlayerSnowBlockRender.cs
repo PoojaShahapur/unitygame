@@ -43,5 +43,31 @@
                 }
             }
         }
+
+        override protected void onRetPool()
+        {
+            base.onRetPool();
+
+            if (null != this.mSelfGo)
+            {
+                // 关闭组件
+                UtilApi.enableMeshRenderComponent(this.mSelfGo, false);
+                UtilApi.enableAnimatorComponent(this.mSelfGo, false);
+                UtilApi.enableCollider<UnityEngine.SphereCollider>(this.mSelfGo, false);
+            }
+        }
+
+        override protected void onGetPool()
+        {
+            base.onGetPool();
+
+            if (null != this.mSelfGo)
+            {
+                // 关闭组件
+                UtilApi.enableMeshRenderComponent(this.mSelfGo, true);
+                UtilApi.enableAnimatorComponent(this.mSelfGo, true);
+                UtilApi.enableCollider<UnityEngine.SphereCollider>(this.mSelfGo, true);
+            }
+        }
     }
 }

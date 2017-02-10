@@ -124,6 +124,7 @@
 
         public LoadProgressMgr mLoadProgressMgr;
         public SoundLoadStateCheckMgr mSoundLoadStateCheckMgr;
+        public IdPoolSys mIdPoolSys;
 
         public Ctx()
         {
@@ -267,6 +268,7 @@
 
             this.mLoadProgressMgr = new LoadProgressMgr();
             this.mSoundLoadStateCheckMgr = new SoundLoadStateCheckMgr();
+            this.mIdPoolSys = new IdPoolSys();
         }
 
         public void logicInit()
@@ -307,6 +309,7 @@
             this.mLoadProgressMgr.init();
 
             this.mSoundLoadStateCheckMgr.init();
+            this.mIdPoolSys.init();
 
             // 添加事件处理
             Ctx.mInstance.mCamSys.setUiCamera(Ctx.mInstance.mLayerMgr.mPath2Go[NotDestroyPath.ND_CV_App].AddComponent<UICamera>());
@@ -443,6 +446,11 @@
             {
                 this.mSoundLoadStateCheckMgr.dispose();
                 this.mSoundLoadStateCheckMgr = null;
+            }
+            if(null != this.mIdPoolSys)
+            {
+                this.mIdPoolSys.dispose();
+                this.mIdPoolSys = null;
             }
         }
 

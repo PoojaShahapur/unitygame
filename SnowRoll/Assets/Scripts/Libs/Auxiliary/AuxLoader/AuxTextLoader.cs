@@ -37,12 +37,15 @@
 
             if (this.isInvalid())
             {
+                this.onStartLoad();
+
                 this.mTextRes = Ctx.mInstance.mTextResMgr.getAndSyncLoadRes(path, null, null);
-                this.onTexLoaded(this.mTextRes);
+                this.onTextLoaded(this.mTextRes);
             }
             else if (this.hasLoadEnd())
             {
-                this.onTexLoaded(this.mTextRes);
+                //this.onTextLoaded(this.mTextRes);
+                this.onTextLoaded(null);
             }
         }
 
@@ -52,12 +55,14 @@
 
             if (this.isInvalid())
             {
+                this.onStartLoad();
+
                 this.mTextRes = Ctx.mInstance.mTextResMgr.getAndSyncLoadRes(path, null, null);
-                this.onTexLoaded(this.mTextRes);
+                this.onTextLoaded(this.mTextRes);
             }
             else if (this.hasLoadEnd())
             {
-                this.onTexLoaded(this.mTextRes);
+                this.onTextLoaded(null);
             }
         }
 
@@ -68,18 +73,20 @@
 
             if (this.isInvalid())
             {
+                this.onStartLoad();
+
                 if (null == progressHandle)
                 {
-                    this.mTextRes = Ctx.mInstance.mTextResMgr.getAndAsyncLoadRes(path, this.onTexLoaded, null);
+                    this.mTextRes = Ctx.mInstance.mTextResMgr.getAndAsyncLoadRes(path, this.onTextLoaded, null);
                 }
                 else
                 {
-                    this.mTextRes = Ctx.mInstance.mTextResMgr.getAndAsyncLoadRes(path, this.onTexLoaded, this.onProgressEventHandle);
+                    this.mTextRes = Ctx.mInstance.mTextResMgr.getAndAsyncLoadRes(path, this.onTextLoaded, this.onProgressEventHandle);
                 }
             }
             else if (this.hasLoadEnd())
             {
-                this.onTexLoaded(this.mTextRes);
+                this.onTextLoaded(null);
             }
         }
 
@@ -89,22 +96,24 @@
 
             if (this.isInvalid())
             {
+                this.onStartLoad();
+
                 if (null == progressLuaFunction)
                 {
-                    this.mTextRes = Ctx.mInstance.mTextResMgr.getAndAsyncLoadRes(path, this.onTexLoaded, null);
+                    this.mTextRes = Ctx.mInstance.mTextResMgr.getAndAsyncLoadRes(path, this.onTextLoaded, null);
                 }
                 else
                 {
-                    this.mTextRes = Ctx.mInstance.mTextResMgr.getAndAsyncLoadRes(path, this.onTexLoaded, this.onProgressEventHandle);
+                    this.mTextRes = Ctx.mInstance.mTextResMgr.getAndAsyncLoadRes(path, this.onTextLoaded, this.onProgressEventHandle);
                 }
             }
             else if (this.hasLoadEnd())
             {
-                this.onTexLoaded(this.mTextRes);
+                this.onTextLoaded(null);
             }
         }
 
-        public void onTexLoaded(IDispatchObject dispObj)
+        public void onTextLoaded(IDispatchObject dispObj)
         {
             if (null != dispObj)
             {
@@ -117,7 +126,7 @@
                 else if (this.mTextRes.hasFailed())
                 {
                     this.mResLoadState.setFailed();
-                    Ctx.mInstance.mTexMgr.unload(this.mTextRes.getResUniqueId(), this.onTexLoaded);
+                    Ctx.mInstance.mTexMgr.unload(this.mTextRes.getResUniqueId(), this.onTextLoaded);
                     this.mTextRes = null;
                 }
             }
@@ -132,7 +141,7 @@
         {
             if(this.mTextRes != null)
             {
-                Ctx.mInstance.mTexMgr.unload(this.mTextRes.getResUniqueId(), this.onTexLoaded);
+                Ctx.mInstance.mTexMgr.unload(this.mTextRes.getResUniqueId(), this.onTextLoaded);
                 this.mTextRes = null;
             }
 

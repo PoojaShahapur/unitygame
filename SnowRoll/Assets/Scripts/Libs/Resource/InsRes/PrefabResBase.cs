@@ -26,7 +26,10 @@ namespace SDK.Lib
 
             if (null == mGo)
             {
-                Ctx.mInstance.mLogSys.log("Actor default object is null", LogTypeId.eLogCommon);
+                if (MacroDef.ENABLE_LOG)
+                {
+                    Ctx.mInstance.mLogSys.log("Actor default object is null", LogTypeId.eLogCommon);
+                }
             }
             else
             {
@@ -41,7 +44,10 @@ namespace SDK.Lib
 
                 if (null == mRetGO)
                 {
-                    Ctx.mInstance.mLogSys.log("Actor instance object is null", LogTypeId.eLogCommon);
+                    if (MacroDef.ENABLE_LOG)
+                    {
+                        Ctx.mInstance.mLogSys.log("Actor instance object is null", LogTypeId.eLogCommon);
+                    }
                 }
             }
 
@@ -59,7 +65,10 @@ namespace SDK.Lib
 
             if (null == mGo)
             {
-                Ctx.mInstance.mLogSys.log("Actor default object is null", LogTypeId.eLogCommon);
+                if (MacroDef.ENABLE_LOG)
+                {
+                    Ctx.mInstance.mLogSys.log("Actor default object is null", LogTypeId.eLogCommon);
+                }
             }
             else
             {
@@ -74,7 +83,10 @@ namespace SDK.Lib
 
                 if (null == retGO)
                 {
-                    Ctx.mInstance.mLogSys.log("Actor instance object is null", LogTypeId.eLogCommon);
+                    if (MacroDef.ENABLE_LOG)
+                    {
+                        Ctx.mInstance.mLogSys.log("Actor instance object is null", LogTypeId.eLogCommon);
+                    }
                 }
             }
 

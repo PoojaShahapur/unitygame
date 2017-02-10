@@ -320,7 +320,7 @@ public class UI : MonoBehaviour
 	{
 		if(failedcode == 20)
 		{
-			err("login is failed(登陆失败), err=" + KBEngineApp.app.serverErr(failedcode) + ", " + System.Text.Encoding.ASCII.GetString(KBEngineApp.app.serverdatas()));
+			err("login is failed(登陆失败), err=" + KBEngineApp.app.serverErr(failedcode) + ", " + System.Text.Encoding.UTF8.GetString(KBEngineApp.app.serverdatas()));
 		}
 		else
 		{

@@ -8,6 +8,7 @@ namespace SDK.Lib
     public class AuxComponent : IDispatchObject
     {
         protected GameObject mSelfGo;      // 自己节点
+        protected bool mIsDestroySelf;      // 是否释放自己
         protected GameObject mPntGo;       // 指向父节点
         protected GameObject mPlaceHolderGo;      // 自己节点，资源挂在 m_placeHolderGo 上， m_placeHolderGo 挂在 m_pntGo 上
         protected bool mIsNeedPlaceHolderGo;    // 是否需要占位 GameObject
@@ -23,6 +24,7 @@ namespace SDK.Lib
             this.mIsNeedPlaceHolderGo = false;
             this.mIsPosDirty = false;
             this.mIsRotDirty = false;
+            this.mIsDestroySelf = true;
         }
 
         virtual public void init()
@@ -45,7 +47,11 @@ namespace SDK.Lib
 
             if(null != this.selfGo)
             {
-                UtilApi.Destroy(this.mSelfGo);
+                if (this.mIsDestroySelf)
+                {
+                    UtilApi.Destroy(this.mSelfGo);
+                }
+
                 this.mSelfGo = null;
             }
         }

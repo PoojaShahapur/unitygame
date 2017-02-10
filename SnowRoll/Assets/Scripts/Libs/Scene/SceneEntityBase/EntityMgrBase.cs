@@ -29,30 +29,30 @@
 
         override protected void addObject(IDelayHandleItem entity, float priority = 0.0f)
         {
-            if (isInDepth())
+            if (this.isInDepth())
             {
                 base.addObject(entity);
             }
             else
             {
-                if (mSceneEntityList.IndexOf(entity as SceneEntityBase) == -1)
+                if (!this.mSceneEntityList.Contains(entity as SceneEntityBase))
                 {
-                    mSceneEntityList.Add(entity as SceneEntityBase);
+                    this.mSceneEntityList.Add(entity as SceneEntityBase);
                 }
             }
         }
 
         override protected void removeObject(IDelayHandleItem entity)
         {
-            if (isInDepth())
+            if (this.isInDepth())
             {
                 base.removeObject(entity);
             }
             else
             {
-                if (mSceneEntityList.IndexOf(entity as SceneEntityBase) != -1)
+                if (this.mSceneEntityList.Contains(entity as SceneEntityBase))
                 {
-                    mSceneEntityList.Remove(entity as SceneEntityBase);
+                    this.mSceneEntityList.Remove(entity as SceneEntityBase);
                 }
             }
         }
@@ -67,7 +67,10 @@
             }
             else
             {
-                Ctx.mInstance.mLogSys.log("EntityMgrBase already exist key", LogTypeId.eLogCommon);
+                if (MacroDef.ENABLE_LOG)
+                {
+                    Ctx.mInstance.mLogSys.log("EntityMgrBase already exist key", LogTypeId.eLogCommon);
+                }
             }
 
             if (!this.mThisId2EntityDic.ContainsKey(entity.getThisId()))
@@ -89,7 +92,10 @@
             }
             else
             {
-                Ctx.mInstance.mLogSys.log("EntityMgrBase already remove key", LogTypeId.eLogCommon);
+                if (MacroDef.ENABLE_LOG)
+                {
+                    Ctx.mInstance.mLogSys.log("EntityMgrBase already remove key", LogTypeId.eLogCommon);
+                }
             }
 
             if (this.mThisId2EntityDic.ContainsKey(entity.getThisId()))

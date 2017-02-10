@@ -20,6 +20,7 @@ function M:ctor(...)
 
     self.mMessageType = 1; --消息类型：1.弹出框 2.滚动提示
     self.mMessageText = ""; --消息内容
+    self.mMessageMethond = 0; --对应调用方法
 end
 
 function M:dtor()
@@ -75,6 +76,13 @@ function M:ShowRollMessage(msg)
     self.mMessageType = 2;
     self.mMessageText = msg;
     GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormId.eUIMessagePanel);
+end
+
+function M:returnStartGame()
+    GlobalNS.CSSystem.Ctx.mInstance.mPlayerMgr:dispose();
+	GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormId.eUIStartGame);
+    --GlobalNS.CSSystem.Ctx.mInstance.mModuleSys:unloadModule(GlobalNS.CSSystem.ModuleId.GAMEMN);
+    GlobalNS.CSSystem.Ctx.mInstance.mModuleSys:loadModule(GlobalNS.CSSystem.ModuleId.LOGINMN);
 end
 
 return M;

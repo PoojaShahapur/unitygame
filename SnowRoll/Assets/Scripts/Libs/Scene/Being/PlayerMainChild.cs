@@ -126,7 +126,11 @@
                   this.mBeingSubState != BeingSubState.eBSSMerge;
 
             float leftTime = UtilApi.getUTCSec() - this.mLastMergedTime;
-            Ctx.mInstance.mLogSys.log(string.Format("PlayerMainChild::canMerge, thisId = {0}, left time = {1}, total time = {2}, ret = {3}", this.getThisId(), leftTime, Ctx.mInstance.mSnowBallCfg.mMergeCoolTime, ret.ToString()), LogTypeId.eLogScene);
+
+            if (MacroDef.ENABLE_LOG)
+            {
+                Ctx.mInstance.mLogSys.log(string.Format("PlayerMainChild::canMerge, thisId = {0}, left time = {1}, total time = {2}, ret = {3}", this.getThisId(), leftTime, Ctx.mInstance.mSnowBallCfg.mMergeCoolTime, ret.ToString()), LogTypeId.eLogScene);
+            }
 
             return ret;
         }

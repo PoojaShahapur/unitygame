@@ -192,6 +192,7 @@ namespace SDK.Lib
         public void download(DownloadParam param)
         {
             ++mLoadingDepth;
+
             if (mLoadData.mPath2LDItem.ContainsKey(param.mResUniqueId))
             {
                 downloadWithDownloading(param);
@@ -200,6 +201,7 @@ namespace SDK.Lib
             {
                 downloadWithNotDownload(param);
             }
+
             --mLoadingDepth;
 
             if (mLoadingDepth == 0)

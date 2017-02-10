@@ -29,13 +29,15 @@ namespace SDK.Lib
         {
             if(null != this.mAuxPrefabLoader)
             {
-                this.mAuxPrefabLoader.dispose();
+                //this.mAuxPrefabLoader.dispose();
+                this.mAuxPrefabLoader.deleteObj();
                 this.mAuxPrefabLoader = null;
             }
 
             if (null != this.mAuxTextureLoader)
             {
-                this.mAuxTextureLoader.dispose();
+                //this.mAuxTextureLoader.dispose();
+                this.mAuxTextureLoader.deleteObj();
                 this.mAuxTextureLoader = null;
             }
 
@@ -47,13 +49,17 @@ namespace SDK.Lib
         {
             if(null == this.mAuxPrefabLoader)
             {
-                this.mAuxPrefabLoader = new AuxPrefabLoader("", true, false);
-                this.mAuxPrefabLoader.setDestroySelf(false); // 自己释放 GmmeObject
+                //this.mAuxPrefabLoader = new AuxPrefabLoader("", true, false);
+                this.mAuxPrefabLoader = AuxPrefabLoader.newObject(this.mResPath);
+                //this.mAuxPrefabLoader.setDestroySelf(false); // 自己释放 GmmeObject
+                this.mAuxPrefabLoader.setIsNeedInsPrefab(true);
+                this.mAuxPrefabLoader.setIsInsNeedCoroutine(true);
+                this.mAuxPrefabLoader.setDestroySelf(true); // 自己释放 GmmeObject
                 this.mAuxPrefabLoader.setIsInitOrientPos(true);
                 this.mAuxPrefabLoader.setIsFakePos(true);
             }
 
-            this.mAuxPrefabLoader.asyncLoad(mResPath, this.onResLoaded);
+            this.mAuxPrefabLoader.asyncLoad(this.mResPath, this.onResLoaded);
         }
 
         public void onResLoaded(IDispatchObject dispObj)
@@ -99,7 +105,8 @@ namespace SDK.Lib
         {
             if (null == this.mAuxTextureLoader)
             {
-                this.mAuxTextureLoader = new AuxTextureLoader();
+                //this.mAuxTextureLoader = new AuxTextureLoader();
+                this.mAuxTextureLoader = AuxTextureLoader.newObject();
             }
 
             this.mAuxTextureLoader.asyncLoad(path, onTextureLoaded);

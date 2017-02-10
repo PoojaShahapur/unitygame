@@ -72,7 +72,10 @@
             {
                 if (!(bBeingEntity as BeingEntity).getIsEatedByOther())
                 {
-                    Ctx.mInstance.mLogSys.log(string.Format("PlayerMainChildAttack::eatSnowBlock, MainChildThisId = {0}, SnowBallThisId = {1}", this.mEntity.getThisId(), bBeingEntity.getThisId()), LogTypeId.eLogScene);
+                    if (MacroDef.ENABLE_LOG)
+                    {
+                        Ctx.mInstance.mLogSys.log(string.Format("PlayerMainChildAttack::eatSnowBlock, MainChildThisId = {0}, SnowBallThisId = {1}", this.mEntity.getThisId(), bBeingEntity.getThisId()), LogTypeId.eLogScene);
+                    }
 
                     //bBeingEntity.setClientDispose(true);
                     (bBeingEntity as BeingEntity).setIsEatedByOther(true);
@@ -127,7 +130,10 @@
             {
                 if (!(bBeingEntity as PlayerChild).getIsEatedByOther())
                 {
-                    Ctx.mInstance.mLogSys.log(string.Format("PlayerMainChildAttack::eatPlayerOtherChild, MainChildThisId = {0}, OtherChildThisId = {1}", this.mEntity.getThisId(), bBeingEntity.getThisId()), LogTypeId.eLogScene);
+                    if (MacroDef.ENABLE_LOG)
+                    {
+                        Ctx.mInstance.mLogSys.log(string.Format("PlayerMainChildAttack::eatPlayerOtherChild, MainChildThisId = {0}, OtherChildThisId = {1}", this.mEntity.getThisId(), bBeingEntity.getThisId()), LogTypeId.eLogScene);
+                    }
 
                     //bBeingEntity.setClientDispose(true);
                     (bBeingEntity as PlayerChild).setIsEatedByOther(true);
@@ -169,7 +175,10 @@
                 (bBeingEntity as BeingEntity).setIsEatedByOther(true);
                 (bBeingEntity as BeingEntity).forceHide();  // 客户端自己隐藏
 
-                Ctx.mInstance.mLogSys.log(string.Format("PlayerMainChildAttack::eatPlayerSnowBlock, MainChildThisId = {0}, PlayerSnowBlockThisId = {1}", this.mEntity.getThisId(), bBeingEntity.getThisId()), LogTypeId.eLogScene);
+                if (MacroDef.ENABLE_LOG)
+                {
+                    Ctx.mInstance.mLogSys.log(string.Format("PlayerMainChildAttack::eatPlayerSnowBlock, MainChildThisId = {0}, PlayerSnowBlockThisId = {1}", this.mEntity.getThisId(), bBeingEntity.getThisId()), LogTypeId.eLogScene);
+                }
 
                 if (!MacroDef.DEBUG_NOTNET)
                 {
@@ -249,7 +258,10 @@
                 {
                     (bBeingEntity as BeingEntity).setIsEatedByOther(true);
 
-                    Ctx.mInstance.mLogSys.log(string.Format("PlayerMainChildAttack::eatComputerBall, Ball eat computer ball, MainChildThisId = {0}, ComputerBallThisId = {1}", this.mEntity.getThisId(), bBeingEntity.getThisId()), LogTypeId.eLogScene);
+                    if (MacroDef.ENABLE_LOG)
+                    {
+                        Ctx.mInstance.mLogSys.log(string.Format("PlayerMainChildAttack::eatComputerBall, Ball eat computer ball, MainChildThisId = {0}, ComputerBallThisId = {1}", this.mEntity.getThisId(), bBeingEntity.getThisId()), LogTypeId.eLogScene);
+                    }
 
                     if (!MacroDef.DEBUG_NOTNET)
                     {
@@ -267,7 +279,10 @@
             }
             else if (bBeingEntity.canEatOther(this.mEntity))
             {
-                Ctx.mInstance.mLogSys.log(string.Format("PlayerMainChildAttack::eatComputerBall, computer ball eat ball, MainChildThisId = {0}, ComputerBallThisId = {1}", this.mEntity.getThisId(), bBeingEntity.getThisId()), LogTypeId.eLogScene);
+                if (MacroDef.ENABLE_LOG)
+                {
+                    Ctx.mInstance.mLogSys.log(string.Format("PlayerMainChildAttack::eatComputerBall, computer ball eat ball, MainChildThisId = {0}, ComputerBallThisId = {1}", this.mEntity.getThisId(), bBeingEntity.getThisId()), LogTypeId.eLogScene);
+                }
 
                 this.mEntity.cellCall("eatenByComputer", bBeingEntity.getThisId());
             }
