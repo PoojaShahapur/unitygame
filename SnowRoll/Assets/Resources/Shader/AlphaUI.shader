@@ -9,13 +9,20 @@ Shader "Test/UIETC"
 	{
 		Tags
 		{
-			"Queue" = "Transparent+1"
+			"RenderType"="Transparent"
+			"Queue"="Transparent"
+			//"IgnoreProjector"="True"
+            //"PreviewType"="Plane"
+            //"CanUseSpriteAtlas"="True"
 		}
+		
+		Blend SrcAlpha OneMinusSrcAlpha
+		
 		Pass
 		{
 			Lighting Off
 			ZTest Off
-			Blend SrcAlpha OneMinusSrcAlpha
+			
 			Cull Off
 			CGPROGRAM
 			#pragma vertex vert
@@ -53,7 +60,17 @@ Shader "Test/UIETC"
 
 				half4 result = texcol;
 
-				result.a = tex2D(_AlphaTex, i.uv).a * i.color.a;
+				//result.a = tex2D(_AlphaTex, i.uv).a * i.color.a;
+				result.a = tex2D(_AlphaTex, i.uv).a;
+				
+				//if(result.a == 1)
+				//{
+				//	result = float4(0.5, 0.5, 0.5, 0.5);
+				//}
+				//else
+				//{
+				//	result = float4(1, 1, 1, 1);
+				//}
 
 				return result;
 			}
