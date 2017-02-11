@@ -13,8 +13,7 @@ namespace EditorTool
         static public void SetAssetBundleName()
         {
             MFileSys.init();
-            ToolCtx.instance();
-            ToolCtx.mInstance.exportAssetBundleName();
+            ToolCtx.getSingletonPtr().exportAssetBundleName();
             AssetDatabase.Refresh();
         }
 
@@ -23,10 +22,9 @@ namespace EditorTool
         public static void BuildWindowDebug()
         {
             MFileSys.init();
-            ToolCtx.instance();
-            ToolCtx.mInstance.exportAssetBundleName();
+            ToolCtx.getSingletonPtr().exportAssetBundleName();
             BuildScript.BuildPlayer(BuildTarget.StandaloneWindows, false);
-            ToolCtx.instance().dispose();
+            ToolCtx.deleteSingletonPtr();
         }
 
         [MenuItem("MyNew/ExportWindowAssetBundlesList")]
@@ -101,7 +99,7 @@ namespace EditorTool
         [MenuItem("MyNew/ExportSprite")]
         public static void ExportSprite()
         {
-            ToolCtx.instance().spriteSheetImport();
+            SpriteSheetImportSys.getSingletonPtr().parseSpriteSheet("F:/File/opensource/unity-game-git/unitygame/unitygame/SnowRoll/Assets/Resources/UiImage/TestAtlas/TestAtlas.xml");
         }
     }
 }
