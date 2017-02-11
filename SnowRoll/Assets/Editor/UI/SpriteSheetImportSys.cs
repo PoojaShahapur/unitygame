@@ -10,11 +10,12 @@ namespace EditorTool
      */
     public class SpriteSheetImportSys : Singleton<SpriteSheetImportSys>, IMyDispose
     {
-        SpriteSheetInfo mSpriteSheetInfo;
+        protected SpriteSheetInfo mSpriteSheetInfo;
+        protected bool MIsFlipX;
 
         public SpriteSheetImportSys()
         {
-
+            this.MIsFlipX = true;
         }
 
         public void init()
@@ -25,6 +26,11 @@ namespace EditorTool
         public void dispose()
         {
 
+        }
+
+        public bool getIsFlipX()
+        {
+            return this.MIsFlipX;
         }
 
         public void parseSpriteSheet(string path)
