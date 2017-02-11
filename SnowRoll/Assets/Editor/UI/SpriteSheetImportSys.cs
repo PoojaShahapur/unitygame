@@ -1,4 +1,5 @@
 ﻿using SDK.Lib;
+using System.Collections.Generic;
 
 namespace EditorTool
 {
@@ -7,6 +8,8 @@ namespace EditorTool
      */
     public class SpriteSheetImportSys : Singleton<SpriteSheetImportSys>, IMyDispose
     {
+        SpriteSheetInfo mSpriteSheetInfo;
+
         public SpriteSheetImportSys()
         {
 
@@ -24,8 +27,18 @@ namespace EditorTool
 
         public void parseSpriteSheet(string path)
         {
-            SpriteSheetInfo info = new SpriteSheetInfo();
-            info.parseXmlByPath(path);
+            this.mSpriteSheetInfo = new SpriteSheetInfo();
+            this.mSpriteSheetInfo.parseXmlByPath(path);
+        }
+
+        public bool isSpriteSheetPath(string path)
+        {
+            return true;
+        }
+
+        public List<UnityEditor.SpriteMetaData> getSpriteMetaList()
+        {
+            return this.mSpriteSheetInfo.getSpriteMetaList();
         }
     }
 }

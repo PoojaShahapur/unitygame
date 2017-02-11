@@ -1,13 +1,10 @@
-﻿namespace SDK.Lib
+﻿using System.Collections.Generic;
+
+namespace SDK.Lib
 {
     /**
      * @brief 一项精灵单
      */
-    public class SpriteSheetItem
-    {
-
-    }
-
     public class SpriteSheetItemXmlItem : XmlItemBase
     {
         public string mName;
@@ -27,6 +24,28 @@
             UtilXml.getXmlAttrInt(xmlelem, "h", ref mH);
             UtilXml.getXmlAttrFloat(xmlelem, "pX", ref mPX);
             UtilXml.getXmlAttrFloat(xmlelem, "pY", ref mPY);
+        }
+
+        public UnityEditor.SpriteMetaData toMetaData()
+        {
+            UnityEditor.SpriteMetaData data = new UnityEditor.SpriteMetaData();
+
+            data.alignment = 0;
+            data.border.x = 0;
+            data.border.y = 0;
+            data.border.z = 0;
+            data.border.w = 0;
+
+            data.name = mName;
+            data.pivot.x = 0.5f;
+            data.pivot.y = 0.5f;
+
+            data.rect.x = mX;
+            data.rect.y = mY;
+            data.rect.width = mW;
+            data.rect.height = mH;
+
+            return data;
         }
     }
 
@@ -56,6 +75,25 @@
             base.parseXml(str);
 
             this.mItemList = this.parseXml<SpriteSheetItemXmlItem>(null, "sprite");
+        }
+
+        public List<UnityEditor.SpriteMetaData> getSpriteMetaList()
+        {
+            List<UnityEditor.SpriteMetaData> list = new List<UnityEditor.SpriteMetaData>();
+
+            UnityEditor.SpriteMetaData data;
+
+            int idx = 0;
+            int len = this.mItemList.Count();
+
+            while(idx < len)
+            {
+                data = (this.mItemList[idx] as SpriteSheetItemXmlItem).toMetaData();
+
+                ++idx;
+            }
+
+            return list;
         }
     }
 }

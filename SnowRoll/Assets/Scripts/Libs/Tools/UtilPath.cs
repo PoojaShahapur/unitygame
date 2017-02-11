@@ -279,6 +279,69 @@ namespace SDK.Lib
             return ret;
         }
 
+        // 获取当前文件的父目录名字
+        static public string getFileParentDirName(string fullPath)
+        {
+            string parentDir = "";
+            int lastSlashIndex = -1;
+
+            // 如果是文件
+            if (UtilPath.existFile(fullPath))
+            {
+                lastSlashIndex = fullPath.LastIndexOf("/");
+
+                if(-1 == lastSlashIndex)
+                {
+                    lastSlashIndex = fullPath.LastIndexOf("\\");
+                }
+
+                if (-1 == lastSlashIndex)
+                {
+                    parentDir = "";
+                }
+                else
+                {
+                    fullPath = fullPath.Substring(0, lastSlashIndex);
+
+                    lastSlashIndex = fullPath.LastIndexOf("/");
+
+                    if (-1 == lastSlashIndex)
+                    {
+                        lastSlashIndex = fullPath.LastIndexOf("\\");
+                    }
+
+                    if (-1 == lastSlashIndex)
+                    {
+                        parentDir = fullPath;
+                    }
+                    else
+                    {
+                        parentDir = fullPath.Substring(lastSlashIndex + 1, fullPath.Length - (lastSlashIndex + 1));
+                    }
+                }
+            }
+            else
+            {
+                lastSlashIndex = fullPath.LastIndexOf("/");
+
+                if (-1 == lastSlashIndex)
+                {
+                    lastSlashIndex = fullPath.LastIndexOf("\\");
+                }
+
+                if (-1 == lastSlashIndex)
+                {
+                    parentDir = "";
+                }
+                else
+                {
+                    parentDir = fullPath.Substring(lastSlashIndex + 1, fullPath.Length - (lastSlashIndex + 1));
+                }
+            }
+
+            return parentDir;
+        }
+
         // 搜索文件夹中的文件
         static public MList<string> getAllFile(string path, MList<string> includeExtList = null, MList<string> excludeExtList = null, bool recursion = false)
         {
