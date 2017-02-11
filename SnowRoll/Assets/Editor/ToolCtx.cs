@@ -5,6 +5,7 @@
         static public ToolCtx mInstance;
 
         public ExportAssetBundleNameSys mExportAssetBundleNameSys;
+        public SpriteSheetImportSys mSpriteSheetImportSys;
 
         public static ToolCtx instance()
         {
@@ -43,6 +44,14 @@
             mExportAssetBundleNameSys.parseXml();
             mExportAssetBundleNameSys.setAssetBundleName();
             mExportAssetBundleNameSys.exportResABKV();
+        }
+
+        public void spriteSheetImport()
+        {
+            if(null == this.mSpriteSheetImportSys)
+            {
+                this.mSpriteSheetImportSys.parseSpriteSheet("F:/File/opensource/unity-game-git/unitygame/unitygame/SnowRoll/Assets/Resources/UiImage/TestAtlas/aaa.xml");
+            }
         }
     }
 }

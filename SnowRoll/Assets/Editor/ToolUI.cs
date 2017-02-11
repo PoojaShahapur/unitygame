@@ -96,5 +96,12 @@ namespace EditorTool
         {
             CmdSys.cmdMain();
         }
+
+        // 导出精灵图集
+        [MenuItem("MyNew/ExportSprite")]
+        public static void ExportSprite()
+        {
+            ToolCtx.instance().spriteSheetImport();
+        }
     }
 }

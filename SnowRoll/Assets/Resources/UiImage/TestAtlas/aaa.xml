@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:991dbe124463c3e8c8a532da31582a7e:e33543232aff4b6b33490521c3fb0fdd:62ea05de1bd892d9db4fec775b560530$ -->
+<!--Format:
+n  => name of the sprite
+x  => sprite x pos in texture
+y  => sprite y pos in texture
+w  => sprite width (may be trimmed)
+h  => sprite height (may be trimmed)
+pX => x pos of the pivot point (relative to sprite width)
+pY => y pos of the pivot point (relative to sprite height)
+oX => sprite's x-corner offset (only available if trimmed)
+oY => sprite's y-corner offset (only available if trimmed)
+oW => sprite's original width (only available if trimmed)
+oH => sprite's original height (only available if trimmed)
+r => 'y' only set if sprite is rotated
+with polygon mode enabled:
+vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
+verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
+triangles  => sprite triangulation, 3 vertex indices per triangle
+-->
+<TextureAtlas imagePath="aaa.png" width="161" height="456">
+    <sprite n="aaa.png" x="0" y="228" w="161" h="228" pX="0.5" pY="0.5"/>
+    <sprite n="btn_home.png" x="78" y="0" w="83" h="83" pX="0.5" pY="0.5"/>
+    <sprite n="caozuoqiu.png" x="26" y="0" w="52" h="52" pX="0.5" pY="0.5"/>
+    <sprite n="cup_gold.png" x="0" y="0" w="26" h="22" pX="0.5" pY="0.5"/>
+    <sprite n="split_down.png" x="0" y="83" w="145" h="145" pX="0.5" pY="0.5"/>
+</TextureAtlas>

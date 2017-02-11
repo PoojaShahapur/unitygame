@@ -4,18 +4,18 @@ namespace SDK.Lib
 {
     public class XmlCfgMgr
     {
-        public MDictionary<XmlCfgID, XmlCfgBase> mId2CfgDic;        // 商城
+        public MDictionary<XmlCfgID, XmlCfgBase> mId2CfgDic;
         private ResItem mRes;
 
         public XmlCfgMgr()
         {
-            mId2CfgDic = new MDictionary<XmlCfgID, XmlCfgBase>();
+            this.mId2CfgDic = new MDictionary<XmlCfgID, XmlCfgBase>();
         }
 
         protected void loadCfg<T>(XmlCfgID id) where T : XmlCfgBase, new()
         {
             T item = new T();
-            mId2CfgDic[id] = item;
+            this.mId2CfgDic[id] = item;
 
             LoadParam param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
             param.setPath(item.mPath);
@@ -30,28 +30,30 @@ namespace SDK.Lib
         // 加载一个表完成
         public void onLoadEventHandle(IDispatchObject dispObj)
         {
-            mRes = dispObj as ResItem;
-            if (mRes.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
-            {
-                Ctx.mInstance.mLogSys.debugLog_1(LangItemID.eItem0, mRes.getLoadPath());
+            this.mRes = dispObj as ResItem;
 
-                string text = mRes.getText("");
+            if (this.mRes.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
+            {
+                Ctx.mInstance.mLogSys.debugLog_1(LangItemID.eItem0, this.mRes.getLoadPath());
+
+                string text = this.mRes.getText("");
+
                 if (text != null)
                 {
-                    mId2CfgDic[getXmlCfgIDByPath(mRes.getLogicPath())].parseXml(text);
+                    this.mId2CfgDic[getXmlCfgIDByPath(this.mRes.getLogicPath())].parseXml(text);
                 }
             }
-            else if (mRes.refCountResLoadResultNotify.resLoadState.hasFailed())
+            else if (this.mRes.refCountResLoadResultNotify.resLoadState.hasFailed())
             {
-                Ctx.mInstance.mLogSys.debugLog_1(LangItemID.eItem1, mRes.getLoadPath());
+                Ctx.mInstance.mLogSys.debugLog_1(LangItemID.eItem1, this.mRes.getLoadPath());
             }
 
-            Ctx.mInstance.mResLoadMgr.unload(mRes.getResUniqueId(), onLoadEventHandle);
+            Ctx.mInstance.mResLoadMgr.unload(this.mRes.getResUniqueId(), this.onLoadEventHandle);
         }
 
         protected XmlCfgID getXmlCfgIDByPath(string path)
         {
-            foreach (KeyValuePair<XmlCfgID, XmlCfgBase> kv in mId2CfgDic)
+            foreach (KeyValuePair<XmlCfgID, XmlCfgBase> kv in this.mId2CfgDic)
             {
                 if (kv.Value.mPath == path)
                 {
@@ -64,12 +66,12 @@ namespace SDK.Lib
 
         public T getXmlCfg<T>(XmlCfgID id) where T : XmlCfgBase, new()
         {
-            if (!mId2CfgDic.ContainsKey(id))
+            if (!this.mId2CfgDic.ContainsKey(id))
             {
-                loadCfg<T>(id);
+                this.loadCfg<T>(id);
             }
 
-            return mId2CfgDic[id] as T;
+            return this.mId2CfgDic[id] as T;
         }
     }
 }

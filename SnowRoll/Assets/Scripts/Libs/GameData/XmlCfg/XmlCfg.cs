@@ -49,7 +49,7 @@ namespace SDK.Lib
         {
             if(null == xmlElem)
             {
-                xmlElem = mXmlConfig;
+                xmlElem = this.mXmlConfig;
             }
 
             ArrayList itemNodeList = new ArrayList();

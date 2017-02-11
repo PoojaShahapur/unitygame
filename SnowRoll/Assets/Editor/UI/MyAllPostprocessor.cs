@@ -1,9 +1,11 @@
+using System.Collections.Generic;
+using System.IO;
 using UnityEditor;
 using UnityEngine;
 
 class MyAllPostprocessor : AssetPostprocessor
 {
-    static public void OnPostprocessAllAssets(
+    void OnPostprocessAllAssets(
         string[] importedAssets,
         string[] deletedAssets,
         string[] movedAssets,
@@ -22,4 +24,15 @@ class MyAllPostprocessor : AssetPostprocessor
                 Debug.Log("Moved Asset:" + movedAssets[i] + " from: " + movedFromAssetPaths[i]);
             }
         }
+
+    void OnPostprocessTexture(Texture2D texture)
+    {
+        string AtlasName = new DirectoryInfo(Path.GetDirectoryName(assetPath)).Name;
+        TextureImporter textureImporter = assetImporter as TextureImporter;
+        textureImporter.textureType = TextureImporterType.Sprite;
+        textureImporter.spritePackingTag = AtlasName;
+        textureImporter.mipmapEnabled = false;
+
+        //List<SpriteMetaData> sprites = TexturePacker.ProcessToSprites(txt.text);
+    }
 }
