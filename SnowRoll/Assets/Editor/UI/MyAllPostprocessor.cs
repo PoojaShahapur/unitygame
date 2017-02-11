@@ -29,21 +29,21 @@ class MyAllPostprocessor : AssetPostprocessor
 
     void OnPostprocessTexture(Texture2D texture)
     {
-        string path = AssetDatabase.GetAssetPath(texture);
+        //string path = AssetDatabase.GetAssetPath(texture);
 
-        string AtlasName = UtilPath.getFileParentDirName(path);
-        TextureImporter textureImporter = assetImporter as TextureImporter;
-        textureImporter.textureType = TextureImporterType.Sprite;
-        textureImporter.spritePackingTag = AtlasName;
-        textureImporter.mipmapEnabled = false;
+        //string AtlasName = UtilPath.getFileParentDirName(path);
+        //TextureImporter textureImporter = assetImporter as TextureImporter;
+        //textureImporter.textureType = TextureImporterType.Sprite;
+        //textureImporter.spritePackingTag = AtlasName;
+        //textureImporter.mipmapEnabled = false;
 
-        string xmlPath = string.Format("{0}.xml", UtilPath.getFilePathNoExt(path));
+        //string xmlPath = string.Format("{0}.xml", UtilPath.getFilePathNoExt(path));
 
-        SpriteSheetImportSys.getSingletonPtr().parseSpriteSheet(xmlPath);
-        List <SpriteMetaData> sprites = SpriteSheetImportSys.getSingletonPtr().getSpriteMetaList();
+        //SpriteSheetImportSys.getSingletonPtr().parseSpriteSheet(xmlPath);
+        //List <SpriteMetaData> sprites = SpriteSheetImportSys.getSingletonPtr().getSpriteMetaList();
 
-        textureImporter.spritesheet = sprites.ToArray();
+        //textureImporter.spritesheet = sprites.ToArray();
 
-        SpriteSheetImportSys.deleteSingletonPtr();
+        //SpriteSheetImportSys.deleteSingletonPtr();
     }
 }

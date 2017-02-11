@@ -89,6 +89,7 @@ namespace SDK.Lib
             while(idx < len)
             {
                 data = (this.mItemList[idx] as SpriteSheetItemXmlItem).toMetaData();
+                list.Add(data);
 
                 ++idx;
             }

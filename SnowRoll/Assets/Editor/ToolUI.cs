@@ -95,11 +95,11 @@ namespace EditorTool
             CmdSys.cmdMain();
         }
 
-        // 导出精灵图集
-        [MenuItem("MyNew/ExportSprite")]
-        public static void ExportSprite()
+        // 导入精灵图集
+        [MenuItem("MyNew/ImportSprite")]
+        public static void ImportSprite()
         {
-            SpriteSheetImportSys.getSingletonPtr().parseSpriteSheet("F:/File/opensource/unity-game-git/unitygame/unitygame/SnowRoll/Assets/Resources/UiImage/TestAtlas/TestAtlas.xml");
+            SpriteSheetImportSys.getSingletonPtr().importAllSpriteSheet();
         }
     }
 }

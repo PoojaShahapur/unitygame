@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
-<!-- $TexturePacker:SmartUpdate:991dbe124463c3e8c8a532da31582a7e:e33543232aff4b6b33490521c3fb0fdd:62ea05de1bd892d9db4fec775b560530$ -->
+<!-- $TexturePacker:SmartUpdate:94244c7fd5c85a2e7296d7cf8eea45cc:116df058e100b8f226b0a0967c9280d4:c2f5c2f3319a5f2165f5394edcb15b97$ -->
 <!--Format:
 n  => name of the sprite
 x  => sprite x pos in texture
@@ -19,10 +19,9 @@ vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
 verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
 triangles  => sprite triangulation, 3 vertex indices per triangle
 -->
-<TextureAtlas imagePath="aaa.png" width="161" height="456">
-    <sprite n="aaa.png" x="0" y="228" w="161" h="228" pX="0.5" pY="0.5"/>
-    <sprite n="btn_home.png" x="78" y="0" w="83" h="83" pX="0.5" pY="0.5"/>
-    <sprite n="caozuoqiu.png" x="26" y="0" w="52" h="52" pX="0.5" pY="0.5"/>
-    <sprite n="cup_gold.png" x="0" y="0" w="26" h="22" pX="0.5" pY="0.5"/>
+<TextureAtlas imagePath="TestAtlas.png" width="161" height="228">
+    <sprite n="btn_home.png" x="0" y="0" w="83" h="83" pX="0.5" pY="0.5"/>
+    <sprite n="caozuoqiu.png" x="83" y="0" w="52" h="52" pX="0.5" pY="0.5"/>
+    <sprite n="cup_gold.png" x="135" y="0" w="26" h="22" pX="0.5" pY="0.5"/>
     <sprite n="split_down.png" x="0" y="83" w="145" h="145" pX="0.5" pY="0.5"/>
 </TextureAtlas>
