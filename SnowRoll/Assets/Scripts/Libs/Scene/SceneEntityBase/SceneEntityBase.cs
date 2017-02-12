@@ -218,11 +218,17 @@ namespace SDK.Lib
         virtual public void onTick(float delta)
         {
             this.onPreTick(delta);
+            this.onExecTick(delta);
             this.onPostTick(delta);
         }
 
         // Tick 第一阶段执行
         virtual public void onPreTick(float delta)
+        {
+
+        }
+
+        virtual public void onExecTick(float delta)
         {
 
         }

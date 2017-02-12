@@ -34,12 +34,12 @@
         {
             this.incDepth();
 
-            this.onTickExec(delta);
+            this.onExecTick(delta);
 
             this.decDepth();
         }
 
-        virtual protected void onTickExec(float delta)
+        virtual protected void onExecTick(float delta)
         {
             int idx = 0;
             int count = this.mTickObjectList.Count();
@@ -60,7 +60,7 @@
 
         override protected void addObject(IDelayHandleItem tickObject, float priority = 0.0f)
         {
-            if (isInDepth())
+            if (this.isInDepth())
             {
                 base.addObject(tickObject);
             }
@@ -75,7 +75,7 @@
 
         override protected void removeObject(IDelayHandleItem tickObject)
         {
-            if (isInDepth())
+            if (this.isInDepth())
             {
                 base.removeObject(tickObject);
             }
