@@ -414,12 +414,12 @@ namespace SDK.Lib
             return splitRadius;
         }
 
-        override public void preInit()
+        override protected void onPreInit()
         {
             this.setBallRadius(0);  // 初始小球的半径设为0，服务器会同步1过来
 
             // 基类初始化
-            base.preInit();
+            base.onPreInit();
             // 自动处理，例如添加到管理器
             this.autoHandle();
             // 初始化渲染器
@@ -430,9 +430,9 @@ namespace SDK.Lib
             //this.updateTransform();
         }
 
-        public override void postInit()
+        protected override void onPostInit()
         {
-            base.postInit();
+            base.onPostInit();
         }
 
         override public void loadRenderRes()
@@ -449,13 +449,13 @@ namespace SDK.Lib
         }
 
         // Tick 第一阶段执行
-        override public void onPreTick(float delta)
+        override protected void onPreTick(float delta)
         {
             base.onPreTick(delta);
         }
 
         // Tick 第二阶段执行
-        override public void onPostTick(float delta)
+        override protected void onPostTick(float delta)
         {
             if (null != this.mMovement)
             {

@@ -11,9 +11,9 @@ namespace SDK.Lib
             this.mEntityType = EntityType.ePlayerTarget;
         }
 
-        public override void postInit()
+        protected override void onPostInit()
         {
-            base.postInit();
+            base.onPostInit();
         }
 
         override public void initRender()

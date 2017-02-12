@@ -15,9 +15,9 @@ namespace SDK.Lib
             this.mPlayerSplitMerge = new PlayerOtherSplitMerge(this);
         }
 
-        public override void postInit()
+        protected override void onPostInit()
         {
-            base.postInit();
+            base.onPostInit();
 
             this.hide();
 

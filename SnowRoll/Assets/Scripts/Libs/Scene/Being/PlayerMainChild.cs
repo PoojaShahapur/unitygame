@@ -31,9 +31,9 @@
             this.mRender.init();
         }
 
-        public override void preInit()
+        protected override void onPreInit()
         {
-            base.preInit();
+            base.onPreInit();
 
             this.mMovement.init();
             this.mAttack.init();

@@ -54,9 +54,9 @@
             this.mParentPlayer.mPlayerSplitMerge.addToParent(this);
         }
 
-        public override void postInit()
+        protected override void onPostInit()
         {
-            base.postInit();
+            base.onPostInit();
 
             //this.mAnimFSM.UpdateFSM();
             this.mHud = Ctx.mInstance.mHudSystem.createHud(this);

@@ -33,9 +33,9 @@
             mRender.init();
         }
 
-        public override void postInit()
+        protected override void onPostInit()
         {
-            base.postInit();
+            base.onPostInit();
 
             //this.setTexture(Ctx.mInstance.mSnowBallCfg.getRandomSnowBlockTex());
             //this.setTexTile(Ctx.mInstance.mSnowBallCfg.getRandomSnowBlockTexTile());
