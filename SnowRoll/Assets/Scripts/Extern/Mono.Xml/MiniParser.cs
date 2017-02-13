@@ -35,7 +35,7 @@ using System.Globalization;
 
 namespace Mono.Xml {
 
-	internal class MiniParser {
+    public class MiniParser {
 
 		public interface IReader {
 			int Read();
