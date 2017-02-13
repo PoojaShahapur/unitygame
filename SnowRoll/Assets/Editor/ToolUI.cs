@@ -13,8 +13,7 @@ namespace EditorTool
         static public void SetAssetBundleName()
         {
             MFileSys.init();
-            ToolCtx.instance();
-            ToolCtx.mInstance.exportAssetBundleName();
+            ToolCtx.getSingletonPtr().exportAssetBundleName();
             AssetDatabase.Refresh();
         }
 
@@ -23,10 +22,9 @@ namespace EditorTool
         public static void BuildWindowDebug()
         {
             MFileSys.init();
-            ToolCtx.instance();
-            ToolCtx.mInstance.exportAssetBundleName();
+            ToolCtx.getSingletonPtr().exportAssetBundleName();
             BuildScript.BuildPlayer(BuildTarget.StandaloneWindows, false);
-            ToolCtx.instance().dispose();
+            ToolCtx.deleteSingletonPtr();
         }
 
         [MenuItem("MyNew/ExportWindowAssetBundlesList")]
@@ -95,6 +93,13 @@ namespace EditorTool
         public static void TestCmdSys()
         {
             CmdSys.cmdMain();
+        }
+
+        // 导入精灵图集
+        [MenuItem("MyNew/ImportSprite")]
+        public static void ImportSprite()
+        {
+            SpriteSheetImportSys.getSingletonPtr().importAllSpriteSheet();
         }
     }
 }

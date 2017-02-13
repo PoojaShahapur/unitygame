@@ -1,19 +1,11 @@
-﻿namespace EditorTool
+﻿using SDK.Lib;
+
+namespace EditorTool
 {
-    public class ToolCtx
+    public class ToolCtx : Singleton<ToolCtx>, IMyDispose
     {
-        static public ToolCtx mInstance;
-
         public ExportAssetBundleNameSys mExportAssetBundleNameSys;
-
-        public static ToolCtx instance()
-        {
-            if (mInstance == null)
-            {
-                mInstance = new ToolCtx();
-            }
-            return mInstance;
-        }
+        public SpriteSheetImportSys mSpriteSheetImportSys;
 
         public ToolCtx()
         {
@@ -22,14 +14,14 @@
             init();
         }
 
-        public void dispose()
-        {
-            mInstance = null;
-        }
-
         public void init()
         {
             mExportAssetBundleNameSys.init();
+        }
+
+        public void dispose()
+        {
+
         }
 
         public void clear()
@@ -43,6 +35,15 @@
             mExportAssetBundleNameSys.parseXml();
             mExportAssetBundleNameSys.setAssetBundleName();
             mExportAssetBundleNameSys.exportResABKV();
+        }
+
+        public void spriteSheetImport()
+        {
+            if(null == this.mSpriteSheetImportSys)
+            {
+                this.mSpriteSheetImportSys = new SpriteSheetImportSys();
+                this.mSpriteSheetImportSys.parseSpriteSheet("F:/File/opensource/unity-game-git/unitygame/unitygame/SnowRoll/Assets/Resources/UiImage/TestAtlas/TestAtlas.xml");
+            }
         }
     }
 }

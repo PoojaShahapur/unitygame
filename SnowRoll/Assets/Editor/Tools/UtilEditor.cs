@@ -96,6 +96,17 @@ namespace EditorTool
             return Path.Combine("Assets/", path);
         }
 
+        static public string convAbsPath2AssetPath(string fullPath)
+        {
+            string assetPath = "";
+            string asset = "Assets";
+
+            int idx = fullPath.IndexOf(asset);
+            assetPath = fullPath.Substring(idx, fullPath.Length - idx);
+
+            return assetPath;
+        }
+
         // 递归创建目录
         static public void recurseCreateStreamDirectory(string pathAndName)
         {
@@ -456,6 +467,121 @@ namespace EditorTool
                                                  targetFolder + UtilApi.DOTUNITY3D
                                                 );
             UtilPath.renameFile(manifestSrcName, manifestDestName);
+        }
+
+        /// <summary>
+        /// 获取贴图设置
+        /// </summary>
+        public static TextureImporter GetTextureSettings(string path)
+        {
+            TextureImporter textureImporter = AssetImporter.GetAtPath(path) as TextureImporter;
+            //Texture Type
+            textureImporter.textureType = TextureImporterType.Default;
+            //Non power of2
+            textureImporter.npotScale = TextureImporterNPOTScale.ToNearest;
+            //PlatformTextureSettings
+            textureImporter.SetPlatformTextureSettings("iPhone", 1024, TextureImporterFormat.PVRTC_RGBA4);
+            textureImporter.SetPlatformTextureSettings("Android", 1024, TextureImporterFormat.ETC2_RGBA8);
+            return textureImporter;
+        }
+
+        /// <summary>
+        /// 循环设置选择的贴图
+        /// </summary>
+        private static void LoopSetTexture()
+        {
+            UnityEngine.Object[] textures = GetSelectedTextures();
+            foreach (Texture2D texture in textures)
+            {
+                //获取资源路径
+                string path = AssetDatabase.GetAssetPath(texture);
+                TextureImporter texImporter = GetTextureSettings(path);
+                TextureImporterSettings tis = new TextureImporterSettings();
+                texImporter.ReadTextureSettings(tis);
+                texImporter.SetTextureSettings(tis);
+                AssetDatabase.ImportAsset(path);
+            }
+        }
+
+        /// <summary>
+        /// 获取Resources下的贴图
+        /// </summary>
+        /// <returns></returns>
+        private static UnityEngine.Object[] GetSelectedTextures()
+        {
+            UnityEngine.Object[] textureAll;
+            var textures = Resources.LoadAll("", typeof(Texture2D));
+            int countAll = textures.Length;
+            textureAll = new UnityEngine.Object[countAll];
+            for (int i = 0; i < countAll; i++)
+            {
+                textureAll[i] = textures[i] as UnityEngine.Object;
+            }
+            return textureAll;
+        }
+
+        private static void LoopSetTexture2()
+        {
+            string[] fileInfo = GetTexturePath();
+            int length = fileInfo.Length;
+            for (int i = 0; i < length; i++)
+            {
+                //获取资源路径
+                string path = fileInfo[i];
+                TextureImporter texImporter = GetTextureSettings(path);
+                TextureImporterSettings tis = new TextureImporterSettings();
+                texImporter.ReadTextureSettings(tis);
+                texImporter.SetTextureSettings(tis);
+                AssetDatabase.ImportAsset(path);
+            }
+        }
+
+        private static string[] GetTexturePath()
+        {
+            //jpg
+            System.Collections.ArrayList jpgList = GetResourcesPath("*.jpg");
+            int jpgLength = jpgList.Count;
+            //png
+            System.Collections.ArrayList pngList = GetResourcesPath("*.png");
+            int pngLength = pngList.Count;
+            //tga
+            System.Collections.ArrayList tgaList = GetResourcesPath("*.tga");
+            int tgaLength = tgaList.Count;
+            string[] filePath = new string[jpgLength + pngLength + tgaLength];
+            for (int i = 0; i < jpgLength; i++)
+            {
+                filePath[i] = jpgList[i].ToString();
+            }
+            for (int i = 0; i < pngLength; i++)
+            {
+                filePath[i + jpgLength] = pngList[i].ToString();
+            }
+            for (int i = 0; i < tgaLength; i++)
+            {
+                filePath[i + jpgLength + pngLength] = tgaList[i].ToString();
+            }
+            return filePath;
+        }
+
+        private static string PATH = "E:\\tcb\\program\\tcb\\tcbclient\\";
+
+        /// <summary>
+        /// 获取指定后掇后的文件路径
+        /// </summary>
+        /// <param name="fileType"></param>
+        /// <returns></returns>
+        private static System.Collections.ArrayList GetResourcesPath(string fileType)
+        {
+            DirectoryInfo directoryInfo = new DirectoryInfo(PATH + "Assets\\Resources");
+            System.Collections.ArrayList filePath = new System.Collections.ArrayList();
+            foreach (FileInfo fi in directoryInfo.GetFiles(fileType, SearchOption.AllDirectories))
+            {
+                string path = fi.DirectoryName + "\\" + fi.Name;
+                path = path.Remove(0, PATH.Length);
+                path = path.Replace("\\", "/");
+                filePath.Add(path);
+            }
+            return filePath;
         }
     }
 }

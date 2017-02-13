@@ -12,7 +12,7 @@ namespace SDK.Lib
      */
     public class MovieMgr
     {
-        protected bool m_bPlaying;
+        protected bool mIsPlaying;
 #if UNITY_STANDALONE || UNITY_EDITOR
         protected MovieTexture mMovieTexture;
 #endif
@@ -21,14 +21,14 @@ namespace SDK.Lib
 
         public MovieMgr()
         {
-            m_bPlaying = false;
+            mIsPlaying = false;
         }
 
         public void PlayMovie(string movieName, int time, Action acton)
         {
             this.mHandle = acton;
 #if UNITY_EDITOR
-            m_bPlaying = true;
+            mIsPlaying = true;
             UnityEngine.Object o = AssetDatabase.LoadAssetAtPath("Assets/res/Movie/" + movieName + ".mp4", typeof(MovieTexture));
             if(o != null)
             {
@@ -72,7 +72,7 @@ namespace SDK.Lib
         void OnGUI()
         {
 #if UNITY_EDITOR
-            if(m_bPlaying && this.mMovieTexture != null)
+            if(mIsPlaying && this.mMovieTexture != null)
             {
                 GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), this.mMovieTexture, ScaleMode.ScaleToFit);
             }

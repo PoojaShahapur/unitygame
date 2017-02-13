@@ -33,11 +33,11 @@ namespace SDK.Lib
             base.buildAniBasicParam(args);
 
             args["position"] = mDestPos;
-            args["time"] = m_time;
+            args["time"] = mTime;
             args["islocal"] = true;
 
-            args["easetype"] = m_easeType;
-            args["looptype"] = m_loopType;
+            args["easetype"] = mEaseType;
+            args["looptype"] = mLoopType;
             incItweenCount();
             iTween.MoveTo(mGo, args);
         }

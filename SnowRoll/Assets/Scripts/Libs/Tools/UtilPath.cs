@@ -158,6 +158,7 @@ namespace SDK.Lib
         {
             int idx = 0;
             string ret = "";
+
             while (idx < pathList.Length)
             {
                 if (ret.Length > 0)
@@ -168,6 +169,7 @@ namespace SDK.Lib
                         {
                             ret += "/";
                         }
+
                         ret += pathList[idx];
                     }
                 }
@@ -178,9 +180,12 @@ namespace SDK.Lib
                         ret += pathList[idx];
                     }
                 }
+
                 ++idx;
             }
+
             ret = ret.Replace("//", "/");
+
             return ret;
         }
 
@@ -188,6 +193,7 @@ namespace SDK.Lib
         static public string getFileExt(string path)
         {
             int dotIdx = path.LastIndexOf('.');
+
             if (-1 != dotIdx)
             {
                 return path.Substring(dotIdx + 1);
@@ -201,6 +207,7 @@ namespace SDK.Lib
         {
             int index = fullPath.LastIndexOf('/');
             string ret = "";
+
             if (index == -1)
             {
                 index = fullPath.LastIndexOf('\\');
@@ -222,6 +229,7 @@ namespace SDK.Lib
         {
             int index = fullPath.LastIndexOf('/');
             string ret = "";
+
             if (index == -1)
             {
                 index = fullPath.LastIndexOf('\\');
@@ -249,6 +257,7 @@ namespace SDK.Lib
         {
             int index = fullPath.LastIndexOf('/');
             string ret = "";
+
             if (index == -1)
             {
                 index = fullPath.LastIndexOf('\\');
@@ -271,12 +280,76 @@ namespace SDK.Lib
             int index = 0;
             string ret = fullPath;
             index = fullPath.LastIndexOf('.');
+
             if (index != -1)
             {
                 ret = fullPath.Substring(0, index);
             }
 
             return ret;
+        }
+
+        // 获取当前文件的父目录名字
+        static public string getFileParentDirName(string fullPath)
+        {
+            string parentDir = "";
+            int lastSlashIndex = -1;
+
+            // 如果是文件
+            if (UtilPath.existFile(fullPath))
+            {
+                lastSlashIndex = fullPath.LastIndexOf("/");
+
+                if(-1 == lastSlashIndex)
+                {
+                    lastSlashIndex = fullPath.LastIndexOf("\\");
+                }
+
+                if (-1 == lastSlashIndex)
+                {
+                    parentDir = "";
+                }
+                else
+                {
+                    fullPath = fullPath.Substring(0, lastSlashIndex);
+
+                    lastSlashIndex = fullPath.LastIndexOf("/");
+
+                    if (-1 == lastSlashIndex)
+                    {
+                        lastSlashIndex = fullPath.LastIndexOf("\\");
+                    }
+
+                    if (-1 == lastSlashIndex)
+                    {
+                        parentDir = fullPath;
+                    }
+                    else
+                    {
+                        parentDir = fullPath.Substring(lastSlashIndex + 1, fullPath.Length - (lastSlashIndex + 1));
+                    }
+                }
+            }
+            else
+            {
+                lastSlashIndex = fullPath.LastIndexOf("/");
+
+                if (-1 == lastSlashIndex)
+                {
+                    lastSlashIndex = fullPath.LastIndexOf("\\");
+                }
+
+                if (-1 == lastSlashIndex)
+                {
+                    parentDir = "";
+                }
+                else
+                {
+                    parentDir = fullPath.Substring(lastSlashIndex + 1, fullPath.Length - (lastSlashIndex + 1));
+                }
+            }
+
+            return parentDir;
         }
 
         // 搜索文件夹中的文件

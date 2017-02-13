@@ -10,8 +10,8 @@ namespace SDK.Lib
     public abstract class NumAniBase
     {
         protected GameObject mGo;
-        protected Action<NumAniBase> m_aniEndDisp;  // 外部回调逻辑
-        protected bool m_bPlaying = false;
+        protected Action<NumAniBase> mAniEndDisp;  // 外部回调逻辑
+        protected bool mIsPlaying = false;
 
         public NumAniBase()
         {
@@ -30,17 +30,17 @@ namespace SDK.Lib
 
         public void setAniEndDisp(Action<NumAniBase> disp)
         {
-            m_aniEndDisp = disp;
+            mAniEndDisp = disp;
         }
 
         public Action<NumAniBase> getAniEndDisp()
         {
-            return m_aniEndDisp;
+            return mAniEndDisp;
         }
 
         public bool bAniEndDispNotNull()
         {
-            return m_aniEndDisp != null;
+            return mAniEndDisp != null;
         }
 
         virtual public void setDispGo(GameObject go)
@@ -60,22 +60,22 @@ namespace SDK.Lib
 
         public virtual void play()
         {
-            m_bPlaying = true;
+            mIsPlaying = true;
         }
 
         public bool isPlaying()
         {
-            return m_bPlaying;
+            return mIsPlaying;
         }
 
         public virtual void stop()
         {
-            m_bPlaying = false;
+            mIsPlaying = false;
         }
 
         public virtual void pause()
         {
-            m_bPlaying = false;
+            mIsPlaying = false;
         }
 
         virtual protected void buildAniBasicParam(Hashtable args)

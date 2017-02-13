@@ -58,23 +58,29 @@ namespace SDK.Lib
         // 这个接口调用之前，一定要先设置 ThisId ，调用 setThisId，必须先设置这个
         virtual public void init()
         {
-            this.preInit();
-            this.postInit();
+            this.onInit();
         }
 
-        virtual public void preInit()
+        virtual protected void onPreInit()
         {
 
         }
 
-        virtual public void postInit()
+        virtual protected void onExecInit()
+        {
+
+        }
+
+        virtual protected void onPostInit()
         {
 
         }
 
         virtual public void onInit()
         {
-
+            this.onPreInit();
+            this.onExecInit();
+            this.onPostInit();
         }
 
         // 释放接口
@@ -218,17 +224,23 @@ namespace SDK.Lib
         virtual public void onTick(float delta)
         {
             this.onPreTick(delta);
+            this.onExecTick(delta);
             this.onPostTick(delta);
         }
 
         // Tick 第一阶段执行
-        virtual public void onPreTick(float delta)
+        virtual protected void onPreTick(float delta)
+        {
+
+        }
+
+        virtual protected void onExecTick(float delta)
         {
 
         }
 
         // Tick 第二阶段执行
-        virtual public void onPostTick(float delta)
+        virtual protected void onPostTick(float delta)
         {
 
         }

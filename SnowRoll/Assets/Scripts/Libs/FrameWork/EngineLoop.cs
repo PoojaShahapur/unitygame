@@ -53,9 +53,9 @@
             Ctx.mInstance.mLogSys.updateLog();
         }
 
-        public void FixedUpdate()
+        public void fixedUpdate()
         {
-            Ctx.mInstance.fixUpdateActor();
+            Ctx.mInstance.mProcessSys.ProcessNextFixedFrame();
         }
 
         // 循环执行完成后，再次

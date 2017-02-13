@@ -7,38 +7,42 @@ namespace SDK.Lib
      */
     public class PoolSys
     {
-        //protected List<object> m_poolList = new List<object>();
-        protected LockList<IRecycle> m_poolList = new LockList<IRecycle>("PoolSys_List");
+        //protected List<object> mPoolList = new List<object>();
+        protected LockList<IRecycle> mPoolList = new LockList<IRecycle>("PoolSys_List");
 
         public T newObject<T>() where T : IRecycle, new()
         {
             T retObj = default(T);
             // 查找
             int idx = 0;
-            for(idx = 0; idx < m_poolList.Count; ++idx)
+            for(idx = 0; idx < mPoolList.Count; ++idx)
             {
-                if (typeof(T) == m_poolList[idx].GetType())
+                if (typeof(T) == mPoolList[idx].GetType())
                 {
-                    retObj = (T)m_poolList[idx];
-                    m_poolList.RemoveAt(idx);
+                    retObj = (T)mPoolList[idx];
+                    mPoolList.RemoveAt(idx);
+
                     MethodInfo myMethodInfo = retObj.GetType().GetMethod("resetDefault");
+
                     if (myMethodInfo != null)
                     {
                         myMethodInfo.Invoke(retObj, null);
                     }
+
                     return retObj;
                 }
             }
 
             retObj = new T();
+
             return retObj;
         }
 
         public void deleteObj(IRecycle obj)
         {
-            if (m_poolList.IndexOf(obj) == -1)
+            if (mPoolList.IndexOf(obj) == -1)
             {
-                m_poolList.Add(obj);
+                mPoolList.Add(obj);
             }
         }
     }

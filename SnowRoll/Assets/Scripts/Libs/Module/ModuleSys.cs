@@ -13,8 +13,8 @@ namespace SDK.Lib
 
         public ModuleSys()
         {
-            mType2ItemDic = new MDictionary<ModuleId, ModuleHandleItem>();
-            registerHandler();
+            this.mType2ItemDic = new MDictionary<ModuleId, ModuleHandleItem>();
+            this.registerHandler();
         }
 
         protected void registerHandler()
@@ -23,32 +23,32 @@ namespace SDK.Lib
 
             item = new ModuleHandleItem();
             item.mLoadEventHandle = onLoginLoadEventHandle;
-            item.m_moduleID = ModuleId.LOGINMN;
-            item.m_moduleLayerPath = ModulePath.LOGINMN;
+            item.mModuleID = ModuleId.LOGINMN;
+            item.mModuleLayerPath = ModulePath.LOGINMN;
             item.mPath = string.Format("{0}{1}{2}", Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathModule], ModuleName.LOGINMN, ".prefab");
-            mType2ItemDic[item.m_moduleID] = item;
+            this.mType2ItemDic[item.mModuleID] = item;
 
             item = new ModuleHandleItem();
             item.mLoadEventHandle = onGameLoadEventHandle;
-            item.m_moduleID = ModuleId.GAMEMN;
-            item.m_moduleLayerPath = ModulePath.GAMEMN;
+            item.mModuleID = ModuleId.GAMEMN;
+            item.mModuleLayerPath = ModulePath.GAMEMN;
             item.mPath = string.Format("{0}{1}{2}", Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathModule], ModuleName.GAMEMN, ".prefab");
-            mType2ItemDic[item.m_moduleID] = item;
+            this.mType2ItemDic[item.mModuleID] = item;
 
             item = new ModuleHandleItem();
             item.mLoadEventHandle = onAutoUpdateLoadEventHandle;
-            item.m_moduleID = ModuleId.AUTOUPDATEMN;
-            item.m_moduleLayerPath = ModulePath.AUTOUPDATEMN;
+            item.mModuleID = ModuleId.AUTOUPDATEMN;
+            item.mModuleLayerPath = ModulePath.AUTOUPDATEMN;
             item.mPath = string.Format("{0}{1}{2}", Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathModule], ModuleName.AUTOUPDATEMN, ".prefab");
-            mType2ItemDic[item.m_moduleID] = item;
+            this.mType2ItemDic[item.mModuleID] = item;
         }
 
         // 加载游戏模块
         public void loadModule(ModuleId moduleID)
         {
-            if (!mType2ItemDic[moduleID].mIsLoaded)
+            if (!this.mType2ItemDic[moduleID].mIsLoaded)
             {
-                mType2ItemDic[moduleID].mIsLoaded = true;
+                this.mType2ItemDic[moduleID].mIsLoaded = true;
 
                 if (ModuleId.LOGINMN == moduleID)
                 {
@@ -83,14 +83,14 @@ namespace SDK.Lib
                     Ctx.mInstance.mAutoUpdate.unload();
                 }
             }
-            if (Ctx.mInstance.mLayerMgr.mPath2Go.ContainsKey(mType2ItemDic[moduleID].m_moduleLayerPath))
+            if (Ctx.mInstance.mLayerMgr.mPath2Go.ContainsKey(mType2ItemDic[moduleID].mModuleLayerPath))
             {
-                UtilApi.Destroy(Ctx.mInstance.mLayerMgr.mPath2Go[mType2ItemDic[moduleID].m_moduleLayerPath]);
+                UtilApi.Destroy(Ctx.mInstance.mLayerMgr.mPath2Go[mType2ItemDic[moduleID].mModuleLayerPath]);
             }
             else
             {
             }
-            Ctx.mInstance.mLayerMgr.mPath2Go.Remove(mType2ItemDic[moduleID].m_moduleLayerPath);
+            Ctx.mInstance.mLayerMgr.mPath2Go.Remove(mType2ItemDic[moduleID].mModuleLayerPath);
             // 太卡，暂时屏蔽掉
             //UtilApi.UnloadUnusedAssets();
         }

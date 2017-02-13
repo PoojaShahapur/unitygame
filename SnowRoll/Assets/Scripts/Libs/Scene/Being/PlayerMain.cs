@@ -22,9 +22,9 @@ namespace SDK.Lib
             //this.mRender = null;        // 不需要渲染器
         }
 
-        public override void preInit()
+        protected override void onPreInit()
         {
-            base.preInit();
+            base.onPreInit();
 
             this.hide();    // PlayerMain 不显示，仅仅记录数据
 
@@ -35,9 +35,9 @@ namespace SDK.Lib
             //Ctx.mInstance.mGlobalDelegate.mMainChildMassChangedDispatch.addEventHandle(null, this.onChildMassChanged);
         }
 
-        public override void postInit()
+        protected override void onPostInit()
         {
-            base.postInit();
+            base.onPostInit();
 
             //this.mPlayerSplitMerge.startSplit();            
         }
@@ -56,7 +56,7 @@ namespace SDK.Lib
             Ctx.mInstance.mPlayerMgr.addHero(this);
         }
 
-        public override void onPreTick(float delta)
+        protected override void onPreTick(float delta)
         {
             base.onPreTick(delta);
         }

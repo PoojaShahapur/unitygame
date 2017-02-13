@@ -34,7 +34,7 @@ public class AppRoot : MonoBehaviour
 
     void FixedUpdate()
     {
-        Ctx.mInstance.mEngineLoop.FixedUpdate();
+        Ctx.mInstance.mEngineLoop.fixedUpdate();
     }
 
     void LateUpdate()

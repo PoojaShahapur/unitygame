@@ -19,9 +19,9 @@
             Ctx.mInstance.mComputerBallMgr.removeComputerBall(this);
         }
 
-        public override void postInit()
+        protected override void onPostInit()
         {
-            base.postInit();
+            base.onPostInit();
 
             this.mHud = Ctx.mInstance.mHudSystem.createHud(this);
         }

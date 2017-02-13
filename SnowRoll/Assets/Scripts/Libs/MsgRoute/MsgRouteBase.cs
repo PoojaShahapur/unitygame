@@ -15,13 +15,13 @@
 
     public class MsgRouteBase : IRecycle, IDispatchObject
     {
-        public MsgRouteType m_msgType;
-        public MsgRouteID m_msgID;          // 只需要一个 ID 就行了
+        public MsgRouteType mMsgType;
+        public MsgRouteID mMsgID;          // 只需要一个 ID 就行了
 
         public MsgRouteBase(MsgRouteID id)
         {
-            m_msgType = MsgRouteType.eMRT_BASIC;
-            m_msgID = id;
+            mMsgType = MsgRouteType.eMRT_BASIC;
+            mMsgID = id;
         }
 
         virtual public void resetDefault()

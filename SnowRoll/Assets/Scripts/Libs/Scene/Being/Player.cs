@@ -32,9 +32,9 @@ namespace SDK.Lib
             return mCanMove;
         }
 
-        override public void preInit()
+        override protected void onPreInit()
         {
-            base.preInit();
+            base.onPreInit();
 
             if(null != this.mAnimFSM)
             {
@@ -86,12 +86,12 @@ namespace SDK.Lib
             mRender.init();
         }
 
-        public override void onPreTick(float delta)
+        protected override void onPreTick(float delta)
         {
             base.onPreTick(delta);
         }
 
-        public override void onPostTick(float delta)
+        protected override void onPostTick(float delta)
         {
             base.onPostTick(delta);
 
