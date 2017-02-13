@@ -49,7 +49,7 @@
                 this.mAuxPrefabLoader = new AuxPrefabLoader("");
                 this.mAuxPrefabLoader.setIsNeedInsPrefab(true);
                 this.mAuxPrefabLoader.setIsInsNeedCoroutine(false);
-                this.mAuxPrefabLoader.setDestroySelf(false); // 自己释放 GmmeObject
+                this.mAuxPrefabLoader.setDestroySelf(true); // 自己释放 GmmeObject
                 this.mAuxPrefabLoader.setIsInitOrientPos(true);
                 this.mAuxPrefabLoader.setIsFakePos(true);
             }
@@ -88,8 +88,12 @@
         {
             if (null != Ctx.mInstance.mCamSys.mMainCamera && null != Ctx.mInstance.mCamSys.mUguiCam)
             {
-                this.mPos = UtilApi.convWorldToUIPos(Ctx.mInstance.mUiMgr.mHudCanvas, Ctx.mInstance.mCamSys.mMainCamera, this.mEntity.getHudPos(), Ctx.mInstance.mCamSys.mUguiCam);
+                // 坐标位置转换太耗时，不再转换位置坐标，直接在世界空间调整位置
+                //this.mPos = UtilApi.convWorldToUIPos(Ctx.mInstance.mUiMgr.mHudCanvas, Ctx.mInstance.mCamSys.mMainCamera, this.mEntity.getHudPos(), Ctx.mInstance.mCamSys.mUguiCam);
+                this.mPos = this.mEntity.getHudPos();
+
                 this.setPos(this.mPos);
+                this.setRotate(UtilMath.getRotateByStartAndEndPoint(this.mPos, Ctx.mInstance.mCamSys.mMainCamera.transform.localPosition));
             }
             else
             {

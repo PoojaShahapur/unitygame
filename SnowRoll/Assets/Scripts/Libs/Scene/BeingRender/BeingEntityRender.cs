@@ -51,7 +51,7 @@ namespace SDK.Lib
             {
                 //this.mAuxPrefabLoader = new AuxPrefabLoader("", true, false);
                 this.mAuxPrefabLoader = AuxPrefabLoader.newObject(this.mResPath);
-                //this.mAuxPrefabLoader.setDestroySelf(false); // 自己释放 GmmeObject
+                this.mAuxPrefabLoader.setDestroySelf(true); // 自己释放 GmmeObject
                 this.mAuxPrefabLoader.setIsNeedInsPrefab(true);
                 this.mAuxPrefabLoader.setIsInsNeedCoroutine(true);
                 this.mAuxPrefabLoader.setDestroySelf(true); // 自己释放 GmmeObject

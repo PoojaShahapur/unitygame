@@ -96,7 +96,7 @@ function M:CreateAvatarItem()
         local avataritem = GlobalNS.new(GlobalNS.AvatarItemData);
         
         avataritem:init(self.mAvatarItemPrefab, self.AvatarContentRect, i);
-        GlobalNS.UtilApi.setImageSprite(avataritem.m_go, "DefaultSkin/Avatar/"..i..".png");
+        --GlobalNS.UtilApi.setImageSprite(avataritem.m_go, "DefaultSkin/Avatar/"..i..".png");
         
         self.avataritems[i] = avataritem;
     end

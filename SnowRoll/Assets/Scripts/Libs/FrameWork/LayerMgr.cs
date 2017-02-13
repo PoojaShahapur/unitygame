@@ -12,7 +12,7 @@ namespace SDK.Lib
 
         public LayerMgr()
         {
-            mPath2Go = new MDictionary<string, GameObject>();
+            this.mPath2Go = new MDictionary<string, GameObject>();
         }
     }
 }

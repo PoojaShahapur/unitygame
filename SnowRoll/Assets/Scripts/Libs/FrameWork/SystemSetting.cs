@@ -40,6 +40,20 @@ namespace SDK.Lib
             return 0;
         }
 
+        public void setFloat(string key, float value)
+        {
+            PlayerPrefs.SetFloat(key, value);
+        }
+
+        public float getFloat(string key)
+        {
+            if (hasKey(key))
+            {
+                return PlayerPrefs.GetFloat(key);
+            }
+            return 0f;
+        }
+
         public bool hasKey(string key)
         {
             return PlayerPrefs.HasKey(key);

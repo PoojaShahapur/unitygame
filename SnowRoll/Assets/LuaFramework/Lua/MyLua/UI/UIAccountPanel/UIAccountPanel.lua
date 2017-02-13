@@ -16,6 +16,7 @@ GlobalNS.AccountPanelNS[M.clsName] = M;
 function M:ctor()
 	self.mId = GlobalNS.UIFormId.eUIAccountPanel;
 	self.mData = GlobalNS.new(GlobalNS.AccountPanelNS.AccountPanelData);
+    self.index = 1;
 end
 
 function M:dtor()
@@ -44,12 +45,60 @@ function M:onReady()
     self.mAvatarBtn:setSelfGo(GlobalNS.UtilApi.TransFindChildByPObjAndPath(Avatar, "Avatar_BtnTouch"));
     local Info = GlobalNS.UtilApi.TransFindChildByPObjAndPath(Avatar, "Info");
 
+    --头像   
+    if GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:hasKey("Avatar") then
+        self.index = GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:getInt("Avatar");
+    end
+    self:resetAvatar(self.index);
+
+    --账号
     local Name = GlobalNS.UtilApi.getComByPath(Info, "Name", "Text");
     local username = GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:getString(SDK.Lib.SystemSetting.USERNAME);
     if username == nil then
         username = "游客";
     end
     Name.text = username;
+
+    --签名
+    self.Sign = GlobalNS.UtilApi.getComByPath(Info, "Sign", "InputField");
+    if GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:hasKey("SIGN") then
+        local signText = GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:getString("SIGN");
+        self.Sign.text = signText;
+    end
+    
+    --游戏数据
+    local Game_Data = GlobalNS.UtilApi.TransFindChildByPObjAndPath(BG, "Game_Data");
+
+    local zhenzhu = GlobalNS.UtilApi.getComByPath(Game_Data, "ZhenZhu", "Text");
+    if GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:hasKey(GCtx.mGoodsData.ZhenZhuId) then
+        local num = GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:getInt(GCtx.mGoodsData.ZhenZhuId);
+        zhenzhu.text = "珍珠: "..num;
+    end
+
+    local haixing = GlobalNS.UtilApi.getComByPath(Game_Data, "HaiXing", "Text");
+    if GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:hasKey(GCtx.mGoodsData.HaiXingId) then
+        local num = GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:getInt(GCtx.mGoodsData.HaiXingId);
+        haixing.text = "海星: "..num;
+    end
+
+    local HuiHe = GlobalNS.UtilApi.getComByPath(Game_Data, "HuiHe", "Text");
+    if GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:hasKey("HuiHe") then
+        local num = GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:getInt("HuiHe");
+        HuiHe.text = "游戏回合数: "..num;
+    end
+
+    local SwallowNum = GlobalNS.UtilApi.getComByPath(Game_Data, "SwallowNum", "Text");
+    if GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:hasKey("SwallowNum") then
+        local num = GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:getInt("SwallowNum");
+        SwallowNum.text = "总吞噬人数: "..num;
+    end
+
+    local MaxMass = GlobalNS.UtilApi.getComByPath(Game_Data, "MaxMass", "Text");
+    if GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:hasKey("MaxMass") then
+        local mass = GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:getFloat("MaxMass");
+        local radius = GlobalNS.UtilMath.getRadiusByMass(mass); --服务器传过来的是质量
+        MaxMass.text = "历史最大重量: "..GlobalNS.UtilMath.getShowMass(radius);
+    end
 end
 
 function M:onShow()
@@ -65,6 +114,8 @@ function M:onExit()
 end
 
 function M:onBtnClk()
+    GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:setInt("Avatar", self.index);
+    GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:setString("SIGN", self.Sign.text);
 	self:exit();
 end
 
@@ -73,7 +124,8 @@ function M:onAvatarBtnClk()
 end
 
 function M:resetAvatar(index)
-	GlobalNS.UtilApi.setImageSprite(self.mAvatarBtn:getSelfGo(), "DefaultSkin/Avatar/"..index..".png");
+    self.index = index;
+	--GlobalNS.UtilApi.setImageSprite(self.mAvatarBtn:getSelfGo(), "DefaultSkin/Avatar/"..index..".png");
 end
 
 return M;

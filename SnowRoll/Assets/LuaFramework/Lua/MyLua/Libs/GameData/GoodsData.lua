@@ -11,8 +11,8 @@ function M:ctor(...)
     self.CurrentGoodsType = 1;
 
     --货币ID
-    self.HaiXingId = "666";
-    self.ZhenZhuId = "888";
+    self.HaiXingId = "HaiXing";
+    self.ZhenZhuId = "ZhenZhu";
 
     self.goodsCount = 0; --物品数量
     self.goodsitems = {}; --物品

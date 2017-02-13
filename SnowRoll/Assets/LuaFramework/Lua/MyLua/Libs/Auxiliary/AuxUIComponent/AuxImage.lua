@@ -53,11 +53,13 @@ end
 --精灵都同步加载
 function M:setSpritePath(path)
 	if(not GlobalNS.UtilStr.IsNullOrEmpty(path)) then
-		if(nil ~= self.mAuxSpriteAtlasLoader) then
+		self.mSpritePath = path;
+		
+		if(nil == self.mAuxSpriteAtlasLoader) then
 			self.mAuxSpriteAtlasLoader = GlobalNS.new(GlobalNS.AuxSpriteAtlasLoader);
 		end
 		
-		self.mAuxSpriteAtlasLoader.syncLoad("", self, self.onSpriteLoaded, nil);
+		self.mAuxSpriteAtlasLoader:syncLoad(path, self, self.onSpriteLoaded, nil);
 	end
 end
 

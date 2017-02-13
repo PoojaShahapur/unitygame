@@ -39,6 +39,7 @@ function M:setRankInfoList(args)
             m_name = ranklist[i-1].name;
             m_radius = ranklist[i-1].radius;
             m_swallownum = ranklist[i-1].swallownum;
+            m_avatarindex = ranklist[i-1].avatarindex;
         };
     end
 

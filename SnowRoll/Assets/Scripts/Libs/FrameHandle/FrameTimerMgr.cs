@@ -1,17 +1,15 @@
-﻿using System.Collections.Generic;
-
-/**
+﻿/**
  * @brief 定时器管理器
  */
 namespace SDK.Lib
 {
     public class FrameTimerMgr : DelayHandleMgrBase
     {
-        protected List<FrameTimerItem> mTimerLists;     // 当前所有的定时器列表
+        protected MList<FrameTimerItem> mTimerList;     // 当前所有的定时器列表
 
         public FrameTimerMgr()
         {
-            this.mTimerLists = new List<FrameTimerItem>();
+            this.mTimerList = new MList<FrameTimerItem>();
         }
 
         override public void init()
@@ -27,15 +25,15 @@ namespace SDK.Lib
         override protected void addObject(IDelayHandleItem delayObject, float priority = 0.0f)
         {
             // 检查当前是否已经在队列中
-            if (this.mTimerLists.IndexOf(delayObject as FrameTimerItem) == -1)
+            if (!this.mTimerList.Contains(delayObject as FrameTimerItem))
             {
-                if (isInDepth())
+                if (this.isInDepth())
                 {
                     base.addObject(delayObject, priority);
                 }
                 else
                 {
-                    this.mTimerLists.Add(delayObject as FrameTimerItem);
+                    this.mTimerList.Add(delayObject as FrameTimerItem);
                 }
             }
         }
@@ -43,7 +41,7 @@ namespace SDK.Lib
         override protected void removeObject(IDelayHandleItem delayObject)
         {
             // 检查当前是否在队列中
-            if (this.mTimerLists.IndexOf(delayObject as FrameTimerItem) != -1)
+            if (this.mTimerList.Contains(delayObject as FrameTimerItem))
             {
                 (delayObject as FrameTimerItem).mDisposed = true;
                 if (isInDepth())
@@ -52,11 +50,11 @@ namespace SDK.Lib
                 }
                 else
                 {
-                    foreach (FrameTimerItem item in this.mTimerLists)
+                    foreach (FrameTimerItem item in this.mTimerList.list())
                     {
                         if (UtilApi.isAddressEqual(item, delayObject))
                         {
-                            this.mTimerLists.Remove(item);
+                            this.mTimerList.Remove(item);
                             break;
                         }
                     }
@@ -78,7 +76,7 @@ namespace SDK.Lib
         {
             incDepth();
 
-            foreach (FrameTimerItem timerItem in this.mTimerLists)
+            foreach (FrameTimerItem timerItem in this.mTimerList.list())
             {
                 if (!timerItem.isClientDispose())
                 {

@@ -483,7 +483,8 @@
             if (!Ctx.mInstance.mCfg.mIsActorMoveUseFixUpdate)
             {
                 this.mTickMgr.addTick(this.mPlayerMgr as ITickedObject, TickPriority.eTPPlayerMgr);
-                this.mTickMgr.addTick(this.mSnowBlockMgr as ITickedObject, TickPriority.eTPSnowBlockMgr);
+                // 静止的雪块没有必要更新
+                //this.mTickMgr.addTick(this.mSnowBlockMgr as ITickedObject, TickPriority.eTPSnowBlockMgr);
                 this.mTickMgr.addTick(this.mPlayerSnowBlockMgr as ITickedObject, TickPriority.eTPPlayerSnowBlockMgr);
                 this.mTickMgr.addTick(this.mComputerBallMgr as ITickedObject, TickPriority.eTPComputerBallMgr);
             }

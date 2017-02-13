@@ -13,10 +13,12 @@ namespace SDK.Lib
         protected RoateCameraController mCameraController;
         protected CameraMan mCameraMan;        // 摄像机玩家
         protected bool mIsFirst;
+        protected bool mIsHudCanvasNeedWorldCam;    // HUD 是否需要世界相机
 
         public CamSys()
         {
-            mIsFirst = true;
+            this.mIsFirst = true;
+            this.mIsHudCanvasNeedWorldCam = true;
         }
 
         // 初始化
@@ -33,28 +35,28 @@ namespace SDK.Lib
 
         public MCamera getLocalCamera()
         {
-            return mLocalCamera;
+            return this.mLocalCamera;
         }
 
         public void setLocalCamera(Camera cam)
         {
             //mLocalCamera = new MCamera(cam.gameObject.transform);
-            mLocalCamera = new MOctreeCamera("OctreeCamera", Ctx.mInstance.mSceneManager, cam.gameObject.transform);
+            this.mLocalCamera = new MOctreeCamera("OctreeCamera", Ctx.mInstance.mSceneManager, cam.gameObject.transform);
             if (cam.orthographic)
             {
-                mLocalCamera.setProjectionType(ProjectionType.PT_ORTHOGRAPHIC);
-                mLocalCamera.setOrthoWindow(cam.orthographicSize * 2, cam.orthographicSize * 2);
+                this.mLocalCamera.setProjectionType(ProjectionType.PT_ORTHOGRAPHIC);
+                this.mLocalCamera.setOrthoWindow(cam.orthographicSize * 2, cam.orthographicSize * 2);
             }
             else
             {
-                mLocalCamera.setProjectionType(ProjectionType.PT_PERSPECTIVE);
-                mLocalCamera.setFOVy(new MRadian(UtilMath.DegreesToRadians(cam.fieldOfView)));
-                mLocalCamera.setFarClipDistance(cam.farClipPlane);
-                mLocalCamera.setNearClipDistance(cam.nearClipPlane);
-                mLocalCamera.setAspectRatio(cam.aspect);
+                this.mLocalCamera.setProjectionType(ProjectionType.PT_PERSPECTIVE);
+                this.mLocalCamera.setFOVy(new MRadian(UtilMath.DegreesToRadians(cam.fieldOfView)));
+                this.mLocalCamera.setFarClipDistance(cam.farClipPlane);
+                this.mLocalCamera.setNearClipDistance(cam.nearClipPlane);
+                this.mLocalCamera.setAspectRatio(cam.aspect);
 
-                mLocalCamera.testClipPlane();
-                testAABB();
+                this.mLocalCamera.testClipPlane();
+                this.testAABB();
             }
 
             //testCameraCull();
@@ -68,24 +70,29 @@ namespace SDK.Lib
 
         public void setSceneCamera2UICamera()
         {
-            mUiCam.mCam = Ctx.mInstance.mLayerMgr.mPath2Go[NotDestroyPath.ND_CV_UICamera].GetComponent<Camera>();
+            this.mUiCam.mCam = Ctx.mInstance.mLayerMgr.mPath2Go[NotDestroyPath.ND_CV_UICamera].GetComponent<Camera>();
 
             this.setUGuiCamera(mUiCam.mCam);
         }
 
         public void setSceneCamera2MainCamera()
         {
-            mUiCam.mCam = null;
+            this.mUiCam.mCam = null;
         }
 
         public Camera getMainCamera()
         {
-            return mMainCamera;
+            return this.mMainCamera;
         }
 
         public void setMainCamera(Camera camera)
         {
-            mMainCamera = camera;
+            this.mMainCamera = camera;
+
+            if(this.mIsHudCanvasNeedWorldCam)
+            {
+                UtilApi.setCanvasCam(Ctx.mInstance.mLayerMgr.mPath2Go[NotDestroyPath.ND_CV_HudCanvas], this.mMainCamera);
+            }
         }
 
         public Camera getUGuiCamera()

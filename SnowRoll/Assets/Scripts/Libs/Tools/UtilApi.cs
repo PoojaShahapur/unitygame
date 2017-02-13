@@ -1857,5 +1857,19 @@ namespace SDK.Lib
 
             return spriteName;
         }
+
+        // 设置 Canvas 相机
+        static public void setCanvasCam(GameObject go_, Camera cam)
+        {
+            if (null != go_)
+            {
+                UnityEngine.Canvas canvas = go_.GetComponent<UnityEngine.Canvas>();
+
+                if(null != canvas)
+                {
+                    canvas.worldCamera = cam;
+                }
+            }
+        }
     }
 }

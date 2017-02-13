@@ -43,6 +43,17 @@ end
 -- 主角加载完成
 function M.onPlayerMainLoaded()
     --加载场景上的UI组件，主角加载完成后再加载UI，否则UI拿不到主角数据
+    GCtx.mUiMgr:exitForm(GlobalNS.UIFormId.eUIRankListPanel);
+    GCtx.mUiMgr:exitForm(GlobalNS.UIFormId.eUIRelivePanel);
+    GCtx.mUiMgr:exitForm(GlobalNS.UIFormId.eUIShop_SkinPanel);
+    GCtx.mUiMgr:exitForm(GlobalNS.UIFormId.eUISettingsPanel);
+    GCtx.mUiMgr:exitForm(GlobalNS.UIFormId.eUIMessagePanel);
+    GCtx.mUiMgr:exitForm(GlobalNS.UIFormId.eUISignPanel);
+    GCtx.mUiMgr:exitForm(GlobalNS.UIFormId.eUIDayAwardPanel);
+    GCtx.mUiMgr:exitForm(GlobalNS.UIFormId.eUIOtherAwardPanel);
+    GCtx.mUiMgr:exitForm(GlobalNS.UIFormId.eUIAccountPanel);
+    GCtx.mUiMgr:exitForm(GlobalNS.UIFormId.eUIAccountAvatarPanel);
+
     GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormId.eUIPlayerDataPanel);
     GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormId.eUIOptionPanel);
     GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormId.eUITopXRankPanel);

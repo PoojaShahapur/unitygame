@@ -96,6 +96,14 @@ function M:initForm()
     self.mStar5 = GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.mAvatarBG, "Star5");
 	self.mLevelNum = GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.mAvatarBG, "LevelNum");
 
+    --头像
+    local index = 1;
+    if GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:hasKey("Avatar") then
+        index = GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:getFloat("Avatar");
+    end
+    --GlobalNS.UtilApi.setImageSprite(self.mAvatarBtn, "DefaultSkin/Avatar/"..index..".png");
+
+    --账号
     local username = GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:getString(SDK.Lib.SystemSetting.USERNAME);
     if username == nil then
         username = "游客";

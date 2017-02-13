@@ -32,6 +32,10 @@ function M:onInit()
 
     --listitems数组
     self.listitems = { };
+    self.avatarimages = { };
+    self.myavatar = nil;
+    self.honerimages = {};
+    self.myhoner = nil;
 end
 
 function M:onReady()
@@ -69,7 +73,21 @@ function M:onExit()
     M.super.onExit(self);
 end
 
-function M:onBtnClk()
+function M:onBtnClk()    
+    self.myavatar:dispose();
+    self.myavatar = nil;
+    for i=1, #self.avatarimages do
+        self.avatarimages[i]:dispose();
+    end
+    self.avatarimages = {};
+
+    self.myhoner:dispose();
+    self.myhoner = nil;
+    for i=1, #self.honerimages do
+        self.honerimages[i]:dispose();
+    end
+    self.honerimages = {};
+
     self:exit();
     GCtx.mGameData:returnStartGame();
 end
@@ -101,20 +119,35 @@ function M:SetMyRankInfo()
         if(GCtx.mGameData.rankinfolist[i].m_rank == GCtx.mGameData.myRank) then
 
             --荣誉
-            local myHoner = GlobalNS.UtilApi.getComByPath(self.mMyRankArea, "Honer", "Image");
-            --myAvatar.Name = "Avatar/DefaultAvatar";
-            --Sprite avatarSprite = Resources.Load("Avatar/DefaultAvatar", typeof(Sprite)) as Sprite;
-            --myAvatar.overrideSprite = avatarSprite;
+            local myHoner = GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.mMyRankArea, "Honer");
+            if GCtx.mGameData.myRank > 3 then
+                myHoner:SetActive(false);
+            else
+                myHoner:SetActive(true);
+                self.myhoner = GlobalNS.new(GlobalNS.AuxImage);
+                self.myhoner:setSelfGo(myHoner);
+                if GCtx.mGameData.myRank == 1 then
+                    self.myhoner:setSpritePath("DefaultSkin/GameOption/cup_gold.png");
+                elseif GCtx.mGameData.myRank == 2 then
+                    self.myhoner:setSpritePath("DefaultSkin/GameOption/cup_yin.png");
+                else
+                    self.myhoner:setSpritePath("DefaultSkin/GameOption/cup_tong.png");
+                end
+            end
 
             --排名
             local myRank = GlobalNS.UtilApi.getComByPath(self.mMyRankArea, "Rank", "Text");
             myRank.text = "" .. i;
 
             --头像
-            local myAvatar = GlobalNS.UtilApi.getComByPath(self.mMyRankArea, "Avatar", "Image");
-            --myAvatar.Name = "Avatar/DefaultAvatar";
-            --Sprite avatarSprite = Resources.Load("Avatar/DefaultAvatar", typeof(Sprite)) as Sprite;
-            --myAvatar.overrideSprite = avatarSprite;
+            local myAvatar = GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.mMyRankArea, "Avatar");
+            self.myavatar = GlobalNS.new(GlobalNS.AuxImage);
+            self.myavatar:setSelfGo(myAvatar);
+            local avatarindex = GCtx.mGameData.rankinfolist[i].m_avatarindex;
+            if avatarindex == 0 then
+                avatarindex = 1;
+            end
+            self.myavatar:setSpritePath("DefaultSkin/Avatar/"..avatarindex..".png");
 
             --用户名
             local myName = GlobalNS.UtilApi.getComByPath(self.mMyRankArea, "Name", "Text");
@@ -140,18 +173,37 @@ function M:SetTopXRankInfo()
         local listitem = self.listitems[i].transform;
         
         --荣誉
-        local Honer = GlobalNS.UtilApi.getComByPath(listitem, "Honer", "Image");
-        --Sprite avatarSprite = Resources.Load("Avatar/DefaultAvatar", typeof(Sprite)) as Sprite;
-        --Avatar.overrideSprite = avatarSprite;
+        local Honer = GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.listitems[i], "Honer");
+        if i > 3 then
+            Honer:SetActive(false);
+        else
+            Honer:SetActive(true);
+            local honer = GlobalNS.new(GlobalNS.AuxImage);
+            honer:setSelfGo(Honer);
+            if i == 1 then
+                honer:setSpritePath("DefaultSkin/GameOption/cup_gold.png");
+            elseif i == 2 then
+                honer:setSpritePath("DefaultSkin/GameOption/cup_yin.png");
+            else
+                honer:setSpritePath("DefaultSkin/GameOption/cup_tong.png");
+            end
+            self.honerimages[i] = honer;
+         end
 
         --排名
         local Rank = GlobalNS.UtilApi.getComByPath(listitem, "Rank", "Text");
         Rank.text = "" .. i;
 
         --头像
-        local Avatar = GlobalNS.UtilApi.getComByPath(listitem, "Avatar", "Image");
-        --Sprite avatarSprite = Resources.Load("Avatar/DefaultAvatar", typeof(Sprite)) as Sprite;
-        --Avatar.overrideSprite = avatarSprite;
+        local Avatar = GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.listitems[i], "Avatar");
+        local avatarImage = GlobalNS.new(GlobalNS.AuxImage);
+        avatarImage:setSelfGo(Avatar);
+        local avatarindex = GCtx.mGameData.rankinfolist[i].m_avatarindex;
+        if avatarindex == 0 then
+             avatarindex = math.random(1, 4);
+        end
+        avatarImage:setSpritePath("DefaultSkin/Avatar/"..avatarindex..".png");
+        self.avatarimages[i] = avatarImage;
 
         --用户名
         local Name = GlobalNS.UtilApi.getComByPath(listitem, "Name", "Text");

@@ -69,7 +69,7 @@ namespace SDK.Lib
 
         public void removeTask(IDelayTask task)
         {
-            if(-1 != this.mDelayTaskList.IndexOf(task))
+            if(this.mDelayTaskList.Contains(task))
             {
                 this.mDelayTaskList.Remove(task);
             }
