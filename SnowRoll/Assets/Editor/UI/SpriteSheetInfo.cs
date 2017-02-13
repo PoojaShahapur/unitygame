@@ -18,13 +18,15 @@ namespace EditorTool
 
         public override void parseXml(System.Security.SecurityElement xmlelem)
         {
-            UtilXml.getXmlAttrStr(xmlelem, "n", ref mName);
-            UtilXml.getXmlAttrInt(xmlelem, "x", ref mX);
-            UtilXml.getXmlAttrInt(xmlelem, "y", ref mY);
-            UtilXml.getXmlAttrInt(xmlelem, "w", ref mW);
-            UtilXml.getXmlAttrInt(xmlelem, "h", ref mH);
-            UtilXml.getXmlAttrFloat(xmlelem, "pX", ref mPX);
-            UtilXml.getXmlAttrFloat(xmlelem, "pY", ref mPY);
+            UtilXml.getXmlAttrStr(xmlelem, "n", ref this.mName);
+            UtilXml.getXmlAttrInt(xmlelem, "x", ref this.mX);
+            UtilXml.getXmlAttrInt(xmlelem, "y", ref this.mY);
+            UtilXml.getXmlAttrInt(xmlelem, "w", ref this.mW);
+            UtilXml.getXmlAttrInt(xmlelem, "h", ref this.mH);
+            UtilXml.getXmlAttrFloat(xmlelem, "pX", ref this.mPX);
+            UtilXml.getXmlAttrFloat(xmlelem, "pY", ref this.mPY);
+
+            this.mName = UtilPath.getFileNameNoExt(this.mName);
         }
 
         public UnityEditor.SpriteMetaData toMetaData(SpriteSheetInfo info)
@@ -37,16 +39,16 @@ namespace EditorTool
             data.border.z = 0;
             data.border.w = 0;
 
-            data.name = mName;
+            data.name = this.mName;
             data.pivot.x = 0.5f;
             data.pivot.y = 0.5f;
 
             // 翻转 X ，TexturePacker 打包出来的图集， X 轴与 Unity 相反
-            data.rect.x = mX;
+            data.rect.x = this.mX;
             //data.rect.y = mY;
-            data.rect.y = info.mHeight - mY - mH;
-            data.rect.width = mW;
-            data.rect.height = mH;
+            data.rect.y = info.mHeight - this.mY - this.mH;
+            data.rect.width = this.mW;
+            data.rect.height = this.mH;
 
             return data;
         }

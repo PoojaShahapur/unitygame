@@ -29,8 +29,10 @@ namespace SDK.Lib
     {
         public string mPath;
 
-        internal SecurityParser mXmlDoc;
-        internal SecurityElement mXmlConfig;
+        //internal SecurityParser mXmlDoc;
+        //internal SecurityElement mXmlConfig;
+        public SecurityParser mXmlDoc;
+        public SecurityElement mXmlConfig;
         public MList<XmlItemBase> mList;
 
         public XmlCfgBase()
