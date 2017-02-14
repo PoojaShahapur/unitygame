@@ -37,10 +37,12 @@ using System.Security;
 
 namespace Mono.Xml {
 
-	// convert an XML document into SecurityElement objects
-	internal class SecurityParser : SmallXmlParser, SmallXmlParser.IContentHandler {
+    // convert an XML document into SecurityElement objects
+    //internal class SecurityParser : SmallXmlParser, SmallXmlParser.IContentHandler {
+    public class SecurityParser : SmallXmlParser, SmallXmlParser.IContentHandler
+    {
 
-		private SecurityElement root;
+        private SecurityElement root;
 
 		public SecurityParser () : base ()
 		{

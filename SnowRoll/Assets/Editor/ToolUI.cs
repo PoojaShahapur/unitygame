@@ -101,5 +101,12 @@ namespace EditorTool
         {
             SpriteSheetImportSys.getSingletonPtr().importAllSpriteSheet();
         }
+
+        // Change UI Mat
+        [MenuItem("MyNew/ChangeUIMat")]
+        public static void ChangeUIMat()
+        {
+            ChangeUIMatSys.getSingletonPtr().change();
+        }
     }
 }

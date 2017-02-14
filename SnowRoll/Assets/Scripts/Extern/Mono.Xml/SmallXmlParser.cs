@@ -38,8 +38,9 @@ using System.Text;
 
 namespace Mono.Xml
 {
-	internal class DefaultHandler : SmallXmlParser.IContentHandler
-	{
+    //internal class DefaultHandler : SmallXmlParser.IContentHandler
+    public class DefaultHandler : SmallXmlParser.IContentHandler
+    {
 		public void OnStartParsing (SmallXmlParser parser)
 		{
 		}
@@ -69,8 +70,9 @@ namespace Mono.Xml
 		}
 	}
 
-	internal class SmallXmlParser
-	{
+    //internal class SmallXmlParser
+    public class SmallXmlParser
+    {
 		public interface IContentHandler
 		{
 			void OnStartParsing (SmallXmlParser parser);
@@ -611,8 +613,9 @@ namespace Mono.Xml
 		}
 	}
 
-	internal class SmallXmlParserException : SystemException
-	{
+    //internal class SmallXmlParserException : SystemException
+    public class SmallXmlParserException : SystemException
+    {
 		int line;
 		int column;
 

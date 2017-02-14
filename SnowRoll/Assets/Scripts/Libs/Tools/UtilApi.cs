@@ -1871,5 +1871,25 @@ namespace SDK.Lib
                 }
             }
         }
+
+        static public void traverseActor<T>(GameObject go_, Action<GameObject, T> handle)
+        {
+            T comp = go_.GetComponent<T>();
+
+            if (comp != null)
+            {
+                handle(go_, comp);
+            }
+
+            int childCount = go_.transform.childCount;
+            int idx = 0;
+            Transform childTrans = null;
+
+            for (idx = 0; idx < childCount; ++idx)
+            {
+                childTrans = go_.transform.GetChild(idx);
+                UtilApi.traverseActor<T>(childTrans.gameObject, handle);
+            }
+        }
     }
 }
