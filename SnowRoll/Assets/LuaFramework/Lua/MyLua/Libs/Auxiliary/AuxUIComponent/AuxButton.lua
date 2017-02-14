@@ -11,6 +11,7 @@ GlobalNS[M.clsName] = M;
 function M:ctor(...)
     self:AuxButton_1(...);
     self.mText = "";
+    self.mImage = GlobalNS.new(GlobalNS.AuxImage);
 end
 
 function M:dtor()
@@ -31,6 +32,10 @@ function M:dispose()
         GlobalNS.UtilApi.removeButtonExitEventHandle(self.mBtn, self, self.onBtnClk);
     end
 	
+    if self.mImage ~= nil then
+        self.mImage:dispose();
+    end
+
     M.super.dispose(self);
 end
 

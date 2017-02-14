@@ -54,8 +54,8 @@
             if (null != this.mSelfGo)
             {
                 // 关闭组件
-                UtilApi.enableMeshRenderComponent(this.mModelRender, true);
-                UtilApi.enableAnimatorComponent(this.mModel, true);
+                UtilApi.enableMeshRenderComponent(UtilApi.TransFindChildByPObjAndPath(this.mSelfGo, UtilApi.MODEL_RENDER_NAME), true);
+                UtilApi.enableAnimatorComponent(UtilApi.TransFindChildByPObjAndPath(this.mSelfGo, UtilApi.MODEL_NAME), true);
                 UtilApi.enableCollider<UnityEngine.SphereCollider>(this.mSelfGo, true);
                 UtilApi.enableRigidbodyComponent(this.mSelfGo, true);
             }

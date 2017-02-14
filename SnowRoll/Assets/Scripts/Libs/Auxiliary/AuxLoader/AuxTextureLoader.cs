@@ -124,12 +124,14 @@ namespace SDK.Lib
 
                 if (this.mTextureRes.hasSuccessLoaded())
                 {
-                    this.mResLoadState.setSuccessLoaded();
+                    this.onLoaded();
+
                     this.mTexture = mTextureRes.getTexture();
                 }
                 else if (this.mTextureRes.hasFailed())
                 {
-                    this.mResLoadState.setFailed();
+                    this.onFailed();
+
                     Ctx.mInstance.mTexMgr.unload(this.mTextureRes.getResUniqueId(), this.onTextureLoaded);
                     this.mTextureRes = null;
                 }

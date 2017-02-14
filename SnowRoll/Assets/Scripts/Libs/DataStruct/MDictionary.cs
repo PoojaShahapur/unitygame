@@ -3,6 +3,7 @@
 namespace SDK.Lib
 {
     //public class MDictionary<TKey, TValue> where TValue : IComparer<TValue>
+    //public class MDictionary<TKey, TValue> where TValue : class
     public class MDictionary<TKey, TValue>
     {
         protected Dictionary<TKey, TValue> mData;
@@ -65,7 +66,7 @@ namespace SDK.Lib
             }
         }
 
-        public Dictionary<TKey, TValue> .ValueCollection Values
+        public Dictionary<TKey, TValue>.ValueCollection Values
         {
             get
             {
@@ -120,6 +121,23 @@ namespace SDK.Lib
             }
         
             return false;
+        }
+
+        public TValue at(int idx)
+        {
+            int curidx = 0;
+            TValue ret = default(TValue);
+
+            foreach (KeyValuePair<TKey, TValue> kvp in this.mData)
+            {
+                if(curidx == idx)
+                {
+                    ret = kvp.Value;
+                    break;
+                }
+            }
+
+            return ret;
         }
     }
 }

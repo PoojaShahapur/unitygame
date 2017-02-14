@@ -7,11 +7,13 @@
     {
         protected SceneEntityBase mEntity;  // Entity 数据
         protected UnityEngine.Rigidbody mRigidbody;     // 包含的刚体
+        protected bool mIsUsePool;
 
         public EntityRenderBase(SceneEntityBase entity_)
         {
             this.mEntity = entity_;
             this.mIsDestroySelf = false;
+            this.mIsUsePool = true;
         }
 
         virtual public void setClientDispose(bool isDispose)
@@ -50,8 +52,6 @@
         // 资源释放事件，仅仅是释放基本的资源，不修改销毁流程
         override public void onDestroy()
         {
-            this.onRetPool();
-
             base.onDestroy();
         }
 
@@ -117,9 +117,8 @@
         // 资源加载完成，初始化一些基本资源
         override protected void onSelfChanged()
         {
-            this.onGetPool();
-
             base.onSelfChanged();
+            this.onGetPool();
 
             this.mRigidbody = UtilApi.getComByP<UnityEngine.Rigidbody>(this.selfGo);
 

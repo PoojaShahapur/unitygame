@@ -9,10 +9,12 @@ GlobalNS[M.clsName] = M;
 function M:ctor(...)
     self.m_go = nil;
     self.index = nil;
+    self.avatarItemBtn = nil;
 end
 
 function M:dtor()
-
+    self.m_go:dispose();
+    self.avatarItemBtn:dispose();
 end
 
 function M:init(_Prefab, _Content, _index)
@@ -25,6 +27,9 @@ function M:init(_Prefab, _Content, _index)
 
     self.avatarItemBtn = GlobalNS.new(GlobalNS.AuxButton);
     self.avatarItemBtn:setSelfGo(self.m_go);
+
+    self.avatarItemBtn.mImage:setSelfGo(self.m_go);
+    self.avatarItemBtn.mImage:setSpritePath("DefaultSkin/Avatar/"..self.index..".png");
     self.avatarItemBtn:addEventHandle(self, self.onChoiceBtnClk);
 end
 

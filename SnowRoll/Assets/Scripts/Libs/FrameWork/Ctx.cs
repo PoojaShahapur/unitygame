@@ -17,6 +17,7 @@
         public SceneSys mSceneSys;                // 场景系统
         public TickMgr mTickMgr;                  // 心跳管理器
         public TickMgr mFixedTickMgr;             // 固定间隔心跳管理器
+        public LogicTickMgr mLogicTickMgr;        // 逻辑心跳管理器
         public ProcessSys mProcessSys;            // 游戏处理系统
 
         public TimerMgr mTimerMgr;                // 定时器系统
@@ -127,6 +128,8 @@
         public SoundLoadStateCheckMgr mSoundLoadStateCheckMgr;
         public IdPoolSys mIdPoolSys;
 
+        public UniqueStrIdGen mUniqueStrIdGen;
+
         public Ctx()
         {
             
@@ -150,6 +153,8 @@
 
         protected void constructInit()
         {
+            this.mUniqueStrIdGen = new UniqueStrIdGen("FindEvt", 0);
+
             MFileSys.init();            // 初始化本地文件系统的一些数据
             PlatformDefine.init();      // 初始化平台相关的定义
             UtilByte.checkEndian();     // 检查系统大端小端
@@ -271,6 +276,8 @@
             this.mLoadProgressMgr = new LoadProgressMgr();
             this.mSoundLoadStateCheckMgr = new SoundLoadStateCheckMgr();
             this.mIdPoolSys = new IdPoolSys();
+
+            this.mLogicTickMgr = new LogicTickMgr();
         }
 
         public void logicInit()
@@ -315,6 +322,7 @@
 
             this.mSoundLoadStateCheckMgr.init();
             this.mIdPoolSys.init();
+            this.mLogicTickMgr.init();
 
             // 添加事件处理
             Ctx.mInstance.mCamSys.setUiCamera(Ctx.mInstance.mLayerMgr.mPath2Go[NotDestroyPath.ND_CV_App].AddComponent<UICamera>());
@@ -462,6 +470,11 @@
                 this.mIdPoolSys.dispose();
                 this.mIdPoolSys = null;
             }
+            if(null != this.mLogicTickMgr)
+            {
+                this.mLogicTickMgr.dispose();
+                this.mLogicTickMgr = null;
+            }
         }
 
         public void quitApp()
@@ -490,20 +503,18 @@
             this.mTickMgr.addTick(this.mDelayTaskMgr as ITickedObject, TickPriority.eTPDelayTaskMgr);
             this.mTickMgr.addTick(this.mSoundLoadStateCheckMgr as ITickedObject, TickPriority.eTPSoundLoadStateCheckMgr);
 
+            this.mTickMgr.addTick(this.mComputerBallMgr as ITickedObject, TickPriority.eTPComputerBallMgr);
+            // 静止的雪块没有必要更新
+            //this.mTickMgr.addTick(this.mSnowBlockMgr as ITickedObject, TickPriority.eTPSnowBlockMgr);
+            this.mTickMgr.addTick(this.mPlayerSnowBlockMgr as ITickedObject, TickPriority.eTPPlayerSnowBlockMgr);
+
             if (!Ctx.mInstance.mCfg.mIsActorMoveUseFixUpdate)
             {
                 this.mTickMgr.addTick(this.mPlayerMgr as ITickedObject, TickPriority.eTPPlayerMgr);
-                // 静止的雪块没有必要更新
-                //this.mTickMgr.addTick(this.mSnowBlockMgr as ITickedObject, TickPriority.eTPSnowBlockMgr);
-                this.mTickMgr.addTick(this.mPlayerSnowBlockMgr as ITickedObject, TickPriority.eTPPlayerSnowBlockMgr);
-                this.mTickMgr.addTick(this.mComputerBallMgr as ITickedObject, TickPriority.eTPComputerBallMgr);
             }
             else
             {
                 this.mFixedTickMgr.addTick(this.mPlayerMgr as ITickedObject, TickPriority.eTPPlayerMgr);
-                this.mFixedTickMgr.addTick(this.mSnowBlockMgr as ITickedObject, TickPriority.eTPSnowBlockMgr);
-                this.mFixedTickMgr.addTick(this.mPlayerSnowBlockMgr as ITickedObject, TickPriority.eTPPlayerSnowBlockMgr);
-                this.mFixedTickMgr.addTick(this.mComputerBallMgr as ITickedObject, TickPriority.eTPComputerBallMgr);
             }
         }
 

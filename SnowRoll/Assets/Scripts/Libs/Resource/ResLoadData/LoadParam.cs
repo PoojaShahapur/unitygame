@@ -36,8 +36,9 @@
 
         public LoadParam()
         {
-            this.mLoadPath = "";
-            this.mIsLoadAll = false;
+            //this.mLoadPath = "";
+            //this.mIsLoadAll = false;
+            this.resetDefault();
         }
 
         public string prefabName
@@ -75,6 +76,9 @@
 
             this.mLoadRes = null;
             this.mLoadInsRes = null;
+
+            this.mLoadPath = "";
+            this.mIsLoadAll = false;
         }
 
         // 解析目录

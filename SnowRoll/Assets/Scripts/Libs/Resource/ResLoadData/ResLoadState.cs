@@ -2,10 +2,17 @@
 {
     public enum CVResLoadState
     {
+        // 资源加载状态
         eNotLoad,       // 没有加载
         eLoading,       // 正在加载
         eLoaded,        // 加载成功
-        eFailed         // 加载失败
+        eFailed,        // 加载失败
+
+        // 实例化状态
+        eNotIns,        // 没有实例化
+        eInsing,        // 正在实例化
+        eInsSuccess,        // 实例化完成
+        eInsFailed,     // 实例化失败
     }
 
     public class ResLoadState
@@ -69,6 +76,42 @@
         public void setLoading()
         {
             this.mResLoadState = CVResLoadState.eLoading;
+        }
+
+        // 成功实例化
+        public void setSuccessIns()
+        {
+            this.mResLoadState = CVResLoadState.eInsSuccess;
+        }
+
+        // 实例化失败
+        public void setInsFailed()
+        {
+            this.mResLoadState = CVResLoadState.eInsFailed;
+        }
+
+        // 正在实例化
+        public void setInsing()
+        {
+            this.mResLoadState = CVResLoadState.eInsing;
+        }
+
+        // 是否成功实例化
+        public bool hasSuccessIns()
+        {
+            return (this.mResLoadState == CVResLoadState.eInsSuccess);
+        }
+
+        // 是否实例化失败
+        public bool hasInsFailed()
+        {
+            return (this.mResLoadState == CVResLoadState.eInsFailed);
+        }
+
+        // 是否正在实例化
+        public bool hasInsing()
+        {
+            return (this.mResLoadState == CVResLoadState.eInsing);
         }
 
         public void copyFrom(ResLoadState rhv)

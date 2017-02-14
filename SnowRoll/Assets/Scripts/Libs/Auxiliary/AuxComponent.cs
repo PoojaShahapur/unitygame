@@ -39,6 +39,18 @@ namespace SDK.Lib
 
         virtual public void onDestroy()
         {
+            this.onPreDestroy();
+            this.onExecDestroy();
+            this.onPostDestroy();
+        }
+
+        virtual protected void onPreDestroy()
+        {
+
+        }
+
+        virtual protected void onExecDestroy()
+        {
             if (this.mIsNeedPlaceHolderGo && this.mPlaceHolderGo != null)
             {
                 UtilApi.Destroy(this.mPlaceHolderGo);
@@ -56,6 +68,11 @@ namespace SDK.Lib
             }
         }
 
+        virtual protected void onPostDestroy()
+        {
+
+        }
+
         public void setSelfName(string name_)
         {
             this.selfGo.name = name_;
@@ -71,6 +88,7 @@ namespace SDK.Lib
             {
                 bool isPntChange = isChange(this.mSelfGo, value);
                 this.mSelfGo = value;
+
                 if (isPntChange && null != this.mSelfGo)
                 {
                     onSelfChanged();

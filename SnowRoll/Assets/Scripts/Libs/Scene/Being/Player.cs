@@ -50,12 +50,6 @@ namespace SDK.Lib
             }
         }
 
-        // 构造完成 Player 后，在初始化 PlayerRender
-        public override void onInit()
-        {
-            base.onInit();
-        }
-
         override public void dispose()
         {
             base.dispose();

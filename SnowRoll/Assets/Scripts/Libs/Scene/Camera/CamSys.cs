@@ -220,5 +220,10 @@ namespace SDK.Lib
                 Debug.Log("Error");
             }
         }
+
+        public void ShareTo3Party()
+        {
+            UtilCaptureScreen.CaptureCamera(Ctx.mInstance.mCamSys.getUGuiCamera(), new Rect(0f, 0f, Screen.width, Screen.height));
+        }
     }
 }

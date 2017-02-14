@@ -123,11 +123,12 @@ namespace SDK.Lib
 
                 if (this.mBytesRes.hasSuccessLoaded())
                 {
-                    this.mResLoadState.setSuccessLoaded();
+                    this.onLoaded();
                 }
                 else if (this.mBytesRes.hasFailed())
                 {
-                    this.mResLoadState.setFailed();
+                    this.onFailed();
+
                     Ctx.mInstance.mBytesResMgr.unload(this.mBytesRes.getResUniqueId(), this.onBytesLoaded);
                     this.mBytesRes = null;
                 }

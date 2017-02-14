@@ -19,6 +19,18 @@ namespace SDK.Lib
 
         public override void setResObj(UnityEngine.Object go_)
         {
+            if (MacroDef.ENABLE_LOG)
+            {
+                if (go_)
+                {
+                    Ctx.mInstance.mLogSys.log("SoundClipItem::setResObj, go_ no null", LogTypeId.eLogMusicBug);
+                }
+                else
+                {
+                    Ctx.mInstance.mLogSys.log("SoundClipItem::setResObj, go_ is null", LogTypeId.eLogMusicBug);
+                }
+            }
+
             this.mClip = go_ as AudioClip;
             this.mGo = UtilApi.createGameObject("SoundGO");
 
@@ -29,6 +41,11 @@ namespace SDK.Lib
 
             if (this.mClip == null)
             {
+                if (MacroDef.ENABLE_LOG)
+                {
+                    Ctx.mInstance.mLogSys.log("SoundClipItem::setResObj, Clip is null", LogTypeId.eLogMusicBug);
+                }
+
                 return;
             }
 
@@ -69,6 +86,18 @@ namespace SDK.Lib
             //if(AudioDataLoadState.Loaded != this.mClip.loadState)
             if(!this.mIsLoaded)
             {
+                if (MacroDef.ENABLE_LOG)
+                {
+                    if (null != this.mClip)
+                    {
+                        Ctx.mInstance.mLogSys.log("SoundClipItem::Play, Clip not null", LogTypeId.eLogMusicBug);
+                    }
+                    else
+                    {
+                        Ctx.mInstance.mLogSys.log("SoundClipItem::Play, Clip is null", LogTypeId.eLogMusicBug);
+                    }
+                }
+
                 Ctx.mInstance.mSoundLoadStateCheckMgr.addSound(this);
             }
 
@@ -80,9 +109,24 @@ namespace SDK.Lib
         {
             if (null != this.mClip && AudioDataLoadState.Loaded == this.mClip.loadState)
             {
+                if (MacroDef.ENABLE_LOG)
+                {
+                    Ctx.mInstance.mLogSys.log("SoundClipItem::checkLoadState, set", LogTypeId.eLogMusicBug);
+                }
+
                 this.mIsLoaded = true;
                 this.Play();
                 Ctx.mInstance.mSoundLoadStateCheckMgr.removeSound(this);
+            }
+            else
+            {
+                if (MacroDef.ENABLE_LOG)
+                {
+                    if (null == this.mClip)
+                    {
+                        Ctx.mInstance.mLogSys.log("SoundClipItem::checkLoadState, Clip is null", LogTypeId.eLogMusicBug);
+                    }
+                }
             }
         }
     }

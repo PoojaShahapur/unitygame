@@ -129,11 +129,12 @@
 
                 if (this.mSpriteAtlasRes.hasSuccessLoaded())
                 {
-                    this.mResLoadState.setSuccessLoaded();
+                    this.onLoaded();
                 }
                 else if (this.mSpriteAtlasRes.hasFailed())
                 {
-                    this.mResLoadState.setFailed();
+                    this.onFailed();
+
                     Ctx.mInstance.mSpriteMgr.unload(this.mSpriteAtlasRes.getResUniqueId(), this.onTexLoaded);
                     this.mSpriteAtlasRes = null;
                 }

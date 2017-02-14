@@ -80,6 +80,8 @@ function M:ShowRollMessage(msg)
 end
 
 function M:returnStartGame()
+    GCtx.mGameData.isRelogin = true;
+    GlobalNS.CSSystem.Ctx.mInstance.mLoginSys.mLoginNetHandleCB_KBE:closeNetwork();
     GlobalNS.CSSystem.Ctx.mInstance.mPlayerMgr:dispose();
 	GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormId.eUIStartGame);
     --GlobalNS.CSSystem.Ctx.mInstance.mModuleSys:unloadModule(GlobalNS.CSSystem.ModuleId.GAMEMN);

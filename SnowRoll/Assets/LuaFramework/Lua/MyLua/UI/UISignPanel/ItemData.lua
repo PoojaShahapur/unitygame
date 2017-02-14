@@ -12,10 +12,12 @@ function M:ctor(...)
     self.m_Id = 0;
     self.m_Name = "";
     self.m_Enable = false;
+    self.ItemBtn = false;
 end
 
 function M:dtor()
-
+    self.m_go:dispose();
+    self.ItemBtn:dispose();
 end
 
 function M:init(_Prefab, _Content, _day)

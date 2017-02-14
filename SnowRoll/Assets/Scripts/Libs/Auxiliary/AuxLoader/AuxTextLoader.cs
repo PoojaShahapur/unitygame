@@ -121,11 +121,12 @@
 
                 if (this.mTextRes.hasSuccessLoaded())
                 {
-                    this.mResLoadState.setSuccessLoaded();
+                    this.onLoaded();
                 }
                 else if (this.mTextRes.hasFailed())
                 {
-                    this.mResLoadState.setFailed();
+                    this.onFailed();
+
                     Ctx.mInstance.mTexMgr.unload(this.mTextRes.getResUniqueId(), this.onTextLoaded);
                     this.mTextRes = null;
                 }

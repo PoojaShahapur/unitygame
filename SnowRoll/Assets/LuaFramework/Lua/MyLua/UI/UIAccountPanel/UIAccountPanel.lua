@@ -31,6 +31,9 @@ function M:onInit()
 
 	self.mCloseBtn = GlobalNS.new(GlobalNS.AuxButton);
 	self.mCloseBtn:addEventHandle(self, self.onBtnClk);
+
+    self.mShareBtn = GlobalNS.new(GlobalNS.AuxButton);
+	self.mShareBtn:addEventHandle(self, self.onShareBtnClk);
 end
 
 function M:onReady()
@@ -40,6 +43,7 @@ function M:onReady()
 			BG, 
 			GlobalNS.AccountPanelNS.AccountPanelPath.BtnClose)
 		);
+    self.mShareBtn:setSelfGo(GlobalNS.UtilApi.TransFindChildByPObjAndPath(BG, "Share_BtnTouch"));
 
     local Avatar = GlobalNS.UtilApi.TransFindChildByPObjAndPath(BG, "Avatar");
     self.mAvatarBtn:setSelfGo(GlobalNS.UtilApi.TransFindChildByPObjAndPath(Avatar, "Avatar_BtnTouch"));
@@ -116,6 +120,7 @@ end
 function M:onBtnClk()
     GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:setInt("Avatar", self.index);
     GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:setString("SIGN", self.Sign.text);
+    self.mAvatarBtn:dispose();
 	self:exit();
 end
 
@@ -123,9 +128,15 @@ function M:onAvatarBtnClk()
 	GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormId.eUIAccountAvatarPanel);
 end
 
+function M:onShareBtnClk()
+	GlobalNS.CSSystem.Ctx.mInstance.mCamSys:ShareTo3Party();
+    self:exit();
+end
+
 function M:resetAvatar(index)
     self.index = index;
-	--GlobalNS.UtilApi.setImageSprite(self.mAvatarBtn:getSelfGo(), "DefaultSkin/Avatar/"..index..".png");
+	self.mAvatarBtn.mImage:setSelfGo(self.mAvatarBtn:getSelfGo());
+    self.mAvatarBtn.mImage:setSpritePath("DefaultSkin/Avatar/"..self.index..".png");
 end
 
 return M;

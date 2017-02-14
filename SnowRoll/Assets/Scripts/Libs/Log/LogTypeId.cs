@@ -15,6 +15,8 @@
         eLogBeingMove,      // Being 移动
         eLogKBE,            // KBEngine 日志
         eLogScene,          // Scene 日志
-        eUnityCB,          // Unity回调日志
+        eLogUnityCB,        // Unity回调日志
+        eLogEventRemove,    // 事件移除日志
+        eLogMusicBug,       // 手机音乐没有 bug   
     }
 }

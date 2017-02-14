@@ -78,7 +78,7 @@
                 this.mThisId2EntityDic[entity.getThisId()] = entity;
             }
 
-            entity.onInit();
+            //entity.onInit();
         }
 
         public void removeEntity(SceneEntityBase entity, bool isDispose = true)

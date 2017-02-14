@@ -86,7 +86,8 @@
         // 位置发生改变
         public void onPosChanged()
         {
-            if (null != Ctx.mInstance.mCamSys.mMainCamera && null != Ctx.mInstance.mCamSys.mUguiCam)
+            //if (null != Ctx.mInstance.mCamSys.mMainCamera && null != Ctx.mInstance.mCamSys.mUguiCam)
+            if (Ctx.mInstance.mCamSys.mMainCamera && Ctx.mInstance.mCamSys.mUguiCam)
             {
                 // 坐标位置转换太耗时，不再转换位置坐标，直接在世界空间调整位置
                 //this.mPos = UtilApi.convWorldToUIPos(Ctx.mInstance.mUiMgr.mHudCanvas, Ctx.mInstance.mCamSys.mMainCamera, this.mEntity.getHudPos(), Ctx.mInstance.mCamSys.mUguiCam);
@@ -109,7 +110,10 @@
 
         override public void updateLocalTransform()
         {
-            if (null != this.mSelfGo)
+            // 执行太频繁，这个判断会很卡
+            //if (null != this.mSelfGo)
+            //if (this.mSelfGo.Equals(null))
+            if(this.mSelfGo)
             {
                 if (this.mIsPosDirty)
                 {

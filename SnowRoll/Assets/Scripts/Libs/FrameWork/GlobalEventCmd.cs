@@ -33,6 +33,7 @@
             }
             Ctx.mInstance.mLuaSystem.onPlayerMainLoaded();
 
+            //音乐设置
             if (Ctx.mInstance.mSystemSetting.hasKey("MusicModel"))
             {
                 if (Ctx.mInstance.mSystemSetting.getInt("MusicModel") == 1)
@@ -44,6 +45,10 @@
             {
                 Ctx.mInstance.mSoundMgr.play("Sound/Music/StudioEIM-myseabed.mp3", true);
             }
+
+            //头像id
+            byte index = (byte)SDK.Lib.Ctx.mInstance.mSystemSetting.getInt("Avatar");
+            Ctx.mInstance.mPlayerMgr.getHero().cellCall("selectHeaderImage", index);
         }
     }
 }

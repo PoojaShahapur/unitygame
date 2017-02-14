@@ -77,11 +77,12 @@
 
                 if (this.mDownloadItem.hasSuccessLoaded())
                 {
-                    this.mResLoadState.setSuccessLoaded();
+                    this.onLoaded();
                 }
                 else if (this.mDownloadItem.hasFailed())
                 {
-                    this.mResLoadState.setFailed();
+                    this.onFailed();
+
                     this.mDownloadItem = null;
                 }
             }

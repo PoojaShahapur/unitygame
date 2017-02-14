@@ -115,11 +115,13 @@ namespace SDK.Lib
     {
         public float mMoveSpeed_k;
         public float mMoveSpeed_b;
+        public float mSlowMoveSpeed;
 
         public override void parseXml(SecurityElement xmlelem)
         {
             UtilXml.getXmlAttrFloat(xmlelem, "MoveSpeed_k", ref mMoveSpeed_k);
             UtilXml.getXmlAttrFloat(xmlelem, "MoveSpeed_b", ref mMoveSpeed_b);
+            UtilXml.getXmlAttrFloat(xmlelem, "SlowMoveSpeed", ref mSlowMoveSpeed);
         }
     }
 

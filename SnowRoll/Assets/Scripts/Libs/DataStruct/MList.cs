@@ -12,13 +12,13 @@ namespace SDK.Lib
         protected List<T> mList;
         protected int mUniqueId;       // 唯一 Id ，调试使用
 
-        protected Dictionary<T, T> mDic;    // 为了加快查找速度 
+        protected Dictionary<T, int> mDic;    // 为了加快查找速度，当前 Element 到索引映射
         protected bool mIsSpeedUpFind;  // 是否加快查询
 
         public MList()
         {
             this.mList = new List<T>();
-            this.mDic = new Dictionary<T, T>();
+            this.mDic = new Dictionary<T, int>();
             this.mIsSpeedUpFind = true;
         }
 
@@ -71,7 +71,7 @@ namespace SDK.Lib
 
             if (this.mIsSpeedUpFind)
             {
-                this.mDic[item] = item;
+                this.mDic[item] = this.mList.Count - 1;
             }
         }
 
@@ -84,9 +84,9 @@ namespace SDK.Lib
 
             if(this.mIsSpeedUpFind)
             {
-                this.mDic[item_1] = item_1;
-                this.mDic[item_2] = item_2;
-                this.mDic[item_3] = item_3;
+                this.mDic[item_1] = this.mList.Count - 3;
+                this.mDic[item_2] = this.mList.Count - 2;
+                this.mDic[item_3] = this.mList.Count - 1;
             }
         }
 
@@ -98,8 +98,8 @@ namespace SDK.Lib
 
             if (this.mIsSpeedUpFind)
             {
-                this.mDic[item_1] = item_1;
-                this.mDic[item_2] = item_2;
+                this.mDic[item_1] = this.mList.Count - 2;
+                this.mDic[item_2] = this.mList.Count - 1;
             }
         }
 
@@ -113,10 +113,10 @@ namespace SDK.Lib
 
             if (this.mIsSpeedUpFind)
             {
-                this.mDic[item_1] = item_1;
-                this.mDic[item_2] = item_2;
-                this.mDic[item_3] = item_3;
-                this.mDic[item_4] = item_4;
+                this.mDic[item_1] = this.mList.Count - 4;
+                this.mDic[item_2] = this.mList.Count - 3;
+                this.mDic[item_3] = this.mList.Count - 2;
+                this.mDic[item_4] = this.mList.Count - 1;
             }
         }
 
@@ -126,7 +126,7 @@ namespace SDK.Lib
 
             if (this.mIsSpeedUpFind)
             {
-                this.mDic[item] = item;
+                this.mDic[item] = this.mList.Count - 1;
             }
         }
 
@@ -134,10 +134,12 @@ namespace SDK.Lib
         {
             if (this.mIsSpeedUpFind)
             {
-                this.mDic.Remove(item);
+                return this.effectiveRemove(item);
             }
-
-            return this.mList.Remove(item);
+            else
+            {
+                return this.mList.Remove(item);
+            }
         }
 
         public T this[int index]
@@ -150,7 +152,7 @@ namespace SDK.Lib
             {
                 if (this.mIsSpeedUpFind)
                 {
-                    this.mDic[value] = value;
+                    this.mDic[value] = index;
                 }
 
                 this.mList[index] = value;
@@ -186,18 +188,31 @@ namespace SDK.Lib
         {
             if (this.mIsSpeedUpFind)
             {
-                if (this.mDic.ContainsKey(this.mList[index]))
-                {
-                    this.mDic.Remove(this.mList[index]);
-                }
+                this.effectiveRemove(this.mList[index]);
             }
-
-            this.mList.RemoveAt(index);
+            else
+            {
+                this.mList.RemoveAt(index);
+            }
         }
 
         public int IndexOf(T item)
         {
-            return this.mList.IndexOf(item);
+            if (this.mIsSpeedUpFind)
+            {
+                if (this.mDic.ContainsKey(item))
+                {
+                    return this.mDic[item];
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+            else
+            {
+                return this.mList.IndexOf(item);
+            }
         }
 
         public void Insert(int index, T item)
@@ -206,10 +221,15 @@ namespace SDK.Lib
             {
                 if (this.mIsSpeedUpFind)
                 {
-                    this.mDic[item] = item;
+                    this.mDic[item] = index;
                 }
 
                 this.mList.Insert(index, item);
+
+                if (this.mIsSpeedUpFind)
+                {
+                    this.updateIndex(index + 1);
+                }
             }
             else
             {
@@ -244,9 +264,48 @@ namespace SDK.Lib
 
                     if (this.mIsSpeedUpFind)
                     {
-                        this.mDic[item] = item;
+                        this.mDic[item] = this.mList.Count - 1;
                     }
                 }
+            }
+        }
+
+        // 快速移除元素
+        protected bool effectiveRemove(T item)
+        {
+            bool ret = false;
+
+            if (this.mDic.ContainsKey(item))
+            {
+                ret = true;
+
+                int idx = this.mDic[item];
+                this.mDic.Remove(item);
+
+                if (idx == this.mList.Count - 1)    // 如果是最后一个元素，直接移除
+                {
+                    this.mList.RemoveAt(idx);
+                }
+                else
+                {
+                    this.mList[idx] = this.mList[this.mList.Count - 1];
+                    this.mList.RemoveAt(this.mList.Count - 1);
+                    this.mDic[this.mList[idx]] = idx;
+                }
+            }
+
+            return ret;
+        }
+
+        protected void updateIndex(int idx)
+        {
+            int len = this.mList.Count;
+
+            while(idx < len)
+            {
+                this.mDic[this.mList[idx]] = idx;
+
+                ++idx;
             }
         }
     }

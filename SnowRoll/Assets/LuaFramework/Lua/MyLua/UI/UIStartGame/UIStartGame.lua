@@ -15,10 +15,11 @@ GlobalNS.StartGameNS[M.clsName] = M;
 function M:ctor()
 	self.mId = GlobalNS.UIFormId.eUIStartGame;
 	self.mData = GlobalNS.new(GlobalNS.StartGameNS.StartGameData);
+    self.mAvatarBtn = nil;
 end
 
 function M:dtor()
-	
+	self.mAvatarBtn:dispose();
 end
 
 function M:onInit()
@@ -70,6 +71,10 @@ function M:onInit()
 	self.mBarImage:setScale(0);
 	self.mBgImage = GlobalNS.new(GlobalNS.AuxImage);
 	self.mBgImage:hide();
+
+    --联系我们
+    self.mEmailBtn = GlobalNS.new(GlobalNS.AuxButton);
+    self.mEmailBtn:addEventHandle(self, self.onEmailBtnClk);
 end
 
 function M:onReady()
@@ -99,9 +104,10 @@ function M:initForm()
     --头像
     local index = 1;
     if GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:hasKey("Avatar") then
-        index = GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:getFloat("Avatar");
+        index = GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:getInt("Avatar");
     end
-    --GlobalNS.UtilApi.setImageSprite(self.mAvatarBtn, "DefaultSkin/Avatar/"..index..".png");
+    self.mAvatarBtn.mImage:setSelfGo(self.mAvatarBtn:getSelfGo());
+    self.mAvatarBtn.mImage:setSpritePath("DefaultSkin/Avatar/"..index..".png");
 
     --账号
     local username = GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:getString(SDK.Lib.SystemSetting.USERNAME);
@@ -144,6 +150,9 @@ function M:initForm()
 	-- 进度条
 	self.mBarImage:setSelfGo(GlobalNS.UtilApi.TransFindChildByPObjAndPath(bg_image, "ProgressBar/Bar"));
 	self.mBgImage:setSelfGo(GlobalNS.UtilApi.TransFindChildByPObjAndPath(bg_image, "ProgressBar/BG"));
+
+    -- 联系我们
+    self.mEmailBtn:setSelfGo(GlobalNS.UtilApi.TransFindChildByPObjAndPath(bg_image, "Email_BtnTouch"));
 end
 
 function M:setUsernameAndPassword()
@@ -263,6 +272,10 @@ function M:onNickNameBtnClk()
 end
 
 function M:getRandomNickName()
+    local socket = require("socket") -- 需要用到luasocket库  
+    local t = string.format("%f", socket.gettime())  
+    local st = string.sub(t, string.find(t, "%.") + 1, -1)
+    math.randomseed(tonumber(string.reverse(st))); 
     local index = math.random(1, #self.mData.nicknames);
     return self.mData.nicknames[index];
 end
@@ -319,8 +332,17 @@ function M:onShopBtnClk()
     GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormId.eUIShop_SkinPanel);
 end
 
+function M:onEmailBtnClk()
+    GCtx.mGameData:ShowMessageBox("游戏交流群：512081924    \n商务合作：136863169\n打赏：136863169@qq.com");
+end
+
 function M:setProgress(value)
 	self.mBarImage:setScale(value);
+end
+
+function M:resetAvatar(index)
+	self.mAvatarBtn.mImage:setSelfGo(self.mAvatarBtn:getSelfGo());
+    self.mAvatarBtn.mImage:setSpritePath("DefaultSkin/Avatar/"..index..".png");
 end
 
 return M;

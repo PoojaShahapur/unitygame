@@ -12,10 +12,12 @@ function M:ctor(...)
     self.m_Name = "";
     self.m_NeedId = 0;
     self.m_NeedNum = 0;
+    self.buyItemBtn = nil;
 end
 
 function M:dtor()
-
+    self.m_go:dispose();
+    self.buyItemBtn:dispose();
 end
 
 function M:init(_Prefab, _Content, _index, isOwn)

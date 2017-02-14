@@ -1765,11 +1765,32 @@ namespace SDK.Lib
             }
         }
 
+        // Mac 上索引 3 才有值， windows 上索引 0 就有值
         static public byte[] getMacAddr()
         {
+#if UNITY_EDITOR
             System.Net.NetworkInformation.NetworkInterface[] nis = System.Net.NetworkInformation.NetworkInterface.GetAllNetworkInterfaces();
+
+            byte[] ret = null;
+
             if (nis.Length > 0)
-                return nis[0].GetPhysicalAddress().GetAddressBytes();
+            {
+                int idx = 0;
+
+                while (idx < nis.Length)
+                {
+                    ret = nis[idx].GetPhysicalAddress().GetAddressBytes();
+
+                    if (ret.Length >= 6)
+                    {
+                        return ret;
+                    }
+
+                    ++idx;
+                }
+            }
+#endif
+
             return new byte[] { 255, 255, 255, 255, 255, 255 };
         }
 
@@ -1865,7 +1886,7 @@ namespace SDK.Lib
             {
                 UnityEngine.Canvas canvas = go_.GetComponent<UnityEngine.Canvas>();
 
-                if(null != canvas)
+                if (null != canvas)
                 {
                     canvas.worldCamera = cam;
                 }
@@ -1890,6 +1911,31 @@ namespace SDK.Lib
                 childTrans = go_.transform.GetChild(idx);
                 UtilApi.traverseActor<T>(childTrans.gameObject, handle);
             }
+        }
+
+        // 判断是否所有的组件都 Disable ，除了(Transform)
+        static public bool isAllComponentDisable(GameObject go_)
+        {
+            //go_.GetComponents
+            return false;
+        }
+
+        static public bool isSphereColliderEnable(GameObject go_)
+        {
+            bool ret = false;
+
+            if (go_)
+            {
+                SphereCollider collider = null;
+
+                collider = go_.GetComponent<SphereCollider>();
+                if (collider)
+                {
+                    ret = (collider.enabled == true);
+                }
+            }
+
+            return ret;
         }
     }
 }

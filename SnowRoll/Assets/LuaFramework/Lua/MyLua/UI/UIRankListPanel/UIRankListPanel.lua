@@ -73,16 +73,20 @@ function M:onExit()
     M.super.onExit(self);
 end
 
-function M:onBtnClk()    
-    self.myavatar:dispose();
-    self.myavatar = nil;
+function M:onBtnClk()
+    if self.myavatar ~= nil then
+        self.myavatar:dispose();
+        self.myavatar = nil;
+    end
     for i=1, #self.avatarimages do
         self.avatarimages[i]:dispose();
     end
     self.avatarimages = {};
 
-    self.myhoner:dispose();
-    self.myhoner = nil;
+    if self.myhoner ~= nil then
+        self.myhoner:dispose();
+        self.myhoner = nil;
+    end
     for i=1, #self.honerimages do
         self.honerimages[i]:dispose();
     end
@@ -193,6 +197,9 @@ function M:SetTopXRankInfo()
         --排名
         local Rank = GlobalNS.UtilApi.getComByPath(listitem, "Rank", "Text");
         Rank.text = "" .. i;
+        if GCtx.mGameData.rankinfolist[i].m_rank == GCtx.mGameData.myRank then
+            Rank.text = "<color=#32c832ff>"..i.."</color>";
+        end
 
         --头像
         local Avatar = GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.listitems[i], "Avatar");
@@ -208,15 +215,24 @@ function M:SetTopXRankInfo()
         --用户名
         local Name = GlobalNS.UtilApi.getComByPath(listitem, "Name", "Text");
         Name.text = GCtx.mGameData.rankinfolist[i].m_name;
+        if GCtx.mGameData.rankinfolist[i].m_rank == GCtx.mGameData.myRank then
+            Name.text = "<color=#32c832ff>"..GCtx.mGameData.rankinfolist[i].m_name.."</color>";
+        end
 
         --本轮质量
         local Mass = GlobalNS.UtilApi.getComByPath(listitem, "Mass", "Text");
         local radius = GlobalNS.UtilMath.getRadiusByMass(GCtx.mGameData.rankinfolist[i].m_radius); --服务器传过来的是质量
         Mass.text = GlobalNS.UtilMath.getShowMass(radius);
+        if GCtx.mGameData.rankinfolist[i].m_rank == GCtx.mGameData.myRank then
+            Mass.text = "<color=#32c832ff>"..GlobalNS.UtilMath.getShowMass(radius).."</color>";
+        end
 
         --吞食数量
         local SwallowNum = GlobalNS.UtilApi.getComByPath(listitem, "SwallowNum", "Text");
-        SwallowNum.text = GCtx.mGameData.rankinfolist[i].m_swallownum;   
+        SwallowNum.text = GCtx.mGameData.rankinfolist[i].m_swallownum;
+        if GCtx.mGameData.rankinfolist[i].m_rank == GCtx.mGameData.myRank then
+            SwallowNum.text = "<color=#32c832ff>"..GCtx.mGameData.rankinfolist[i].m_swallownum.."</color>";
+        end
     end
 end
 

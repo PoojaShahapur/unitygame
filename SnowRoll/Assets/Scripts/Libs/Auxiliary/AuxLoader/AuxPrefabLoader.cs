@@ -112,7 +112,7 @@ namespace SDK.Lib
                 this.mPrefabRes = Ctx.mInstance.mPrefabMgr.getAndSyncLoadRes(path, null, null);
                 this.onPrefabLoaded(this.mPrefabRes);
             }
-            else if (this.hasLoadEnd())
+            else if (this.hasLoadOrInsEnd(this.mIsNeedInsPrefab))
             {
                 //this.onPrefabLoaded(mPrefabRes);  // 手工触发
                 this.onPrefabLoaded(null);
@@ -130,7 +130,7 @@ namespace SDK.Lib
                 this.mPrefabRes = Ctx.mInstance.mPrefabMgr.getAndSyncLoadRes(path, null, null);
                 this.onPrefabLoaded(this.mPrefabRes);
             }
-            else if (this.hasLoadEnd())
+            else if (this.hasLoadOrInsEnd(this.mIsNeedInsPrefab))
             {
                 //this.onPrefabLoaded(this.mPrefabRes);       // 手工触发
                 this.onPrefabLoaded(null);
@@ -142,8 +142,18 @@ namespace SDK.Lib
         {
             base.asyncLoad(path, evtHandle, progressHandle);
 
+            if (MacroDef.ENABLE_LOG)
+            {
+                Ctx.mInstance.mLogSys.log(string.Format("AuxPrefabLoader::asyncLoad, UniqueId = {0}, EventNum = {1}", this.mUniqueId, this.mEvtHandle.getEventHandle()), LogTypeId.eLogEventRemove);
+            }
+
             if (this.isInvalid())
             {
+                if (MacroDef.ENABLE_LOG)
+                {
+                    Ctx.mInstance.mLogSys.log(string.Format("AuxPrefabLoader::asyncLoad, isInvalid, UniqueId = {0}, EventNum = {1}", this.mUniqueId, this.mEvtHandle.getEventHandle()), LogTypeId.eLogEventRemove);
+                }
+
                 this.onStartLoad();
 
                 if (null == progressHandle)
@@ -155,8 +165,13 @@ namespace SDK.Lib
                     this.mPrefabRes = Ctx.mInstance.mPrefabMgr.getAndAsyncLoadRes(path, this.onPrefabLoaded, this.onProgressEventHandle);
                 }
             }
-            else if (this.hasLoadEnd())
+            else if (this.hasLoadOrInsEnd(this.mIsNeedInsPrefab))
             {
+                if (MacroDef.ENABLE_LOG)
+                {
+                    Ctx.mInstance.mLogSys.log(string.Format("AuxPrefabLoader::syncLoad, hasLoadOrInsEnd, UniqueId = {0}, EventNum = {1}", this.mUniqueId, this.mEvtHandle.getEventHandle()), LogTypeId.eLogEventRemove);
+                }
+
                 //this.onPrefabLoaded(this.mPrefabRes);
                 this.onPrefabLoaded(null);
             }
@@ -179,7 +194,7 @@ namespace SDK.Lib
                     this.mPrefabRes = Ctx.mInstance.mPrefabMgr.getAndAsyncLoadRes(path, this.onPrefabLoaded, this.onProgressEventHandle);
                 }
             }
-            else if (this.hasLoadEnd())
+            else if (this.hasLoadOrInsEnd(this.mIsNeedInsPrefab))
             {
                 //this.onPrefabLoaded(this.mPrefabRes);
                 this.onPrefabLoaded(null);
@@ -190,35 +205,81 @@ namespace SDK.Lib
         {
             if (null != dispObj)    // 说明是资源加载完成后的回调
             {
+                if (MacroDef.ENABLE_LOG)
+                {
+                    Ctx.mInstance.mLogSys.log(string.Format("AuxPrefabLoader::onPrefabLoaded, null != dispObj, UniqueId = {0}, EventNum = {1}", this.mUniqueId, this.mEvtHandle.getEventHandle()), LogTypeId.eLogEventRemove);
+                }
+
                 // 一定要从这里再次取值，因为如果这个资源已经加载，可能在返回之前就先调用这个函数，因此这个时候 mPrefabRes 还是空值
                 this.mPrefabRes = dispObj as PrefabRes;
 
                 if (this.mPrefabRes.hasSuccessLoaded())
                 {
-                    this.mResLoadState.setSuccessLoaded();
+                    this.onLoaded();
 
-                    if (this.mIsNeedInsPrefab)
+                    // 如果不使用 Pool
+                    if (!this.mIsUsePool)
                     {
-                        if (this.mIsInsNeedCoroutine)
+                        if (this.mIsNeedInsPrefab)
                         {
-                            // this.asyncIns(this.onPrefabIns);
-
-                            Ctx.mInstance.mDelayTaskMgr.addTask(this);
+                            if (this.mIsInsNeedCoroutine)
+                            {
+                                this.asyncIns(this.onPrefabIns);
+                            }
+                            else
+                            {
+                                this.syncIns();
+                                this.onAllFinish();
+                            }
                         }
                         else
                         {
-                            this.syncIns();
                             this.onAllFinish();
                         }
                     }
                     else
                     {
-                        this.onAllFinish();
+                        if(this.mResPoolState.isNotInPool())    // 如果在使用中
+                        {
+                            if (this.mIsNeedInsPrefab)
+                            {
+                                if (this.mIsInsNeedCoroutine)
+                                {
+                                    if (MacroDef.ENABLE_LOG)
+                                    {
+                                        Ctx.mInstance.mLogSys.log(string.Format("AuxPrefabLoader::onPrefabLoaded, Coroutine load, UniqueId = {0}, EventNum = {1}", this.mUniqueId, this.mEvtHandle.getEventHandle()), LogTypeId.eLogEventRemove);
+                                    }
+
+                                    this.onStartIns();
+
+                                    Ctx.mInstance.mDelayTaskMgr.addTask(this);
+                                }
+                                else
+                                {
+                                    if (MacroDef.ENABLE_LOG)
+                                    {
+                                        Ctx.mInstance.mLogSys.log(string.Format("AuxPrefabLoader::onPrefabLoaded, Sync load, UniqueId = {0}, EventNum = {1}", this.mUniqueId, this.mEvtHandle.getEventHandle()), LogTypeId.eLogEventRemove);
+                                    }
+
+                                    this.syncIns();
+                                    this.onAllFinish();
+                                }
+                            }
+                            else
+                            {
+                                this.onAllFinish();
+                            }
+                        }
                     }
                 }
                 else if (this.mPrefabRes.hasFailed())
                 {
-                    this.mResLoadState.setFailed();
+                    if (MacroDef.ENABLE_LOG)
+                    {
+                        Ctx.mInstance.mLogSys.log(string.Format("AuxPrefabLoader::onPrefabLoaded, mPrefabRes.hasFailed, UniqueId = {0}, EventNum = {1}", this.mUniqueId, this.mEvtHandle.getEventHandle()), LogTypeId.eLogEventRemove);
+                    }
+
+                    this.onFailed();
 
                     Ctx.mInstance.mPrefabMgr.unload(this.mPrefabRes.getResUniqueId(), this.onPrefabLoaded);
                     this.mPrefabRes = null;
@@ -228,11 +289,30 @@ namespace SDK.Lib
                         this.mEvtHandle.dispatchEvent(this);
                     }
                 }
+                else
+                {
+                    if (MacroDef.ENABLE_LOG)
+                    {
+                        Ctx.mInstance.mLogSys.log(string.Format("AuxPrefabLoader::onPrefabLoaded, mPrefabRes loading, UniqueId = {0}, EventNum = {1}", this.mUniqueId, this.mEvtHandle.getEventHandle()), LogTypeId.eLogEventRemove);
+                    }
+                }
             }
             else        // 这个是手工触发的事件加载完成的处理，资源早就加载完成了
             {
                 if (this.mEvtHandle != null)
                 {
+                    if (MacroDef.ENABLE_LOG)
+                    {
+                        if (!this.mEvtHandle.hasEventHandle())
+                        {
+                            Ctx.mInstance.mLogSys.log(string.Format("AuxPrefabLoader::onPrefabLoaded, this.mEvtHandle == null, UniqueId = {0}, EventNum = {1}, no event", this.mUniqueId, this.mEvtHandle.getEventHandle()), LogTypeId.eLogEventRemove);
+                        }
+                        else
+                        {
+                            Ctx.mInstance.mLogSys.log(string.Format("AuxPrefabLoader::onPrefabLoaded, this.mEvtHandle == null, UniqueId = {0}, EventNum = {1}, has event", this.mUniqueId, this.mEvtHandle.getEventHandle()), LogTypeId.eLogEventRemove);
+                        }
+                    }
+
                     this.mEvtHandle.dispatchEvent(this);
                 }
             }
@@ -251,7 +331,9 @@ namespace SDK.Lib
         {
             if (this.mIsNeedInsPrefab && null == this.mSelfGo && this.mIsInsNeedCoroutine && null != this.mPrefabRes)
             {
-                if (null != this.mResInsEventDispatch)
+                this.onStartIns();
+
+                if (null == this.mResInsEventDispatch)
                 {
                     this.mResInsEventDispatch = new ResInsEventDispatch();
                 }
@@ -273,6 +355,8 @@ namespace SDK.Lib
         {
             if (this.mIsNeedInsPrefab && null == this.mSelfGo && null != this.mPrefabRes)
             {
+                this.onStartIns();
+
                 if (this.mIsSetFakePos)
                 {
                     this.selfGo = this.mPrefabRes.InstantiateObject(this.mPrefabRes.getPrefabName(), this.mIsSetInitOrientPos, UtilApi.FAKE_POS, UtilMath.UnitQuat);
@@ -281,11 +365,28 @@ namespace SDK.Lib
                 {
                     this.selfGo = this.mPrefabRes.InstantiateObject(this.mPrefabRes.getPrefabName(), this.mIsSetInitOrientPos, UtilMath.ZeroVec3, UtilMath.UnitQuat);
                 }
+
+                if (MacroDef.ENABLE_LOG)
+                {
+                    Ctx.mInstance.mLogSys.log(string.Format("AuxPrefabLoader::syncIns, syncIns not null, UniqueId = {0}, EventNum = {1}", this.mUniqueId, this.mEvtHandle.getEventHandle()), LogTypeId.eLogEventRemove);
+                }
+            }
+            else
+            {
+                if (MacroDef.ENABLE_LOG)
+                {
+                    Ctx.mInstance.mLogSys.log(string.Format("AuxPrefabLoader::syncIns, syncIns null, UniqueId = {0}, EventNum = {1}", this.mUniqueId, this.mEvtHandle.getEventHandle()), LogTypeId.eLogEventRemove);
+                }
             }
         }
 
         override public void delayExec()
         {
+            if (MacroDef.ENABLE_LOG)
+            {
+                Ctx.mInstance.mLogSys.log(string.Format("AuxPrefabLoader::delayExec, UniqueId = {0}, EventNum = {1}", this.mUniqueId, this.mEvtHandle.getEventHandle()), LogTypeId.eLogEventRemove);
+            }
+
             this.syncIns();
             this.onAllFinish();
         }
@@ -296,23 +397,28 @@ namespace SDK.Lib
             {
                 if (null != this.mPrefabRes && this.mPrefabRes.hasSuccessLoaded() && null != this.mSelfGo)
                 {
-                    this.mResLoadState.setSuccessLoaded();
+                    this.onSuccessIns();
                 }
                 else
                 {
-                    this.mResLoadState.setFailed();
+                    this.onInsFailed();
                 }
             }
             else
             {
                 if (null != this.mPrefabRes && this.mPrefabRes.hasSuccessLoaded())
                 {
-                    this.mResLoadState.setSuccessLoaded();
+                    this.onLoaded();
                 }
                 else
                 {
-                    this.mResLoadState.setFailed();
+                    this.onFailed();
                 }
+            }
+
+            if (MacroDef.ENABLE_LOG)
+            {
+                Ctx.mInstance.mLogSys.log(string.Format("AuxPrefabLoader::checkLoadState, UniqueId = {0}, CurState = {1}", this.mUniqueId, this.mResLoadState.resLoadState), LogTypeId.eLogEventRemove);
             }
         }
 
@@ -320,6 +426,11 @@ namespace SDK.Lib
         public void onAllFinish()
         {
             this.checkLoadState();
+
+            if (MacroDef.ENABLE_LOG)
+            {
+                Ctx.mInstance.mLogSys.log(string.Format("AuxPrefabLoader::onAllFinish, UniqueId = {0}, EventNum = {1}", this.mUniqueId, this.mEvtHandle.getEventHandle()), LogTypeId.eLogEventRemove);
+            }
 
             if (null != this.mEvtHandle)
             {
@@ -343,6 +454,11 @@ namespace SDK.Lib
 
             if (this.mEvtHandle != null)
             {
+                if (MacroDef.ENABLE_LOG)
+                {
+                    Ctx.mInstance.mLogSys.log(string.Format("AuxPrefabLoader::unload, UniqueId = {0}", this.mUniqueId), LogTypeId.eLogEventRemove);
+                }
+
                 this.mEvtHandle.clearEventHandle();
                 this.mEvtHandle = null;
             }
@@ -406,6 +522,8 @@ namespace SDK.Lib
                 this.selfGo = this.mResInsEventDispatch.getInsGO();
             }
 
+            this.checkLoadState();
+
             if (null != this.mInsEventDispatch)
             {
                 this.mInsEventDispatch.dispatchEvent(this);
@@ -466,6 +584,14 @@ namespace SDK.Lib
             {
                 UtilApi.setActorPos(this.mSelfGo, UtilApi.FAKE_POS);
                 UtilApi.setGOName(this.mSelfGo, this.mSelfGo.name + UtilApi.POOL_SUFFIX);
+            }
+
+            if (MacroDef.ENABLE_LOG)
+            {
+                if (UtilApi.isSphereColliderEnable(this.mSelfGo))
+                {
+                    Ctx.mInstance.mLogSys.log(string.Format("AuxPrefabLoader::onRetPool, UniqueId = {0}, Collider is enable", this.mUniqueId), LogTypeId.eLogEventRemove);
+                }
             }
         }
     }

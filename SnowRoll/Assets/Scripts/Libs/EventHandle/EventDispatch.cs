@@ -257,5 +257,10 @@ namespace SDK.Lib
         {
             return this.mHandleList.Count() > 0;
         }
+
+        public int getEventHandle()
+        {
+            return this.mHandleList.Count();
+        }
     }
 }

@@ -134,11 +134,11 @@
 
                 if (this.mLevelResItem.hasSuccessLoaded())
                 {
-                    this.mResLoadState.setSuccessLoaded();
+                    this.onLoaded();
                 }
                 else if (this.mLevelResItem.hasFailed())
                 {
-                    this.mResLoadState.setFailed();
+                    this.onFailed();
                 }
             }
 
@@ -153,6 +153,7 @@
             if (this.mLevelResItem != null)
             {
                 Ctx.mInstance.mResLoadMgr.unload(mLevelResItem.getResUniqueId(), null);
+
                 base.unload();
             }
         }

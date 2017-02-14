@@ -11,10 +11,17 @@
         protected ResEventDispatch mEvtHandle;              // 事件分发器
         protected AddOnceEventDispatch mProgressEventDispatch;  // 加载进度事件分发器，这个最终分发的参数是 LoadItem，直接分发
         protected bool mIsInvalid;      // 加载器是否无效
+        protected bool mIsUsePool;      // 是否使用 Pool
+        protected ResPoolState mResPoolState;
+
+        protected string mUniqueId;
 
         public AuxLoaderBase(string path = "")
         {
             this.mResLoadState = new ResLoadState();
+            this.mResPoolState = new ResPoolState();
+
+            this.mUniqueId = Ctx.mInstance.mUniqueStrIdGen.genNewStrId();
 
             this.reset();
         }
@@ -22,10 +29,13 @@
         protected void reset()
         {
             this.mResLoadState.reset();
+            this.mResPoolState.reset();
+
             this.mPrePath = "";
             this.mPath = "";
             this.mIsInvalid = true;
             this.mProgressEventDispatch = null;
+            this.mIsUsePool = false;
         }
 
         virtual public void dispose()
@@ -51,10 +61,25 @@
             return ret;
         }
 
+        public bool isUsePool()
+        {
+            return this.mIsUsePool;
+        }
+
+        public void setIsUsePool(bool value)
+        {
+            this.mIsUsePool = value;
+        }
+
         // 从内存池获取
         virtual protected void onGetPool()
         {
+            if (MacroDef.ENABLE_LOG)
+            {
+                Ctx.mInstance.mLogSys.log(string.Format("AuxLoaderBase::onGetPool, UniqueId = {0}", this.mUniqueId), LogTypeId.eLogEventRemove);
+            }
 
+            this.mResPoolState.setNotInPool();
         }
 
         public void deleteObj()
@@ -66,6 +91,13 @@
         // 放到内存池
         virtual protected void onRetPool()
         {
+            if (MacroDef.ENABLE_LOG)
+            {
+                Ctx.mInstance.mLogSys.log(string.Format("AuxLoaderBase::onRetPool, UniqueId = {0}", this.mUniqueId), LogTypeId.eLogEventRemove);
+            }
+
+            this.mResPoolState.setInPool();
+
             if (null != this.mEvtHandle)
             {
                 this.mEvtHandle.clearEventHandle();
@@ -87,10 +119,39 @@
             return this.mResLoadState.hasFailed();
         }
 
+        public bool hasSuccessIns()
+        {
+            return this.mResLoadState.hasSuccessIns();
+        }
+
+        public bool hasInsFailed()
+        {
+            return this.mResLoadState.hasInsFailed();
+        }
+
         // 加载成功或者加载失败
-        public bool hasLoadEnd()
+        virtual public bool hasLoadEnd()
         {
             return (this.hasSuccessLoaded() || this.hasFailed());
+        }
+
+        // 是否实例化成功或者失败
+        public bool hasInsEnd()
+        {
+            return (this.hasSuccessIns() || this.hasInsFailed());
+        }
+
+        // 是否加载并且实例化结束(成功或者失败)
+        public bool hasLoadOrInsEnd(bool checkIns = false)
+        {
+            if(!checkIns)
+            {
+                return this.hasLoadEnd();
+            }
+            else
+            {
+                return this.hasInsEnd();
+            }
         }
 
         // 是否需要卸载资源
@@ -138,6 +199,36 @@
         protected void onStartLoad()
         {
             this.mResLoadState.setLoading();
+        }
+
+        // 资源加载完成成功
+        protected void onLoaded()
+        {
+            this.mResLoadState.setSuccessLoaded();
+        }
+
+        // 加载失败
+        protected void onFailed()
+        {
+            this.mResLoadState.setFailed();
+        }
+
+        // 开始实例化
+        protected void onStartIns()
+        {
+            this.mResLoadState.setInsing();
+        }
+
+        // 实例化完成成功
+        protected void onSuccessIns()
+        {
+            this.mResLoadState.setSuccessIns();
+        }
+
+        // 实例化失败
+        protected void onInsFailed()
+        {
+            this.mResLoadState.setInsFailed();
         }
 
         protected void addEventHandle(MAction<IDispatchObject> evtHandle = null, MAction<IDispatchObject> progressHandle = null)
@@ -244,6 +335,11 @@
         {
             if (this.mEvtHandle != null)
             {
+                if (MacroDef.ENABLE_LOG)
+                {
+                    Ctx.mInstance.mLogSys.log(string.Format("AuxLoaderBase::unload, UniqueId = {0}", this.mUniqueId), LogTypeId.eLogEventRemove);
+                }
+
                 this.mEvtHandle.clearEventHandle();
                 this.mEvtHandle = null;
             }

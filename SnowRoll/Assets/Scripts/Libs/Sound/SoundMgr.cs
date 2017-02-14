@@ -62,7 +62,7 @@ namespace SDK.Lib
 
                 LoadParam param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
                 param.setPath(soundParam.mPath);
-                param.mLoadEventHandle = onLoadEventHandle;
+                param.mLoadEventHandle = this.onLoadEventHandle;
                 param.mLoadNeedCoroutine = false;
                 param.mResNeedCoroutine = false;
                 Ctx.mInstance.mResLoadMgr.loadAsset(param);
@@ -72,6 +72,11 @@ namespace SDK.Lib
 
         public void play(string path, bool loop_ = true)
         {
+            if(MacroDef.ENABLE_LOG)
+            {
+                Ctx.mInstance.mLogSys.log(string.Format("SoundMgr::play, path = {0}", path), LogTypeId.eLogMusicBug);
+            }
+
             if (this.mPath2SoundDic.ContainsKey(path))
             {
                 //mPath2SoundDic[path].mIsLoop = loop_;
@@ -102,7 +107,10 @@ namespace SDK.Lib
 
             if (res.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
             {
-                Ctx.mInstance.mLogSys.debugLog_1(LangItemID.eItem0, res.getLoadPath());
+                if (MacroDef.ENABLE_LOG)
+                {
+                    Ctx.mInstance.mLogSys.log(string.Format("SoundMgr::onLoadEventHandle, Success, path = {0}", res.getLoadPath()), LogTypeId.eLogMusicBug);
+                }
 
                 if (this.mPath2SoundDic.ContainsKey(logicPath))      // 如果有，说明还没被停止
                 {
@@ -121,7 +129,11 @@ namespace SDK.Lib
             }
             else if (res.refCountResLoadResultNotify.resLoadState.hasFailed())
             {
-                Ctx.mInstance.mLogSys.debugLog_1(LangItemID.eItem0, res.getLoadPath());
+                if (MacroDef.ENABLE_LOG)
+                {
+                    Ctx.mInstance.mLogSys.log(string.Format("SoundMgr::onLoadEventHandle, Fail, path = {0}", res.getLoadPath()), LogTypeId.eLogMusicBug);
+                }
+
                 this.delSoundItem(this.mPath2SoundDic[logicPath]);
             }
 

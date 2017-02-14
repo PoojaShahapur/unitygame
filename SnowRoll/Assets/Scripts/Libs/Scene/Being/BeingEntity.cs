@@ -1,6 +1,6 @@
 namespace SDK.Lib
 {
-	/**
+    /**
 	 * @brief 生物 Entity，有感知，可以交互的
 	 */
     public class BeingEntity : SceneEntityBase
@@ -8,7 +8,7 @@ namespace SDK.Lib
         protected SkinModelSkelAnim mSkinAniModel;      // 模型数据
         protected BeingState mBeingState;       // 当前的状态
         protected BeingSubState mBeingSubState; // 当前子状态
-        
+
         protected float mMoveSpeed;     // 移动速度
         protected float mRotateSpeed;   // 旋转速度
         protected float mScaleSpeed;    // 缩放速度
@@ -171,7 +171,7 @@ namespace SDK.Lib
                 // 如果向中间靠拢，速度需要很慢
                 if (BeingState.eBSMoveCenter == this.mBeingState)
                 {
-                    return 1;
+                    return Ctx.mInstance.mSnowBallCfg.mSlowMoveSpeed;
                 }
                 else
                 {

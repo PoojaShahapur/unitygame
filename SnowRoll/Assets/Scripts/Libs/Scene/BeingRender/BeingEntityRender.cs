@@ -29,15 +29,30 @@ namespace SDK.Lib
         {
             if(null != this.mAuxPrefabLoader)
             {
-                //this.mAuxPrefabLoader.dispose();
-                this.mAuxPrefabLoader.deleteObj();
+                if (this.mIsUsePool)
+                {
+                    this.onRetPool();
+                    this.mAuxPrefabLoader.deleteObj();
+                }
+                else
+                {
+                    this.mAuxPrefabLoader.dispose();
+                }
+                
                 this.mAuxPrefabLoader = null;
             }
 
             if (null != this.mAuxTextureLoader)
             {
-                //this.mAuxTextureLoader.dispose();
-                this.mAuxTextureLoader.deleteObj();
+                if (this.mIsUsePool)
+                {
+                    this.mAuxTextureLoader.deleteObj();
+                }
+                else
+                {
+                    this.mAuxTextureLoader.dispose();
+                }
+                    
                 this.mAuxTextureLoader = null;
             }
 
@@ -51,12 +66,12 @@ namespace SDK.Lib
             {
                 //this.mAuxPrefabLoader = new AuxPrefabLoader("", true, false);
                 this.mAuxPrefabLoader = AuxPrefabLoader.newObject(this.mResPath);
-                this.mAuxPrefabLoader.setDestroySelf(true); // 自己释放 GmmeObject
+                this.mAuxPrefabLoader.setDestroySelf(true);
                 this.mAuxPrefabLoader.setIsNeedInsPrefab(true);
                 this.mAuxPrefabLoader.setIsInsNeedCoroutine(true);
-                this.mAuxPrefabLoader.setDestroySelf(true); // 自己释放 GmmeObject
                 this.mAuxPrefabLoader.setIsInitOrientPos(true);
                 this.mAuxPrefabLoader.setIsFakePos(true);
+                this.mAuxPrefabLoader.setIsUsePool(true);
             }
 
             this.mAuxPrefabLoader.asyncLoad(this.mResPath, this.onResLoaded);

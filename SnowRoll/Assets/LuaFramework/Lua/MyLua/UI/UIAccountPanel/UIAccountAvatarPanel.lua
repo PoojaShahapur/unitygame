@@ -85,18 +85,13 @@ function M:CreateAvatarItem()
     end
 
     --清空
-    for i=1, #self.avataritems do
-        local avatarsitem = self.avataritems[i];
-        GlobalNS.UtilApi.Destroy(avataritem.m_go);
-    end
-    self.avataritems = {};
+    self:clearObj();
 
     --重新生成
     for i=1, self.mAvatarNum do
         local avataritem = GlobalNS.new(GlobalNS.AvatarItemData);
         
         avataritem:init(self.mAvatarItemPrefab, self.AvatarContentRect, i);
-        --GlobalNS.UtilApi.setImageSprite(avataritem.m_go, "DefaultSkin/Avatar/"..i..".png");
         
         self.avataritems[i] = avataritem;
     end
@@ -107,9 +102,13 @@ end
 
 function M:updateUIData()   
     self:CreateAvatarItem();
-
-    if #self.avataritems == self.mAvatarNum then        
-        self:SetAvatarItems(1);
+    
+    if #self.avataritems == self.mAvatarNum then
+        local index = 1;
+        if GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:hasKey("Avatar") then
+            index = GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:getInt("Avatar");
+        end
+        self:SetAvatarItems(index);
     end
 end
 
@@ -126,15 +125,17 @@ function M:SetAvatarItems(index)
 end
 
 function M:onOKBtnClk()
-    --清空
-    for i=1, #self.avataritems do
-        local avataritem = self.avataritems[i];
-        GlobalNS.UtilApi.Destroy(avataritem.m_go);
-    end
-    self.avataritems = {};
+    self:clearObj();
     
     if GCtx.mUiMgr:hasForm(GlobalNS.UIFormId.eUIAccountPanel) then
         local form = GCtx.mUiMgr:getForm(GlobalNS.UIFormId.eUIAccountPanel);
+        if nil ~= form and form.mIsReady then
+            form:resetAvatar(self.index);
+        end
+    end
+
+    if GCtx.mUiMgr:hasForm(GlobalNS.UIFormId.eUIStartGame) then
+        local form = GCtx.mUiMgr:getForm(GlobalNS.UIFormId.eUIStartGame);
         if nil ~= form and form.mIsReady then
             form:resetAvatar(self.index);
         end
@@ -144,7 +145,19 @@ function M:onOKBtnClk()
 end
 
 function M:onCloseBtnClk()
+    self:clearObj();
+
 	self:exit();
+end
+
+function M:clearObj()
+    --清空
+    for i=1, #self.avataritems do
+        local avataritem = self.avataritems[i];
+        GlobalNS.delete(avataritem.avatarItemBtn);
+        GlobalNS.UtilApi.Destroy(avataritem.m_go);
+    end
+    self.avataritems = {};
 end
 
 return M;

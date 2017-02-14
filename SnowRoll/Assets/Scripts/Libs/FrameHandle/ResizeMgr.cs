@@ -73,7 +73,7 @@
 
         public void addResizeObject(IResizeObject obj, float priority = 0)
         {
-            if (this.mResizeList.IndexOf(obj) == -1)
+            if (!this.mResizeList.Contains(obj))
             {
                 this.mResizeList.Add(obj);
             }
