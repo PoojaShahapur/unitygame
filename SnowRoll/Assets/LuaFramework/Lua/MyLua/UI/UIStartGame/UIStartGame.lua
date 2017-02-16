@@ -107,7 +107,8 @@ function M:initForm()
         index = GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:getInt("Avatar");
     end
     self.mAvatarBtn.mImage:setSelfGo(self.mAvatarBtn:getSelfGo());
-    self.mAvatarBtn.mImage:setSpritePath("DefaultSkin/Avatar/"..index..".png");
+    --self.mAvatarBtn.mImage:setSpritePath("DefaultSkin/Avatar/"..index..".png");
+	self.mAvatarBtn.mImage:setSpritePath("DefaultSkin/Avatar/Avatar_RGB.png", GlobalNS.UtilStr.tostring(index));
 
     --账号
     local username = GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:getString(SDK.Lib.SystemSetting.USERNAME);
@@ -200,7 +201,6 @@ function M:loginOrCreateAccount(selectEnterMode)
                if SDK.Lib.SelectEnterMode.eLoginAccount == selectEnterMode then
                   if not GCtx.mGameData.isRelogin then
                       GlobalNS.CSSystem.Ctx.mInstance.mLoginSys.mLoginNetHandleCB_KBE:login();
-                      GCtx.mGameData.isRelogin = true;
                   else
                       GlobalNS.CSSystem.Ctx.mInstance.mLoginSys.mLoginNetHandleCB_KBE:relogin();
                   end                  
@@ -255,7 +255,6 @@ function M:LoginOrCreateAccount_new(selectEnterMode)
 
          if not GCtx.mGameData.isRelogin then
              GlobalNS.CSSystem.Ctx.mInstance.mLoginSys.mLoginNetHandleCB_KBE:login();
-             GCtx.mGameData.isRelogin = true;
          else
              GlobalNS.CSSystem.Ctx.mInstance.mLoginSys.mLoginNetHandleCB_KBE:relogin();
          end
@@ -342,7 +341,7 @@ end
 
 function M:resetAvatar(index)
 	self.mAvatarBtn.mImage:setSelfGo(self.mAvatarBtn:getSelfGo());
-    self.mAvatarBtn.mImage:setSpritePath("DefaultSkin/Avatar/"..index..".png");
+    self.mAvatarBtn.mImage:setSpritePath("DefaultSkin/Avatar/Avatar_RGB.png", GlobalNS.UtilStr.tostring(index));
 end
 
 return M;

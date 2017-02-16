@@ -109,7 +109,7 @@ namespace SDK.Lib
         }
 
         // 写文件
-        public override void logout(string message, LogColor type = LogColor.LOG)
+        public override void logout(string message, LogColor type = LogColor.eLC_LOG)
         {
             if (this.isValid())
             {

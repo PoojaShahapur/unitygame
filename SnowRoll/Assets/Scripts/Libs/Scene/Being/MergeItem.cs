@@ -5,7 +5,7 @@
      */
     public class MergeItem
     {
-        protected uint mTimeStamp;  // 时间戳
+        protected long mTimeStamp;  // 时间戳
         protected string mMergeAId;
         protected string mMergeBId;
 
@@ -43,6 +43,14 @@
                 }
             }
 
+            if (MacroDef.ENABLE_LOG)
+            {
+                if (ret)
+                {
+                    Ctx.mInstance.mLogSys.log(string.Format("MergeItem::isInRange, InRange OK, aThisId = {0}, bThisId = {1}", aChild.getThisId(), bChild.getThisId()), LogTypeId.eLogMergeBug);
+                }
+            }
+
             return ret;
         }
 
@@ -69,6 +77,14 @@
                 if (MacroDef.ENABLE_LOG)
                 {
                     Ctx.mInstance.mLogSys.log("MergeItem::canMerge, can not find being", LogTypeId.eLogScene);
+                }
+            }
+
+            if (MacroDef.ENABLE_LOG)
+            {
+                if (ret)
+                {
+                    Ctx.mInstance.mLogSys.log(string.Format("MergeItem::canMerge, Start merge, aThisId = {0}, bThisId = {1}", aChild.getThisId(), bChild.getThisId()), LogTypeId.eLogMergeBug);
                 }
             }
 
@@ -127,6 +143,18 @@
                 bChild.setBeingSubState(BeingSubState.eBSSReqServerMerge);
 
                 Game.Game.ReqSceneInteractive.sendMerge(aChild, bChild);
+
+                if (MacroDef.ENABLE_LOG)
+                {
+                    Ctx.mInstance.mLogSys.log(string.Format("MergeItem::merge, Send merge msg, aThisId = {0}, bThisId = {1}", aChild.getThisId(), bChild.getThisId()), LogTypeId.eLogMergeBug);
+                }
+            }
+            else
+            {
+                if (MacroDef.ENABLE_LOG)
+                {
+                    Ctx.mInstance.mLogSys.log("MergeItem::merge, merge fail, aChild or bChild is null", LogTypeId.eLogMergeBug);
+                }
             }
         }
 

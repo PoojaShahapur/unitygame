@@ -1,4 +1,4 @@
-Shader "Test/UIETC"
+Shader "MyUI/UIETC"
 {
     Properties
 	{

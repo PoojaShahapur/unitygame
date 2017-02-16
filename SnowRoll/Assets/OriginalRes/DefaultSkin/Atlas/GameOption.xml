@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:364af10115f6dbdac5a564528c32577d:b8fc6c63e79265737e3034f1c0cad920:95e49c6041377ce033c02b1cb68c3672$ -->
+<!--Format:
+n  => name of the sprite
+x  => sprite x pos in texture
+y  => sprite y pos in texture
+w  => sprite width (may be trimmed)
+h  => sprite height (may be trimmed)
+pX => x pos of the pivot point (relative to sprite width)
+pY => y pos of the pivot point (relative to sprite height)
+oX => sprite's x-corner offset (only available if trimmed)
+oY => sprite's y-corner offset (only available if trimmed)
+oW => sprite's original width (only available if trimmed)
+oH => sprite's original height (only available if trimmed)
+r => 'y' only set if sprite is rotated
+with polygon mode enabled:
+vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
+verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
+triangles  => sprite triangulation, 3 vertex indices per triangle
+-->
+<TextureAtlas imagePath="GameOption.png" width="1024" height="1024">
+    <sprite n="bg_paihang.png" x="138" y="0" w="30" h="30" pX="0.5" pY="0.5"/>
+    <sprite n="bg_paihang2.png" x="168" y="0" w="30" h="30" pX="0.5" pY="0.5"/>
+    <sprite n="btn_1.png" x="402" y="86" w="372" h="86" pX="0.5" pY="0.5"/>
+    <sprite n="btn_fenlie.png" x="0" y="364" w="162" h="162" pX="0.5" pY="0.5"/>
+    <sprite n="btn_home.png" x="412" y="0" w="83" h="83" pX="0.5" pY="0.5"/>
+    <sprite n="caozuogan.png" x="162" y="364" w="30" h="170" pX="0.5" pY="0.5"/>
+    <sprite n="caozuoqiu.png" x="198" y="0" w="52" h="52" pX="0.5" pY="0.5"/>
+    <sprite n="cup_gold.png" x="112" y="0" w="26" h="22" pX="0.5" pY="0.5"/>
+    <sprite n="cup_tong.png" x="60" y="0" w="26" h="22" pX="0.5" pY="0.5"/>
+    <sprite n="cup_yin.png" x="86" y="0" w="26" h="22" pX="0.5" pY="0.5"/>
+    <sprite n="datinganxia.png" x="250" y="0" w="81" h="81" pX="0.5" pY="0.5"/>
+    <sprite n="datingchangtai.png" x="331" y="0" w="81" h="81" pX="0.5" pY="0.5"/>
+    <sprite n="down.png" x="30" y="0" w="30" h="19" pX="0.5" pY="0.5"/>
+    <sprite n="drop.png" x="0" y="0" w="30" h="19" pX="0.5" pY="0.5"/>
+    <sprite n="fenlieanxia.png" x="117" y="203" w="117" h="117" pX="0.5" pY="0.5"/>
+    <sprite n="fenliechangtai.png" x="234" y="203" w="117" h="117" pX="0.5" pY="0.5"/>
+    <sprite n="fuhuoanxia.png" x="0" y="86" w="402" h="86" pX="0.5" pY="0.5"/>
+    <sprite n="fuhuochangtai.png" x="495" y="0" w="402" h="86" pX="0.5" pY="0.5"/>
+    <sprite n="joysitck_outter.png" x="192" y="364" w="225" h="225" pX="0.5" pY="0.5"/>
+    <sprite n="joystick_inner.png" x="774" y="86" w="103" h="103" pX="0.5" pY="0.5"/>
+    <sprite n="split_down.png" x="351" y="203" w="145" h="145" pX="0.5" pY="0.5"/>
+    <sprite n="split_normal.png" x="641" y="203" w="161" h="161" pX="0.5" pY="0.5"/>
+    <sprite n="swallo_normal.png" x="802" y="203" w="161" h="161" pX="0.5" pY="0.5"/>
+    <sprite n="swallow_down.png" x="496" y="203" w="145" h="145" pX="0.5" pY="0.5"/>
+    <sprite n="tuqiuanzia.png" x="877" y="86" w="117" h="117" pX="0.5" pY="0.5"/>
+    <sprite n="tuqiuchangtai.png" x="0" y="203" w="117" h="117" pX="0.5" pY="0.5"/>
+</TextureAtlas>

@@ -511,7 +511,7 @@ namespace SDK.Lib
             return num * num;
         }
 
-        public static bool canMerge(uint timeStamp)
+        public static bool canMerge(long timeStamp)
         {
             if (UtilApi.getUTCSec() - timeStamp >= Ctx.mInstance.mSnowBallCfg.mMergeCoolTime)
             {
@@ -521,7 +521,7 @@ namespace SDK.Lib
             return false;
         }
 
-        public static bool canContactMerge(uint timeStamp)
+        public static bool canContactMerge(long timeStamp)
         {
             if (UtilApi.getUTCSec() - timeStamp >= Ctx.mInstance.mSnowBallCfg.mMergeContactTime)
             {

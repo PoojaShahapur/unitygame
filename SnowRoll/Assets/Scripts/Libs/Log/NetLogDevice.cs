@@ -78,7 +78,7 @@ namespace SDK.Lib
             WWW www = new WWW(url, wwwForm);
         }
 
-        public override void logout(string message, LogColor type = LogColor.LOG)
+        public override void logout(string message, LogColor type = LogColor.eLC_LOG)
         {
             //注册请求 POST
             MDictionary<string, string> dic = new MDictionary<string, string>();

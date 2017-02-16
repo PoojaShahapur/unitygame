@@ -44,6 +44,8 @@ namespace SDK.Lib
         public const string MODEL_RENDER_NAME = "model/model (1)";   // 模型 GameObject 的 MeshRender 名字
 
         public const string POOL_SUFFIX = "_HIDE";          // 隐藏对象后缀名字
+        public const string RGB_IMAGE_SUFFIX = "_RGB";      // rgb 图像后缀
+        public const string ALPHA_IMAGE_SUFFIX = "_Alpha";    // alpha 图像后缀
 
         public static GameObject[] FindGameObjectsWithTag(string tag)
         {
@@ -1186,11 +1188,22 @@ namespace SDK.Lib
         protected static System.TimeSpan msTimeSpan;
 
         // 返回 UTC 秒
-        public static uint getUTCSec()
+        public static long getUTCSec()
         {
             UtilApi.msCurTime = System.DateTime.Now.Ticks;
             UtilApi.msTimeSpan = new System.TimeSpan(msCurTime);
-            return (uint)(UtilApi.msTimeSpan.TotalSeconds);
+
+
+            if (MacroDef.ENABLE_LOG)
+            {
+                if (null != Ctx.mInstance && null != Ctx.mInstance.mLogSys)
+                {
+                    Ctx.mInstance.mLogSys.log(string.Format("UtilApi::msCurTime, msCurTime = {0}, msTimeSpan = {1}, totalSec = {2}", UtilApi.msCurTime, UtilApi.msTimeSpan, UtilApi.msTimeSpan.TotalSeconds), LogTypeId.eLogMergeBug);
+                }
+            }
+
+
+            return (long)(UtilApi.msTimeSpan.TotalSeconds);
         }
 
         // 获取当前时间的文本可读形式

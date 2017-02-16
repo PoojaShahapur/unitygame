@@ -140,6 +140,20 @@ namespace Game.Login
 
         public void closeNetwork()
         {
+            Ctx.mInstance.mUiMgr.exitForm(UIFormId.eUIJoyStick);
+            Ctx.mInstance.mUiMgr.exitForm(UIFormId.eUIForwardForce);
+            if (Ctx.mInstance.mSystemSetting.hasKey("MusicModel"))
+            {
+                if (Ctx.mInstance.mSystemSetting.getInt("MusicModel") == 1)
+                {
+                    Ctx.mInstance.mSoundMgr.stop("Sound/Music/StudioEIM-myseabed.mp3");
+                }
+            }
+            else
+            {
+                Ctx.mInstance.mSoundMgr.stop("Sound/Music/StudioEIM-myseabed.mp3");
+            }
+
             KBEngineApp.app.networkInterface().close();
         }
 

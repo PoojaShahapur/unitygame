@@ -99,14 +99,23 @@ namespace EditorTool
         [MenuItem("MyNew/ImportSprite")]
         public static void ImportSprite()
         {
-            SpriteSheetImportSys.getSingletonPtr().importAllSpriteSheet();
+            //SpriteSheetImportSys.getSingletonPtr().importAllSpriteSheet();
+            SpriteSheetImportSys.getSingletonPtr().importSpriteSheet();
         }
 
         // Change UI Mat
         [MenuItem("MyNew/ChangeUIMat")]
         public static void ChangeUIMat()
         {
+            //ChangeUIMatSys.getSingletonPtr().changeTest();
             ChangeUIMatSys.getSingletonPtr().change();
+        }
+
+        // Redirect Sprite
+        [MenuItem("MyNew/RedirectSprite")]
+        public static void RedirectSprite()
+        {
+            SpriteRedirectSys.getSingletonPtr().redirectSprite();
         }
     }
 }

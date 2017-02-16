@@ -15,6 +15,6 @@
 
         }
 
-        abstract public void logout(string message, LogColor type = LogColor.LOG);
+        abstract public void logout(string message, LogColor type = LogColor.eLC_LOG);
     }
 }

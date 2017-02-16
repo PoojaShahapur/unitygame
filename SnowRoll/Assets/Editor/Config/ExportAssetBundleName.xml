@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8' ?>
 <Root>
 	<path inpath="Resources" includeext="prefab,mat,shader,png,jpg,tga" />
-  <path inpath="Scenes" includeext="unity" />
+	<path inpath="Scenes" includeext="unity" />
 </Root>

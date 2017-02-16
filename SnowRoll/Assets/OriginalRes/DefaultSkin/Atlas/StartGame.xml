@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:e6ff2c3e7f9728b1d1b17afddadd751f:2e71de7c4bb782bb6b60a81694b665ea:cf77a389f380936ecf69f4917b71a939$ -->
+<!--Format:
+n  => name of the sprite
+x  => sprite x pos in texture
+y  => sprite y pos in texture
+w  => sprite width (may be trimmed)
+h  => sprite height (may be trimmed)
+pX => x pos of the pivot point (relative to sprite width)
+pY => y pos of the pivot point (relative to sprite height)
+oX => sprite's x-corner offset (only available if trimmed)
+oY => sprite's y-corner offset (only available if trimmed)
+oW => sprite's original width (only available if trimmed)
+oH => sprite's original height (only available if trimmed)
+r => 'y' only set if sprite is rotated
+with polygon mode enabled:
+vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
+verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
+triangles  => sprite triangulation, 3 vertex indices per triangle
+-->
+<TextureAtlas imagePath="StartGame.png" width="1024" height="2048">
+    <sprite n="Account.png" x="576" y="60" w="174" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="Accout_inner.png" x="750" y="60" w="50" h="180" pX="0.5" pY="0.5"/>
+    <sprite n="badge_gold.png" x="36" y="0" w="20" h="20" pX="0.5" pY="0.5"/>
+    <sprite n="bg_headportrait.png" x="536" y="240" w="260" h="80" pX="0.5" pY="0.5"/>
+    <sprite n="btn_choice.png" x="56" y="0" w="26" h="16" pX="0.5" pY="0.5"/>
+    <sprite n="btn_corps.png" x="496" y="60" w="80" h="100" pX="0.5" pY="0.5"/>
+    <sprite n="btn_down.png" x="568" y="0" w="50" h="50" pX="0.5" pY="0.5"/>
+    <sprite n="btn_friend.png" x="336" y="60" w="80" h="100" pX="0.5" pY="0.5"/>
+    <sprite n="btn_random.png" x="196" y="0" w="50" h="42" pX="0.5" pY="0.5"/>
+    <sprite n="btn_ranking.png" x="256" y="60" w="80" h="100" pX="0.5" pY="0.5"/>
+    <sprite n="btn_setting.png" x="398" y="0" w="40" h="60" pX="0.5" pY="0.5"/>
+    <sprite n="btn_share.png" x="438" y="0" w="40" h="60" pX="0.5" pY="0.5"/>
+    <sprite n="btn_shop.png" x="416" y="60" w="80" h="100" pX="0.5" pY="0.5"/>
+    <sprite n="btn_sign.png" x="478" y="0" w="40" h="60" pX="0.5" pY="0.5"/>
+    <sprite n="btn_up.png" x="518" y="0" w="50" h="50" pX="0.5" pY="0.5"/>
+    <sprite n="icon_1.png" x="0" y="938" w="512" h="512" pX="0.5" pY="0.5"/>
+    <sprite n="icon_2.png" x="506" y="426" w="512" h="512" pX="0.5" pY="0.5"/>
+    <sprite n="icon_3.png" x="512" y="938" w="512" h="512" pX="0.5" pY="0.5"/>
+    <sprite n="jiesuanquedinganxia.png" x="268" y="240" w="268" h="68" pX="0.5" pY="0.5"/>
+    <sprite n="jiesuanquerenchangtai.png" x="0" y="240" w="268" h="68" pX="0.5" pY="0.5"/>
+    <sprite n="kaishi changtai.png" x="0" y="426" w="506" h="106" pX="0.5" pY="0.5"/>
+    <sprite n="kaishianxia.png" x="506" y="320" w="506" h="106" pX="0.5" pY="0.5"/>
+    <sprite n="mingzianniu.png" x="346" y="0" w="52" h="46" pX="0.5" pY="0.5"/>
+    <sprite n="mingzianniuan.png" x="294" y="0" w="52" h="46" pX="0.5" pY="0.5"/>
+    <sprite n="mingzishuru.png" x="0" y="320" w="506" h="62" pX="0.5" pY="0.5"/>
+    <sprite n="ProgressBar.png" x="672" y="0" w="253" h="26" pX="0.5" pY="0.5"/>
+    <sprite n="ProgressBarBg.png" x="0" y="60" w="256" h="28" pX="0.5" pY="0.5"/>
+    <sprite n="snowball_l.png" x="152" y="0" w="44" h="42" pX="0.5" pY="0.5"/>
+    <sprite n="snowball_m.png" x="114" y="0" w="38" h="36" pX="0.5" pY="0.5"/>
+    <sprite n="snowball_s.png" x="82" y="0" w="32" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="snowball_xl.png" x="246" y="0" w="48" h="46" pX="0.5" pY="0.5"/>
+    <sprite n="snowball_xxl.png" x="618" y="0" w="54" h="52" pX="0.5" pY="0.5"/>
+    <sprite n="star_a.png" x="18" y="0" w="18" h="18" pX="0.5" pY="0.5"/>
+    <sprite n="star_b.png" x="0" y="0" w="18" h="18" pX="0.5" pY="0.5"/>
+</TextureAtlas>

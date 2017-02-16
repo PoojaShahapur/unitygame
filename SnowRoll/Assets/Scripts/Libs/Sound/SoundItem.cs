@@ -22,6 +22,8 @@ namespace SDK.Lib
     public class SoundItem : ITickedObject, IDelayHandleItem
     {
         public string mPath;           // 资源目录
+        public string mUniqueId;       // 资源唯一 Id
+
         public SoundResType mSoundResType = SoundResType.eSRT_Prefab;
         protected SoundPlayState mPlayState = SoundPlayState.eSS_None;      // 音乐音效播放状态
         public Transform mTrans;       // 位置信息

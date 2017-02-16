@@ -49,6 +49,19 @@ namespace EditorTool
             return this.mSpriteSheetInfo.getSpriteMetaList();
         }
 
+        public void importSpriteSheet()
+        {
+            string path = "Editor/Config/ImportSpriteSheet.xml";
+            path = UtilEditor.convAssetPath2FullPath(path);
+
+            SpriteSheetConfigInfo spriteSheetConfigInfo = new SpriteSheetConfigInfo();
+            spriteSheetConfigInfo.parseXmlByPath(path);
+            spriteSheetConfigInfo.importSpriteSheet();
+
+            //AssetDatabase.SaveAssets();
+            //AssetDatabase.Refresh();
+        }
+
         public void importAllSpriteSheet()
         {
             string rootPath = "F:/File/opensource/unity-game-git/unitygame/unitygame/SnowRoll/Assets/Resources/UiImage/TestAtlas";

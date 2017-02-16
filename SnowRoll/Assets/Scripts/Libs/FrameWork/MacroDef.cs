@@ -64,7 +64,7 @@
         static public bool ENABLE_WARN = false;
 
         // 开启错误
-        static public bool ENABLE_ERROR = false;
+        static public bool ENABLE_ERROR = true;
 
         // 宏定义结束
     }

@@ -9,13 +9,13 @@ namespace SDK.Lib
         protected LockList<string> mAsyncErrorList;          // 这个是多线程访问的
 
         protected string mTmpStr;
-        protected bool mIsOutLog;          // 是否输出日志
 
         protected MList<LogDeviceBase> mLogDeviceList;
-        protected MList<LogTypeId> mEnableLogTypeList;
-        protected bool mEnableLog;    // 全局开关
-        protected bool mIsOutStack;     // 是否显示堆栈信息
-        protected bool mIsOutTimeStamp;   // 是否有时间戳
+        protected MList<LogTypeId>[] mEnableLogTypeList;
+
+        protected bool[] mEnableLog;    // 全局开关
+        protected bool[] mIsOutStack;     // 是否显示堆栈信息
+        protected bool[] mIsOutTimeStamp;   // 是否有时间戳
 
         // 构造函数仅仅是初始化变量，不涉及逻辑
         public LogSys()
@@ -23,8 +23,6 @@ namespace SDK.Lib
             this.mAsyncLogList = new LockList<string>("Logger_asyncLogList");
             this.mAsyncWarnList = new LockList<string>("Logger_asyncWarnList");
             this.mAsyncErrorList = new LockList<string>("Logger_asyncErrorList");
-
-            this.mIsOutLog = true;
             this.mLogDeviceList = new MList<LogDeviceBase>();
 
 #if UNITY_5
@@ -34,25 +32,47 @@ namespace SDK.Lib
             Application.RegisterLogCallback(onDebugLogCallbackHandler);
             Application.RegisterLogCallbackThreaded(onDebugLogCallbackThreadHandler);
 #endif
-            this.mEnableLogTypeList = new MList<LogTypeId>();
-            //mEnableLogTypeList.Add(LogTypeId.eLogCommon);
-            //mEnableLogTypeList.Add(LogTypeId.eLogResLoader);
-            //mEnableLogTypeList.Add(LogTypeId.eLogLocalFile);
-            //mEnableLogTypeList.Add(LogTypeId.eLogTestRL);
-            //mEnableLogTypeList.Add(LogTypeId.eLogAcceleration);
-            //mEnableLogTypeList.Add(LogTypeId.eUnityCB);
 
-            //mEnableLogTypeList.Add(LogTypeId.eLogSplitMergeEmit);
-            //mEnableLogTypeList.Add(LogTypeId.eLogSceneInterActive);
-            //mEnableLogTypeList.Add(LogTypeId.eLogKBE);
-            //mEnableLogTypeList.Add(LogTypeId.eLogScene);
-            //mEnableLogTypeList.Add(LogTypeId.eLogBeingMove);
-            //mEnableLogTypeList.Add(LogTypeId.eLogEventRemove);
-            mEnableLogTypeList.Add(LogTypeId.eLogMusicBug);
+            this.mEnableLogTypeList = new MList<LogTypeId>[(int)LogColor.eLC_Count];
 
-            this.mEnableLog = true;
-            this.mIsOutStack = false;
-            this.mIsOutTimeStamp = false;
+            this.mEnableLogTypeList[(int)LogColor.eLC_LOG] = new MList<LogTypeId>();
+            //this.mEnableLogTypeList[(int)LogColor.eLC_LOG].Add(LogTypeId.eLogCommon);
+            //this.mEnableLogTypeList[(int)LogColor.eLC_LOG].Add(LogTypeId.eLogResLoader);
+            //this.mEnableLogTypeList[(int)LogColor.eLC_LOG].Add(LogTypeId.eLogLocalFile);
+            //this.mEnableLogTypeList[(int)LogColor.eLC_LOG].Add(LogTypeId.eLogTestRL);
+            //this.mEnableLogTypeList[(int)LogColor.eLC_LOG].Add(LogTypeId.eLogAcceleration);
+            //this.mEnableLogTypeList[(int)LogColor.eLC_LOG].Add(LogTypeId.eUnityCB);
+
+            //this.mEnableLogTypeList[(int)LogColor.eLC_LOG].Add(LogTypeId.eLogSplitMergeEmit);
+            //this.mEnableLogTypeList[(int)LogColor.eLC_LOG].Add(LogTypeId.eLogSceneInterActive);
+            //this.mEnableLogTypeList[(int)LogColor.eLC_LOG].Add(LogTypeId.eLogKBE);
+            //this.mEnableLogTypeList[(int)LogColor.eLC_LOG].Add(LogTypeId.eLogScene);
+            //this.mEnableLogTypeList[(int)LogColor.eLC_LOG].Add(LogTypeId.eLogBeingMove);
+            //this.mEnableLogTypeList[(int)LogColor.eLC_LOG].Add(LogTypeId.eLogEventRemove);
+            //this.mEnableLogTypeList[(int)LogColor.eLC_LOG].Add(LogTypeId.eLogMusicBug);
+            //this.mEnableLogTypeList[(int)LogColor.eLC_LOG].Add(LogTypeId.eLogLoadBug);
+            //this.mEnableLogTypeList[(int)LogColor.eLC_LOG].Add(LogTypeId.eLogMergeBug);
+            this.mEnableLogTypeList[(int)LogColor.eLC_LOG].Add(LogTypeId.eLogEatBug);
+
+            this.mEnableLogTypeList[(int)LogColor.eLC_WARN] = new MList<LogTypeId>();
+
+            this.mEnableLogTypeList[(int)LogColor.eLC_ERROR] = new MList<LogTypeId>();
+            //this.mEnableLogTypeList[(int)LogColor.eLC_ERROR].Add(LogTypeId.eLogLoadBug);
+
+            this.mEnableLog = new bool[(int)LogColor.eLC_Count];
+            this.mEnableLog[(int)LogColor.eLC_LOG] = true;
+            this.mEnableLog[(int)LogColor.eLC_WARN] = false;
+            this.mEnableLog[(int)LogColor.eLC_ERROR] = false;
+
+            this.mIsOutStack = new bool[(int)LogColor.eLC_Count];
+            this.mIsOutStack[(int)LogColor.eLC_LOG] = false;
+            this.mIsOutStack[(int)LogColor.eLC_WARN] = false;
+            this.mIsOutStack[(int)LogColor.eLC_ERROR] = false;
+
+            this.mIsOutTimeStamp = new bool[(int)LogColor.eLC_Count];
+            this.mIsOutStack[(int)LogColor.eLC_LOG] = false;
+            this.mIsOutStack[(int)LogColor.eLC_WARN] = false;
+            this.mIsOutStack[(int)LogColor.eLC_ERROR] = false;
         }
 
         // 初始化逻辑处理
@@ -70,7 +90,17 @@ namespace SDK.Lib
 
         public void setEnableLog(bool value)
         {
-            this.mEnableLog = value;
+            this.mEnableLog[(int)LogColor.eLC_LOG] = value;
+        }
+
+        public void setEnableWarn(bool value)
+        {
+            this.mEnableLog[(int)LogColor.eLC_WARN] = value;
+        }
+
+        public void setEnableError(bool value)
+        {
+            this.mEnableLog[(int)LogColor.eLC_ERROR] = value;
         }
 
         protected void registerDevice()
@@ -152,11 +182,11 @@ namespace SDK.Lib
             log(message);
         }
 
-        protected bool isInFilter(LogTypeId logTypeId)
+        protected bool isInFilter(LogTypeId logTypeId, LogColor logColor)
         {
-            if (this.mEnableLog)
+            if (this.mEnableLog[(int)logColor])
             {
-                if (this.mEnableLogTypeList.Contains(logTypeId))
+                if (this.mEnableLogTypeList[(int)logColor].Contains(logTypeId))
                 {
                     return true;
                 }
@@ -175,14 +205,14 @@ namespace SDK.Lib
 
         public void log(string message, LogTypeId logTypeId = LogTypeId.eLogCommon)
         {
-            if (isInFilter(logTypeId))
+            if (isInFilter(logTypeId, LogColor.eLC_LOG))
             {
-                if(this.mIsOutTimeStamp)
+                if(this.mIsOutTimeStamp[(int)LogColor.eLC_LOG])
                 {
                     message = string.Format("{0}: {1}", UtilApi.getFormatTime(), message);
                 }
 
-                if (this.mIsOutStack)
+                if (this.mIsOutStack[(int)LogColor.eLC_LOG])
                 {
                     System.Diagnostics.StackTrace stackTrace = new System.Diagnostics.StackTrace(true);
                     string traceStr = stackTrace.ToString();
@@ -191,7 +221,7 @@ namespace SDK.Lib
 
                 if (MThread.isMainThread())
                 {
-                    this.logout(message, LogColor.LOG);
+                    this.logout(message, LogColor.eLC_LOG);
                 }
                 else
                 {
@@ -207,14 +237,14 @@ namespace SDK.Lib
 
         public void warn(string message, LogTypeId logTypeId = LogTypeId.eLogCommon)
         {
-            if (isInFilter(logTypeId))
+            if (isInFilter(logTypeId, LogColor.eLC_WARN))
             {
-                if (this.mIsOutTimeStamp)
+                if (this.mIsOutTimeStamp[(int)LogColor.eLC_WARN])
                 {
                     message = string.Format("{0}: {1}", UtilApi.getFormatTime(), message);
                 }
 
-                if (this.mIsOutStack)
+                if (this.mIsOutStack[(int)LogColor.eLC_WARN])
                 {
                     System.Diagnostics.StackTrace stackTrace = new System.Diagnostics.StackTrace(true);
                     string traceStr = stackTrace.ToString();
@@ -223,7 +253,7 @@ namespace SDK.Lib
 
                 if (MThread.isMainThread())
                 {
-                    this.logout(message, LogColor.WARN);
+                    this.logout(message, LogColor.eLC_WARN);
                 }
                 else
                 {
@@ -239,14 +269,14 @@ namespace SDK.Lib
 
         public void error(string message, LogTypeId logTypeId = LogTypeId.eLogCommon)
         {
-            if (isInFilter(logTypeId))
+            if (isInFilter(logTypeId, LogColor.eLC_ERROR))
             {
-                if (this.mIsOutTimeStamp)
+                if (this.mIsOutTimeStamp[(int)LogColor.eLC_ERROR])
                 {
                     message = string.Format("{0}: {1}", UtilApi.getFormatTime(), message);
                 }
 
-                if (this.mIsOutStack)
+                if (this.mIsOutStack[(int)LogColor.eLC_ERROR])
                 {
                     System.Diagnostics.StackTrace stackTrace = new System.Diagnostics.StackTrace(true);
                     string traceStr = stackTrace.ToString();
@@ -255,7 +285,7 @@ namespace SDK.Lib
 
                 if (MThread.isMainThread())
                 {
-                    this.logout(message, LogColor.ERROR);
+                    this.logout(message, LogColor.eLC_ERROR);
                 }
                 else
                 {
@@ -302,27 +332,24 @@ namespace SDK.Lib
             //Ctx.mInstance.mSysMsgRoute.push(threadLog);
         }
 
-        public void logout(string message, LogColor type = LogColor.LOG)
+        public void logout(string message, LogColor type = LogColor.eLC_LOG)
         {
             if (MacroDef.THREAD_CALLCHECK)
             {
                 MThread.needMainThread();
             }
 
-            if (this.mIsOutLog)
+            //foreach (LogDeviceBase logDevice in mLogDeviceList.list())
+            int idx = 0;
+            int len = this.mLogDeviceList.Count();
+            LogDeviceBase logDevice = null;
+
+            while (idx < len)
             {
-                //foreach (LogDeviceBase logDevice in mLogDeviceList.list())
-                int idx = 0;
-                int len = this.mLogDeviceList.Count();
-                LogDeviceBase logDevice = null;
+                logDevice = this.mLogDeviceList[idx];
+                logDevice.logout(message, type);
 
-                while (idx < len)
-                {
-                    logDevice = this.mLogDeviceList[idx];
-                    logDevice.logout(message, type);
-
-                    ++idx;
-                }
+                ++idx;
             }
         }
 
@@ -335,17 +362,17 @@ namespace SDK.Lib
 
             while ((this.mTmpStr = mAsyncLogList.RemoveAt(0)) != default(string))
             {
-                this.logout(mTmpStr, LogColor.LOG);
+                this.logout(mTmpStr, LogColor.eLC_LOG);
             }
 
             while ((this.mTmpStr = mAsyncWarnList.RemoveAt(0)) != default(string))
             {
-                this.logout(mTmpStr, LogColor.WARN);
+                this.logout(mTmpStr, LogColor.eLC_WARN);
             }
 
             while ((this.mTmpStr = mAsyncErrorList.RemoveAt(0)) != default(string))
             {
-                this.logout(mTmpStr, LogColor.ERROR);
+                this.logout(mTmpStr, LogColor.eLC_ERROR);
             }
         }
 

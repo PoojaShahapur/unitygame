@@ -114,6 +114,8 @@ namespace SDK.Lib
 
                 if (this.mPath2SoundDic.ContainsKey(logicPath))      // 如果有，说明还没被停止
                 {
+                    this.mPath2SoundDic[logicPath].mUniqueId = uniqueId;
+
                     if (this.mPath2SoundDic[logicPath].mSoundResType == SoundResType.eSRT_Prefab)
                     {
                         this.mPath2SoundDic[logicPath].setResObj(res.InstantiateObject(res.getPrefabName()));
@@ -135,18 +137,24 @@ namespace SDK.Lib
                 }
 
                 this.delSoundItem(this.mPath2SoundDic[logicPath]);
+
+                Ctx.mInstance.mResLoadMgr.unload(uniqueId, this.onLoadEventHandle);
             }
 
-            // 卸载数据
-            Ctx.mInstance.mResLoadMgr.unload(uniqueId, this.onLoadEventHandle);
+            // 卸载数据，等到不用的时候在卸载，在台式机上没有问题，在手机上会导致 SoundClipItem::mClip 变成 null
+            //Ctx.mInstance.mResLoadMgr.unload(uniqueId, this.onLoadEventHandle);
         }
 
         protected void unload(string path)
         {
             if (this.mPath2SoundDic.ContainsKey(path))
             {
+                string uniqueId = this.mPath2SoundDic[path].mUniqueId;
+
                 this.mPath2SoundDic[path].unload();
                 this.delSoundItem(this.mPath2SoundDic[path]);
+
+                Ctx.mInstance.mResLoadMgr.unload(uniqueId, this.onLoadEventHandle);
             }
         }
 

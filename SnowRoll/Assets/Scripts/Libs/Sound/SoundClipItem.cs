@@ -63,6 +63,11 @@ namespace SDK.Lib
 
         public override void unload()
         {
+            if (MacroDef.ENABLE_LOG)
+            {
+                Ctx.mInstance.mLogSys.log("SoundClipItem::unload", LogTypeId.eLogMusicBug);
+            }
+
             Ctx.mInstance.mSoundLoadStateCheckMgr.removeSound(this);
 
             if (this.isInCurState(SoundPlayState.eSS_Play))
@@ -77,6 +82,8 @@ namespace SDK.Lib
                 //UtilApi.UnloadUnusedAssets();
                 this.mGo = null;
             }
+
+            this.mClip = null;
 
             base.unload();
         }
@@ -125,8 +132,17 @@ namespace SDK.Lib
                     if (null == this.mClip)
                     {
                         Ctx.mInstance.mLogSys.log("SoundClipItem::checkLoadState, Clip is null", LogTypeId.eLogMusicBug);
+
+                        GameObject go = UtilApi.GoFindChildByName("SoundGO");
+
+                        if(null == go)
+                        {
+                            Ctx.mInstance.mLogSys.log("SoundClipItem::checkLoadState, GameObject is destroy", LogTypeId.eLogMusicBug);
+                        }
                     }
                 }
+
+                Ctx.mInstance.mSoundLoadStateCheckMgr.removeSound(this);
             }
         }
     }

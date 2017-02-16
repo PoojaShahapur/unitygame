@@ -7,6 +7,8 @@ namespace EditorTool
 {
     public class ChangeUIMatSys : Singleton<ChangeUIMatSys>, IMyDispose
     {
+        public static string MatPath = "Resources/Materials/UI";
+
         public ChangeUIMatSys()
         {
             
@@ -24,6 +26,19 @@ namespace EditorTool
 
         public void change()
         {
+            string path = "Editor/Config/ChangeUIMat.xml";
+            path = UtilEditor.convAssetPath2FullPath(path);
+
+            UguiInfo uguiInfo = new UguiInfo();
+            uguiInfo.parseXmlByPath(path);
+            uguiInfo.changeMat();
+
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+        }
+
+        public void changeTest()
+        {
             string assetPath = "Assets/Resources/UI/UIStartGame/UIStartGame.prefab";
             GameObject _go = AssetDatabase.LoadAssetAtPath<GameObject>(assetPath);
             UtilApi.traverseActor<Image>(_go, onHandle);
@@ -35,6 +50,7 @@ namespace EditorTool
             if (image.sprite)
             {
                 Texture2D texture = image.sprite.texture;
+
                 if (texture)
                 {
                     string assetPath = AssetDatabase.GetAssetPath(texture);

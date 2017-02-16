@@ -12,7 +12,8 @@ function M:ctor(...)
 	self.mNativeImage = nil;
 	self.mScale = 1;
 	self.mAuxSpriteAtlasLoader = nil;
-	self.mSpritePath = "";
+	self.mSpritePath = "";	--精灵目录
+	self.mSpriteName = "";	--精灵名字
 	self.mSprite = nil;
 end
 
@@ -51,20 +52,21 @@ function M:setGoRectScale()
 end
 
 --精灵都同步加载
-function M:setSpritePath(path)
-	if(not GlobalNS.UtilStr.IsNullOrEmpty(path)) then
-		self.mSpritePath = path;
+function M:setSpritePath(spritePath, spriteName)
+	if(not GlobalNS.UtilStr.IsNullOrEmpty(spritePath) and not GlobalNS.UtilStr.IsNullOrEmpty(spriteName)) then
+		self.mSpritePath = spritePath;
+		self.mSpriteName = spriteName;
 		
 		if(nil == self.mAuxSpriteAtlasLoader) then
 			self.mAuxSpriteAtlasLoader = GlobalNS.new(GlobalNS.AuxSpriteAtlasLoader);
 		end
 		
-		self.mAuxSpriteAtlasLoader:syncLoad(path, self, self.onSpriteLoaded, nil);
+		self.mAuxSpriteAtlasLoader:syncLoad(spritePath, self, self.onSpriteLoaded, nil);
 	end
 end
 
 function M:onSpriteLoaded(dispObj)
-	self.mSprite = self.mAuxSpriteAtlasLoader:getSprite(self.mSpritePath);
+	self.mSprite = self.mAuxSpriteAtlasLoader:getSprite(self.mSpriteName);
 	
 	self:updateSprite();
 end

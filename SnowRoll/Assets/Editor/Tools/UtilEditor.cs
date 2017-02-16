@@ -31,7 +31,7 @@ namespace EditorTool
         // 获取 Data 目录
         static public string getDataPath(string path)
         {
-            return Path.Combine(Application.dataPath, path);
+            return UtilPath.combine(Application.dataPath, path);
         }
 
         // 获取当前目录
@@ -93,20 +93,66 @@ namespace EditorTool
 
         static public string getRelDataPath(string path)
         {
-            return Path.Combine("Assets/", path);
+            return Path.Combine(UtilEditor.ASSETS + UtilEditor.SLASH, path);
         }
 
         static public string convAbsPath2AssetPath(string fullPath)
         {
             string assetPath = "";
-            string asset = "Assets";
 
-            int idx = fullPath.IndexOf(asset);
+            int idx = fullPath.IndexOf(UtilEditor.ASSETS);
             assetPath = fullPath.Substring(idx, fullPath.Length - idx);
 
             return assetPath;
         }
 
+        /**
+         * @brief 转换相对目录到 Assets 目录
+         */
+        static public string conRelPath2AssetPath(string relPath)
+        {
+            string assetPath = "";
+
+            int idx = relPath.IndexOf(UtilEditor.ASSETS);
+
+            if(-1 == idx)   // 如果没有，就添加
+            {
+                assetPath = string.Format("{0}/{1}", UtilEditor.ASSETS, relPath);
+            }
+            else
+            {
+                if(0 != idx)
+                {
+                    assetPath = relPath.Substring(idx + UtilEditor.ASSETS.Length + 1);
+                }
+                else
+                {
+                    assetPath = relPath;
+                }
+            }
+            
+            return assetPath;
+        }
+
+        /**
+         * @brief 转换 asset 目录到完整目录
+         */
+        static public string convAssetPath2FullPath(string path)
+        {
+            string ret = "";
+            int assetIdx = path.IndexOf(UtilEditor.ASSETS);
+
+            // 如果有 Assets 目录
+            if (-1 != assetIdx)
+            {
+                //path = UtilPath.combine(UtilEditor.ASSETS, path);
+                path = path.Substring(assetIdx + 1, path.Length - (assetIdx + UtilEditor.ASSETS.Length + 1));
+            }
+
+            ret = UtilEditor.getDataPath(path);
+
+            return ret;
+        }
         // 递归创建目录
         static public void recurseCreateStreamDirectory(string pathAndName)
         {
@@ -582,6 +628,49 @@ namespace EditorTool
                 filePath.Add(path);
             }
             return filePath;
+        }
+
+        public static Sprite getSpriteByAssetPath(string texName, string spriteName)
+        {
+            UnityEngine.Object[] objectArray = AssetDatabase.LoadAllAssetsAtPath(texName);
+            Sprite sprite = null;
+            bool isFind = false;
+
+            int idx = 0;
+            int len = objectArray.Length;
+
+            while(idx < len)
+            {
+                sprite = objectArray[idx] as Sprite;
+
+                if(null != sprite)
+                {
+                    if(sprite.name == spriteName)
+                    {
+                        isFind = true;
+                        break;
+                    }
+                }
+
+                ++idx;
+            }
+
+            if(!isFind)
+            {
+                sprite = null;
+            }
+
+            return sprite;
+        }
+
+        public static void SaveAssets()
+        {
+            AssetDatabase.SaveAssets();
+        }
+
+        public static void Refresh()
+        {
+            AssetDatabase.Refresh();
         }
     }
 }

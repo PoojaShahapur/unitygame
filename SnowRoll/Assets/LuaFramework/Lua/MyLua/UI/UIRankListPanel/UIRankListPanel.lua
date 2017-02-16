@@ -131,11 +131,11 @@ function M:SetMyRankInfo()
                 self.myhoner = GlobalNS.new(GlobalNS.AuxImage);
                 self.myhoner:setSelfGo(myHoner);
                 if GCtx.mGameData.myRank == 1 then
-                    self.myhoner:setSpritePath("DefaultSkin/GameOption/cup_gold.png");
+                    self.myhoner:setSpritePath("DefaultSkin/GameOption/GameOption_RGB.png", "cup_gold");
                 elseif GCtx.mGameData.myRank == 2 then
-                    self.myhoner:setSpritePath("DefaultSkin/GameOption/cup_yin.png");
+                    self.myhoner:setSpritePath("DefaultSkin/GameOption/GameOption_RGB.png", "cup_yin");
                 else
-                    self.myhoner:setSpritePath("DefaultSkin/GameOption/cup_tong.png");
+                    self.myhoner:setSpritePath("DefaultSkin/GameOption/GameOption_RGB.png", "cup_tong");
                 end
             end
 
@@ -151,7 +151,7 @@ function M:SetMyRankInfo()
             if avatarindex == 0 then
                 avatarindex = 1;
             end
-            self.myavatar:setSpritePath("DefaultSkin/Avatar/"..avatarindex..".png");
+            self.myavatar:setSpritePath("DefaultSkin/Avatar/Avatar_RGB.png", GlobalNS.UtilStr.tostring(avatarindex));
 
             --用户名
             local myName = GlobalNS.UtilApi.getComByPath(self.mMyRankArea, "Name", "Text");
@@ -185,11 +185,11 @@ function M:SetTopXRankInfo()
             local honer = GlobalNS.new(GlobalNS.AuxImage);
             honer:setSelfGo(Honer);
             if i == 1 then
-                honer:setSpritePath("DefaultSkin/GameOption/cup_gold.png");
+                honer:setSpritePath("DefaultSkin/GameOption/GameOption_RGB.png", "cup_gold");
             elseif i == 2 then
-                honer:setSpritePath("DefaultSkin/GameOption/cup_yin.png");
+                honer:setSpritePath("DefaultSkin/GameOption/GameOption_RGB.png", "cup_yin");
             else
-                honer:setSpritePath("DefaultSkin/GameOption/cup_tong.png");
+                honer:setSpritePath("DefaultSkin/GameOption/GameOption_RGB.png", "cup_tong");
             end
             self.honerimages[i] = honer;
          end
@@ -209,7 +209,7 @@ function M:SetTopXRankInfo()
         if avatarindex == 0 then
              avatarindex = math.random(1, 4);
         end
-        avatarImage:setSpritePath("DefaultSkin/Avatar/"..avatarindex..".png");
+        avatarImage:setSpritePath("DefaultSkin/Avatar/Avatar_RGB.png", GlobalNS.UtilStr.tostring(avatarindex));
         self.avatarimages[i] = avatarImage;
 
         --用户名

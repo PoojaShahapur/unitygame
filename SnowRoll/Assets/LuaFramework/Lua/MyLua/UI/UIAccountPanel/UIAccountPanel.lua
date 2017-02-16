@@ -118,7 +118,6 @@ function M:onExit()
 end
 
 function M:onBtnClk()
-    GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:setInt("Avatar", self.index);
     GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:setString("SIGN", self.Sign.text);
     self.mAvatarBtn:dispose();
 	self:exit();
@@ -136,7 +135,7 @@ end
 function M:resetAvatar(index)
     self.index = index;
 	self.mAvatarBtn.mImage:setSelfGo(self.mAvatarBtn:getSelfGo());
-    self.mAvatarBtn.mImage:setSpritePath("DefaultSkin/Avatar/"..self.index..".png");
+    self.mAvatarBtn.mImage:setSpritePath("DefaultSkin/Avatar/Avatar_RGB.png", GlobalNS.UtilStr.tostring(self.index));
 end
 
 return M;

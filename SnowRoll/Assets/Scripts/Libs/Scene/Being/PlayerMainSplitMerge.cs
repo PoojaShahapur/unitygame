@@ -114,7 +114,7 @@
                 {
                     if (MacroDef.ENABLE_LOG)
                     {
-                        Ctx.mInstance.mLogSys.log("Can not Split", LogTypeId.eLogSplitMergeEmit);
+                        Ctx.mInstance.mLogSys.log("PlayerMainSplitMerge::onNoFirstSplit, Can not Split", LogTypeId.eLogSplitMergeEmit);
                     }
                 }
 
@@ -127,7 +127,7 @@
                 {
                     if (MacroDef.ENABLE_LOG)
                     {
-                        Ctx.mInstance.mLogSys.log("Split GreatEqual Max", LogTypeId.eLogSplitMergeEmit);
+                        Ctx.mInstance.mLogSys.log("PlayerMainSplitMerge::onNoFirstSplit, Split GreatEqual Max", LogTypeId.eLogSplitMergeEmit);
                     }
                 }
 
@@ -232,6 +232,11 @@
                 mergeItem = mMergeDic[keyOne];
             }
 
+            if(MacroDef.ENABLE_LOG)
+            {
+                Ctx.mInstance.mLogSys.log(string.Format("PlayerMainSplitMerge::addMerge, aThisId = {0}, bThisId = {1}", aChild.getThisId(), bChild.getThisId()), LogTypeId.eLogMergeBug);
+            }
+
             return mergeItem;
         }
 
@@ -258,6 +263,11 @@
             if (null != bChild)
             {
                 bChild.setBeingSubState(BeingSubState.eBSSNone);
+            }
+
+            if (MacroDef.ENABLE_LOG)
+            {
+                Ctx.mInstance.mLogSys.log(string.Format("PlayerMainSplitMerge::addMerge, aThisId = {0}, bThisId = {1}", aChild.getThisId(), bChild.getThisId()), LogTypeId.eLogMergeBug);
             }
         }
 

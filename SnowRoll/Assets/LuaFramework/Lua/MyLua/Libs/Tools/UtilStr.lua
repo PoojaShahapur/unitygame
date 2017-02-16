@@ -43,4 +43,9 @@ function M.Replace(srcStr, pat, repl)
 	]]
 end
 
+--数字转换成字符串
+function M.tostring(num)
+	return tostring(num);
+end
+
 return M;

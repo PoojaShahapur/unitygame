@@ -141,6 +141,7 @@ function M:onOKBtnClk()
         end
     end
 
+    GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:setInt("Avatar", self.index);
 	self:exit();
 end
 

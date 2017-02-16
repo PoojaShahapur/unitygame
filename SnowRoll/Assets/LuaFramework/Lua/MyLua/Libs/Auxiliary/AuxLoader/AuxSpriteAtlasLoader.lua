@@ -31,7 +31,7 @@ end
 function M:getSprite(spriteName)
 	local sprite = nil;
 	
-	if(nil ~= self.mNativeSpriteAtlasLoader) then
+	if(nil ~= self.mNativeSpriteAtlasLoader and not GlobalNS.UtilStr.IsNullOrEmpty(spriteName)) then
 		sprite = self.mNativeSpriteAtlasLoader:getSprite(spriteName);
 	end
 	

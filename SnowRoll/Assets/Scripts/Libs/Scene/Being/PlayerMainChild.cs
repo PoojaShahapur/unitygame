@@ -2,7 +2,7 @@
 {
     public class PlayerMainChild : PlayerChild
     {
-        protected uint mLastMergedTime;    // 最后一次融合时间
+        protected long mLastMergedTime;    // 最后一次融合时间
         //protected bool mIsMerge;            // 是否正在融合
         protected uint mMergeThisId;        // 融合 Id
         //protected PlayerMainChild mMergeChild;  // 融合的 PlayerMainChild
@@ -100,7 +100,7 @@
             }
         }
 
-        public uint getLastMergedTime()
+        public long getLastMergedTime()
         {
             return this.mLastMergedTime;
         }
@@ -120,16 +120,29 @@
         override public bool canMerge()
         {
             bool ret = false;
+
             ret = UtilLogic.canMerge(this.mLastMergedTime) &&
                   this.mBeingSubState != BeingSubState.eBSSContactMerge &&
                   this.mBeingSubState != BeingSubState.eBSSReqServerMerge &&
                   this.mBeingSubState != BeingSubState.eBSSMerge;
 
-            float leftTime = UtilApi.getUTCSec() - this.mLastMergedTime;
+            long leftTime = UtilApi.getUTCSec() - this.mLastMergedTime;
 
             if (MacroDef.ENABLE_LOG)
             {
                 Ctx.mInstance.mLogSys.log(string.Format("PlayerMainChild::canMerge, thisId = {0}, left time = {1}, total time = {2}, ret = {3}", this.getThisId(), leftTime, Ctx.mInstance.mSnowBallCfg.mMergeCoolTime, ret.ToString()), LogTypeId.eLogScene);
+            }
+
+            if (MacroDef.ENABLE_LOG)
+            {
+                if (ret)
+                {
+                    Ctx.mInstance.mLogSys.log(string.Format("PlayerMainChild::canMerge, canMerge, thisId = {0}, left time = {1}, total time = {2}, ret = {3}, beingSubState = {4}, curTime = {5}, LastTime = {6}", this.getThisId(), leftTime, Ctx.mInstance.mSnowBallCfg.mMergeCoolTime, ret.ToString(), this.mBeingSubState, UtilApi.getUTCSec(), this.mLastMergedTime), LogTypeId.eLogMergeBug);
+                }
+                else
+                {
+                    Ctx.mInstance.mLogSys.log(string.Format("PlayerMainChild::canMerge, not canMerge, thisId = {0}, left time = {1}, total time = {2}, ret = {3}, beingSubState = {4}, curTime = {5}, LastTime = {6}", this.getThisId(), leftTime, Ctx.mInstance.mSnowBallCfg.mMergeCoolTime, ret.ToString(), this.mBeingSubState, UtilApi.getUTCSec(), this.mLastMergedTime), LogTypeId.eLogMergeBug);
+                }
             }
 
             return ret;

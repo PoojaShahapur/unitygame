@@ -21,7 +21,7 @@ namespace SDK.Lib
         {
             bu.writeUnsignedInt8(byCmd);
             bu.writeUnsignedInt8(byParam);
-            dwTimestamp = UtilApi.getUTCSec();
+            dwTimestamp = (uint)UtilApi.getUTCSec();
             bu.writeUnsignedInt32(dwTimestamp);
         }
 

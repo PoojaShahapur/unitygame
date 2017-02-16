@@ -7,17 +7,17 @@ namespace SDK.Lib
      */
     public class WinLogDevice : LogDeviceBase
     {
-        public override void logout(string message, LogColor type = LogColor.LOG)
+        public override void logout(string message, LogColor type = LogColor.eLC_LOG)
         {
-            if (type == LogColor.LOG)
+            if (type == LogColor.eLC_LOG)
             {
                 Debug.Log(message);
             }
-            else if (type == LogColor.WARN)
+            else if (type == LogColor.eLC_WARN)
             {
                 Debug.LogWarning(message);
             }
-            else if (type == LogColor.ERROR)
+            else if (type == LogColor.eLC_ERROR)
             {
                 Debug.LogError(message);
             }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using UnityEngine;
@@ -8,6 +7,9 @@ namespace SDK.Lib
 {
     public class UtilPath
     {
+        public const string DOT = ".";
+        public const string SLASH = "/";
+
         public static string normalPath(string path)
         {
             return path.Replace('\\', '/');
@@ -770,6 +772,74 @@ namespace SDK.Lib
             curPath = UtilPath.normalPath(curPath);
 
             return curPath;
+        }
+
+        // 去掉文件扩展名字，文件判断后缀是否是指定后缀
+        static public bool isFileNameSuffixNoExt(string path, string suffix)
+        {
+            path = UtilPath.normalPath(path);
+
+            bool ret = false;
+
+            int dotIdx = 0;
+            dotIdx = path.LastIndexOf(UtilPath.DOT);
+
+            if (-1 != dotIdx)
+            {
+                path = path.Substring(0, dotIdx);
+            }
+
+            int slashIdx = 0;
+            slashIdx = path.LastIndexOf(UtilPath.SLASH);
+
+            if(-1 != slashIdx)
+            {
+                path = path.Substring(slashIdx + 1);
+            }
+
+            if (path.Length > suffix.Length)
+            {
+                if(path.Substring(path.Length - suffix.Length, suffix.Length) == suffix)
+                {
+                    ret = true;
+                }
+            }
+
+            return ret;
+        }
+
+        // 去掉文件扩展名字，然后再去掉文件后缀
+        static public string getFileNameRemoveSuffixNoExt(string path, string suffix)
+        {
+            path = UtilPath.normalPath(path);
+
+            string ret = path;
+
+            int dotIdx = 0;
+            dotIdx = path.LastIndexOf(UtilPath.DOT);
+
+            if (-1 != dotIdx)
+            {
+                path = path.Substring(0, dotIdx);
+            }
+
+            int slashIdx = 0;
+            slashIdx = path.LastIndexOf(UtilPath.SLASH);
+
+            if (-1 != slashIdx)
+            {
+                path = path.Substring(slashIdx + 1);
+            }
+
+            if (path.Length > suffix.Length)
+            {
+                if (path.Substring(path.Length - suffix.Length, suffix.Length) == suffix)
+                {
+                    ret = path.Substring(0, path.Length - suffix.Length);
+                }
+            }
+
+            return ret;
         }
     }
 }

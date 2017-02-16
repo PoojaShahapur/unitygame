@@ -17,6 +17,9 @@
         eLogScene,          // Scene 日志
         eLogUnityCB,        // Unity回调日志
         eLogEventRemove,    // 事件移除日志
-        eLogMusicBug,       // 手机音乐没有 bug   
+        eLogMusicBug,       // 手机音乐没有 bug
+        eLogLoadBug,        // 加载错误 bug
+        eLogMergeBug,       // 手机不能融合 bug
+        eLogEatBug,         // 手机不能吃 bug
     }
 }

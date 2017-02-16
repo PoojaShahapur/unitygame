@@ -211,6 +211,11 @@
         // 碰撞 PlayerMainChild
         public void eatPlayerMainChild(BeingEntity bBeingEntity, UnityEngine.Collision collisionInfo)
         {
+            if (MacroDef.ENABLE_LOG)
+            {
+                Ctx.mInstance.mLogSys.log("PlayerMainChildAttack::eatPlayerMainChild, enter eatPlayerMainChild", LogTypeId.eLogMergeBug);
+            }
+
             if (this.mEntity.canMerge() && bBeingEntity.canMerge())
             {
                 (this.mEntity as PlayerMainChild).mParentPlayer.mPlayerSplitMerge.addMerge(this.mEntity as PlayerChild, bBeingEntity as PlayerChild);

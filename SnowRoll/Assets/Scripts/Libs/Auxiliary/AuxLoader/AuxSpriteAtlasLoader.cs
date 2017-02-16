@@ -17,7 +17,7 @@
 
         public UnityEngine.Sprite getSprite(string spriteName)
         {
-            if (null != this.mSpriteAtlasRes)
+            if (null != this.mSpriteAtlasRes && !string.IsNullOrEmpty(spriteName))
             {
                 return this.mSpriteAtlasRes.getSprite(spriteName);
             }

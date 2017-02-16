@@ -14,38 +14,56 @@ namespace SDK.Lib
 
         override public void init(LoadItem item)
         {
-            base.init(item);
-
-            if (!mIsLoadAll)
+            if (null != item)
             {
-                mPrefabObj = (item as ResourceLoadItem).prefabObj;
+                if (!(item is ResourceLoadItem))
+                {
+                    if (MacroDef.ENABLE_ERROR)
+                    {
+                        Ctx.mInstance.mLogSys.error(string.Format("PrefabResItem::init, item not null, resPath = {0}, loadPath = {1}, typeName is {2}", this.mLoadPath, item.loadPath, item.GetType().Name), LogTypeId.eLogLoadBug);
+                    }
+                }
+
+                base.init(item);
+
+                if (!this.mIsLoadAll)
+                {
+                    this.mPrefabObj = (item as ResourceLoadItem).prefabObj;
+                }
+                else
+                {
+                    this.mAllPrefabObj = (item as ResourceLoadItem).getAllPrefabObject();
+                }
             }
             else
             {
-                mAllPrefabObj = (item as ResourceLoadItem).getAllPrefabObject();
+                if (MacroDef.ENABLE_ERROR)
+                {
+                    Ctx.mInstance.mLogSys.error(string.Format("PrefabResItem::init, item is null, resPath = {0}", this.mLoadPath), LogTypeId.eLogLoadBug);
+                }
             }
 
-            mRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
-            mRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
+            this.mRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
+            this.mRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
 
         public UnityEngine.Object prefabObj()
         {
-            return mPrefabObj;
+            return this.mPrefabObj;
         }
 
         public override string getPrefabName()         // 只有 Prefab 资源才实现这个函数
         {
-            return mPrefabName;
+            return this.mPrefabName;
         }
 
         public override void reset()
         {
             base.reset();
 
-            mPrefabName = null;
-            mAllPrefabObj = null;
-            mRetGO = null;
+            this.mPrefabName = null;
+            this.mAllPrefabObj = null;
+            this.mRetGO = null;
         }
 
         override public void unrefAssetObject()
@@ -68,49 +86,50 @@ namespace SDK.Lib
             //    UtilApi.UnloadAsset(mPrefabObj);
             //}
             // 如果你用个全局变量保存你 Load 的 Assets，又没有显式的设为 null，那 在这个变量失效前你无论如何 UnloadUnusedAssets 也释放不了那些Assets的。如果你这些Assets又不是从磁盘加载的，那除了 UnloadUnusedAssets 或者加载新场景以外没有其他方式可以卸载之。
-            if (mPrefabObj != null)
+            if (this.mPrefabObj != null)
             {
                 // mPrefabObj = null;
 
                 // Asset-Object 无法被Destroy销毁，Asset-Objec t由 Resources 系统管理，需要手工调用Resources.UnloadUnusedAssets()或者其他类似接口才能删除。
-                if (mPrefabObj is GameObject)
+                if (this.mPrefabObj is GameObject)
                 {
-                    mPrefabObj = null;
+                    this.mPrefabObj = null;
                     // 很卡，暂时屏蔽掉
                     //UtilApi.UnloadUnusedAssets();   // UnloadUnusedAssets 可以卸载没有引用的资源，一定要先设置 null ，然后再调用 UnloadUnusedAssets
                 }
                 else
                 {
-                    UtilApi.UnloadAsset(mPrefabObj);    // 只能卸载组件类型的资源，比如 Textture、 Material、TextAsset 之类的资源，不能卸载容器之类的资源，例如 GameObject，因为组件是添加到 GameObject 上面去的
-                    mPrefabObj = null;
+                    UtilApi.UnloadAsset(this.mPrefabObj);    // 只能卸载组件类型的资源，比如 Textture、 Material、TextAsset 之类的资源，不能卸载容器之类的资源，例如 GameObject，因为组件是添加到 GameObject 上面去的
+                    this.mPrefabObj = null;
                 }
             }
 
             // 如果不想释放资源，只需要置空就行了
-            if(mAllPrefabObj != null)
+            if(this.mAllPrefabObj != null)
             {
                 bool hasGameObject = false;
                 int idx = 0;
-                int len = mAllPrefabObj.Length;
+                int len = this.mAllPrefabObj.Length;
 
                 while(idx < len)
                 {
-                    if(mAllPrefabObj[idx] != null)
+                    if(this.mAllPrefabObj[idx] != null)
                     {
-                        if (mAllPrefabObj[idx] is GameObject)
+                        if (this.mAllPrefabObj[idx] is GameObject)
                         {
-                            mAllPrefabObj[idx] = null;
+                            this.mAllPrefabObj[idx] = null;
                             hasGameObject = true;
                         }
                         else
                         {
-                            UtilApi.UnloadAsset(mAllPrefabObj[idx]);
-                            mAllPrefabObj[idx] = null;
+                            UtilApi.UnloadAsset(this.mAllPrefabObj[idx]);
+                            this.mAllPrefabObj[idx] = null;
                         }
                     }
                     ++idx;
                 }
-                mAllPrefabObj = null;
+
+                this.mAllPrefabObj = null;
 
                 if (hasGameObject)
                 {
@@ -129,35 +148,37 @@ namespace SDK.Lib
 
         override public GameObject InstantiateObject(string resName)
         {
-            mRetGO = null;
+            this.mRetGO = null;
 
-            if (null == mPrefabObj)
+            if (null == this.mPrefabObj)
             {
                 
             }
             else
             {
-                mRetGO = GameObject.Instantiate(mPrefabObj) as GameObject;
-                if (null == mRetGO)
+                this.mRetGO = GameObject.Instantiate(this.mPrefabObj) as GameObject;
+
+                if (null == this.mRetGO)
                 {
                     
                 }
             }
 
-            return mRetGO;
+            return this.mRetGO;
         }
 
         override public IEnumerator asyncInstantiateObject(string resName, ResInsEventDispatch evtHandle)
         {
             GameObject retGO = null;
 
-            if (null == mPrefabObj)
+            if (null == this.mPrefabObj)
             {
                 
             }
             else
             {
-                retGO = GameObject.Instantiate(mPrefabObj) as GameObject;
+                retGO = GameObject.Instantiate(this.mPrefabObj) as GameObject;
+
                 if (null == retGO)
                 {
                     
@@ -172,12 +193,12 @@ namespace SDK.Lib
 
         override public UnityEngine.Object getObject(string resName)
         {
-            return mPrefabObj;
+            return this.mPrefabObj;
         }
 
         override public UnityEngine.Object[] getAllObject()
         {
-            return mAllPrefabObj;
+            return this.mAllPrefabObj;
         }
 
         override public T[] loadAllAssets<T>()
@@ -200,12 +221,13 @@ namespace SDK.Lib
 
             MList<T> list = new MList<T>();
             int idx = 0;
-            int len = mAllPrefabObj.Length;
+            int len = this.mAllPrefabObj.Length;
+
             while(idx < len)
             {
-                if(mAllPrefabObj[idx] is T)
+                if(this.mAllPrefabObj[idx] is T)
                 {
-                    list.Add(mAllPrefabObj[idx] as T);
+                    list.Add(this.mAllPrefabObj[idx] as T);
                 }
 
                 ++idx;
@@ -216,9 +238,9 @@ namespace SDK.Lib
 
         override public byte[] getBytes(string resName)            // 获取字节数据
         {
-            if(mPrefabObj != null && (mPrefabObj as TextAsset) != null)
+            if(this.mPrefabObj != null && (this.mPrefabObj as TextAsset) != null)
             {
-                return (mPrefabObj as TextAsset).bytes;
+                return (this.mPrefabObj as TextAsset).bytes;
             }
 
             return null;
@@ -226,9 +248,9 @@ namespace SDK.Lib
 
         override public string getText(string resName)
         {
-            if (mPrefabObj != null && (mPrefabObj as TextAsset) != null)
+            if (this.mPrefabObj != null && (this.mPrefabObj as TextAsset) != null)
             {
-                return (mPrefabObj as TextAsset).text;
+                return (this.mPrefabObj as TextAsset).text;
             }
 
             return null;

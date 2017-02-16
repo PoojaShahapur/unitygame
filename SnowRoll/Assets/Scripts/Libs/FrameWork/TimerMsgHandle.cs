@@ -32,7 +32,7 @@ namespace SDK.Lib
         public void sendMsg9f()
         {
             stUserGameTimeTimerUserCmd cmd = new stUserGameTimeTimerUserCmd();
-            cmd.qwGameTime = UtilApi.getUTCSec() + qwGameTime;
+            cmd.qwGameTime = (ulong)UtilApi.getUTCSec() + qwGameTime;
             cmd.dwUserTempID = m_loginTempID;
             UtilMsg.sendMsg(cmd);
 

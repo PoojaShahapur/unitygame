@@ -63,7 +63,7 @@
 
         virtual protected void onGetPool()
         {
-
+            UtilApi.SetActive(this.mSelfGo, true);
         }
 
         virtual public bool checkRender()
