@@ -1,7 +1,6 @@
 ﻿using SDK.Lib;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace EditorTool
 {
@@ -150,7 +149,7 @@ namespace EditorTool
 
             System.Security.SecurityElement elemXml = null;
             UtilXml.getXmlChild(this.mXmlConfig, "path", ref elemXml);
-            this.mPathItemList = this.parseXml<SpriteRedirectPathItemXml>(elemXml, "item");
+            this.mPathItemList = this.parseXml<SpriteSettingPathItemXml>(elemXml, "item");
 
             UtilXml.getXmlChild(this.mXmlConfig, "redirect", ref elemXml);
         }
@@ -161,11 +160,11 @@ namespace EditorTool
             {
                 int idx = 0;
                 int len = this.mPathItemList.Count();
-                SpriteRedirectPathItemXml itemXml = null;
+                SpriteSettingPathItemXml itemXml = null;
 
                 while (idx < len)
                 {
-                    itemXml = this.mPathItemList[idx] as SpriteRedirectPathItemXml;
+                    itemXml = this.mPathItemList[idx] as SpriteSettingPathItemXml;
                     itemXml.spriteSetting();
 
                     ++idx;

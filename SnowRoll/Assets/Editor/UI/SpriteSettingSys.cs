@@ -2,7 +2,7 @@
 
 namespace EditorTool
 {
-    public class SpriteSettingSys : Singleton<SpriteRedirectSys>, IMyDispose
+    public class SpriteSettingSys : Singleton<SpriteSettingSys>, IMyDispose
     {
         protected SpriteSettingInfo mSpriteSettingInfo;
 
@@ -21,7 +21,7 @@ namespace EditorTool
 
         }
 
-        public void redirectSprite()
+        public void spriteSetting()
         {
             string path = "Editor/Config/SpriteSetting.xml";
             path = UtilEditor.convAssetPath2FullPath(path);

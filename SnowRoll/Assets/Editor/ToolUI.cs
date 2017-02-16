@@ -117,5 +117,12 @@ namespace EditorTool
         {
             SpriteRedirectSys.getSingletonPtr().redirectSprite();
         }
+
+        // Redirect Sprite
+        [MenuItem("MyNew/SpriteSetting")]
+        public static void SpriteSetting()
+        {
+            SpriteSettingSys.getSingletonPtr().spriteSetting();
+        }
     }
 }
