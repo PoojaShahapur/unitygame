@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<Root>
+	<path>
+		<item inpath="Resources/UI" isDir="true" recurse="true" includeext="prefab" />
+	</path>
+</Root>
