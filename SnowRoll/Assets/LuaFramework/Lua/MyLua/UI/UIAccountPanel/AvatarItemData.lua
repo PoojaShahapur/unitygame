@@ -29,8 +29,8 @@ function M:init(_Prefab, _Content, _index)
     self.avatarItemBtn:setSelfGo(self.m_go);
 
     self.avatarItemBtn.mImage:setSelfGo(self.m_go);
-    --self.avatarItemBtn.mImage:setSpritePath("DefaultSkin/Avatar/"..self.index..".png");
-	self.avatarItemBtn.mImage:setSpritePath("DefaultSkin/Avatar/Avatar_RGB.png", GlobalNS.UtilStr.tostring(self.index));
+    self.avatarItemBtn.mImage:setSpritePath("DefaultSkin/Avatar/"..self.index..".png", GlobalNS.UtilStr.tostring(self.index));
+	--self.avatarItemBtn.mImage:setSpritePath("DefaultSkin/Avatar/Avatar_RGB.png", GlobalNS.UtilStr.tostring(self.index));
     self.avatarItemBtn:addEventHandle(self, self.onChoiceBtnClk);
 end
 

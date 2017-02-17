@@ -7,6 +7,7 @@
     {
         protected BeingEntity mEntity;
         protected UnityEngine.Vector3 mPos;
+        protected UnityEngine.Quaternion mRotate;
 
         protected string mResPath;  // 资源目录
         protected AuxPrefabLoader mAuxPrefabLoader;
@@ -90,11 +91,12 @@
             if (Ctx.mInstance.mCamSys.mMainCamera && Ctx.mInstance.mCamSys.mUguiCam)
             {
                 // 坐标位置转换太耗时，不再转换位置坐标，直接在世界空间调整位置
-                //this.mPos = UtilApi.convWorldToUIPos(Ctx.mInstance.mUiMgr.mHudCanvas, Ctx.mInstance.mCamSys.mMainCamera, this.mEntity.getHudPos(), Ctx.mInstance.mCamSys.mUguiCam);
-                this.mPos = this.mEntity.getHudPos();
+                this.mPos = UtilApi.convWorldToUIPos(Ctx.mInstance.mUiMgr.mHudCanvas, Ctx.mInstance.mCamSys.mMainCamera, this.mEntity.getHudPos(), Ctx.mInstance.mCamSys.mUguiCam);
+                //this.mPos = this.mEntity.getHudPos();
+                //this.mRotate = UtilMath.getRotateByStartAndEndPoint(this.mPos, Ctx.mInstance.mCamSys.mMainCamera.transform.localPosition);
 
                 this.setPos(this.mPos);
-                this.setRotate(UtilMath.getRotateByStartAndEndPoint(this.mPos, Ctx.mInstance.mCamSys.mMainCamera.transform.localPosition));
+                //this.setRotate(this.mRotate);
             }
             else
             {
@@ -120,6 +122,11 @@
                     this.mIsPosDirty = false;
                     UtilApi.setPos(this.mSelfGo.transform, this.mPos);
                 }
+                //if (this.mIsRotDirty)
+                //{
+                //    this.mIsRotDirty = false;
+                //    UtilApi.setRot(this.mSelfGo.transform, this.mRotate);
+                //}
             }
         }
     }

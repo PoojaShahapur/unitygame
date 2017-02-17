@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: 5a621ce5a5f70ed4ea233f22f6b9083f
-timeCreated: 1483501289
-licenseType: Pro
+timeCreated: 1487298299
+licenseType: Free
 TextureImporter:
   fileIDToRecycleName: {}
   serializedVersion: 4
@@ -70,7 +70,7 @@ TextureImporter:
     serializedVersion: 2
     sprites: []
     outline: []
-  spritePackingTag: 
+  spritePackingTag: SignSkin
   userData: 
   assetBundleName: 
   assetBundleVariant: 

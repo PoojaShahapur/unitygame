@@ -107,8 +107,8 @@ function M:initForm()
         index = GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:getInt("Avatar");
     end
     self.mAvatarBtn.mImage:setSelfGo(self.mAvatarBtn:getSelfGo());
-    --self.mAvatarBtn.mImage:setSpritePath("DefaultSkin/Avatar/"..index..".png");
-	self.mAvatarBtn.mImage:setSpritePath("DefaultSkin/Avatar/Avatar_RGB.png", GlobalNS.UtilStr.tostring(index));
+    self.mAvatarBtn.mImage:setSpritePath("DefaultSkin/Avatar/"..index..".png", GlobalNS.UtilStr.tostring(index));
+	--self.mAvatarBtn.mImage:setSpritePath("DefaultSkin/Avatar/Avatar_RGB.png", GlobalNS.UtilStr.tostring(index));
 
     --账号
     local username = GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:getString(SDK.Lib.SystemSetting.USERNAME);
@@ -302,7 +302,8 @@ function M:onDropBtnClk()
 end
 
 function M:onSignBtnClk()
-    GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormId.eUISignPanel);
+    -- GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormId.eUISignPanel);
+    GCtx.mGameData:ShowRollMessage("暂未开放");
 end
 
 function M:onSettingBtnClk()
@@ -310,7 +311,8 @@ function M:onSettingBtnClk()
 end
 
 function M:onShareBtnClk()
-    GCtx.mGameData:ShowRollMessage("hello world");
+    --GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormId.eUIAccountPanel);
+    GCtx.mGameData:ShowRollMessage("暂未开放");
 end
 
 function M:onCorpsBtnClk()
@@ -341,7 +343,8 @@ end
 
 function M:resetAvatar(index)
 	self.mAvatarBtn.mImage:setSelfGo(self.mAvatarBtn:getSelfGo());
-    self.mAvatarBtn.mImage:setSpritePath("DefaultSkin/Avatar/Avatar_RGB.png", GlobalNS.UtilStr.tostring(index));
+	self.mAvatarBtn.mImage:setSpritePath("DefaultSkin/Avatar/"..index..".png", GlobalNS.UtilStr.tostring(index));
+    --self.mAvatarBtn.mImage:setSpritePath("DefaultSkin/Avatar/Avatar_RGB.png", GlobalNS.UtilStr.tostring(index));
 end
 
 return M;

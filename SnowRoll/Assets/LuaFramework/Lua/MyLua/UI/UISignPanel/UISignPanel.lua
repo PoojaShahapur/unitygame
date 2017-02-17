@@ -49,6 +49,7 @@ function M:onInit()
 
     --item prefab
     self.mItem_prefab = GlobalNS.new(GlobalNS.AuxPrefabLoader);
+	self.mItem_prefab:setIsNeedInsPrefab(false);
     self.isPrefabLoaded = false;
     --items gameobject数组
     self.items = { };
@@ -107,6 +108,7 @@ function M:onCloseBtnClk()
         GlobalNS.UtilApi.Destroy(item.m_go);
     end
     self.items = {};
+    self.mItem_prefab:dispose();
 
 	self:exit();
 end

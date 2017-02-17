@@ -30,6 +30,7 @@ function M:onInit()
     M.super.onInit(self);
     
     self.mAvataritem_prefab = GlobalNS.new(GlobalNS.AuxPrefabLoader);
+	self.mAvataritem_prefab:setIsNeedInsPrefab(false);
     self.isPrefabLoaded = false;
     self.avataritems = { };
 
@@ -147,7 +148,7 @@ end
 
 function M:onCloseBtnClk()
     self:clearObj();
-
+    self.mAvataritem_prefab:dispose();
 	self:exit();
 end
 

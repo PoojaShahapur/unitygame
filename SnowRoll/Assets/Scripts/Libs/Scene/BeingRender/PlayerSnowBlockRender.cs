@@ -10,7 +10,7 @@
 
         override public void onInit()
         {
-            this.mResPath = "World/Model/SnowBlockTest1.prefab";
+            this.mResPath = "World/Model/PlayerSnowBlockTest.prefab";
         }
 
         override protected void onSelfChanged()

@@ -29,6 +29,7 @@ function M:onInit()
 
     --listitem prefab
     self.mListitem_prefab = GlobalNS.new(GlobalNS.AuxPrefabLoader);
+	self.mListitem_prefab:setIsNeedInsPrefab(false);
 
     --listitems数组
     self.listitems = { };
@@ -91,8 +92,9 @@ function M:onBtnClk()
         self.honerimages[i]:dispose();
     end
     self.honerimages = {};
-
+    self.mListitem_prefab:dispose();
     self:exit();
+    
     GCtx.mGameData:returnStartGame();
 end
 
@@ -131,11 +133,14 @@ function M:SetMyRankInfo()
                 self.myhoner = GlobalNS.new(GlobalNS.AuxImage);
                 self.myhoner:setSelfGo(myHoner);
                 if GCtx.mGameData.myRank == 1 then
-                    self.myhoner:setSpritePath("DefaultSkin/GameOption/GameOption_RGB.png", "cup_gold");
+					self.myhoner:setSpritePath("DefaultSkin/GameOption/cup_gold.png", "cup_gold");
+                    --self.myhoner:setSpritePath("DefaultSkin/GameOption/GameOption_RGB.png", "cup_gold");
                 elseif GCtx.mGameData.myRank == 2 then
-                    self.myhoner:setSpritePath("DefaultSkin/GameOption/GameOption_RGB.png", "cup_yin");
+					self.myhoner:setSpritePath("DefaultSkin/GameOption/cup_yin.png", "cup_yin");
+                    --self.myhoner:setSpritePath("DefaultSkin/GameOption/GameOption_RGB.png", "cup_yin");
                 else
-                    self.myhoner:setSpritePath("DefaultSkin/GameOption/GameOption_RGB.png", "cup_tong");
+					self.myhoner:setSpritePath("DefaultSkin/GameOption/cup_tong.png", "cup_tong");
+                    --self.myhoner:setSpritePath("DefaultSkin/GameOption/GameOption_RGB.png", "cup_tong");
                 end
             end
 
@@ -151,7 +156,8 @@ function M:SetMyRankInfo()
             if avatarindex == 0 then
                 avatarindex = 1;
             end
-            self.myavatar:setSpritePath("DefaultSkin/Avatar/Avatar_RGB.png", GlobalNS.UtilStr.tostring(avatarindex));
+			self.myavatar:setSpritePath("DefaultSkin/Avatar/"..avatarindex..".png", GlobalNS.UtilStr.tostring(avatarindex));
+            --self.myavatar:setSpritePath("DefaultSkin/Avatar/Avatar_RGB.png", GlobalNS.UtilStr.tostring(avatarindex));
 
             --用户名
             local myName = GlobalNS.UtilApi.getComByPath(self.mMyRankArea, "Name", "Text");
@@ -185,11 +191,14 @@ function M:SetTopXRankInfo()
             local honer = GlobalNS.new(GlobalNS.AuxImage);
             honer:setSelfGo(Honer);
             if i == 1 then
-                honer:setSpritePath("DefaultSkin/GameOption/GameOption_RGB.png", "cup_gold");
+				honer:setSpritePath("DefaultSkin/GameOption/cup_gold.png", "cup_gold");
+                --honer:setSpritePath("DefaultSkin/GameOption/GameOption_RGB.png", "cup_gold");
             elseif i == 2 then
-                honer:setSpritePath("DefaultSkin/GameOption/GameOption_RGB.png", "cup_yin");
+				honer:setSpritePath("DefaultSkin/GameOption/cup_yin.png", "cup_yin");
+                --honer:setSpritePath("DefaultSkin/GameOption/GameOption_RGB.png", "cup_yin");
             else
-                honer:setSpritePath("DefaultSkin/GameOption/GameOption_RGB.png", "cup_tong");
+				honer:setSpritePath("DefaultSkin/GameOption/cup_tong.png", "cup_tong");
+                --honer:setSpritePath("DefaultSkin/GameOption/GameOption_RGB.png", "cup_tong");
             end
             self.honerimages[i] = honer;
          end
@@ -209,7 +218,8 @@ function M:SetTopXRankInfo()
         if avatarindex == 0 then
              avatarindex = math.random(1, 4);
         end
-        avatarImage:setSpritePath("DefaultSkin/Avatar/Avatar_RGB.png", GlobalNS.UtilStr.tostring(avatarindex));
+		avatarImage:setSpritePath("DefaultSkin/Avatar/"..avatarindex..".png", GlobalNS.UtilStr.tostring(avatarindex));
+        --avatarImage:setSpritePath("DefaultSkin/Avatar/Avatar_RGB.png", GlobalNS.UtilStr.tostring(avatarindex));
         self.avatarimages[i] = avatarImage;
 
         --用户名

@@ -43,6 +43,7 @@
                 UtilApi.enableMeshRenderComponent(this.mModelRender, false);
                 UtilApi.enableAnimatorComponent(this.mModel, false);
                 UtilApi.enableCollider<UnityEngine.SphereCollider>(this.mSelfGo, false);
+                UtilApi.enableCollider<UnityEngine.SphereCollider>(UtilApi.TransFindChildByPObjAndPath(this.mSelfGo, UtilApi.COLLIDE_NAME), false);
                 UtilApi.enableRigidbodyComponent(this.mSelfGo, false);
             }
         }
@@ -57,6 +58,7 @@
                 UtilApi.enableMeshRenderComponent(UtilApi.TransFindChildByPObjAndPath(this.mSelfGo, UtilApi.MODEL_RENDER_NAME), true);
                 UtilApi.enableAnimatorComponent(UtilApi.TransFindChildByPObjAndPath(this.mSelfGo, UtilApi.MODEL_NAME), true);
                 UtilApi.enableCollider<UnityEngine.SphereCollider>(this.mSelfGo, true);
+                UtilApi.enableCollider<UnityEngine.SphereCollider>(UtilApi.TransFindChildByPObjAndPath(this.mSelfGo, UtilApi.COLLIDE_NAME), true);
                 UtilApi.enableRigidbodyComponent(this.mSelfGo, true);
             }
         }

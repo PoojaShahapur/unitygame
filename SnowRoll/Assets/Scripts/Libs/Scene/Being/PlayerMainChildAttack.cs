@@ -153,11 +153,12 @@
                     }
                 }
             }
-            else if(bBeingEntity.canEatOther(this.mEntity))
+            //自己被吃不会收到消息
+            /*else if(bBeingEntity.canEatOther(this.mEntity))
             {
                 //bBeingEntity.setClientDispose(true);
                 (this.mEntity as PlayerChild).setIsEatedByOther(true);
-            }
+            }*/
         }
 
         // 吃玩家吐出的雪块
@@ -170,41 +171,45 @@
             //}
             //bBeingEntity.setClientDispose(true);
             //Ctx.mInstance.mPlayerMgr.eatPlayerSnowing(bBeingEntity.getThisId(), this.mEntity.getThisId());
-            if (!(bBeingEntity as BeingEntity).getIsEatedByOther())
+            // 如果正在请求服务器融合，也不在处理，这个时候很有可能被融合掉了
+            if (!this.mEntity.isReqServerMerge())
             {
-                (bBeingEntity as BeingEntity).setIsEatedByOther(true);
-                (bBeingEntity as BeingEntity).forceHide();  // 客户端自己隐藏
-
-                if (MacroDef.ENABLE_LOG)
+                if (!(bBeingEntity as BeingEntity).getIsEatedByOther())
                 {
-                    Ctx.mInstance.mLogSys.log(string.Format("PlayerMainChildAttack::eatPlayerSnowBlock, MainChildThisId = {0}, PlayerSnowBlockThisId = {1}", this.mEntity.getThisId(), bBeingEntity.getThisId()), LogTypeId.eLogScene);
-                }
+                    (bBeingEntity as BeingEntity).setIsEatedByOther(true);
+                    (bBeingEntity as BeingEntity).forceHide();  // 客户端自己隐藏
 
-                if (!MacroDef.DEBUG_NOTNET)
-                {
-                    if (0 != bBeingEntity.getThisId())
+                    if (MacroDef.ENABLE_LOG)
                     {
-                        this.mEntity.cellCall("eatSnowBlock", bBeingEntity.getThisId());
+                        Ctx.mInstance.mLogSys.log(string.Format("PlayerMainChildAttack::eatPlayerSnowBlock, MainChildThisId = {0}, PlayerSnowBlockThisId = {1}", this.mEntity.getThisId(), bBeingEntity.getThisId()), LogTypeId.eLogScene);
+                    }
+
+                    if (!MacroDef.DEBUG_NOTNET)
+                    {
+                        if (0 != bBeingEntity.getThisId())
+                        {
+                            this.mEntity.cellCall("eatSnowBlock", bBeingEntity.getThisId());
+                        }
+                        else
+                        {
+                            (bBeingEntity as BeingEntity).setIsEatedByServer(true);
+                            (bBeingEntity as PlayerSnowBlock).setOwnerThisId(this.mEntity.getThisId());
+                        }
                     }
                     else
                     {
-                        (bBeingEntity as BeingEntity).setIsEatedByServer(true);
-                        (bBeingEntity as PlayerSnowBlock).setOwnerThisId(this.mEntity.getThisId());
+                        float newRadius = UtilMath.getNewRadiusByRadius(this.mEntity.getBallRadius(), bBeingEntity.getBallRadius());
+
+                        this.mEntity.setBeingState(BeingState.eBSAttack);
+                        this.mEntity.setBallRadius(newRadius);
+                        bBeingEntity.dispose();
                     }
                 }
-                else
+                else if ((bBeingEntity as BeingEntity).getIsEatedByServer())
                 {
-                    float newRadius = UtilMath.getNewRadiusByRadius(this.mEntity.getBallRadius(), bBeingEntity.getBallRadius());
-
-                    this.mEntity.setBeingState(BeingState.eBSAttack);
-                    this.mEntity.setBallRadius(newRadius);
-                    bBeingEntity.dispose();
+                    (bBeingEntity as BeingEntity).setIsEatedByServer(false);
+                    this.mEntity.cellCall("eatSnowBlock", bBeingEntity.getThisId());
                 }
-            }
-            else if((bBeingEntity as BeingEntity).getIsEatedByServer())
-            {
-                (bBeingEntity as BeingEntity).setIsEatedByServer(false);
-                this.mEntity.cellCall("eatSnowBlock", bBeingEntity.getThisId());
             }
         }
 

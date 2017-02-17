@@ -22,10 +22,12 @@ function M:ctor()
     --排名信息
     self.topN = { };
     self.showDataPanel = true;
+
+    self.mDropBtn = nil;
 end
 
 function M:dtor()
-	
+	self.mDropBtn:dispose();
 end
 
 function M:onInit()
@@ -88,13 +90,15 @@ function M:showTop10Rank()
 end
 
 function M:onDropBtnClk()
-    GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormId.eUIConsoleDlg);
-
+    -- GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormId.eUIConsoleDlg);
+    self.mDropBtn.mImage:setSelfGo(self.mDropBtn:getSelfGo());
     self.showDataPanel = not self.showDataPanel;
     if self.showDataPanel then
         self.dataPanel:SetActive(true);
+        self.mDropBtn.mImage:setSpritePath("DefaultSkin/GameOption/drop.png", "drop");
     else
         self.dataPanel:SetActive(false);
+        self.mDropBtn.mImage:setSpritePath("DefaultSkin/GameOption/down.png", "down");
     end
 end
 

@@ -27,7 +27,7 @@ namespace SDK.Lib
             // 检查当前是否已经在队列中
             if (!this.mTimerList.Contains(delayObject as FrameTimerItem))
             {
-                if (this.isInDepth())
+                if (this.mLoopDepth.isInDepth())
                 {
                     base.addObject(delayObject, priority);
                 }
@@ -44,7 +44,8 @@ namespace SDK.Lib
             if (this.mTimerList.Contains(delayObject as FrameTimerItem))
             {
                 (delayObject as FrameTimerItem).mDisposed = true;
-                if (isInDepth())
+
+                if (this.mLoopDepth.isInDepth())
                 {
                     base.addObject(delayObject);
                 }
@@ -74,7 +75,7 @@ namespace SDK.Lib
 
         public void Advance(float delta)
         {
-            incDepth();
+            this.mLoopDepth.incDepth();
 
             foreach (FrameTimerItem timerItem in this.mTimerList.list())
             {
@@ -88,7 +89,7 @@ namespace SDK.Lib
                 }
             }
 
-            decDepth();
+            this.mLoopDepth.decDepth();
         }
     }
 }

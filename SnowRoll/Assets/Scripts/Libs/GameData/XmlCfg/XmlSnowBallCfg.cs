@@ -116,12 +116,14 @@ namespace SDK.Lib
         public float mMoveSpeed_k;
         public float mMoveSpeed_b;
         public float mSlowMoveSpeed;
+        public float mScaleSpeed;
 
         public override void parseXml(SecurityElement xmlelem)
         {
             UtilXml.getXmlAttrFloat(xmlelem, "MoveSpeed_k", ref mMoveSpeed_k);
             UtilXml.getXmlAttrFloat(xmlelem, "MoveSpeed_b", ref mMoveSpeed_b);
             UtilXml.getXmlAttrFloat(xmlelem, "SlowMoveSpeed", ref mSlowMoveSpeed);
+            UtilXml.getXmlAttrFloat(xmlelem, "ScaleSpeed", ref mScaleSpeed);
         }
     }
 
@@ -235,6 +237,7 @@ namespace SDK.Lib
         public XmlItemMap mXmlItemMap;
         public XmlItemBallTex mXmlItemBallSelfTex;
         public XmlItemBallTex mXmlItemBallOtherTex;
+        public XmlItemBallTex mXmlItemComputerBallTex;
         public XmlItemSnowBlockTex mXmlItemSnowBlockTex;
 
         public XmlSnowBallCfg()
@@ -322,6 +325,7 @@ namespace SDK.Lib
 
             this.mXmlItemBallSelfTex = parseXml<XmlItemBallTex>(this.mXmlConfig, "BallSelfTex")[0] as XmlItemBallTex;
             this.mXmlItemBallOtherTex = parseXml<XmlItemBallTex>(this.mXmlConfig, "BallOtherTex")[0] as XmlItemBallTex;
+            this.mXmlItemComputerBallTex = parseXml<XmlItemBallTex>(this.mXmlConfig, "ComputerBallTex")[0] as XmlItemBallTex;
             //this.mXmlItemBallTex.mTileInfoList = parseXml<TileInfo>(ballElem, "Tile");
         }
 

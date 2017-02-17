@@ -37,7 +37,7 @@
         {
             if (!this.isPrefabPathValid())
             {
-                this.setPrefabPath(Ctx.mInstance.mSnowBallCfg.getRandomBallOtherTex());
+                this.setPrefabPath(Ctx.mInstance.mSnowBallCfg.getRandomComputerBallTex());
             }
 
             mRender = new ComputerBallRender(this);

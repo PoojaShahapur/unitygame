@@ -5,7 +5,7 @@
      */
     public class MergeItem
     {
-        protected long mTimeStamp;  // 时间戳
+        protected double mTimeStamp;  // 时间戳
         protected string mMergeAId;
         protected string mMergeBId;
 
@@ -23,7 +23,7 @@
 
         public void adjustTimeStamp()
         {
-            this.mTimeStamp = UtilApi.getUTCSec();
+            this.mTimeStamp = UtilApi.getFloatUTCSec();
         }
 
         public bool isInRange()
@@ -65,7 +65,7 @@
             {
                 ret = UtilLogic.canContactMerge(this.mTimeStamp);
 
-                float leftTime = UtilApi.getUTCSec() - this.mTimeStamp;
+                double leftTime = UtilApi.getFloatUTCSec() - this.mTimeStamp;
 
                 if (MacroDef.ENABLE_LOG)
                 {

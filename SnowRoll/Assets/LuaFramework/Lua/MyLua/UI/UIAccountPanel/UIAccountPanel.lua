@@ -128,14 +128,15 @@ function M:onAvatarBtnClk()
 end
 
 function M:onShareBtnClk()
-	GlobalNS.CSSystem.Ctx.mInstance.mCamSys:ShareTo3Party();
+	--GlobalNS.CSSystem.Ctx.mInstance.mCamSys:ShareTo3Party();
     self:exit();
 end
 
 function M:resetAvatar(index)
     self.index = index;
 	self.mAvatarBtn.mImage:setSelfGo(self.mAvatarBtn:getSelfGo());
-    self.mAvatarBtn.mImage:setSpritePath("DefaultSkin/Avatar/Avatar_RGB.png", GlobalNS.UtilStr.tostring(self.index));
+	self.mAvatarBtn.mImage:setSpritePath("DefaultSkin/Avatar/"..self.index..".png", GlobalNS.UtilStr.tostring(self.index));
+    --self.mAvatarBtn.mImage:setSpritePath("DefaultSkin/Avatar/Avatar_RGB.png", GlobalNS.UtilStr.tostring(self.index));
 end
 
 return M;

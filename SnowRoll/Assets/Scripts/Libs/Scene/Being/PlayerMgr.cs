@@ -54,7 +54,35 @@ namespace SDK.Lib
 
         override protected void onTickExec(float delta)
         {
-            base.onTickExec(delta);
+            int idx = 0;
+            int count = this.mSceneEntityList.Count();
+            SceneEntityBase entity;
+
+            while (idx < count)
+            {
+                entity = this.mSceneEntityList[idx];
+
+                if (Ctx.mInstance.mCfg.mIsActorMoveUseFixUpdate)
+                {
+                    if(EntityType.ePlayerMain != entity.getEntityType())
+                    {
+                        if (!entity.isClientDispose())
+                        {
+                            entity.onTick(delta);
+                        }
+                    }
+                }
+                else
+                {
+                    if (!entity.isClientDispose())
+                    {
+                        entity.onTick(delta);
+                    }
+                }
+
+                ++idx;
+            }
+
             // 检查是否发送移动消息
             //if (Ctx.mInstance.mCommonData.isClickSplit())
             //{
@@ -80,10 +108,20 @@ namespace SDK.Lib
         {
             this.mHero = hero as PlayerMain;
             this.addPlayer(this.mHero);
+
+            if (Ctx.mInstance.mCfg.mIsActorMoveUseFixUpdate)
+            {
+                Ctx.mInstance.mFixedTickMgr.addTick(this.mHero as ITickedObject);
+            }
         }
 
         public void removeHero()
         {
+            if (Ctx.mInstance.mCfg.mIsActorMoveUseFixUpdate && null != Ctx.mInstance.mFixedTickMgr)
+            {
+                Ctx.mInstance.mFixedTickMgr.removeTick(this.mHero as ITickedObject);
+            }
+
             this.removePlayer(this.mHero);
             this.mHero = null;
         }

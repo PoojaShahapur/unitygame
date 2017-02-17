@@ -16,7 +16,7 @@
         public IGameSys mGameSys;                 // 游戏系统
         public SceneSys mSceneSys;                // 场景系统
         public TickMgr mTickMgr;                  // 心跳管理器
-        public TickMgr mFixedTickMgr;             // 固定间隔心跳管理器
+        public FixedTickMgr mFixedTickMgr;             // 固定间隔心跳管理器
         public LogicTickMgr mLogicTickMgr;        // 逻辑心跳管理器
         public ProcessSys mProcessSys;            // 游戏处理系统
 
@@ -225,7 +225,7 @@
 
             this.mProcessSys = new ProcessSys();
             this.mTickMgr = new TickMgr();
-            this.mFixedTickMgr = new TickMgr();
+            this.mFixedTickMgr = new FixedTickMgr();
             this.mTimerMgr = new TimerMgr();
             this.mFrameTimerMgr = new FrameTimerMgr();
             this.mCoroutineMgr = new CoroutineMgr();
@@ -507,15 +507,16 @@
             // 静止的雪块没有必要更新
             //this.mTickMgr.addTick(this.mSnowBlockMgr as ITickedObject, TickPriority.eTPSnowBlockMgr);
             this.mTickMgr.addTick(this.mPlayerSnowBlockMgr as ITickedObject, TickPriority.eTPPlayerSnowBlockMgr);
+            this.mTickMgr.addTick(this.mPlayerMgr as ITickedObject, TickPriority.eTPPlayerMgr);
 
-            if (!Ctx.mInstance.mCfg.mIsActorMoveUseFixUpdate)
-            {
-                this.mTickMgr.addTick(this.mPlayerMgr as ITickedObject, TickPriority.eTPPlayerMgr);
-            }
-            else
-            {
-                this.mFixedTickMgr.addTick(this.mPlayerMgr as ITickedObject, TickPriority.eTPPlayerMgr);
-            }
+            //if (!Ctx.mInstance.mCfg.mIsActorMoveUseFixUpdate)
+            //{
+            //    this.mTickMgr.addTick(this.mPlayerMgr as ITickedObject, TickPriority.eTPPlayerMgr);
+            //}
+            //else
+            //{
+            //    this.mFixedTickMgr.addTick(this.mPlayerMgr as ITickedObject, TickPriority.eTPPlayerMgr);
+            //}
         }
 
         //public void fixUpdateActor()

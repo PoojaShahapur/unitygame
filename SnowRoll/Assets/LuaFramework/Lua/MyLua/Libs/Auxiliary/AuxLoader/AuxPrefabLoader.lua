@@ -27,6 +27,7 @@ function M:ctor(path)
 	end
 	]]
 	self.mIsInsNeedCoroutine = true;
+	self.mIsDestroySelf = true;
 end
 
 function M:dtor()
@@ -47,11 +48,20 @@ end
 -- 是否需要实例化预制
 function M:setIsNeedInsPrefab(value)
 	self.mIsNeedInsPrefab = value;
+	
+	if(not self.mIsNeedInsPrefab) then
+		self:setIsInsNeedCoroutine(false);
+		self:setDestroySelf(false);
+	end
 end
 
 -- 是否需要协程实例化预制
 function M:setIsInsNeedCoroutine(value)
 	self.mIsInsNeedCoroutine = value;
+end
+
+function M:setDestroySelf(value)
+	self.mIsDestroySelf = value;
 end
 
 function M:setSelfGo(value)
@@ -73,8 +83,10 @@ function M:syncLoad(path, pThis, handle, progressHandle)
 		if(nil == self.mNativePrefabLoader) then
 			self.mNativePrefabLoader = GlobalNS.CSSystem.AuxPrefabLoader.New("");
 		end
+		
 		self.mNativePrefabLoader:setIsNeedInsPrefab(self.mIsNeedInsPrefab);
 		self.mNativePrefabLoader:setIsInsNeedCoroutine(self.mIsInsNeedCoroutine);
+		self.mNativePrefabLoader:setDestroySelf(self.mIsDestroySelf);
 		
 		if(nil == progressHandle) then
 			self.mNativePrefabLoader:syncLoad(path, self, self.onPrefabLoaded, nil);

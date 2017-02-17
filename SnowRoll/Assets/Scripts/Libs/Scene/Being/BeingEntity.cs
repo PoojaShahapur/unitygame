@@ -45,7 +45,7 @@ namespace SDK.Lib
 
             //this.mMoveSpeed = 1;
             this.mRotateSpeed = 10;
-            this.mScaleSpeed = 10;
+            this.mScaleSpeed = Ctx.mInstance.mSnowBallCfg.mScaleSpeed;
 
             this.setBallRadius(0, true, true);
             this.mMoveSpeed = Ctx.mInstance.mSnowBallCfg.mMoveSpeed_k / mScale.x + Ctx.mInstance.mSnowBallCfg.mMoveSpeed_b;
@@ -793,6 +793,12 @@ namespace SDK.Lib
         public bool getIsEatedByServer()
         {
             return this.mIsEatedByServer;
+        }
+
+        // 是否正在请求服务器融合
+        public bool isReqServerMerge()
+        {
+            return this.getBeingSubState() == BeingSubState.eBSSReqServerMerge;
         }
 
         // 预制目录是否有效

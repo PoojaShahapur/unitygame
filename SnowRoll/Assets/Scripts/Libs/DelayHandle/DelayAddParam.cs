@@ -2,11 +2,6 @@
 {
     public class DelayAddParam : DelayHandleParamBase
     {
-        public float mPriority;
-		
-		public DelayAddParam()
-		{
-			this.mPriority = 0.0f;
-		}
+        public float mPriority = 0.0f;
     }
 }

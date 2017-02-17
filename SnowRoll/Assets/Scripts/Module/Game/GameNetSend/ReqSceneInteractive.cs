@@ -8,6 +8,10 @@ namespace Game.Game
      */
     public class ReqSceneInteractive
     {
+        private static double lastReqSplitTime = 0.0f;
+        private static double lastReqSwallowTime = 0.0f;
+        private static double intervalTime = 0.1f;
+
         // 检查 Child 并且发送主角移动
         public static void checkChildAndSendPlayerMove()
         {
@@ -236,6 +240,12 @@ namespace Game.Game
         // 进行分裂
         public static void sendSplit()
         {
+            if (UtilApi.getFloatUTCSec() - lastReqSplitTime < intervalTime)
+            {
+                //发送过快
+                return;
+            }
+
             if (!Ctx.mInstance.mCommonData.isSplitSuccess())
             {
                 if (MacroDef.ENABLE_LOG)
@@ -335,7 +345,7 @@ namespace Game.Game
             {
                 Ctx.mInstance.mCommonData.setSplitSuccess(false);
                 player.cellCall("reqSplit", (int)MsgLogicCV.eSplit, infos);
-
+                lastReqSplitTime = UtilApi.getFloatUTCSec();
                 if (MacroDef.ENABLE_LOG)
                 {
                     Ctx.mInstance.mLogSys.log("ReqSceneInteractive::sendSplit, Send Split", LogTypeId.eLogSceneInterActive);
@@ -415,6 +425,12 @@ namespace Game.Game
         // 吐雪块
         public static void sendShit()
         {
+            if (UtilApi.getFloatUTCSec() - lastReqSwallowTime < intervalTime)
+            {
+                //发送过快
+                return;
+            }
+
             if (!Ctx.mInstance.mCommonData.isEmitSuccess())
             {
                 if (MacroDef.ENABLE_LOG)
@@ -501,6 +517,7 @@ namespace Game.Game
             {
                 Ctx.mInstance.mCommonData.setEmitSuccess(false);
                 player.cellCall("reqSplit", (int)MsgLogicCV.eShit, infos);
+                lastReqSwallowTime = UtilApi.getFloatUTCSec();
 
                 if (MacroDef.ENABLE_LOG)
                 {

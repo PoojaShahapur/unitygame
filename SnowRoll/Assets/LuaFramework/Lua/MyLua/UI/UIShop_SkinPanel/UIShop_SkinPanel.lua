@@ -47,6 +47,7 @@ function M:onInit()
     self.mFilterToggle = nil;
     --goodsitem prefab
     self.mGoodsitem_prefab = GlobalNS.new(GlobalNS.AuxPrefabLoader);
+	self.mGoodsitem_prefab:setIsNeedInsPrefab(false);
     self.isPrefabLoaded = false;
     --goodsitems gameobject数组
     self.goodsitems = { };
@@ -264,7 +265,7 @@ function M:onBackBtnClk()
         GlobalNS.UtilApi.Destroy(goodsitem.m_go);
     end
     self.goodsitems = {};
-
+    self.mGoodsitem_prefab:dispose();
 	self:exit();
 end
 

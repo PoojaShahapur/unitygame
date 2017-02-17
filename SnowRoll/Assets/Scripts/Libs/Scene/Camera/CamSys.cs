@@ -18,7 +18,7 @@ namespace SDK.Lib
         public CamSys()
         {
             this.mIsFirst = true;
-            this.mIsHudCanvasNeedWorldCam = true;
+            this.mIsHudCanvasNeedWorldCam = false;
         }
 
         // 初始化

@@ -8,7 +8,7 @@
         protected LoadItem mRetLoadItem;
         protected ResItem mRetResItem;
         protected MList<string> mZeroRefResIDList;      // 没有引用的资源 ID 列表
-        protected int mLoadingDepth;                   // 加载深度
+        protected LoopDepth mLoopDepth;                   // 加载深度
 
         public ResLoadMgr()
         {
@@ -16,7 +16,9 @@
             this.mCurNum = 0;
             this.mLoadData = new ResLoadData();
             this.mZeroRefResIDList = new MList<string>();
-            this.mLoadingDepth = 0;
+
+            this.mLoopDepth = new LoopDepth();
+            this.mLoopDepth.setZeroHandle(this.unloadNoRefResFromList);
         }
 
         public void init()
@@ -196,7 +198,7 @@
 
         public ResItem createResItem(LoadParam param)
         {
-            ResItem resItem = findResFormPool(param.mResPackType);
+            ResItem resItem = this.findResFormPool(param.mResPackType);
 
             if (ResPackType.eLevelType == param.mResPackType)
             {
@@ -204,6 +206,7 @@
                 {
                     resItem = new LevelResItem();
                 }
+
                 (resItem as LevelResItem).levelName = param.lvlName;
             }
             else if (ResPackType.eBundleType == param.mResPackType)
@@ -244,6 +247,7 @@
                 {
                     resItem = new ABUnPakLevelFileResItem();
                 }
+
                 (resItem as ABUnPakLevelFileResItem).levelName = param.lvlName;
             }
             else if (ResPackType.ePakType == param.mResPackType)
@@ -259,6 +263,7 @@
                 {
                     resItem = new ABPakLevelFileResItem();
                 }
+
                 (resItem as ABPakLevelFileResItem).levelName = param.lvlName;
             }
             //else if (ResPackType.ePakMemType == param.mResPackType)
@@ -350,8 +355,9 @@
         // 资源创建并且正在被加载
         protected void loadWithResCreatedAndLoad(LoadParam param)
         {
-            mLoadData.mPath2Res[param.mResUniqueId].refCountResLoadResultNotify.refCount.incRef();
-            if (mLoadData.mPath2Res[param.mResUniqueId].refCountResLoadResultNotify.resLoadState.hasLoaded())
+            this.mLoadData.mPath2Res[param.mResUniqueId].refCountResLoadResultNotify.refCount.incRef();
+
+            if (this.mLoadData.mPath2Res[param.mResUniqueId].refCountResLoadResultNotify.resLoadState.hasLoaded())
             {
                 if (param.mLoadEventHandle != null)
                 {
@@ -362,50 +368,50 @@
             {
                 if (param.mLoadEventHandle != null)
                 {
-                    mLoadData.mPath2Res[param.mResUniqueId].refCountResLoadResultNotify.loadResEventDispatch.addEventHandle(null, param.mLoadEventHandle);
+                    this.mLoadData.mPath2Res[param.mResUniqueId].refCountResLoadResultNotify.loadResEventDispatch.addEventHandle(null, param.mLoadEventHandle);
                 }
             }
 
-            resetLoadParam(param);
+            this.resetLoadParam(param);
         }
 
         protected void loadWithResCreatedAndNotLoad(LoadParam param, ResItem resItem)
         {
-            mLoadData.mPath2Res[param.mResUniqueId] = resItem;
-            mLoadData.mPath2Res[param.mResUniqueId].refCountResLoadResultNotify.resLoadState.setLoading();
+            this.mLoadData.mPath2Res[param.mResUniqueId] = resItem;
+            this.mLoadData.mPath2Res[param.mResUniqueId].refCountResLoadResultNotify.resLoadState.setLoading();
 
             // 如果不存在 LoadItem ，这个时候才需要创建，如果已经存在 LoadItem，这个时候不需要再次创建，这种情况通常发生在在加载一个资源，当 LoadItem 还没有加载完成，然后卸载了 ResItem，这个时候再次加载的时候，如果不判断，就会再次生成一个 LoadItem，这样 mPath2LDItem 字典里就会覆盖之前的 LoadItem，但是可能回调事件仍然存在，导致回调好几次
             if (!hasLoadItem(param.mResUniqueId))
             {
-                LoadItem loadItem = createLoadItem(param);
+                LoadItem loadItem = this.createLoadItem(param);
 
-                if (mCurNum < mMaxParral)
+                if (this.mCurNum < this.mMaxParral)
                 {
                     // 先增加，否则退出的时候可能是先减 1 ，导致越界出现很大的值
-                    ++mCurNum;
+                    ++this.mCurNum;
 
-                    mLoadData.mPath2LDItem[param.mResUniqueId] = loadItem;
-                    mLoadData.mPath2LDItem[param.mResUniqueId].load();
+                    this.mLoadData.mPath2LDItem[param.mResUniqueId] = loadItem;
+                    this.mLoadData.mPath2LDItem[param.mResUniqueId].load();
                 }
                 else
                 {
-                    mLoadData.mWillLDItem.Add(loadItem);
+                    this.mLoadData.mWillLDItem.Add(loadItem);
                 }
             }
 
-            resetLoadParam(param);
+            this.resetLoadParam(param);
         }
 
         protected void loadWithNotResCreatedAndNotLoad(LoadParam param)
         {
-            ResItem resItem = createResItem(param);
-            loadWithResCreatedAndNotLoad(param, resItem);
+            ResItem resItem = this.createResItem(param);
+            this.loadWithResCreatedAndNotLoad(param, resItem);
         }
 
         // 通用类型，需要自己设置很多参数
         public void load(LoadParam param)
         {
-            ++this.mLoadingDepth;
+            this.mLoopDepth.incDepth();
 
             if (this.mLoadData.mPath2Res.ContainsKey(param.mResUniqueId))
             {
@@ -420,12 +426,12 @@
                 this.loadWithNotResCreatedAndNotLoad(param);
             }
 
-            --this.mLoadingDepth;
+            this.mLoopDepth.decDepth();
 
-            if (this.mLoadingDepth == 0)
-            {
-                this.unloadNoRefResFromList();
-            }
+            //if (!this.mLoopDepth.isInDepth())
+            //{
+            //    this.unloadNoRefResFromList();
+            //}
         }
 
         public ResItem getAndLoad(LoadParam param)
@@ -447,7 +453,7 @@
 
                 if (this.mLoadData.mPath2Res[resUniqueId].refCountResLoadResultNotify.refCount.isNoRef())
                 {
-                    if (this.mLoadingDepth != 0)
+                    if (this.mLoopDepth.isInDepth())
                     {
                         this.addNoRefResID2List(resUniqueId);
                     }
@@ -532,11 +538,12 @@
 
         public void removeWillLoadItem(string resUniqueId)
         {
-            foreach(LoadItem loadItem in mLoadData.mWillLDItem)
+            foreach(LoadItem loadItem in this.mLoadData.mWillLDItem)
             {
                 if(loadItem.getResUniqueId() == resUniqueId)
                 {
                     this.releaseLoadItem(loadItem);      // 必然只有一个，如果有多个就是错误
+
                     break;
                 }
             }
@@ -563,20 +570,26 @@
 
         public void onLoaded(LoadItem item)
         {
+            this.mLoopDepth.incDepth();
+
             item.onLoaded();
 
-            if (mLoadData.mPath2Res.ContainsKey(item.getResUniqueId()))
+            if (this.mLoadData.mPath2Res.ContainsKey(item.getResUniqueId()))
             {
-                mLoadData.mPath2Res[item.getResUniqueId()].init(mLoadData.mPath2LDItem[item.getResUniqueId()]);
+                this.mLoadData.mPath2Res[item.getResUniqueId()].init(this.mLoadData.mPath2LDItem[item.getResUniqueId()]);
             }
             else        // 如果资源已经没有使用的地方了
             {
                 item.unload();          // 直接卸载掉
             }
+
+            this.mLoopDepth.decDepth();
         }
 
         public void onFailed(LoadItem item)
         {
+            this.mLoopDepth.incDepth();
+
             item.onFailed();
 
             string resUniqueId = item.getResUniqueId();
@@ -585,6 +598,8 @@
             {
                 this.mLoadData.mPath2Res[resUniqueId].failed(this.mLoadData.mPath2LDItem[resUniqueId]);
             }
+
+            this.mLoopDepth.decDepth();
         }
 
         protected void releaseLoadItem(LoadItem item)
@@ -622,6 +637,7 @@
                 {
                     this.mRetResItem = item;
                     this.mLoadData.mNoUsedResItem.Remove(mRetResItem);
+
                     break;
                 }
             }
@@ -639,6 +655,7 @@
                 {
                     this.mRetLoadItem = item;
                     this.mLoadData.mNoUsedLDItem.Remove(this.mRetLoadItem);
+
                     break;
                 }
             }

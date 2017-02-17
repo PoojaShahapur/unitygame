@@ -1202,8 +1202,25 @@ namespace SDK.Lib
                 }
             }
 
-
             return (long)(UtilApi.msTimeSpan.TotalSeconds);
+        }
+
+        // 返回 UTC 秒
+        public static double getFloatUTCSec()
+        {
+            UtilApi.msCurTime = System.DateTime.Now.Ticks;
+            UtilApi.msTimeSpan = new System.TimeSpan(msCurTime);
+
+
+            if (MacroDef.ENABLE_LOG)
+            {
+                if (null != Ctx.mInstance && null != Ctx.mInstance.mLogSys)
+                {
+                    Ctx.mInstance.mLogSys.log(string.Format("UtilApi::msCurTime, msCurTime = {0}, msTimeSpan = {1}, totalSec = {2}", UtilApi.msCurTime, UtilApi.msTimeSpan, UtilApi.msTimeSpan.TotalSeconds), LogTypeId.eLogMergeBug);
+                }
+            }
+
+            return UtilApi.msTimeSpan.TotalSeconds;
         }
 
         // 获取当前时间的文本可读形式

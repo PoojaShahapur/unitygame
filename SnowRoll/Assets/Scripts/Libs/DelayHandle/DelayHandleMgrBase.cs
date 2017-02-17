@@ -8,14 +8,15 @@
         protected MList<DelayHandleObject> mDeferredAddQueue;
         protected MList<DelayHandleObject> mDeferredDelQueue;
 
-        private int mLoopDepth;           // 是否在循环中，支持多层嵌套，就是循环中再次调用循环
+        protected LoopDepth mLoopDepth;           // 是否在循环中，支持多层嵌套，就是循环中再次调用循环
 
         public DelayHandleMgrBase()
         {
             this.mDeferredAddQueue = new MList<DelayHandleObject>();
             this.mDeferredDelQueue = new MList<DelayHandleObject>();
 
-            this.mLoopDepth = 0;
+            this.mLoopDepth = new LoopDepth();
+            this.mLoopDepth.setDecHandle(this.processDelayObjects);
         }
 
         virtual public void init()
@@ -30,7 +31,7 @@
 
         virtual protected void addObject(IDelayHandleItem delayObject, float priority = 0.0f)
         {
-            if (this.mLoopDepth > 0)
+            if(this.mLoopDepth.isInDepth())
             {
                 if (!this.existAddList(delayObject))        // 如果添加列表中没有
                 {
@@ -51,7 +52,7 @@
 
         virtual protected void removeObject(IDelayHandleItem delayObject)
         {
-            if (this.mLoopDepth > 0)
+            if (this.mLoopDepth.isInDepth())
             {
                 if (!this.existDelList(delayObject))
                 {
@@ -128,7 +129,7 @@
             // len 是 Python 的关键字
             int elemLen = 0;
 
-            if (0 == this.mLoopDepth)       // 只有全部退出循环后，才能处理添加删除
+            if (!this.mLoopDepth.isInDepth())       // 只有全部退出循环后，才能处理添加删除
             {
                 if (this.mDeferredAddQueue.Count() > 0)
                 {
@@ -159,23 +160,6 @@
                     this.mDeferredDelQueue.Clear();
                 }
             }
-        }
-
-        public void incDepth()
-        {
-            ++this.mLoopDepth;
-        }
-
-        public void decDepth()
-        {
-            --this.mLoopDepth;
-
-            processDelayObjects();
-        }
-
-        public bool isInDepth()
-        {
-            return this.mLoopDepth > 0;
         }
     }
 }

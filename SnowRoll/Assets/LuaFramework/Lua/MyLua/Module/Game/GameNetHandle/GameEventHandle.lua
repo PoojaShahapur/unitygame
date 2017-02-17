@@ -59,7 +59,8 @@ function M:filterMessage(msgname) --消息过滤
        string.find(msgname, "Client_onUpdatePropertys") ~= nil or
        string.find(msgname, "Client_setSpaceData") ~= nil or
        string.find(msgname, "Client_onEntityLeaveWorldOptimized") ~= nil or
-       string.find(msgname, "Client_onRemoteMethodCall") ~= nil
+       string.find(msgname, "Client_onRemoteMethodCall") ~= nil or
+       string.find(msgname, "Client_onUpdateData_xz") ~= nil
     then
         return true;
     else
@@ -108,8 +109,8 @@ function M:notifyNetworkInvalid()
 end
 
 function M:notifySomeMessage(params)
-    local msg = params[0];
-    GCtx.mGameData:ShowRollMessage(msg);
+    --local msg = params[0];
+    --GCtx.mGameData:ShowRollMessage(msg);
 end
 
 return M;

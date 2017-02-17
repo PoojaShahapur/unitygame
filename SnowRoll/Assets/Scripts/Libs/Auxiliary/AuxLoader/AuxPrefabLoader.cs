@@ -36,6 +36,12 @@ namespace SDK.Lib
         public void setIsNeedInsPrefab(bool value)
         {
             this.mIsNeedInsPrefab = value;
+
+            if(!this.mIsNeedInsPrefab)
+            {
+                this.setIsInsNeedCoroutine(false);
+                this.setDestroySelf(false);
+            }
         }
 
         // 是否需要协程实例化预制

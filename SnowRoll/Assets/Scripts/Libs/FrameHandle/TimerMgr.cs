@@ -28,9 +28,9 @@ namespace SDK.Lib
         protected override void addObject(IDelayHandleItem delayObject, float priority = 0.0f)
         {
             // 检查当前是否已经在队列中
-            if (this.mTimerList.IndexOf(delayObject as TimerItemBase) == -1)
+            if (!this.mTimerList.Contains(delayObject as TimerItemBase))
             {
-                if (isInDepth())
+                if (this.mLoopDepth.isInDepth())
                 {
                     base.addObject(delayObject, priority);
                 }
@@ -44,10 +44,11 @@ namespace SDK.Lib
         protected override void removeObject(IDelayHandleItem delayObject)
         {
             // 检查当前是否在队列中
-            if (this.mTimerList.IndexOf(delayObject as TimerItemBase) != -1)
+            if (this.mTimerList.Contains(delayObject as TimerItemBase))
             {
                 (delayObject as TimerItemBase).mDisposed = true;
-                if (isInDepth())
+
+                if (this.mLoopDepth.isInDepth())
                 {
                     base.removeObject(delayObject);
                 }
@@ -90,7 +91,7 @@ namespace SDK.Lib
 
         public void Advance(float delta)
         {
-            incDepth();
+            this.mLoopDepth.incDepth();
 
             foreach (TimerItemBase timerItem in this.mTimerList.list())
             {
@@ -101,11 +102,11 @@ namespace SDK.Lib
 
                 if (timerItem.mDisposed)        // 如果已经结束
                 {
-                    removeObject(timerItem);
+                    this.removeObject(timerItem);
                 }
             }
 
-            decDepth();
+            this.mLoopDepth.decDepth();
         }
     }
 }

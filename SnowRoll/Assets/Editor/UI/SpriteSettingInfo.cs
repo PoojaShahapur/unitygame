@@ -105,19 +105,19 @@ namespace EditorTool
 
                 textureImporter.SetTextureSettings(textureSettings);
 
-#if UNITY_ANDROID
-                TextureImporterPlatformSettings textureImporterPlatformSettings = null;
-                textureImporterPlatformSettings = textureImporter.GetPlatformTextureSettings("Android");
+//#if UNITY_ANDROID
+//                TextureImporterPlatformSettings textureImporterPlatformSettings = null;
+//                textureImporterPlatformSettings = textureImporter.GetPlatformTextureSettings("Android");
 
-                textureImporterPlatformSettings.overridden = true;
-                textureImporterPlatformSettings.allowsAlphaSplitting = true;
-                textureImporterPlatformSettings.maxTextureSize = 1024;
-                textureImporterPlatformSettings.format = TextureImporterFormat.ETC_RGB4;
+//                textureImporterPlatformSettings.overridden = true;
+//                textureImporterPlatformSettings.allowsAlphaSplitting = true;
+//                textureImporterPlatformSettings.maxTextureSize = 1024;
+//                textureImporterPlatformSettings.format = TextureImporterFormat.ETC_RGB4;
 
-                textureImporter.SetPlatformTextureSettings(textureImporterPlatformSettings);
-#else
-                // iPhone 
-#endif
+//                textureImporter.SetPlatformTextureSettings(textureImporterPlatformSettings);
+//#else
+//                // iPhone 
+//#endif
                 AssetDatabase.ImportAsset(assetPath);
             }
         }

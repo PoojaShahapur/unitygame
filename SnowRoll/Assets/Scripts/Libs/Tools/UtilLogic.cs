@@ -511,9 +511,9 @@ namespace SDK.Lib
             return num * num;
         }
 
-        public static bool canMerge(long timeStamp)
+        public static bool canMerge(double timeStamp)
         {
-            if (UtilApi.getUTCSec() - timeStamp >= Ctx.mInstance.mSnowBallCfg.mMergeCoolTime)
+            if (UtilApi.getFloatUTCSec() - timeStamp >= Ctx.mInstance.mSnowBallCfg.mMergeCoolTime)
             {
                 return true;
             }
@@ -521,9 +521,9 @@ namespace SDK.Lib
             return false;
         }
 
-        public static bool canContactMerge(long timeStamp)
+        public static bool canContactMerge(double timeStamp)
         {
-            if (UtilApi.getUTCSec() - timeStamp >= Ctx.mInstance.mSnowBallCfg.mMergeContactTime)
+            if (UtilApi.getFloatUTCSec() - timeStamp >= Ctx.mInstance.mSnowBallCfg.mMergeContactTime)
             {
                 return true;
             }

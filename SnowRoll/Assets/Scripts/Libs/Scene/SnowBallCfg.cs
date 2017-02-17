@@ -31,6 +31,7 @@
         public float mMoveSpeed_k;
         public float mMoveSpeed_b;
         public float mSlowMoveSpeed;
+        public float mScaleSpeed;
 
         // 吞食雪块计算公式 r = r + (1 + 1 / (10 + Mathf.Pow(r, A)))
         public float mA;
@@ -56,9 +57,12 @@
 
         public string[] mBallSelfTexArray;      // BallTex 数组
         public string[] mBallOtherTexArray;     // BallTex 数组
+        public string[] mComputerBallTexArray;     // ComputerBallTex 数组
         public string[] mSnowBlockTexArray;      // SnowBlockTex 数组
         public MList<TileInfo> mBallTileTexList;
         public MList<TileInfo> mSnowBlockTexList;
+
+        public int mMergeMinSpeed;      // 融合最小
 
         public SnowBallCfg()
         {
@@ -86,6 +90,7 @@
             this.mMoveSpeed_k = 10.0f;
             this.mMoveSpeed_b = 10.0f;
             this.mSlowMoveSpeed = 5.0f;
+            this.mScaleSpeed = 10.0f;
 
             this.mCameraDistance_Z = 10.0f;
             this.mCameraChangeFactor_Z = 15.0f;
@@ -99,6 +104,8 @@
             this.mBallCollideRadius = 1.08f;
             this.mSnowBlockCollideRadius = 0.002f;
             this.mShitCollideRadius = 1;
+
+            this.mMergeMinSpeed = 30;
         }
 
         public void init()
@@ -135,6 +142,7 @@
             this.mMoveSpeed_k = this.mXmlSnowBallCfg.mXmlItemMoveSpeed.mMoveSpeed_k;
             this.mMoveSpeed_b = this.mXmlSnowBallCfg.mXmlItemMoveSpeed.mMoveSpeed_b;
             this.mSlowMoveSpeed = this.mXmlSnowBallCfg.mXmlItemMoveSpeed.mSlowMoveSpeed;
+            this.mScaleSpeed = this.mXmlSnowBallCfg.mXmlItemMoveSpeed.mScaleSpeed;
 
             this.mCameraDistance_Z = this.mXmlSnowBallCfg.mXmlItemCameraControl.mCameraDistance_Z;
             this.mCameraChangeFactor_Z = this.mXmlSnowBallCfg.mXmlItemCameraControl.mCameraChangeFactor_Z;
@@ -147,6 +155,7 @@
 
             this.mBallSelfTexArray = UtilStr.split(ref this.mXmlSnowBallCfg.mXmlItemBallSelfTex.mSrc, ',');
             this.mBallOtherTexArray = UtilStr.split(ref this.mXmlSnowBallCfg.mXmlItemBallOtherTex.mSrc, ',');
+            this.mComputerBallTexArray = UtilStr.split(ref this.mXmlSnowBallCfg.mXmlItemComputerBallTex.mSrc, ',');
             this.mSnowBlockTexArray = UtilStr.split(ref this.mXmlSnowBallCfg.mXmlItemSnowBlockTex.mSrc, ',');
 
             //int idx = 0;
@@ -216,6 +225,22 @@
 
                 int cur = UtilMath.RangeRandom(min, max);
                 ret = this.mBallOtherTexArray[cur];
+            }
+
+            return ret;
+        }
+
+        public string getRandomComputerBallTex()
+        {
+            string ret = "";
+
+            if (this.mComputerBallTexArray.Length > 0)
+            {
+                int min = 0;
+                int max = this.mComputerBallTexArray.Length;
+
+                int cur = UtilMath.RangeRandom(min, max);
+                ret = this.mComputerBallTexArray[cur];
             }
 
             return ret;

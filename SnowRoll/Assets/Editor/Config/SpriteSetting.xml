@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8' ?>
 <Root>
 	<path>
-		<item inpath="Resources/DefaultSkin/GameOption" isDir="true" recurse="true" includeext="png" />
+		<item inpath="Resources/DefaultSkin" isDir="true" recurse="true" includeext="png" />
 	</path>
 </Root>
