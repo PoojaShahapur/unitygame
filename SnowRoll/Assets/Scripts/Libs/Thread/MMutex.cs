@@ -7,7 +7,7 @@ namespace SDK.Lib
      */
     public class MMutex
     {
-        private Mutex m_mutex; 	// 读互斥
+        private Mutex mMutex; 	// 读互斥
 		private string mName;	// name
 
         public MMutex(bool initiallyOwned, string name)
@@ -15,8 +15,8 @@ namespace SDK.Lib
             if (MacroDef.NET_MULTHREAD)
             {
                 // IOS 下不支持，错误提示如下： "Named mutexes are not supported"
-                //m_mutex = new Mutex(initiallyOwned, name);
-				m_mutex = new Mutex(initiallyOwned);
+                //mMutex = new Mutex(initiallyOwned, name);
+				mMutex = new Mutex(initiallyOwned);
 				mName = name;
             }
         }
@@ -25,7 +25,7 @@ namespace SDK.Lib
         {
             if (MacroDef.NET_MULTHREAD)
             {
-                m_mutex.WaitOne();
+                mMutex.WaitOne();
             }
         }
 
@@ -33,7 +33,7 @@ namespace SDK.Lib
         {
             if (MacroDef.NET_MULTHREAD)
             {
-                m_mutex.ReleaseMutex();
+                mMutex.ReleaseMutex();
             }
         }
 
@@ -41,7 +41,7 @@ namespace SDK.Lib
         {
             if (MacroDef.NET_MULTHREAD)
             {
-                m_mutex.Close();
+                mMutex.Close();
             }
         }
     }

@@ -7,26 +7,26 @@ namespace SDK.Lib
      */
     public class MEvent
     {
-        private ManualResetEvent m_event;
+        private ManualResetEvent mEvent;
 
         public MEvent(bool initialState)
         {
-            m_event = new ManualResetEvent(initialState);
+            mEvent = new ManualResetEvent(initialState);
         }
 
         public void WaitOne()
         {
-            m_event.WaitOne();
+            mEvent.WaitOne();
         }
 
         public bool Reset()
         {
-            return m_event.Reset();
+            return mEvent.Reset();
         }
 
         public bool Set()
         {
-            return m_event.Set();
+            return mEvent.Set();
         }
     }
 }

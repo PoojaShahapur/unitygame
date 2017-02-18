@@ -5,52 +5,52 @@
      */
     public class MCondition
     {
-        protected MMutex m_pMMutex;
-        protected MEvent m_pMEvent;
-        protected bool m_canEnterWait;  // 是否可以进入等待
+        protected MMutex mMutex;
+        protected MEvent mEvent;
+        protected bool mCanEnterWait;  // 是否可以进入等待
 
         public MCondition(string name)
         {
-            m_pMMutex = new MMutex(false, name);
-            m_pMEvent = new MEvent(false);
-            m_canEnterWait = true;      // 允许进入等待状态
+            mMutex = new MMutex(false, name);
+            mEvent = new MEvent(false);
+            mCanEnterWait = true;      // 允许进入等待状态
         }
 
         public bool canEnterWait
         {
             get
             {
-                return m_canEnterWait;
+                return mCanEnterWait;
             }
         }
 
         public void wait()
         {
-            //using (MLock mlock = new MLock(m_pMMutex))
+            //using (MLock mlock = new MLock(mMutex))
             //{
-                m_pMMutex.WaitOne();
-                if (m_canEnterWait)
+                mMutex.WaitOne();
+                if (mCanEnterWait)
                 {
-                    m_pMMutex.ReleaseMutex();   // 这个地方需要释放锁，否则 notifyAll 进不来
-                    m_pMEvent.WaitOne();
-                    m_pMEvent.Reset();      // 重置信号
+                    mMutex.ReleaseMutex();   // 这个地方需要释放锁，否则 notifyAll 进不来
+                    mEvent.WaitOne();
+                    mEvent.Reset();      // 重置信号
                 }
                 else
                 {
-                    m_canEnterWait = true;
-                    m_pMMutex.ReleaseMutex();
+                    mCanEnterWait = true;
+                    mMutex.ReleaseMutex();
                 }
             //}
         }
 
         public void notifyAll()
         {
-            using (MLock mlock = new MLock(m_pMMutex))
+            using (MLock mlock = new MLock(mMutex))
             {
-                if (m_canEnterWait) // 如果 m_canEnterWait == false，必然不能进入等待
+                if (mCanEnterWait) // 如果 mCanEnterWait == false，必然不能进入等待
                 {
-                    m_canEnterWait = false;
-                    m_pMEvent.Set();        // 唤醒线程
+                    mCanEnterWait = false;
+                    mEvent.Set();        // 唤醒线程
                 }
             }
         }
