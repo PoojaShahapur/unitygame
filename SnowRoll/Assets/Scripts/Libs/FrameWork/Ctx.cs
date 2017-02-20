@@ -129,6 +129,8 @@
         public IdPoolSys mIdPoolSys;
 
         public UniqueStrIdGen mUniqueStrIdGen;
+        public DownloadFileMgr mDownloadFileMgr;              // 文件下载模块
+        public DownloadAppMgr mDownloadAppMgr;              // App下载模块
 
         public Ctx()
         {
@@ -278,6 +280,8 @@
             this.mIdPoolSys = new IdPoolSys();
 
             this.mLogicTickMgr = new LogicTickMgr();
+            this.mDownloadFileMgr = new DownloadFileMgr();
+            this.mDownloadAppMgr = new DownloadAppMgr();
         }
 
         public void logicInit()
@@ -308,7 +312,7 @@
             this.mComputerBallMgr.init();
             this.mFrameCollideMgr.init();
             this.mSceneSys.init();
-            this.mSnowBallCfg.init();
+            //this.mSnowBallCfg.init();
             this.mPlayerSnowBlockMgr.init();
             this.mHudSystem.init();
             this.mPlayerMgr.init();
@@ -323,6 +327,8 @@
             this.mSoundLoadStateCheckMgr.init();
             this.mIdPoolSys.init();
             this.mLogicTickMgr.init();
+            this.mDownloadFileMgr.init();
+            this.mDownloadAppMgr.init();
 
             // 添加事件处理
             Ctx.mInstance.mCamSys.setUiCamera(Ctx.mInstance.mLayerMgr.mPath2Go[NotDestroyPath.ND_CV_App].AddComponent<UICamera>());
@@ -474,6 +480,16 @@
             {
                 this.mLogicTickMgr.dispose();
                 this.mLogicTickMgr = null;
+            }
+            if(null != this.mDownloadFileMgr)
+            {
+                this.mDownloadFileMgr.dispose();
+                this.mDownloadFileMgr = null;
+            }
+            if (null != this.mDownloadAppMgr)
+            {
+                this.mDownloadAppMgr.dispose();
+                this.mDownloadAppMgr = null;
             }
         }
 

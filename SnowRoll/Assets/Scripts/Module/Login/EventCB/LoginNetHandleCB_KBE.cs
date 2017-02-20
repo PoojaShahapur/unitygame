@@ -28,6 +28,7 @@ namespace Game.Login
         public bool showReliveGUI = false;
 
         private bool isrelogin = false;
+        private static double lastReqLogin = 0.0f;
 
         public LoginNetHandleCB_KBE()
         {
@@ -124,18 +125,32 @@ namespace Game.Login
 
         public void login()
         {
+            if (UtilApi.getFloatUTCSec() - lastReqLogin < 1.5f)
+            {
+                //发送过快
+                return;
+            }
+
             isrelogin = false;
             info("connect to server...(连接到服务端...)");
             KBEngine.Event.fireIn("login", stringAccount, stringPasswd, System.Text.Encoding.UTF8.GetBytes("kbengine_unity3d_demo"));
+            lastReqLogin = UtilApi.getFloatUTCSec();
         }
 
         public void relogin()
         {
+            if (UtilApi.getFloatUTCSec() - lastReqLogin < 1.5f)
+            {
+                //发送过快
+                return;
+            }
+
             isrelogin = true;            
             info("connect to server...（重新连接到服务端...)");
             KBEngine.Event.fireIn("login", stringAccount, stringPasswd, System.Text.Encoding.UTF8.GetBytes("kbengine_unity3d_demo"));
             //KBEngineApp.app.login(stringAccount, stringPasswd, System.Text.Encoding.UTF8.GetBytes("kbengine_unity3d_demo"));
             //Ctx.mInstance.mSceneEventCB.onLevelLoaded();
+            lastReqLogin = UtilApi.getFloatUTCSec();
         }
 
         public void closeNetwork()
@@ -155,6 +170,7 @@ namespace Game.Login
             }
 
             KBEngineApp.app.networkInterface().close();
+            lastReqLogin = UtilApi.getFloatUTCSec();
         }
 
         public void createAccount()
@@ -192,7 +208,7 @@ namespace Game.Login
 
         public void onLoginFailed(UInt16 failedcode)
         {
-            if (failedcode == 20)
+            /*if (failedcode == 20)
             {
                 err("login is failed(登陆失败), err=" + KBEngineApp.app.serverErr(failedcode) + ", " + System.Text.Encoding.UTF8.GetString(KBEngineApp.app.serverdatas()));
             }
@@ -204,7 +220,7 @@ namespace Game.Login
             if(23 == failedcode)//账号不存在
             {
                 autoCreateAccount();
-            }
+            }*/
         }
 
         private void autoCreateAccount()
@@ -248,6 +264,10 @@ namespace Game.Login
 
         public void onKicked(UInt16 failedcode)
         {
+            Ctx.mInstance.mPlayerMgr.dispose();
+            Ctx.mInstance.mSnowBlockMgr.dispose();
+            Ctx.mInstance.mComputerBallMgr.dispose();
+            Ctx.mInstance.mPlayerSnowBlockMgr.dispose();
             err("kick, disconnect!, reason=" + KBEngineApp.app.serverErr(failedcode));
             //Application.LoadLevel("login");
 

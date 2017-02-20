@@ -49,6 +49,7 @@ MLoader("MyLua.Libs.FrameHandle.TimerMgr");
 MLoader("MyLua.Libs.FrameHandle.FrameTimerMgr");
 MLoader("MyLua.Libs.FrameHandle.TickMgr");
 MLoader("MyLua.Libs.FrameHandle.TimerFunctionObject");
+MLoader("MyLua.Libs.FrameHandle.FrameUpdateStatistics");
 
 -- UI
 MLoader("MyLua.Libs.UI.UICore.FormMode");

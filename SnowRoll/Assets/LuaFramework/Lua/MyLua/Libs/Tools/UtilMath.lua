@@ -24,6 +24,12 @@ function M.getShowMass(radius)
     local showmass = "1毫克";
     local k = GlobalNS.CSSystem.Ctx.mInstance.mSnowBallCfg.mMassFactor;
 
+    local _yt = math.pow((radius / math.pow(1000 * 1000 * 1000 * 10000 * 10000, 1/k)), k); --亿t
+    if _yt >= 1 then
+        showmass = string.format("%0.1f亿吨", _yt);
+        return showmass;
+    end
+
     local _wt = math.pow((radius / math.pow(1000 * 1000 * 1000 * 10000, 1/k)), k); --万t
     if _wt >= 1 then
         showmass = string.format("%0.1f万吨", _wt);

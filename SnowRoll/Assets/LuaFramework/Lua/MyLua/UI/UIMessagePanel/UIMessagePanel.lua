@@ -35,7 +35,7 @@ end
 function M:onReady()
     M.super.onReady(self);
     self.popMessageDlg = GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.mGuiWin, "PopMessageDlg");
-    self.popMessageText = GlobalNS.UtilApi.getComByPath(self.popMessageDlg, "MsgText", "Text");
+    self.popMessageText = GlobalNS.UtilApi.getComByPath(self.popMessageDlg, "MsgText", "InputField");
 	self.mOKBtn:setSelfGo(GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.popMessageDlg, "OK_BtnTouch"));
 
     self.rollMessageDlg = GlobalNS.UtilApi.TransFindChildByPObjAndPath(self.mGuiWin, "RollMessageDlg");

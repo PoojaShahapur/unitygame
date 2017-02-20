@@ -207,6 +207,7 @@ public static class CustomSettings
         _GT(typeof(SDK.Lib.EEndian)),
         _GT(typeof(SDK.Lib.GkEncode)),
         _GT(typeof(SDK.Lib.CamSys)),
+        _GT(typeof(SDK.Lib.ShareData)),
         //for ModuleSys
         _GT(typeof(SDK.Lib.ModuleSys)),
         _GT(typeof(SDK.Lib.ModuleId)),

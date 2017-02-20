@@ -25,7 +25,7 @@
         static public bool MSG_COMPRESS = false;
 
         // 开启窗口日志
-        static public bool ENABLE_WINLOG = true;
+        static public bool ENABLE_WINLOG = false;
 
         // 开启网络日志
         static public bool ENABLE_NETLOG = false;
@@ -58,14 +58,27 @@
         static public bool LUA_EDITOR = true;
 
         // 开启日志
-        static public bool ENABLE_LOG = true;
+        static public bool ENABLE_LOG = false;
 
         // 开启警告
         static public bool ENABLE_WARN = false;
 
         // 开启错误
-        static public bool ENABLE_ERROR = true;
+        static public bool ENABLE_ERROR = false;
 
+        // 绘制调试信息
+        static public bool DRAW_DEBUG = false;
+
+#if UNITY_IPHONE || UNITY_IOS
+        // 开启 Bugly
+        static public bool ENABLE_BUGLY = true;
+#elif UNITY_ANDROID
+        // 开启 Bugly
+        static public bool ENABLE_BUGLY = true;
+#else
+        // 开启 Bugly
+        static public bool ENABLE_BUGLY = false;
+#endif
         // 宏定义结束
     }
 }

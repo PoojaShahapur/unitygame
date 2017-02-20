@@ -45,6 +45,10 @@
                 UtilApi.enableCollider<UnityEngine.SphereCollider>(this.mSelfGo, false);
                 UtilApi.enableCollider<UnityEngine.SphereCollider>(UtilApi.TransFindChildByPObjAndPath(this.mSelfGo, UtilApi.COLLIDE_NAME), false);
                 UtilApi.enableRigidbodyComponent(this.mSelfGo, false);
+
+                // 关闭拖尾
+                UtilApi.enableTrailRendererComponent(UtilApi.TransFindChildByPObjAndPath(this.mSelfGo, UtilApi.TRIAL_NAME), false);
+                UtilApi.enableTrailRendererComponent(UtilApi.TransFindChildByPObjAndPath(this.mSelfGo, UtilApi.TRIAL_1_NAME), false);
             }
         }
 
@@ -60,6 +64,9 @@
                 UtilApi.enableCollider<UnityEngine.SphereCollider>(this.mSelfGo, true);
                 UtilApi.enableCollider<UnityEngine.SphereCollider>(UtilApi.TransFindChildByPObjAndPath(this.mSelfGo, UtilApi.COLLIDE_NAME), true);
                 UtilApi.enableRigidbodyComponent(this.mSelfGo, true);
+
+                UtilApi.enableTrailRendererComponent(UtilApi.TransFindChildByPObjAndPath(this.mSelfGo, UtilApi.TRIAL_NAME), true);
+                UtilApi.enableTrailRendererComponent(UtilApi.TransFindChildByPObjAndPath(this.mSelfGo, UtilApi.TRIAL_1_NAME), true);
             }
         }
     }

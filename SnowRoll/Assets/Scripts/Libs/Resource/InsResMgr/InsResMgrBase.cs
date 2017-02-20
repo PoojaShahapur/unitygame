@@ -240,6 +240,7 @@ namespace SDK.Lib
         {
             foreach (string path in this.mZeroRefResIDList.list())
             {
+                // 防止在真正卸载前，又被引用，例如加载完成后，立刻卸载资源，然后在立刻加载资源
                 if (this.mPath2ResDic[path].refCountResLoadResultNotify.refCount.isNoRef())
                 {
                     this.unloadNoRef(path);

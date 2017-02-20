@@ -16,7 +16,8 @@
             msDataStreamLoadRootPathList[(int)ResLoadType.eLoadStreamingAssets] = MFileSys.msDataStreamStreamingAssetsPath;
             msDataStreamLoadRootPathList[(int)ResLoadType.eLoadLocalPersistentData] = MFileSys.msDataStreamPersistentDataPath;
 
-            msDataStreamLoadRootPathList[(int)ResLoadType.eLoadWeb] = "http://127.0.0.1/GameWebServer/" + PlatformDefine.PlatformFolder;
+            //msDataStreamLoadRootPathList[(int)ResLoadType.eLoadWeb] = "http://127.0.0.1/GameWebServer/" + PlatformDefine.PlatformFolder;
+            msDataStreamLoadRootPathList[(int)ResLoadType.eLoadWeb] = "https://gif5.club/";
 
             // 初始化 AssetBundles 加载目录
             msABLoadRootPathList = new string[(int)ResLoadType.eLoadTotal];

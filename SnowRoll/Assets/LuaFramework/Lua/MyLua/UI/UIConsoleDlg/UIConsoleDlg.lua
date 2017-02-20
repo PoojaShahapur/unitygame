@@ -117,10 +117,16 @@ end
 
 function M:doCmd(str)
     local index = string.find(str," ");
-    local cmd = string.sub(str, 1, index-1);
-    local params = string.sub(str, index+1);
+    local cmd = nil;
+    local params = nil;
+    if index == nil then
+        cmd = str;
+    else
+        cmd = string.sub(str, 1, index-1);
+        params = string.sub(str, index+1);
+    end 
     if self.mData.mId2HandleDic:ContainsKey(cmd) then        
-        self.mData.mId2HandleDic:value(cmd)(params);
+        self.mData.mId2HandleDic:value(cmd)(self.mData, params);
     else
         self:onSetLogText(cmd .. " <color=#FF0000>指令不存在</color>");
     end

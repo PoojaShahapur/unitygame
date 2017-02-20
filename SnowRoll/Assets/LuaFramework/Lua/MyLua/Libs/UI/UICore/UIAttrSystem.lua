@@ -191,6 +191,15 @@ function M.init()
 			mPreFormModeWhenOpen = GlobalNS.PreFormModeWhenOpen.eNONE,
 			mPreFormModeWhenClose = GlobalNS.PreFormModeWhenClose.eNONE,
         };
+	M[GlobalNS.UIFormId.eUIBugReportPanel] = {
+            mWidgetPath = "UI/UIBugReportPanel/UIBugReportPanel.prefab",
+            mLuaScriptPath = "MyLua.UI.UIBugReportPanel.UIBugReportPanel",
+			mLuaScriptTableName = "GlobalNS.UILua",
+			mCanvasId = GlobalNS.UICanvasId.eUIFirstCanvas,
+			mLayerId = GlobalNS.UILayerID.eUISecondLayer,
+			mPreFormModeWhenOpen = GlobalNS.PreFormModeWhenOpen.eNONE,
+			mPreFormModeWhenClose = GlobalNS.PreFormModeWhenClose.eNONE,
+        };
 	--[[替换占位符(勿删)--]]
 end
 

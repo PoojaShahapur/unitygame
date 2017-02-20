@@ -49,6 +49,16 @@
             //头像id
             byte index = (byte)SDK.Lib.Ctx.mInstance.mSystemSetting.getInt("Avatar");
             Ctx.mInstance.mPlayerMgr.getHero().cellCall("selectHeaderImage", index);
+
+            //bug报告
+            if (Ctx.mInstance.mSystemSetting.hasKey("MyReport"))
+            {
+                string reportText = SDK.Lib.Ctx.mInstance.mSystemSetting.getString("MyReport");
+                if(!reportText.Equals(""))
+                {
+                    Ctx.mInstance.mPlayerMgr.getHero().cellCall("giveAdvice", reportText);
+                }
+            }
         }
     }
 }

@@ -262,7 +262,10 @@
                 {
                     if (_drawNeighbors)
                     {
-                        UtilApi.DrawLine(this.mEntity.getPos(), other.getPos(), UnityEngine.Color.magenta);
+                        if (MacroDef.DRAW_DEBUG)
+                        {
+                            UtilApi.DrawLine(this.mEntity.getPos(), other.getPos(), UnityEngine.Color.magenta);
+                        }
                     }
 
                     if ((this.mEntity as BeingEntity).isNeedSeparate(other as BeingEntity))

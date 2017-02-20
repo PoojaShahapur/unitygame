@@ -17,6 +17,11 @@
             return null;
         }
 
+        public bool isSuccessLoaded()
+        {
+            return this.mDownloadItem.hasSuccessLoaded();
+        }        
+
         // 下载一个资源
         override public void download(string origPath, MAction<IDispatchObject> evtHandle = null, MAction<IDispatchObject> progressHandle = null, long fileLen = 0, bool isWriteFile = true, int downloadType = (int)DownloadType.eHttpWeb)
         {

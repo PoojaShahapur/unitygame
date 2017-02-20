@@ -16,6 +16,7 @@ function M:dtor()
     GCtx.mNetCmdNotify_KBE:removeParamHandle("notifyResultRankInfoList", self, self.notifyResultRankInfoList);
     GCtx.mNetCmdNotify_KBE:removeParamHandle("notifyNetworkInvalid", self, self.notifyNetworkInvalid);
     GCtx.mNetCmdNotify_KBE:removeParamHandle("notifySomeMessage", self, self.notifySomeMessage);
+    GCtx.mNetCmdNotify_KBE:removeParamHandle("ShowNoticeMsg", self, self.ShowNoticeMsg);
 end
 
 function M:init()
@@ -27,6 +28,7 @@ function M:init()
     GCtx.mNetCmdNotify_KBE:addParamHandle("notifyResultRankInfoList", self, self.notifyResultRankInfoList);
     GCtx.mNetCmdNotify_KBE:addParamHandle("notifyNetworkInvalid", self, self.notifyNetworkInvalid);
     GCtx.mNetCmdNotify_KBE:addParamHandle("notifySomeMessage", self, self.notifySomeMessage);
+    GCtx.mNetCmdNotify_KBE:addParamHandle("ShowNoticeMsg", self, self.ShowNoticeMsg);
 end
 
 function M:dtor()
@@ -111,6 +113,20 @@ end
 function M:notifySomeMessage(params)
     --local msg = params[0];
     --GCtx.mGameData:ShowRollMessage(msg);
+end
+
+function M:ShowNoticeMsg()
+    local times = 0;
+    if GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:hasKey("NoticeTimes") then
+        times = GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:getInt("NoticeTimes");
+    end
+    
+    if GlobalNS.CSSystem.Ctx.mInstance.mShareData.noticeTimes > times then
+        GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:setInt("NoticeTimes", times+1);
+        
+        local msg = string.gsub(GlobalNS.CSSystem.Ctx.mInstance.mShareData.noticeMsg, "\\n", "\n");
+        GCtx.mGameData:ShowMessageBox(msg);
+    end
 end
 
 return M;

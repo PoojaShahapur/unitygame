@@ -36,23 +36,23 @@ namespace SDK.Lib
             this.mEnableLogTypeList = new MList<LogTypeId>[(int)LogColor.eLC_Count];
 
             this.mEnableLogTypeList[(int)LogColor.eLC_LOG] = new MList<LogTypeId>();
-            //this.mEnableLogTypeList[(int)LogColor.eLC_LOG].Add(LogTypeId.eLogCommon);
-            //this.mEnableLogTypeList[(int)LogColor.eLC_LOG].Add(LogTypeId.eLogResLoader);
-            //this.mEnableLogTypeList[(int)LogColor.eLC_LOG].Add(LogTypeId.eLogLocalFile);
+            this.mEnableLogTypeList[(int)LogColor.eLC_LOG].Add(LogTypeId.eLogCommon);
+            this.mEnableLogTypeList[(int)LogColor.eLC_LOG].Add(LogTypeId.eLogResLoader);
+            this.mEnableLogTypeList[(int)LogColor.eLC_LOG].Add(LogTypeId.eLogLocalFile);
             //this.mEnableLogTypeList[(int)LogColor.eLC_LOG].Add(LogTypeId.eLogTestRL);
             //this.mEnableLogTypeList[(int)LogColor.eLC_LOG].Add(LogTypeId.eLogAcceleration);
-            //this.mEnableLogTypeList[(int)LogColor.eLC_LOG].Add(LogTypeId.eUnityCB);
+            this.mEnableLogTypeList[(int)LogColor.eLC_LOG].Add(LogTypeId.eLogUnityCB);
 
-            //this.mEnableLogTypeList[(int)LogColor.eLC_LOG].Add(LogTypeId.eLogSplitMergeEmit);
-            //this.mEnableLogTypeList[(int)LogColor.eLC_LOG].Add(LogTypeId.eLogSceneInterActive);
-            //this.mEnableLogTypeList[(int)LogColor.eLC_LOG].Add(LogTypeId.eLogKBE);
-            //this.mEnableLogTypeList[(int)LogColor.eLC_LOG].Add(LogTypeId.eLogScene);
-            //this.mEnableLogTypeList[(int)LogColor.eLC_LOG].Add(LogTypeId.eLogBeingMove);
-            //this.mEnableLogTypeList[(int)LogColor.eLC_LOG].Add(LogTypeId.eLogEventRemove);
+            this.mEnableLogTypeList[(int)LogColor.eLC_LOG].Add(LogTypeId.eLogSplitMergeEmit);
+            this.mEnableLogTypeList[(int)LogColor.eLC_LOG].Add(LogTypeId.eLogSceneInterActive);
+            this.mEnableLogTypeList[(int)LogColor.eLC_LOG].Add(LogTypeId.eLogKBE);
+            this.mEnableLogTypeList[(int)LogColor.eLC_LOG].Add(LogTypeId.eLogScene);
+            this.mEnableLogTypeList[(int)LogColor.eLC_LOG].Add(LogTypeId.eLogBeingMove);
+            this.mEnableLogTypeList[(int)LogColor.eLC_LOG].Add(LogTypeId.eLogEventRemove);
             //this.mEnableLogTypeList[(int)LogColor.eLC_LOG].Add(LogTypeId.eLogMusicBug);
             //this.mEnableLogTypeList[(int)LogColor.eLC_LOG].Add(LogTypeId.eLogLoadBug);
             //this.mEnableLogTypeList[(int)LogColor.eLC_LOG].Add(LogTypeId.eLogMergeBug);
-            this.mEnableLogTypeList[(int)LogColor.eLC_LOG].Add(LogTypeId.eLogEatBug);
+            //this.mEnableLogTypeList[(int)LogColor.eLC_LOG].Add(LogTypeId.eLogEatBug);
 
             this.mEnableLogTypeList[(int)LogColor.eLC_WARN] = new MList<LogTypeId>();
 
@@ -61,8 +61,8 @@ namespace SDK.Lib
 
             this.mEnableLog = new bool[(int)LogColor.eLC_Count];
             this.mEnableLog[(int)LogColor.eLC_LOG] = true;
-            this.mEnableLog[(int)LogColor.eLC_WARN] = false;
-            this.mEnableLog[(int)LogColor.eLC_ERROR] = false;
+            this.mEnableLog[(int)LogColor.eLC_WARN] = true;
+            this.mEnableLog[(int)LogColor.eLC_ERROR] = true;
 
             this.mIsOutStack = new bool[(int)LogColor.eLC_Count];
             this.mIsOutStack[(int)LogColor.eLC_LOG] = false;
@@ -70,9 +70,9 @@ namespace SDK.Lib
             this.mIsOutStack[(int)LogColor.eLC_ERROR] = false;
 
             this.mIsOutTimeStamp = new bool[(int)LogColor.eLC_Count];
-            this.mIsOutStack[(int)LogColor.eLC_LOG] = false;
-            this.mIsOutStack[(int)LogColor.eLC_WARN] = false;
-            this.mIsOutStack[(int)LogColor.eLC_ERROR] = false;
+            this.mIsOutTimeStamp[(int)LogColor.eLC_LOG] = false;
+            this.mIsOutTimeStamp[(int)LogColor.eLC_WARN] = false;
+            this.mIsOutTimeStamp[(int)LogColor.eLC_ERROR] = false;
         }
 
         // 初始化逻辑处理

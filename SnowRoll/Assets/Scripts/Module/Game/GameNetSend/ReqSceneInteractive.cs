@@ -500,7 +500,8 @@ namespace Game.Game
                         Ctx.mInstance.mLogSys.log(string.Format("ReqSceneInteractive::sendShit, Shit One eid = {0}, initPos.x = {1}, initPos.y = {2}, initPos.z = {3}, toPos.x = {4}, toPos.y = {5}, toPos.z = {6}, CurId = {7}", eid, initPos.x, initPos.y, initPos.z, toPos.x, toPos.y, toPos.z, Ctx.mInstance.mPlayerSnowBlockMgr.getCurId()), LogTypeId.eLogSplitMergeEmit);
                     }
 
-                    Ctx.mInstance.mPlayerSnowBlockMgr.emitOne(initPos, toPos, UnityEngine.Quaternion.identity, 10);
+                    // 客户端先吐一个
+                    //Ctx.mInstance.mPlayerSnowBlockMgr.emitOne(initPos, toPos, UnityEngine.Quaternion.identity, 10);
                 }
                 else
                 {

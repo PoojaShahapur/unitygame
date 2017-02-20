@@ -15,15 +15,4 @@ function M:advance(delta)
     GCtx.mTimerMgr:Advance(delta);
 end
 
--- 刷新更新标志
-function M:refreshUpdateFlag()
-    if(GCtx.mConfig:isAllowCallCS()) then
-        if(GCtx.mTimerMgr:getCount() > 0) then
-            Ctx.mInstance.mLuaSystem:setNeedUpdate(true);
-        else
-            Ctx.mInstance.mLuaSystem:setNeedUpdate(false);
-        end
-    end
-end
-
 return M;

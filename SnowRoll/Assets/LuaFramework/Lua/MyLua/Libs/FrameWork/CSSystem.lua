@@ -21,11 +21,10 @@ function M.init()
     this.ModuleId = SDK.Lib.ModuleId;
 end
 
---[[
-function M.setNeedUpdate(value)
-    
+-- 需要从外部更新 Lua 系统
+function M.setNeedUpdateFromExternal(value)
+    this.Ctx.mInstance.mLuaSystem:setNeedUpdateLua(value);
 end
-]]
 
 -- LogSys 日志区域
 function M.log(message, logTypeId)
@@ -122,7 +121,7 @@ end
 
 --吐一个小球
 function M.emitSnowBlock()
-	this.Ctx.mInstance.mPlayerMgr:emitSnowBlock();
+	this.Ctx.mInstance.mPlayerMgr:ConsoleEmitSnowBlock();
 end
 
 function M.startEmitSnowBlock()

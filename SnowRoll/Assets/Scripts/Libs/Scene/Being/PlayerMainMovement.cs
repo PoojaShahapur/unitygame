@@ -69,8 +69,11 @@
 
         override public void onTick(float delta)
         {
-            // 绘制调试信息
-            UtilApi.DrawLine(this.mEntity.getPos(), (this.mEntity as Player).mPlayerSplitMerge.getTargetPoint(), UnityEngine.Color.red);
+            if (MacroDef.DRAW_DEBUG)
+            {
+                // 绘制调试信息
+                UtilApi.DrawLine(this.mEntity.getPos(), (this.mEntity as Player).mPlayerSplitMerge.getTargetPoint(), UnityEngine.Color.red);
+            }
 
             base.onTick(delta);
             OnMove();

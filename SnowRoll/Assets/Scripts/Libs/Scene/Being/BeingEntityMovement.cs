@@ -227,7 +227,10 @@
         // 自动寻路移动
         public void moveToDest(float delta)
         {
-            UtilApi.DrawLine(mEntity.getPos(), mDestPos, UnityEngine.Color.red);
+            if (MacroDef.DRAW_DEBUG)
+            {
+                UtilApi.DrawLine(mEntity.getPos(), mDestPos, UnityEngine.Color.red);
+            }
 
             this.checkAndUpdateDestRotate();
 
@@ -252,7 +255,10 @@
         // 移动到目标点，不用判断方向
         public void moveToDestNoOrient(float delta)
         {
-            UtilApi.DrawLine(mEntity.getPos(), mDestPos, UnityEngine.Color.red);
+            if (MacroDef.DRAW_DEBUG)
+            {
+                UtilApi.DrawLine(mEntity.getPos(), mDestPos, UnityEngine.Color.red);
+            }
 
             UnityEngine.Vector3 normal = mDestPos - mEntity.getPos();
             normal.Normalize();

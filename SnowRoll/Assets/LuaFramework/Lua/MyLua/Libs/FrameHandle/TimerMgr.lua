@@ -27,9 +27,9 @@ function M:addObject(delayObject, priority)
         else
             self.mTimerList:Add(delayObject);
         end
+		
+		GCtx.mFrameUpdateStatistics:incNum();
     end
-    
-    GCtx.mProcessSys:refreshUpdateFlag();
 end
 
 function M:removeObject(delayObject)
@@ -46,10 +46,8 @@ function M:removeObject(delayObject)
                 end
             end
         end
-    end
-    
-    if(self.mTimerList:Count() == 0) then
-        GCtx.mProcessSys:refreshUpdateFlag();
+		
+		GCtx.mFrameUpdateStatistics:decNum();
     end
 end
 

@@ -281,8 +281,10 @@ end
 
 function M:onStartGameBtnClk()
     --self:loginOrCreateAccount(SDK.Lib.SelectEnterMode.eLoginAccount);
-    self.mBgImage:show();
-	self.mBarImage:show();
+    if not GCtx.mGameData.isRelogin then
+        self.mBgImage:show();
+	    self.mBarImage:show();
+    end
 
     self:LoginOrCreateAccount_new(SDK.Lib.SelectEnterMode.eLoginAccount);
 end
@@ -334,7 +336,7 @@ function M:onShopBtnClk()
 end
 
 function M:onEmailBtnClk()
-    GCtx.mGameData:ShowMessageBox("游戏交流群：512081924    \n商务合作：136863169\n打赏：136863169@qq.com");
+    GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormId.eUIBugReportPanel);
 end
 
 function M:setProgress(value)

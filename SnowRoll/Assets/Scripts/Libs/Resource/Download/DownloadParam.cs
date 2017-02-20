@@ -40,7 +40,8 @@ namespace SDK.Lib
         public void reset()
         {
             mResLoadType = ResLoadType.eLoadWeb;
-            mDownloadType = DownloadType.eHttpWeb;
+            //mDownloadType = DownloadType.eHttpWeb;
+            mDownloadType = DownloadType.eWWW;
             mIsWriteFile = true;
             mFileLen = 0;
             mVersion = "";

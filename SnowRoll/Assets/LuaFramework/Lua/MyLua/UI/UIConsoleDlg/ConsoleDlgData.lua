@@ -15,11 +15,15 @@ end
 
 function M:init()
     self.mId2HandleDic:Add("loadfile", self.loadfile);
+    self.mId2HandleDic:Add("sendshit", self.sendShit);
 end
 
 function M:loadfile(params)
-    --MReload(params);
-    GCtx.mLogSys:log("asdffffffffffffff  " .. params, GlobalNS.LogTypeId.eLogCommon);
+    MReload(params);
+end
+
+function M:sendShit(params)
+    GlobalNS.CSSystem.emitSnowBlock();
 end
 
 function M:dtor()

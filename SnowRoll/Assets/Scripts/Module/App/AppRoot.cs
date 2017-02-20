@@ -8,8 +8,16 @@ public class AppRoot : MonoBehaviour
 {
     void Awake()
     {
-        // Application.targetFrameRate = 24;
-        // QualitySettings.vSyncCount = 2;
+#if UNITY_EDITOR
+
+#else
+        // 费编辑器模式下才限制帧数
+        //Application.targetFrameRate = 24;
+        //QualitySettings.vSyncCount = 0;     // Edit -- Project Settings -- Quality
+#endif
+        // 全部限制帧数
+        Application.targetFrameRate = 24;
+        QualitySettings.vSyncCount = 0;     // Edit -- Project Settings -- Quality
         // Screen.sleepTimeout = SleepTimeout.NeverSleep;
     }
 
@@ -66,10 +74,18 @@ public class AppRoot : MonoBehaviour
 
     public void init()
     {
+        // 初始化 Bugly
+        if(MacroDef.ENABLE_BUGLY)
+        {
+            BuglyEntry.init();
+            //BuglyEntry.testException();
+        }
+
         // 初始化全局数据
         Ctx.instance();
         Ctx.mInstance.init();
 
+        Ctx.mInstance.mDownloadFileMgr.downloadFile();
         // 加载模块
         if (MacroDef.PKG_RES_LOAD)
         {

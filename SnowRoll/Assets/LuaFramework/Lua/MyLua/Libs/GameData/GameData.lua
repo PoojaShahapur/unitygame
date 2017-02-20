@@ -83,6 +83,15 @@ function M:returnStartGame()
     GCtx.mGameData.isRelogin = true;
     GlobalNS.CSSystem.Ctx.mInstance.mLoginSys.mLoginNetHandleCB_KBE:closeNetwork();
     GlobalNS.CSSystem.Ctx.mInstance.mPlayerMgr:dispose();
+    GlobalNS.CSSystem.Ctx.mInstance.mSnowBlockMgr:dispose();
+    GlobalNS.CSSystem.Ctx.mInstance.mComputerBallMgr:dispose();
+    GlobalNS.CSSystem.Ctx.mInstance.mPlayerSnowBlockMgr:dispose();
+
+    GCtx.mUiMgr:exitForm(GlobalNS.UIFormId.eUIPlayerDataPanel);
+    GCtx.mUiMgr:exitForm(GlobalNS.UIFormId.eUIOptionPanel);
+    GCtx.mUiMgr:exitForm(GlobalNS.UIFormId.eUITopXRankPanel);
+    GCtx.mUiMgr:exitForm(GlobalNS.UIFormId.eUIRelivePanel);
+
 	GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormId.eUIStartGame);
     --GlobalNS.CSSystem.Ctx.mInstance.mModuleSys:unloadModule(GlobalNS.CSSystem.ModuleId.GAMEMN);
     GlobalNS.CSSystem.Ctx.mInstance.mModuleSys:loadModule(GlobalNS.CSSystem.ModuleId.LOGINMN);

@@ -16,14 +16,14 @@ namespace SDK.Lib
 
         //protected LuaTable mLuaCtx;
         //protected LuaTable mProcessSys;
-        protected bool mIsNeedUpdate;           // 是否需要更新 Lua
+        protected bool mIsNeedUpdateLua;           // 是否需要更新 Lua
         protected MDataStream mDataStream;
         protected bool mIsLuaInited;            // Lua 脚本是否初始化完成
 
         public LuaSystem()
         {
             mLuaScriptMgr = LuaScriptMgr.getSinglePtr();
-            mIsNeedUpdate = true;
+            mIsNeedUpdateLua = true;
             mIsLuaInited = false;
         }
 
@@ -55,9 +55,9 @@ namespace SDK.Lib
             return mLuaClassLoader;
         }
 
-        public void setNeedUpdate(bool value)
+        public void setNeedUpdateLua(bool value)
         {
-            mIsNeedUpdate = value;
+            mIsNeedUpdateLua = value;
         }
 
         public void setLuaInited(bool value)
@@ -185,13 +185,13 @@ namespace SDK.Lib
         {
             if (this.mIsLuaInited)
             {
-                //if (mIsNeedUpdate)
-                //{
-                if (Ctx.mInstance.mSystemFrameData.getTotalFrameCount() > 100)
+                if (this.mIsNeedUpdateLua)
                 {
-                    this.callLuaFunction("GlobalNS.GlobalEventCmd.onAdvance", delta);
+                    if (Ctx.mInstance.mSystemFrameData.getTotalFrameCount() > 100)
+                    {
+                        this.callLuaFunction("GlobalNS.GlobalEventCmd.onAdvance", delta);
+                    }
                 }
-                //}
             }
         }
 

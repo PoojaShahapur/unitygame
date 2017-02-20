@@ -47,6 +47,9 @@ namespace SDK.Lib
         public const string RGB_IMAGE_SUFFIX = "_RGB";      // rgb 图像后缀
         public const string ALPHA_IMAGE_SUFFIX = "_Alpha";    // alpha 图像后缀
 
+        public const string TRIAL_NAME = "TrialRenderer"; // 拖尾 GameObject
+        public const string TRIAL_1_NAME = "TrialRenderer (1)"; // 拖尾 GameObject
+
         public static GameObject[] FindGameObjectsWithTag(string tag)
         {
             return GameObject.FindGameObjectsWithTag(tag);
@@ -67,15 +70,21 @@ namespace SDK.Lib
         // 通过父对象和完整的目录查找 child 对象，如果 path=""，返回的是自己，如果 path = null ，宕机
         static public GameObject TransFindChildByPObjAndPath(GameObject pObject, string path)
         {
-            Transform trans = null;
-            trans = pObject.transform.Find(path);
+            GameObject ret = null;
 
-            if (trans != null)
+            if(null != pObject)
             {
-                return trans.gameObject;
+                Transform trans = null;
+
+                trans = pObject.transform.Find(path);
+
+                if (trans != null)
+                {
+                    ret = trans.gameObject;
+                }
             }
 
-            return null;
+            return ret;
         }
 
         // 从 Parent 获取一个组件
@@ -1822,6 +1831,20 @@ namespace SDK.Lib
 #endif
 
             return new byte[] { 255, 255, 255, 255, 255, 255 };
+        }
+
+        // 开启关闭 Trail Renderer
+        static public void enableTrailRendererComponent(GameObject go_, bool isEnable)
+        {
+            if (null != go_)
+            {
+                UnityEngine.TrailRenderer com = go_.GetComponent<UnityEngine.TrailRenderer>();
+
+                if (null != com && com.enabled != isEnable)
+                {
+                    com.enabled = isEnable;
+                }
+            }
         }
 
         // 开启关闭组件

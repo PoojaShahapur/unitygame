@@ -224,6 +224,11 @@ namespace SDK.Lib
             }
         }
 
+        public void ConsoleEmitSnowBlock()
+        {
+            Game.Game.ReqSceneInteractive.sendShit();
+        }
+
         public void stopEmitSnowBlock()
         {
             this.mIsEmitSnowBall = false;
@@ -292,6 +297,15 @@ namespace SDK.Lib
 
                 ++idx;
             }
+
+            return child;
+        }
+
+        public PlayerChild getHeroChildByThisId(uint thisId)
+        {
+            PlayerChild child = null;
+
+            child = this.mHero.mPlayerSplitMerge.mPlayerChildMgr.getEntityByThisId(thisId) as PlayerChild;
 
             return child;
         }

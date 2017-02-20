@@ -108,9 +108,14 @@
             this.mMergeMinSpeed = 30;
         }
 
+        public void preInit()
+        {
+            this.init();
+        }
+
         public void init()
         {
-            this.mXmlSnowBallCfg = XmlSnowBallCfg.loadAndRetXml<XmlSnowBallCfg>(XmlCfgID.eXmlSnowBallCfg);
+            //this.mXmlSnowBallCfg = XmlSnowBallCfg.loadAndRetXml<XmlSnowBallCfg>(XmlCfgID.eXmlSnowBallCfg);
 
             this.mCanAttackRate = this.mXmlSnowBallCfg.mXmlItemAttack.mFactor;
             this.mA = this.mXmlSnowBallCfg.mXmlItemAttack.mA;
@@ -292,6 +297,34 @@
             }
 
             return ret;
+        }
+
+        // 计算吐雪块的开始和结束位置
+        public void getShitPos(uint thisId, ref UnityEngine.Vector3 startPos, ref UnityEngine.Vector3 endPos)
+        {
+            UnityEngine.Vector3 curPos;
+            float emitRadius = 1;
+
+            PlayerChild playerChild = null;
+            playerChild = Ctx.mInstance.mPlayerMgr.getHeroChildByThisId(thisId);
+
+            if (null == playerChild)
+            {
+                playerChild = Ctx.mInstance.mPlayerMgr.getChildByThisId(thisId);
+            }
+
+            if(null != playerChild)
+            {
+                emitRadius = playerChild.getEmitSnowWorldSize();
+
+                curPos = playerChild.getPos();
+
+                startPos = playerChild.getPos() + playerChild.getRotate() * new UnityEngine.Vector3(0, 0, playerChild.getBallWorldRadius() + emitRadius + Ctx.mInstance.mSnowBallCfg.mEmitRelStartPos);
+                startPos = Ctx.mInstance.mSceneSys.adjustPosInRange(startPos);
+
+                endPos = startPos + playerChild.getRotate() * new UnityEngine.Vector3(0, 0, Ctx.mInstance.mSnowBallCfg.mEmitRelDist);
+                endPos = Ctx.mInstance.mSceneSys.adjustPosInRange(endPos);
+            }
         }
     }
 }

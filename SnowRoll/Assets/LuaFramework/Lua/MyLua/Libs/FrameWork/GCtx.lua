@@ -35,6 +35,7 @@ function M.preInit()
     this.mGameData = GlobalNS.new(GlobalNS.GameData);
     this.mGoodsData = GlobalNS.new(GlobalNS.GoodsData);
     this.mSignData = GlobalNS.new(GlobalNS.SignData);
+	this.mFrameUpdateStatistics = GlobalNS.new(GlobalNS.FrameUpdateStatistics);
 end
 
 function M.interInit()
@@ -43,6 +44,8 @@ function M.interInit()
     this.mNetMgr:init();
 	GlobalNS.NoDestroyGo.init();
 	this.mUiMgr:init();
+	
+	this.mFrameUpdateStatistics:init();
 end
 
 function M.postInit()
