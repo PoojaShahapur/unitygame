@@ -124,5 +124,19 @@ namespace EditorTool
         {
             SpriteSettingSys.getSingletonPtr().spriteSetting();
         }
+
+        // 生成 Apk
+        [MenuItem("MyNew/BuildAndroid")]
+        public static void buildAndroid()
+        {
+            AndroidBuildSys.getSingletonPtr().build();
+        }
+
+        // 生成 IOS
+        [MenuItem("MyNew/BuildIOS")]
+        public static void buildIOS()
+        {
+            IOSBuildSys.getSingletonPtr().build();
+        }
     }
 }

@@ -241,5 +241,16 @@
         {
 
         }
+
+        virtual public bool isCanSplit()
+        {
+            return false;
+        }
+
+        // 移动到中心点
+        virtual public bool isCanEmit()
+        {
+            return false;
+        }
     }
 }

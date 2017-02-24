@@ -14,6 +14,7 @@
 
         protected PlayerMain mPlayerMain;
         protected float mDistance;
+        protected double mCurTimeInterval;
 
         public MergeItem(PlayerMain player)
         {
@@ -65,11 +66,11 @@
             {
                 ret = UtilLogic.canContactMerge(this.mTimeStamp);
 
-                double leftTime = UtilApi.getFloatUTCSec() - this.mTimeStamp;
+                this.mCurTimeInterval = UtilApi.getFloatUTCSec() - this.mTimeStamp;
 
                 if (MacroDef.ENABLE_LOG)
                 {
-                    Ctx.mInstance.mLogSys.log(string.Format("MergeItem::canMerge, aThisId = {0}, bThisId = {1}, merge cantact time = {2}, left time = {3}, ret = {4}", aChild.getThisId(), bChild.getThisId(), Ctx.mInstance.mSnowBallCfg.mMergeContactTime, leftTime, ret.ToString()), LogTypeId.eLogScene);
+                    Ctx.mInstance.mLogSys.log(string.Format("MergeItem::canMerge, aThisId = {0}, bThisId = {1}, merge cantact time = {2}, left time = {3}, ret = {4}", aChild.getThisId(), bChild.getThisId(), Ctx.mInstance.mSnowBallCfg.mMergeContactTime, this.mCurTimeInterval, ret.ToString()), LogTypeId.eLogScene);
                 }
             }
             else

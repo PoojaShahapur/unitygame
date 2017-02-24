@@ -36,8 +36,11 @@
         {
             if (null != this.mAuxPrefabLoader)
             {
-                mAuxPrefabLoader.dispose();
+                this.mAuxPrefabLoader.dispose();
+                this.mAuxPrefabLoader = null;
             }
+
+            Ctx.mInstance.mHudSystem.removeHud(this);
 
             base.onDestroy();
         }

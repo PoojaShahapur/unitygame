@@ -102,7 +102,7 @@ namespace Game.Login
             {
                 uiSelectRole.err(s);
             }*/
-            Ctx.mInstance.mLuaSystem.openForm((int)UIFormId.eUIStartGame_Lua);
+            //Ctx.mInstance.mLuaSystem.openForm((int)UIFormId.eUIStartGame_Lua);
         }
 
         public void info(string s)
@@ -299,7 +299,7 @@ namespace Game.Login
             {
                 uiSelectRole.setAvatarList(ui_avatarList);
             }*/
-            Ctx.mInstance.mLuaSystem.openForm((int)UIFormId.eUIStartGame_Lua);
+            //Ctx.mInstance.mLuaSystem.openForm((int)UIFormId.eUIStartGame_Lua);
         }
 
         public void onCreateAvatarResult(Byte retcode, object info, Dictionary<UInt64, Dictionary<string, object>> avatarList)

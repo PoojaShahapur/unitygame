@@ -64,7 +64,7 @@ public static class AndroidPostProcess {
 			}
 			string destName = Path.Combine(destinationPath, fsi.Name);
 			if (fsi is System.IO.FileInfo) {
-				File.Copy(fsi.FullName, destName);
+				File.Copy(fsi.FullName, destName, true);
 			}      
 			else                     
 			{

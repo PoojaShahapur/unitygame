@@ -19,7 +19,26 @@
 
         public void dispose()
         {
+            this.clear();
 
+            this.mList.Clear();
+            //this.mList = null;
+        }
+
+        public void clear()
+        {
+            int idx = 0;
+            int len = this.mList.length();
+
+            HudItemBase item = null;
+
+            while (idx < len)
+            {
+                item = this.mList[idx];
+                item.dispose();
+
+                ++idx;
+            }
         }
 
         public HudItemBase createHud(BeingEntity being)

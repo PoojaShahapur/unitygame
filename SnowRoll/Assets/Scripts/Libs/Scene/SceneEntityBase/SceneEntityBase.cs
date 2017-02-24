@@ -362,7 +362,7 @@ namespace SDK.Lib
             }
         }
 
-        public void setRenderPos(Vector3 pos)
+        virtual public void setRenderPos(Vector3 pos)
         {
             if (!UtilApi.isInFakePos(pos) && !UtilMath.isEqualVec3(this.mPos, pos))
             {

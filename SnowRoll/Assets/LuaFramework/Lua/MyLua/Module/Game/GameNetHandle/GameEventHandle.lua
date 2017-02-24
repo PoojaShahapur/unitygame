@@ -17,6 +17,7 @@ function M:dtor()
     GCtx.mNetCmdNotify_KBE:removeParamHandle("notifyNetworkInvalid", self, self.notifyNetworkInvalid);
     GCtx.mNetCmdNotify_KBE:removeParamHandle("notifySomeMessage", self, self.notifySomeMessage);
     GCtx.mNetCmdNotify_KBE:removeParamHandle("ShowNoticeMsg", self, self.ShowNoticeMsg);
+    GCtx.mNetCmdNotify_KBE:removeParamHandle("ShowEmoticon", self, self.ShowEmoticon);
 end
 
 function M:init()
@@ -29,6 +30,7 @@ function M:init()
     GCtx.mNetCmdNotify_KBE:addParamHandle("notifyNetworkInvalid", self, self.notifyNetworkInvalid);
     GCtx.mNetCmdNotify_KBE:addParamHandle("notifySomeMessage", self, self.notifySomeMessage);
     GCtx.mNetCmdNotify_KBE:addParamHandle("ShowNoticeMsg", self, self.ShowNoticeMsg);
+    GCtx.mNetCmdNotify_KBE:addParamHandle("ShowEmoticon", self, self.ShowEmoticon);
 end
 
 function M:dtor()
@@ -111,8 +113,8 @@ function M:notifyNetworkInvalid()
 end
 
 function M:notifySomeMessage(params)
-    --local msg = params[0];
-    --GCtx.mGameData:ShowRollMessage(msg);
+    local msg = params[0];
+    GCtx.mGameData:ShowRollMessage(msg);
 end
 
 function M:ShowNoticeMsg()
@@ -126,6 +128,14 @@ function M:ShowNoticeMsg()
         
         local msg = string.gsub(GlobalNS.CSSystem.Ctx.mInstance.mShareData.noticeMsg, "\\n", "\n");
         GCtx.mGameData:ShowMessageBox(msg);
+    end
+end
+
+function M:ShowEmoticon()
+    -- 结算时就不显示了
+    local form = GCtx.mUiMgr:getForm(GlobalNS.UIFormId.eUIRankListPanel);
+    if nil == form or not form:isVisible() then            
+         GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormId.eUIEmoticonPanel);
     end
 end
 

@@ -200,6 +200,15 @@ function M.init()
 			mPreFormModeWhenOpen = GlobalNS.PreFormModeWhenOpen.eNONE,
 			mPreFormModeWhenClose = GlobalNS.PreFormModeWhenClose.eNONE,
         };
+	M[GlobalNS.UIFormId.eUIEmoticonPanel] = {
+            mWidgetPath = "UI/UIEmoticonPanel/UIEmoticonPanel.prefab",
+            mLuaScriptPath = "MyLua.UI.UIEmoticonPanel.UIEmoticonPanel",
+			mLuaScriptTableName = "GlobalNS.UILua",
+			mCanvasId = GlobalNS.UICanvasId.eUIFirstCanvas,
+			mLayerId = GlobalNS.UILayerID.eUISecondLayer,
+			mPreFormModeWhenOpen = GlobalNS.PreFormModeWhenOpen.eNONE,
+			mPreFormModeWhenClose = GlobalNS.PreFormModeWhenClose.eNONE,
+        };
 	--[[替换占位符(勿删)--]]
 end
 

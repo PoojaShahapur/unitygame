@@ -15,6 +15,8 @@ namespace SDK.Lib
         private float mEulerAngles_x;         // 相机转向角度
         private float mEulerAngles_y;
 
+        protected bool mIsMoveToCenter;     // 移动到中心点
+
         public CommonData()
         {
             this.mIsClickSplit = false;
@@ -23,6 +25,7 @@ namespace SDK.Lib
 
             this.mEulerAngles_x = 10.0f;
             this.mEulerAngles_y = 0.0f;
+            this.mIsMoveToCenter = false;
         }
 
         public void init()
@@ -89,6 +92,16 @@ namespace SDK.Lib
         {
             this.mEulerAngles_x = 10.0f;
             this.mEulerAngles_y = 0.0f;
+        }
+
+        public void setIsMoveToCenter(bool value)
+        {
+            this.mIsMoveToCenter = value;
+        }
+
+        public bool isMoveToCenter()
+        {
+            return this.mIsMoveToCenter;
         }
     }
 }

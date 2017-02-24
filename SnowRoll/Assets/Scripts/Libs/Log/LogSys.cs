@@ -60,9 +60,9 @@ namespace SDK.Lib
             //this.mEnableLogTypeList[(int)LogColor.eLC_ERROR].Add(LogTypeId.eLogLoadBug);
 
             this.mEnableLog = new bool[(int)LogColor.eLC_Count];
-            this.mEnableLog[(int)LogColor.eLC_LOG] = true;
-            this.mEnableLog[(int)LogColor.eLC_WARN] = true;
-            this.mEnableLog[(int)LogColor.eLC_ERROR] = true;
+            this.mEnableLog[(int)LogColor.eLC_LOG] = false;
+            this.mEnableLog[(int)LogColor.eLC_WARN] = false;
+            this.mEnableLog[(int)LogColor.eLC_ERROR] = false;
 
             this.mIsOutStack = new bool[(int)LogColor.eLC_Count];
             this.mIsOutStack[(int)LogColor.eLC_LOG] = false;

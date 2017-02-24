@@ -87,6 +87,8 @@ namespace SDK.Lib
 
         public void moveForwardByOrient(UnityEngine.Vector2 orient)
         {
+            Ctx.mInstance.mCommonData.setIsMoveToCenter(false);
+
             UnityEngine.Vector3 dir = new UnityEngine.Vector3(orient.x, 0, orient.y);
             UnityEngine.Quaternion quad = UtilMath.getRotateByOrient(dir) * (this.mMovement as PlayerMainMovement).getForwardRotate();
 
@@ -99,6 +101,8 @@ namespace SDK.Lib
         {
             if (BeingState.eBSMoveCenter != this.mBeingState)
             {
+                Ctx.mInstance.mCommonData.setIsMoveToCenter(true);
+
                 this.stopMove();
                 this.mPlayerSplitMerge.moveToCenter();
             }

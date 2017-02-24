@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<Root>
+	<DeletePath>
+		<item inpath="Resources/DefaultSkin" isDir="true" />
+	</DeletePath>
+	<AndroidStudio>
+		
+	</AndroidStudio>
+</Root>

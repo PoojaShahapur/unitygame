@@ -221,15 +221,30 @@
                     mergeItem.adjustTimeStamp();
                     mergeItem.setDistance(aChild, bChild);
                     mergeItem.onAddMerge();
+
+                    if (MacroDef.ENABLE_LOG)
+                    {
+                        Ctx.mInstance.mLogSys.log(string.Format("PlayerMainSplitMerge::addMerge, add new item, aThisId = {0}, bThisId = {1}", aChild.getThisId(), bChild.getThisId()), LogTypeId.eLogSplitMergeEmit);
+                    }
                 }
                 else
                 {
                     mergeItem = mMergeDic[keyTwo];
+
+                    if (MacroDef.ENABLE_LOG)
+                    {
+                        Ctx.mInstance.mLogSys.log(string.Format("PlayerMainSplitMerge::addMerge, already exist second, aThisId = {0}, bThisId = {1}", aChild.getThisId(), bChild.getThisId()), LogTypeId.eLogSplitMergeEmit);
+                    }
                 }
             }
             else
             {
                 mergeItem = mMergeDic[keyOne];
+
+                if (MacroDef.ENABLE_LOG)
+                {
+                    Ctx.mInstance.mLogSys.log(string.Format("PlayerMainSplitMerge::addMerge, already exist first, aThisId = {0}, bThisId = {1}", aChild.getThisId(), bChild.getThisId()), LogTypeId.eLogSplitMergeEmit);
+                }
             }
 
             if(MacroDef.ENABLE_LOG)
@@ -254,6 +269,18 @@
 
                 keyTwo = bChild.getEntityUniqueId();
                 this.mMergeDic.Remove(keyTwo);
+
+                if (MacroDef.ENABLE_LOG)
+                {
+                    Ctx.mInstance.mLogSys.log(string.Format("PlayerMainSplitMerge::removeMerge, two param, exist, aThisId = {0}, bThisId = {1}", aChild.getThisId(), bChild.getThisId()), LogTypeId.eLogSplitMergeEmit);
+                }
+            }
+            else
+            {
+                if (MacroDef.ENABLE_LOG)
+                {
+                    Ctx.mInstance.mLogSys.log(string.Format("PlayerMainSplitMerge::removeMerge, two param, not exist, aThisId = {0}, bThisId = {1}", aChild.getThisId(), bChild.getThisId()), LogTypeId.eLogSplitMergeEmit);
+                }
             }
 
             if(null != aChild)
@@ -267,7 +294,7 @@
 
             if (MacroDef.ENABLE_LOG)
             {
-                Ctx.mInstance.mLogSys.log(string.Format("PlayerMainSplitMerge::addMerge, aThisId = {0}, bThisId = {1}", aChild.getThisId(), bChild.getThisId()), LogTypeId.eLogMergeBug);
+                Ctx.mInstance.mLogSys.log(string.Format("PlayerMainSplitMerge::removeMerge, aThisId = {0}, bThisId = {1}", aChild.getThisId(), bChild.getThisId()), LogTypeId.eLogMergeBug);
             }
         }
 
@@ -283,6 +310,11 @@
                 this.mMergeList.Remove(mMergeDic[keyOne]);
                 this.mMergeDic.Remove(keyOne);
 
+                if (MacroDef.ENABLE_LOG)
+                {
+                    Ctx.mInstance.mLogSys.log(string.Format("PlayerMainSplitMerge::removeMerge, one param, not exist, aThisId = {0}", aChild.getThisId()), LogTypeId.eLogSplitMergeEmit);
+                }
+
                 if (aChild.getThisId() == mMergeDic[keyOne].mMergeAThisId)
                 {
                     bChild = Ctx.mInstance.mPlayerMgr.getHero().mPlayerSplitMerge.mPlayerChildMgr.getEntityByThisId((uint)mMergeDic[keyOne].mMergeBThisId) as PlayerMainChild;
@@ -296,6 +328,11 @@
                 {
                     keyTwo = bChild.getEntityUniqueId();
                     this.mMergeDic.Remove(keyTwo);
+
+                    if (MacroDef.ENABLE_LOG)
+                    {
+                        Ctx.mInstance.mLogSys.log(string.Format("PlayerMainSplitMerge::removeMerge, one param, not exist, bThisId = {0}", bChild.getThisId()), LogTypeId.eLogSplitMergeEmit);
+                    }
                 }
             }
 
@@ -457,6 +494,56 @@
             }
 
             return totlaMass;
+        }
+
+        override  public bool isCanSplit()
+        {
+            bool ret = false;
+            int total = this.mPlayerChildMgr.getEntityCount();
+            int index = 0;
+            Player player = null;
+
+            while (index < total)
+            {
+                player = this.mPlayerChildMgr.getEntityByIndex(index) as Player;
+                if (BeingSubState.eBSSMerge != player.getBeingSubState() &&
+                    !player.isClientDispose())
+                {
+                    if (UtilMath.getMassByRadius(player.getBallRadius()) >= Ctx.mInstance.mSnowBallCfg.mCanSplitMass)
+                    {
+                        ret = true;
+                        break;
+                    }
+                }
+
+                ++index;
+            }
+            return ret;
+        }
+
+        override public bool isCanEmit()
+        {
+            bool ret = false;
+            int total = this.mPlayerChildMgr.getEntityCount();
+            int index = 0;
+            Player player = null;
+
+            while (index < total)
+            {
+                player = this.mPlayerChildMgr.getEntityByIndex(index) as Player;
+                if (BeingSubState.eBSSMerge != player.getBeingSubState() &&
+                    !player.isClientDispose())
+                {
+                    if (UtilMath.getMassByRadius(player.getBallRadius()) >= Ctx.mInstance.mSnowBallCfg.mCanEmitSnowMass)
+                    {
+                        ret = true;
+                        break;
+                    }
+                }
+
+                ++index;
+            }
+            return ret;
         }
 
         override public void moveToCenter()

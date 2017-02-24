@@ -86,6 +86,7 @@ function M:returnStartGame()
     GlobalNS.CSSystem.Ctx.mInstance.mSnowBlockMgr:dispose();
     GlobalNS.CSSystem.Ctx.mInstance.mComputerBallMgr:dispose();
     GlobalNS.CSSystem.Ctx.mInstance.mPlayerSnowBlockMgr:dispose();
+	GlobalNS.CSSystem.Ctx.mInstance.mHudSystem:dispose();
 
     GCtx.mUiMgr:exitForm(GlobalNS.UIFormId.eUIPlayerDataPanel);
     GCtx.mUiMgr:exitForm(GlobalNS.UIFormId.eUIOptionPanel);

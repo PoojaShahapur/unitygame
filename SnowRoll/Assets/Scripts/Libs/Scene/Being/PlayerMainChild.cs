@@ -236,5 +236,38 @@
             PlayerMainChild child = this.mParentPlayer.mPlayerSplitMerge.mPlayerChildMgr.getEntityByThisId(this.mMergeThisId) as PlayerMainChild;
             return child;
         }
+
+        // 移动到中心点
+        override public void moveToCenter()
+        {
+            UnityEngine.Vector3 targetPoint;
+            targetPoint = this.mParentPlayer.mPlayerSplitMerge.getCenterPoint();
+            this.setDestPosForMoveCenter(targetPoint, false);
+        }
+
+        override public void setDestPos(UnityEngine.Vector3 pos, bool immePos)
+        {
+            base.setDestPos(pos, immePos);
+        }
+
+        override public void setRenderPos(UnityEngine.Vector3 pos)
+        {
+            if (!UtilApi.isInFakePos(pos) && !UtilMath.isEqualVec3(this.mPos, pos))
+            {
+                this.mPos = pos;
+
+                // 修改位置
+                if (Ctx.mInstance.mCommonData.isMoveToCenter())
+                {
+                    // 需要继续移动
+                    this.forceMoveDest(this.getDestPos(), false);
+                }
+
+                if (MacroDef.ENABLE_LOG)
+                {
+                    Ctx.mInstance.mLogSys.log(string.Format("BeingEntity::setRenderPos, BasicInfo is {0}, mPosX = {1}, mPosY = {2}, mPosZ = {3}", this.getBasicInfoStr(), this.mPos.x, this.mPos.y, this.mPos.z), LogTypeId.eLogBeingMove);
+                }
+            }
+        }
     }
 }

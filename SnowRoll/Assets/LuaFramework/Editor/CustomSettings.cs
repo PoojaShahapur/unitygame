@@ -228,6 +228,7 @@ public static class CustomSettings
         _GT(typeof(SDK.Lib.GlobalDelegate)),
         _GT(typeof(SDK.Lib.AddOnceEventDispatch)),
         _GT(typeof(SDK.Lib.PlayerSplitMerge)),
+        _GT(typeof(SDK.Lib.HudSystem)),
 
         //for Shop
         _GT(typeof(SDK.Lib.XmlItemGoods)),

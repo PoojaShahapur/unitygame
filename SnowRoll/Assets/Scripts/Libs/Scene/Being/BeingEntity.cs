@@ -200,6 +200,19 @@ namespace SDK.Lib
             return this.mScaleSpeed;
         }
 
+        // 强制移动到目标点,主要是遇到物理和逻辑不一致的情况，强制移动
+        public void forceMoveDest(UnityEngine.Vector3 pos, bool immePos)
+        {
+            if (immePos)
+            {
+                this.setPos(pos);
+            }
+            if (null != mMovement)
+            {
+                (mMovement as BeingEntityMovement).forceMoveDest(pos);
+            }
+        }
+
         virtual public void setDestPos(UnityEngine.Vector3 pos, bool immePos)
         {
             if (immePos)
@@ -210,6 +223,16 @@ namespace SDK.Lib
             {
                 (mMovement as BeingEntityMovement).setDestPos(pos);
             }
+        }
+
+        public UnityEngine.Vector3 getDestPos()
+        {
+            if (null != this.mMovement)
+            {
+                return (this.mMovement as BeingEntityMovement).getDestPos();
+            }
+
+            return UnityEngine.Vector3.zero;
         }
 
         public void setDestPosForBirth(UnityEngine.Vector3 pos, bool immePos)
@@ -815,6 +838,12 @@ namespace SDK.Lib
         public string getPrefabPath()
         {
             return this.mPrefabPath;
+        }
+
+        // 移动到中心点
+        virtual public void moveToCenter()
+        {
+
         }
     }
 }

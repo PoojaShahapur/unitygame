@@ -59,6 +59,39 @@ namespace SDK.Lib
             base.onDestroy();
         }
 
+        override public void updateLocalTransform()
+        {
+            if (null != this.mSelfGo)
+            {
+                if (this.mIsPosDirty)
+                {
+                    this.mIsPosDirty = false;
+
+                    // 只有自己才是物理移动
+                    if (null != this.mRigidbody && EntityType.ePlayerMainChild == this.mEntity.getEntityType())
+                    {
+                        UtilApi.setRigidbodyPos(this.mRigidbody, this.mEntity.getPos());
+                    }
+                    else
+                    {
+                        UtilApi.setPos(this.mSelfGo.transform, this.mEntity.getPos());
+                    }
+                }
+                if (this.mIsRotDirty)
+                {
+                    this.mIsRotDirty = false;
+
+                    UtilApi.setRot(this.mSelfGo.transform, this.mEntity.getRotate());
+                }
+                if (this.mIsScaleDirty)
+                {
+                    this.mIsScaleDirty = false;
+
+                    UtilApi.setScale(this.mSelfGo.transform, this.mEntity.getScale());
+                }
+            }
+        }
+
         // 资源加载
         override public void load()
         {

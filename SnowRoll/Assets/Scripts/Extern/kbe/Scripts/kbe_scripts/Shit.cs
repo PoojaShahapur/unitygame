@@ -30,7 +30,10 @@ namespace KBEngine
                     UtilMath.getSingleId(uniqueId, ref aId, ref bId);
                 }
 
-                Ctx.mInstance.mSnowBallCfg.getShitPos(aId, ref frompos, ref topos);
+                if (frompos != UnityEngine.Vector3.zero)
+                {
+                    Ctx.mInstance.mSnowBallCfg.getShitPos(aId, ref frompos, ref topos);
+                }
 
                 //别人吐出的雪块
                 if (MacroDef.ENABLE_LOG)
@@ -40,8 +43,15 @@ namespace KBEngine
 
                 this.mEntity_SDK = new PlayerSnowBlock();
                 this.mEntity_SDK.setRotateEulerAngle(this.direction);
-                this.mEntity_SDK.setPos(frompos);
-                (this.mEntity_SDK as BeingEntity).setDestPos(topos, false);
+                if (frompos == UnityEngine.Vector3.zero)    // 进出九屏 frompos 为零
+                {
+                    this.mEntity_SDK.setPos(this.position);
+                }
+                else    // 第一次吐 frompos 为不为零
+                {
+                    this.mEntity_SDK.setPos(frompos);
+                    (this.mEntity_SDK as BeingEntity).setDestPos(topos, false);
+                }
                 (this.mEntity_SDK as BeingEntity).setEntity_KBE(this);
                 this.mEntity_SDK.setThisId((uint)this.id);
                 this.mEntity_SDK.init();

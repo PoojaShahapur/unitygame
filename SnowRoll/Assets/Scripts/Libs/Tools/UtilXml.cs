@@ -186,5 +186,72 @@ namespace SDK.Lib
 
             return XML_OK;
         }
+
+        // 获取一个 Element 中对应目录是 pathListStr 的列表，目录个是为 "aaa.bbb.ccc"
+        static public int getXmlChildListByPath(SecurityElement elem, string pathListStr, ref ArrayList list)
+        {
+            string[] pathList = UtilStr.split(ref pathListStr, '.');
+            string curName = "";
+            SecurityElement curElement = elem;  // 当前元素
+
+            int elemIdx = 0;
+            int elemLen = 0;
+
+            int childIdx = 0;
+            int childLen = 0;
+
+            SecurityElement child = null;
+            bool isLastOne = false;
+
+            while (elemIdx < elemLen)
+            {
+                // 如果是最后一级
+                if(elemIdx == elemLen - 1)
+                {
+                    isLastOne = true;
+                }
+
+                curName = pathList[elemIdx];
+
+                if (null != curElement)
+                {
+                    childIdx = 0;
+                    childLen = curElement.Children.Count;
+
+                    while (childIdx < childLen)
+                    {
+                        child = curElement.Children[childIdx] as SecurityElement;
+
+                        //比对下是否使自己所需要得节点
+                        if (child.Tag == curName)
+                        {
+                            if (!isLastOne)
+                            {
+                                curElement = child;
+                                break;
+                            }
+                            else
+                            {
+                                list.Add(child);
+                            }
+                        }
+
+                        ++childIdx;
+                    }
+                }
+
+                ++elemIdx;
+            }
+
+            if (list.Count > 0)
+            {
+                return XML_OK;
+            }
+            else
+            {
+                list.Clear();
+                return XML_FAIL;
+            }
+        }
     }
 }

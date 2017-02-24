@@ -353,6 +353,16 @@
             this.mIsScaleToDest = false;
         }
 
+        public void forceMoveDest(UnityEngine.Vector3 destPos)
+        {
+            destPos = Ctx.mInstance.mSceneSys.adjustPosInRange(destPos);
+
+            this.mDestPos = destPos;
+
+            this.setIsMoveToDest(true);
+            this.mMoveWay = MoveWay.eAutoPathMove;
+        }
+
         // 移动到最终地点
         //public void moveToPos(UnityEngine.Vector3 destPos)
         public void setDestPos(UnityEngine.Vector3 destPos)
@@ -563,6 +573,11 @@
         public UnityEngine.Quaternion getDestRotate()
         {
             return this.mDestRotate;
+        }
+
+        public UnityEngine.Vector3 getDestPos()
+        {
+            return this.mDestPos;
         }
 
         virtual public void setNotMergeRotate(UnityEngine.Quaternion quat)

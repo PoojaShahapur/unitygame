@@ -45,6 +45,30 @@ function M:onReady()
 			self.mGuiWin, 
 			GlobalNS.OptionPanelNS.OptionPanelPath.BtnSwallow)
 		);
+
+    self.mSplitBtn:disable();
+    self.mSwallowBtn:disable();
+
+    GlobalNS.CSSystem.Ctx.mInstance.mGlobalDelegate.mMainChildMassChangedDispatch:addEventHandle(nil, nil, self, self.refreshMass);
+end
+
+function M:refreshMass()
+    if(GlobalNS.CSSystem.Ctx.mInstance.mPlayerMgr:getHero() ~= nil and
+       GlobalNS.CSSystem.Ctx.mInstance.mPlayerMgr:getHero().mPlayerSplitMerge ~= nil) then
+         local canSplit = GlobalNS.CSSystem.Ctx.mInstance.mPlayerMgr:getHero().mPlayerSplitMerge:isCanSplit();
+         if not canSplit then
+            self.mSplitBtn:disable();
+         else
+            self.mSplitBtn:enable();
+         end
+
+         local canemit = GlobalNS.CSSystem.Ctx.mInstance.mPlayerMgr:getHero().mPlayerSplitMerge:isCanEmit();
+         if not canemit then
+            self.mSwallowBtn:disable();
+         else
+            self.mSwallowBtn:enable();
+         end
+    end
 end
 
 function M:onShow()
@@ -57,6 +81,7 @@ end
 
 function M:onExit()
     M.super.onExit(self);
+    GlobalNS.CSSystem.Ctx.mInstance.mGlobalDelegate.mMainChildMassChangedDispatch:removeEventHandle(nil, nil, self, self.refreshMass);
 end
 
 function M:onSplitBtnClk()
