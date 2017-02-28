@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Keywords" content="">
+<meta name="Description" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+<meta content="email=no" name="format-detection" />
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="format-detection" content="telephone=no" />
+<link href="css/mlayout.css" type="text/css" rel="stylesheet" />
+<meta name="Robots" content="all"/>
+<meta name="Keywords" content="我的海底,我的海底手游,我的海底官方手游,我的海底官网,我的海底手游官网,我的海底官方网站,myseabed,wqn,实时对决,谋略,策略,掠夺,手游,手机游戏,巨人,巨人网络,iOS,安卓,Android"/>
+<meta name="Description" content="《我的海底》是巨人网络开发发行的海底休闲竞技手游。"/>
+<title>《我的海底》手游官方网站</title>
+<script type="text/javascript">
+    //全局字体rem
+    (function(size) {
+        //获取初始的fontsize,16为比例标准
+        var originalSize = parseInt((window.getComputedStyle(document.documentElement, null)).fontSize);
+
+        function fn() {
+            var win_w = parseInt(document.documentElement.clientWidth);
+            /* 对应页面对大宽度设置size */
+            win_w = (win_w>size)?size:win_w;
+            var html = document.getElementsByTagName('html')[0],
+                zoom = (win_w / size) / (originalSize / 16) * 100;
+            html.style.fontSize = zoom + 'px';
+        };
+        fn();
+        //横竖屏检测
+        function detectOtt() {
+            if (window.orientation == 90 || window.orientation == -90) {
+                //$("#horizon").show();
+            } else if (window.orientation == 0 || window.orientation == 180) {
+                fn();
+            }
+        }
+        window.onresize = function() {
+            detectOtt();
+        };
+
+    })(640);
+</script>
+
+</head>
+
+<body>
+<!-- 添加图片弹窗 -->
+<div class="pop tips" id="popTips">
+	<a href="javascript:;" class="closeBtn" id="closeBtn"></a>
+    <div class="zz"></div>
+    <div class="imgBox"><img src="images/tips.png" alt=""></div>
+</div>
+<div class="bg">
+	<a class="logo" href="javascript:;"><img src="images/logo.png"></a>
+    <div class="content">
+        <!-- <img src="images/slogan.png" alt="" class="slogan"> -->
+        <a class="btn_dl dl_iphone" href="javascript:;" style="display:none"><img src="images/btn_dl.png"></a>
+        <a class="btn_dl dl_android" href="javascript:;" style="display:none"><img src="images/btn_dl.png"></a>
+        <!--<a class="btn_talk" href="http://tieba.baidu.com/f?ie=utf-8&kw=%E4%BA%94%E5%8D%83%E5%B9%B4%E6%89%8B%E6%B8%B8&fr=search&qq-pf-to=pcqq.discussion"><img src="images/btn_talk.png"></a>-->
+        <a href="javascript:;" class="btn_qq"><span>玩家交流群:512081924</span></a>
+        <a href="javascript:;" class="btn_popTips" id="showPop"><span>iOS用户安装指南</span></a>
+        
+    </div>
+    <!--<div class="qq">
+    	<i class="ico"></i>
+    	<span class="txt">玩家交流群:<br><em>550841444</em></span>
+    </div>-->
+</div>
+<div class="tip_wrap" style="display:none">
+    <img src="images/weixin_ios.jpg" class="wxtip tip_ios" style="display:none">
+    <img src="images/weixin_android.jpg" class="wxtip tip_android" style="display:none">
+</div>
+<script type="text/javascript" src="http://js.ztgame.com/stat.js?gametype=5111"></script>
+<script type="text/javascript" src="http://w.cnzz.com/c.php?id=1259181129"></script>
+<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="js/main.js"></script>
+<script type="text/javascript">
+    document.getElementById('showPop').onclick = function(){
+        document.getElementById('popTips').style.display = 'block';
+    };
+    document.getElementById('closeBtn').onclick = function(){
+        document.getElementById('popTips').style.display = 'none';
+    };
+</script>
+
+</body>
+</html>
