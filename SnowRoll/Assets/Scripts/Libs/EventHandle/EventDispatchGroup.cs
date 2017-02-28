@@ -1,16 +1,14 @@
-﻿using System.Collections.Generic;
-
-namespace SDK.Lib
+﻿namespace SDK.Lib
 {
     public class EventDispatchGroup
     {
         protected MDictionary<int, EventDispatch> mGroupID2DispatchDic;
-        protected bool mIsInLoop;       // 是否是在循环遍历中
+        protected LoopDepth mLoopDepth;       // 是否是在循环遍历中
 
         public EventDispatchGroup()
         {
             this.mGroupID2DispatchDic = new MDictionary<int, EventDispatch>();
-            this.mIsInLoop = false;
+            this.mLoopDepth = new LoopDepth();
         }
 
         // 添加分发器
@@ -27,8 +25,9 @@ namespace SDK.Lib
             // 如果没有就创建一个
             if (!this.mGroupID2DispatchDic.ContainsKey(groupID))
             {
-                addEventDispatch(groupID, new EventDispatch());
+                this.addEventDispatch(groupID, new EventDispatch());
             }
+
             this.mGroupID2DispatchDic[groupID].addEventHandle(pThis, handle);
         }
 
@@ -52,7 +51,8 @@ namespace SDK.Lib
 
         public void dispatchEvent(int groupID, IDispatchObject dispatchObject)
         {
-            this.mIsInLoop = true;
+            this.mLoopDepth.incDepth();
+
             if (this.mGroupID2DispatchDic.ContainsKey(groupID))
             {
                 this.mGroupID2DispatchDic[groupID].dispatchEvent(dispatchObject);
@@ -61,12 +61,13 @@ namespace SDK.Lib
             {
              
             }
-            this.mIsInLoop = false;
+
+            this.mLoopDepth.decDepth();
         }
 
         public void clearAllEventHandle()
         {
-            if (!this.mIsInLoop)
+            if (!this.mLoopDepth.isInDepth())
             {
                 foreach (EventDispatch dispatch in this.mGroupID2DispatchDic.Values)
                 {
@@ -83,7 +84,7 @@ namespace SDK.Lib
 
         public void clearGroupEventHandle(int groupID)
         {
-            if (!this.mIsInLoop)
+            if (!this.mLoopDepth.isInDepth())
             {
                 if (this.mGroupID2DispatchDic.ContainsKey(groupID))
                 {

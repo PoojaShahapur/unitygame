@@ -13,7 +13,8 @@
         override public void dispatchEvent(IDispatchObject dispatchObject)
         {
             base.dispatchEvent(dispatchObject);
-            clearEventHandle();
+
+            this.clearEventHandle();
         }
     }
 }

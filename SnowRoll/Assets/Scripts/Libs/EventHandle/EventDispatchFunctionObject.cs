@@ -73,34 +73,42 @@ namespace SDK.Lib
         public bool isEqual(ICalleeObject pThis, MAction<IDispatchObject> handle, LuaTable luaTable = null, LuaFunction luaFunction = null)
         {
             bool ret = false;
+
             if(pThis != null)
             {
                 ret = UtilApi.isAddressEqual(this.mThis, pThis);
+
                 if (!ret)
                 {
                     return ret;
                 }
             }
+
             if (handle != null)
             {
                 //ret = UtilApi.isAddressEqual(this.mHandle, handle);
                 ret = UtilApi.isDelegateEqual(ref this.mHandle, ref handle);
+
                 if (!ret)
                 {
                     return ret;
                 }
             }
+
             if(luaTable != null)
             {
                 ret = this.mLuaCSDispatchFunctionObject.isTableEqual(luaTable);
+
                 if(!ret)
                 {
                     return ret;
                 }
             }
+
             if (luaFunction != null)
             {
                 ret = this.mLuaCSDispatchFunctionObject.isFunctionEqual(luaFunction);
+
                 if(!ret)
                 {
                     return ret;
