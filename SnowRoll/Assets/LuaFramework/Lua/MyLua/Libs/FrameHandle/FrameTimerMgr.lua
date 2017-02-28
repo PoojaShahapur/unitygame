@@ -14,7 +14,7 @@ end
 
 function M:addObject(delayObject, priority)
     -- 检查当前是否已经在队列中
-    if self.mTimerList:IndexOf(delayObject) == -1 then
+    if(not self.mTimerList:Contains(delayObject)) then
         if(self:isInDepth()) then
             M.super.addObject(self, delayObject, priority);
         else
@@ -25,7 +25,7 @@ end
 
 function M:removeObject(delayObject)
     -- 检查当前是否在队列中
-    if not self.mTimerList:IndexOf(delayObject) == -1 then
+    if(self.mTimerList:Contains(delayObject)) then
         delayObject.mIsDisposed = true;
         if(self:isInDepth()) then
             M.super.addObject(self, delayObject);

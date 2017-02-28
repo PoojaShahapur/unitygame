@@ -20,13 +20,13 @@ function M:setStopNetHandle(value)
 end
 
 function M:addOneDisp(disp)
-    if(self.mNetDispList:IndexOf(disp) == -1) then
+    if(not self.mNetDispList:Contains(disp)) then
         self.mNetDispList:Add(disp);
     end
 end
 
 function M:removeOneDisp(disp)
-    if(self.mNetDispList:IndexOf(disp) ~= -1) then
+    if(self.mNetDispList:Contains(disp)) then
         self.mNetDispList:Remove(disp);
     end
 end

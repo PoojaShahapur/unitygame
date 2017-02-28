@@ -21,7 +21,7 @@ function M:addObject(delayObject, priority)
     end
     
     -- 检查当前是否已经在队列中
-    if (self.mTimerList:IndexOf(delayObject) == -1) then
+    if (not self.mTimerList:Contains(delayObject)) then
         if (self:isInDepth()) then
             M.super.addObject(self, delayObject, priority);
         else

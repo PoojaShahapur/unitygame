@@ -13,7 +13,7 @@ namespace SDK.Lib
         protected int mUniqueId;       // 唯一 Id ，调试使用
 
         protected Dictionary<T, int> mDic;    // 为了加快查找速度，当前 Element 到索引映射
-        protected bool mIsSpeedUpFind;  // 是否加快查询
+        protected bool mIsSpeedUpFind;  // 是否加快查询，这个只适用于元素在列表中是唯一的，例如引用之类的，如果有相同的，就会有问题，注意了
 
         public MList()
         {
@@ -219,15 +219,12 @@ namespace SDK.Lib
         {
             if (index <= this.Count())
             {
-                if (this.mIsSpeedUpFind)
-                {
-                    this.mDic[item] = index;
-                }
-
                 this.mList.Insert(index, item);
 
                 if (this.mIsSpeedUpFind)
                 {
+                    this.mDic[item] = index;
+
                     this.updateIndex(index + 1);
                 }
             }
