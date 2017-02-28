@@ -5,6 +5,7 @@ namespace SDK.Lib
     /**
      * @brief 事件分发，之分发一类事件，不同类型的事件使用不同的事件分发
      * @brief 注意，事件分发缺点就是，可能被调用的对象已经释放，但是没有清掉事件处理器，结果造成空指针
+     * @brief 事件添加一个事件 Id ，这个主要是事件分发使用，资源加载那边基本都没有使用这个事件 Id，因为 java7 不支持函数指针，只能传递 java 对象
      */
     public class EventDispatch : DelayHandleMgrBase
     {
