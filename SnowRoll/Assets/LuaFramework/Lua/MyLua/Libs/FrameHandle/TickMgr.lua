@@ -17,7 +17,7 @@ function M:addTick(tickObj, priority)
 end
 
 function M:addObject(delayObject, priority)
-    if self:bInDepth() then
+    if(self:isInDepth()) then
         M.super.addObject(self, delayObject, priority);
     else
         local position = -1;
@@ -54,7 +54,7 @@ function M:addObject(delayObject, priority)
 end
 
 function M:removeObject(delayObject)
-    if self:bInDepth() then
+    if(self:isInDepth()) then
         M.super.removeObject(self, delayObject);
     else
         for key, item in ipairs(self.mTickList:list()) do

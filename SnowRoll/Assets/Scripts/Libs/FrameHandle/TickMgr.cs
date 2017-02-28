@@ -29,7 +29,7 @@ namespace SDK.Lib
 
         override protected void addObject(IDelayHandleItem delayObject, float priority = 0.0f)
         {
-            if (this.mLoopDepth.isInDepth())
+            if (this.isInDepth())
             {
                 base.addObject(delayObject, priority);
             }
@@ -82,7 +82,7 @@ namespace SDK.Lib
 
         override protected void removeObject(IDelayHandleItem delayObject)
         {
-            if (this.mLoopDepth.isInDepth())
+            if (this.isInDepth())
             {
                 base.removeObject(delayObject);
             }
@@ -101,7 +101,7 @@ namespace SDK.Lib
 
         public void Advance(float delta)
         {
-            this.mLoopDepth.incDepth();
+            this.incDepth();
 
             //foreach (TickProcessObject tk in this.mTickList.list())
             //{
@@ -114,7 +114,7 @@ namespace SDK.Lib
             this.onExecAdvance(delta);
             this.onPostAdvance(delta);
 
-            this.mLoopDepth.decDepth();
+            this.decDepth();
         }
 
         virtual protected void onPreAdvance(float delta)

@@ -2,6 +2,10 @@ MLoader("MyLua.Libs.Core.GlobalNS");
 
 -- 内存分配
 local new = function (cls, ...)
+	if(nil == cls) then
+		error("Class is nil");
+	end
+	
     local instance = {};
     instance.dataType = "Instance";
     instance.clsCode = cls;
@@ -29,7 +33,9 @@ GlobalNS["new"] = new;
 
 -- 删除空间
 local delete = function (pThis)
-    pThis:dtor();       -- 调用析构函数
+	if(nil ~= pThis) then
+		pThis:dtor();       -- 调用析构函数
+	end
 end
 
 GlobalNS["delete"] = delete;

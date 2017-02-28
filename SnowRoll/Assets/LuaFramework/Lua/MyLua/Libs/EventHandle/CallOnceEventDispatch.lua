@@ -16,6 +16,7 @@ end
 
 function M:dispatchEvent(dispatchObject)
     M.super.dispatchEvent(self, dispatchObject);
+	
     self:clearEventHandle();
 end
 

@@ -21,7 +21,7 @@ namespace SDK.Lib
 
         override protected void addObject(IDelayHandleItem delayObject, float priority = 0.0f)
         {
-            if (this.mLoopDepth.isInDepth())
+            if (this.isInDepth())
             {
                 base.addObject(delayObject);
             }
@@ -38,7 +38,7 @@ namespace SDK.Lib
 
         override protected void removeObject(IDelayHandleItem delayObject)
         {
-            if (this.mLoopDepth.isInDepth())
+            if (this.isInDepth())
             {
                 base.removeObject(delayObject);
             }
@@ -50,11 +50,11 @@ namespace SDK.Lib
 
         virtual public void onTick(float delta)
         {
-            this.mLoopDepth.incDepth();
+            this.incDepth();
 
             this.onTickExec(delta);
 
-            this.mLoopDepth.decDepth();
+            this.decDepth();
         }
 
         virtual protected void onTickExec(float delta)

@@ -124,7 +124,7 @@ namespace SDK.Lib
 
         override protected void addObject(IDelayHandleItem delayObject, float priority = 0.0f)
         {
-            if (this.mLoopDepth.isInDepth())
+            if (this.isInDepth())
             {
                 base.addObject(delayObject, priority);
             }
@@ -137,7 +137,7 @@ namespace SDK.Lib
 
         override protected void removeObject(IDelayHandleItem delayObject)
         {
-            if (this.mLoopDepth.isInDepth())
+            if (this.isInDepth())
             {
                 base.removeObject(delayObject);
             }
@@ -154,7 +154,7 @@ namespace SDK.Lib
         {
             //try
             //{
-            this.mLoopDepth.incDepth();
+            this.incDepth();
 
             //foreach (EventDispatchFunctionObject handle in this.mHandleList.list())
 
@@ -179,7 +179,7 @@ namespace SDK.Lib
                 this.mLuaCSBridgeDispatch.handleGlobalEvent(this.mEventId, dispatchObject);
             }
 
-            this.mLoopDepth.decDepth();
+            this.decDepth();
             //}
             //catch (Exception ex)
             //{
@@ -189,7 +189,7 @@ namespace SDK.Lib
 
         public void clearEventHandle()
         {
-            if (this.mLoopDepth.isInDepth())
+            if (this.isInDepth())
             {
                 //foreach (EventDispatchFunctionObject item in this.mHandleList.list())
                 int idx = 0;

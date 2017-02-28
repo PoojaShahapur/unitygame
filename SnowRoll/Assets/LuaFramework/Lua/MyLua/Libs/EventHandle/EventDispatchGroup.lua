@@ -2,6 +2,7 @@ MLoader("MyLua.Libs.Core.GlobalNS");
 MLoader("MyLua.Libs.Core.Class");
 MLoader("MyLua.Libs.Core.GObject");
 MLoader("MyLua.Libs.DataStruct.MDictionary");
+MLoader("MyLua.Libs.FrameHandle.LoopDepth");
 
 local M = GlobalNS.Class(GlobalNS.GObject);
 M.clsName = "EventDispatchGroup";
@@ -9,7 +10,7 @@ GlobalNS[M.clsName] = M;
 
 function M:ctor()
     self.mGroupID2DispatchDic = GlobalNS.new(GlobalNS.MDictionary);
-    self.mIsInLoop = false;
+    self.mLoopDepth = GlobalNS.new(GlobalNS.LoopDepth);
 end
 
 -- 添加分发器
@@ -24,6 +25,7 @@ function M:addEventHandle(groupID, pThis, handle)
         local disp = GlobalNS.new(GlobalNS.EventDispatch);
         self:addEventDispatch(groupID, disp);
     end
+	
     self.mGroupID2DispatchDic:value(groupID):addEventHandle(pThis, handle);
 end
 
@@ -36,17 +38,19 @@ function M:removeEventHandle(groupID, pThis, handle)
 end
 
 function M:dispatchEvent(groupID, dispatchObject)
-    self.mIsInLoop = true;
+    self.mLoopDepth:incDepth();
+	
     if (self.mGroupID2DispatchDic:ContainsKey(groupID)) then
         self.mGroupID2DispatchDic:value(groupID):dispatchEvent(dispatchObject);
     else
         -- 日志
     end
-    self.mIsInLoop = false;
+	
+    self.mIsInLoop:decDepth();
 end
 
 function M:clearAllEventHandle()
-    if (not self.mIsInLoop) then
+    if (not self.mLoopDepth:isInDepth()) then
         for _, dispatch in pairs(self.mGroupID2DispatchDic:getData()) do
             dispatch:clearEventHandle();
         end
@@ -58,7 +62,7 @@ function M:clearAllEventHandle()
 end
 
 function M:clearGroupEventHandle(groupID)
-    if (not self.mIsInLoop) then
+    if (not self.mLoopDepth:isInDepth()) then
         if self.mGroupID2DispatchDic:ContainsKey(groupID) then
             self.mGroupID2DispatchDic:value(groupID):clearEventHandle();
             self.mGroupID2DispatchDic:Remove(groupID);

@@ -16,7 +16,7 @@
             this.mDeferredDelQueue = new MList<DelayHandleObject>();
 
             this.mLoopDepth = new LoopDepth();
-            this.mLoopDepth.setDecHandle(this.processDelayObjects);
+            this.mLoopDepth.setZeroHandle(this.processDelayObjects);
         }
 
         virtual public void init()
@@ -160,6 +160,21 @@
                     this.mDeferredDelQueue.Clear();
                 }
             }
+        }
+
+        protected void incDepth()
+        {
+            this.mLoopDepth.incDepth();
+        }
+
+        protected void decDepth()
+        {
+            this.mLoopDepth.decDepth();
+        }
+
+        protected bool isInDepth()
+        {
+            return this.mLoopDepth.isInDepth();
         }
     }
 }

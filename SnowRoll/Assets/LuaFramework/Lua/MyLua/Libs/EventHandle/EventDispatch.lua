@@ -46,7 +46,7 @@ function M:addEventHandle(pThis, handle)
 end
 
 function M:addObject(delayObject, priority)
-    if (self:bInDepth()) then
+    if (self:isInDepth()) then
         M.super.addObject(self, delayObject, priority); -- super 使用需要自己填充 Self 参数
     else
         -- 这个判断说明相同的函数只能加一次，但是如果不同资源使用相同的回调函数就会有问题，但是这个判断可以保证只添加一次函数，值得，因此不同资源需要不同回调函数
@@ -56,11 +56,13 @@ end
 
 function M:removeEventHandle(handle, pThis)
     local idx = 0;
+	
     for idx = 0, self.mHandleList:Count() - 1, 1 do
         if (self.mHandleList:at(idx):isEqual(handle, pThis)) then
             break;
         end
     end
+	
     if (idx < self.mHandleList:Count()) then
         self:removeObject(self.mHandleList[idx]);
     else
@@ -69,7 +71,7 @@ function M:removeEventHandle(handle, pThis)
 end
 
 function M:removeObject(delayObject)
-    if (self:bInDepth()) then
+    if (self:isInDepth()) then
         M.super.removeObject(self, delayObject);
     else
         if (self.mHandleList:Remove(delayObject) == false) then
@@ -91,7 +93,7 @@ function M:dispatchEvent(dispatchObject)
 end
 
 function M:clearEventHandle()
-    if (self:bInDepth()) then
+    if (self:isInDepth()) then
         for _, item in ipairs(self.mHandleList:list()) do
             self:removeObject(item);
         end
@@ -103,6 +105,7 @@ end
 -- 这个判断说明相同的函数只能加一次，但是如果不同资源使用相同的回调函数就会有问题，但是这个判断可以保证只添加一次函数，值得，因此不同资源需要不同回调函数
 function M:isExistEventHandle(pThis, handle)
     local bFinded = false;
+	
     for _, item in ipairs(self.mHandleList:list()) do
         if (item:isEqual(pThis, handle)) then
             bFinded = true;

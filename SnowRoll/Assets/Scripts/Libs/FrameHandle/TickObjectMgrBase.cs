@@ -32,11 +32,11 @@
 
         virtual public void onTick(float delta)
         {
-            this.mLoopDepth.incDepth();
+            this.incDepth();
 
             this.onExecTick(delta);
 
-            this.mLoopDepth.decDepth();
+            this.decDepth();
         }
 
         virtual protected void onExecTick(float delta)
@@ -60,7 +60,7 @@
 
         override protected void addObject(IDelayHandleItem tickObject, float priority = 0.0f)
         {
-            if (this.mLoopDepth.isInDepth())
+            if (this.isInDepth())
             {
                 base.addObject(tickObject);
             }
@@ -75,7 +75,7 @@
 
         override protected void removeObject(IDelayHandleItem tickObject)
         {
-            if (this.mLoopDepth.isInDepth())
+            if (this.isInDepth())
             {
                 base.removeObject(tickObject);
             }

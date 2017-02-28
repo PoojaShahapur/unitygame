@@ -16,6 +16,13 @@ MLoader("MyLua.Libs.Core.UniqueNumIdGen");
 MLoader("MyLua.Libs.DataStruct.MList");
 MLoader("MyLua.Libs.DataStruct.MDictionary");
 
+-- Functor
+MLoader("MyLua.Libs.Functor.CallFuncObjectBase");
+MLoader("MyLua.Libs.Functor.CmpFuncObject");
+MLoader("MyLua.Libs.Functor.CallFuncObjectFixParam");
+MLoader("MyLua.Libs.Functor.CallFuncObjectVarParam");
+MLoader("MyLua.Libs.Functor.PCallFuncObjectFixParam");
+MLoader("MyLua.Libs.Functor.PCallFuncObjectVarParam");
 
 -- 延迟处理器
 MLoader("MyLua.Libs.DelayHandle.IDelayHandleItem");
@@ -50,6 +57,7 @@ MLoader("MyLua.Libs.FrameHandle.FrameTimerMgr");
 MLoader("MyLua.Libs.FrameHandle.TickMgr");
 MLoader("MyLua.Libs.FrameHandle.TimerFunctionObject");
 MLoader("MyLua.Libs.FrameHandle.FrameUpdateStatistics");
+MLoader("MyLua.Libs.FrameHandle.LoopDepth");
 
 -- UI
 MLoader("MyLua.Libs.UI.UICore.FormMode");

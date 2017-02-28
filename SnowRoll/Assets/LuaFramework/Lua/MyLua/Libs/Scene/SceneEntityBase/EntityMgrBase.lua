@@ -15,7 +15,8 @@ function M:addObject(entity, priority)
     if(nil == priority) then
         priority = 0.0;
     end
-    if (self:bInDepth()) then
+	
+    if (self:isInDepth()) then
         M.super.addObject(self, entity);
     else
         self.mSceneEntityList:Add(entity);
@@ -23,7 +24,7 @@ function M:addObject(entity, priority)
 end
 
 function M:removeObject(entity)
-    if (self:bInDepth()) then
+    if (self:isInDepth()) then
         M.super.removeObject(self, entity);
     else
         self.mSceneEntityList:Remove(entity);

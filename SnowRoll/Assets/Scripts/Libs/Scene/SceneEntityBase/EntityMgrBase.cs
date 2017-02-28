@@ -29,7 +29,7 @@
 
         override protected void addObject(IDelayHandleItem entity, float priority = 0.0f)
         {
-            if (this.mLoopDepth.isInDepth())
+            if (this.isInDepth())
             {
                 base.addObject(entity);
             }
@@ -44,7 +44,7 @@
 
         override protected void removeObject(IDelayHandleItem entity)
         {
-            if (this.mLoopDepth.isInDepth())
+            if (this.isInDepth())
             {
                 base.removeObject(entity);
             }
@@ -111,11 +111,11 @@
 
         virtual public void onTick(float delta)
         {
-            this.mLoopDepth.incDepth();
+            this.incDepth();
 
             this.onTickExec(delta);
 
-            this.mLoopDepth.decDepth();
+            this.decDepth();
         }
 
         virtual protected void onTickExec(float delta)
@@ -225,7 +225,7 @@
 
         public void clearAll()
         {
-            this.mLoopDepth.incDepth();
+            this.incDepth();
 
             int idx = 0;
             int len = this.mSceneEntityList.Count();
@@ -244,7 +244,7 @@
                 ++idx;
             }
 
-            this.mLoopDepth.decDepth();
+            this.decDepth();
         }
 
         public void changeThisId(uint srcThisId, uint destThisId, SceneEntityBase entity)

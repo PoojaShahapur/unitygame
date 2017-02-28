@@ -5,6 +5,7 @@ MLoader("MyLua.Libs.DataStruct.MList");
 MLoader("MyLua.Libs.DelayHandle.DelayHandleObject");
 MLoader("MyLua.Libs.DelayHandle.DelayAddParam");
 MLoader("MyLua.Libs.DelayHandle.DelayDelParam");
+MLoader("MyLua.Libs.FrameHandle.LoopDepth");
 
 local M = GlobalNS.Class(GlobalNS.GObject);
 M.clsName = "DelayHandleMgrBase";
@@ -14,7 +15,8 @@ function M:ctor()
     self.mDeferredAddQueue = GlobalNS.new(GlobalNS.MList);
     self.mDeferredDelQueue = GlobalNS.new(GlobalNS.MList);
 
-    self.mLoopDepth = 0;
+    self.mLoopDepth = GlobalNS.new(GlobalNS.LoopDepth);
+	self.mLoopDepth.setZeroHandle(self, self.processDelayObjects);
 end
 
 function M:dtor()
@@ -22,7 +24,7 @@ function M:dtor()
 end
 
 function M:addObject(delayObject, priority)
-    if (self.mLoopDepth > 0) then
+    if (self.mLoopDepth:isInDepth()) then
         if (not self:existAddList(delayObject)) then       -- 如果添加列表中没有
             if (self:existDelList(delayObject)) then   -- 如果已经添加到删除列表中
                 self:delFromDelayDelList(delayObject);
@@ -39,7 +41,7 @@ function M:addObject(delayObject, priority)
 end
 
 function M:removeObject(delayObject)
-    if (self.mLoopDepth > 0) then
+    if (self.mLoopDepth:isInDepth()) then
         if (not self:existDelList(delayObject)) then
             if (self:existAddList(delayObject)) then    -- 如果已经添加到删除列表中
                 self:delFromDelayAddList(delayObject);
@@ -96,7 +98,7 @@ function M:delFromDelayDelList(delayObject)
 end
 
 function M:processDelayObjects()
-    if 0 == self.mLoopDepth then       -- 只有全部退出循环后，才能处理添加删除
+    if(not self.mLoopDepth:isInDepth()) then       -- 只有全部退出循环后，才能处理添加删除
         if (self.mDeferredAddQueue:Count() > 0) then
             local idx = 0;
             for idx = 0, self.mDeferredAddQueue:Count() - 1, 1 do
@@ -118,16 +120,15 @@ function M:processDelayObjects()
 end
 
 function M:incDepth()
-    self.mLoopDepth = self.mLoopDepth + 1;
+    self.mLoopDepth:incDepth();
 end
 
 function M:decDepth()
-    self.mLoopDepth = self.mLoopDepth - 1;
-    self:processDelayObjects();
+    self.mLoopDepth:decDepth();
 end
 
-function M:bInDepth()
-    return self.mLoopDepth > 0;
+function M:isInDepth()
+    return self.mLoopDepth:isInDepth();
 end
 
 return M;

@@ -30,7 +30,7 @@ namespace SDK.Lib
             // 检查当前是否已经在队列中
             if (!this.mTimerList.Contains(delayObject as TimerItemBase))
             {
-                if (this.mLoopDepth.isInDepth())
+                if (this.isInDepth())
                 {
                     base.addObject(delayObject, priority);
                 }
@@ -48,7 +48,7 @@ namespace SDK.Lib
             {
                 (delayObject as TimerItemBase).mDisposed = true;
 
-                if (this.mLoopDepth.isInDepth())
+                if (this.isInDepth())
                 {
                     base.removeObject(delayObject);
                 }
@@ -91,7 +91,7 @@ namespace SDK.Lib
 
         public void Advance(float delta)
         {
-            this.mLoopDepth.incDepth();
+            this.incDepth();
 
             foreach (TimerItemBase timerItem in this.mTimerList.list())
             {
@@ -106,7 +106,7 @@ namespace SDK.Lib
                 }
             }
 
-            this.mLoopDepth.decDepth();
+            this.decDepth();
         }
     }
 }
