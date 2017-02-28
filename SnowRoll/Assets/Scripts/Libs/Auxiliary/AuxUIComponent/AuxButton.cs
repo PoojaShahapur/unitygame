@@ -123,47 +123,47 @@ namespace SDK.Lib
         }
 
         // 添加点击事件处理器
-        public void addEventHandle(ICalleeObject pThis, MAction<IDispatchObject> btnClk, LuaTable luaTable = null, LuaFunction luaFunction = null)
+        public void addEventHandle(ICalleeObject pThis, MAction<IDispatchObject> btnClk, uint eventId = 0, LuaTable luaTable = null, LuaFunction luaFunction = null, uint luaEventId = 0)
         {
-            this.mClickEventDispatch.addEventHandle(pThis, btnClk, luaTable, luaFunction);
+            this.mClickEventDispatch.addEventHandle(pThis, btnClk, eventId, luaTable, luaFunction, luaEventId);
         }
 
-        public void removeEventHandle(ICalleeObject pThis, MAction<IDispatchObject> btnClk, LuaTable luaTable = null, LuaFunction luaFunction = null)
+        public void removeEventHandle(ICalleeObject pThis, MAction<IDispatchObject> btnClk, uint eventId = 0, LuaTable luaTable = null, LuaFunction luaFunction = null, uint luaEventId = 0)
         {
-            this.mClickEventDispatch.removeEventHandle(pThis, btnClk, luaTable, luaFunction);
+            this.mClickEventDispatch.removeEventHandle(pThis, btnClk, eventId, luaTable, luaFunction, luaEventId);
         }
 
         // Down 事件处理
-        public void addDownEventHandle(ICalleeObject pThis, MAction<IDispatchObject> btnClk, LuaTable luaTable = null, LuaFunction luaFunction = null)
+        public void addDownEventHandle(ICalleeObject pThis, MAction<IDispatchObject> btnClk, uint eventId = 0, LuaTable luaTable = null, LuaFunction luaFunction = null, uint luaEventId = 0)
         {
-            this.mDownEventDispatch.addEventHandle(pThis, btnClk, luaTable, luaFunction);
+            this.mDownEventDispatch.addEventHandle(pThis, btnClk, eventId, luaTable, luaFunction, luaEventId);
         }
 
-        public void removeDownEventHandle(ICalleeObject pThis, MAction<IDispatchObject> btnClk, LuaTable luaTable = null, LuaFunction luaFunction = null)
+        public void removeDownEventHandle(ICalleeObject pThis, MAction<IDispatchObject> btnClk, uint eventId = 0, LuaTable luaTable = null, LuaFunction luaFunction = null, uint luaEventId = 0)
         {
-            this.mDownEventDispatch.removeEventHandle(pThis, btnClk, luaTable, luaFunction);
+            this.mDownEventDispatch.removeEventHandle(pThis, btnClk, eventId, luaTable, luaFunction, luaEventId);
         }
 
         // Up 事件处理
-        public void addUpEventHandle(ICalleeObject pThis, MAction<IDispatchObject> btnClk, LuaTable luaTable = null, LuaFunction luaFunction = null)
+        public void addUpEventHandle(ICalleeObject pThis, MAction<IDispatchObject> btnClk, uint eventId = 0, LuaTable luaTable = null, LuaFunction luaFunction = null, uint luaEventId = 0)
         {
-            this.mUpEventDispatch.addEventHandle(pThis, btnClk, luaTable, luaFunction);
+            this.mUpEventDispatch.addEventHandle(pThis, btnClk, eventId, luaTable, luaFunction, luaEventId);
         }
 
-        public void removeUpEventHandle(ICalleeObject pThis, MAction<IDispatchObject> btnClk, LuaTable luaTable = null, LuaFunction luaFunction = null)
+        public void removeUpEventHandle(ICalleeObject pThis, MAction<IDispatchObject> btnClk, uint eventId = 0, LuaTable luaTable = null, LuaFunction luaFunction = null, uint luaEventId = 0)
         {
-            this.mUpEventDispatch.removeEventHandle(pThis, btnClk, luaTable, luaFunction);
+            this.mUpEventDispatch.removeEventHandle(pThis, btnClk, eventId, luaTable, luaFunction, luaEventId);
         }
 
         // Exit 事件处理
-        public void addExitEventHandle(ICalleeObject pThis, MAction<IDispatchObject> btnClk, LuaTable luaTable = null, LuaFunction luaFunction = null)
+        public void addExitEventHandle(ICalleeObject pThis, MAction<IDispatchObject> btnClk, uint eventId = 0, LuaTable luaTable = null, LuaFunction luaFunction = null, uint luaEventId = 0)
         {
-            this.mExitEventDispatch.addEventHandle(pThis, btnClk, luaTable, luaFunction);
+            this.mExitEventDispatch.addEventHandle(pThis, btnClk, eventId, luaTable, luaFunction, luaEventId);
         }
 
-        public void removeExitEventHandle(ICalleeObject pThis, MAction<IDispatchObject> btnClk, LuaTable luaTable = null, LuaFunction luaFunction = null)
+        public void removeExitEventHandle(ICalleeObject pThis, MAction<IDispatchObject> btnClk, uint eventId = 0, LuaTable luaTable = null, LuaFunction luaFunction = null, uint luaEventId = 0)
         {
-            this.mExitEventDispatch.removeEventHandle(pThis, btnClk, luaTable, luaFunction);
+            this.mExitEventDispatch.removeEventHandle(pThis, btnClk, eventId, luaTable, luaFunction, luaEventId);
         }
 
         virtual public void syncUpdateCom()

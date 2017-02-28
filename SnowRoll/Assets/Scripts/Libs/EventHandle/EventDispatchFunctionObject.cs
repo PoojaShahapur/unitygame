@@ -8,6 +8,7 @@ namespace SDK.Lib
         public bool mIsClientDispose;       // 是否释放了资源
         public ICalleeObject mThis;
         public MAction<IDispatchObject> mHandle;
+        public uint mEventId;   // 事件唯一 Id
 
         protected LuaCSDispatchFunctionObject mLuaCSDispatchFunctionObject;
 
@@ -28,10 +29,11 @@ namespace SDK.Lib
             }
         }
 
-        public void setFuncObject(ICalleeObject pThis, MAction<IDispatchObject> func)
+        public void setFuncObject(ICalleeObject pThis, MAction<IDispatchObject> function, uint eventId = 0)
         {
             this.mThis = pThis;
-            this.mHandle = func;
+            this.mHandle = function;
+            this.mEventId = eventId;
         }
 
         public void setLuaTable(LuaTable luaTable)
@@ -54,7 +56,7 @@ namespace SDK.Lib
             this.mLuaCSDispatchFunctionObject.setFunction(function);
         }
 
-        public void setLuaFunctor(LuaTable luaTable, LuaFunction function)
+        public void setLuaFunctor(LuaTable luaTable, LuaFunction function, uint eventId = 0)
         {
             if(this.mLuaCSDispatchFunctionObject == null)
             {
@@ -63,6 +65,7 @@ namespace SDK.Lib
 
             this.mLuaCSDispatchFunctionObject.setTable(luaTable);
             this.mLuaCSDispatchFunctionObject.setFunction(function);
+            this.mLuaCSDispatchFunctionObject.setEventId(eventId);
         }
 
         public bool isValid()
@@ -70,7 +73,12 @@ namespace SDK.Lib
             return this.mThis != null || this.mHandle != null || (this.mLuaCSDispatchFunctionObject != null && this.mLuaCSDispatchFunctionObject.isValid());
         }
 
-        public bool isEqual(ICalleeObject pThis, MAction<IDispatchObject> handle, LuaTable luaTable = null, LuaFunction luaFunction = null)
+        public bool isEventIdEqual(uint eventId)
+        {
+            return this.mEventId == eventId;
+        }
+
+        public bool isEqual(ICalleeObject pThis, MAction<IDispatchObject> handle, uint eventId, LuaTable luaTable = null, LuaFunction luaFunction = null, uint luaEventId = 0)
         {
             bool ret = false;
 
@@ -95,7 +103,14 @@ namespace SDK.Lib
                 }
             }
 
-            if(luaTable != null)
+            ret = this.isEventIdEqual(eventId);
+
+            if (!ret)
+            {
+                return ret;
+            }
+
+            if (null != luaTable && null != this.mLuaCSDispatchFunctionObject)
             {
                 ret = this.mLuaCSDispatchFunctionObject.isTableEqual(luaTable);
 
@@ -105,11 +120,21 @@ namespace SDK.Lib
                 }
             }
 
-            if (luaFunction != null)
+            if (null != luaFunction && null != this.mLuaCSDispatchFunctionObject)
             {
                 ret = this.mLuaCSDispatchFunctionObject.isFunctionEqual(luaFunction);
 
                 if(!ret)
+                {
+                    return ret;
+                }
+            }
+
+            if (null != this.mLuaCSDispatchFunctionObject)
+            {
+                ret = this.mLuaCSDispatchFunctionObject.isEventIdEqual(luaEventId);
+
+                if (!ret)
                 {
                     return ret;
                 }

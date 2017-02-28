@@ -254,7 +254,7 @@
             }
         }
 
-        protected void addEventHandle(LuaInterface.LuaTable luaTable = null, LuaInterface.LuaFunction luaFunction = null, LuaInterface.LuaFunction progressLuaFunction = null)
+        protected void addEventHandle(LuaInterface.LuaTable luaTable = null, LuaInterface.LuaFunction luaFunction = null, LuaInterface.LuaFunction progressLuaFunction = null, uint luaEventId = 0)
         {
             if (null != luaTable && null != luaFunction)
             {
@@ -263,7 +263,7 @@
                     this.mEvtHandle = new ResEventDispatch();
                 }
 
-                this.mEvtHandle.addEventHandle(null, null, luaTable, luaFunction);
+                this.mEvtHandle.addEventHandle(null, null, 0, luaTable, luaFunction, luaEventId);
             }
 
             if (null != luaTable && null != progressLuaFunction)
@@ -273,7 +273,7 @@
                     this.mProgressEventDispatch = new AddOnceEventDispatch();
                 }
 
-                this.mProgressEventDispatch.addEventHandle(null, null, luaTable, progressLuaFunction);
+                this.mProgressEventDispatch.addEventHandle(null, null, 0, luaTable, progressLuaFunction, luaEventId);
             }
         }
 

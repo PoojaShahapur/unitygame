@@ -27,7 +27,7 @@ end
 
 function M:onReady()
     M.super.onReady(self);    
-    GlobalNS.CSSystem.Ctx.mInstance.mGlobalDelegate.mMainChildMassChangedDispatch:addEventHandle(nil, nil, self, self.refreshMass);
+    GlobalNS.CSSystem.Ctx.mInstance.mGlobalDelegate.mMainChildMassChangedDispatch:addEventHandle(nil, nil, 0, self, self.refreshMass, 0);
     
     self:refreshMass(); --加载完成主动刷新一次质量
 end

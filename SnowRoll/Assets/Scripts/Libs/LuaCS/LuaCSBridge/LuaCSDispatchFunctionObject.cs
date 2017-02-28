@@ -2,6 +2,8 @@
 {
     public class LuaCSDispatchFunctionObject : LuaCSBridge
     {
+        public uint mEventId;   // 事件唯一 Id
+
         public LuaCSDispatchFunctionObject(string luaFile = "", string tableName = "")
             : base(luaFile, tableName)
         {
@@ -18,6 +20,17 @@
             {
                 mLuaFunc.Call(dispObj);
             }
+        }
+
+
+        public void setEventId(uint eventId)
+        {
+            this.mEventId = eventId;
+        }
+
+        public bool isEventIdEqual(uint eventId)
+        {
+            return this.mEventId == eventId;
         }
     }
 }

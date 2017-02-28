@@ -134,7 +134,7 @@ namespace SDK.Lib
             ret.refCountResLoadResultNotify.refCount.incRef();
             ret.setLoadParam(param);
 
-            ret.refCountResLoadResultNotify.loadResEventDispatch.addEventHandle(null, param.mLoadEventHandle, param.mLuaTable, param.mLuaFunction);
+            ret.refCountResLoadResultNotify.loadResEventDispatch.addEventHandle(null, param.mLoadEventHandle, param.mEventId, param.mLuaTable, param.mLuaFunction, param.mLuaEventId);
 
             return ret;
         }
@@ -162,7 +162,7 @@ namespace SDK.Lib
             {
                 if (param.mLoadEventHandle != null)
                 {
-                    this.mPath2ResDic[param.mResUniqueId].refCountResLoadResultNotify.loadResEventDispatch.addEventHandle(null, param.mLoadEventHandle, param.mLuaTable, param.mLuaFunction);
+                    this.mPath2ResDic[param.mResUniqueId].refCountResLoadResultNotify.loadResEventDispatch.addEventHandle(null, param.mLoadEventHandle, param.mEventId, param.mLuaTable, param.mLuaFunction, param.mLuaEventId);
                 }
             }
         }

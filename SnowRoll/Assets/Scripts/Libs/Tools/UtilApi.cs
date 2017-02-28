@@ -258,7 +258,7 @@ namespace SDK.Lib
             }
         }
 
-        public static void addEventHandle(Button btn, MAction<IDispatchObject> handle)
+        public static void addEventHandle(Button btn, MAction<IDispatchObject> handle, uint eventId = 0)
         {
             AuxButtonUserData userData = btn.gameObject.GetComponent<AuxButtonUserData>();
 
@@ -268,7 +268,7 @@ namespace SDK.Lib
 
                 if (auxBtn != null)
                 {
-                    auxBtn.addEventHandle(null, handle, null, null);
+                    auxBtn.addEventHandle(null, handle, eventId, null, null, 0);
                 }
             }
         }
@@ -281,7 +281,7 @@ namespace SDK.Lib
             }
         }
 
-        public static void RemoveListener(Button btn, MAction<IDispatchObject> handle)
+        public static void RemoveListener(Button btn, MAction<IDispatchObject> handle, uint eventId = 0)
         {
             AuxButtonUserData userData = btn.gameObject.GetComponent<AuxButtonUserData>();
 
@@ -291,7 +291,7 @@ namespace SDK.Lib
 
                 if (auxBtn != null)
                 {
-                    auxBtn.addEventHandle(null, handle, null, null);
+                    auxBtn.addEventHandle(null, handle, eventId, null, null, 0);
                 }
             }
         }
@@ -341,7 +341,7 @@ namespace SDK.Lib
             }
         }
 
-        public static void addEventHandle(GameObject go, LuaTable luaTable, LuaFunction luaFunction, bool isAddToRoot = false)
+        public static void addEventHandle(GameObject go, LuaTable luaTable, LuaFunction luaFunction, uint luaEventId = 0, bool isAddToRoot = false)
         {
             Button.ButtonClickedEvent btnEvent = go.GetComponent<Button>().onClick;
 
@@ -381,14 +381,14 @@ namespace SDK.Lib
                         }
                         if (auxBtn != null)
                         {
-                            auxBtn.addEventHandle(null, null, luaTable, luaFunction);
+                            auxBtn.addEventHandle(null, null, 0, luaTable, luaFunction, luaEventId);
                         }
                     }
                 }
             }
         }
 
-        public static void addButtonDownEventHandle(GameObject go, LuaTable luaTable, LuaFunction luaFunction)
+        public static void addButtonDownEventHandle(GameObject go, LuaTable luaTable, LuaFunction luaFunction, uint luaEventId = 0)
         {
             AuxButtonUserData userData = go.GetComponent<AuxButtonUserData>();
 
@@ -405,12 +405,12 @@ namespace SDK.Lib
                 }
                 if (auxBtn != null)
                 {
-                    auxBtn.addDownEventHandle(null, null, luaTable, luaFunction);
+                    auxBtn.addDownEventHandle(null, null, 0, luaTable, luaFunction, luaEventId);
                 }
             }
         }
 
-        public static void addButtonUpEventHandle(GameObject go, LuaTable luaTable, LuaFunction luaFunction)
+        public static void addButtonUpEventHandle(GameObject go, LuaTable luaTable, LuaFunction luaFunction, uint luaEventId = 0)
         {
             AuxButtonUserData userData = go.GetComponent<AuxButtonUserData>();
 
@@ -427,12 +427,12 @@ namespace SDK.Lib
                 }
                 if (auxBtn != null)
                 {
-                    auxBtn.addUpEventHandle(null, null, luaTable, luaFunction);
+                    auxBtn.addUpEventHandle(null, null, 0, luaTable, luaFunction, luaEventId);
                 }
             }
         }
 
-        public static void addButtonExitEventHandle(GameObject go, LuaTable luaTable, LuaFunction luaFunction)
+        public static void addButtonExitEventHandle(GameObject go, LuaTable luaTable, LuaFunction luaFunction, uint luaEventId = 0)
         {
             AuxButtonUserData userData = go.GetComponent<AuxButtonUserData>();
 
@@ -449,7 +449,7 @@ namespace SDK.Lib
                 }
                 if (auxBtn != null)
                 {
-                    auxBtn.addExitEventHandle(null, null, luaTable, luaFunction);
+                    auxBtn.addExitEventHandle(null, null, 0, luaTable, luaFunction, luaEventId);
                 }
             }
         }

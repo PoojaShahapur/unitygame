@@ -21,6 +21,7 @@
 
         public MAction<IDispatchObject> mLoadEventHandle;    // 加载事件回调函数
         public MAction<IDispatchObject> mProgressEventHandle;// 加载进度事件处理器
+        public uint mEventId;   // 事件唯一Id
 
         public bool mResNeedCoroutine = true;      // 资源是否需要协同程序
         public bool mLoadNeedCoroutine = true;     // 加载是否需要协同程序
@@ -30,6 +31,7 @@
         public LuaInterface.LuaTable mLuaTable;
         public LuaInterface.LuaFunction mLuaFunction;
         public LuaInterface.LuaFunction mProgressLuaFunction;
+        public uint mLuaEventId;    // 事件唯一 Id
 
         public bool mIsLoadAll;                 // 是否一次性加载所有的内容
         public bool mIsCheckDep;                // 是否检查依赖
@@ -79,6 +81,9 @@
 
             this.mLoadPath = "";
             this.mIsLoadAll = false;
+
+            this.mEventId = 0;
+            this.mLuaEventId = 0;
         }
 
         // 解析目录

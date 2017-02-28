@@ -49,7 +49,7 @@ function M:onReady()
     self.mSplitBtn:disable();
     self.mSwallowBtn:disable();
 
-    GlobalNS.CSSystem.Ctx.mInstance.mGlobalDelegate.mMainChildMassChangedDispatch:addEventHandle(nil, nil, self, self.refreshMass);
+    GlobalNS.CSSystem.Ctx.mInstance.mGlobalDelegate.mMainChildMassChangedDispatch:addEventHandle(nil, nil, 0, self, self.refreshMass, 0);
 end
 
 function M:refreshMass()

@@ -75,19 +75,19 @@ function M.addEventHandleByPath(go, path, luaTable, luaFunction)
 end
 
 function M.addEventHandleSelf(go, luaTable, luaFunction)
-    this.UtilApi.addEventHandle(go, luaTable, luaFunction, false);
+    this.UtilApi.addEventHandle(go, luaTable, luaFunction, 0, false);
 end
 
 function M.addButtonDownEventHandle(go, luaTable, luaFunction)
-    this.UtilApi.addButtonDownEventHandle(go, luaTable, luaFunction);
+    this.UtilApi.addButtonDownEventHandle(go, luaTable, luaFunction, 0);
 end
 
 function M.addButtonUpEventHandle(go, luaTable, luaFunction)
-    this.UtilApi.addButtonUpEventHandle(go, luaTable, luaFunction);
+    this.UtilApi.addButtonUpEventHandle(go, luaTable, luaFunction, 0);
 end
 
 function M.addButtonExitEventHandle(go, luaTable, luaFunction)
-    this.UtilApi.addButtonExitEventHandle(go, luaTable, luaFunction);
+    this.UtilApi.addButtonExitEventHandle(go, luaTable, luaFunction, 0);
 end
 
 function M.GoFindChildByName(name)
