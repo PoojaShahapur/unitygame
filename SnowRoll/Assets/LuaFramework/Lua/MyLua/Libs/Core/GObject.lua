@@ -63,7 +63,8 @@ function M.set(tbl, key, value)
     ]]
     
     -- 方法二:通过 rawget ，不查找 __index ，进行访问
-    local tbl = rawset(tbl, key, value);
+    rawset(tbl, key, value);
+	
     M.checkAttrRedef(tbl, key, value);
 end
 
@@ -71,7 +72,7 @@ M.__newindex = M.set;
 
 function M.checkAttrRedef(tbl, key, value)
     --测试相同属性定义导致的属性覆盖
-    if tbl.clsName ~= nil and tbl.clsName == 'Form' then
+    if(nil ~= tbl.clsName and 'Form' == tbl.clsName) then
         
     end
 end

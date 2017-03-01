@@ -7,6 +7,7 @@ local new = function (cls, ...)
 	end
 	
     local instance = {};
+	
     instance.dataType = "Instance";
     instance.clsCode = cls;
 
