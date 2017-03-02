@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:fd6be981c3e14499d53cae2add5336d7:e81ad5a0ab1a40c89e421378a5719d8f:4fb6b6d7f26b43c47eb9dc9b0abd6a2f$ -->
+<!--Format:
+n  => name of the sprite
+x  => sprite x pos in texture
+y  => sprite y pos in texture
+w  => sprite width (may be trimmed)
+h  => sprite height (may be trimmed)
+pX => x pos of the pivot point (relative to sprite width)
+pY => y pos of the pivot point (relative to sprite height)
+oX => sprite's x-corner offset (only available if trimmed)
+oY => sprite's y-corner offset (only available if trimmed)
+oW => sprite's original width (only available if trimmed)
+oH => sprite's original height (only available if trimmed)
+r => 'y' only set if sprite is rotated
+with polygon mode enabled:
+vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
+verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
+triangles  => sprite triangulation, 3 vertex indices per triangle
+-->
+<TextureAtlas imagePath="SettingSkin.png" width="512" height="1024">
+    <sprite n="bg_center.png" x="136" y="0" w="50" h="50" pX="0.5" pY="0.5"/>
+    <sprite n="Button.png" x="236" y="0" w="177" h="67" pX="0.5" pY="0.5"/>
+    <sprite n="Button_down.png" x="0" y="67" w="177" h="67" pX="0.5" pY="0.5"/>
+    <sprite n="choice.png" x="0" y="0" w="36" h="25" pX="0.5" pY="0.5"/>
+    <sprite n="choice_bg.png" x="186" y="0" w="50" h="50" pX="0.5" pY="0.5"/>
+    <sprite n="close.png" x="394" y="141" w="79" h="85" pX="0.5" pY="0.5"/>
+    <sprite n="flower.png" x="0" y="226" w="166" h="185" pX="0.5" pY="0.5"/>
+    <sprite n="head.png" x="0" y="141" w="394" h="85" pX="0.5" pY="0.5"/>
+    <sprite n="list.png" x="177" y="67" w="50" h="74" pX="0.5" pY="0.5"/>
+    <sprite n="op_bg.png" x="166" y="226" w="50" h="434" pX="0.5" pY="0.5"/>
+    <sprite n="title.png" x="36" y="0" w="100" h="47" pX="0.5" pY="0.5"/>
+</TextureAtlas>

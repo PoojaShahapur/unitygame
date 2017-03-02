@@ -1,0 +1,54 @@
+material 
+{
+
+	technique 0
+	{
+
+		pass 0
+		{
+			vertexShader = shaders/bumpspecular.vsh
+			fragmentShader = shaders/bumpspecular.fsh
+			defines = SKINNING_JOINT_COUNT 32;MAXPOINTLIGHT 1
+			u_ambientColor = 1,1,1
+			u_npointlight = 0
+			u_pointlight[0].color = 1,1,1
+			u_pointlight[0].position = 1,1,1
+			u_pointlight[0].rangeInverse = 0
+			u_specularExponent = 0
+
+			sampler u_diffuseTexture
+			{
+				path = fish/shayu/shayu.png
+				mipmap = false
+				wrapS = CLAMP
+				wrapT = CLAMP
+				minFilter = LINEAR
+				magFilter = LINEAR
+			}
+
+			sampler u_normalMapTexture
+			{
+				path = fish/shayu/shark_n.png
+				mipmap = false
+				wrapS = CLAMP
+				wrapT = CLAMP
+				minFilter = LINEAR
+				magFilter = LINEAR
+			}
+
+			renderState 
+			{
+				blend = true
+				srcBlend = SRC_ALPHA
+				dstBlend = ONE_MINUS_SRC_ALPHA
+				cullFace = true
+				depthTest = true
+				depthWrite = true
+			}
+
+		}
+
+	}
+
+}
+
