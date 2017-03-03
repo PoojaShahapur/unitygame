@@ -11,9 +11,12 @@
         public EntityMgrBase()
         {
             this.mSceneEntityList = new MList<SceneEntityBase>();
+            this.mSceneEntityList.setIsSpeedUpFind(true);
+
             this.mId2EntityDic = new MDictionary<string, SceneEntityBase>();
             this.mThisId2EntityDic = new MDictionary<uint, SceneEntityBase>();
             this.mBufferPool = new MList<SceneEntityBase>();
+            this.mBufferPool.setIsSpeedUpFind(true);
         }
 
         override public void init()

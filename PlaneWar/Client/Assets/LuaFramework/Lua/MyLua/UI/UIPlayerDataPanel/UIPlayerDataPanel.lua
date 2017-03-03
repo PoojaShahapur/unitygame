@@ -27,7 +27,7 @@ end
 
 function M:onReady()
     M.super.onReady(self);    
-    GlobalNS.CSSystem.Ctx.mInstance.mGlobalDelegate.mMainChildChangedDispatch:addEventHandle(nil, nil, 0, self, self.refreshNum, 0);
+    GlobalNS.CSSystem.Ctx.mInstance.mGlobalDelegate.mMainChildNumChangedDispatch:addEventHandle(nil, nil, 0, self, self.refreshNum, 0);
     
     self:refreshNum(); --加载完成主动刷新一次质量
 end
@@ -83,7 +83,7 @@ end
 
 function M:onExit()
     M.super.onExit(self);
-    GlobalNS.CSSystem.Ctx.mInstance.mGlobalDelegate.mMainChildChangedDispatch:removeEventHandle(nil, nil, self, self.refreshNum);
+    GlobalNS.CSSystem.Ctx.mInstance.mGlobalDelegate.mMainChildNumChangedDispatch:removeEventHandle(nil, nil, 0, self, self.refreshNum, 0);
 end
 
 return M;

@@ -7,5 +7,10 @@
         {
 
         }
+
+        override public void onTick(float delta)
+        {
+            base.onTick(delta);
+        }
     }
 }

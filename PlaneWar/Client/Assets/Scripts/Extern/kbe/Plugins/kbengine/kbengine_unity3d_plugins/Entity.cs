@@ -360,7 +360,7 @@
 		{
 			Vector3 v = (Vector3)getDefinedProperty("position");
 			position = v;
-            position = UtilApi.convPosByMode(position);
+            //position = UtilApi.convPosByMode(position);
             //Dbg.DEBUG_MSG(className + "::SetPosition: " + old + " => " + v); 
 
             if (isPlayer())
@@ -374,7 +374,7 @@
         {
             Vector3 v = (Vector3)getDefinedProperty("position");
             position = v;
-            position = UtilApi.convPosByMode(position);
+            //position = UtilApi.convPosByMode(position);
 
             if (isPlayer())
                 KBEngineApp.app.entityServerPos(position);
@@ -386,8 +386,22 @@
 		public virtual void onUpdateVolatileData()
 		{
 		}
-		
-		public virtual void SetDirection(object old)
+
+        public virtual void server_set_direction(object old)
+        {
+            Vector3 v = (Vector3)getDefinedProperty("direction");
+
+            direction.x = v.x * 360 / ((float)System.Math.PI * 2);
+            direction.y = v.y * 360 / ((float)System.Math.PI * 2);
+            direction.z = v.z * 360 / ((float)System.Math.PI * 2);
+
+            //direction = UtilApi.convRotByMode(direction); 
+
+            if (inWorld)
+                Event.fireOut("SetDirection", new object[] { this });
+        }
+
+        public virtual void SetDirection(object old)
 		{
 			Vector3 v = (Vector3)getDefinedProperty("direction");
 			
@@ -395,7 +409,7 @@
 			direction.y = v.y * 360 / ((float)System.Math.PI * 2);
 			direction.z = v.z * 360 / ((float)System.Math.PI * 2);
 
-            direction = UtilApi.convRotByMode(direction);
+            //direction = UtilApi.convRotByMode(direction);
 
             //Dbg.DEBUG_MSG(className + "::SetDirection: " + old + " => " + v); 
 
@@ -434,6 +448,11 @@
                 radius = (float)getDefinedProperty("radius");
                 (this.mEntity_SDK as SDK.Lib.BeingEntity).setMass(radius);
             }
+        }
+
+        virtual public void set_movespeed(float movespeed)
+        {
+            
         }
     }
 }

@@ -82,7 +82,7 @@ namespace SDK.Lib
         {
             bool ret = false;
 
-            if(pThis != null)
+            if (pThis != null)
             {
                 ret = UtilApi.isAddressEqual(this.mThis, pThis);
 
@@ -103,11 +103,14 @@ namespace SDK.Lib
                 }
             }
 
-            ret = this.isEventIdEqual(eventId);
-
-            if (!ret)
+            if (pThis != null || handle != null)
             {
-                return ret;
+                ret = this.isEventIdEqual(eventId);
+
+                if (!ret)
+                {
+                    return ret;
+                }
             }
 
             if (null != luaTable && null != this.mLuaCSDispatchFunctionObject)
@@ -130,7 +133,7 @@ namespace SDK.Lib
                 }
             }
 
-            if (null != this.mLuaCSDispatchFunctionObject)
+            if (null != this.mLuaCSDispatchFunctionObject && (null != luaTable || null != luaFunction))
             {
                 ret = this.mLuaCSDispatchFunctionObject.isEventIdEqual(luaEventId);
 

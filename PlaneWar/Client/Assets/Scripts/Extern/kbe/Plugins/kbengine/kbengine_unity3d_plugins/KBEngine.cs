@@ -948,7 +948,7 @@
 					if(Class != null)
 					{
 						try{
-                            if(name == "position")
+                            if(name == "position" || name == "direction")
                             {
                                 setmethod = Class.GetMethod("server_set_" + name);
                             }
@@ -2252,7 +2252,7 @@
 			_entityServerPos.y = y;
 			_entityServerPos.z = z;
 
-            _entityServerPos = UtilApi.convPosByMode(_entityServerPos);
+            //_entityServerPos = UtilApi.convPosByMode(_entityServerPos);
 
             var entity = player();
 			if (entity != null && entity.isControlled)
@@ -2265,7 +2265,7 @@
 		
 		public void Client_onUpdateBasePosXZ(float x, float z)
 		{
-            _entityServerPos = UtilApi.invConvPosByMode(_entityServerPos);
+            //_entityServerPos = UtilApi.invConvPosByMode(_entityServerPos);
 
 			_entityServerPos.x = x;
 			_entityServerPos.z = z;
@@ -2276,8 +2276,8 @@
 				entity.position.x = _entityServerPos.x;
 				entity.position.z = _entityServerPos.z;
 
-                _entityServerPos = UtilApi.convPosByMode(_entityServerPos);
-                entity.position = UtilApi.convPosByMode(entity.position);
+                //_entityServerPos = UtilApi.convPosByMode(_entityServerPos);
+                //entity.position = UtilApi.convPosByMode(entity.position);
 
                 Event.fireOut("updatePosition", new object[]{entity});
 				entity.onUpdateVolatileData();
@@ -2664,7 +2664,7 @@
 				
 				entity.position = pos;
 
-                entity.position = UtilApi.convPosByMode(entity.position);
+                //entity.position = UtilApi.convPosByMode(entity.position);
 
 				done = true;
 				Event.fireOut("updatePosition", new object[]{entity});

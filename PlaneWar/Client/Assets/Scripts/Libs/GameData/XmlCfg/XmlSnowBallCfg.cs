@@ -128,6 +128,23 @@ namespace SDK.Lib
     }
 
     /**
+    * @brief 射击CD冷却控制
+    */
+    public class XmlItemShotControl : XmlItemBase
+    {
+        public float mMinSeconds;
+        public float mMaxSeconds;
+        public int mMaxNum;
+
+        public override void parseXml(SecurityElement xmlelem)
+        {
+            UtilXml.getXmlAttrFloat(xmlelem, "minseconds", ref mMinSeconds);
+            UtilXml.getXmlAttrFloat(xmlelem, "maxseconds", ref mMaxSeconds);
+            UtilXml.getXmlAttrInt(xmlelem, "maxnum", ref mMaxNum);
+        }
+    }
+
+    /**
     * @brief 相机控制
     */
     public class XmlItemCameraControl : XmlItemBase
@@ -239,6 +256,7 @@ namespace SDK.Lib
         public XmlItemBallTex mXmlItemBallOtherTex;
         public XmlItemBallTex mXmlItemComputerBallTex;
         public XmlItemSnowBlockTex mXmlItemSnowBlockTex;
+        public XmlItemShotControl mXmlItemShotControl;
 
         public XmlSnowBallCfg()
         {
@@ -275,6 +293,9 @@ namespace SDK.Lib
 
             // SnowBlockTex 配置
             this.parseSnowBlockTex();
+
+            // 射击CD
+            mXmlItemShotControl = parseXml<XmlItemShotControl>(snowBallBasicElem, "Shot")[0] as XmlItemShotControl;
         }
 
         private void parseShopItems()

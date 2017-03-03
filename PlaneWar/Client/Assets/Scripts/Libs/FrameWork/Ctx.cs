@@ -132,6 +132,7 @@
         public UniqueStrIdGen mUniqueStrIdGen;
         public DownloadFileMgr mDownloadFileMgr;              // 文件下载模块
         public DownloadAppMgr mDownloadAppMgr;              // App下载模块
+        public TDClipRect mClipRect;          // 更新裁剪矩形
 
         public Ctx()
         {
@@ -284,6 +285,7 @@
             this.mLogicTickMgr = new LogicTickMgr();
             this.mDownloadFileMgr = new DownloadFileMgr();
             this.mDownloadAppMgr = new DownloadAppMgr();
+            this.mClipRect = new TDClipRect();
         }
 
         public void logicInit()
@@ -332,6 +334,8 @@
             this.mLogicTickMgr.init();
             this.mDownloadFileMgr.init();
             this.mDownloadAppMgr.init();
+
+            this.mClipRect.init();
 
             // 添加事件处理
             Ctx.mInstance.mCamSys.setUiCamera(Ctx.mInstance.mLayerMgr.mPath2Go[NotDestroyPath.ND_CV_App].AddComponent<UICamera>());
@@ -498,6 +502,11 @@
             {
                 this.mDownloadAppMgr.dispose();
                 this.mDownloadAppMgr = null;
+            }
+            if(null != this.mClipRect)
+            {
+                this.mClipRect.dispose();
+                this.mClipRect = null;
             }
         }
 

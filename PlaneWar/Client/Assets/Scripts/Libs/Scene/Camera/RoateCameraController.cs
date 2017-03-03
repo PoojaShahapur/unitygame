@@ -45,6 +45,7 @@ namespace SDK.Lib
                 float radius = playerMain.mPlayerSplitMerge.getMaxCameraLength();
                 //缩放相机距离
                 float viewScale = radius * Ctx.mInstance.mSnowBallCfg.mCameraChangeFactor_Y;
+                this.mCamera.GetComponent<Camera>().orthographicSize = 5 + radius;
 
                 //更改主相机的旋转角度和位置
                 centerPos.z = -10;

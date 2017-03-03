@@ -11,6 +11,7 @@ namespace SDK.Lib
         protected bool mIsClientDispose;        // 客户端已经释放这个对象，但是由于在遍历中，等着遍历结束再删除，所有多这个对象的操作都是无效的
         protected MVector3 mWorldPos;   // 世界空间
         protected Area mArea;           // 服务器区域
+        protected TDTile mTDTile;       // 屏区域
         protected MDistrict mDistrict;  // 裁剪区域
         protected bool mIsInSceneGraph; // 是否在场景图中，如果不在场景图中，肯定不可见，不管是否在可视范围内
         protected EntityType mEntityType;   // Entity 类型
@@ -321,6 +322,16 @@ namespace SDK.Lib
             mArea = area;
         }
 
+        public void setTile(TDTile tile)
+        {
+            this.mTDTile = tile;
+        }
+
+        public TDTile getTile()
+        {
+            return this.mTDTile;
+        }
+
         public void setDistrict(MDistrict district)
         {
             mDistrict = district;
@@ -334,6 +345,14 @@ namespace SDK.Lib
         public bool getInSceneGraph()
         {
             return mIsInSceneGraph;
+        }
+
+        // 从 KBE 设置位置，必须要从这个接口设置
+        public void setPos_FromKBE(Vector3 pos)
+        {
+            pos = UtilApi.convPosByMode(pos);
+
+            this.setPos(pos);
         }
         
         virtual public void setPos(Vector3 pos)
@@ -402,6 +421,12 @@ namespace SDK.Lib
                     Ctx.mInstance.mLogSys.log(string.Format("BeingEntity::setRotation, BasicInfo is {0}, X = {1}, Y = {2}, Z = {3}, W = {4}", this.getBasicInfoStr(), this.mRotate.x, this.mRotate.y, this.mRotate.z, this.mRotate.w), LogTypeId.eLogBeingMove);
                 }
             }
+        }
+
+        public void setRotateEulerAngle_FromKBE(UnityEngine.Vector3 rotation)
+        {
+            rotation = UtilApi.convRotByMode(rotation);
+            this.setRotateEulerAngle(rotation);
         }
 
         public void setRotateEulerAngle(UnityEngine.Vector3 rotation)

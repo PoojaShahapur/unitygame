@@ -16,7 +16,6 @@
             this.mMovement = new FlyBulletMovement(this);
             this.mAttack = new FlyBulletAttack(this);
 
-            this.mMoveSpeed = 2;
             this.mIsSelfBullet = true;
         }
 
@@ -54,7 +53,7 @@
 
         override public void setMoveSpeed(float value)
         {
-            
+            base.setMoveSpeed(value);
         }
 
         public bool isSelfBullet()

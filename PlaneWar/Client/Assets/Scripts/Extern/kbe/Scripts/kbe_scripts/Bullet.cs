@@ -28,9 +28,11 @@ namespace KBEngine
 
             this.mEntity_SDK = new FlyBullet();
             (this.mEntity_SDK as FlyBullet).setOwnerThisId((uint)this.mOwnerId);
-            this.mEntity_SDK.setRotateEulerAngle(this.direction);
 
-            this.mEntity_SDK.setPos(this.position);
+            UnityEngine.Vector3 euler = UtilApi.invConvRotByMode(UtilMath.getRotateByOrient(UtilApi.convRotByMode(this.direction)).eulerAngles);
+            this.mEntity_SDK.setRotateEulerAngle_FromKBE(euler);
+
+            this.mEntity_SDK.setPos_FromKBE(this.position);
 
            (this.mEntity_SDK as BeingEntity).setEntity_KBE(this);
             this.mEntity_SDK.setThisId((uint)this.id);
@@ -56,7 +58,7 @@ namespace KBEngine
 
             if (null != mEntity_SDK)
             {
-                this.mEntity_SDK.setPos(this.position);
+                this.mEntity_SDK.setPos_FromKBE(this.position);
             }
         }
 
@@ -66,7 +68,7 @@ namespace KBEngine
 
             if (null != mEntity_SDK)
             {
-                this.mEntity_SDK.setRotateEulerAngle(this.direction);
+                this.mEntity_SDK.setRotateEulerAngle_FromKBE(this.direction);
             }
         }
 
@@ -84,6 +86,11 @@ namespace KBEngine
                 this.mEntity_SDK.dispose();
                 this.mEntity_SDK = null;
             }
+        }
+
+        public override void set_movespeed(float movespeed)
+        {
+            (this.mEntity_SDK as BeingEntity).setMoveSpeed(movespeed);
         }
     }
 }

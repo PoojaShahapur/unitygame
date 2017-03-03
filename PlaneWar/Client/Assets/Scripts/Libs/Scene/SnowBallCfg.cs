@@ -64,6 +64,11 @@
 
         public int mMergeMinSpeed;      // 融合最小
 
+        public float mMinShotSeconds;
+        public float mMaxShotSeconds;
+        public int mMaxShotNum;
+        public float mShotInteval;
+
         public SnowBallCfg()
         {
             this.mCanAttackRate = 1.0f;
@@ -106,6 +111,11 @@
             this.mShitCollideRadius = 1;
 
             this.mMergeMinSpeed = 30;
+
+            this.mMinShotSeconds = 0.5f;
+            this.mMaxShotSeconds = 2.5f;
+            this.mMaxShotNum = 100;
+            this.mShotInteval = 0.02f;
         }
 
         public void preInit()
@@ -162,6 +172,11 @@
             this.mBallOtherTexArray = UtilStr.split(ref this.mXmlSnowBallCfg.mXmlItemBallOtherTex.mSrc, ',');
             this.mComputerBallTexArray = UtilStr.split(ref this.mXmlSnowBallCfg.mXmlItemComputerBallTex.mSrc, ',');
             this.mSnowBlockTexArray = UtilStr.split(ref this.mXmlSnowBallCfg.mXmlItemSnowBlockTex.mSrc, ',');
+
+            this.mMinShotSeconds = this.mXmlSnowBallCfg.mXmlItemShotControl.mMinSeconds;
+            this.mMaxShotSeconds = this.mXmlSnowBallCfg.mXmlItemShotControl.mMaxSeconds;
+            this.mMaxShotNum = this.mXmlSnowBallCfg.mXmlItemShotControl.mMaxNum;
+            this.mShotInteval = (this.mMaxShotSeconds - this.mMinShotSeconds) / mMaxShotNum;
 
             //int idx = 0;
             //int len = this.mXmlSnowBallCfg.mXmlItemBallTex.mTileInfoList.length();

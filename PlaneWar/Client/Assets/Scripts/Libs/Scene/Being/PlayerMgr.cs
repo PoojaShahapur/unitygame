@@ -216,9 +216,9 @@ namespace SDK.Lib
             }
         }
 
-        public void ConsoleEmitSnowBlock()
+        public void FireInTheHole()
         {
-            Game.Game.ReqSceneInteractive.sendShit();
+            Game.Game.ReqSceneInteractive.sendBullet();
         }
 
         public void stopEmitSnowBlock()

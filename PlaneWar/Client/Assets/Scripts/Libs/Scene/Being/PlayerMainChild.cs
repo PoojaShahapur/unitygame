@@ -70,7 +70,7 @@
         public override void onDestroy()
         {
             base.onDestroy();
-
+            
             Ctx.mInstance.mGlobalDelegate.mMainChildMassChangedDispatch.dispatchEvent(null);
         }
 

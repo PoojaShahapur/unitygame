@@ -4,6 +4,7 @@
     {
         public Player mParentPlayer; // Parent
         private UnityEngine.Vector3 preSendPosition; //上一次发送时的位置
+        private UnityEngine.Vector3 preSendOrient; //上一次发送时的位置
 
         public PlayerChild(Player parentPlayer)
         {
@@ -22,6 +23,16 @@
         public UnityEngine.Vector3 getPreSendPosition()
         {
             return this.preSendPosition;
+        }
+
+        public void setPreSendOrient(UnityEngine.Vector3 orient)
+        {
+            this.preSendOrient = orient;
+        }
+
+        public UnityEngine.Vector3 getPreSendOrient()
+        {
+            return this.preSendOrient;
         }
 
         override public void dispose()

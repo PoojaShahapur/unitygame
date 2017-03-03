@@ -687,6 +687,18 @@ namespace SDK.Lib
             return true;
         }
 
+        static public bool isEqualVec3(UnityEngine.Vector3 a, UnityEngine.Vector3 b, float delta)
+        {
+            if (UtilMath.Abs(a.x - b.x) > delta ||
+                UtilMath.Abs(a.y - b.y) > delta ||
+                UtilMath.Abs(a.z - b.z) > delta)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         static public bool isEqualQuat(UnityEngine.Quaternion a, UnityEngine.Quaternion b)
         {
             if (UtilMath.Abs(a.x - b.x) > UtilMath.EPSILON ||

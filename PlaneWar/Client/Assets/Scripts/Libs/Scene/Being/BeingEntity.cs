@@ -48,14 +48,13 @@ namespace SDK.Lib
             this.mScaleSpeed = Ctx.mInstance.mSnowBallCfg.mScaleSpeed;
 
             this.setBallRadius(0, true, true);
-            this.mMoveSpeed = Ctx.mInstance.mSnowBallCfg.mMoveSpeed_k / mScale.x + Ctx.mInstance.mSnowBallCfg.mMoveSpeed_b;
-
+            
             this.mName = "";
             this.mMoveSpeedFactor = 1;
             this.mIsFreezeXZ = false;
             this.mTexPath = "";
 
-            this.mMoveSpeed = 2;
+            //this.mMoveSpeed = 2;
         }
 
         public SkinModelSkelAnim skinAniModel
@@ -149,7 +148,7 @@ namespace SDK.Lib
         virtual public void setMoveSpeed(float value)
         {
             this.mMoveSpeed = value;
-            this.mMoveSpeed = 2;
+            //this.mMoveSpeed = 2;
             this.setName(this.getName());
 
             if (MacroDef.ENABLE_LOG)
@@ -216,6 +215,12 @@ namespace SDK.Lib
             }
         }
 
+        public void setDestPos_FromKBE(UnityEngine.Vector3 pos, bool immePos)
+        {
+            pos = UtilApi.convPosByMode(pos);
+            this.setDestPos(pos, immePos);
+        }
+
         virtual public void setDestPos(UnityEngine.Vector3 pos, bool immePos)
         {
             if (immePos)
@@ -236,6 +241,12 @@ namespace SDK.Lib
             }
 
             return UnityEngine.Vector3.zero;
+        }
+
+        public void setDestPosForBirth_FromKBE(UnityEngine.Vector3 pos, bool immePos)
+        {
+            pos = UtilApi.convPosByMode(pos);
+            this.setDestPosForBirth(pos, immePos);
         }
 
         public void setDestPosForBirth(UnityEngine.Vector3 pos, bool immePos)
@@ -273,6 +284,12 @@ namespace SDK.Lib
             {
                 (mMovement as BeingEntityMovement).setDestPosForMoveCenter(pos);
             }
+        }
+
+        public void setDestRotate_FromKBE(UnityEngine.Vector3 rotate, bool immeRotate)
+        {
+            rotate = UtilApi.convRotByMode(rotate);
+            this.setDestRotate(rotate, immeRotate);
         }
 
         public void setDestRotate(UnityEngine.Vector3 rotate, bool immeRotate)
@@ -352,9 +369,6 @@ namespace SDK.Lib
                 {
                     this.mMass = UtilMath.getMassByRadius(this.mBallRadius);
                 }
-
-                // 速度根据缩放进行计算
-                this.setMoveSpeed(Ctx.mInstance.mSnowBallCfg.mMoveSpeed_k / this.mBallRadius + Ctx.mInstance.mSnowBallCfg.mMoveSpeed_b);
             }
         }
 
@@ -452,8 +466,6 @@ namespace SDK.Lib
             this.initRender();
             // 加载渲染器资源
             this.loadRenderRes();
-            // 更新位置
-            //this.updateTransform();
         }
 
         protected override void onPostInit()

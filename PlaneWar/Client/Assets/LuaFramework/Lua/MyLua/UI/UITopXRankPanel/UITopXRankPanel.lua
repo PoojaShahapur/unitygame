@@ -90,7 +90,7 @@ function M:showTop10Rank()
 end
 
 function M:onDropBtnClk()
-    -- GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormId.eUIConsoleDlg);
+    --GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormId.eUIConsoleDlg);
     self.mDropBtn.mImage:setSelfGo(self.mDropBtn:getSelfGo());
     self.showDataPanel = not self.showDataPanel;
     if self.showDataPanel then

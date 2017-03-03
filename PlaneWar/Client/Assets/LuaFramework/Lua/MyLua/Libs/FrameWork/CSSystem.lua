@@ -120,8 +120,8 @@ function M.startSplit()
 end
 
 --吐一个小球
-function M.emitSnowBlock()
-	this.Ctx.mInstance.mPlayerMgr:ConsoleEmitSnowBlock();
+function M.Fire()
+	this.Ctx.mInstance.mPlayerMgr:FireInTheHole();
 end
 
 function M.startEmitSnowBlock()

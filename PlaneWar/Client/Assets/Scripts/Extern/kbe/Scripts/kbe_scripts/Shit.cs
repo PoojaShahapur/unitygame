@@ -48,16 +48,16 @@ namespace KBEngine
             }
 
             this.mEntity_SDK = new PlayerSnowBlock();
-            this.mEntity_SDK.setRotateEulerAngle(this.direction);
+            this.mEntity_SDK.setRotateEulerAngle_FromKBE(this.direction);
 
             if (frompos == UnityEngine.Vector3.zero)    // 进出九屏 frompos 为零
             {
-                this.mEntity_SDK.setPos(this.position);
+                this.mEntity_SDK.setPos_FromKBE(this.position);
             }
             else    // 第一次吐 frompos 为不为零
             {
-                this.mEntity_SDK.setPos(frompos);
-                (this.mEntity_SDK as BeingEntity).setDestPos(topos, false);
+                this.mEntity_SDK.setPos_FromKBE(frompos);
+                (this.mEntity_SDK as BeingEntity).setDestPos_FromKBE(topos, false);
             }
 
             (this.mEntity_SDK as BeingEntity).setEntity_KBE(this);
@@ -91,7 +91,7 @@ namespace KBEngine
 
             if (null != mEntity_SDK)
             {
-                this.mEntity_SDK.setPos(this.position);
+                this.mEntity_SDK.setPos_FromKBE(this.position);
             }
         }
 
@@ -101,7 +101,7 @@ namespace KBEngine
 
             if (null != mEntity_SDK)
             {
-                this.mEntity_SDK.setRotateEulerAngle(this.direction);
+                this.mEntity_SDK.setRotateEulerAngle_FromKBE(this.direction);
             }
         }
 

@@ -20,11 +20,11 @@
             OldMaxCameraLength = 0.0f;
         }
 
-        public override void onTick(float delta)
-        {
-            base.onTick(delta);
-            this.onMergeTick(delta);
-        }
+        //public override void onTick(float delta)
+        //{
+        //    base.onTick(delta);
+        //    this.onMergeTick(delta);
+        //}
 
         protected void onMergeTick(float delta)
         {

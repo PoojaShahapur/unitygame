@@ -19,6 +19,16 @@ function M.getRadiusByMass(mass)
     return math.pow(mass, 1/GlobalNS.CSSystem.Ctx.mInstance.mSnowBallCfg.mRealMassFactor);
 end
 
+function M.keepTwoDecimalPlaces(decimal)
+    decimal = decimal * 100;
+    if decimal % 1 >= 0.5 then 
+        decimal=math.ceil(decimal);
+    else
+        decimal=math.floor(decimal);
+    end
+    return  decimal * 0.01;
+end
+
 --客户端显示质量
 function M.getShowMass(radius)
     local showmass = "1毫克";

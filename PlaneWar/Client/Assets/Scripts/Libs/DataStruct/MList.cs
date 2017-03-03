@@ -19,12 +19,17 @@ namespace SDK.Lib
         {
             this.mList = new List<T>();
             this.mDic = new Dictionary<T, int>();
-            this.mIsSpeedUpFind = true;
+            this.mIsSpeedUpFind = false;
         }
 
         public MList(int capacity)
         {
             this.mList = new List<T>(capacity);
+        }
+
+        public void setIsSpeedUpFind(bool value)
+        {
+            this.mIsSpeedUpFind = value;
         }
 
         public T[] ToArray()
@@ -157,6 +162,16 @@ namespace SDK.Lib
 
                 this.mList[index] = value;
             }
+        }
+
+        public T get(int index)
+        {
+            return this.mList[index];
+        }
+
+        public void set(int index, T value)
+        {
+            this.mList[index] = value;
         }
 
         public void Clear()

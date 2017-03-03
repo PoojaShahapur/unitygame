@@ -73,58 +73,58 @@ public class MWorld_KBE
     }
 
     // 创建主角，只要删除显示，立刻重新创建
-    public void createPlayer()
-    {
-        //if (player != null)
-        //{
-        //    if (terrain != null)
-        //        player.GetComponent<GameEntity>().entityEnable();
-        //    return;
-        //}
+    //public void createPlayer()
+    //{
+    //    //if (player != null)
+    //    //{
+    //    //    if (terrain != null)
+    //    //        player.GetComponent<GameEntity>().entityEnable();
+    //    //    return;
+    //    //}
 
-        PlayerMain player = Ctx.mInstance.mPlayerMgr.getHero();
-        if (player != null)
-        {
-            if (Ctx.mInstance.mSceneSys.isSceneLoaded())
-            {
-                //player.entityEnable();
-            }
-            return;
-        }
+    //    PlayerMain player = Ctx.mInstance.mPlayerMgr.getHero();
+    //    if (player != null)
+    //    {
+    //        if (Ctx.mInstance.mSceneSys.isSceneLoaded())
+    //        {
+    //            //player.entityEnable();
+    //        }
+    //        return;
+    //    }
 
-        if (KBEngineApp.app.entity_type != "Avatar")
-        {
-            return;
-        }
+    //    if (KBEngineApp.app.entity_type != "Avatar")
+    //    {
+    //        return;
+    //    }
 
-        KBEngine.Avatar avatar = (KBEngine.Avatar)KBEngineApp.app.player();
-        if (avatar == null)
-        {
-            Debug.Log("wait create(palyer)!");
-            return;
-        }
+    //    KBEngine.Avatar avatar = (KBEngine.Avatar)KBEngineApp.app.player();
+    //    if (avatar == null)
+    //    {
+    //        Debug.Log("wait create(palyer)!");
+    //        return;
+    //    }
 
-        float y = avatar.position.y;
-        if (avatar.isOnGround)
-            y = 1.3f;
+    //    float y = avatar.position.y;
+    //    if (avatar.isOnGround)
+    //        y = 1.3f;
 
-        //player = UtilApi.Instantiate(avatarPerfab, new Vector3(avatar.position.x, y, avatar.position.z),
-        //                     Quaternion.Euler(new Vector3(avatar.direction.y, avatar.direction.z, avatar.direction.x))) as UnityEngine.GameObject;
+    //    //player = UtilApi.Instantiate(avatarPerfab, new Vector3(avatar.position.x, y, avatar.position.z),
+    //    //                     Quaternion.Euler(new Vector3(avatar.direction.y, avatar.direction.z, avatar.direction.x))) as UnityEngine.GameObject;
 
-        //player.GetComponent<GameEntity>().entityDisable();
+    //    //player.GetComponent<GameEntity>().entityDisable();
 
-        player.setPos(new Vector3(avatar.position.x, y, avatar.position.z));
-        player.setRotation(Quaternion.Euler(new Vector3(avatar.direction.y, avatar.direction.z, avatar.direction.x)));
+    //    player.setPos(new Vector3(avatar.position.x, y, avatar.position.z));
+    //    player.setRotation(Quaternion.Euler(new Vector3(avatar.direction.y, avatar.direction.z, avatar.direction.x)));
 
-        //avatar.renderObj = player;
-        avatar.renderObj = player.gameObject();
-        //((UnityEngine.GameObject)avatar.renderObj).GetComponent<GameEntity>().isPlayer = true;
+    //    //avatar.renderObj = player;
+    //    avatar.renderObj = player.gameObject();
+    //    //((UnityEngine.GameObject)avatar.renderObj).GetComponent<GameEntity>().isPlayer = true;
 
-        // 有必要设置一下，由于该接口由Update异步调用，有可能set_position等初始化信息已经先触发了
-        // 那么如果不设置renderObj的位置和方向将为0，人物会陷入地下
-        SetPosition(avatar);
-        SetDirection(avatar);
-    }
+    //    // 有必要设置一下，由于该接口由Update异步调用，有可能set_position等初始化信息已经先触发了
+    //    // 那么如果不设置renderObj的位置和方向将为0，人物会陷入地下
+    //    SetPosition(avatar);
+    //    SetDirection(avatar);
+    //}
 
     public void onAddSkill(KBEngine.Entity entity)
     {
@@ -177,13 +177,13 @@ public class MWorld_KBE
         {
             if (EntityType.ePlayerMain != player.getEntityType())
             {
-                player.setDestPos(entity.position, true);
+                player.setDestPos_FromKBE(entity.position, true);
             }
         }        
 
         if(AIBall != null)
         {
-            AIBall.setDestPos(entity.position, true);
+            AIBall.setDestPos_FromKBE(entity.position, true);
         }
 
         if (entity.isPlayer())
@@ -202,25 +202,26 @@ public class MWorld_KBE
         //gameEntity.destPosition = entity.position;
         //gameEntity.isOnGround = entity.isOnGround;
 
-        BeingEntity player = entity.getEntity_SDK() as BeingEntity;
+        BeingEntity beingentity = entity.getEntity_SDK() as BeingEntity;
 
-        if(player != null)
+        if (entity != null)
         {
-            if (EntityType.ePlayerMainChild == player.getEntityType())
+            if (EntityType.ePlayerMainChild == beingentity.getEntityType())
             {
-                player.setDestPos(entity.position, true);
+                beingentity.setDestPos_FromKBE(entity.position, true);
             }
-            else if (EntityType.ePlayerOtherChild == player.getEntityType() ||
-                     EntityType.eComputerBall == player.getEntityType() ||
-                     EntityType.eFlyBullet == player.getEntityType())
+            else if (EntityType.eComputerBall == beingentity.getEntityType() ||
+                     EntityType.eFlyBullet == beingentity.getEntityType() ||
+                     EntityType.ePlayerOtherChild == beingentity.getEntityType()
+                     )
             {
-                player.setDestPos(entity.position, false);
+                beingentity.setDestPos_FromKBE(entity.position, false);
             }
         }
 
         //player.isOnGround = entity.isOnGround;
 
-        if (null != player && EntityType.ePlayerMainChild == player.getEntityType())
+        if (null != beingentity && EntityType.ePlayerMainChild == beingentity.getEntityType())
         {
             if (MacroDef.ENABLE_LOG)
             {
@@ -254,11 +255,17 @@ public class MWorld_KBE
         //((UnityEngine.GameObject)entity.renderObj).GetComponent<GameEntity>().destDirection =
         //    new Vector3(entity.direction.y, entity.direction.z, entity.direction.x);
 
-        Player player = entity.getEntity_SDK() as Player;
-        if (player == null)
-            return;
+        BeingEntity player = entity.getEntity_SDK() as BeingEntity;
 
-        //player.setDestRotate(new Vector3(entity.direction.y, entity.direction.z, entity.direction.x), false);
+        if (player != null)
+        {
+            if (EntityType.ePlayerMainChild == player.getEntityType() ||
+                EntityType.eFlyBullet == player.getEntityType())
+            {
+                UnityEngine.Vector3 euler = UtilApi.invConvRotByMode(UtilMath.getRotateByOrient(UtilApi.convRotByMode(entity.direction)).eulerAngles);
+                player.setDestRotate_FromKBE(euler, true);
+            }
+        }
     }
 
     public void set_HP(KBEngine.Entity entity, object v)

@@ -17,6 +17,9 @@
 
         // MainPlayer 的 Child 的大小\数量\位置 发生改变触发事件
         public AddOnceEventDispatch mMainChildChangedDispatch;
+        // MainPlayer数量改变触发事件，用于设置个体速度
+        public AddOnceEventDispatch mMainChildNumChangedDispatch;
+
 
         public GlobalDelegate()
         {
@@ -27,6 +30,7 @@
             this.mMainOrientStopChangedDispatch = new AddOnceEventDispatch();
             this.mMainPosStopChangedDispatch = new AddOnceEventDispatch();
             this.mMainChildChangedDispatch = new AddOnceEventDispatch();
+            this.mMainChildNumChangedDispatch = new AddOnceEventDispatch();
         }
 
         public void addMainChildChangedHandle(ICalleeObject pThis, MAction<IDispatchObject> handle)

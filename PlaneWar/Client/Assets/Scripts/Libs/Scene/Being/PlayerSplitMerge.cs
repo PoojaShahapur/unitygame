@@ -120,6 +120,23 @@
             return 0 == length ? 5 : length;
         }
 
+        public void setAllChildsMoveSpeed(float movespeed)
+        {
+            if (null != this.mPlayerChildMgr)
+            {
+                int total = this.mPlayerChildMgr.getEntityCount();
+                int index = 0;
+                Player player = null;
+
+                while (index < total)
+                {
+                    player = this.mPlayerChildMgr.getEntityByIndex(index) as Player;
+                    player.setMoveSpeed(movespeed);
+                    ++index;
+                }
+            }
+        }
+
         // 分裂
         public void startSplit()
         {

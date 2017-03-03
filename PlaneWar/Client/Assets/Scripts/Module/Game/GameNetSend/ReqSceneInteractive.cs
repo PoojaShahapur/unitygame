@@ -133,16 +133,28 @@ namespace Game.Game
                     direction = UtilApi.invConvRotByMode(direction);
 
                     UnityEngine.Vector3 oldPosition = playerChild.getPreSendPosition();
+                    UnityEngine.Vector3 oldOrient = playerChild.getPreSendOrient();
+
                     oldPosition = UtilApi.invConvPosByMode(oldPosition);
+                    oldOrient = UtilApi.invConvRotByMode(oldOrient);
+
                     if (UnityEngine.Vector3.Distance(position, oldPosition) > 1.0f)
                     {
                         ++len;
                         idxList.Add(idx);
                     }
+
+                    if(!UtilMath.isEqualVec3(direction, oldOrient, 1))
+                    {
+                        ++len;
+                        idxList.Add(idx);
+                    }
+
                     ++idx;
                 }
 
                 idx = 0;
+
                 if (len > 0)
                 {
                     // 发送主角分裂的 Child 的位置
@@ -165,6 +177,7 @@ namespace Game.Game
                         direction = playerChild.getRotate().eulerAngles;
 
                         playerChild.setPreSendPosition(position);
+                        playerChild.setPreSendOrient(direction);
 
                         position = UtilApi.invConvPosByMode(position);
                         direction = UtilApi.invConvRotByMode(direction);
@@ -202,6 +215,7 @@ namespace Game.Game
                         bundle.writeFloat((float)x);
                         bundle.writeFloat((float)y);
                         bundle.writeFloat((float)z);
+
                         bundle.writeUint8((System.Byte)(kbeEntity.isOnGround == true ? 1 : 0));
                         bundle.writeUint32(spaceID);
 
