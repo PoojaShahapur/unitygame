@@ -10,7 +10,14 @@
 
         override public void onInit()
         {
-            this.mResPath = "World/Model/FlyBulletTest.prefab";
+            if ((this.mEntity as FlyBullet).isSelfBullet())
+            {
+                this.mResPath = "World/Model/FlyBulletTest.prefab";
+            }
+            else
+            {
+                this.mResPath = "World/Model/FlyBulletTestOther.prefab";
+            }
         }
 
         override protected void onSelfChanged()
@@ -19,6 +26,14 @@
 
             AuxFlyBulletUserData auxData = UtilApi.AddComponent<AuxFlyBulletUserData>(this.selfGo);
             auxData.setUserData(this.mEntity);
+
+            //if((this.mEntity as FlyBullet).isSelfBullet())
+            //{
+            //    if(!Ctx.mInstance.mPlayerMgr.getHero().isChildEnableRigidByThisId((this.mEntity as FlyBullet).getOwnerThisId()))
+            //    {
+            //        this.enableRigid(false);
+            //    }
+            //}
         }
 
         override public void updateLocalTransform()
@@ -63,8 +78,42 @@
                 UtilApi.enableSpriteRenderComponent(this.mSelfGo, true);
                 UtilApi.enableAnimatorComponent(this.mSelfGo, true);
                 //UtilApi.enableCollider<UnityEngine.SphereCollider>(this.mSelfGo, true);
-                UtilApi.enableCollider2D<UnityEngine.BoxCollider2D>(this.mSelfGo, true);
+
+                //if ((this.mEntity as FlyBullet).isSelfBullet())
+                //{
+                    //if (Ctx.mInstance.mPlayerMgr.getHero().isChildEnableRigidByThisId((this.mEntity as FlyBullet).getOwnerThisId()))
+                    //{
+                        UtilApi.enableCollider2D<UnityEngine.BoxCollider2D>(this.mSelfGo, true);
+                    //}
+                    //else
+                    //{
+                    //    this.enableRigid(false);
+                    //}
+                //}
             }
+        }
+
+        // 资源加载
+        override public void load()
+        {
+            if (null == this.mAuxPrefabLoader)
+            {
+                //this.mAuxPrefabLoader = new AuxPrefabLoader("", true, false);
+                this.mAuxPrefabLoader = AuxPrefabLoader.newObject(this.mResPath);
+                this.mAuxPrefabLoader.setDestroySelf(true);
+                this.mAuxPrefabLoader.setIsNeedInsPrefab(true);
+                this.mAuxPrefabLoader.setIsInsNeedCoroutine(false);
+                this.mAuxPrefabLoader.setIsInitOrientPos(true);
+                this.mAuxPrefabLoader.setIsFakePos(true);
+                this.mAuxPrefabLoader.setIsUsePool(true);
+            }
+
+            this.mAuxPrefabLoader.asyncLoad(this.mResPath, this.onResLoaded);
+        }
+
+        override public void enableRigid(bool enable)
+        {
+            UtilApi.enableCollider2D<UnityEngine.BoxCollider2D>(this.mSelfGo, enable);
         }
     }
 }

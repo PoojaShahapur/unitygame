@@ -1,6 +1,6 @@
 ﻿namespace SDK.Lib
 {
-    public class EntityMgrBase : DelayHandleMgrBase, ITickedObject, IDelayHandleItem
+    public class EntityMgrBase : DelayHandleMgrBase, ITickedObject, IDelayHandleItem, IPriorityObject
     {
         protected MList<SceneEntityBase> mSceneEntityList;
         protected MDictionary<string, SceneEntityBase> mId2EntityDic;
@@ -84,7 +84,7 @@
             //entity.onInit();
         }
 
-        public void removeEntity(SceneEntityBase entity, bool isDispose = true)
+        virtual public void removeEntity(SceneEntityBase entity, bool isDispose = true)
         {
             this.removeObject(entity);
             this.mBufferPool.Add(entity);
@@ -238,11 +238,10 @@
             {
                 entity = this.mSceneEntityList[idx];
 
-                // 必然释放
-                // if (!entity.isClientDispose())
-                //{
+                if (!entity.isClientDispose())
+                {
                     entity.dispose();
-                //}
+                }
 
                 ++idx;
             }

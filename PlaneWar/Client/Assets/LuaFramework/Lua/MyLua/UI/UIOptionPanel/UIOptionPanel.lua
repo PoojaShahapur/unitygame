@@ -23,7 +23,7 @@ function M:ctor()
 end
 
 function M:dtor()
-	self.mTimer:Stop();
+	
 end
 
 function M:onInit()
@@ -87,6 +87,7 @@ end
 
 function M:onExit()
     M.super.onExit(self);
+    self.mTimer:Stop();
     GlobalNS.CSSystem.Ctx.mInstance.mGlobalDelegate.mMainChildNumChangedDispatch:removeEventHandle(nil, nil, 0, self, self.refreshNum, 0);
 end
 

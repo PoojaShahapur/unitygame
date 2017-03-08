@@ -5,15 +5,15 @@
      */
     public class DelayHandleMgrBase : GObject
     {
-        protected MList<DelayHandleObject> mDeferredAddQueue;
-        protected MList<DelayHandleObject> mDeferredDelQueue;
+        protected PriorityList mDeferredAddQueue;
+        protected PriorityList mDeferredDelQueue;
 
         protected LoopDepth mLoopDepth;           // 是否在循环中，支持多层嵌套，就是循环中再次调用循环
 
         public DelayHandleMgrBase()
         {
-            this.mDeferredAddQueue = new MList<DelayHandleObject>();
-            this.mDeferredDelQueue = new MList<DelayHandleObject>();
+            this.mDeferredAddQueue = new PriorityList();
+            this.mDeferredDelQueue = new PriorityList();
 
             this.mLoopDepth = new LoopDepth();
             this.mLoopDepth.setZeroHandle(this.processDelayObjects);
@@ -33,19 +33,14 @@
         {
             if(this.mLoopDepth.isInDepth())
             {
-                if (!this.existAddList(delayObject))        // 如果添加列表中没有
+                if (!this.mDeferredAddQueue.Contains(delayObject as IPriorityObject))        // 如果添加列表中没有
                 {
-                    if (this.existDelList(delayObject))    // 如果已经添加到删除列表中
+                    if (this.mDeferredDelQueue.Contains(delayObject as IPriorityObject))     // 如果已经添加到删除列表中
                     {
-                        this.delFromDelayDelList(delayObject);
+                        this.mDeferredDelQueue.removePriorityObject(delayObject as IPriorityObject);
                     }
-
-                    DelayHandleObject delayHandleObject = new DelayHandleObject();
-                    delayHandleObject.mDelayParam = new DelayAddParam();
-                    this.mDeferredAddQueue.Add(delayHandleObject);
-
-                    delayHandleObject.mDelayObject = delayObject;
-                    (delayHandleObject.mDelayParam as DelayAddParam).mPriority = priority;
+                    
+                    this.mDeferredAddQueue.addPriorityObject(delayObject as IPriorityObject, priority);
                 }
             }
         }
@@ -54,71 +49,16 @@
         {
             if (this.mLoopDepth.isInDepth())
             {
-                if (!this.existDelList(delayObject))
+                if (!this.mDeferredDelQueue.Contains(delayObject as IPriorityObject))
                 {
-                    if (this.existAddList(delayObject))    // 如果已经添加到删除列表中
+                    if (this.mDeferredAddQueue.Contains(delayObject as IPriorityObject))    // 如果已经添加到删除列表中
                     {
-                        this.delFromDelayAddList(delayObject);
+                        this.mDeferredAddQueue.removePriorityObject(delayObject as IPriorityObject);
                     }
 
                     delayObject.setClientDispose(true);
-
-                    DelayHandleObject delayHandleObject = new DelayHandleObject();
-                    delayHandleObject.mDelayParam = new DelayDelParam();
-                    this.mDeferredDelQueue.Add(delayHandleObject);
-                    delayHandleObject.mDelayObject = delayObject;
-                }
-            }
-        }
-
-        // 只有没有添加到列表中的才能添加
-        protected bool existAddList(IDelayHandleItem delayObject)
-        {
-            foreach(DelayHandleObject item in this.mDeferredAddQueue.list())
-            {
-                if(UtilApi.isAddressEqual(item.mDelayObject, delayObject))
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        // 只有没有添加到列表中的才能添加
-        protected bool existDelList(IDelayHandleItem delayObject)
-        {
-            foreach (DelayHandleObject item in this.mDeferredDelQueue.list())
-            {
-                if (UtilApi.isAddressEqual(item.mDelayObject, delayObject))
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        // 从延迟添加列表删除一个 Item
-        protected void delFromDelayAddList(IDelayHandleItem delayObject)
-        {
-            foreach (DelayHandleObject item in this.mDeferredAddQueue.list())
-            {
-                if (UtilApi.isAddressEqual(item.mDelayObject, delayObject))
-                {
-                    this.mDeferredAddQueue.Remove(item);
-                }
-            }
-        }
-
-        // 从延迟删除列表删除一个 Item
-        protected void delFromDelayDelList(IDelayHandleItem delayObject)
-        {
-            foreach (DelayHandleObject item in this.mDeferredDelQueue.list())
-            {
-                if(UtilApi.isAddressEqual(item.mDelayObject, delayObject))
-                {
-                    this.mDeferredDelQueue.Remove(item);
+                    
+                    this.mDeferredDelQueue.removePriorityObject(delayObject as IPriorityObject);
                 }
             }
         }
@@ -135,9 +75,10 @@
                 {
                     idx = 0;
                     elemLen = this.mDeferredAddQueue.Count();
+
                     while(idx < elemLen)
                     {
-                        this.addObject(this.mDeferredAddQueue[idx].mDelayObject, (this.mDeferredAddQueue[idx].mDelayParam as DelayAddParam).mPriority);
+                        this.addObject(this.mDeferredAddQueue.get(idx) as IDelayHandleItem, this.mDeferredAddQueue.getPriority(idx));
 
                         idx += 1;
                     }
@@ -152,7 +93,7 @@
 
                     while(idx < elemLen)
                     {
-                        this.removeObject(this.mDeferredDelQueue[idx].mDelayObject);
+                        this.removeObject(this.mDeferredDelQueue.get(idx) as IDelayHandleItem);
 
                         idx += 1;
                     }

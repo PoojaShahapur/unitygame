@@ -72,7 +72,7 @@
 
             this.mName.setSelfGo(this.selfGo, "TextName");
 
-            if (this.mEntity.isWillVisible() && this.mEntity.IsVisible())
+            if (this.mEntity.isEnableVisible() && this.mEntity.IsVisible())
             {
                 this.show();
             }

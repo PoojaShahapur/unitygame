@@ -39,6 +39,11 @@
         {
             base.dispose();
 
+            if (EntityType.ePlayerMain == this.mParentPlayer.getEntityType())
+            {
+                (this.mParentPlayer as PlayerMain).mMutilRigidCalcPolicy.removeBeingEntity(this);
+            }
+
             this.mParentPlayer.mPlayerSplitMerge.removeFormParent(this);
         }
 
@@ -62,6 +67,11 @@
         {
             base.autoHandle();
 
+            if(EntityType.ePlayerMain == this.mParentPlayer.getEntityType())
+            {
+                (this.mParentPlayer as PlayerMain).mMutilRigidCalcPolicy.addBeingEntity(this);
+            }
+
             this.mParentPlayer.mPlayerSplitMerge.addToParent(this);
         }
 
@@ -70,7 +80,7 @@
             base.onPostInit();
 
             //this.mAnimFSM.UpdateFSM();
-            this.mHud = Ctx.mInstance.mHudSystem.createHud(this);
+            //this.mHud = Ctx.mInstance.mHudSystem.createHud(this);
             //this.setTexture(Ctx.mInstance.mSnowBallCfg.getRandomBallTex());
             //this.setTexTile(Ctx.mInstance.mSnowBallCfg.getRandomBallTexTile());
         }
@@ -94,7 +104,7 @@
         {
             base.show();
 
-            if (this.mWillVisible && this.mIsVisible)
+            if (this.mEnableVisible && this.mIsVisible)
             {
                 if (null != this.mHud)
                 {

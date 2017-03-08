@@ -18,7 +18,6 @@ namespace SDK.Lib
         public MList()
         {
             this.mList = new List<T>();
-            this.mDic = new Dictionary<T, int>();
             this.mIsSpeedUpFind = false;
         }
 
@@ -30,6 +29,11 @@ namespace SDK.Lib
         public void setIsSpeedUpFind(bool value)
         {
             this.mIsSpeedUpFind = value;
+
+            if(this.mIsSpeedUpFind)
+            {
+                this.mDic = new Dictionary<T, int>();
+            }
         }
 
         public T[] ToArray()

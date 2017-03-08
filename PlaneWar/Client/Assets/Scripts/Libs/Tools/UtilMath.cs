@@ -232,7 +232,8 @@ namespace SDK.Lib
 
         static public float Abs(float value)
         {
-            return UnityEngine.Mathf.Abs(value);
+            //return UnityEngine.Mathf.Abs(value);
+            return (value < 0) ? -value : value;
         }
 
         static public void swap<T>(ref T a, ref T b)
@@ -677,26 +678,43 @@ namespace SDK.Lib
 
         static public bool isEqualVec3(UnityEngine.Vector3 a, UnityEngine.Vector3 b)
         {
+            bool isEqual = true;
+
             if (UtilMath.Abs(a.x - b.x) > UtilMath.EPSILON ||
                 UtilMath.Abs(a.y - b.y) > UtilMath.EPSILON ||
                 UtilMath.Abs(a.z - b.z) > UtilMath.EPSILON)
             {
-                return false;
+                isEqual = false;
             }
 
-            return true;
+            return isEqual;
         }
 
         static public bool isEqualVec3(UnityEngine.Vector3 a, UnityEngine.Vector3 b, float delta)
         {
+            bool isEqual = true;
+
             if (UtilMath.Abs(a.x - b.x) > delta ||
                 UtilMath.Abs(a.y - b.y) > delta ||
                 UtilMath.Abs(a.z - b.z) > delta)
             {
-                return false;
+                isEqual = false;
             }
 
-            return true;
+            return isEqual;
+        }
+
+        static public bool isEqualVec2(UnityEngine.Vector2 a, UnityEngine.Vector2 b, float delta)
+        {
+            bool isEqual = true;
+
+            if (UtilMath.Abs(a.x - b.x) > delta ||
+                UtilMath.Abs(a.y - b.y) > delta)
+            {
+                isEqual = false;
+            }
+
+            return isEqual;
         }
 
         static public bool isEqualQuat(UnityEngine.Quaternion a, UnityEngine.Quaternion b)
@@ -754,7 +772,7 @@ namespace SDK.Lib
          */
         public static UnityEngine.Quaternion getRotateByStartAndEndPoint(UnityEngine.Vector3 startPoint, UnityEngine.Vector3 destPoint)
         {
-            UnityEngine.Quaternion retQuat = UnityEngine.Quaternion.identity;
+            UnityEngine.Quaternion retQuat = UtilMath.UnitQuat;
 
             if (MacroDef.XZ_MODE)
             {
@@ -776,7 +794,7 @@ namespace SDK.Lib
          */
         public static UnityEngine.Quaternion getRotateByStartAndEndOrient(UnityEngine.Vector3 startOrient, UnityEngine.Vector3 destOrient)
         {
-            UnityEngine.Quaternion retQuat = UnityEngine.Quaternion.identity;
+            UnityEngine.Quaternion retQuat = UtilMath.UnitQuat;
             
             retQuat = UnityEngine.Quaternion.FromToRotation(startOrient, destOrient);
 
@@ -789,7 +807,7 @@ namespace SDK.Lib
          */
         public static UnityEngine.Quaternion getRotateByOrient(UnityEngine.Vector3 forward)
         {
-            UnityEngine.Quaternion retQuat = UnityEngine.Quaternion.identity;
+            UnityEngine.Quaternion retQuat = UtilMath.UnitQuat;
 
             if (MacroDef.XZ_MODE)
             {

@@ -64,17 +64,19 @@ end
 
 function M:onExit()
     M.super.onExit(self);
-    self.mTimer:Stop();
+    
     if GlobalNS.CSSystem.Ctx.mInstance.mPlayerMgr:getHero() ~= nil then
         GlobalNS.CSSystem.Ctx.mInstance.mPlayerMgr:getHero():setCanMove(true);
     end
 end
 
 function M:onBtnReliveClk()
+    self.mTimer:Stop();
 	self:exit();
 end
 
 function M:onBtnBackRoomClk()
+    self.mTimer:Stop();
 	GCtx.mGameData:returnStartGame();
 end
 

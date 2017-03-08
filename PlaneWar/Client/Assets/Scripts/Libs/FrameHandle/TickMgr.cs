@@ -1,83 +1,45 @@
-﻿/**
- * @brief 心跳管理器
- */
-namespace SDK.Lib
+﻿namespace SDK.Lib
 {
-    public class TickMgr : DelayHandleMgrBase
+    /**
+     * @brief 心跳管理器
+     */
+    public class TickMgr : DelayPriorityHandleMgr
     {
-        protected MList<TickProcessObject> mTickList;
-
         public TickMgr()
         {
-            this.mTickList = new MList<TickProcessObject>();
+            
         }
 
         override public void init()
         {
-
+            base.init();
         }
 
         override public void dispose()
         {
-            this.mTickList.Clear();
-        }
-
-        public void addTick(ITickedObject tickObj, float priority = 0.0f)
-        {
-            this.addObject(tickObj as IDelayHandleItem, priority);
+            base.dispose();
         }
 
         override protected void addObject(IDelayHandleItem delayObject, float priority = 0.0f)
         {
-            if (this.isInDepth())
+            if (null != delayObject)
             {
-                base.addObject(delayObject, priority);
-            }
-            else
-            {
-                int position = -1;
-                int idx = 0;
-                int elemLen = this.mTickList.Count();
-
-                while(idx < elemLen)
+                if (this.isInDepth())
                 {
-                    if (this.mTickList[idx] == null)
-                    {
-                        continue;
-                    }
-
-                    if (this.mTickList[idx].mTickObject == delayObject)
-                    {
-                        return;
-                    }
-
-                    if (this.mTickList[idx].mPriority < priority)
-                    {
-                        position = idx;
-                        break;
-                    }
-
-                    idx += 1;
-                }
-
-                TickProcessObject processObject = new TickProcessObject();
-                processObject.mTickObject = delayObject as ITickedObject;
-                processObject.mPriority = priority;
-
-                if (position < 0 || position >= this.mTickList.Count())
-                {
-                    this.mTickList.Add(processObject);
+                    base.addObject(delayObject, priority);
                 }
                 else
                 {
-                    this.mTickList.Insert(position, processObject);
+                    this.mPriorityList.addPriorityObject(delayObject as IPriorityObject, priority);
                 }
             }
-        }
-
-        public void removeTick(ITickedObject tickObj)
-        {
-            this.removeObject(tickObj as IDelayHandleItem);
+            else
+            {
+                if (MacroDef.ENABLE_LOG)
+                {
+                    Ctx.mInstance.mLogSys.log("TickMgr::addObject, failed", LogTypeId.eLogCommon);
+                }
+            }
         }
 
         override protected void removeObject(IDelayHandleItem delayObject)
@@ -88,28 +50,24 @@ namespace SDK.Lib
             }
             else
             {
-                foreach (TickProcessObject item in this.mTickList.list())
-                {
-                    if (UtilApi.isAddressEqual(item.mTickObject, delayObject))
-                    {
-                        this.mTickList.Remove(item);
-                        break;
-                    }
-                }
+                this.mPriorityList.removePriorityObject(delayObject as IPriorityObject);
             }
+        }
+
+        public void addTick(ITickedObject tickObj, float priority = 0.0f)
+        {
+            this.addObject(tickObj as IDelayHandleItem, priority);
+        }
+
+        public void removeTick(ITickedObject tickObj)
+        {
+            this.removeObject(tickObj as IDelayHandleItem);
         }
 
         public void Advance(float delta)
         {
             this.incDepth();
 
-            //foreach (TickProcessObject tk in this.mTickList.list())
-            //{
-            //    if (!(tk.mTickObject as IDelayHandleItem).isClientDispose())
-            //    {
-            //        (tk.mTickObject as ITickedObject).onTick(delta);
-            //    }
-            //}
             this.onPreAdvance(delta);
             this.onExecAdvance(delta);
             this.onPostAdvance(delta);
@@ -125,16 +83,26 @@ namespace SDK.Lib
         virtual protected void onExecAdvance(float delta)
         {
             int idx = 0;
-            int count = this.mTickList.Count();
+            int count = this.mPriorityList.Count();
             ITickedObject tickObject = null;
 
             while (idx < count)
             {
-                tickObject = this.mTickList[idx].mTickObject;
+                tickObject = this.mPriorityList.get(idx) as ITickedObject;
 
-                if (!(tickObject as IDelayHandleItem).isClientDispose())
+                if(null != (tickObject as IDelayHandleItem))
                 {
-                    tickObject.onTick(delta);
+                    if (!(tickObject as IDelayHandleItem).isClientDispose())
+                    {
+                        tickObject.onTick(delta);
+                    }
+                }
+                else
+                {
+                    if(MacroDef.ENABLE_LOG)
+                    {
+                        Ctx.mInstance.mLogSys.log("TickMgr::onExecAdvance, failed", LogTypeId.eLogCommon);
+                    }
                 }
 
                 ++idx;

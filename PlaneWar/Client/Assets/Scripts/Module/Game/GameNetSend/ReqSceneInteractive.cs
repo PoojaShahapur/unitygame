@@ -58,8 +58,32 @@ namespace Game.Game
             return ret;
         }
 
+        // 设置主角是否停止
+        public static void setMainChildStop(bool value)
+        {
+            PlayerChildMgr playerChildMgr = Ctx.mInstance.mPlayerMgr.getHero().mPlayerSplitMerge.mPlayerChildMgr;
+
+            int idx = 0;
+            PlayerChild playerChild = null;
+            KBEngine.Entity kbeEntity = null;
+            while (idx < playerChildMgr.getEntityCount())
+            {
+                playerChild = playerChildMgr.getEntityByIndex(idx) as PlayerChild;
+                kbeEntity = playerChild.getEntity();
+                kbeEntity.isOnGround = value; //true:停止 false:移动
+                ++idx;
+            }
+
+            //重新同步一下位置
+            KBEngine.Entity playerEntity = Ctx.mInstance.mClientApp.gameapp.player();
+            System.UInt32 spaceID = Ctx.mInstance.mClientApp.gameapp.spaceID;
+            KBEngine.NetworkInterface _networkInterface = Ctx.mInstance.mClientApp.gameapp.networkInterface();
+
+            sendPlayerMove(playerEntity, spaceID, _networkInterface, true);
+        }
+
         // 发送主角移动消息，现在发送所有的分裂的移动
-        public static void sendPlayerMove(KBEngine.Entity playerEntity, System.UInt32 spaceID, KBEngine.NetworkInterface _networkInterface)
+        public static void sendPlayerMove(KBEngine.Entity playerEntity, System.UInt32 spaceID, KBEngine.NetworkInterface _networkInterface, bool isForceSend = false)
         {
             // 主角的位置
             UnityEngine.Vector3 position = playerEntity.position;
@@ -138,16 +162,20 @@ namespace Game.Game
                     oldPosition = UtilApi.invConvPosByMode(oldPosition);
                     oldOrient = UtilApi.invConvRotByMode(oldOrient);
 
-                    if (UnityEngine.Vector3.Distance(position, oldPosition) > 1.0f)
+                    if (UnityEngine.Vector3.Distance(position, oldPosition) > 0.02f || isForceSend)
                     {
                         ++len;
                         idxList.Add(idx);
+                        ++idx;
+                        continue;
                     }
 
-                    if(!UtilMath.isEqualVec3(direction, oldOrient, 1))
+                    if(!UtilMath.isEqualVec3(direction, oldOrient, 1) || isForceSend)
                     {
                         ++len;
                         idxList.Add(idx);
+                        ++idx;
+                        continue;
                     }
 
                     ++idx;
@@ -222,7 +250,7 @@ namespace Game.Game
                         if (MacroDef.ENABLE_LOG)
                         {
                             Ctx.mInstance.mLogSys.log(
-                            string.Format("ReqSceneInteractive::sendPlayerMove, Send Move eid = {0}, PosX = {1}, PosY = {2}, PosZ = {3}", eid, position.x, position.y, position.z),
+                            string.Format("ReqSceneInteractive::sendPlayerMove, Send Move eid = {0}, PosX = {1}, PosY = {2}, PosZ = {3}, DirX = {4}, DirY = {5}, DirZ = {6}", eid, position.x, position.y, position.z, x, y, z),
                             LogTypeId.eLogBeingMove);
                         }
 
@@ -344,10 +372,10 @@ namespace Game.Game
                     // 设置位置
                     pos = playerChild.getPos();
                     initPos = pos + playerChild.getRotate() * new UnityEngine.Vector3(0, 0, playerChild.getBallWorldRadius() + splitRadius + Ctx.mInstance.mSnowBallCfg.mSplitRelStartPos);
-                    initPos = Ctx.mInstance.mSceneSys.adjustPosInRange(initPos);
+                    initPos = Ctx.mInstance.mSceneSys.adjustPosInRange(playerChild, initPos);
 
                     toPos = initPos + playerChild.getRotate() * new UnityEngine.Vector3(0, 0, Ctx.mInstance.mSnowBallCfg.mSplitRelDist);
-                    toPos = Ctx.mInstance.mSceneSys.adjustPosInRange(toPos);
+                    toPos = Ctx.mInstance.mSceneSys.adjustPosInRange(playerChild, toPos);
 
                     info = new Dictionary<string, object>();
                     listinfos.Add(info);
@@ -513,15 +541,15 @@ namespace Game.Game
                     pos = playerChild.getPos();
 
                     initPos = playerChild.getPos() + playerChild.getRotate() * new UnityEngine.Vector3(0, 0, playerChild.getBallWorldRadius() + emitRadius + Ctx.mInstance.mSnowBallCfg.mEmitRelStartPos);
-                    initPos = Ctx.mInstance.mSceneSys.adjustPosInRange(initPos);
+                    initPos = Ctx.mInstance.mSceneSys.adjustPosInRange(playerChild, initPos);
 
                     toPos = initPos + playerChild.getRotate() * new UnityEngine.Vector3(0, 0, Ctx.mInstance.mSnowBallCfg.mEmitRelDist);
-                    toPos = Ctx.mInstance.mSceneSys.adjustPosInRange(toPos);
+                    toPos = Ctx.mInstance.mSceneSys.adjustPosInRange(playerChild, toPos);
 
                     info = new Dictionary<string, object>();
                     listinfos.Add(info);
 
-                    initPos = Ctx.mInstance.mSceneSys.adjustPosInRange(initPos);
+                    initPos = Ctx.mInstance.mSceneSys.adjustPosInRange(playerChild, initPos);
 
                     info["eid"] = eid;
                     info["frompos"] = initPos;
@@ -601,15 +629,15 @@ namespace Game.Game
                 pos = playerChild.getPos();
 
                 initPos = playerChild.getPos() + playerChild.getRotate() * UtilApi.convPosByMode(new UnityEngine.Vector3(0, 0, playerChild.getBallWorldRadius() + emitRadius + Ctx.mInstance.mSnowBallCfg.mEmitRelStartPos));
-                initPos = Ctx.mInstance.mSceneSys.adjustPosInRange(initPos);
+                initPos = Ctx.mInstance.mSceneSys.adjustPosInRange(playerChild, initPos);
 
                 toPos = initPos + playerChild.getRotate() * UtilApi.convPosByMode(new UnityEngine.Vector3(0, 0, Ctx.mInstance.mSnowBallCfg.mEmitRelDist));
-                toPos = Ctx.mInstance.mSceneSys.adjustPosInRange(toPos);
+                toPos = Ctx.mInstance.mSceneSys.adjustPosInRange(playerChild, toPos);
 
                 info = new Dictionary<string, object>();
                 listinfos.Add(info);
 
-                initPos = Ctx.mInstance.mSceneSys.adjustPosInRange(initPos);
+                initPos = Ctx.mInstance.mSceneSys.adjustPosInRange(playerChild, initPos);
 
                 info["eid"] = eid;
                 info["frompos"] = initPos;
@@ -653,6 +681,13 @@ namespace Game.Game
         {
             PlayerMain player = Ctx.mInstance.mPlayerMgr.getHero();
             player.cellCall("shotEnergy", bullet.getThisId(), block.getThisId());
+        }
+
+        // 发送自己命中机器人
+        public static void sendHitAI(FlyBullet bullet, ComputerBall robot)
+        {
+            PlayerMain player = Ctx.mInstance.mPlayerMgr.getHero();
+            player.cellCall("shotComputer", bullet.getThisId(), robot.getThisId());
         }
     }
 }

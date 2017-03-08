@@ -10,7 +10,7 @@
                 BeingEntity aBeingEntity = aUserData.getUserData() as BeingEntity;
                 if (null != aBeingEntity)
                 {
-                    aBeingEntity.show();
+                    //aBeingEntity.show();
                 }
             }
         }
@@ -23,7 +23,7 @@
                 BeingEntity aBeingEntity = aUserData.getUserData() as BeingEntity;
                 if (null != aBeingEntity)
                 {
-                    aBeingEntity.hide();
+                    //aBeingEntity.hide();
                 }
             }
         }

@@ -10,7 +10,6 @@
 
         override public void onInit()
         {
-            //this.mResPath = "World/Model/PlayerTest.prefab";
             this.mResPath = (this.mEntity as BeingEntity).getPrefabPath();
         }
 
@@ -22,14 +21,13 @@
             AuxPlayerMainChildUserData auxData = UtilApi.AddComponent<AuxPlayerMainChildUserData>(collide);
             auxData.setUserData(this.mEntity);
 
-            auxData = UtilApi.AddComponent<AuxPlayerMainChildUserData>(this.selfGo);
-            auxData.setUserData(this.mEntity);
-
             UnityEngine.GameObject model = UtilApi.TransFindChildByPObjAndPath(this.selfGo, UtilApi.MODEL_NAME);
             if (null != (this.mEntity as Player).mAnimatorControl)
             {
                 (this.mEntity as Player).mAnimatorControl.setAnimator(UtilApi.getComByP<UnityEngine.Animator>(model));
             }
+            
+            UtilApi.setSprite(this.mSpriteRender, Ctx.mInstance.mSnowBallCfg.planes[(this.mEntity as PlayerChild).mParentPlayer.mPlaneIndex].mName);
             //UtilApi.setLayer(this.selfGo, "PlayerMainChild");
         }
 
@@ -68,7 +66,11 @@
                 //UtilApi.enableCollider<UnityEngine.SphereCollider>(this.mSelfGo, true);
                 //UtilApi.enableCollider<UnityEngine.SphereCollider>(UtilApi.TransFindChildByPObjAndPath(this.mSelfGo, UtilApi.COLLIDE_NAME), true);
 
-                UtilApi.enableCollider2D<UnityEngine.BoxCollider2D>(this.mSelfGo, true);
+                if (((this.mEntity as PlayerMainChild).mParentPlayer as PlayerMain).mMutilRigidCalcPolicy.checkPolicy(this.mEntity as BeingEntity))
+                {
+                    UtilApi.enableCollider2D<UnityEngine.BoxCollider2D>(this.mSelfGo, true);
+                }
+                
                 UtilApi.enableCollider2D<UnityEngine.BoxCollider2D>(UtilApi.TransFindChildByPObjAndPath(this.mSelfGo, UtilApi.COLLIDE_NAME), true);
 
                 UtilApi.enableRigidbodyComponent(this.mSelfGo, true);
@@ -76,6 +78,29 @@
                 UtilApi.enableTrailRendererComponent(UtilApi.TransFindChildByPObjAndPath(this.mSelfGo, UtilApi.TRIAL_NAME), true);
                 UtilApi.enableTrailRendererComponent(UtilApi.TransFindChildByPObjAndPath(this.mSelfGo, UtilApi.TRIAL_1_NAME), true);
             }
+        }
+
+        // 资源加载
+        override public void load()
+        {
+            if (null == this.mAuxPrefabLoader)
+            {
+                //this.mAuxPrefabLoader = new AuxPrefabLoader("", true, false);
+                this.mAuxPrefabLoader = AuxPrefabLoader.newObject(this.mResPath);
+                this.mAuxPrefabLoader.setDestroySelf(true);
+                this.mAuxPrefabLoader.setIsNeedInsPrefab(true);
+                this.mAuxPrefabLoader.setIsInsNeedCoroutine(false);
+                this.mAuxPrefabLoader.setIsInitOrientPos(true);
+                this.mAuxPrefabLoader.setIsFakePos(true);
+                this.mAuxPrefabLoader.setIsUsePool(true);
+            }
+
+            this.mAuxPrefabLoader.asyncLoad(this.mResPath, this.onResLoaded);
+        }
+
+        override public void enableRigid(bool enable)
+        {
+            UtilApi.enableCollider2D<UnityEngine.BoxCollider2D>(this.mSelfGo, enable);
         }
     }
 }

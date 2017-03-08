@@ -46,6 +46,14 @@
                 if (EntityType.eSnowBlock == bBeingEntity.getEntityType())
                 {
                     this.hitSnowBlock(bBeingEntity);
+                    bBeingEntity.enableRigid(false);
+                    (this.mEntity as FlyBullet).enableRigid(false);
+                }
+                else if (EntityType.eComputerBall == bBeingEntity.getEntityType())
+                {
+                    this.hitComputerBall(bBeingEntity);
+                    bBeingEntity.enableRigid(false);
+                    (this.mEntity as FlyBullet).enableRigid(false);
                 }
             }
             else
@@ -53,6 +61,8 @@
                 if (EntityType.ePlayerMainChild == bBeingEntity.getEntityType())
                 {
                     this.hitPlayerMainChild(bBeingEntity);
+
+                    (this.mEntity as FlyBullet).enableRigid(false);
                 }
             }
         }
@@ -67,7 +77,7 @@
 
         }
 
-        // 地上走动雪块
+        // 地上的能源
         public void hitSnowBlock(BeingEntity bBeingEntity)
         {
             Ctx.mInstance.mLogSys.log("FlyBulletAttack::hitSnowBlock", LogTypeId.eLogSimHitBullet);
@@ -85,6 +95,7 @@
         public void hitComputerBall(BeingEntity bBeingEntity)
         {
             Ctx.mInstance.mLogSys.log("FlyBulletAttack::hitComputerBall", LogTypeId.eLogSimHitBullet);
+            Game.Game.ReqSceneInteractive.sendHitAI(this.mEntity as FlyBullet, bBeingEntity as ComputerBall);
         }
 
         public void hitPlayerMainChild(BeingEntity bBeingEntity)

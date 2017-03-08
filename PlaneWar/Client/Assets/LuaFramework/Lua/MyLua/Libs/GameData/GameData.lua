@@ -21,10 +21,12 @@ function M:ctor(...)
     self.mMessageType = 1; --消息类型：1.弹出框 2.滚动提示
     self.mMessageText = ""; --消息内容
     self.mMessageMethond = 0; --对应调用方法
+
+    self.mMyScore = 0;
 end
 
 function M:dtor()
-    self.mTimer:Stop();
+    
 end
 
 function M:setRankInfoList(args)
@@ -81,6 +83,7 @@ end
 
 function M:returnStartGame()
     GCtx.mGameData.isRelogin = true;
+    self.mTimer:Stop();
     GlobalNS.CSSystem.Ctx.mInstance.mLoginSys.mLoginNetHandleCB_KBE:closeNetwork();
     GlobalNS.CSSystem.Ctx.mInstance.mPlayerMgr:dispose();
     GlobalNS.CSSystem.Ctx.mInstance.mSnowBlockMgr:dispose();

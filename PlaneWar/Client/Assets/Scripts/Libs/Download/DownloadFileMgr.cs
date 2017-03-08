@@ -10,6 +10,8 @@ namespace SDK.Lib
     {
         private XmlCfgBase xml = null;
         private XmlSnowBallCfg snowballconfigxml = null;
+        private bool isDownLoadSucceed = false;//配置下载成功，只要一个文件失败即为false
+
         public DownloadFileMgr()
         {
         }
@@ -59,9 +61,15 @@ namespace SDK.Lib
             if (res.isSuccessLoaded())
             {
                 retStr = System.Text.Encoding.UTF8.GetString(res.getBytes());
+                getIpAndPort(retStr);
+                getNoticeMessage(retStr);
+
+                isDownLoadSucceed = true;
             }
-            getIpAndPort(retStr);
-            getNoticeMessage(retStr);
+            else
+            {
+                isDownLoadSucceed = false;
+            }
         }
 
         private void getIpAndPort(string addr)
@@ -120,11 +128,21 @@ namespace SDK.Lib
             if (res.isSuccessLoaded())
             {
                 retStr = System.Text.Encoding.UTF8.GetString(res.getBytes());
+                snowballconfigxml.parseXml(retStr);
+                Ctx.mInstance.mSnowBallCfg.mXmlSnowBallCfg = snowballconfigxml;
+                Ctx.mInstance.mSnowBallCfg.preInit();
+
+                isDownLoadSucceed = true;
             }
-            snowballconfigxml.parseXml(retStr);
-           
-            Ctx.mInstance.mSnowBallCfg.mXmlSnowBallCfg = snowballconfigxml;
-            Ctx.mInstance.mSnowBallCfg.preInit();
+            else
+            {
+                isDownLoadSucceed = false;
+            }
+        }
+
+        public bool getIsDownloadSucceed()
+        {
+            return isDownLoadSucceed;
         }
 
         public void dispose()

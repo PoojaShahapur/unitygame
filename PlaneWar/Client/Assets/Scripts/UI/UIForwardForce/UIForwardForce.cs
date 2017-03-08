@@ -7,7 +7,7 @@ namespace Game.UI
     /**
      * @brief 摇杆
      */
-    public class UIForwardForce : Form, ITickedObject, IDelayHandleItem
+    public class UIForwardForce : Form, ITickedObject, IDelayHandleItem, IPriorityObject
     {
         private RectTransform ForceBtn;
 

@@ -154,8 +154,12 @@
             return 0;
         }
 
-        public UnityEngine.Vector3 adjustPosInRange(UnityEngine.Vector3 pos)
+        public UnityEngine.Vector3 adjustPosInRange(SceneEntityBase entity, UnityEngine.Vector3 pos)
         {
+            //子弹不限制边界
+            if (entity.getEntityType() == EntityType.eFlyBullet)
+                return pos;
+
             if(pos.x < 0)
             {
                 pos.x = 0;

@@ -105,6 +105,7 @@ end
 
 function M:onExit()
     M.super.onExit(self);
+    self.mTimer:Stop();
 end
 
 return M;

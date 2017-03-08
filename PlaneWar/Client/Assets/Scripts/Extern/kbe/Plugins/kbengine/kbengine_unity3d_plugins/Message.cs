@@ -1,13 +1,14 @@
 ﻿namespace KBEngine
 {
-  	using UnityEngine; 
-	using System; 
-	using System.Collections; 
-	using System.Collections.Generic;
-	
-	using MessageID = System.UInt16;
-	
-	/*
+    using UnityEngine;
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+
+    using MessageID = System.UInt16;
+    using SDK.Lib;
+
+    /*
 		消息模块
 		客户端与服务端交互基于消息通讯， 任何一个行为一条指令都是以一个消息包来描述
 	*/
@@ -149,7 +150,11 @@
 
                 SDK.Lib.Ctx.mInstance.mLuaSystem.receiveToLua_KBE(name, param);
             }
-            SDK.Lib.Ctx.mInstance.mLuaSystem.PrintConsoleMessage("<color=#0000FF>[S->C]: </color>" + name);
+
+            if (MacroDef.ENABLE_LUA_CONSOLE)
+            {
+                SDK.Lib.Ctx.mInstance.mLuaSystem.PrintConsoleMessage("<color=#0000FF>[S->C]: </color>" + name);
+            }
         }
     }
 } 

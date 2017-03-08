@@ -1,7 +1,7 @@
 ﻿namespace SDK.Lib
 {
     /**
-     * @brief 事件间隔
+     * @brief 时间间隔
      */
     public class TimeInterval
     {

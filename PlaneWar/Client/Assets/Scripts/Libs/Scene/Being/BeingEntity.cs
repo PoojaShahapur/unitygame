@@ -464,8 +464,16 @@ namespace SDK.Lib
             this.autoHandle();
             // 初始化渲染器
             this.initRender();
-            // 加载渲染器资源
-            this.loadRenderRes();
+
+            if (!MacroDef.ENABLE_SCENE2D_CLIP)  // 如果不使用场景裁剪，就直接加载资源，否则只有场景裁剪可视的时候，才加载资源
+            {
+                // 加载渲染器资源
+                this.loadRenderRes();
+            }
+            else if(EntityType.ePlayerMain == this.mEntityType)     // PlayerMain 也要立即加载，因为有些依赖这个资源
+            {
+                this.loadRenderRes();
+            }
         }
 
         protected override void onPostInit()
@@ -795,7 +803,7 @@ namespace SDK.Lib
                 return (this.mMovement as BeingEntityMovement).getDestRotate();
             }
 
-            return UnityEngine.Quaternion.identity;
+            return UtilMath.UnitQuat;
         }
 
         // 设置接触不融合跟随方向
@@ -874,6 +882,14 @@ namespace SDK.Lib
         virtual public void moveToCenter()
         {
 
+        }
+
+        public void enableRigid(bool enable)
+        {
+            if(null != this.mRender)
+            {
+                this.mRender.enableRigid(enable);
+            }
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using LuaInterface;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -236,7 +235,7 @@ namespace SDK.Lib
         }
 
         // 给一个添加 EventTrigger 组件的 GameObject 添加单击事件
-        public static void addEventTriggerHandle(GameObject go, LuaFunction handle)
+        public static void addEventTriggerHandle(GameObject go, LuaInterface.LuaFunction handle)
         {
             EventTrigger trigger = go.GetComponent<EventTrigger>();
 
@@ -333,7 +332,7 @@ namespace SDK.Lib
             unityEvent.AddListener(unityAction);
         }
 
-        public static void addEventHandle(GameObject go, string path, LuaTable luaTable, LuaFunction luaFunction)
+        public static void addEventHandle(GameObject go, string path, LuaInterface.LuaTable luaTable, LuaInterface.LuaFunction luaFunction)
         {
             Transform goTrans = go.GetComponent<Transform>();
 
@@ -353,7 +352,7 @@ namespace SDK.Lib
             }
         }
 
-        public static void addEventHandle(GameObject go, LuaTable luaTable, LuaFunction luaFunction, uint luaEventId = 0, bool isAddToRoot = false)
+        public static void addEventHandle(GameObject go, LuaInterface.LuaTable luaTable, LuaInterface.LuaFunction luaFunction, uint luaEventId = 0, bool isAddToRoot = false)
         {
             Button.ButtonClickedEvent btnEvent = go.GetComponent<Button>().onClick;
 
@@ -400,7 +399,7 @@ namespace SDK.Lib
             }
         }
 
-        public static void addButtonDownEventHandle(GameObject go, LuaTable luaTable, LuaFunction luaFunction, uint luaEventId = 0)
+        public static void addButtonDownEventHandle(GameObject go, LuaInterface.LuaTable luaTable, LuaInterface.LuaFunction luaFunction, uint luaEventId = 0)
         {
             AuxButtonUserData userData = go.GetComponent<AuxButtonUserData>();
 
@@ -422,7 +421,7 @@ namespace SDK.Lib
             }
         }
 
-        public static void addButtonUpEventHandle(GameObject go, LuaTable luaTable, LuaFunction luaFunction, uint luaEventId = 0)
+        public static void addButtonUpEventHandle(GameObject go, LuaInterface.LuaTable luaTable, LuaInterface.LuaFunction luaFunction, uint luaEventId = 0)
         {
             AuxButtonUserData userData = go.GetComponent<AuxButtonUserData>();
 
@@ -444,7 +443,7 @@ namespace SDK.Lib
             }
         }
 
-        public static void addButtonExitEventHandle(GameObject go, LuaTable luaTable, LuaFunction luaFunction, uint luaEventId = 0)
+        public static void addButtonExitEventHandle(GameObject go, LuaInterface.LuaTable luaTable, LuaInterface.LuaFunction luaFunction, uint luaEventId = 0)
         {
             AuxButtonUserData userData = go.GetComponent<AuxButtonUserData>();
 
@@ -466,7 +465,7 @@ namespace SDK.Lib
             }
         }
 
-        public static void addEventHandle(Button.ButtonClickedEvent btnEvent, LuaTable luaTable, LuaFunction luaFunction)
+        public static void addEventHandle(Button.ButtonClickedEvent btnEvent, LuaInterface.LuaTable luaTable, LuaInterface.LuaFunction luaFunction)
         {
             if (btnEvent != null)
             {
@@ -487,7 +486,7 @@ namespace SDK.Lib
             }
         }
 
-        public static void addEventHandle(UnityEvent<bool> unityEvent, LuaTable luaTable, LuaFunction luaFunction)
+        public static void addEventHandle(UnityEvent<bool> unityEvent, LuaInterface.LuaTable luaTable, LuaInterface.LuaFunction luaFunction)
         {
             unityEvent.AddListener(
                 (param) =>
@@ -505,7 +504,7 @@ namespace SDK.Lib
         }
 
         //添加Toggle的onValueChanged事件
-        public static void addToggleHandle(GameObject go, LuaTable table, LuaFunction handle)
+        public static void addToggleHandle(GameObject go, LuaInterface.LuaTable table, LuaInterface.LuaFunction handle)
         {
             Toggle toggle = go.GetComponent<Toggle>();
 
@@ -920,7 +919,7 @@ namespace SDK.Lib
             {
                 trans.localPosition = UnityEngine.Vector3.zero;
                 trans.localScale = UnityEngine.Vector3.one;
-                trans.localRotation = UnityEngine.Quaternion.identity;
+                trans.localRotation = UtilMath.UnitQuat;
             }
         }
 
@@ -2112,6 +2111,32 @@ namespace SDK.Lib
             }
 
             return rot;
+        }
+
+        // 获取 Ortho Cam 相机的大小。 x: 宽度 y: 高度
+        static public UnityEngine.Vector2 getOrthoCamSize(UnityEngine.Camera cam)
+        {
+            UnityEngine.Vector2 size = UnityEngine.Vector2.zero;
+
+            // 只有 Ortho 相机才计算
+            if (cam.orthographic)
+            {
+                size.x = cam.orthographicSize * 2 * cam.aspect;
+                size.y = cam.orthographicSize * 2;
+            }
+
+            return size;
+        }
+        
+        // 设置精灵
+        static public void setSprite(UnityEngine.SpriteRenderer spriterender, string name)
+        {
+            if(spriterender != null)
+            {
+                AuxSpriteAtlasLoader _spriteloader = new AuxSpriteAtlasLoader();
+                _spriteloader.syncLoad("DefaultSkin/Ships/" + name + ".png");
+                spriterender.sprite = _spriteloader.getSprite(name);
+            }
         }
     }
 }

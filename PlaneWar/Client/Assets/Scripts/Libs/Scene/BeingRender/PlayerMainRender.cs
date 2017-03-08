@@ -10,7 +10,7 @@
 
         override public void onInit()
         {
-            this.mResPath = "World/Model/PlayerTest.prefab";
+            this.mResPath = "World/Model/PlayerMain.prefab";
         }
 
         override protected void onSelfChanged()
@@ -41,6 +41,24 @@
             {
                 UtilApi.SetActive(this.mSelfGo, false);
             }
+        }
+
+        // 资源加载
+        override public void load()
+        {
+            if (null == this.mAuxPrefabLoader)
+            {
+                //this.mAuxPrefabLoader = new AuxPrefabLoader("", true, false);
+                this.mAuxPrefabLoader = AuxPrefabLoader.newObject(this.mResPath);
+                this.mAuxPrefabLoader.setDestroySelf(true);
+                this.mAuxPrefabLoader.setIsNeedInsPrefab(true);
+                this.mAuxPrefabLoader.setIsInsNeedCoroutine(false);
+                this.mAuxPrefabLoader.setIsInitOrientPos(true);
+                this.mAuxPrefabLoader.setIsFakePos(true);
+                this.mAuxPrefabLoader.setIsUsePool(true);
+            }
+
+            this.mAuxPrefabLoader.asyncLoad(this.mResPath, this.onResLoaded);
         }
     }
 }

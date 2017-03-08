@@ -27,20 +27,16 @@ end
 
 function M:onReady()
     M.super.onReady(self);    
-    GlobalNS.CSSystem.Ctx.mInstance.mGlobalDelegate.mMainChildNumChangedDispatch:addEventHandle(nil, nil, 0, self, self.refreshNum, 0);
-    
-    self:refreshNum(); --加载完成主动刷新一次质量
+   
+    self:refreshScore(GCtx.mGameData.mMyScore); --加载完成主动刷新一次分数
 end
 
-function M:refreshNum()
-    --获取Mass_Text的Text组件
-    if(GlobalNS.CSSystem.Ctx.mInstance.mPlayerMgr:getHero() ~= nil and
-       GlobalNS.CSSystem.Ctx.mInstance.mPlayerMgr:getHero().mPlayerSplitMerge ~= nil) then
-         local num = GlobalNS.CSSystem.Ctx.mInstance.mPlayerMgr:getHero().mPlayerSplitMerge.mPlayerChildMgr:getEntityCount();
-         --self.mMass不能放在onReady中获取，否则事件调用进入后该值为nil
-         self.mMass = GlobalNS.UtilApi.getComByPath(self.mGuiWin, "Mass_Text", "Text");         
-         self.mMass.text = "分数：" .. num;
+function M:refreshScore(score)
+    if score == nil then
+        score = 0;
     end
+    self.mMass = GlobalNS.UtilApi.getComByPath(self.mGuiWin, "Mass_Text", "Text");         
+    self.mMass.text = "分数：" .. score;
 end
 
 function M:refreshLeftTime(leftseconds)
@@ -83,7 +79,6 @@ end
 
 function M:onExit()
     M.super.onExit(self);
-    GlobalNS.CSSystem.Ctx.mInstance.mGlobalDelegate.mMainChildNumChangedDispatch:removeEventHandle(nil, nil, 0, self, self.refreshNum, 0);
 end
 
 return M;

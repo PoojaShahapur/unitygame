@@ -68,7 +68,8 @@ namespace KBEngine
 
             if (null != mEntity_SDK)
             {
-                this.mEntity_SDK.setRotateEulerAngle_FromKBE(this.direction);
+                UnityEngine.Vector3 euler = UtilApi.invConvRotByMode(UtilMath.getRotateByOrient(UtilApi.convRotByMode(this.direction)).eulerAngles);
+                this.mEntity_SDK.setRotateEulerAngle_FromKBE(euler);
             }
         }
 

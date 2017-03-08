@@ -5,6 +5,8 @@ namespace SDK.Lib
 	 */
     public class PlayerMain : Player
 	{
+        public MutilRigidCalcPolicy mMutilRigidCalcPolicy;
+
         public PlayerMain()
 		{
             this.mTypeId = "PlayerMain";
@@ -13,6 +15,8 @@ namespace SDK.Lib
             this.mMovement = new PlayerMainMovement(this);
             this.mAttack = new PlayerMainAttack(this);
             this.mPlayerSplitMerge = new PlayerMainSplitMerge(this);
+
+            this.mMutilRigidCalcPolicy = new MutilRigidCalcPolicy();
         }
 
         override public void initRender()
@@ -33,6 +37,7 @@ namespace SDK.Lib
             this.mPlayerSplitMerge.init();
 
             //Ctx.mInstance.mGlobalDelegate.mMainChildMassChangedDispatch.addEventHandle(null, this.onChildMassChanged);
+            this.mMutilRigidCalcPolicy.init();
         }
 
         protected override void onPostInit()
@@ -46,6 +51,7 @@ namespace SDK.Lib
         {
             base.dispose();
 
+            this.mMutilRigidCalcPolicy.dispose();
             Ctx.mInstance.mPlayerMgr.removeHero();
         }
 
@@ -59,6 +65,13 @@ namespace SDK.Lib
         protected override void onPreTick(float delta)
         {
             base.onPreTick(delta);
+        }
+
+        protected override void onPostTick(float delta)
+        {
+            base.onPostTick(delta);
+
+            this.mMutilRigidCalcPolicy.onTick(delta);
         }
 
         public void emitSnowBlock()
@@ -111,6 +124,12 @@ namespace SDK.Lib
         public void stopMove()
         {
             (this.mMovement as PlayerMainMovement).stopMove();
+        }
+
+        public bool isChildEnableRigidByThisId(uint thisId)
+        {
+            PlayerMainChild child = this.mPlayerSplitMerge.mPlayerChildMgr.getEntityByThisId(thisId) as PlayerMainChild;
+            return this.mMutilRigidCalcPolicy.isChildEnableRigidByThisId(child);
         }
     }
 }

@@ -23,7 +23,12 @@
         {
             base.onPostInit();
 
-            this.mHud = Ctx.mInstance.mHudSystem.createHud(this);
+            //this.mHud = Ctx.mInstance.mHudSystem.createHud(this);
+        }
+
+        override public void setMoveSpeed(float value)
+        {
+            base.setMoveSpeed(value);
         }
 
         override public void autoHandle()
@@ -37,7 +42,7 @@
         {
             if (!this.isPrefabPathValid())
             {
-                this.setPrefabPath(Ctx.mInstance.mSnowBallCfg.getRandomComputerBallTex());
+                this.setPrefabPath("World/Model/ComputerBall.prefab");
             }
 
             mRender = new ComputerBallRender(this);

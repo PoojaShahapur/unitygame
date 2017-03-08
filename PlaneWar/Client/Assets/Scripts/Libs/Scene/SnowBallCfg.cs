@@ -47,6 +47,10 @@
         public XmlItemGoods[] shape; //外形
         public XmlItemGoods[] child; //鱼仔
 
+        //飞机默认皮肤
+        public XmlPlaneItem[] planes; //飞机
+        public XmlPlaneItem[] snowblocks; //能源
+
         public const float msSeparateFactor = 8;
         public float mMergeRange;       // 在这个范围内，说明一直在融合
         public float mMergeSpeedFactor; // 融合的时候，速度变化因子
@@ -54,11 +58,7 @@
         public float mBallCollideRadius;    // 初始球的碰撞半径
         public float mSnowBlockCollideRadius;    // 初始雪块的碰撞半径
         public float mShitCollideRadius;    // 初始吐出的雪块的碰撞半径
-
-        public string[] mBallSelfTexArray;      // BallTex 数组
-        public string[] mBallOtherTexArray;     // BallTex 数组
-        public string[] mComputerBallTexArray;     // ComputerBallTex 数组
-        public string[] mSnowBlockTexArray;      // SnowBlockTex 数组
+        
         public MList<TileInfo> mBallTileTexList;
         public MList<TileInfo> mSnowBlockTexList;
 
@@ -168,10 +168,8 @@
             this.shape = this.mXmlSnowBallCfg.mXmlShop.shape;
             this.child = this.mXmlSnowBallCfg.mXmlShop.child;
 
-            this.mBallSelfTexArray = UtilStr.split(ref this.mXmlSnowBallCfg.mXmlItemBallSelfTex.mSrc, ',');
-            this.mBallOtherTexArray = UtilStr.split(ref this.mXmlSnowBallCfg.mXmlItemBallOtherTex.mSrc, ',');
-            this.mComputerBallTexArray = UtilStr.split(ref this.mXmlSnowBallCfg.mXmlItemComputerBallTex.mSrc, ',');
-            this.mSnowBlockTexArray = UtilStr.split(ref this.mXmlSnowBallCfg.mXmlItemSnowBlockTex.mSrc, ',');
+            this.planes = this.mXmlSnowBallCfg.mXmlPlanes.planes;
+            this.snowblocks = this.mXmlSnowBallCfg.mXmlPlanes.snowblocks;
 
             this.mMinShotSeconds = this.mXmlSnowBallCfg.mXmlItemShotControl.mMinSeconds;
             this.mMaxShotSeconds = this.mXmlSnowBallCfg.mXmlItemShotControl.mMaxSeconds;
@@ -217,71 +215,7 @@
         {
             return num >= mMaxSnowNum;
         }
-
-        public string getRandomBallSelfTex()
-        {
-            string ret = "";
-
-            if (this.mBallSelfTexArray.Length > 0)
-            {
-                int min = 0;
-                int max = this.mBallSelfTexArray.Length;
-
-                int cur = UtilMath.RangeRandom(min, max);
-                ret = this.mBallSelfTexArray[cur];
-            }
-
-            return ret;
-        }
-
-        public string getRandomBallOtherTex()
-        {
-            string ret = "";
-
-            if (this.mBallOtherTexArray.Length > 0)
-            {
-                int min = 0;
-                int max = this.mBallOtherTexArray.Length;
-
-                int cur = UtilMath.RangeRandom(min, max);
-                ret = this.mBallOtherTexArray[cur];
-            }
-
-            return ret;
-        }
-
-        public string getRandomComputerBallTex()
-        {
-            string ret = "";
-
-            if (this.mComputerBallTexArray.Length > 0)
-            {
-                int min = 0;
-                int max = this.mComputerBallTexArray.Length;
-
-                int cur = UtilMath.RangeRandom(min, max);
-                ret = this.mComputerBallTexArray[cur];
-            }
-
-            return ret;
-        }
-
-        public string getRandomSnowBlockTex()
-        {
-            string ret = "";
-
-            if (this.mSnowBlockTexArray.Length > 0)
-            {
-                int min = 0;
-                int max = this.mSnowBlockTexArray.Length;
-
-                int cur = UtilMath.RangeRandom(min, max);
-                ret = this.mSnowBlockTexArray[cur];
-            }
-
-            return ret;
-        }
-
+        
         public TileInfo getRandomBallTexTile()
         {
             TileInfo ret = null;
@@ -335,10 +269,10 @@
                 curPos = playerChild.getPos();
 
                 startPos = playerChild.getPos() + playerChild.getRotate() * new UnityEngine.Vector3(0, 0, playerChild.getBallWorldRadius() + emitRadius + Ctx.mInstance.mSnowBallCfg.mEmitRelStartPos);
-                startPos = Ctx.mInstance.mSceneSys.adjustPosInRange(startPos);
+                startPos = Ctx.mInstance.mSceneSys.adjustPosInRange(playerChild, startPos);
 
                 endPos = startPos + playerChild.getRotate() * new UnityEngine.Vector3(0, 0, Ctx.mInstance.mSnowBallCfg.mEmitRelDist);
-                endPos = Ctx.mInstance.mSceneSys.adjustPosInRange(endPos);
+                endPos = Ctx.mInstance.mSceneSys.adjustPosInRange(playerChild, endPos);
             }
         }
     }

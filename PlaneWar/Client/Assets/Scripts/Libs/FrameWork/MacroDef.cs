@@ -25,7 +25,7 @@
         static public bool MSG_COMPRESS = false;
 
         // 开启窗口日志
-        static public bool ENABLE_WINLOG = true;
+        static public bool ENABLE_WINLOG = false;
 
         // 开启网络日志
         static public bool ENABLE_NETLOG = false;
@@ -58,7 +58,7 @@
         static public bool LUA_EDITOR = true;
 
         // 开启日志
-        static public bool ENABLE_LOG = true;
+        static public bool ENABLE_LOG = false;
 
         // 开启警告
         static public bool ENABLE_WARN = false;
@@ -85,6 +85,12 @@
 
         // 物理运行
         static public bool PHYSIX_MOVE = false;
+
+        // 场景裁剪
+        static public bool ENABLE_SCENE2D_CLIP = true;
+
+        // Lua 控制台
+        static public bool ENABLE_LUA_CONSOLE = false;
 
         // 宏定义结束
     }

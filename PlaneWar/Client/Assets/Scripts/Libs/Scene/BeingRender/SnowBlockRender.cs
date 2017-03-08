@@ -28,6 +28,9 @@
             AuxSnowBlockUserData auxData = UtilApi.AddComponent<AuxSnowBlockUserData>(this.selfGo);
 
             auxData.setUserData(this.mEntity);
+            int min = 0;
+            int max = Ctx.mInstance.mSnowBallCfg.snowblocks.Length;
+            UtilApi.setSprite(this.mSpriteRender, Ctx.mInstance.mSnowBallCfg.snowblocks[UtilMath.RangeRandom(min, max)].mName);
 
             //UtilApi.setLayer(this.selfGo, "SnowBlock");
         }
@@ -76,6 +79,11 @@
                 //UtilApi.enableCollider<UnityEngine.SphereCollider>(this.mSelfGo, true);
                 UtilApi.enableCollider2D<UnityEngine.BoxCollider2D>(this.mSelfGo, true);
             }
+        }
+
+        override public void enableRigid(bool enable)
+        {
+            UtilApi.enableCollider2D<UnityEngine.BoxCollider2D>(this.mSelfGo, enable);
         }
     }
 }

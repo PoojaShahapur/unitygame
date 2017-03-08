@@ -10,6 +10,9 @@
         protected UnityEngine.Rigidbody2D mRigidbody2D;
         protected bool mIsUsePool;
 
+        protected UnityEngine.SpriteRenderer mSpriteRender;//精灵
+        private float totaltime;
+
         public EntityRenderBase(SceneEntityBase entity_)
         {
             this.mEntity = entity_;
@@ -29,7 +32,20 @@
 
         virtual public void onTick(float delta)
         {
-            
+            if (null == this.mSpriteRender)
+                return;
+
+            byte IsGod = (byte)this.mEntity.getEntity().getDefinedProperty("isGod");
+            if (IsGod == 1)// 无敌状态,0.1s闪烁一下
+            {
+                totaltime += delta;
+                float remainder = totaltime % 0.2f;
+                this.mSpriteRender.enabled = remainder > 0.1f;
+            }
+            else
+            {
+                this.mSpriteRender.enabled = true;
+            }
         }
 
         // 初始化流程
@@ -105,6 +121,16 @@
             return null != this.mSelfGo;
         }
 
+        virtual public void onEnterScreenRange()
+        {
+
+        }
+
+        virtual public void onLeaveScreenRange()
+        {
+
+        }
+
         public UnityEngine.Vector3 getPos()
         {
             if(this.isValid())
@@ -123,6 +149,7 @@
 
             this.mRigidbody = UtilApi.getComByP<UnityEngine.Rigidbody>(this.selfGo);
             this.mRigidbody2D = UtilApi.getComByP<UnityEngine.Rigidbody2D>(this.selfGo);
+            this.mSpriteRender = UtilApi.getComByP<UnityEngine.SpriteRenderer>(UtilApi.TransFindChildByPObjAndPath(this.mSelfGo, UtilApi.MODEL_RENDER_NAME));
 
             // 设置可视化
             if (this.mEntity.IsVisible())
@@ -133,6 +160,7 @@
             {
                 this.hide();
             }
+
             // 设置方向位置信息
             this.setPos(this.mEntity.getPos());
             this.setRotate(this.mEntity.getRotate());
@@ -202,6 +230,11 @@
         }
 
         virtual public void setTexTile(TileInfo tileInfo)
+        {
+
+        }
+
+        virtual public void enableRigid(bool enable)
         {
 
         }

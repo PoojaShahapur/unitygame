@@ -163,10 +163,12 @@ function M:SetMyRankInfo()
             local myName = GlobalNS.UtilApi.getComByPath(self.mMyRankArea, "Name", "Text");
             myName.text = GCtx.mGameData.rankinfolist[i].m_name;
 
+            --[[
             --本轮质量
             local myMass = GlobalNS.UtilApi.getComByPath(self.mMyRankArea, "Mass", "Text");
             local radius = GlobalNS.UtilMath.getRadiusByMass(GCtx.mGameData.rankinfolist[i].m_radius); --服务器传过来的是质量
             myMass.text = GlobalNS.UtilMath.getShowMass(radius);
+            ]]--
 
             --吞食数量
             local mySwallowNum = GlobalNS.UtilApi.getComByPath(self.mMyRankArea, "SwallowNum", "Text");
@@ -233,6 +235,7 @@ function M:SetTopXRankInfo()
             Name.text = "<color=#32c832ff>"..GCtx.mGameData.rankinfolist[i].m_name.."</color>";
         end
 
+        --[[
         --本轮质量
         local Mass = GlobalNS.UtilApi.getComByPath(listitem, "Mass", "Text");
         local radius = GlobalNS.UtilMath.getRadiusByMass(GCtx.mGameData.rankinfolist[i].m_radius); --服务器传过来的是质量
@@ -240,6 +243,7 @@ function M:SetTopXRankInfo()
         if GCtx.mGameData.rankinfolist[i].m_rank == GCtx.mGameData.myRank then
             Mass.text = "<color=#32c832ff>"..GlobalNS.UtilMath.getShowMass(radius).."</color>";
         end
+        ]]--
 
         --吞食数量
         local SwallowNum = GlobalNS.UtilApi.getComByPath(listitem, "SwallowNum", "Text");

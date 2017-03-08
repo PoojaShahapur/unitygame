@@ -1,7 +1,7 @@
 ﻿namespace SDK.Lib
 {
     // 加载进度
-    public class LoadProgressMgr : TickObjectMgrBase
+    public class LoadProgressMgr : TickObjectMgrBase, IPriorityObject
     {
         public LoadProgressMgr()
         {

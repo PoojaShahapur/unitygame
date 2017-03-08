@@ -3,7 +3,7 @@ using System.Collections;
 
 namespace SDK.Lib
 {
-    public class LoadItem : IDispatchObject, IDelayHandleItem, ITickedObject, ILoadProgress
+    public class LoadItem : IDispatchObject, IDelayHandleItem, ITickedObject, ILoadProgress, IPriorityObject
     {
         protected ResPackType mResPackType;    // 资源打包类型
         protected ResLoadType mResLoadType;    // 资源加载类型

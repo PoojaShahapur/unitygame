@@ -5,7 +5,7 @@ namespace SDK.Lib
     /**
      * @brief 场景中的实体，定义接口，逻辑相关的一些实现放在 BeingEntity 里面，例如: 地形， Player， Npc
      */
-    public class SceneEntityBase : GObject, IDelayHandleItem, IDispatchObject, ITickedObject
+    public class SceneEntityBase : GObject, IDelayHandleItem, IDispatchObject, ITickedObject, IPriorityObject
     {
         protected EntityRenderBase mRender;
         protected bool mIsClientDispose;        // 客户端已经释放这个对象，但是由于在遍历中，等着遍历结束再删除，所有多这个对象的操作都是无效的
@@ -23,8 +23,9 @@ namespace SDK.Lib
         protected UnityEngine.Quaternion mRotate;   // 当前方向信息
         protected UnityEngine.Vector3 mScale;         // 当前缩放信息
 
-        protected bool mIsVisible;          // 是否可见，通过裁剪设置是否可见
-        protected bool mWillVisible;        // 主要是客户端主动设置是否可见
+        protected bool mIsVisible;          // 是否可见，逻辑数据是否可见
+        protected bool mEnableVisible;      // 主要是客户端主动设置是否可见
+        protected bool mIsInScreenRange;    // 是否在屏幕范围，主要是是否真正的显示可见
         protected uint mThisId;             // 唯一 Id    
 
         public SceneEntityBase()
@@ -39,8 +40,9 @@ namespace SDK.Lib
             this.mRotate = new Quaternion(0, 0, 0, 1);
             this.mScale = Vector3.one;
 
-            this.mIsVisible = true;
-            this.mWillVisible = true;
+            this.mIsVisible = true;         // 当前逻辑是否可见
+            this.mEnableVisible = true;     // 是否允许可见
+            this.mIsInScreenRange = false;  // 屏幕是否可见
         }
 
         // 不允许直接访问 mRender ，必须通过接口访问
@@ -93,10 +95,10 @@ namespace SDK.Lib
         // 释放的时候回调的接口
         virtual public void onDestroy()
         {
-            if (null != mRender)
+            if (null != this.mRender)
             {
-                mRender.dispose();
-                mRender = null;
+                this.mRender.dispose();
+                this.mRender = null;
             }
 
             if(null != this.mEntity_KBE)
@@ -122,13 +124,14 @@ namespace SDK.Lib
         {
             if (!this.mIsVisible)
             {
-                if (this.mWillVisible)
+                if (this.mEnableVisible)
                 {
                     this.mIsVisible = true;
+                    //this.mIsInScreenRange = true;   // 显示不一定在 Screen 可见
 
-                    if (null != mRender)
+                    if (null != this.mRender)
                     {
-                        mRender.show();
+                        this.mRender.show();
                     }
                 }
             }
@@ -139,10 +142,11 @@ namespace SDK.Lib
             if (this.mIsVisible)
             {
                 this.mIsVisible = false;
+                this.mIsInScreenRange = false;  // 逻辑隐藏，直接设定不在屏幕范围内
 
-                if (null != mRender)
+                if (null != this.mRender)
                 {
-                    mRender.hide();
+                    this.mRender.hide();
                 }
             }
         }
@@ -151,13 +155,13 @@ namespace SDK.Lib
         {
             if (!this.mIsVisible)
             {
-                if (this.mWillVisible)
+                if (this.mEnableVisible)
                 {
                     this.mIsVisible = true;
 
-                    if (null != mRender)
+                    if (null != this.mRender)
                     {
-                        mRender.forceShow();
+                        this.mRender.forceShow();
                     }
                 }
             }
@@ -169,9 +173,9 @@ namespace SDK.Lib
             {
                 this.mIsVisible = false;
 
-                if (null != mRender)
+                if (null != this.mRender)
                 {
-                    mRender.forceHide();
+                    this.mRender.forceHide();
                 }
             }
         }
@@ -181,34 +185,76 @@ namespace SDK.Lib
             return this.mIsVisible;
         }
 
-        virtual public void setWillVisible(bool visible)
+        virtual public void setEnableVisible(bool visible)
         {
-            this.mWillVisible = visible;
+            this.mEnableVisible = visible;
 
-            if (this.mIsVisible)
+            if (!this.mEnableVisible && this.mIsVisible)
             {
-                hide();
+                this.hide();
+            }
+            else if(this.mEnableVisible && !this.mIsVisible)
+            {
+                this.show();
             }
         }
 
-        virtual public bool isWillVisible()
+        virtual public bool isEnableVisible()
         {
-            return this.mWillVisible;
+            return this.mEnableVisible;
+        }
+
+        public void setInScreenRange(bool value)
+        {
+            this.mIsInScreenRange = value;
+        }
+
+        public bool isInScreenRange()
+        {
+            return this.mIsInScreenRange;
+        }
+
+        // 进入可见
+        public void onEnterScreenRange()
+        {
+            if (!this.mIsInScreenRange)
+            {
+                this.mIsInScreenRange = true;
+
+                if (null != this.mRender)
+                {
+                    this.mRender.onEnterScreenRange();
+                }
+            }
+        }
+
+        // 离开可见
+        public void onLeaveScreenRange()
+        {
+            if (this.mIsInScreenRange)
+            {
+                this.mIsInScreenRange = false;
+
+                if (null != this.mRender)
+                {
+                    this.mRender.onLeaveScreenRange();
+                }
+            }
         }
 
         virtual public void setClientDispose(bool isDispose)
         {
             this.mIsClientDispose = isDispose;
 
-            if(null != mRender)
+            if(null != this.mRender)
             {
-                mRender.setClientDispose(isDispose);
+                this.mRender.setClientDispose(isDispose);
             }
         }
 
         virtual public bool isClientDispose()
         {
-            return mIsClientDispose;
+            return this.mIsClientDispose;
         }
 
         public UnityEngine.GameObject getGameObject()
@@ -227,6 +273,7 @@ namespace SDK.Lib
             this.onPreTick(delta);
             this.onExecTick(delta);
             this.onPostTick(delta);
+            if(null != this.mRender) this.mRender.onTick(delta);
         }
 
         // Tick 第一阶段执行
@@ -248,9 +295,9 @@ namespace SDK.Lib
 
         virtual public GameObject gameObject()
         {
-            if (null != mRender)
+            if (null != this.mRender)
             {
-                return mRender.selfGo;
+                return this.mRender.selfGo;
             }
 
             return null;
@@ -258,17 +305,17 @@ namespace SDK.Lib
 
         virtual public void setGameObject(GameObject rhv)
         {
-            if (null != mRender)
+            if (null != this.mRender)
             {
-                mRender.selfGo = rhv;
+                this.mRender.selfGo = rhv;
             }
         }
 
         virtual public Transform transform()
         {
-            if (null != mRender)
+            if (null != this.mRender)
             {
-                return mRender.transform();
+                return this.mRender.transform();
             }
 
             return null;
@@ -276,17 +323,17 @@ namespace SDK.Lib
 
         virtual public void setPnt(GameObject pntGO_)
         {
-            if (null != mRender)
+            if (null != this.mRender)
             {
-                mRender.setPntGo(pntGO_);
+                this.mRender.setPntGo(pntGO_);
             }
         }
 
         virtual public GameObject getPnt()
         {
-            if (null != mRender)
+            if (null != this.mRender)
             {
-                return mRender.getPntGo();
+                return this.mRender.getPntGo();
             }
 
             return null;
@@ -294,9 +341,9 @@ namespace SDK.Lib
 
         virtual public bool checkRender()
         {
-            if (null != mRender)
+            if (null != this.mRender)
             {
-                return mRender.checkRender();
+                return this.mRender.checkRender();
             }
 
             return false;
@@ -304,22 +351,22 @@ namespace SDK.Lib
 
         virtual public float getWorldPosX()
         {
-            return mWorldPos.x;
+            return this.mWorldPos.x;
         }
 
         virtual public float getWorldPosY()
         {
-            return mWorldPos.z;
+            return this.mWorldPos.z;
         }
 
         public MVector3 getWorldPos()
         {
-            return mWorldPos;
+            return this.mWorldPos;
         }
 
         public void setArea(Area area)
         {
-            mArea = area;
+            this.mArea = area;
         }
 
         public void setTile(TDTile tile)
@@ -334,17 +381,17 @@ namespace SDK.Lib
 
         public void setDistrict(MDistrict district)
         {
-            mDistrict = district;
+            this.mDistrict = district;
         }
 
         public void setInSceneGraph(bool value)
         {
-            mIsInSceneGraph = value;
+            this.mIsInSceneGraph = value;
         }
 
         public bool getInSceneGraph()
         {
-            return mIsInSceneGraph;
+            return this.mIsInSceneGraph;
         }
 
         // 从 KBE 设置位置，必须要从这个接口设置
@@ -359,13 +406,18 @@ namespace SDK.Lib
         {
             if (!UtilMath.isEqualVec3(this.mPos, pos))
             {
-                pos = Ctx.mInstance.mSceneSys.adjustPosInRange(pos);
+                pos = Ctx.mInstance.mSceneSys.adjustPosInRange(this, pos);
 
                 this.mPos = pos;
 
-                if (null != mRender)
+                if (null != this.mRender)
                 {
-                    mRender.setPos(pos);
+                    this.mRender.setPos(pos);
+                }
+
+                if (MacroDef.ENABLE_SCENE2D_CLIP)
+                {
+                    Ctx.mInstance.mTileMgr.updateEntity(this);
                 }
 
                 if(EntityType.ePlayerMain == this.mEntityType ||
@@ -405,9 +457,9 @@ namespace SDK.Lib
             {
                 this.mRotate = rotation;
 
-                if (null != mRender)
+                if (null != this.mRender)
                 {
-                    mRender.setRotate(rotation);
+                    this.mRender.setRotate(rotation);
                 }
 
                 if (EntityType.ePlayerMain == this.mEntityType ||
@@ -448,9 +500,9 @@ namespace SDK.Lib
 
                 this.mRotate = Quaternion.Euler(rotation);
 
-                if (null != mRender)
+                if (null != this.mRender)
                 {
-                    mRender.setRotate(this.mRotate);
+                    this.mRender.setRotate(this.mRotate);
                 }
 
                 if (MacroDef.ENABLE_LOG)
@@ -489,9 +541,9 @@ namespace SDK.Lib
             {
                 this.mScale = value;
 
-                if (null != mRender)
+                if (null != this.mRender)
                 {
-                    mRender.setScale(this.mScale);
+                    this.mRender.setScale(this.mScale);
                 }
 
                 if (MacroDef.ENABLE_LOG)
@@ -503,9 +555,9 @@ namespace SDK.Lib
 
         public void setSelfName(string name)
         {
-            if (null != mRender)
+            if (null != this.mRender)
             {
-                mRender.setSelfName(name);
+                this.mRender.setSelfName(name);
             }
         }
 
@@ -513,9 +565,9 @@ namespace SDK.Lib
         {
             Bounds retBounds = new Bounds(Vector3.zero, Vector3.zero);
 
-            if (null != mRender)
+            if (null != this.mRender)
             {
-                retBounds = mRender.getBounds();
+                retBounds = this.mRender.getBounds();
             }
 
             return retBounds;
@@ -523,9 +575,9 @@ namespace SDK.Lib
 
         public void AddRelativeForce(Vector3 force, ForceMode mode = ForceMode.Force)
         {
-            if (null != mRender)
+            if (null != this.mRender)
             {
-                mRender.AddRelativeForce(force, mode);
+                this.mRender.AddRelativeForce(force, mode);
             }
         }
 
@@ -576,7 +628,7 @@ namespace SDK.Lib
 
         public void setEntity_KBE(KBEngine.Entity entity)
         {
-            mEntity_KBE = entity;
+            this.mEntity_KBE = entity;
         }
 
         //public void updateTransform()
@@ -590,14 +642,14 @@ namespace SDK.Lib
 
         public KBEngine.Entity getEntity()
         {
-            return mEntity_KBE;
+            return this.mEntity_KBE;
         }
 
         public void baseCall(string methodname, params object[] arguments)
         {
-            if (null != mEntity_KBE)
+            if (null != this.mEntity_KBE)
             {
-                mEntity_KBE.baseCall(methodname, arguments);
+                this.mEntity_KBE.baseCall(methodname, arguments);
             }
         }
 
@@ -605,7 +657,7 @@ namespace SDK.Lib
         {
             if (null != this.mEntity_KBE)
             {
-                mEntity_KBE.cellCall(methodname, arguments);
+                this.mEntity_KBE.cellCall(methodname, arguments);
             }
         }
 

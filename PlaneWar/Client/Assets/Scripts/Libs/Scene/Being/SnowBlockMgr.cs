@@ -68,7 +68,7 @@ namespace SDK.Lib
             SnowBlock snowBlock = new SnowBlock();
             snowBlock.init();
             snowBlock.setPos(new Vector3(x, y_height, z));
-            snowBlock.setRotation(Quaternion.identity);
+            snowBlock.setRotation(UtilMath.UnitQuat);
         }
 
         public void RefreshSnowBlock()

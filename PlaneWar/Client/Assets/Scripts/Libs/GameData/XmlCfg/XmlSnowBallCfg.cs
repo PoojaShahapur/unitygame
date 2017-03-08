@@ -214,30 +214,32 @@ namespace SDK.Lib
         }
     }
 
-    // BallTex 纹理
-    public class XmlItemBallTex : XmlItemBase
+    /**
+    * @brief 皮肤管理
+    */
+    public class XmlPlanes
     {
-        public string mSrc;
-        public MList<XmlItemBase> mTileInfoList;
+        //飞机
+        public XmlPlaneItem[] planes;
+        //能源
+        public XmlPlaneItem[] snowblocks;
+    }
+
+    /**
+     * @brief 飞机名称配置
+     */
+    public class XmlPlaneItem : XmlItemBase
+    {
+        public uint mID;
+        public string mName;
 
         public override void parseXml(SecurityElement xmlelem)
         {
-            UtilXml.getXmlAttrStr(xmlelem, "Src", ref mSrc);
+            UtilXml.getXmlAttrUInt(xmlelem, "ID", ref mID);
+            UtilXml.getXmlAttrStr(xmlelem, "Name", ref mName);
         }
     }
-
-    // SnowBlockTex 纹理
-    public class XmlItemSnowBlockTex : XmlItemBase
-    {
-        public string mSrc;
-        public MList<XmlItemBase> mTileInfoList;
-
-        public override void parseXml(SecurityElement xmlelem)
-        {
-            UtilXml.getXmlAttrStr(xmlelem, "Src", ref mSrc);
-        }
-    }
-
+    
     /**
      * @brief 雪块配置
      */
@@ -252,16 +254,14 @@ namespace SDK.Lib
         public XmlItemCameraControl mXmlItemCameraControl;
         public XmlShop mXmlShop;
         public XmlItemMap mXmlItemMap;
-        public XmlItemBallTex mXmlItemBallSelfTex;
-        public XmlItemBallTex mXmlItemBallOtherTex;
-        public XmlItemBallTex mXmlItemComputerBallTex;
-        public XmlItemSnowBlockTex mXmlItemSnowBlockTex;
         public XmlItemShotControl mXmlItemShotControl;
+        public XmlPlanes mXmlPlanes;
 
         public XmlSnowBallCfg()
         {
             this.mPath = string.Format("{0}{1}", Ctx.mInstance.mCfg.mPathLst[(int)ResPathType.ePathXmlCfg], "SnowBall.xml");
             this.mXmlShop = new XmlShop();
+            this.mXmlPlanes = new XmlPlanes();
         }
 
         public override void parseXml(string str)
@@ -288,14 +288,42 @@ namespace SDK.Lib
             // 地图配置
             mXmlItemMap = parseXml<XmlItemMap>(this.mXmlConfig, "Map")[0] as XmlItemMap;
 
-            // BallTex 配置
-            this.parseBallTex();
+            //飞机配置
+            this.parsePlaneItems();
 
-            // SnowBlockTex 配置
-            this.parseSnowBlockTex();
+            // SnowBlock 配置
+            this.parseSnowBlocks();
 
             // 射击CD
-            mXmlItemShotControl = parseXml<XmlItemShotControl>(snowBallBasicElem, "Shot")[0] as XmlItemShotControl;
+            mXmlItemShotControl = parseXml<XmlItemShotControl>(snowBallBasicElem, "Shot")[0] as XmlItemShotControl;            
+        }
+
+        private void parsePlaneItems()
+        {
+            SecurityElement PlanesElem = null;
+            UtilXml.getXmlChild(this.mXmlConfig, "Planes", ref PlanesElem);
+
+            //飞机
+            int count = PlanesElem.Children.Count;
+            mXmlPlanes.planes = new XmlPlaneItem[count];
+            for (int i = 0; i < count; ++i)
+            {
+                mXmlPlanes.planes[i] = parseXml<XmlPlaneItem>(PlanesElem, "Item")[i] as XmlPlaneItem;
+            }
+        }
+
+        protected void parseSnowBlocks()
+        {
+            SecurityElement SnowBlocksElem = null;
+            UtilXml.getXmlChild(this.mXmlConfig, "SnowBlocks", ref SnowBlocksElem);
+
+            //能源
+            int count = SnowBlocksElem.Children.Count;
+            mXmlPlanes.snowblocks = new XmlPlaneItem[count];
+            for (int i = 0; i < count; ++i)
+            {
+                mXmlPlanes.snowblocks[i] = parseXml<XmlPlaneItem>(SnowBlocksElem, "Item")[i] as XmlPlaneItem;
+            }
         }
 
         private void parseShopItems()
@@ -337,26 +365,6 @@ namespace SDK.Lib
         {
             SecurityElement SkinShopElem = null;
             UtilXml.getXmlChild(ShopBasicElem, "GodShop", ref SkinShopElem);
-        }
-
-        protected void parseBallTex()
-        {
-            //SecurityElement ballElem = null;
-            //UtilXml.getXmlChild(this.mXmlConfig, "BallTex", ref ballElem);
-
-            this.mXmlItemBallSelfTex = parseXml<XmlItemBallTex>(this.mXmlConfig, "BallSelfTex")[0] as XmlItemBallTex;
-            this.mXmlItemBallOtherTex = parseXml<XmlItemBallTex>(this.mXmlConfig, "BallOtherTex")[0] as XmlItemBallTex;
-            this.mXmlItemComputerBallTex = parseXml<XmlItemBallTex>(this.mXmlConfig, "ComputerBallTex")[0] as XmlItemBallTex;
-            //this.mXmlItemBallTex.mTileInfoList = parseXml<TileInfo>(ballElem, "Tile");
-        }
-
-        protected void parseSnowBlockTex()
-        {
-            //SecurityElement snowBlockElem = null;
-            //UtilXml.getXmlChild(this.mXmlConfig, "SnowBlockTex", ref snowBlockElem);
-
-            this.mXmlItemSnowBlockTex = parseXml<XmlItemSnowBlockTex>(this.mXmlConfig, "SnowBlockTex")[0] as XmlItemSnowBlockTex;
-            //this.mXmlItemSnowBlockTex.mTileInfoList = parseXml<TileInfo>(snowBlockElem, "Tile");
         }
     }
 }

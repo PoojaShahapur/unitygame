@@ -131,6 +131,12 @@ namespace Game.Login
                 return;
             }
 
+            if(!Ctx.mInstance.mDownloadFileMgr.getIsDownloadSucceed())
+            {
+                Ctx.mInstance.mLuaSystem.receiveToLua_KBE("notifySomeMessage", new object[] { "配置文件下载失败，请稍后再试" });
+                return;
+            }
+
             isrelogin = false;
             info("connect to server...(连接到服务端...)");
             KBEngine.Event.fireIn("login", stringAccount, stringPasswd, System.Text.Encoding.UTF8.GetBytes("kbengine_unity3d_demo"));

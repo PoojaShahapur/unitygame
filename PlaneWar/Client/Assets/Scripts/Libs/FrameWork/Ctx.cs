@@ -16,7 +16,7 @@
         public IGameSys mGameSys;                 // 游戏系统
         public SceneSys mSceneSys;                // 场景系统
         public TickMgr mTickMgr;                  // 心跳管理器
-        public FixedTickMgr mFixedTickMgr;             // 固定间隔心跳管理器
+        public FixedTickMgr mFixedTickMgr;        // 固定间隔心跳管理器
         public LogicTickMgr mLogicTickMgr;        // 逻辑心跳管理器
         public ProcessSys mProcessSys;            // 游戏处理系统
 
@@ -35,21 +35,21 @@
         public MonsterMgr mMonsterMgr;            // Monster 管理器
         public SpriteAniMgr mSpriteAniMgr;
 
-        public ShareData mShareData;               // 共享数据系统
-        public LayerMgr mLayerMgr;                 // 层管理器
-        public ISceneEventCB mSceneEventCB;        // 场景加载事件
+        public ShareData mShareData;              // 共享数据系统
+        public LayerMgr mLayerMgr;                // 层管理器
+        public ISceneEventCB mSceneEventCB;       // 场景加载事件
         public CamSys mCamSys;
 
         public ISceneLogic mSceneLogic;
-        public SysMsgRoute mSysMsgRoute;           // 消息分发
-        public NetCmdNotify mNetCmdNotify;         // 网络处理器
-        public MsgRouteNotify mMsgRouteNotify;     // RouteMsg 客户端自己消息流程
-        public IModuleSys mModuleSys;              // 模块
-        public TableSys mTableSys;                 // 表格
-        public MFileSys mFileSys;                  // 文件系统
-        public FactoryBuild mFactoryBuild;         // 生成各种内容，上层只用接口
+        public SysMsgRoute mSysMsgRoute;          // 消息分发
+        public NetCmdNotify mNetCmdNotify;        // 网络处理器
+        public MsgRouteNotify mMsgRouteNotify;    // RouteMsg 客户端自己消息流程
+        public IModuleSys mModuleSys;             // 模块
+        public TableSys mTableSys;                // 表格
+        public MFileSys mFileSys;                 // 文件系统
+        public FactoryBuild mFactoryBuild;        // 生成各种内容，上层只用接口
 
-        public LangMgr mLangMgr;                   // 语言管理器
+        public LangMgr mLangMgr;                  // 语言管理器
         public DataPlayer mDataPlayer;
         public XmlCfgMgr mXmlCfgMgr;
         public MaterialMgr mMatMgr;
@@ -130,9 +130,10 @@
         public IdPoolSys mIdPoolSys;
 
         public UniqueStrIdGen mUniqueStrIdGen;
-        public DownloadFileMgr mDownloadFileMgr;              // 文件下载模块
-        public DownloadAppMgr mDownloadAppMgr;              // App下载模块
-        public TDClipRect mClipRect;          // 更新裁剪矩形
+        public DownloadFileMgr mDownloadFileMgr;    // 文件下载模块
+        public DownloadAppMgr mDownloadAppMgr;      // App下载模块
+        public TDClipRect mClipRect;                // 更新裁剪矩形
+        public TDTileMgr mTileMgr;                  // Tile 管理器
 
         public Ctx()
         {
@@ -286,6 +287,8 @@
             this.mDownloadFileMgr = new DownloadFileMgr();
             this.mDownloadAppMgr = new DownloadAppMgr();
             this.mClipRect = new TDClipRect();
+
+            this.mTileMgr = new TDTileMgr();
         }
 
         public void logicInit()
@@ -336,6 +339,7 @@
             this.mDownloadAppMgr.init();
 
             this.mClipRect.init();
+            this.mTileMgr.init();
 
             // 添加事件处理
             Ctx.mInstance.mCamSys.setUiCamera(Ctx.mInstance.mLayerMgr.mPath2Go[NotDestroyPath.ND_CV_App].AddComponent<UICamera>());
@@ -507,6 +511,11 @@
             {
                 this.mClipRect.dispose();
                 this.mClipRect = null;
+            }
+            if(null != this.mTileMgr)
+            {
+                this.mTileMgr.dispose();
+                this.mTileMgr = null;
             }
         }
 

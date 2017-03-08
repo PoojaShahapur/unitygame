@@ -18,6 +18,7 @@ function M:dtor()
     GCtx.mNetCmdNotify_KBE:removeParamHandle("notifySomeMessage", self, self.notifySomeMessage);
     GCtx.mNetCmdNotify_KBE:removeParamHandle("ShowNoticeMsg", self, self.ShowNoticeMsg);
     GCtx.mNetCmdNotify_KBE:removeParamHandle("ShowEmoticon", self, self.ShowEmoticon);
+    GCtx.mNetCmdNotify_KBE:removeParamHandle("UpdateMyScore", self, self.UpdateMyScore);
 end
 
 function M:init()
@@ -31,6 +32,7 @@ function M:init()
     GCtx.mNetCmdNotify_KBE:addParamHandle("notifySomeMessage", self, self.notifySomeMessage);
     GCtx.mNetCmdNotify_KBE:addParamHandle("ShowNoticeMsg", self, self.ShowNoticeMsg);
     GCtx.mNetCmdNotify_KBE:addParamHandle("ShowEmoticon", self, self.ShowEmoticon);
+    GCtx.mNetCmdNotify_KBE:addParamHandle("UpdateMyScore", self, self.UpdateMyScore);
 end
 
 function M:dtor()
@@ -136,6 +138,16 @@ function M:ShowEmoticon()
     local form = GCtx.mUiMgr:getForm(GlobalNS.UIFormId.eUIRankListPanel);
     if nil == form or not form:isVisible() then            
          GCtx.mUiMgr:loadAndShow(GlobalNS.UIFormId.eUIEmoticonPanel);
+    end
+end
+
+function M:UpdateMyScore(params)
+    local score = params[0];
+    local form = GCtx.mUiMgr:getForm(GlobalNS.UIFormId.eUIPlayerDataPanel);
+    if nil ~= form and form:isVisible() then
+        form:refreshScore(score);
+    else
+        GCtx.mGameData.mMyScore = score;
     end
 end
 

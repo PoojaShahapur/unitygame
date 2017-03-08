@@ -149,7 +149,7 @@ namespace SDK.Lib
             mHero = new PlayerMain();
             mHero.init();
             mHero.setDestPos(new UnityEngine.Vector3(50, 1.3f, 50f), true);
-            mHero.setDestRotate(UnityEngine.Quaternion.identity.eulerAngles, true);
+            mHero.setDestRotate(UtilMath.UnitQuat.eulerAngles, true);
         }
 
         // 进行分裂

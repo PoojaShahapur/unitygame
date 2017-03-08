@@ -5,7 +5,8 @@
      */
     public class TDTile
     {
-        protected EntityMgrBase mEntityMgr;     // 保存 Tile 内的所有 Entity
+        protected TileEntityMgr mEntityMgr;     // 保存 Tile 内的所有 Entity
+        protected int mTileindex;       // Tile 索引
         protected bool mIsVisible;      // 是否可见
         protected bool mIsFullVisible;  // 是否完全可见
 
@@ -19,7 +20,23 @@
             this.mIsVisible = false;
             this.mIsFullVisible = false;
 
+            this.mEntityMgr = new TileEntityMgr();
             this.mEntityMgr.init();
+        }
+
+        public void dispose()
+        {
+            this.mEntityMgr.dispose();
+        }
+
+        public void setTileIndex(int index)
+        {
+            this.mTileindex = index;
+        }
+
+        public int getTileIndex()
+        {
+            return this.mTileindex;
         }
 
         public void setIsVisible(bool value)
@@ -45,9 +62,10 @@
         // 显示
         public void show()
         {
-            if(!this.mIsVisible)
+            if (!this.mIsVisible)
             {
                 this.mIsVisible = true;
+                //this.updateShow();
                 this.updateVisible();
             }
         }
@@ -55,10 +73,55 @@
         // 隐藏
         public void hide()
         {
-            if(this.mIsVisible)
+            if (this.mIsVisible)
             {
                 this.mIsVisible = false;
-                this.updateVisible();
+                this.updateHide();
+            }
+        }
+
+        // 更新显示
+        public void updateShow()
+        {
+            int index = 0;
+            int len = this.mEntityMgr.getEntityCount();
+
+            SceneEntityBase entity = null;
+
+            while (index < len)
+            {
+                entity = this.mEntityMgr.getEntityByIndex(index);
+
+                if (entity.isEnableVisible())
+                {
+                    if (entity.IsVisible())
+                    {
+                        entity.onEnterScreenRange();
+                    }
+                }
+
+                ++index;
+            }
+        }
+
+        // 更新隐藏
+        public void updateHide()
+        {
+            int index = 0;
+            int len = this.mEntityMgr.getEntityCount();
+
+            SceneEntityBase entity = null;
+
+            while (index < len)
+            {
+                entity = this.mEntityMgr.getEntityByIndex(index);
+
+                if (entity.IsVisible())
+                {
+                    entity.onLeaveScreenRange();
+                }
+
+                ++index;
             }
         }
 
@@ -76,11 +139,11 @@
 
                 if (Ctx.mInstance.mClipRect.isPosVisible(entity.getPos()))
                 {
-                    if (entity.isWillVisible())
+                    if (entity.isEnableVisible())
                     {
-                        if (!entity.IsVisible())
+                        if (entity.IsVisible())
                         {
-                            entity.show();
+                            entity.onEnterScreenRange();
                         }
                     }
                 }
@@ -88,7 +151,7 @@
                 {
                     if (entity.IsVisible())
                     {
-                        entity.hide();
+                        entity.onLeaveScreenRange();
                     }
                 }
 
@@ -111,28 +174,8 @@
                 this.mEntityMgr.addEntity(entity);
                 entity.setTile(this);
 
-                // Tile 可能部分或者全部可见
-                if(this.mIsVisible)
-                {
-                    if(!entity.IsVisible())
-                    {
-                        if(entity.isWillVisible())
-                        {
-                            // 进一步判断是否 Entity 真的可见
-                            if(Ctx.mInstance.mClipRect.isPosVisible(entity.getPos()))
-                            {
-                                entity.show();
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    if (entity.IsVisible())
-                    {
-                        entity.hide();
-                    }
-                }
+                // 直接更新，其实可以区分 Dynamic 和 Static Entity， Dynamic 直接调用下面接口，而 Static 不用调用下面的接口，目前不区分了
+                this.updateVisible(entity);
             }
         }
 
@@ -147,6 +190,36 @@
         public void clearTile()
         {
             this.mEntityMgr.clearAll();
+        }
+
+        public void updateVisible(SceneEntityBase entity)
+        {
+            // Tile 可能部分或者全部可见
+            if (this.mIsVisible)
+            {
+                if(entity.isEnableVisible())
+                {
+                    if(entity.IsVisible())
+                    {
+                        // 进一步判断是否 Entity 真的可见
+                        if (Ctx.mInstance.mClipRect.isPosVisible(entity.getPos()))
+                        {
+                            entity.onEnterScreenRange();
+                        }
+                        else
+                        {
+                            entity.onLeaveScreenRange();
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (entity.IsVisible())
+                {
+                    entity.onLeaveScreenRange();
+                }
+            }
         }
     }
 }

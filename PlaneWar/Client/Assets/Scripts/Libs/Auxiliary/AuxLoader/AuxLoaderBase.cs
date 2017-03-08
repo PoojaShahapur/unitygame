@@ -3,16 +3,19 @@
     /**
      * @brief 资源加载器
      */
-    public class AuxLoaderBase : GObject, IDispatchObject, IRecycle, IDelayTask
+    public class AuxLoaderBase : GObject, IDispatchObject, IRecycle, IDelayTask, IPriorityObject, IDelayHandleItem
     {
         protected ResLoadState mResLoadState;      // 资源加载状态
         protected string mPrePath;      // 之前加载的资源目录
         protected string mPath;         // 加载的资源目录
+
         protected ResEventDispatch mEvtHandle;              // 事件分发器
         protected AddOnceEventDispatch mProgressEventDispatch;  // 加载进度事件分发器，这个最终分发的参数是 LoadItem，直接分发
         protected bool mIsInvalid;      // 加载器是否无效
+
         protected bool mIsUsePool;      // 是否使用 Pool
         protected ResPoolState mResPoolState;
+        protected float mDelayInsWeight;  // 延迟实例化权重
 
         protected string mUniqueId;
 
@@ -36,6 +39,7 @@
             this.mIsInvalid = true;
             this.mProgressEventDispatch = null;
             this.mIsUsePool = false;
+            this.mDelayInsWeight = 0.0f;
         }
 
         virtual public void dispose()
@@ -46,6 +50,26 @@
         virtual public void resetDefault()
         {
 
+        }
+
+        public void setClientDispose(bool isDispose)
+        {
+
+        }
+
+        public bool isClientDispose()
+        {
+            return false;
+        }
+
+        public void setDelayInsWeight(float value)
+        {
+            this.mDelayInsWeight = value;
+        }
+
+        public float getDelayInsWeight()
+        {
+            return this.mDelayInsWeight;
         }
 
         public static IRecycle getObject(string id)

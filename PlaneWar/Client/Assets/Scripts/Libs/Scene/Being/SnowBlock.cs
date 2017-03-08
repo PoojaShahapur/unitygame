@@ -27,7 +27,7 @@
 
         override public void initRender()
         {
-            this.setPrefabPath(Ctx.mInstance.mSnowBallCfg.getRandomSnowBlockTex());
+            this.setPrefabPath("World/Model/SnowBlock.prefab");
 
             mRender = new SnowBlockRender(this);
             mRender.init();

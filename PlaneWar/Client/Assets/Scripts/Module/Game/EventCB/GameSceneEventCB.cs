@@ -19,6 +19,12 @@ namespace Game.Game
             // 关联相机
             GameObject cam = UtilApi.GoFindChildByName("MainCamera").gameObject;
             Ctx.mInstance.mCamSys.setMainCamera(cam.GetComponent<Camera>());
+
+            Ctx.mInstance.mClipRect.setCam(cam.GetComponent<Camera>());
+            Ctx.mInstance.mTileMgr.setWorldWidthHeight(
+                (int)Ctx.mInstance.mSnowBallCfg.mXmlSnowBallCfg.mXmlItemMap.mWidth,
+                (int)Ctx.mInstance.mSnowBallCfg.mXmlSnowBallCfg.mXmlItemMap.mWidth);
+
             // 创建主角
             //Ctx.mInstance.mPlayerMgr.createPlayerMain();
             // 创建机器人

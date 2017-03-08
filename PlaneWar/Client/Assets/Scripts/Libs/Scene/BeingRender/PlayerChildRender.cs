@@ -43,8 +43,8 @@
 
             this.setModelMat();
 
-            AuxClipUserData auxData = UtilApi.AddComponent<AuxClipUserData>(this.mModelRender);
-            auxData.setUserData(this.mEntity);
+            //AuxClipUserData auxData = UtilApi.AddComponent<AuxClipUserData>(this.mModelRender);
+            //auxData.setUserData(this.mEntity);
 
             this.setSelfName("" + mEntity.getThisId());
         }

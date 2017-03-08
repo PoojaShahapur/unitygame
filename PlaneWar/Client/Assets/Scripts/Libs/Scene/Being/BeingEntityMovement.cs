@@ -135,6 +135,7 @@
         {
             if (BeingState.eBSWalk != (this.mEntity as BeingEntity).getBeingState())
             {
+                Game.Game.ReqSceneInteractive.setMainChildStop(false);
                 (this.mEntity as BeingEntity).setBeingState(BeingState.eBSWalk);
                 this.setIsMoveToDest(true);
                 this.mMoveWay = MoveWay.eIOControlMove;
@@ -194,6 +195,7 @@
         {
             if (BeingState.eBSIdle != (this.mEntity as BeingEntity).getBeingState())
             {
+                Game.Game.ReqSceneInteractive.setMainChildStop(true);
                 (this.mEntity as BeingEntity).setBeingState(BeingState.eBSIdle);
                 this.setIsMoveToDest(false);
             }
@@ -232,7 +234,7 @@
                 UtilApi.DrawLine(mEntity.getPos(), mDestPos, UnityEngine.Color.red);
             }
 
-            this.checkAndUpdateDestRotate();
+            //this.checkAndUpdateDestRotate();
 
             float dist = 0.0f;
 
@@ -372,7 +374,7 @@
 
         public void forceMoveDest(UnityEngine.Vector3 destPos)
         {
-            destPos = Ctx.mInstance.mSceneSys.adjustPosInRange(destPos);
+            destPos = Ctx.mInstance.mSceneSys.adjustPosInRange(this.mEntity, destPos);
 
             this.mDestPos = destPos;
 
@@ -386,7 +388,7 @@
         {
             if (!UtilMath.isEqualVec3(this.mDestPos, destPos))
             {
-                destPos = Ctx.mInstance.mSceneSys.adjustPosInRange(destPos);
+                destPos = Ctx.mInstance.mSceneSys.adjustPosInRange(this.mEntity, destPos);
 
                 this.mDestPos = destPos;
 
@@ -412,7 +414,7 @@
         {
             if (!UtilMath.isEqualVec3(this.mDestPos, destPos))
             {
-                destPos = Ctx.mInstance.mSceneSys.adjustPosInRange(destPos);
+                destPos = Ctx.mInstance.mSceneSys.adjustPosInRange(this.mEntity, destPos);
 
                 this.mDestPos = destPos;
 
@@ -438,7 +440,7 @@
         {
             if (!UtilMath.isEqualVec3(this.mDestPos, destPos))
             {
-                destPos = Ctx.mInstance.mSceneSys.adjustPosInRange(destPos);
+                destPos = Ctx.mInstance.mSceneSys.adjustPosInRange(this.mEntity, destPos);
 
                 this.mDestPos = destPos;
 
@@ -463,7 +465,7 @@
         {
             if (!UtilMath.isEqualVec3(this.mDestPos, destPos))
             {
-                destPos = Ctx.mInstance.mSceneSys.adjustPosInRange(destPos);
+                destPos = Ctx.mInstance.mSceneSys.adjustPosInRange(this.mEntity, destPos);
 
                 this.mDestPos = destPos;
 
@@ -488,7 +490,7 @@
         {
             if (!UtilMath.isEqualVec3(this.mDestPos, destPos))
             {
-                destPos = Ctx.mInstance.mSceneSys.adjustPosInRange(destPos);
+                destPos = Ctx.mInstance.mSceneSys.adjustPosInRange(this.mEntity, destPos);
 
                 this.mDestPos = destPos;
                 this.setIsMoveToDest(false);

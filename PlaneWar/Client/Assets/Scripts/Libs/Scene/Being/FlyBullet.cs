@@ -43,6 +43,11 @@
         {
             mRender = new FlyBulletRender(this);
             mRender.init();
+
+            if (this.mIsInScreenRange)
+            {
+                this.mRender.onEnterScreenRange();
+            }
         }
 
         // 雪块不能吃，只能被吃
@@ -71,6 +76,11 @@
             this.mOwnerThisId = value;
 
             this.mIsSelfBullet = Ctx.mInstance.mPlayerMgr.isHeroByThisId(this.mOwnerThisId);
+        }
+
+        public uint getOwnerThisId()
+        {
+            return this.mOwnerThisId;
         }
 
         public void sendEat()

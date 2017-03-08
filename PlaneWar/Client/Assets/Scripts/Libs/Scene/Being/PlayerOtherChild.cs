@@ -16,7 +16,14 @@
         {
             if (!this.isPrefabPathValid())
             {
-                this.setPrefabPath(Ctx.mInstance.mSnowBallCfg.getRandomBallOtherTex());
+                if (this.mParentPlayer.mPlaneIndex == -1)
+                {
+                    int min = 0;
+                    int max = Ctx.mInstance.mSnowBallCfg.planes.Length;
+                    this.mParentPlayer.mPlaneIndex = UtilMath.RangeRandom(min, max);
+                }
+
+                this.setPrefabPath("World/Model/PlayerOther.prefab");
             }
 
             mRender = new PlayerOtherChildRender(this);

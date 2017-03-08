@@ -28,7 +28,15 @@ namespace SDK.Lib
 
         override public void onDestroy()
         {
-            if(null != this.mAuxPrefabLoader)
+            this.releaseRes();
+
+            base.onDestroy();
+        }
+
+        // 释放资源
+        protected void releaseRes()
+        {
+            if (null != this.mAuxPrefabLoader)
             {
                 if (this.mIsUsePool)
                 {
@@ -39,7 +47,7 @@ namespace SDK.Lib
                 {
                     this.mAuxPrefabLoader.dispose();
                 }
-                
+
                 this.mAuxPrefabLoader = null;
             }
 
@@ -53,11 +61,25 @@ namespace SDK.Lib
                 {
                     this.mAuxTextureLoader.dispose();
                 }
-                    
+
                 this.mAuxTextureLoader = null;
             }
+        }
 
-            base.onDestroy();
+        override public void onEnterScreenRange()
+        {
+            // 进入显示的时候必然是空，这里再判断一次
+            if (null == this.mAuxPrefabLoader)
+            {
+                this.load();
+            }
+        }
+
+        override public void onLeaveScreenRange()
+        {
+            this.releaseRes();
+
+            this.selfGo = null;
         }
 
         override public void updateLocalTransform()

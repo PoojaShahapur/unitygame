@@ -1,6 +1,6 @@
 ﻿namespace SDK.Lib
 {
-    public class DelayHandleParamBase
+    public class DelayHandleParamBaseObsolete
     {
 
     }

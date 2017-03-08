@@ -10,6 +10,7 @@ namespace SDK.Lib
         protected UnityEngine.Vector3 mDeltaPos;
 
         private bool mCanMove = true;
+        public int mPlaneIndex = -1;//皮肤ID
 
         public Player()
 		{

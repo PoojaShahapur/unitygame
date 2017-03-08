@@ -1,33 +1,25 @@
 namespace SDK.Lib
 {
-    public class DelayTaskMgr : ITickedObject, IDelayHandleItem
+    public class DelayTaskMgr : DelayPriorityHandleMgr, IDelayHandleItem, ITickedObject
     {
-	    protected int mFrameInterval;   // 帧间隔
-        protected int mTaskNumPerFrameInterval; // 每一个帧间隔执行任务数量
-        protected int mCurTaskNum;              // 当前执行的任务数量
-        protected int mPreFrame;    // 之前帧
-        protected int mCurFrame;	// 当前帧
-
-	    protected MList<IDelayTask> mDelayTaskList;
-        protected bool mCanExec;    // 是否可以执行任务
+        protected NumInterval mNumInterval;
+        protected FrameInterval mFrameInterval; // 帧间隔
 
         public DelayTaskMgr()
         {
-            this.mFrameInterval = 1;
-            this.mTaskNumPerFrameInterval = 1;
-            this.mCurTaskNum = 0;
-            this.mPreFrame = 0;
-            this.mCurFrame = 0;
-            this.mDelayTaskList = new MList<IDelayTask>();
-            this.mCanExec = false;
+            this.mNumInterval = new NumInterval();
+            this.mNumInterval.setTotalValue(1);
+
+            this.mFrameInterval = new FrameInterval();
+            this.mFrameInterval.setInterval(1);
         }
 
-        public void init()
+        override public void init()
         {
 
         }
 
-        public void dispose()
+        override public void dispose()
         {
 
         }
@@ -44,56 +36,39 @@ namespace SDK.Lib
 
         public virtual void onTick(float delta)
         {
-            this.mCurFrame = (int)Ctx.mInstance.mSystemFrameData.getTotalFrameCount();
-
-            if (this.mPreFrame + this.mFrameInterval <= this.mCurFrame)
+            if (this.mFrameInterval.canExec(1))
             {
-                this.mPreFrame = this.mCurFrame;
-                this.mCurTaskNum = 0;
-                this.mCanExec = true;
-
                 this.execTask();
-            }
-            else
-            {
-                this.mCanExec = false;
             }
         }
 
-        public void addTask(IDelayTask task)
+        public void addTask(IDelayTask task, float priority = 0.0f)
         {
-            this.mDelayTaskList.push(task);
+            this.addPriorityObject(task as IPriorityObject, priority);
 
             this.execTask();
         }
 
         public void removeTask(IDelayTask task)
         {
-            if(this.mDelayTaskList.Contains(task))
-            {
-                this.mDelayTaskList.Remove(task);
-            }
+            this.mPriorityList.removePriorityObject(task as IPriorityObject);
         }
 
         public void execTask()
         {
-            if (this.mCanExec &&
-                this.mCurTaskNum < this.mTaskNumPerFrameInterval)
+            IDelayTask task = null;
+
+            while (this.mNumInterval.canExec(1))
             {
-                IDelayTask task = null;
-
-                while (this.mCurTaskNum < this.mTaskNumPerFrameInterval)
+                if (this.mPriorityList.Count() > 0)
                 {
-                    if (this.mDelayTaskList.Count() > 0)
-                    {
-                        task = this.mDelayTaskList[0];
-                        this.mDelayTaskList.RemoveAt(0);
-                        task.delayExec();
-                    }
-
-                    ++this.mCurTaskNum;
+                    task = this.mPriorityList.get(0) as IDelayTask;
+                    this.mPriorityList.RemoveAt(0);
+                    task.delayExec();
                 }
             }
+
+            this.mNumInterval.reset();
         }
     }
 }

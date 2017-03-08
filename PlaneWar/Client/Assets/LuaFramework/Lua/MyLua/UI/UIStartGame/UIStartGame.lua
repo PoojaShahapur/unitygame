@@ -160,8 +160,10 @@ function M:setUsernameAndPassword()
     --self.inputText.text = M:getRandomNickName();
    
     self.username = GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:getString(SDK.Lib.SystemSetting.USERNAME);
-    if self.username ~= "" then
-           self.inputText.text = self.username;
+    if self.username == nil or self.username == "" then
+        self.inputText.text = self:getRandomNickName();
+    else
+        self.inputText.text = self.username;
     end
 
     --self.password = GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:getString(SDK.Lib.SystemSetting.PASSWORD);
@@ -169,8 +171,10 @@ end
 
 function M:setNickName()
     self.nickname = GlobalNS.CSSystem.Ctx.mInstance.mSystemSetting:getString(SDK.Lib.SystemSetting.NICKNAME);
-    if self.nickname ~= "" then
-           self.inputText.text = self.nickname;
+    if self.nickname == nil or self.nickname == "" then
+        self.inputText.text = self:getRandomNickName();
+    else
+        self.inputText.text = self.nickname;
     end
 end
 

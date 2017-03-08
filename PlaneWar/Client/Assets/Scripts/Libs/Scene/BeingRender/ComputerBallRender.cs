@@ -21,6 +21,10 @@
             AuxComputerBallUserData auxData = UtilApi.AddComponent<AuxComputerBallUserData>(this.selfGo);
 
             auxData.setUserData(this.mEntity);
+
+            int min = 0;
+            int max = Ctx.mInstance.mSnowBallCfg.planes.Length;
+            UtilApi.setSprite(this.mSpriteRender, Ctx.mInstance.mSnowBallCfg.planes[UtilMath.RangeRandom(min, max)].mName);
         }
 
         override protected void onRetPool()
@@ -54,6 +58,11 @@
                 UtilApi.enableTrailRendererComponent(UtilApi.TransFindChildByPObjAndPath(this.mSelfGo, UtilApi.TRIAL_NAME), true);
                 UtilApi.enableTrailRendererComponent(UtilApi.TransFindChildByPObjAndPath(this.mSelfGo, UtilApi.TRIAL_1_NAME), true);
             }
+        }
+
+        override public void enableRigid(bool enable)
+        {
+            UtilApi.enableCollider2D<UnityEngine.BoxCollider2D>(this.mSelfGo, enable);
         }
     }
 }
