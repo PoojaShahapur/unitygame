@@ -5,11 +5,11 @@
      */
     public class TickMgrObsolete : DelayHandleMgrBase
     {
-        protected MList<TickProcessObject> mTickList;
+        protected MList<TickProcessObjectObsolete> mTickList;
 
         public TickMgrObsolete()
         {
-            this.mTickList = new MList<TickProcessObject>();
+            this.mTickList = new MList<TickProcessObjectObsolete>();
         }
 
         override public void init()
@@ -57,7 +57,7 @@
                         idx += 1;
                     }
 
-                    TickProcessObject processObject = new TickProcessObject();
+                    TickProcessObjectObsolete processObject = new TickProcessObjectObsolete();
                     processObject.mTickObject = delayObject as ITickedObject;
                     processObject.mPriority = priority;
 
@@ -88,7 +88,7 @@
             }
             else
             {
-                foreach (TickProcessObject item in this.mTickList.list())
+                foreach (TickProcessObjectObsolete item in this.mTickList.list())
                 {
                     if (UtilApi.isAddressEqual(item.mTickObject, delayObject))
                     {

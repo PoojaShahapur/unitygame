@@ -25,7 +25,7 @@
             this.mStartLimitNum = 20;
             this.mCurNum = 0;
             this.mTimeInterval = new TimeInterval();
-            this.mTimeInterval.setInterval(10);
+            this.mTimeInterval.setInterval(2);
         }
 
         public void init()

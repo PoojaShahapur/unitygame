@@ -1,11 +1,11 @@
 ﻿namespace SDK.Lib
 {
-    public class TickProcessObject
+    public class TickProcessObjectObsolete
     {
         public ITickedObject mTickObject;
 		public float mPriority;
 
-        public TickProcessObject()
+        public TickProcessObjectObsolete()
         {
             this.mTickObject = null;
             this.mPriority = 0.0f;

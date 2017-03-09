@@ -116,18 +116,20 @@
 
         protected void updateDir()
         {
-            UnityEngine.Vector3 targetPoint;
+            //UnityEngine.Vector3 targetPoint;
 
-            if ((this.mEntity as PlayerMainChild).isBehindTargetPoint())
-            {
-                targetPoint = (this.mEntity as PlayerChild).mParentPlayer.mPlayerSplitMerge.getTargetPoint();
-                UnityEngine.Quaternion retQuat = UtilMath.getRotateByStartAndEndPoint(this.mEntity.getPos(), targetPoint);
-                (this.mEntity as BeingEntity).setDestRotate(retQuat.eulerAngles, false);
-            }
-            else
-            {
-                (this.mEntity as BeingEntity).setDestRotate((this.mEntity as PlayerChild).mParentPlayer.getRotateEulerAngle(), false);
-            }
+            //if ((this.mEntity as PlayerMainChild).isBehindTargetPoint())
+            //{
+            //    targetPoint = (this.mEntity as PlayerChild).mParentPlayer.mPlayerSplitMerge.getTargetPoint();
+            //    UnityEngine.Quaternion retQuat = UtilMath.getRotateByStartAndEndPoint(this.mEntity.getPos(), targetPoint);
+            //    (this.mEntity as BeingEntity).setDestRotate(retQuat.eulerAngles, false);
+            //}
+            //else
+            //{
+            //    (this.mEntity as BeingEntity).setDestRotate((this.mEntity as PlayerChild).mParentPlayer.getRotateEulerAngle(), false);
+            //}
+
+            (this.mEntity as BeingEntity).setDestRotate((this.mEntity as PlayerChild).mParentPlayer.getRotateEulerAngle(), false);
         }
 
         // 添加监听 Parent 方向位置改变事件
