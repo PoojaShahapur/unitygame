@@ -218,11 +218,13 @@ function M:SetTopXRankInfo()
         avatarImage:setSelfGo(Avatar);
         local avatarindex = GCtx.mGameData.rankinfolist[i].m_avatarindex;
         if avatarindex == 0 then
-            local socket = require("socket") -- 需要用到luasocket库  
-            local t = string.format("%f", socket.gettime())  
-            local st = string.sub(t, string.find(t, "%.") + 1, -1)
-            math.randomseed(tonumber(string.reverse(st)));
-            avatarindex = math.random(1, 4);
+            if GCtx.mGameData.rankinfolist[i].m_rank == GCtx.mGameData.myRank then
+                avatarindex = 1;
+            else
+                local _time = os.clock();
+                math.randomseed(_time + i);
+                avatarindex = math.random(1, 4);
+            end
         end
 		avatarImage:setSpritePath("DefaultSkin/Avatar/"..avatarindex..".png", GlobalNS.UtilStr.tostring(avatarindex));
         --avatarImage:setSpritePath("DefaultSkin/Avatar/Avatar_RGB.png", GlobalNS.UtilStr.tostring(avatarindex));

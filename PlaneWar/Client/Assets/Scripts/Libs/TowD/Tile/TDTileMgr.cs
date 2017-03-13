@@ -29,10 +29,10 @@
 
         public TDTileMgr()
         {
-            this.init();
+            
         }
 
-        public void init()
+        virtual public void init()
         {
             // 初始化之前一定要设置大小
             this.setOneTileWidthHeight(4, 4);
@@ -53,10 +53,10 @@
             this.mCurVislbleTileIndex = 0;
             this.mPreVislbleTileIndex = 1;
 
-            this.mDirtyEntityList = new MList<SceneEntityBase>();
+            this.buildDirtyList();
         }
 
-        public void dispose()
+        virtual public void dispose()
         {
             //不进入游戏直接退出，mTileArray为空会报错
             if (mTileArray == null)
@@ -83,6 +83,16 @@
             this.mOneTileDepth = height;
         }
 
+        public int getTileWidth()
+        {
+            return this.mOneTileWidth;
+        }
+
+        public int getTileDepth()
+        {
+            return this.mOneTileDepth;
+        }
+
         public void setWorldWidthHeight(int width, int height)
         {
             this.mWorldWidth = width;
@@ -91,8 +101,34 @@
             this.mTileWidthSize = this.mWorldWidth / this.mOneTileWidth;
             this.mTileDepthSize = this.mWorldDepth / this.mOneTileDepth;
 
+            if(0 != this.mWorldWidth % this.mOneTileWidth)
+            {
+                this.mTileWidthSize += 1;
+            }
+            if (0 != this.mWorldDepth % this.mOneTileDepth)
+            {
+                this.mTileDepthSize += 1;
+            }
+
             this.mTileTotal = this.mTileWidthSize * this.mTileDepthSize;
+
+            this.buildTileArray();
+        }
+
+        virtual protected void buildDirtyList()
+        {
+            this.mDirtyEntityList = new MList<SceneEntityBase>();
+        }
+
+        virtual protected void buildTileArray()
+        {
             this.mTileArray = new TDTile[this.mTileTotal];
+        }
+
+        virtual protected TDTile createTile()
+        {
+            TDTile tile = new TDTile();
+            return tile;
         }
 
         // 转换位置到 Tile 索引
@@ -112,6 +148,7 @@
 
             int tileY = UtilMath.floorToInt(pos.y / this.mOneTileDepth);
             int tileX = UtilMath.floorToInt(pos.x / this.mOneTileWidth);
+
             if (tileY >= this.mTileDepthSize)
                 tileY = this.mTileDepthSize - 1;
             if (tileX >= this.mTileWidthSize)
@@ -127,17 +164,27 @@
             return tileIndex;
         }
 
-        // 转换 Tile 索引到位置
-        protected UnityEngine.Vector3 convTileIndex2Pos(int tileIndex)
+        // 转换一维 Tile 索引到二维 Tile 索引
+        public void convOneTileIndex2Two(int tileIndex, ref int x, ref int y)
+        {
+            x = tileIndex % this.mTileWidthSize;
+            y = tileIndex / this.mTileWidthSize;
+        }
+
+        // 转换 Tile 索引到位置，这个是左下角的 Tile 位置
+        public UnityEngine.Vector3 convTileIndex2Pos(int tileIndex)
         {
             UnityEngine.Vector3 pos = UnityEngine.Vector3.zero;
 
-            pos.x = tileIndex / this.mTileWidthSize;
-            pos.y = tileIndex % this.mTileWidthSize;
+            int tileX = 0;
+            int tileY = 0;
+            this.convOneTileIndex2Two(tileIndex, ref tileX, ref tileY);
+
+            pos.x = tileX * this.mOneTileWidth;
+            pos.y = tileY * this.mOneTileDepth;
 
             return pos;
         }
-
 
         public int getTileIndexByEntity(SceneEntityBase entity)
         {
@@ -156,7 +203,7 @@
             {
                 if (null == this.mTileArray[tileIndex])
                 {
-                    tile = new TDTile();
+                    tile = this.createTile();
                     this.mTileArray[tileIndex] = tile;
                     tile.setTileIndex(tileIndex);
                     tile.init();
@@ -245,9 +292,9 @@
                         {
                             // 之前完全可见，现在不完全可见
                             if (indexY == minY ||
-                               indexY == maxY ||
-                               indexX == minX ||
-                               indexX == maxY)
+                                indexY == maxY ||
+                                indexX == minX ||
+                                indexX == maxY)
                             {
                                 tile.updateVisible();
                             }
@@ -255,9 +302,9 @@
 
                         // 完全可见
                         if (indexY > minY &&
-                           indexY < maxY &&
-                           indexX > minX &&
-                           indexX < maxY)
+                            indexY < maxY &&
+                            indexX > minX &&
+                            indexX < maxY)
                         {
                             tile.setIsFullVisible(true);
                         }
@@ -282,7 +329,7 @@
             while(hideIndex < hideLen)
             {
                 tile = this.mVisibleTileListArray[this.mPreVislbleTileIndex].get(hideIndex);
-                tile.updateVisible();
+                tile.hide();
 
                 ++hideIndex;
             }

@@ -15,7 +15,7 @@
             this.init();
         }
 
-        public void init()
+        virtual public void init()
         {
             this.mIsVisible = false;
             this.mIsFullVisible = false;
@@ -24,12 +24,12 @@
             this.mEntityMgr.init();
         }
 
-        public void dispose()
+        virtual public void dispose()
         {
             this.mEntityMgr.dispose();
         }
 
-        public void setTileIndex(int index)
+        virtual public void setTileIndex(int index)
         {
             this.mTileindex = index;
         }
@@ -65,8 +65,8 @@
             if (!this.mIsVisible)
             {
                 this.mIsVisible = true;
-                //this.updateShow();
-                this.updateVisible();
+                this.updateShow();
+                //this.updateVisible();
             }
         }
 
@@ -81,7 +81,7 @@
         }
 
         // 更新显示
-        public void updateShow()
+        virtual public void updateShow()
         {
             int index = 0;
             int len = this.mEntityMgr.getEntityCount();
@@ -105,7 +105,7 @@
         }
 
         // 更新隐藏
-        public void updateHide()
+        virtual public void updateHide()
         {
             int index = 0;
             int len = this.mEntityMgr.getEntityCount();
@@ -126,7 +126,7 @@
         }
 
         // 更新可视化
-        public void updateVisible()
+        virtual public void updateVisible()
         {
             int index = 0;
             int len = this.mEntityMgr.getEntityCount();

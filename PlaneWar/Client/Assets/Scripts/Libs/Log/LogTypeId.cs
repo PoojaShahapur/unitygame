@@ -22,5 +22,6 @@
         eLogMergeBug,       // 手机不能融合 bug
         eLogEatBug,         // 手机不能吃 bug
         eLogSimHitBullet,   // 模拟集中日志
+        eLogTwoDTerrain,    // 2D 地形
     }
 }

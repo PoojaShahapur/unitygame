@@ -43,10 +43,8 @@ function M:onReady()
     self.Emoticon_Big = GlobalNS.UtilApi.TransFindChildByPObjAndPath(rollEmoticonDlg, "Emoticon_Big");
     self.emoticon = GlobalNS.new(GlobalNS.AuxImage);
 
-    local socket = require("socket") -- 需要用到luasocket库  
-    local t = string.format("%f", socket.gettime())  
-    local st = string.sub(t, string.find(t, "%.") + 1, -1)
-    math.randomseed(tonumber(string.reverse(st)));
+    local _time = os.clock();
+    math.randomseed(_time);
     self.emoticonindex = math.random(1, self.emoticonnum);
 
     if self.emoticonindex <= 4 then

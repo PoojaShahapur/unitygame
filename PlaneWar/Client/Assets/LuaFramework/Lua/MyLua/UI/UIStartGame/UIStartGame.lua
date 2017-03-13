@@ -275,10 +275,8 @@ function M:onNickNameBtnClk()
 end
 
 function M:getRandomNickName()
-    local socket = require("socket") -- 需要用到luasocket库  
-    local t = string.format("%f", socket.gettime())  
-    local st = string.sub(t, string.find(t, "%.") + 1, -1)
-    math.randomseed(tonumber(string.reverse(st))); 
+    local _time = os.clock();
+    math.randomseed(_time);
     local index = math.random(1, #self.mData.nicknames);
     return self.mData.nicknames[index];
 end

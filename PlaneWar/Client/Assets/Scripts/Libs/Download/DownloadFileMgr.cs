@@ -10,7 +10,8 @@ namespace SDK.Lib
     {
         private XmlCfgBase xml = null;
         private XmlSnowBallCfg snowballconfigxml = null;
-        private bool isDownLoadSucceed = false;//配置下载成功，只要一个文件失败即为false
+        private bool isDownLoadServerXmlSucceed = false;//ip配置
+        private bool isDownLoadConfigXmlucceed = false;//游戏配置
 
         public DownloadFileMgr()
         {
@@ -45,11 +46,13 @@ namespace SDK.Lib
             else
             {
                 //开发版读取共享配置文件
-                MFileStream fileStream = new MFileStream(@"\\192.168.96.241\Anonymous\plane.xml");
+                MFileStream fileStream = new MFileStream(@"\\192.168.93.187\Anonymous\plane.xml");
                 snowballconfigxml.parseXml(fileStream.readText());
 
                 Ctx.mInstance.mSnowBallCfg.mXmlSnowBallCfg = snowballconfigxml;
                 Ctx.mInstance.mSnowBallCfg.preInit();
+
+                this.isDownLoadConfigXmlucceed = true;
             }
         }
 
@@ -64,11 +67,11 @@ namespace SDK.Lib
                 getIpAndPort(retStr);
                 getNoticeMessage(retStr);
 
-                isDownLoadSucceed = true;
+                isDownLoadServerXmlSucceed = true;
             }
             else
             {
-                isDownLoadSucceed = false;
+                isDownLoadServerXmlSucceed = false;
             }
         }
 
@@ -132,17 +135,17 @@ namespace SDK.Lib
                 Ctx.mInstance.mSnowBallCfg.mXmlSnowBallCfg = snowballconfigxml;
                 Ctx.mInstance.mSnowBallCfg.preInit();
 
-                isDownLoadSucceed = true;
+                isDownLoadConfigXmlucceed = true;
             }
             else
             {
-                isDownLoadSucceed = false;
+                isDownLoadConfigXmlucceed = false;
             }
         }
 
         public bool getIsDownloadSucceed()
         {
-            return isDownLoadSucceed;
+            return isDownLoadServerXmlSucceed && isDownLoadConfigXmlucceed;
         }
 
         public void dispose()

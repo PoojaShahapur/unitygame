@@ -116,7 +116,13 @@ namespace SDK.Lib
             {
                 this.mIsRectDirty = false;
 
+                // 更新场景管理器
                 Ctx.mInstance.mTileMgr.updateClipRect(this);
+
+                // 更新地形管理器
+                this.mExtendRange = 4;  // District 区域的一般
+                Ctx.mInstance.mTwoDTerrain.updateClipRect(this);
+                this.mExtendRange = 0;
             }
             else
             {

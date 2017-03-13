@@ -135,6 +135,8 @@
         public TDClipRect mClipRect;                // 更新裁剪矩形
         public TDTileMgr mTileMgr;                  // Tile 管理器
 
+        public MTwoDTerrain mTwoDTerrain;           // 2D 地形
+
         public Ctx()
         {
             
@@ -289,6 +291,7 @@
             this.mClipRect = new TDClipRect();
 
             this.mTileMgr = new TDTileMgr();
+            this.mTwoDTerrain = new MTwoDTerrain();
         }
 
         public void logicInit()
@@ -340,6 +343,7 @@
 
             this.mClipRect.init();
             this.mTileMgr.init();
+            this.mTwoDTerrain.init();
 
             // 添加事件处理
             Ctx.mInstance.mCamSys.setUiCamera(Ctx.mInstance.mLayerMgr.mPath2Go[NotDestroyPath.ND_CV_App].AddComponent<UICamera>());
@@ -516,6 +520,11 @@
             {
                 this.mTileMgr.dispose();
                 this.mTileMgr = null;
+            }
+            if(null != this.mTwoDTerrain)
+            {
+                this.mTwoDTerrain.dispose();
+                this.mTwoDTerrain = null;
             }
         }
 

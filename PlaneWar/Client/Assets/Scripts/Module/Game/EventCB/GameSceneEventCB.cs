@@ -21,7 +21,12 @@ namespace Game.Game
             Ctx.mInstance.mCamSys.setMainCamera(cam.GetComponent<Camera>());
 
             Ctx.mInstance.mClipRect.setCam(cam.GetComponent<Camera>());
+
             Ctx.mInstance.mTileMgr.setWorldWidthHeight(
+                (int)Ctx.mInstance.mSnowBallCfg.mXmlSnowBallCfg.mXmlItemMap.mWidth,
+                (int)Ctx.mInstance.mSnowBallCfg.mXmlSnowBallCfg.mXmlItemMap.mWidth);
+
+            Ctx.mInstance.mTwoDTerrain.setWorldWidthHeight(
                 (int)Ctx.mInstance.mSnowBallCfg.mXmlSnowBallCfg.mXmlItemMap.mWidth,
                 (int)Ctx.mInstance.mSnowBallCfg.mXmlSnowBallCfg.mXmlItemMap.mWidth);
 
