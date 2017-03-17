@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:71cd3fecd712358fa83a1d45293e1cc3:efc7bc82b677f6832cf27de6765c22c5:7af75dabfcb89d3a5d351abc80a1a05a$ -->
+<!--Format:
+n  => name of the sprite
+x  => sprite x pos in texture
+y  => sprite y pos in texture
+w  => sprite width (may be trimmed)
+h  => sprite height (may be trimmed)
+pX => x pos of the pivot point (relative to sprite width)
+pY => y pos of the pivot point (relative to sprite height)
+oX => sprite's x-corner offset (only available if trimmed)
+oY => sprite's y-corner offset (only available if trimmed)
+oW => sprite's original width (only available if trimmed)
+oH => sprite's original height (only available if trimmed)
+r => 'y' only set if sprite is rotated
+with polygon mode enabled:
+vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
+verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
+triangles  => sprite triangulation, 3 vertex indices per triangle
+-->
+<TextureAtlas imagePath="ShopSkin.png" width="512" height="256">
+    <sprite n="haixing.png" x="0" y="0" w="35" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="shopbtn1.png" x="0" y="83" w="402" h="86" pX="0.5" pY="0.5"/>
+    <sprite n="shuizuguan.png" x="87" y="0" w="83" h="83" pX="0.5" pY="0.5"/>
+    <sprite n="zhenzhu.png" x="35" y="0" w="52" h="52" pX="0.5" pY="0.5"/>
+</TextureAtlas>

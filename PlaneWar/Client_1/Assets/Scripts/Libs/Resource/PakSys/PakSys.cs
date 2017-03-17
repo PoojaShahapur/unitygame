@@ -1,0 +1,148 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace SDK.Lib
+{
+    /**
+     * @brief 打包资源项
+     */
+    public class ResListItem
+    {
+        public string m_origName;       // 原始的资源名字
+        public string m_unity3dName;       // unity3d 文件名字
+        public string m_pakName;       // Pak 文件名字
+    }
+
+
+    /**
+     * @brief 打包系统
+     */
+    public class PakSys
+    {
+        public const string PAK_EXT = ".abc";       // 打包的文件扩展名字
+        public const string FILE_LIST = "FileList.bytes";   // 文件列表文件名字
+
+        protected Dictionary<string, ResListItem> m_path2PakDic = new Dictionary<string, ResListItem>();
+        public Action m_pakCfgLoadDisp;
+
+        public Dictionary<string, ResListItem> path2PakDic
+        {
+            get
+            {
+                return m_path2PakDic;
+            }
+        }
+
+        virtual public void loadFile()
+        {
+            LoadParam param = Ctx.mInstance.mPoolSys.newObject<LoadParam>();
+            param.setPath(FILE_LIST);
+            param.mLoadEventHandle = onLoadEventHandle;
+
+            Ctx.mInstance.mResLoadMgr.loadData(param);
+            Ctx.mInstance.mPoolSys.deleteObj(param);
+        }
+
+        public void onLoadEventHandle(IDispatchObject dispObj)
+        {
+            ResItem res = dispObj as ResItem;
+            if (res.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
+            {
+                Ctx.mInstance.mLogSys.debugLog_1(LangItemID.eItem0, res.getLoadPath());
+
+                byte[] textAsset = (res as DataResItem).getBytes("");
+                if (textAsset != null)
+                {
+                    loadFormText(System.Text.Encoding.UTF8.GetString(textAsset), m_path2PakDic);
+                }
+
+                // 卸载
+                Ctx.mInstance.mResLoadMgr.unload(res.getResUniqueId(), onLoadEventHandle);
+
+                if (m_pakCfgLoadDisp != null)
+                {
+                    m_pakCfgLoadDisp();
+                }
+            }
+            else if (res.refCountResLoadResultNotify.resLoadState.hasFailed())
+            {
+                Ctx.mInstance.mLogSys.debugLog_1(LangItemID.eItem1, res.getLoadPath());
+                // 卸载
+                Ctx.mInstance.mResLoadMgr.unload(res.getResUniqueId(), onLoadEventHandle);
+
+                if (m_pakCfgLoadDisp != null)
+                {
+                    m_pakCfgLoadDisp();
+                }
+            }
+        }
+
+        protected void loadFormText(string text, Dictionary<string, ResListItem> dic)
+        {
+            string[] lineSplitStr = { UtilApi.CR_LF };
+            string[] equalSplitStr = { "=" };
+            string[] lineList = text.Split(lineSplitStr, StringSplitOptions.RemoveEmptyEntries);
+            int lineIdx = 0;
+            string[] equalList = null;
+
+            ResListItem item;
+            while (lineIdx < lineList.Length)
+            {
+                equalList = lineList[lineIdx].Split(equalSplitStr, StringSplitOptions.RemoveEmptyEntries);
+                item = new ResListItem();
+                item.m_origName = equalList[0];
+                item.m_unity3dName = equalList[1];
+                item.m_pakName = equalList[2];
+                dic[equalList[0]] = item;
+                ++lineIdx;
+            }
+        }
+
+        // 获取当前资源所在的包文件名字
+        public string getCurResPakPathByResPath(string resPath, LoadParam param)
+        {
+            //Ctx.mInstance.mShareData.m_resInPakPath = resPath;
+            //return Ctx.mInstance.mShareData.m_resInPakPath;
+            if (MacroDef.PKG_RES_LOAD)
+            {
+                string retPath = resPath;
+
+                if ("Module/AutoUpdate.prefab" == resPath)       // 自动更新模块更新还没有实现
+                {
+                    param.mResLoadType = ResLoadType.eLoadStreamingAssets;
+                }
+                else
+                {
+                    // 获取包的名字
+                    if (m_path2PakDic.ContainsKey(resPath))
+                    {
+                        retPath = m_path2PakDic[resPath].m_pakName;
+                    }
+
+                    if (param != null)
+                    {
+                        retPath = MFileSys.getAbsPathByRelPath(ref retPath, ref param.mResLoadType);
+                    }
+                    else
+                    {
+                        ResLoadType tmp = ResLoadType.eLoadStreamingAssets;
+                        retPath = MFileSys.getAbsPathByRelPath(ref retPath, ref tmp);
+                    }
+                }
+                return retPath;
+            }
+            else if (MacroDef.UNPKG_RES_LOAD)
+            {
+                if (param != null)
+                {
+                    param.mResLoadType = ResLoadType.eLoadStreamingAssets;
+                }
+                return resPath;
+            }
+            else
+            {
+                return resPath;
+            }
+        }
+    }
+}

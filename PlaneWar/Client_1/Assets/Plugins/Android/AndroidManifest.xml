@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.unity3d.player" android:installLocation="preferExternal" android:versionCode="1" android:versionName="1.0">
+  <supports-screens android:smallScreens="true" android:normalScreens="true" android:largeScreens="true" android:xlargeScreens="true" android:anyDensity="true" />
+  <application android:theme="@style/UnityThemeSelector" android:icon="@drawable/app_icon" android:label="@string/app_name" android:debuggable="true">
+    <activity android:name="com.unity3d.player.UnityPlayerActivity" android:label="@string/app_name">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN" />
+        <category android:name="android.intent.category.LAUNCHER" />
+      </intent-filter>
+      <meta-data android:name="unityplayer.UnityActivity" android:value="true" />
+    </activity>
+    <meta-data android:name="BUGLY_APPID" android:value="APP_ID" />
+    <meta-data android:name="BUGLY_APP_VERSION" android:value="APP_Version" />
+    <meta-data android:name="BUGLY_ENABLE_DEBUG" android:value="isDebug" />
+    <service android:name="com.giant.getui.GiantGetuiPushService" android:exported="true" android:label="PushService" android:process=":pushservice" />
+    <service android:name="com.giant.getui.GiantGetuiIntentService" />
+    <service android:name="com.igexin.sdk.PushService" android:exported="true" android:label="NotificationCenter" android:process=":pushservice">
+      <intent-filter>
+        <action android:name="com.igexin.sdk.action.service.message" />
+      </intent-filter>
+    </service>
+    <receiver android:name="com.igexin.sdk.PushReceiver">
+      <intent-filter>
+        <action android:name="android.intent.action.BOOT_COMPLETED" />
+        <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+        <action android:name="android.intent.action.USER_PRESENT" />
+        <action android:name="com.igexin.sdk.action.refreshls" />
+        <action android:name="android.intent.action.MEDIA_MOUNTED" />
+        <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
+        <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
+      </intent-filter>
+    </receiver>
+    <activity android:name="com.igexin.sdk.PushActivity" android:excludeFromRecents="true" android:exported="false" android:process=":pushservice" android:taskAffinity="com.igexin.sdk.PushActivityTask" android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+    <service android:name="com.igexin.download.DownloadService" android:process=":pushservice" />
+    <receiver android:name="com.igexin.download.DownloadReceiver">
+      <intent-filter>
+        <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+      </intent-filter>
+    </receiver>
+    <activity android:name="com.igexin.sdk.GActivity" android:excludeFromRecents="true" android:exported="true" android:process=":pushservice" android:taskAffinity="com.igexin.sdk.PushActivityTask" android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+    <meta-data android:name="PUSH_APPID" android:value="GETUI_APP_ID" />
+    <meta-data android:name="PUSH_APPKEY" android:value="GETUI_APP_KEY" />
+    <meta-data android:name="PUSH_APPSECRET" android:value="GETUI_APP_SECRET" />
+  </application>
+  <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+  <uses-permission android:name="android.permission.INTERNET" />
+  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+  <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+  <uses-permission android:name="android.permission.READ_LOGS" />
+  <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+  <uses-permission android:name="android.permission.WAKE_LOCK" />
+  <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+  <uses-permission android:name="android.permission.VIBRATE" />
+  <uses-permission android:name="android.permission.GET_TASKS" />
+  <uses-permission android:name="android.permission.BLUETOOTH" />
+  <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+  <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+</manifest>

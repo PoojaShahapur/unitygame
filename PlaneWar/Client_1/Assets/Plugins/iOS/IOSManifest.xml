@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest>
+  <application>
+    <didFinishLaunchingWithOptions value="BuglyWrapper" />
+    <didFinishLaunchingWithOptions value="GetuiWrapper" />
+    <didRegisterForRemoteNotificationsWithDeviceToken value="GetuiWrapper" />
+    <performFetchWithCompletionHandler value="GetuiWrapper" />
+    <didReceiveRemoteNotification value="GetuiWrapper" />
+  </application>
+</manifest>

@@ -1,0 +1,44 @@
+{
+    "group": "Getui",
+    "libs": [
+        "libz.tbd", 
+        "libc++.tbd",
+        "libsqlite3.tbd"
+    ],
+    "frameworks": [
+        "Security.framework",
+        "MobileCoreServices.framework",
+        "SystemConfiguration.framework",
+        "CoreTelephony.framework",
+        "AVFoundation.framework",
+        "JavaScriptCore.framework",
+        "CoreLocation.framework",
+        "UserNotifications.framework",
+        "AdSupport.framework",
+        "UserNotifications.framework",
+    ],
+    "headerpaths": [],
+    "files": [
+        "Getui/GetuiWrapper/IOSGetuiWrapper.h",
+        "Getui/GetuiWrapper/IOSGetuiWrapper.mm",
+        "Getui/GeTuiSdk.h",
+        "Getui/GeTuiExtSdk.h",
+        "Getui/libGeTuiSdk-1.5.3.a",
+        "Getui/libGtExtensionSdk-1.0.0.a",
+    ],
+    "folders": [],    
+    "excludes": ["^.*.meta$", "^.*.mdown$", "^.*.pdf$"],
+    "compiler_flags": [],
+    "linker_flags": [
+        "-ObjC"
+    ],
+    "plist": {
+        "UIBackgroundModes": [
+            "fetch",
+            "remote-notification"
+        ]
+    },
+    "entitlements": {
+        "aps-environment": "development"
+    }
+}

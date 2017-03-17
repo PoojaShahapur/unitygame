@@ -1,0 +1,18 @@
+{
+    "group": "NativeChannel",
+    "libs": [
+        "libc++.tbd"
+    ],
+    "frameworks": [],
+    "headerpaths": [],
+    "files": [
+        "NativeChannel/IOSNativeChannel.h",
+        "NativeChannel/libIOSNativeChannel.a",
+    ],
+    "folders": [],    
+    "excludes": [],
+    "compiler_flags": [],
+    "linker_flags": [
+        "-ObjC"
+    ]
+}

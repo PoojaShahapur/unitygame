@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<Root>
+	<path>
+		<item inpath="Resources/UI" isDir="true" recurse="true" includeext="prefab" />
+	</path>
+	<redirect>
+		<item old="Assets/Resources/DefaultSkin/StartGame/Account.png" new="Assets/Resources/DefaultSkin/StartGame/StartGame_RGB.png" spriteName="Account" />
+		<item old="Assets/Resources/DefaultSkin/StartGame/Accout_inner.png" new="Assets/Resources/DefaultSkin/StartGame/StartGame_RGB.png" spriteName="Accout_inner" />
+		<item old="Assets/Resources/DefaultSkin/StartGame/badge_gold.png" new="Assets/Resources/DefaultSkin/StartGame/StartGame_RGB.png" spriteName="badge_gold" />
+		<item old="Assets/Resources/DefaultSkin/StartGame/bg_headportrait.png" new="Assets/Resources/DefaultSkin/StartGame/StartGame_RGB.png" spriteName="bg_headportrait" />
+		<item old="Assets/Resources/DefaultSkin/StartGame/btn_choice.png" new="Assets/Resources/DefaultSkin/StartGame/StartGame_RGB.png" spriteName="btn_choice" />
+		<item old="Assets/Resources/DefaultSkin/StartGame/btn_corps.png" new="Assets/Resources/DefaultSkin/StartGame/StartGame_RGB.png" spriteName="btn_corps" />
+		<item old="Assets/Resources/DefaultSkin/StartGame/btn_down.png" new="Assets/Resources/DefaultSkin/StartGame/StartGame_RGB.png" spriteName="btn_down" />
+		<item old="Assets/Resources/DefaultSkin/StartGame/btn_friend.png" new="Assets/Resources/DefaultSkin/StartGame/StartGame_RGB.png" spriteName="btn_friend" />
+		<item old="Assets/Resources/DefaultSkin/StartGame/btn_random.png" new="Assets/Resources/DefaultSkin/StartGame/StartGame_RGB.png" spriteName="btn_random" />
+		<item old="Assets/Resources/DefaultSkin/StartGame/btn_ranking.png" new="Assets/Resources/DefaultSkin/StartGame/StartGame_RGB.png" spriteName="btn_ranking" />
+		
+		<item old="Assets/Resources/DefaultSkin/StartGame/btn_setting.png" new="Assets/Resources/DefaultSkin/StartGame/StartGame_RGB.png" spriteName="btn_setting" />
+		<item old="Assets/Resources/DefaultSkin/StartGame/btn_share.png" new="Assets/Resources/DefaultSkin/StartGame/StartGame_RGB.png" spriteName="btn_share" />
+		<item old="Assets/Resources/DefaultSkin/StartGame/btn_shop.png" new="Assets/Resources/DefaultSkin/StartGame/StartGame_RGB.png" spriteName="btn_shop" />
+		<item old="Assets/Resources/DefaultSkin/StartGame/btn_sign.png" new="Assets/Resources/DefaultSkin/StartGame/StartGame_RGB.png" spriteName="btn_sign" />
+		<item old="Assets/Resources/DefaultSkin/StartGame/btn_up.png" new="Assets/Resources/DefaultSkin/StartGame/StartGame_RGB.png" spriteName="btn_up" />
+		<item old="Assets/Resources/DefaultSkin/StartGame/icon_1.png" new="Assets/Resources/DefaultSkin/StartGame/StartGame_RGB.png" spriteName="icon_1" />
+		<item old="Assets/Resources/DefaultSkin/StartGame/icon_2.png" new="Assets/Resources/DefaultSkin/StartGame/StartGame_RGB.png" spriteName="icon_2" />
+		<item old="Assets/Resources/DefaultSkin/StartGame/icon_3.png" new="Assets/Resources/DefaultSkin/StartGame/StartGame_RGB.png" spriteName="icon_3" />
+		<item old="Assets/Resources/DefaultSkin/StartGame/jiesuanquedinganxia.png" new="Assets/Resources/DefaultSkin/StartGame/StartGame_RGB.png" spriteName="jiesuanquedinganxia" />
+		<item old="Assets/Resources/DefaultSkin/StartGame/jiesuanquerenchangtai.png" new="Assets/Resources/DefaultSkin/StartGame/StartGame_RGB.png" spriteName="jiesuanquerenchangtai" />
+		
+		<item old="Assets/Resources/DefaultSkin/StartGame/kaishi changtai.png" new="Assets/Resources/DefaultSkin/StartGame/StartGame_RGB.png" spriteName="kaishi changtai" />
+		<item old="Assets/Resources/DefaultSkin/StartGame/kaishianxia.png" new="Assets/Resources/DefaultSkin/StartGame/StartGame_RGB.png" spriteName="kaishianxia" />
+		<item old="Assets/Resources/DefaultSkin/StartGame/mingzianniu.png" new="Assets/Resources/DefaultSkin/StartGame/StartGame_RGB.png" spriteName="mingzianniu" />
+		<item old="Assets/Resources/DefaultSkin/StartGame/mingzianniuan.png" new="Assets/Resources/DefaultSkin/StartGame/StartGame_RGB.png" spriteName="mingzianniuan" />
+		<item old="Assets/Resources/DefaultSkin/StartGame/mingzishuru.png" new="Assets/Resources/DefaultSkin/StartGame/StartGame_RGB.png" spriteName="mingzishuru" />
+		<item old="Assets/Resources/DefaultSkin/StartGame/ProgressBar.png" new="Assets/Resources/DefaultSkin/StartGame/StartGame_RGB.png" spriteName="ProgressBar" />
+		<item old="Assets/Resources/DefaultSkin/StartGame/ProgressBarBg.png" new="Assets/Resources/DefaultSkin/StartGame/StartGame_RGB.png" spriteName="ProgressBarBg" />
+		<item old="Assets/Resources/DefaultSkin/StartGame/snowball_l.png" new="Assets/Resources/DefaultSkin/StartGame/StartGame_RGB.png" spriteName="snowball_l" />
+		<item old="Assets/Resources/DefaultSkin/StartGame/snowball_m.png" new="Assets/Resources/DefaultSkin/StartGame/StartGame_RGB.png" spriteName="snowball_m" />
+		<item old="Assets/Resources/DefaultSkin/StartGame/snowball_s.png" new="Assets/Resources/DefaultSkin/StartGame/StartGame_RGB.png" spriteName="snowball_s" />
+		
+		<item old="Assets/Resources/DefaultSkin/StartGame/snowball_xl.png" new="Assets/Resources/DefaultSkin/StartGame/StartGame_RGB.png" spriteName="snowball_xl" />
+		<item old="Assets/Resources/DefaultSkin/StartGame/snowball_xxl.png" new="Assets/Resources/DefaultSkin/StartGame/StartGame_RGB.png" spriteName="snowball_xxl" />
+		<item old="Assets/Resources/DefaultSkin/StartGame/star_a.png" new="Assets/Resources/DefaultSkin/StartGame/StartGame_RGB.png" spriteName="star_a" />
+		<item old="Assets/Resources/DefaultSkin/StartGame/star_b.png" new="Assets/Resources/DefaultSkin/StartGame/StartGame_RGB.png" spriteName="star_b" />
+		
+		
+		
+		<item old="Assets/Resources/DefaultSkin/Avatar/1.png" new="Assets/Resources/DefaultSkin/Avatar/Avatar_RGB.png" spriteName="1" />
+		<item old="Assets/Resources/DefaultSkin/Avatar/2.png" new="Assets/Resources/DefaultSkin/Avatar/Avatar_RGB.png" spriteName="2" />
+		<item old="Assets/Resources/DefaultSkin/Avatar/3.png" new="Assets/Resources/DefaultSkin/Avatar/Avatar_RGB.png" spriteName="3" />
+		<item old="Assets/Resources/DefaultSkin/Avatar/4.png" new="Assets/Resources/DefaultSkin/Avatar/Avatar_RGB.png" spriteName="4" />
+		
+		
+		
+		<item old="Assets/Resources/DefaultSkin/GameOption/bg_paihang.png" new="Assets/Resources/DefaultSkin/GameOption/GameOption_RGB.png" spriteName="bg_paihang" />
+		<item old="Assets/Resources/DefaultSkin/GameOption/bg_paihang2.png" new="Assets/Resources/DefaultSkin/GameOption/GameOption_RGB.png" spriteName="bg_paihang2" />
+		<item old="Assets/Resources/DefaultSkin/GameOption/btn_1.png" new="Assets/Resources/DefaultSkin/GameOption/GameOption_RGB.png" spriteName="btn_1" />
+		<item old="Assets/Resources/DefaultSkin/GameOption/btn_fenlie.png" new="Assets/Resources/DefaultSkin/GameOption/GameOption_RGB.png" spriteName="btn_fenlie" />
+		<item old="Assets/Resources/DefaultSkin/GameOption/btn_home.png" new="Assets/Resources/DefaultSkin/GameOption/GameOption_RGB.png" spriteName="btn_home" />
+		<item old="Assets/Resources/DefaultSkin/GameOption/caozuogan.png" new="Assets/Resources/DefaultSkin/GameOption/GameOption_RGB.png" spriteName="caozuogan" />
+		<item old="Assets/Resources/DefaultSkin/GameOption/caozuoqiu.png" new="Assets/Resources/DefaultSkin/GameOption/GameOption_RGB.png" spriteName="caozuoqiu" />
+		<item old="Assets/Resources/DefaultSkin/GameOption/cup_gold.png" new="Assets/Resources/DefaultSkin/GameOption/GameOption_RGB.png" spriteName="cup_gold" />
+		<item old="Assets/Resources/DefaultSkin/GameOption/cup_tong.png" new="Assets/Resources/DefaultSkin/GameOption/GameOption_RGB.png" spriteName="cup_tong" />
+		<item old="Assets/Resources/DefaultSkin/GameOption/cup_yin.png" new="Assets/Resources/DefaultSkin/GameOption/GameOption_RGB.png" spriteName="cup_yin" />
+
+		<item old="Assets/Resources/DefaultSkin/GameOption/datinganxia.png" new="Assets/Resources/DefaultSkin/GameOption/GameOption_RGB.png" spriteName="datinganxia" />
+		<item old="Assets/Resources/DefaultSkin/GameOption/datingchangtai.png" new="Assets/Resources/DefaultSkin/GameOption/GameOption_RGB.png" spriteName="datingchangtai" />
+		<item old="Assets/Resources/DefaultSkin/GameOption/down.png" new="Assets/Resources/DefaultSkin/GameOption/GameOption_RGB.png" spriteName="down" />
+		<item old="Assets/Resources/DefaultSkin/GameOption/drop.png" new="Assets/Resources/DefaultSkin/GameOption/GameOption_RGB.png" spriteName="drop" />
+		<item old="Assets/Resources/DefaultSkin/GameOption/fenlieanxia.png" new="Assets/Resources/DefaultSkin/GameOption/GameOption_RGB.png" spriteName="fenlieanxia" />
+		<item old="Assets/Resources/DefaultSkin/GameOption/fenliechangtai.png" new="Assets/Resources/DefaultSkin/GameOption/GameOption_RGB.png" spriteName="fenliechangtai" />
+		<item old="Assets/Resources/DefaultSkin/GameOption/fuhuoanxia.png" new="Assets/Resources/DefaultSkin/GameOption/GameOption_RGB.png" spriteName="fuhuoanxia" />
+		<item old="Assets/Resources/DefaultSkin/GameOption/fuhuochangtai.png" new="Assets/Resources/DefaultSkin/GameOption/GameOption_RGB.png" spriteName="fuhuochangtai" />
+		<item old="Assets/Resources/DefaultSkin/GameOption/joysitck_outter.png" new="Assets/Resources/DefaultSkin/GameOption/GameOption_RGB.png" spriteName="joysitck_outter" />
+		<item old="Assets/Resources/DefaultSkin/GameOption/joystick_inner.png" new="Assets/Resources/DefaultSkin/GameOption/GameOption_RGB.png" spriteName="joystick_inner" />
+
+		<item old="Assets/Resources/DefaultSkin/GameOption/split_down.png" new="Assets/Resources/DefaultSkin/GameOption/GameOption_RGB.png" spriteName="split_down" />
+		<item old="Assets/Resources/DefaultSkin/GameOption/split_normal.png" new="Assets/Resources/DefaultSkin/GameOption/GameOption_RGB.png" spriteName="split_normal" />
+		<item old="Assets/Resources/DefaultSkin/GameOption/swallo_normal.png" new="Assets/Resources/DefaultSkin/GameOption/GameOption_RGB.png" spriteName="swallo_normal" />
+		<item old="Assets/Resources/DefaultSkin/GameOption/swallow_down.png" new="Assets/Resources/DefaultSkin/GameOption/GameOption_RGB.png" spriteName="swallow_down" />
+		<item old="Assets/Resources/DefaultSkin/GameOption/tuqiuanzia.png" new="Assets/Resources/DefaultSkin/GameOption/GameOption_RGB.png" spriteName="tuqiuanzia" />
+		<item old="Assets/Resources/DefaultSkin/GameOption/tuqiuchangtai.png" new="Assets/Resources/DefaultSkin/GameOption/GameOption_RGB.png" spriteName="tuqiuchangtai" />
+		
+		
+		
+		
+		<item old="Assets/Resources/DefaultSkin/SettingSkin/bg_center.png" new="Assets/Resources/DefaultSkin/SettingSkin/SettingSkin_RGB.png" spriteName="bg_center" />
+		<item old="Assets/Resources/DefaultSkin/SettingSkin/Button.png" new="Assets/Resources/DefaultSkin/SettingSkin/SettingSkin_RGB.png" spriteName="Button" />
+		<item old="Assets/Resources/DefaultSkin/SettingSkin/Button_down.png" new="Assets/Resources/DefaultSkin/SettingSkin/SettingSkin_RGB.png" spriteName="Button_down" />
+		<item old="Assets/Resources/DefaultSkin/SettingSkin/choice.png" new="Assets/Resources/DefaultSkin/SettingSkin/SettingSkin_RGB.png" spriteName="choice" />
+		<item old="Assets/Resources/DefaultSkin/SettingSkin/choice_bg.png" new="Assets/Resources/DefaultSkin/SettingSkin/SettingSkin_RGB.png" spriteName="choice_bg" />
+		<item old="Assets/Resources/DefaultSkin/SettingSkin/close.png" new="Assets/Resources/DefaultSkin/SettingSkin/SettingSkin_RGB.png" spriteName="close" />
+		<item old="Assets/Resources/DefaultSkin/SettingSkin/flower.png" new="Assets/Resources/DefaultSkin/SettingSkin/SettingSkin_RGB.png" spriteName="flower" />
+		<item old="Assets/Resources/DefaultSkin/SettingSkin/head.png" new="Assets/Resources/DefaultSkin/SettingSkin/SettingSkin_RGB.png" spriteName="head" />
+		<item old="Assets/Resources/DefaultSkin/SettingSkin/list.png" new="Assets/Resources/DefaultSkin/SettingSkin/SettingSkin_RGB.png" spriteName="list" />
+		<item old="Assets/Resources/DefaultSkin/SettingSkin/op_bg.png" new="Assets/Resources/DefaultSkin/SettingSkin/SettingSkin_RGB.png" spriteName="op_bg" />
+
+		<item old="Assets/Resources/DefaultSkin/SettingSkin/title.png" new="Assets/Resources/DefaultSkin/SettingSkin/SettingSkin_RGB.png" spriteName="title" />
+		
+		
+		
+		
+		<item old="Assets/Resources/DefaultSkin/ShopSkin/haixing.png" new="Assets/Resources/DefaultSkin/ShopSkin/ShopSkin_RGB.png" spriteName="haixing" />
+		<item old="Assets/Resources/DefaultSkin/ShopSkin/shopbtn1.png" new="Assets/Resources/DefaultSkin/ShopSkin/ShopSkin_RGB.png" spriteName="shopbtn1" />
+		<item old="Assets/Resources/DefaultSkin/ShopSkin/shuizuguan.png" new="Assets/Resources/DefaultSkin/ShopSkin/ShopSkin_RGB.png" spriteName="shuizuguan" />
+		<item old="Assets/Resources/DefaultSkin/ShopSkin/zhenzhu.png" new="Assets/Resources/DefaultSkin/ShopSkin/ShopSkin_RGB.png" spriteName="zhenzhu" />
+		
+		
+		
+		
+		
+		
+
+		<item old="Assets/Resources/DefaultSkin/SignSkin/item.png" new="Assets/Resources/DefaultSkin/SignSkin/SignSkin_RGB.png" spriteName="item" />
+		<item old="Assets/Resources/DefaultSkin/SignSkin/okbtn.png" new="Assets/Resources/DefaultSkin/SignSkin/SignSkin_RGB.png" spriteName="okbtn" />
+	</redirect>
+</Root>
