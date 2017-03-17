@@ -51,7 +51,7 @@ namespace SDK.Lib
 
         public void removeTask(IDelayTask task)
         {
-            this.mPriorityList.removePriorityObject(task as INoOrPriorityObject);
+            this.mNoOrPriorityList.removeNoOrPriorityObject(task as INoOrPriorityObject);
         }
 
         public void execTask()
@@ -60,10 +60,10 @@ namespace SDK.Lib
 
             while (this.mNumInterval.canExec(1))
             {
-                if (this.mPriorityList.Count() > 0)
+                if (this.mNoOrPriorityList.Count() > 0)
                 {
-                    task = this.mPriorityList.get(0) as IDelayTask;
-                    this.mPriorityList.RemoveAt(0);
+                    task = this.mNoOrPriorityList.get(0) as IDelayTask;
+                    this.mNoOrPriorityList.RemoveAt(0);
                     task.delayExec();
                 }
             }

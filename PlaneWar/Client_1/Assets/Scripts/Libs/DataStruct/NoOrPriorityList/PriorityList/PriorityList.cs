@@ -3,7 +3,7 @@
     /**
      * @brief 优先级队列
      */
-    public class PriorityList
+    public class PriorityList : INoOrPriorityList
     {
         protected MList<PriorityProcessObject> mPriorityProcessObjectList;  // 优先级对象列表
         protected PrioritySort mPrioritySort;   // 排序方式
@@ -177,6 +177,11 @@
             return retIndex;
         }
 
+        public int getIndexByNoOrPriorityObject(INoOrPriorityObject priorityObject)
+        {
+            return this.getIndexByPriorityObject(priorityObject);
+        }
+
         public void addPriorityObject(INoOrPriorityObject priorityObject, float priority = 0.0f)
         {
             if (null != priorityObject)
@@ -251,6 +256,16 @@
                     }
                 }
             }
+        }
+
+        public void addNoOrPriorityObject(INoOrPriorityObject noPriorityObject, float priority = 0.0f)
+        {
+            this.addPriorityObject(noPriorityObject);
+        }
+
+        public void removeNoOrPriorityObject(INoOrPriorityObject noPriorityObject)
+        {
+            this.removePriorityObject(noPriorityObject);
         }
 
         // 快速移除元素

@@ -47,12 +47,12 @@
         virtual protected void onExecAdvance(float delta, TickMode tickMode)
         {
             int idx = 0;
-            int count = this.mNoPriorityList.Count();
+            int count = this.mNoOrPriorityList.Count();
             ITickedObject tickObject = null;
 
             while (idx < count)
             {
-                tickObject = this.mNoPriorityList.get(idx) as ITickedObject;
+                tickObject = this.mNoOrPriorityList.get(idx) as ITickedObject;
 
                 if (null != (tickObject as IDelayHandleItem))
                 {

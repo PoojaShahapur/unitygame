@@ -3,7 +3,7 @@
     /**
      * @brief 优先级队列
      */
-    public class NoPriorityList
+    public class NoPriorityList : INoOrPriorityList
     {
         protected MList<INoOrPriorityObject> mNoPriorityProcessObjectList;  // 优先级对象列表
 
@@ -24,6 +24,11 @@
             {
                 this.mDic = new MDictionary<INoOrPriorityObject, int>();
             }
+        }
+
+        public void setIsOpKeepSort(bool value)
+        {
+
         }
 
         public void Clear()
@@ -124,7 +129,12 @@
             return retIndex;
         }
 
-        public void addNoPriorityObject(INoOrPriorityObject noPriorityObject, bool isNeedSort = false)
+        public int getIndexByNoOrPriorityObject(INoOrPriorityObject priorityObject)
+        {
+            return this.getIndexByNoPriorityObject(priorityObject);
+        }
+
+        public void addNoPriorityObject(INoOrPriorityObject noPriorityObject)
         {
             if (null != noPriorityObject)
             {
@@ -175,6 +185,16 @@
                     Ctx.mInstance.mLogSys.log("NoPriorityList::addNoPriorityObject, failed", LogTypeId.eLogNoPriorityListCheck);
                 }
             }
+        }
+
+        public void addNoOrPriorityObject(INoOrPriorityObject noPriorityObject, float priority = 0.0f)
+        {
+            this.addNoPriorityObject(noPriorityObject);
+        }
+
+        public void removeNoOrPriorityObject(INoOrPriorityObject noPriorityObject)
+        {
+            this.removeNoPriorityObject(noPriorityObject);
         }
 
         // 快速移除元素
