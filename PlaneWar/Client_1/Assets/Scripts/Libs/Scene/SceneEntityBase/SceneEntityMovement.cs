@@ -23,7 +23,7 @@
             this.mEntity = null;
         }
 
-        virtual public void onTick(float delta)
+        virtual public void onTick(float delta, TickMode tickMode)
         {
 
         }

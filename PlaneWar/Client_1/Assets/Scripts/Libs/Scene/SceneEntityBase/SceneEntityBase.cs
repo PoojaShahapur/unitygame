@@ -277,27 +277,27 @@ namespace SDK.Lib
         }
 
         // 每一帧执行
-        virtual public void onTick(float delta)
+        virtual public void onTick(float delta, TickMode tickMode)
         {
-            this.onPreTick(delta);
-            this.onExecTick(delta);
-            this.onPostTick(delta);
-            if(null != this.mRender) this.mRender.onTick(delta);
+            this.onPreTick(delta, tickMode);
+            this.onExecTick(delta, tickMode);
+            this.onPostTick(delta, tickMode);
+            if(null != this.mRender) this.mRender.onTick(delta, tickMode);
         }
 
         // Tick 第一阶段执行
-        virtual protected void onPreTick(float delta)
+        virtual protected void onPreTick(float delta, TickMode tickMode)
         {
 
         }
 
-        virtual protected void onExecTick(float delta)
+        virtual protected void onExecTick(float delta, TickMode tickMode)
         {
 
         }
 
         // Tick 第二阶段执行
-        virtual protected void onPostTick(float delta)
+        virtual protected void onPostTick(float delta, TickMode tickMode)
         {
 
         }

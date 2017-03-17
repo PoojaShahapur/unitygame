@@ -91,10 +91,10 @@
         public void onPosChanged()
         {
             //if (null != Ctx.mInstance.mCamSys.mMainCamera && null != Ctx.mInstance.mCamSys.mUguiCam)
-            if (Ctx.mInstance.mCamSys.mMainCamera && Ctx.mInstance.mCamSys.mUguiCam)
+            if (Ctx.mInstance.mCamSys.mMainCamera.getNativeCam() && Ctx.mInstance.mCamSys.mUguiCam.getNativeCam())
             {
                 // 坐标位置转换太耗时，不再转换位置坐标，直接在世界空间调整位置
-                this.mPos = UtilApi.convWorldToUIPos(Ctx.mInstance.mUiMgr.mHudCanvas, Ctx.mInstance.mCamSys.mMainCamera, this.mEntity.getHudPos(), Ctx.mInstance.mCamSys.mUguiCam);
+                this.mPos = UtilApi.convWorldToUIPos(Ctx.mInstance.mUiMgr.mHudCanvas, Ctx.mInstance.mCamSys.mMainCamera.getNativeCam(), this.mEntity.getHudPos(), Ctx.mInstance.mCamSys.mUguiCam.getNativeCam());
                 //this.mPos = this.mEntity.getHudPos();
                 //this.mRotate = UtilMath.getRotateByStartAndEndPoint(this.mPos, Ctx.mInstance.mCamSys.mMainCamera.transform.localPosition);
 

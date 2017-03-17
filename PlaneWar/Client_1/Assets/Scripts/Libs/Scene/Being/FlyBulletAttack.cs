@@ -58,20 +58,24 @@
                     bBeingEntity.enableRigid(false);
                     (this.mEntity as FlyBullet).enableRigid(false);
                 }
-            }
-            else
-            {
-                if (EntityType.ePlayerMainChild == bBeingEntity.getEntityType())
-                {
-                    this.hitPlayerMainChild(bBeingEntity);
-
-                    (this.mEntity as FlyBullet).enableRigid(false);
-                }
                 else if (EntityType.ePlayerOtherChild == bBeingEntity.getEntityType())
                 {
                     Game.Game.ReqSceneInteractive.sendHitOtherChild(this.mEntity as FlyBullet, bBeingEntity as PlayerOtherChild);
                 }
             }
+            //else
+            //{
+            //    if (EntityType.ePlayerMainChild == bBeingEntity.getEntityType())
+            //    {
+            //        this.hitPlayerMainChild(bBeingEntity);
+
+            //        (this.mEntity as FlyBullet).enableRigid(false);
+            //    }
+            //    else if (EntityType.ePlayerOtherChild == bBeingEntity.getEntityType())
+            //    {
+            //        Game.Game.ReqSceneInteractive.sendHitOtherChild(this.mEntity as FlyBullet, bBeingEntity as PlayerOtherChild);
+            //    }
+            //}
         }
 
         protected void handleStay(BeingEntity bBeingEntity)

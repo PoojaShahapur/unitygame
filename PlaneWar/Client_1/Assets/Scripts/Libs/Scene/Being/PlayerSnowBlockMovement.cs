@@ -8,9 +8,9 @@
 
         }
 
-        public override void onTick(float delta)
+        public override void onTick(float delta, TickMode tickMode)
         {
-            base.onTick(delta);
+            base.onTick(delta, tickMode);
         }
     }
 }

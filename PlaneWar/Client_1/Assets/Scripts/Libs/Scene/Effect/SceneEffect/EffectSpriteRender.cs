@@ -52,9 +52,9 @@ namespace SDK.Lib
             return m_spriteRender.selfGo.transform;
         }
 
-        override public void onTick(float delta)
+        override public void onTick(float delta, TickMode tickMode)
         {
-            m_spriteRender.onTick(delta);
+            m_spriteRender.onTick(delta, tickMode);
         }
 
         override public void setGameObject(GameObject rhv)

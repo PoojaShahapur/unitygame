@@ -48,22 +48,22 @@ namespace SDK.Lib
             }
         }
 
-        virtual public void onTick(float delta)
+        virtual public void onTick(float delta, TickMode tickMode)
         {
             this.incDepth();
 
-            this.onTickExec(delta);
+            this.onTickExec(delta, tickMode);
 
             this.decDepth();
         }
 
-        virtual protected void onTickExec(float delta)
+        virtual protected void onTickExec(float delta, TickMode tickMode)
         {
             foreach (ImageSpriteAni entity in mSceneEntityList)
             {
                 if (!(entity as ImageSpriteAni).isClientDispose())
                 {
-                    (entity as ImageSpriteAni).onTick(delta);
+                    (entity as ImageSpriteAni).onTick(delta, tickMode);
                 }
             }
         }

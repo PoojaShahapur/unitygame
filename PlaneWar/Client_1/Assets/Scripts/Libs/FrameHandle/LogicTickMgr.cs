@@ -12,11 +12,11 @@
             this.mTimeInterval = new TimeInterval();
         }
 
-        override protected void onExecAdvance(float delta)
+        override protected void onExecAdvance(float delta, TickMode tickMode)
         {
             if(this.mTimeInterval.canExec(delta))
             {
-                base.onExecAdvance(delta);
+                base.onExecAdvance(delta, tickMode);
             }
         }
     }

@@ -117,20 +117,17 @@
             return this.mSceneEntityList.Contains(entity);
         }
 
-        virtual public void onTick(float delta)
+        virtual public void onTick(float delta, TickMode tickMode)
         {
             this.incDepth();
 
-            this.onTickExec(delta);
+            this.onTickExec(delta, tickMode);
 
             this.decDepth();
         }
 
-        virtual protected void onTickExec(float delta)
+        virtual protected void onTickExec(float delta, TickMode tickMode)
         {
-            // 去掉 foreach
-            //foreach (SceneEntityBase entity in mSceneEntityList.list())
-
             int idx = 0;
             int count = this.mSceneEntityList.Count();
             SceneEntityBase entity;
@@ -141,7 +138,7 @@
 
                 if (!entity.isClientDispose())
                 {
-                    entity.onTick(delta);
+                    entity.onTick(delta, tickMode);
                 }
 
                 ++idx;

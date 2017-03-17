@@ -64,9 +64,9 @@ namespace SDK.Lib
             }
         }
 
-        override public void onTick(float delta)
+        override public void onTick(float delta, TickMode tickMode)
         {
-            base.onTick(delta);
+            base.onTick(delta, tickMode);
         }
 
         override public void setTableID(int tableId)

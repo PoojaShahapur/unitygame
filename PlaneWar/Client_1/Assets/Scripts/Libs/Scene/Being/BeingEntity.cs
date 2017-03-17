@@ -490,28 +490,28 @@ namespace SDK.Lib
             }
         }
 
-        override public void onTick(float delta)
+        override public void onTick(float delta, TickMode tickMode)
         {
-            base.onTick(delta);
+            base.onTick(delta, tickMode);
         }
 
         // Tick 第一阶段执行
-        override protected void onPreTick(float delta)
+        override protected void onPreTick(float delta, TickMode tickMode)
         {
-            base.onPreTick(delta);
+            base.onPreTick(delta, tickMode);
         }
 
         // Tick 第二阶段执行
-        override protected void onPostTick(float delta)
+        override protected void onPostTick(float delta, TickMode tickMode)
         {
             if (null != this.mMovement)
             {
-                this.mMovement.onTick(delta);
+                this.mMovement.onTick(delta, tickMode);
             }
 
             if (null != this.mAttack)
             {
-                this.mAttack.onTick(delta);
+                this.mAttack.onTick(delta, tickMode);
             }
         }
 

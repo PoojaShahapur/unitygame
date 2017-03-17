@@ -4,11 +4,11 @@ namespace SDK.Lib
 {
     public class CamSys
     {
-        protected UICamera mUiCam;            // 这个不是 UI 相机，这个是场景相机
+        protected UICamera mUiCam;          // 这个不是 UI 相机，这个是场景相机
+        protected MCamera mLocalCamera;     // 这个是系统摄像机，主要进行裁剪使用的
+        public CamEntity mMainCamera;          // 主相机
+        public CamEntity mUguiCam;             // UGUI 相机
 
-        protected MCamera mLocalCamera;         // 这个是系统摄像机，主要进行裁剪使用的
-        public Camera mMainCamera;          // 主相机
-        public Camera mUguiCam;             // UGUI 相机
         //protected ThirdCameraController mCameraController; // 摄像机控制器
         protected RoateCameraController mCameraController;
         protected CameraMan mCameraMan;        // 摄像机玩家
@@ -19,6 +19,8 @@ namespace SDK.Lib
         {
             this.mIsFirst = true;
             this.mIsHudCanvasNeedWorldCam = false;
+            this.mMainCamera = new CamEntity();
+            this.mUguiCam = new CamEntity();
         }
 
         // 初始化
@@ -80,29 +82,29 @@ namespace SDK.Lib
             this.mUiCam.mCam = null;
         }
 
-        public Camera getMainCamera()
+        public CamEntity getMainCamera()
         {
             return this.mMainCamera;
         }
 
         public void setMainCamera(Camera camera)
         {
-            this.mMainCamera = camera;
+            this.mMainCamera.setNativeCam(camera);
 
             if(this.mIsHudCanvasNeedWorldCam)
             {
-                UtilApi.setCanvasCam(Ctx.mInstance.mLayerMgr.mPath2Go[NotDestroyPath.ND_CV_HudCanvas], this.mMainCamera);
+                UtilApi.setCanvasCam(Ctx.mInstance.mLayerMgr.mPath2Go[NotDestroyPath.ND_CV_HudCanvas], this.mMainCamera.getNativeCam());
             }
         }
 
         public Camera getUGuiCamera()
         {
-            return mUguiCam;
+            return mUguiCam.getNativeCam();
         }
 
         public void setUGuiCamera(Camera camera)
         {
-            mUguiCam = camera;
+            mUguiCam.setNativeCam(camera);
         }
 
         // 设置摄像机 Man Actor
@@ -111,7 +113,7 @@ namespace SDK.Lib
             if (mCameraController == null)
             {
                 //mCameraController = new ThirdCameraController(mMainCamera, go);
-                mCameraController = new RoateCameraController(mMainCamera, actor.gameObject(), actor);
+                mCameraController = new RoateCameraController(mMainCamera.getNativeCam(), actor.gameObject(), actor);
                 mCameraController.init();
             }
             else
@@ -136,7 +138,7 @@ namespace SDK.Lib
             if (mCameraController == null)
             {
                 //mCameraController = new ThirdCameraController(mMainCamera, go);
-                mCameraController = new RoateCameraController(mMainCamera, go, null);
+                mCameraController = new RoateCameraController(mMainCamera.getNativeCam(), go, null);
                 mCameraController.init();
             }
             else

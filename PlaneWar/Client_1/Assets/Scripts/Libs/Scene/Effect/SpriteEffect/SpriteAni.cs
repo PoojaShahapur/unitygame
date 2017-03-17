@@ -225,7 +225,7 @@
             this.mIsNeedReloadRes = false;
         }
 
-        public void onTick(float delta)
+        public void onTick(float delta, TickMode tickMode)
         {
             if (SpritePlayState.ePlaying == this.mPlayState)
             {

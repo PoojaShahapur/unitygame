@@ -105,7 +105,7 @@
         /**
          * @inheritDoc
          */
-        public void onTick(float delta)
+        public void onTick(float delta, TickMode tickMode)
         {
             //handleAxis();
 
@@ -115,19 +115,19 @@
             
             for (idx = 0; idx < this.mEventInputKeyList.Count(); idx++)
             {
-                this.mEventInputKeyList[idx].onTick(delta);
+                this.mEventInputKeyList[idx].onTick(delta, tickMode);
             }
 
             for (idx = 0; idx < this.mEventMouseList.Count(); idx++)
             {
-                this.mEventMouseList[idx].onTick(delta);
+                this.mEventMouseList[idx].onTick(delta, tickMode);
             }
 
-            this.ProcessTouches(delta);
+            this.ProcessTouches(delta, tickMode);
 
             if(this.mHasAccelerationHandle)
             {
-                MAcceleration.mAccelerationOne.onTick(delta);
+                MAcceleration.mAccelerationOne.onTick(delta, tickMode);
             }
         }
 
@@ -423,7 +423,7 @@
             }
         }
 
-        public void ProcessTouches(float delta)
+        public void ProcessTouches(float delta, TickMode tickMode)
         {
             if (this.hasTouch() || this.hasMultiTouch())
             {
@@ -440,7 +440,7 @@
                     this.mCurrentTouch = MTouchDevice.GetTouch(this.mCurrentTouchId);
 
                     this.mCurrentTouch.setNativeTouch(touch, this.mCurrentTouchId);
-                    this.mCurrentTouch.onTick(delta);
+                    this.mCurrentTouch.onTick(delta, tickMode);
 
                     if (this.hasMultiTouch())
                     {
@@ -452,7 +452,7 @@
 
                 if (this.hasMultiTouch())
                 {
-                    this.mMultiTouchSet.onTick(delta);
+                    this.mMultiTouchSet.onTick(delta, tickMode);
                 }
             }
         }

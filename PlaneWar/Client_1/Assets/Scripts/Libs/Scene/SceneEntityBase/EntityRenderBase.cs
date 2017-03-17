@@ -30,7 +30,7 @@
             return this.mEntity.isClientDispose();
         }
 
-        virtual public void onTick(float delta)
+        virtual public void onTick(float delta, TickMode tickMode)
         {
             if (null == this.mSpriteRender)
                 return;

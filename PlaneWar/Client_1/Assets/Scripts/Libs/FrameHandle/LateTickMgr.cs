@@ -1,8 +1,11 @@
 ﻿namespace SDK.Lib
 {
-    public class FixedTickMgr : TickMgr
+    /**
+     * @brief 对应事件 LateUpdate
+     */
+    public class LateTickMgr : TickMgr
     {
-        public FixedTickMgr()
+        public LateTickMgr()
         {
 
         }

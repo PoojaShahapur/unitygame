@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace SDK.Lib
+﻿namespace SDK.Lib
 {
     /**
      * @brief 玩家所有的 hero 数据

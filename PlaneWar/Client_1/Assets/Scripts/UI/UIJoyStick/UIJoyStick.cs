@@ -104,7 +104,7 @@ namespace Game.UI
             Ctx.mInstance.mTickMgr.removeTick(this as ITickedObject);
         }
 
-        void ITickedObject.onTick(float delta)
+        void ITickedObject.onTick(float delta, TickMode tickMode)
         {
             OneTouchUpdate();
         }
@@ -218,7 +218,7 @@ namespace Game.UI
                 if (Pos.y > Height - HalfBGWidth - HalfJoyWidth) Pos.y = Height - HalfBGWidth - HalfJoyWidth;
 
                 LOldPos = Pos;
-                Vector3 JPos = Ctx.mInstance.mCamSys.mUguiCam.ScreenToWorldPoint(new Vector3(Pos.x, Pos.y, 100f));
+                Vector3 JPos = Ctx.mInstance.mCamSys.mUguiCam.getNativeCam().ScreenToWorldPoint(new Vector3(Pos.x, Pos.y, 100f));
                 Joystick.gameObject.SetActive(true);
                 BackGrounds.gameObject.SetActive(true);
                 StillTouch = true;
@@ -250,7 +250,7 @@ namespace Game.UI
 
                     LPos = Pos;
                     StillTouch = true;
-                    Vector3 JPos = Ctx.mInstance.mCamSys.mUguiCam.ScreenToWorldPoint(new Vector3(Pos.x, Pos.y, 100f));
+                    Vector3 JPos = Ctx.mInstance.mCamSys.mUguiCam.getNativeCam().ScreenToWorldPoint(new Vector3(Pos.x, Pos.y, 100f));
 
                     if (Mathf.Pow(JPos.x - BackGrounds.position.x, 2) + Mathf.Pow(JPos.y - BackGrounds.position.y, 2) > 0.1f)
                     {

@@ -34,7 +34,7 @@ namespace SDK.Lib
             return false;
         }
 
-        public virtual void onTick(float delta)
+        public virtual void onTick(float delta, TickMode tickMode)
         {
             if (this.mFrameInterval.canExec(1))
             {

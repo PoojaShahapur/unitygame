@@ -88,14 +88,14 @@ namespace SDK.Lib
             mRender.init();
         }
 
-        protected override void onPreTick(float delta)
+        protected override void onPreTick(float delta, TickMode tickMode)
         {
-            base.onPreTick(delta);
+            base.onPreTick(delta, tickMode);
         }
 
-        protected override void onPostTick(float delta)
+        protected override void onPostTick(float delta, TickMode tickMode)
         {
-            base.onPostTick(delta);
+            base.onPostTick(delta, tickMode);
 
             if (null != this.mAnimFSM)
             {
@@ -104,7 +104,7 @@ namespace SDK.Lib
 
             if (null != this.mPlayerSplitMerge)
             {
-                this.mPlayerSplitMerge.onTick(delta);
+                this.mPlayerSplitMerge.onTick(delta, tickMode);
             }
         }
 

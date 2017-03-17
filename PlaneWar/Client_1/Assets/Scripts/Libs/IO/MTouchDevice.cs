@@ -31,7 +31,7 @@ namespace SDK.Lib
             this.mTouchIndex = touchIndex;
         }
 
-        public void onTick(float delta)
+        public void onTick(float delta, TickMode tickMode)
         {
             if (mNativeTouch.phase == TouchPhase.Began)
             {

@@ -37,9 +37,9 @@
             this.mEntity = null;
         }
 
-        public virtual void onTick(float delta)
+        public virtual void onTick(float delta, TickMode tickMode)
         {
-            this.mPlayerChildMgr.onTick(delta);
+            this.mPlayerChildMgr.onTick(delta, tickMode);
         }
 
         public float getTargetLength()

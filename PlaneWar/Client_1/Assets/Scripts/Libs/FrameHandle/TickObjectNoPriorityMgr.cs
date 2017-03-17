@@ -28,23 +28,23 @@
             return false;
         }
 
-        public void onTick(float delta)
+        public void onTick(float delta, TickMode tickMode)
         {
             this.incDepth();
 
-            this.onPreAdvance(delta);
-            this.onExecAdvance(delta);
-            this.onPostAdvance(delta);
+            this.onPreAdvance(delta, tickMode);
+            this.onExecAdvance(delta, tickMode);
+            this.onPostAdvance(delta, tickMode);
 
             this.decDepth();
         }
 
-        virtual protected void onPreAdvance(float delta)
+        virtual protected void onPreAdvance(float delta, TickMode tickMode)
         {
 
         }
 
-        virtual protected void onExecAdvance(float delta)
+        virtual protected void onExecAdvance(float delta, TickMode tickMode)
         {
             int idx = 0;
             int count = this.mNoPriorityList.Count();
@@ -58,7 +58,7 @@
                 {
                     if (!(tickObject as IDelayHandleItem).isClientDispose())
                     {
-                        tickObject.onTick(delta);
+                        tickObject.onTick(delta, tickMode);
                     }
                 }
                 else
@@ -73,7 +73,7 @@
             }
         }
 
-        virtual protected void onPostAdvance(float delta)
+        virtual protected void onPostAdvance(float delta, TickMode tickMode)
         {
 
         }

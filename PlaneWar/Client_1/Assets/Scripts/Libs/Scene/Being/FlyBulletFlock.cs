@@ -63,9 +63,9 @@ namespace SDK.Lib
 
         private Giant.MoveTeamBullet bulletMove = new Giant.MoveTeamBullet();  //子弹移动
         private Giant.BulletTimeOut bulletTimeOut = new Giant.BulletTimeOut(); //子弹消失
-        virtual public void onTick(float delta)
+        virtual public void onTick(float delta, TickMode tickMode)
         {
-            this.mFlyBulletMgr.onTick(delta);
+            this.mFlyBulletMgr.onTick(delta, tickMode);
             if (this.TimeOut <= 0)
             {
                 //清除资源

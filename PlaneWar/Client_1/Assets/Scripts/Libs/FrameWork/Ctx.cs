@@ -15,8 +15,11 @@
 
         public IGameSys mGameSys;                 // 游戏系统
         public SceneSys mSceneSys;                // 场景系统
-        public TickMgr mTickMgr;                  // 心跳管理器
-        public FixedTickMgr mFixedTickMgr;        // 固定间隔心跳管理器
+
+        public TickMgr mTickMgr;                  // 心跳管理器，正常 Update
+        public FixedTickMgr mFixedTickMgr;        // 固定间隔心跳管理器, FixedUpdate
+        public LateTickMgr mLateTickMgr;        // 固定间隔心跳管理器, LateUpdate
+
         public LogicTickMgr mLogicTickMgr;        // 逻辑心跳管理器
         public ProcessSys mProcessSys;            // 游戏处理系统
 
@@ -236,8 +239,11 @@
             this.mInputMgr = new InputMgr();
 
             this.mProcessSys = new ProcessSys();
+
             this.mTickMgr = new TickMgr();
             this.mFixedTickMgr = new FixedTickMgr();
+            this.mLateTickMgr = new LateTickMgr();
+
             this.mTimerMgr = new TimerMgr();
             this.mFrameTimerMgr = new FrameTimerMgr();
             this.mCoroutineMgr = new CoroutineMgr();
@@ -309,6 +315,7 @@
 
             this.mTickMgr.init();
             this.mFixedTickMgr.init();
+            this.mLateTickMgr.init();
 
             // 初始化重定向
             this.mResRedirect.init();
@@ -390,6 +397,11 @@
             {
                 this.mFixedTickMgr.dispose();
                 this.mFixedTickMgr = null;
+            }
+            if(null != this.mLateTickMgr)
+            {
+                this.mLateTickMgr.dispose();
+                this.mLateTickMgr = null;
             }
             if (null != this.mPlayerMgr)
             {
@@ -584,6 +596,9 @@
             this.mTickMgr.addTick(this.mPlayerMgr as ITickedObject, TickPriority.eTPPlayerMgr);
             //this.mTickMgr.addTick(this.mFlyBulletMgr as ITickedObject, TickPriority.eTPFlyBulletMgr);
             this.mTickMgr.addTick(this.mFlyBulletFlockMgr as ITickedObject, TickPriority.eTPFlyBulletMgr);
+
+            this.mLateTickMgr.addTick(this.mPlayerMgr as ITickedObject, TickPriority.eTPPlayerMgr);
+            this.mLateTickMgr.addTick(this.mClipRect as ITickedObject, TickPriority.eTPClipRect);
         }
 
         public void setNoDestroyObject()

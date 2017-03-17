@@ -67,7 +67,7 @@
             base.dispose();
         }
 
-        override public void onTick(float delta)
+        override public void onTick(float delta, TickMode tickMode)
         {
             if (MacroDef.DRAW_DEBUG)
             {
@@ -75,7 +75,7 @@
                 UtilApi.DrawLine(this.mEntity.getPos(), (this.mEntity as Player).mPlayerSplitMerge.getTargetPoint(), UnityEngine.Color.red);
             }
 
-            base.onTick(delta);
+            base.onTick(delta, tickMode);
             OnMove();
         }
 

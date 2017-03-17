@@ -100,9 +100,9 @@ namespace SDK.Lib
             base.dispose();
         }
 
-        override public void onTick(float delta)
+        override public void onTick(float delta, TickMode tickMode)
         {
-            mRender.onTick(delta);
+            mRender.onTick(delta, tickMode);
         }
 
         // 添加特效播放结束处理

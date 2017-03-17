@@ -63,12 +63,7 @@
         // 循环执行完成后，再次
         public void postUpdate()
         {
-            Ctx.mInstance.mPlayerMgr.postUpdate();
-
-            if (MacroDef.ENABLE_SCENE2D_CLIP)
-            {
-                Ctx.mInstance.mClipRect.updateSceneGraph();     // 更新场景图
-            }
+            Ctx.mInstance.mProcessSys.ProcessNextLateFrame();
         }
     }
 }

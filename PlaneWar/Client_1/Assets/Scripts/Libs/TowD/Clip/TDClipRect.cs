@@ -1,6 +1,6 @@
 namespace SDK.Lib
 {
-    public class TDClipRect
+    public class TDClipRect : ITickedObject, IDelayHandleItem, INoOrPriorityObject
     {
         protected UnityEngine.Vector2 mCenter;
         protected float mWidth;    // 宽度
@@ -37,6 +37,27 @@ namespace SDK.Lib
         public void dispose()
         {
             Ctx.mInstance.mGlobalDelegate.mMainChildChangedDispatch.removeEventHandle(null, this.onPosChanged);
+        }
+
+        public void onTick(float delta, TickMode tickMode)
+        {
+            if(TickMode.eTM_LateUpdate == tickMode)
+            {
+                if (MacroDef.ENABLE_SCENE2D_CLIP)
+                {
+                    this.updateSceneGraph();     // 更新场景图
+                }
+            }
+        }
+
+        public void setClientDispose(bool isDispose)
+        {
+
+        }
+
+        public bool isClientDispose()
+        {
+            return false;
         }
 
         public void setIsRectDirty(bool value)

@@ -30,7 +30,7 @@ namespace SDK.Lib
             return this.mIsSceneLoaded;
         }
 
-        public void onTick(float delta)
+        public void onTick(float delta, TickMode tickMode)
         {
 
         }

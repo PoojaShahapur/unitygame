@@ -41,7 +41,7 @@ namespace SDK.Lib
             
         }
 
-        override public void onTick(float delta)
+        override public void onTick(float delta, TickMode tickMode)
         {
             
         }

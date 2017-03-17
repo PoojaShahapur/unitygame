@@ -9,9 +9,9 @@ namespace SDK.Lib
             mUniqueStrIdGen = new UniqueStrIdGen(UniqueStrIdGen.SnowBlockPrefix, 0);
         }
 
-        override protected void onTickExec(float delta)
+        override protected void onTickExec(float delta, TickMode tickMode)
         {
-            base.onTickExec(delta);
+            base.onTickExec(delta, tickMode);
         }
 
         public float xlimit_min = 120;

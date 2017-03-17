@@ -51,14 +51,14 @@
             
         }
 
-        override public void overlapToEnter2D(BeingEntity bBeingEntity, UnityEngine.Collision2D collisionInfo)
-        {
-            if (EntityType.eFlyBullet == bBeingEntity.getEntityType())
-            {
-                // 如果是 FlyBullet ，直接转向 FlyBullet 处理
-                bBeingEntity.overlapToEnter2D(this.mEntity, collisionInfo);
-            }
-        }
+        //override public void overlapToEnter2D(BeingEntity bBeingEntity, UnityEngine.Collision2D collisionInfo)
+        //{
+        //    if (EntityType.eFlyBullet == bBeingEntity.getEntityType())
+        //    {
+        //        // 如果是 FlyBullet ，直接转向 FlyBullet 处理
+        //        bBeingEntity.overlapToEnter2D(this.mEntity, collisionInfo);
+        //    }
+        //}
 
         override public void overlapToStay2D(BeingEntity bBeingEntity, UnityEngine.Collision2D collisionInfo)
         {

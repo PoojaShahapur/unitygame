@@ -62,16 +62,16 @@ namespace SDK.Lib
             Ctx.mInstance.mPlayerMgr.addHero(this);
         }
 
-        protected override void onPreTick(float delta)
+        protected override void onPreTick(float delta, TickMode tickMode)
         {
-            base.onPreTick(delta);
+            base.onPreTick(delta, tickMode);
         }
 
-        protected override void onPostTick(float delta)
+        protected override void onPostTick(float delta, TickMode tickMode)
         {
-            base.onPostTick(delta);
+            base.onPostTick(delta, tickMode);
 
-            this.mMutilRigidCalcPolicy.onTick(delta);
+            this.mMutilRigidCalcPolicy.onTick(delta, tickMode);
         }
 
         public void emitSnowBlock()

@@ -47,7 +47,7 @@
             this.mAttack.init();
         }
 
-        public override void onTick(float delta)
+        public override void onTick(float delta, TickMode tickMode)
         {
             // 如果是在融合阶段
             if (BeingSubState.eBSSMerge == this.getBeingSubState())
@@ -64,7 +64,7 @@
                 }
             }
 
-            base.onTick(delta);
+            base.onTick(delta, tickMode);
         }
 
         public void postUpdate()

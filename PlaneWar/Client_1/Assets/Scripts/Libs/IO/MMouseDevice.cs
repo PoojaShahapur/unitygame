@@ -18,7 +18,7 @@
             this.mTouchIndex = button;
         }
 
-        public void onTick(float delta)
+        public void onTick(float delta, TickMode tickMode)
         {
             if (UnityEngine.Input.GetMouseButtonDown(this.mTouchIndex))
             {

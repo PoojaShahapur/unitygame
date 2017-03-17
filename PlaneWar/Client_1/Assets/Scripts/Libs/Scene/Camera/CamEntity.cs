@@ -2,18 +2,37 @@
 
 namespace SDK.Lib
 {
+    /**
+     * @brief 场景中的摄像机 Entity
+     */
     public class CamEntity
     {
-        public GameObject mCamGo;
+        public Camera mCam;     // 相机数据
 
-        public void onSceneLoaded()
+        public CamEntity()
         {
-            mCamGo = GameObject.FindGameObjectWithTag("MainCamera");
+            this.mCam = null;
         }
 
-        public void setTarget(Transform tran)
+        public void init()
         {
-            //mCamGo.GetComponent<SmoothFollow>().target = tran;
+
+        }
+
+        public void dispose()
+        {
+
+        }
+
+        // 设置本地相机系统
+        public void setNativeCam(Camera cam)
+        {
+            this.mCam = cam;
+        }
+
+        public Camera getNativeCam()
+        {
+            return this.mCam;
         }
     }
 }

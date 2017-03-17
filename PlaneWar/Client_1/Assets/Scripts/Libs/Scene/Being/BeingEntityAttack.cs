@@ -22,7 +22,7 @@
 
         }
 
-        virtual public void onTick(float delta)
+        virtual public void onTick(float delta, TickMode tickMode)
         {
 
         }
@@ -85,11 +85,7 @@
                 return;
             }
 
-            if (EntityType.ePlayerMainChild == bBeingEntity.getEntityType())
-            {
-                bBeingEntity.overlapToEnter2D(this.mEntity, collisionInfo);
-            }
-            else if (EntityType.eFlyBullet == bBeingEntity.getEntityType())
+            if (EntityType.eFlyBullet == bBeingEntity.getEntityType())
             {
                 bBeingEntity.overlapToEnter2D(this.mEntity, collisionInfo);
             }

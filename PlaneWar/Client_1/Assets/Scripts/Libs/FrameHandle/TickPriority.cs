@@ -21,5 +21,6 @@
         public static float eTPDelayTaskMgr = 1f;   // 延迟任务
         public static float eTPLoadProgressMgr = 1f;   // 更新加载进度
         public static float eTPSoundLoadStateCheckMgr = 1f;   // 更新音乐状态检查
+        public static float eTPClipRect = 1f;
     }
 }

@@ -87,7 +87,7 @@
             }
         }
 
-        public void onTick(float delta)
+        public void onTick(float delta, TickMode tickMode)
         {
             this.mPreWidth = this.mCurWidth;
             this.mCurWidth = UtilApi.getScreenWidth();

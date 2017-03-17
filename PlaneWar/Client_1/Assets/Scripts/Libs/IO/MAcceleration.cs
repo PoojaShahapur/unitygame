@@ -62,7 +62,7 @@
             return orient;
         }
 
-        public void onTick(float delta)
+        public void onTick(float delta, TickMode tickMode)
         {
             this.mLastPos = this.mPos;
             // TODO:Test

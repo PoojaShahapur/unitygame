@@ -44,7 +44,7 @@ namespace SDK.Lib
 
         }
 
-        public void onTick(float delta)
+        public void onTick(float delta, TickMode tickMode)
         {
             this.checkLoadState();
         }

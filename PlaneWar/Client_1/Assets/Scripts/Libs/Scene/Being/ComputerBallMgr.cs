@@ -7,9 +7,9 @@
             mUniqueStrIdGen = new UniqueStrIdGen(UniqueStrIdGen.RobotPrefix, 0);
         }
 
-        override protected void onTickExec(float delta)
+        override protected void onTickExec(float delta, TickMode tickMode)
         {
-            base.onTickExec(delta);
+            base.onTickExec(delta, tickMode);
         }
 
         override public void init()

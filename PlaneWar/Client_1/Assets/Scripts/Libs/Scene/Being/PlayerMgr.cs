@@ -43,43 +43,50 @@ namespace SDK.Lib
             return this.MoveVec;
         }
 
-        override protected void onTickExec(float delta)
+        override protected void onTickExec(float delta, TickMode tickMode)
         {
-            int idx = 0;
-            int count = this.mSceneEntityList.Count();
-            SceneEntityBase entity;
-
-            while (idx < count)
+            if (TickMode.eTM_Update == tickMode)
             {
-                entity = this.mSceneEntityList[idx];
+                int idx = 0;
+                int count = this.mSceneEntityList.Count();
+                SceneEntityBase entity;
 
-                if (Ctx.mInstance.mCfg.mIsActorMoveUseFixUpdate)
+                while (idx < count)
                 {
-                    if(EntityType.ePlayerMain != entity.getEntityType())
+                    entity = this.mSceneEntityList[idx];
+
+                    if (Ctx.mInstance.mCfg.mIsActorMoveUseFixUpdate)
+                    {
+                        if (EntityType.ePlayerMain != entity.getEntityType())
+                        {
+                            if (!entity.isClientDispose())
+                            {
+                                entity.onTick(delta, tickMode);
+                            }
+                        }
+                    }
+                    else
                     {
                         if (!entity.isClientDispose())
                         {
-                            entity.onTick(delta);
+                            entity.onTick(delta, tickMode);
                         }
                     }
-                }
-                else
-                {
-                    if (!entity.isClientDispose())
-                    {
-                        entity.onTick(delta);
-                    }
+
+                    ++idx;
                 }
 
-                ++idx;
+                this.emitSnowBlock(delta);
             }
+            else if(TickMode.eTM_LateUpdate == tickMode)
+            {
+                this.postUpdate();
 
-            // 检查是否发送移动消息
-            //if (Ctx.mInstance.mCommonData.isClickSplit())
-            //{
-            //    Game.Game.ReqSceneInteractive.checkChildAndSendPlayerMove();
-            //}
-            this.emitSnowBlock(delta);
+                if (this.mIsMainPosOrOrientChanged)
+                {
+                    Game.Game.ReqSceneInteractive.sendHeroMove();
+                }
+            }
         }
 
         public void postUpdate()
@@ -219,6 +226,12 @@ namespace SDK.Lib
         public void FireInTheHole()
         {
             Game.Game.ReqSceneInteractive.sendBullet();
+
+            //PlayerMainChild child = null;
+            //child = new PlayerMainChild(this.mHero);
+            //child.setPos(this.mHero.getPos());
+            //child.setMoveSpeed(this.mHero.getMoveSpeed());
+            //child.init();
         }
 
         public void stopEmitSnowBlock()
@@ -330,11 +343,6 @@ namespace SDK.Lib
         public void setIsMainPosOrOrientChanged(bool value)
         {
             this.mIsMainPosOrOrientChanged = value;
-
-            if(this.mIsMainPosOrOrientChanged)
-            {
-                Game.Game.ReqSceneInteractive.sendHeroMove();
-            }
         }
 
         public bool isMainPosOrOrientChanged()

@@ -40,13 +40,8 @@ namespace Game.UI
             HalfWidth = Screen.width / 2;
             Height = Screen.height;
 
-            //Ctx.mInstance.mInputMgr.addMouseListener(MMouseDevice.MouseLeftButton, EventId.MOUSEDOWN_EVENT, onTouchBegin);
             Ctx.mInstance.mInputMgr.addTouchListener(EventId.TOUCHBEGIN_EVENT, onTouchBegin);
-
-            //Ctx.mInstance.mInputMgr.addMouseListener(MMouseDevice.MouseLeftButton, EventId.MOUSEPRESS_EVENT, onTouchHold);
             Ctx.mInstance.mInputMgr.addTouchListener(EventId.TOUCHSTATIONARY_EVENT, onTouchHold);
-
-            //Ctx.mInstance.mInputMgr.addMouseListener(MMouseDevice.MouseLeftButton, EventId.MOUSEUP_EVENT, onTouchEnd);
             Ctx.mInstance.mInputMgr.addTouchListener(EventId.TOUCHENDED_EVENT, onTouchEnd);
 
             Ctx.mInstance.mTickMgr.addTick(this as ITickedObject, TickPriority.eTPForwardForce);
@@ -101,7 +96,7 @@ namespace Game.UI
             Ctx.mInstance.mTickMgr.removeTick(this as ITickedObject);
         }
 
-        void ITickedObject.onTick(float delta)
+        void ITickedObject.onTick(float delta, TickMode tickMode)
         {
             OneTouchUpdate();
         }
@@ -212,7 +207,7 @@ namespace Game.UI
                 if (Pos.y > Height - HalfBGWidth) Pos.y = Height - HalfBGWidth;
 
                 LOldPos = Pos;
-                Vector3 JPos = Ctx.mInstance.mCamSys.mUguiCam.ScreenToWorldPoint(new Vector3(Pos.x, Pos.y, 100f));
+                Vector3 JPos = Ctx.mInstance.mCamSys.mUguiCam.getNativeCam().ScreenToWorldPoint(new Vector3(Pos.x, Pos.y, 100f));
                 ForceBtn.gameObject.SetActive(true);
                 ForceBtn.position = new Vector3(JPos.x, JPos.y, ForceBtn.position.z);
             }

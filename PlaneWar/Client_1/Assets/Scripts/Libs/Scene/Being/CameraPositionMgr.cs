@@ -18,7 +18,7 @@ namespace SDK.Lib
         {
         }
 
-        public void onTick(float delta)
+        public void onTick(float delta, TickMode tickMode)
         {
             if(Ctx.mInstance.mPlayerMgr.getHero() != null
                /*&& (BeingState.eBSWalk == Ctx.mInstance.mPlayerMgr.getHero().getBeingState() || BeingState.eBSIOControlWalk == Ctx.mInstance.mPlayerMgr.getHero().getBeingState())*/)

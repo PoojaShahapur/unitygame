@@ -22,7 +22,7 @@
             this.mTouchList.Add(touch);
         }
 
-        public void onTick(float delta)
+        public void onTick(float delta, TickMode tickMode)
         {
             bool isTouchBegan = false;
             bool isMove = false;
