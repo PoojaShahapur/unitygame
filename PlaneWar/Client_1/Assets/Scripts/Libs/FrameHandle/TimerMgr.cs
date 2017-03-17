@@ -6,7 +6,7 @@ using System;
  */
 namespace SDK.Lib
 {
-    public class TimerMgr : DelayHandleMgrBase
+    public class TimerMgr : DelayPriorityHandleMgrBase
     {
         protected MList<TimerItemBase> mTimerList;     // 当前所有的定时器列表
 

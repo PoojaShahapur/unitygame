@@ -5,7 +5,7 @@ namespace SDK.Lib
     /**
      * @brief 场景中的实体，定义接口，逻辑相关的一些实现放在 BeingEntity 里面，例如: 地形， Player， Npc
      */
-    public class SceneEntityBase : GObject, IDelayHandleItem, IDispatchObject, ITickedObject, IPriorityObject
+    public class SceneEntityBase : GObject, IDelayHandleItem, IDispatchObject, ITickedObject, INoOrPriorityObject
     {
         protected EntityRenderBase mRender;
         protected bool mIsClientDispose;        // 客户端已经释放这个对象，但是由于在遍历中，等着遍历结束再删除，所有多这个对象的操作都是无效的

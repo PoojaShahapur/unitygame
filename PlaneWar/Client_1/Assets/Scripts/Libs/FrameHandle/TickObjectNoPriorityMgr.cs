@@ -1,23 +1,21 @@
 ﻿namespace SDK.Lib
 {
     // 每一帧执行的对象管理器
-    public class TickObjectNoPriorityMgr : DelayHandleMgrBase, ITickedObject, IDelayHandleItem
+    public class TickObjectNoPriorityMgr : DelayNoPriorityHandleMgr, ITickedObject, IDelayHandleItem, INoOrPriorityObject
     {
-        protected MList<ITickedObject> mTickObjectList;
-
         public TickObjectNoPriorityMgr()
         {
-            this.mTickObjectList = new MList<ITickedObject>();
+
         }
 
         override public void init()
         {
-
+            base.init();
         }
 
         override public void dispose()
         {
-
+            base.dispose();
         }
 
         public void setClientDispose(bool isDispose)
@@ -30,62 +28,54 @@
             return false;
         }
 
-        virtual public void onTick(float delta)
+        public void onTick(float delta)
         {
             this.incDepth();
 
-            this.onExecTick(delta);
+            this.onPreAdvance(delta);
+            this.onExecAdvance(delta);
+            this.onPostAdvance(delta);
 
             this.decDepth();
         }
 
-        virtual protected void onExecTick(float delta)
+        virtual protected void onPreAdvance(float delta)
+        {
+
+        }
+
+        virtual protected void onExecAdvance(float delta)
         {
             int idx = 0;
-            int count = this.mTickObjectList.Count();
+            int count = this.mNoPriorityList.Count();
             ITickedObject tickObject = null;
 
             while (idx < count)
             {
-                tickObject = this.mTickObjectList[idx];
+                tickObject = this.mNoPriorityList.get(idx) as ITickedObject;
 
-                if (!(tickObject as IDelayHandleItem).isClientDispose())
+                if (null != (tickObject as IDelayHandleItem))
                 {
-                    tickObject.onTick(delta);
+                    if (!(tickObject as IDelayHandleItem).isClientDispose())
+                    {
+                        tickObject.onTick(delta);
+                    }
+                }
+                else
+                {
+                    if (MacroDef.ENABLE_LOG)
+                    {
+                        Ctx.mInstance.mLogSys.log("TickObjectNoPriorityMgr::onExecAdvance, failed", LogTypeId.eLogCommon);
+                    }
                 }
 
                 ++idx;
             }
         }
 
-        override protected void addObject(IDelayHandleItem tickObject, float priority = 0.0f)
+        virtual protected void onPostAdvance(float delta)
         {
-            if (this.isInDepth())
-            {
-                base.addObject(tickObject);
-            }
-            else
-            {
-                if (!this.mTickObjectList.Contains(tickObject as ITickedObject))
-                {
-                    this.mTickObjectList.Add(tickObject as ITickedObject);
-                }
-            }
-        }
 
-        override protected void removeObject(IDelayHandleItem tickObject)
-        {
-            if (this.isInDepth())
-            {
-                base.removeObject(tickObject);
-            }
-            else
-            {
-                if (this.mTickObjectList.Contains(tickObject as ITickedObject))
-                {
-                    this.mTickObjectList.Remove(tickObject as ITickedObject);
-                }
-            }
         }
     }
 }

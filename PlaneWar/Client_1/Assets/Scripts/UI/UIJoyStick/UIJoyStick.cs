@@ -7,7 +7,7 @@ namespace Game.UI
     /**
      * @brief 摇杆
      */
-    public class UIJoyStick : Form, ITickedObject, IDelayHandleItem, IPriorityObject
+    public class UIJoyStick : Form, ITickedObject, IDelayHandleItem, INoOrPriorityObject
     {
         private RectTransform Joystick;
         private RectTransform BackGrounds;

@@ -1,7 +1,7 @@
 ﻿namespace SDK.Lib
 {
     // 加载进度
-    public class LoadProgressMgr : TickObjectNoPriorityMgr, IPriorityObject
+    public class LoadProgressMgr : TickObjectNoPriorityMgr, INoOrPriorityObject
     {
         public LoadProgressMgr()
         {

@@ -1,6 +1,6 @@
 ﻿namespace SDK.Lib
 {
-    public class FlyBulletFlockMgr : TickObjectNoPriorityMgr, IPriorityObject
+    public class FlyBulletFlockMgr : TickObjectNoPriorityMgr, INoOrPriorityObject
     {
         protected MDictionary<uint, FlyBulletFlock> mId2EntityDic;
 
@@ -19,9 +19,9 @@
             base.dispose();
         }
 
-        public void addBulletFlock(ITickedObject tickObj, float priority = 0.0f)
+        public void addBulletFlock(ITickedObject tickObj)
         {
-            this.addObject(tickObj as IDelayHandleItem, priority);
+            this.addObject(tickObj as IDelayHandleItem);
             this.mId2EntityDic.Add((tickObj as FlyBulletFlock).getThisId(), tickObj as FlyBulletFlock);
         }
 

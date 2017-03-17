@@ -54,7 +54,9 @@ namespace SDK.Lib
             //this.mEnableLogTypeList[(int)LogColor.eLC_LOG].Add(LogTypeId.eLogMergeBug);
             //this.mEnableLogTypeList[(int)LogColor.eLC_LOG].Add(LogTypeId.eLogEatBug);
             //this.mEnableLogTypeList[(int)LogColor.eLC_LOG].Add(LogTypeId.eLogSimHitBullet);
-            this.mEnableLogTypeList[(int)LogColor.eLC_LOG].Add(LogTypeId.eLogTwoDTerrain);
+            //this.mEnableLogTypeList[(int)LogColor.eLC_LOG].Add(LogTypeId.eLogTwoDTerrain);
+            this.mEnableLogTypeList[(int)LogColor.eLC_LOG].Add(LogTypeId.eLogPriorityListCheck);
+            this.mEnableLogTypeList[(int)LogColor.eLC_LOG].Add(LogTypeId.eLogNoPriorityListCheck);
 
             this.mEnableLogTypeList[(int)LogColor.eLC_WARN] = new MList<LogTypeId>();
 

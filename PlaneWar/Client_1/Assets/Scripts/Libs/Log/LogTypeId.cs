@@ -23,5 +23,7 @@
         eLogEatBug,         // 手机不能吃 bug
         eLogSimHitBullet,   // 模拟集中日志
         eLogTwoDTerrain,    // 2D 地形
+        eLogPriorityListCheck,  // PriorityList 错误检查
+        eLogNoPriorityListCheck,// NoPriorityList 错误检查
     }
 }

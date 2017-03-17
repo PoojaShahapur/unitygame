@@ -3,7 +3,7 @@
     /**
      * @brief 延迟优先级处理管理器
      */
-    public class DelayPriorityHandleMgr : DelayHandleMgrBase
+    public class DelayPriorityHandleMgr : DelayPriorityHandleMgrBase
     {
         protected PriorityList mPriorityList;
 
@@ -11,6 +11,7 @@
         {
             this.mPriorityList = new PriorityList();
             this.mPriorityList.setIsSpeedUpFind(true);
+            this.mPriorityList.setIsOpKeepSort(true);
         }
 
         override public void init()
@@ -25,29 +26,49 @@
 
         override protected void addObject(IDelayHandleItem delayObject, float priority = 0.0f)
         {
-            if (this.isInDepth())
+            if (null != delayObject)
             {
-                base.addObject(delayObject, priority);
+                if (this.isInDepth())
+                {
+                    base.addObject(delayObject, priority);
+                }
+                else
+                {
+                    this.mPriorityList.addPriorityObject(delayObject as INoOrPriorityObject, priority);
+                }
             }
             else
             {
-                this.mPriorityList.addPriorityObject(delayObject as IPriorityObject, priority, true);
+                if (MacroDef.ENABLE_LOG)
+                {
+                    Ctx.mInstance.mLogSys.log("DelayPriorityHandleMgr::addObject, failed", LogTypeId.eLogCommon);
+                }
             }
         }
 
         override protected void removeObject(IDelayHandleItem delayObject)
         {
-            if (this.isInDepth())
+            if (null != delayObject)
             {
-                base.removeObject(delayObject);
+                if (this.isInDepth())
+                {
+                    base.removeObject(delayObject);
+                }
+                else
+                {
+                    this.mPriorityList.removePriorityObject(delayObject as INoOrPriorityObject);
+                }
             }
             else
             {
-                this.mPriorityList.removePriorityObject(delayObject as IPriorityObject);
+                if (MacroDef.ENABLE_LOG)
+                {
+                    Ctx.mInstance.mLogSys.log("DelayPriorityHandleMgr::removeObject, failed", LogTypeId.eLogCommon);
+                }
             }
         }
 
-        public void addPriorityObject(IPriorityObject priorityObject, float priority = 0.0f)
+        public void addPriorityObject(INoOrPriorityObject priorityObject, float priority = 0.0f)
         {
             this.addObject(priorityObject as IDelayHandleItem, priority);
         }

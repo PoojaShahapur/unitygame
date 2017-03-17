@@ -5,7 +5,7 @@ namespace SDK.Lib
     /**
      * @brief 飞行子弹聚集
      */
-    public class FlyBulletFlock : ITickedObject, IDelayHandleItem, IPriorityObject
+    public class FlyBulletFlock : ITickedObject, IDelayHandleItem, INoOrPriorityObject
     {
         public FlyBulletMgr mFlyBulletMgr;
         protected uint mThisId;

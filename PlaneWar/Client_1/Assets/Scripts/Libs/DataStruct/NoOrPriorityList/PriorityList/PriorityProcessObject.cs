@@ -5,7 +5,7 @@
      */
     public class PriorityProcessObject
     {
-        public IPriorityObject mPriorityObject;
+        public INoOrPriorityObject mPriorityObject;
         public float mPriority;
 
         public PriorityProcessObject()

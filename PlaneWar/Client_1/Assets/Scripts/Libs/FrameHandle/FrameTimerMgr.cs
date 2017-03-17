@@ -3,7 +3,7 @@
  */
 namespace SDK.Lib
 {
-    public class FrameTimerMgr : DelayHandleMgrBase
+    public class FrameTimerMgr : DelayPriorityHandleMgrBase
     {
         protected MList<FrameTimerItem> mTimerList;     // 当前所有的定时器列表
 

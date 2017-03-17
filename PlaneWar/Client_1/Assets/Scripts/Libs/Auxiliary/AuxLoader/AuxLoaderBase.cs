@@ -3,7 +3,7 @@
     /**
      * @brief 资源加载器
      */
-    public class AuxLoaderBase : GObject, IDispatchObject, IRecycle, IDelayTask, IPriorityObject, IDelayHandleItem
+    public class AuxLoaderBase : GObject, IDispatchObject, IRecycle, IDelayTask, INoOrPriorityObject, IDelayHandleItem
     {
         protected ResLoadState mResLoadState;      // 资源加载状态
         protected string mPrePath;      // 之前加载的资源目录

@@ -2,7 +2,7 @@
 
 namespace SDK.Lib
 {
-    public class CameraPositionMgr : ITickedObject, IDelayHandleItem, IPriorityObject
+    public class CameraPositionMgr : ITickedObject, IDelayHandleItem, INoOrPriorityObject
     {
         public CameraPositionMgr()
         {

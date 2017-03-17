@@ -307,21 +307,21 @@
 
             if (ResPackType.eResourcesType == param.mResPackType)        // 默认 Bundle 中资源
             {
-                if (loadItem == null)
+                if (null == loadItem)
                 {
                     loadItem = new ResourceLoadItem();
                 }
             }
             else if (ResPackType.eBundleType == param.mResPackType)        // Bundle 打包模式
             {
-                if (loadItem == null)
+                if (null == loadItem)
                 {
                     loadItem = new BundleLoadItem();
                 }
             }
             else if (ResPackType.eLevelType == param.mResPackType)
             {
-                if (loadItem == null)
+                if (null == loadItem)
                 {
                     loadItem = new LevelLoadItem();
                 }
@@ -330,21 +330,21 @@
             }
             else if (ResPackType.eDataType == param.mResPackType)
             {
-                if (loadItem == null)
+                if (null == loadItem)
                 {
                     loadItem = new DataLoadItem();
                 }
             }
             else if (ResPackType.eUnPakType == param.mResPackType || ResPackType.eUnPakLevelType == param.mResPackType)
             {
-                if (loadItem == null)
+                if (null == loadItem)
                 {
                     loadItem = new ABUnPakLoadItem();
                 }
             }
             else if (ResPackType.ePakType == param.mResPackType || ResPackType.ePakLevelType == param.mResPackType)
             {
-                if (loadItem == null)
+                if (null == loadItem)
                 {
                     loadItem = new ABPakLoadItem();
                 }
@@ -363,14 +363,14 @@
 
             if (this.mLoadData.mPath2Res[param.mResUniqueId].refCountResLoadResultNotify.resLoadState.hasLoaded())
             {
-                if (param.mLoadEventHandle != null)
+                if(null != param.mLoadEventHandle)
                 {
                     param.mLoadEventHandle(mLoadData.mPath2Res[param.mResUniqueId]);
                 }
             }
             else
             {
-                if (param.mLoadEventHandle != null)
+                if (null != param.mLoadEventHandle)
                 {
                     this.mLoadData.mPath2Res[param.mResUniqueId].refCountResLoadResultNotify.loadResEventDispatch.addEventHandle(null, param.mLoadEventHandle);
                 }
@@ -431,7 +431,7 @@
             {
                 this.loadWithResCreatedAndLoad(param);
             }
-            else if(param.mLoadRes != null)
+            else if(null != param.mLoadRes)
             {
                 this.loadWithResCreatedAndNotLoad(param, this.mLoadData.mPath2Res[param.mResUniqueId]);
             }

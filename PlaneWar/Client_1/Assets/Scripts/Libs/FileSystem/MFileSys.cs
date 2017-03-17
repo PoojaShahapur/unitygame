@@ -210,48 +210,11 @@ namespace SDK.Lib
             return ret;
         }
 
-        //static public void writeBytesToFile(string fileName, byte[] buf)
-        //{
-        //    File.WriteAllBytes(msRWDataPath + "/" + fileName, buf);
-        //}
-
-        //static public string readFileAllText(string fileName)
-        //{
-        //    string ret = null;
-        //    try
-        //    {
-        //        ret = File.ReadAllText(msRWDataPath + "/" + fileName);
-        //    }
-        //    catch
-        //    {
-        //        Debug.Log("Not Find File " + fileName);
-        //    }
-
-        //    return ret;
-        //}
-
-        //static public void writeTextToFile(string fileName, string text)
-        //{
-        //    File.WriteAllText(msRWDataPath + "/" + fileName, text);
-        //}
-
-        //static public LuaStringBuffer readLuaBufferToFile(string fileName)
-        //{
-        //    byte[] ret = readFileAllBytes(fileName.ToString());
-        //    LuaStringBuffer buffer = new LuaStringBuffer(ret);
-        //    return buffer;
-        //}
-
         static public LuaInterface.LuaByteBuffer readLuaBufferToFile(string fileName)
         {
             byte[] ret = readFileAllBytes(fileName.ToString());
             LuaInterface.LuaByteBuffer buffer = new LuaInterface.LuaByteBuffer(ret);
             return buffer;
         }
-
-        //static public void writeLuaBufferToFile(string fileName, LuaStringBuffer text)
-        //{
-        //    writeBytesToFile(fileName, text.buffer);
-        //}
     }
 }

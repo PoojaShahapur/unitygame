@@ -1,6 +1,6 @@
 ﻿namespace SDK.Lib
 {
-    public class EntityMgrBase : DelayHandleMgrBase, ITickedObject, IDelayHandleItem, IPriorityObject
+    public class EntityMgrBase : DelayPriorityHandleMgrBase, ITickedObject, IDelayHandleItem, INoOrPriorityObject
     {
         protected MList<SceneEntityBase> mSceneEntityList;
         protected MDictionary<string, SceneEntityBase> mId2EntityDic;

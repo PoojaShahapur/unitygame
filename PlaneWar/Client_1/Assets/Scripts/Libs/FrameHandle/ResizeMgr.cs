@@ -1,6 +1,6 @@
 ﻿namespace SDK.Lib
 {
-    public class ResizeMgr : DelayHandleMgrBase, ITickedObject, IDelayHandleItem, IPriorityObject
+    public class ResizeMgr : DelayPriorityHandleMgrBase, ITickedObject, IDelayHandleItem, INoOrPriorityObject
     {
         protected int mPreWidth;       // 之前宽度
         protected int mPreHeight;

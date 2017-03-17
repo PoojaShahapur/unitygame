@@ -3,17 +3,19 @@
     /**
      * @brief 当需要管理的对象可能在遍历中间添加的时候，需要这个管理器
      */
-    public class DelayHandleMgrBase : GObject
+    public class DelayPriorityHandleMgrBase : GObject
     {
         protected PriorityList mDeferredAddQueue;
         protected PriorityList mDeferredDelQueue;
 
         protected LoopDepth mLoopDepth;           // 是否在循环中，支持多层嵌套，就是循环中再次调用循环
 
-        public DelayHandleMgrBase()
+        public DelayPriorityHandleMgrBase()
         {
             this.mDeferredAddQueue = new PriorityList();
+            this.mDeferredAddQueue.setIsSpeedUpFind(true);
             this.mDeferredDelQueue = new PriorityList();
+            this.mDeferredDelQueue.setIsSpeedUpFind(true);
 
             this.mLoopDepth = new LoopDepth();
             this.mLoopDepth.setZeroHandle(this.processDelayObjects);
@@ -33,14 +35,14 @@
         {
             if(this.mLoopDepth.isInDepth())
             {
-                if (!this.mDeferredAddQueue.Contains(delayObject as IPriorityObject))        // 如果添加列表中没有
+                if (!this.mDeferredAddQueue.Contains(delayObject as INoOrPriorityObject))        // 如果添加列表中没有
                 {
-                    if (this.mDeferredDelQueue.Contains(delayObject as IPriorityObject))     // 如果已经添加到删除列表中
+                    if (this.mDeferredDelQueue.Contains(delayObject as INoOrPriorityObject))     // 如果已经添加到删除列表中
                     {
-                        this.mDeferredDelQueue.removePriorityObject(delayObject as IPriorityObject);
+                        this.mDeferredDelQueue.removePriorityObject(delayObject as INoOrPriorityObject);
                     }
                     
-                    this.mDeferredAddQueue.addPriorityObject(delayObject as IPriorityObject, priority);
+                    this.mDeferredAddQueue.addPriorityObject(delayObject as INoOrPriorityObject, priority);
                 }
             }
         }
@@ -49,16 +51,16 @@
         {
             if (this.mLoopDepth.isInDepth())
             {
-                if (!this.mDeferredDelQueue.Contains(delayObject as IPriorityObject))
+                if (!this.mDeferredDelQueue.Contains(delayObject as INoOrPriorityObject))
                 {
-                    if (this.mDeferredAddQueue.Contains(delayObject as IPriorityObject))    // 如果已经添加到删除列表中
+                    if (this.mDeferredAddQueue.Contains(delayObject as INoOrPriorityObject))    // 如果已经添加到删除列表中
                     {
-                        this.mDeferredAddQueue.removePriorityObject(delayObject as IPriorityObject);
+                        this.mDeferredAddQueue.removePriorityObject(delayObject as INoOrPriorityObject);
                     }
 
                     delayObject.setClientDispose(true);
                     
-                    this.mDeferredDelQueue.removePriorityObject(delayObject as IPriorityObject);
+                    this.mDeferredDelQueue.removePriorityObject(delayObject as INoOrPriorityObject);
                 }
             }
         }

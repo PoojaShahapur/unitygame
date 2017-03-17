@@ -19,7 +19,7 @@ namespace SDK.Lib
     /**
      * @brief 音乐和音效都是这个类
      */
-    public class SoundItem : ITickedObject, IDelayHandleItem, IPriorityObject
+    public class SoundItem : ITickedObject, IDelayHandleItem, INoOrPriorityObject
     {
         public string mPath;           // 资源目录
         public string mUniqueId;       // 资源唯一 Id

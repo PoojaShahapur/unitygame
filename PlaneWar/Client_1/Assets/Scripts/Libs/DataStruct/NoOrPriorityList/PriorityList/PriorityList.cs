@@ -8,14 +8,16 @@
         protected MList<PriorityProcessObject> mPriorityProcessObjectList;  // 优先级对象列表
         protected PrioritySort mPrioritySort;   // 排序方式
 
-        protected MDictionary<IPriorityObject, int> mDic;       // 查找字典
-        protected bool mIsSpeedUpFind;      // 是否开启查找
+        protected MDictionary<INoOrPriorityObject, int> mDic;   // 查找字典
+        protected bool mIsSpeedUpFind;          // 是否开启查找
+        protected bool mIsOpKeepSort;           // 操作的时候是否保持排序
 
         public PriorityList()
         {
             this.mPriorityProcessObjectList = new MList<PriorityProcessObject>();
             this.mPrioritySort = PrioritySort.ePS_Great;
             this.mIsSpeedUpFind = false;
+            this.mIsOpKeepSort = false;
         }
 
         public void setIsSpeedUpFind(bool value)
@@ -24,8 +26,13 @@
 
             if (this.mIsSpeedUpFind)
             {
-                this.mDic = new MDictionary<IPriorityObject, int>();
+                this.mDic = new MDictionary<INoOrPriorityObject, int>();
             }
+        }
+
+        public void setIsOpKeepSort(bool value)
+        {
+            this.mIsOpKeepSort = value;
         }
 
         public void Clear()
@@ -43,9 +50,9 @@
             return this.mPriorityProcessObjectList.Count();
         }
 
-        public IPriorityObject get(int index)
+        public INoOrPriorityObject get(int index)
         {
-            IPriorityObject ret = null;
+            INoOrPriorityObject ret = null;
 
             if(index < Count())
             {
@@ -67,28 +74,38 @@
             return ret;
         }
 
-        public bool Contains(IPriorityObject item)
+        public bool Contains(INoOrPriorityObject item)
         {
             bool ret = false;
 
-            if (this.mIsSpeedUpFind)
+            if (null != item)
             {
-                ret = this.mDic.ContainsKey(item);
+                if (this.mIsSpeedUpFind)
+                {
+                    ret = this.mDic.ContainsKey(item);
+                }
+                else
+                {
+                    int index = 0;
+                    int len = this.mPriorityProcessObjectList.Count();
+
+                    while (index < len)
+                    {
+                        if (item == this.mPriorityProcessObjectList.get(index).mPriorityObject)
+                        {
+                            ret = true;
+                            break;
+                        }
+
+                        ++index;
+                    }
+                }
             }
             else
             {
-                int index = 0;
-                int len = this.mPriorityProcessObjectList.Count();
-
-                while(index < len)
+                if (MacroDef.ENABLE_LOG)
                 {
-                    if(item == this.mPriorityProcessObjectList.get(index).mPriorityObject)
-                    {
-                        ret = true;
-                        break;
-                    }
-
-                    ++index;
+                    Ctx.mInstance.mLogSys.log("PriorityList::Contains, failed", LogTypeId.eLogPriorityListCheck);
                 }
             }
 
@@ -139,7 +156,7 @@
             return retIndex;
         }
 
-        public int getIndexByPriorityObject(IPriorityObject priorityObject)
+        public int getIndexByPriorityObject(INoOrPriorityObject priorityObject)
         {
             int retIndex = -1;
 
@@ -160,7 +177,7 @@
             return retIndex;
         }
 
-        public void addPriorityObject(IPriorityObject priorityObject, float priority = 0.0f, bool isNeedSort = false)
+        public void addPriorityObject(INoOrPriorityObject priorityObject, float priority = 0.0f)
         {
             if (null != priorityObject)
             {
@@ -172,7 +189,7 @@
                     priorityProcessObject.mPriorityObject = priorityObject;
                     priorityProcessObject.mPriority = priority;
 
-                    if (!isNeedSort)
+                    if (!this.mIsOpKeepSort)
                     {
                         this.mPriorityProcessObjectList.Add(priorityProcessObject);
 
@@ -211,12 +228,12 @@
             {
                 if (MacroDef.ENABLE_LOG)
                 {
-                    Ctx.mInstance.mLogSys.log("PriorityList::addPriorityObject, failed", LogTypeId.eLogCommon);
+                    Ctx.mInstance.mLogSys.log("PriorityList::addPriorityObject, failed", LogTypeId.eLogPriorityListCheck);
                 }
             }
         }
 
-        public void removePriorityObject(IPriorityObject priorityObject)
+        public void removePriorityObject(INoOrPriorityObject priorityObject)
         {
             if (this.Contains(priorityObject))
             {
@@ -237,7 +254,7 @@
         }
 
         // 快速移除元素
-        protected bool effectiveRemove(IPriorityObject item)
+        protected bool effectiveRemove(INoOrPriorityObject item)
         {
             bool ret = false;
 
@@ -245,33 +262,42 @@
             {
                 ret = true;
 
-                int idx = this.mDic[item];
+                int index = this.mDic[item];
                 this.mDic.Remove(item);
 
-                if (idx == this.mPriorityProcessObjectList.Count() - 1)    // 如果是最后一个元素，直接移除
+                if (index == this.mPriorityProcessObjectList.Count() - 1)    // 如果是最后一个元素，直接移除
                 {
-                    this.mPriorityProcessObjectList.RemoveAt(idx);
+                    this.mPriorityProcessObjectList.RemoveAt(index);
                 }
                 else
                 {
-                    this.mPriorityProcessObjectList.set(idx, this.mPriorityProcessObjectList.get(this.mPriorityProcessObjectList.Count() - 1));
-                    this.mPriorityProcessObjectList.RemoveAt(this.mPriorityProcessObjectList.Count() - 1);
-                    this.mDic.Add(this.mPriorityProcessObjectList.get(idx).mPriorityObject, idx);
+                    // 这样移除会使优先级顺序改变
+                    if (!this.mIsOpKeepSort)
+                    {
+                        this.mPriorityProcessObjectList.set(index, this.mPriorityProcessObjectList.get(this.mPriorityProcessObjectList.Count() - 1));
+                        this.mPriorityProcessObjectList.RemoveAt(this.mPriorityProcessObjectList.Count() - 1);
+                        this.mDic.Add(this.mPriorityProcessObjectList.get(index).mPriorityObject, index);
+                    }
+                    else
+                    {
+                        this.mPriorityProcessObjectList.RemoveAt(index);
+                        this.updateIndex(index);
+                    }
                 }
             }
 
             return ret;
         }
 
-        protected void updateIndex(int idx)
+        protected void updateIndex(int index)
         {
-            int len = this.mPriorityProcessObjectList.Count();
+            int listLen = this.mPriorityProcessObjectList.Count();
 
-            while (idx < len)
+            while (index < listLen)
             {
-                this.mDic.Add(this.mPriorityProcessObjectList.get(idx).mPriorityObject, idx);
+                this.mDic.Add(this.mPriorityProcessObjectList.get(index).mPriorityObject, index);
 
-                ++idx;
+                ++index;
             }
         }
     }

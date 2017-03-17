@@ -3,7 +3,7 @@ using System;
 
 namespace SDK.Lib
 {
-    public class EventDispatchFunctionObject : IDelayHandleItem
+    public class EventDispatchFunctionObject : IDelayHandleItem, INoOrPriorityObject
     {
         public bool mIsClientDispose;       // 是否释放了资源
         public ICalleeObject mThis;
