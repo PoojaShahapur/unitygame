@@ -31,5 +31,10 @@
                 return player.id == room.ms_and_id.id;
             });
         }
+
+        public uint ServerUpdateInterval()
+        {
+            return this.mRoom.syncinterval;
+        }
     }
 }

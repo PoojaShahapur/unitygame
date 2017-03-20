@@ -231,12 +231,12 @@ namespace SDK.Lib
     public class XmlPlaneItem : XmlItemBase
     {
         public uint mID;
-        public string mName;
+        public string mPath;
 
         public override void parseXml(SecurityElement xmlelem)
         {
             UtilXml.getXmlAttrUInt(xmlelem, "ID", ref mID);
-            UtilXml.getXmlAttrStr(xmlelem, "Name", ref mName);
+            UtilXml.getXmlAttrStr(xmlelem, "Name", ref mPath);
         }
     }
     

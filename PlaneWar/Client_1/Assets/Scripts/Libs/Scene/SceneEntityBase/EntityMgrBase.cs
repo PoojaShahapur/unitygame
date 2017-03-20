@@ -5,7 +5,10 @@
         protected MList<SceneEntityBase> mSceneEntityList;
         protected MDictionary<string, SceneEntityBase> mId2EntityDic;
         protected MDictionary<uint, SceneEntityBase> mThisId2EntityDic;
+
+        protected bool mIsEnablePool;
         protected MList<SceneEntityBase> mBufferPool;
+
         protected UniqueStrIdGen mUniqueStrIdGen;
 
         public EntityMgrBase()
@@ -15,6 +18,8 @@
 
             this.mId2EntityDic = new MDictionary<string, SceneEntityBase>();
             this.mThisId2EntityDic = new MDictionary<uint, SceneEntityBase>();
+
+            this.mIsEnablePool = false;
             this.mBufferPool = new MList<SceneEntityBase>();
             this.mBufferPool.setIsSpeedUpFind(true);
         }
@@ -87,7 +92,11 @@
         virtual public void removeEntity(SceneEntityBase entity, bool isDispose = true)
         {
             this.removeObject(entity);
-            this.mBufferPool.Add(entity);
+
+            if (this.mIsEnablePool)
+            {
+                this.mBufferPool.Add(entity);
+            }
 
             if (this.mId2EntityDic.ContainsKey(entity.getEntityUniqueId()))
             {
@@ -189,10 +198,14 @@
         public SceneEntityBase getBufferEntity()
         {
             SceneEntityBase entity = null;
-            if (mBufferPool.Count() > 0)
+
+            if (this.mIsEnablePool)
             {
-                entity = mBufferPool[0];
-                mBufferPool.Remove(entity);
+                if (mBufferPool.Count() > 0)
+                {
+                    entity = mBufferPool[0];
+                    mBufferPool.Remove(entity);
+                }
             }
 
             return entity;

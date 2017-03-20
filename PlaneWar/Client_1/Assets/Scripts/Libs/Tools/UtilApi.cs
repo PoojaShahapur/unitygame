@@ -2129,13 +2129,14 @@ namespace SDK.Lib
         }
         
         // 设置精灵
-        static public void setSprite(UnityEngine.SpriteRenderer spriterender, string name)
+        static public void setSprite(UnityEngine.SpriteRenderer spriterender, string path)
         {
             if(spriterender != null)
             {
                 AuxSpriteAtlasLoader _spriteloader = new AuxSpriteAtlasLoader();
-                _spriteloader.syncLoad("DefaultSkin/Ships/" + name + ".png");
-                spriterender.sprite = _spriteloader.getSprite(name);
+                _spriteloader.syncLoad(path);
+                string spritename = UtilPath.getFileNameNoExt(path);
+                spriterender.sprite = _spriteloader.getSprite(spritename);
             }
         }
     }

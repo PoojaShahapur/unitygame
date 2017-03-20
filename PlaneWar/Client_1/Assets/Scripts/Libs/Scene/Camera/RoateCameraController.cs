@@ -9,11 +9,12 @@ namespace SDK.Lib
     {
         private Transform transform;
 
-        public RoateCameraController(Camera camera, GameObject go, SceneEntityBase actor)
-            : base(camera, go)
+        public RoateCameraController(CamEntity camera, ICamTargetEntiry targetEntity)
+            : base(camera, targetEntity)
         {
-            this.transform = camera.gameObject.GetComponent<Transform>();
-            Ctx.mInstance.mGlobalDelegate.addMainChildChangedHandle(null, onTargetOrientPosChanged);
+            //this.transform = camera.gameObject.GetComponent<Transform>();
+            camera.mCameraCreatedDispatch.addEventHandle(null, this.onCamCreated);
+            Ctx.mInstance.mGlobalDelegate.addMainChildChangedHandle(null, this.onTargetOrientPosChanged);
 
             this.onTargetOrientPosChanged(null);
         }
@@ -23,9 +24,18 @@ namespace SDK.Lib
            Screen.sleepTimeout = SleepTimeout.NeverSleep;//设置屏幕永远亮着
         }
 
-        public void dispose()
+        override public void dispose()
         {
 
+        }
+
+        // 相机创建事件
+        override public void onCamCreated(IDispatchObject dispObj)
+        {
+            base.onCamCreated(dispObj);
+
+            this.transform = this.mCamera.GetComponent<Transform>();
+            this.onTargetOrientPosChanged(null);
         }
 
         public void onTargetOrientPosChanged(IDispatchObject dispObj)
@@ -35,27 +45,30 @@ namespace SDK.Lib
 
         private void SetCameraPosition(bool isDispMove = false)
         {
-            PlayerMain playerMain = Ctx.mInstance.mPlayerMgr.getHero();
-
-            if(null != playerMain && !playerMain.getIsDead())
+            if (null != this.transform && null != this.mCamera)
             {
-                //中心位置
-                Vector3 centerPos = playerMain.getPos();
-                //缩放参照距离
-                float radius = playerMain.mPlayerSplitMerge.getMaxCameraLength();
-                //缩放相机距离
-                float viewScale = radius * Ctx.mInstance.mSnowBallCfg.mCameraChangeFactor_Y;
-                this.mCamera.GetComponent<Camera>().orthographicSize = 3 + viewScale;
+                PlayerMain playerMain = Ctx.mInstance.mPlayerMgr.getHero();
 
-                Ctx.mInstance.mClipRect.setCam(this.mCamera.GetComponent<Camera>());
-
-                //更改主相机的旋转角度和位置
-                centerPos.z = -10;
-                this.transform.position = centerPos;
-
-                if (isDispMove)
+                if (null != playerMain && !playerMain.getIsDead())
                 {
-                    Ctx.mInstance.mGlobalDelegate.mCameraOrientChangedDispatch.dispatchEvent(null);
+                    //中心位置
+                    Vector3 centerPos = playerMain.getPos();
+                    //缩放参照距离
+                    float radius = playerMain.mPlayerSplitMerge.getMaxCameraLength();
+                    //缩放相机距离
+                    float viewScale = radius * Ctx.mInstance.mSnowBallCfg.mCameraChangeFactor_Y;
+                    this.mCamera.GetComponent<Camera>().orthographicSize = 3 + viewScale;
+
+                    Ctx.mInstance.mClipRect.setCam(this.mCamera.GetComponent<Camera>());
+
+                    //更改主相机的旋转角度和位置
+                    centerPos.z = -10;
+                    this.transform.position = centerPos;
+
+                    if (isDispMove)
+                    {
+                        Ctx.mInstance.mGlobalDelegate.mCameraOrientChangedDispatch.dispatchEvent(null);
+                    }
                 }
             }
         }

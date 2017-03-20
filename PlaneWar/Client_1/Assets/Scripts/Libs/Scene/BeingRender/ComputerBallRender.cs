@@ -24,7 +24,7 @@
 
             int min = 0;
             int max = Ctx.mInstance.mSnowBallCfg.planes.Length;
-            UtilApi.setSprite(this.mSpriteRender, Ctx.mInstance.mSnowBallCfg.planes[UtilMath.RangeRandom(min, max)].mName);
+            UtilApi.setSprite(this.mSpriteRender, Ctx.mInstance.mSnowBallCfg.planes[UtilMath.RangeRandom(min, max)].mPath);
         }
 
         override protected void onRetPool()

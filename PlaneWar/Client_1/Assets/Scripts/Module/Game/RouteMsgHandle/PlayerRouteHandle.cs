@@ -30,53 +30,41 @@ namespace Game.Game
 
         public void OnLoadEntity(Player player, object obj)
         {
+            //this._teamInfo = obj as JoinTeam;
+            //this.txtName = this.transform.GetComponentInChildren<Text>(true);
+            //this.txtName.text = this._teamInfo.name;
+            //this.angle = this._teamInfo.angle;
+            //this.pos = this._teamInfo.pos;
+            //foreach (var pair in _teamInfo.trangles)
+            //{
+            //    AddTrangle(pair.Key).pos = pair.Value;
+            //}
+
             this._teamInfo = obj as Giant.JoinTeam;
             player.setName(this._teamInfo.name);
             player.setMoveSpeed(this._teamInfo.moveSpeed);
+            player.setPos(this._teamInfo.pos);
+            player.setRotateEulerAngle(new UnityEngine.Vector3(0, 0, this._teamInfo.angle));
 
-            if (this._teamInfo.move.moves.Count == 0)
+            foreach (var pair in _teamInfo.trangles)
             {
-                this._teamInfo.move.angle = 0;
-                this._teamInfo.move.teamPos = UnityEngine.Vector2.zero;
-                for (int i = 0; i < 3; ++i)
-                {
-                    this._teamInfo.move.moves.Add(player.mUniqueNumIdGen.genNewId(), UnityEngine.Vector2.zero);
-                }
-            }
-            this.initTrangles(player);
-        }
-
-        public void initTrangles(Player player)
-        {
-            if (_teamInfo != null)
-            {
-                player.setPos(_teamInfo.move.teamPos);
-                player.setInvincibleTime(_teamInfo.invincibleTime);
-                foreach (var pair in _teamInfo.move.moves)
-                {
-                    PlayerChild trangle = AddTrangle(player, (int)pair.Key);
-                    trangle.setPos(pair.Value);
-                    trangle.setMoveSpeed(player.getMoveSpeed());
-                }
-                player.setRotateEulerAngle(new UnityEngine.Vector3(0, 0, _teamInfo.move.angle));
+                AddTrangle(player, pair.Key).setPos(pair.Value);
             }
         }
 
-        public PlayerChild AddTrangle(Player player, int id = -1)
+        public PlayerChild AddTrangle(Player player, uint id)
         {
             //int layer = LayerManager.OtherTrangle;
             //if (IsMainTeam)
             //    layer = LayerManager.MainTrangle;
             //var trangle = SceneObject.Create<Trangle>(transform, "Prefabs/trangle", null, layer);
-            //trangle.objctid = (uint)(id < 0 ? (int)AllocTrangleID() : id);
+            //trangle.objctid = id;
             //trangle.team = this;
             //trangle.angle = this.angle;
             //trangle.UpdateTrigger();
             //trangles.Add(trangle.objctid, trangle);
 
             //trangle.GetComponent<Joint2D>().connectedBody = this.entityRigitBody;
-            ////if (this.IsInvincible)
-            ////   trangle.Blink(this.invincibleTime);
             //return trangle;
 
             PlayerChild trangle = null;
@@ -90,7 +78,7 @@ namespace Game.Game
                 trangle = new PlayerOtherChild(player);
             }
 
-            trangle.setThisId((uint)(id < 0 ? (int)player.mUniqueNumIdGen.genNewId() : id));
+            trangle.setThisId(id);
             trangle.setRotateEulerAngle(player.getRotateEulerAngle());
             trangle.setPos(player.getPos());
             trangle.setMoveSpeed(player.getMoveSpeed());
@@ -105,56 +93,23 @@ namespace Game.Game
             this.OnMoveTeam(move);
         }
 
+        //protected float targetAngle;
         protected UnityEngine.Vector2 targetPos;
-        protected float targetAngle;
-        private uint updatePosFrame = 0;
-        private float curSpeed = 0;
         private UnityEngine.Vector2 curMoveDir;
+        private float curSpeed = 0;
+
+        //移动同步消息
+        private Queue<Giant.MoveTeam> moves = new Queue<Giant.MoveTeam>();
+        //操作,需要在同步快照点处理
+        private Dictionary<uint, List<Giant.Command>> commands = new Dictionary<uint, List<Giant.Command>>();
         protected void OnMoveTeam(Giant.MoveTeam move)
         {
-            //if (trangles.Count == 0)
-            //    this.pos = move.teamPos;
-            //this.targetPos = move.teamPos;
-            //this.targetAngle = move.angle;
-            //this.updatePosFrame = 0;
-            //this.curMoveDir = (this.targetPos - this.pos).normalized;
-            //this.curSpeed = _teamInfo.moveSpeed;
-            //if (!IsMainTeam)
+            //if (move.teamPos.y < this.pos.y)
             //{
-            //    this.curSpeed = (this.targetPos - this.pos).magnitude / MainTrangleTeam.SynDeltaTime;
-            //    _teamInfo.turnSpeed = Mathf.Abs(this.targetAngle - this.angle) / MainTrangleTeam.SynDeltaTime;
-            //    foreach (var pair in move.moves)
-            //    {
-            //        var trangle = GetTrangle(pair.Key);
-            //        if (trangle != null)
-            //            trangle.pos = pair.Value;
-            //    }
+            //    Debug.LogError("move.teamPos.y:" + move.teamPos.y + "this.pos.y:" + this.pos.y);
             //}
-
-            Player player = Ctx.mInstance.mPlayerMgr.getEntityByThisId(move.teamID) as Player;
-
-            if (player.mPlayerSplitMerge.mPlayerChildMgr.getEntityCount() == 0)
-                player.setPos(move.teamPos);
-
-            player.setDestPos(move.teamPos, false);
-            player.setDestRotate(new UnityEngine.Vector3(0, 0, move.angle), false);
-            player.setRotateNormalDir((new UnityEngine.Vector3(move.teamPos.x, move.teamPos.y, 0) - player.getPos()).normalized);
-            player.setMoveSpeed(_teamInfo.moveSpeed);
-
-            if (EntityType.ePlayerMain != player.getEntityType())
-            {
-                player.setMoveSpeed(_teamInfo.moveSpeed);
-
-                PlayerOtherChild child = null;
-                foreach (var pair in move.moves)
-                {
-                    child = player.mPlayerSplitMerge.mPlayerChildMgr.getEntityByThisId(pair.Key) as PlayerOtherChild;
-                    if (child != null)
-                    {
-                        child.setDestPos(pair.Value, true);
-                    }
-                }
-            }
+            //进入同步队列
+            moves.Enqueue(move);
         }
 
         protected void OnNewTrangle(IDispatchObject dispObj)
@@ -167,7 +122,7 @@ namespace Game.Game
         {
             Player player = Ctx.mInstance.mPlayerMgr.getEntityByThisId(trangle.teamID) as Player;
 
-            AddTrangle(player, (int)trangle.trangleid);
+            AddTrangle(player, trangle.trangleid);
         }
 
         protected void OnRemoveTrangle(IDispatchObject dispObj)
@@ -183,13 +138,7 @@ namespace Game.Game
             RemoveTrangle(player, trangle.trangleid);
         }
 
-        protected void OnTeamShoot(IDispatchObject dispObj)
-        {
-            Giant.TeamShoot move = dispObj as Giant.TeamShoot;
-            this.OnTeamShoot(move);
-        }
-
-        public void OnTeamShoot(Giant.TeamShoot shoot)
+        protected void ProcessTeamShoot(Giant.TeamShoot shoot)
         {
             //var bulletTeam = SceneObject.Create<BulletTeam>(transform.parent, "");
             //bulletTeam.objctid = shoot.bulletTeamID;
@@ -221,7 +170,7 @@ namespace Game.Game
             PlayerChild child = null;
             FlyBullet bullet = null;
 
-            while(index < len)
+            while (index < len)
             {
                 child = player.mPlayerSplitMerge.mPlayerChildMgr.getEntityByIndex(index) as PlayerChild;
                 bullet = new FlyBullet(team);
@@ -235,6 +184,31 @@ namespace Game.Game
                 bullet.setDestPos(destpos, false);
 
                 ++index;
+            }
+        }
+
+        protected void OnTeamShoot(IDispatchObject dispObj)
+        {
+            Giant.TeamShoot move = dispObj as Giant.TeamShoot;
+            this.OnTeamShoot(move);
+        }
+
+        protected void OnTeamShoot(Giant.TeamShoot shoot)
+        {
+            //网络延迟,已经移动到服务器的同步点,才收到射击消息
+            if (moves.Count == 0)
+            {
+                ProcessTeamShoot(shoot);
+            }
+            else
+            {
+                List<Giant.Command> cmds;
+                if (!commands.TryGetValue(shoot.sframeid, out cmds))
+                {
+                    cmds = new List<Giant.Command>();
+                    commands.Add(shoot.sframeid, cmds);
+                }
+                cmds.Add(shoot);
             }
         }
 

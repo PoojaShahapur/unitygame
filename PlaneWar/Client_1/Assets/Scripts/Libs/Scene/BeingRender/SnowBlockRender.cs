@@ -30,7 +30,7 @@
             auxData.setUserData(this.mEntity);
             int min = 0;
             int max = Ctx.mInstance.mSnowBallCfg.snowblocks.Length;
-            UtilApi.setSprite(this.mSpriteRender, Ctx.mInstance.mSnowBallCfg.snowblocks[UtilMath.RangeRandom(min, max)].mName);
+            UtilApi.setSprite(this.mSpriteRender, Ctx.mInstance.mSnowBallCfg.snowblocks[UtilMath.RangeRandom(min, max)].mPath);
 
             //UtilApi.setLayer(this.selfGo, "SnowBlock");
         }

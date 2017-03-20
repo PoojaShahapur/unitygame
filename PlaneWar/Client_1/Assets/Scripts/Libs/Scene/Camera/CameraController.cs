@@ -7,21 +7,62 @@ namespace SDK.Lib
      */
     public class CameraController
     {
+        protected CamEntity mCamEntity;
         protected Camera mCamera;  // 摄像机
+
+        protected ICamTargetEntiry mTargetEntity;   // 目标实体
         protected GameObject mTargetGo;    // 目标对象
+
         protected Transform mTargetTrans;  // 目标转换
         protected Vector3 mPos;       // 临时变量
         protected Coordinate mCoord;  // 坐标系统
 
-        public CameraController(Camera camera, GameObject target)
+        public CameraController(CamEntity camera, ICamTargetEntiry targetEntity)
         {
-            mCamera = camera;
-            mTargetGo = target;
-            if (mTargetGo == null)
+            this.mCamEntity = camera;
+            this.mCamera = this.mCamEntity.getNativeCam();
+
+            if (null != targetEntity)
             {
-                mTargetGo = UtilApi.createGameObject("CameraGo");
+                this.mTargetEntity = targetEntity;
+                this.mTargetGo = this.mTargetEntity.getNativeTarget();
+
+                this.mTargetEntity.addTargetCreatedHandle(this.onCamTargetCreated);
             }
-            mTargetTrans = mTargetGo.GetComponent<Transform>();
+
+            if (this.mTargetGo == null)
+            {
+                this.mTargetGo = UtilApi.createGameObject("CameraGo");
+            }
+
+            this.mTargetTrans = this.mTargetGo.GetComponent<Transform>();
+
+            if(null != this.mCamera)
+            {
+                camera.mCameraCreatedDispatch.addEventHandle(null, this.onCamCreated);
+            }
+        }
+
+        virtual public void dispose()
+        {
+            this.mCamEntity.mCameraCreatedDispatch.removeEventHandle(null, this.onCamCreated);
+
+            if (null != this.mTargetEntity)
+            {
+                this.mTargetEntity.removeTargetCreatedHandle(this.onCamTargetCreated);
+            }
+        }
+
+        virtual public void onCamCreated(IDispatchObject dispObj)
+        {
+            CamEntity camera = dispObj as CamEntity;
+            this.mCamera = camera.getNativeCam();
+        }
+
+        virtual public void onCamTargetCreated(IDispatchObject dispObj)
+        {
+            ICamTargetEntiry targetEntity = dispObj as ICamTargetEntiry;
+            this.mTargetGo = targetEntity.getNativeTarget();
         }
 
         // 增加 theta

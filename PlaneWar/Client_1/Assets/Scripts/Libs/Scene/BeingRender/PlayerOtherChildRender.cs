@@ -23,7 +23,7 @@
             AuxPlayerOtherChildUserData auxData = UtilApi.AddComponent<AuxPlayerOtherChildUserData>(this.selfGo);
             auxData.setUserData(this.mEntity);
 
-            UtilApi.setSprite(this.mSpriteRender, Ctx.mInstance.mSnowBallCfg.planes[(this.mEntity as PlayerChild).mParentPlayer.mPlaneIndex].mName);
+            UtilApi.setSprite(this.mSpriteRender, Ctx.mInstance.mSnowBallCfg.planes[(this.mEntity as PlayerChild).mParentPlayer.mPlaneIndex].mPath);
             //UtilApi.setLayer(this.selfGo, "PlayerOtherChild");
         }
 

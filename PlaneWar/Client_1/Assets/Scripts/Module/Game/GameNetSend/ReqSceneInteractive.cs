@@ -67,25 +67,25 @@ namespace Game.Game
                 moveMsg.x = curPos.x;
                 moveMsg.y = curPos.y;
 
-                moveMsg.movings.Clear();
+                //moveMsg.movings.Clear();
 
-                int index = 0;
-                int len = Ctx.mInstance.mPlayerMgr.getHero().mPlayerSplitMerge.mPlayerChildMgr.getEntityCount();
-                PlayerMainChild child = null;
+                //int index = 0;
+                //int len = Ctx.mInstance.mPlayerMgr.getHero().mPlayerSplitMerge.mPlayerChildMgr.getEntityCount();
+                //PlayerMainChild child = null;
 
-                while (index < len)
-                {
-                    child = Ctx.mInstance.mPlayerMgr.getHero().mPlayerSplitMerge.mPlayerChildMgr.getEntityByIndex(index) as PlayerMainChild;
+                //while (index < len)
+                //{
+                //    child = Ctx.mInstance.mPlayerMgr.getHero().mPlayerSplitMerge.mPlayerChildMgr.getEntityByIndex(index) as PlayerMainChild;
 
-                    var move = new plane.MoveToMsg.OneMove();
-                    curPos = child.getPos();
-                    move.plane_id = child.getThisId();
-                    move.x = curPos.x;
-                    move.y = curPos.y;
-                    moveMsg.movings.Add(move);
+                //    var move = new plane.MoveToMsg.OneMove();
+                //    curPos = child.getPos();
+                //    move.plane_id = child.getThisId();
+                //    move.x = curPos.x;
+                //    move.y = curPos.y;
+                //    moveMsg.movings.Add(move);
 
-                    ++index;
-                }
+                //    ++index;
+                //}
 
                 //请求转向
                 moveMsg.angle = Ctx.mInstance.mPlayerMgr.getHero().getRotateEulerAngle().z;

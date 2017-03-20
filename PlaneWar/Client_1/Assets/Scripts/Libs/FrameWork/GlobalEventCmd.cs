@@ -57,6 +57,7 @@
                 if(!reportText.Equals(""))
                 {
                     //Ctx.mInstance.mPlayerMgr.getHero().cellCall("giveAdvice", reportText);
+                    SDK.Lib.Ctx.mInstance.mSystemSetting.setString("MyReport", "");
                 }
             }
         }

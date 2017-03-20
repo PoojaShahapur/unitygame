@@ -50,7 +50,7 @@
         {
             INoOrPriorityObject ret = null;
 
-            if(index < Count())
+            if(index < this.Count())
             {
                 ret = this.mNoPriorityProcessObjectList.get(index);
             }

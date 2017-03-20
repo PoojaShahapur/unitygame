@@ -32,15 +32,16 @@ namespace Game.Game
         public void init_GB()
         {
             var handler = Ctx.mInstance.mServerHandler_GB;
-            handler.Register<plane.MoveToMsg, rpc.EmptyMsg>("MoveTo");
+            handler.Register<plane.MoveToSmallPlaneMsg, rpc.EmptyMsg>("MoveTo");
+            handler.Register<plane.TurnToMsg, rpc.EmptyMsg>("TurnTo");
             handler.Register<rpc.EmptyMsg, plane.OkMsg>("Fire");
             handler.Register<plane.HitMsg, rpc.EmptyMsg>("Hit");
             handler.Register<plane.EatMsg, plane.OkMsg>("Eat");
-            handler.Register<plane.PlaneMsg, rpc.EmptyMsg>("New");
             handler.Register<plane.PlaneMsg, rpc.EmptyMsg>("Remove");
+            handler.Register<plane.OkMsg, rpc.EmptyMsg>("StopMove");
 
             handler.BeginService("plane.PlanePush");
-            handler.Register<plane.MoveToBcMsg, rpc.EmptyMsg>("MoveTo", OnMove);
+            handler.Register<plane.MoveToBcMsgRoom, rpc.EmptyMsg>("PackPlayerMoveTo", OnFrameSyn);
             handler.Register<plane.FireBcMsg, rpc.EmptyMsg>("Fire", OnFire);
             handler.Register<plane.HitBcMsg, rpc.EmptyMsg>("Hit", OnHit);
             handler.Register<plane.EatBcMsg, rpc.EmptyMsg>("Eat", OnEat);
@@ -49,14 +50,35 @@ namespace Game.Game
             handler.Register<plane.PlaneBcMsg, rpc.EmptyMsg>("NewPlane", OnNewPlane);
             handler.Register<plane.PlaneBcMsg, rpc.EmptyMsg>("RemovePlane", OnRemovePlane);
             handler.Register<plane.MsAndId, rpc.EmptyMsg>("PlayerExit", OnPlayerExit);
+            synTime = UnityEngine.Time.time;
         }
 
+        //服务器同步帧
         private rpc.EmptyMsg emptyMsg = new rpc.EmptyMsg();
-        private rpc.EmptyMsg OnMove(plane.MoveToBcMsg msg)
+        //private FrameSyn frameSyn = new FrameSyn();
+        private float synTime = 0;
+        private rpc.EmptyMsg OnFrameSyn(plane.MoveToBcMsgRoom msg)
         {
-            if (!Ctx.mInstance.mPlayerMgr.isHeroByThisId(msg.ms_and_id.id))
+            //Debug.Log("SYN TIME:" + (Time.time - synTime));
+            //synTime = Time.time;
+            //frameSyn.teamMoves.Clear();
+            //frameSyn.sframeid = msg.curframe_and_roomid.ms;
+            foreach (var mov in msg.moves)
             {
-                HandleSceneCommand(msg.ms_and_id.id, msg.move_to);
+                var moveTeam = new Giant.MoveTeam();
+                var move_to = mov.move_to;
+                moveTeam.teamID = mov.ms_and_id.id;
+                moveTeam.sframeid = msg.curframe_and_roomid.ms;
+                moveTeam.angle = move_to.angle;
+                moveTeam.teamPos = new UnityEngine.Vector2(move_to.x, move_to.y);
+                if (mov.move_to.movings != null)
+                {
+                    foreach (var tMove in mov.move_to.movings.movings)
+                    {
+                        moveTeam.moves.Add(tMove.plane_id, new UnityEngine.Vector2(tMove.x, tMove.y));
+                    }
+                }
+                HandleSceneCommand(moveTeam);
             }
             return emptyMsg;
         }
@@ -110,7 +132,7 @@ namespace Game.Game
         {
             if (!Ctx.mInstance.mPlayerMgr.isHeroByThisId(msg.ms_and_id.id))
             {
-                HandleSceneCommand(msg.ms_and_id.id, msg.plane, true);
+                HandleSceneCommand(msg.ms_and_id.id, msg.@new, true);
             }
             return emptyMsg;
         }
@@ -119,7 +141,7 @@ namespace Game.Game
         {
             if (!Ctx.mInstance.mPlayerMgr.isHeroByThisId(msg.ms_and_id.id))
             {
-                HandleSceneCommand(msg.ms_and_id.id, msg.plane, false);
+                HandleSceneCommand(msg.ms_and_id.id, msg.@new, false);
             }
             return emptyMsg;
         }
@@ -140,30 +162,32 @@ namespace Game.Game
             return emptyMsg;
         }
 
+        protected void OnTrangleTeamChange(uint teamid)
+        {
+            //uiFight.OnPlayerChange(teamid);
+        }
+
+        private Giant.JoinTeam info = new Giant.JoinTeam();
         public void JoinTeam(plane.PlayerInfo player, bool bMySelf)
         {
-            var info = new Giant.JoinTeam();
             info.name = player.name;
             info.teamID = player.id;
-            info.turnSpeed = 720;
-            info.moveSpeed = 2.0f;
             info.shootCD = 1.0f;
-            info.invincibleTime = 5;
-            info.isself = bMySelf;
-
-            if (player.move != null)
+            info.moveSpeed = 5.0f;
+            info.turnSpeed = 720f;
+            //角度位置
+            info.angle = player.move.angle;
+            info.pos = new UnityEngine.Vector2(player.move.x, player.move.y);
+            //小飞机 
+            info.trangles.Clear();
+            foreach (var trangle in player.move.movings.movings)
             {
-                info.move.teamPos = new UnityEngine.Vector2(player.move.x, player.move.y);
-                info.move.angle = player.move.angle;
-                for (int i = 0; i < player.move.movings.Count; ++i)
-                {
-                    var move = player.move.movings[i];
-                    info.move.moves.Add(move.plane_id, new UnityEngine.Vector2(move.x, move.y));
-                }
+                info.trangles.Add(trangle.plane_id, new UnityEngine.Vector2(trangle.x + player.move.x, trangle.y + player.move.y));
             }
+            info.isself = bMySelf;
             HandleSceneCommand(info);
 
-            if(bMySelf)
+            if (bMySelf)
             {
                 Ctx.mInstance.mGlobalDelegate.mMainChildChangedDispatch.dispatchEvent(null);
             }
@@ -226,22 +250,6 @@ namespace Game.Game
             this.OnTrangleTeamChange(teamid);
         }
 
-        private Giant.MoveTeam moveTeam = new Giant.MoveTeam();
-        public void HandleSceneCommand(uint teamid, plane.MoveToMsg move_to)
-        {
-            var movings = move_to.movings;
-            if (movings.Count > 0)
-            {
-                moveTeam.teamID = teamid;
-                moveTeam.angle = move_to.angle;
-                moveTeam.teamPos = new UnityEngine.Vector2(move_to.x, move_to.y);
-                moveTeam.moves.Clear();
-                for (int i = 0; i < movings.Count; ++i)
-                    moveTeam.moves.Add(movings[i].plane_id, new UnityEngine.Vector2(movings[i].x, movings[i].y));
-                HandleSceneCommand(moveTeam);
-            }
-        }
-
         private Giant.TeamShoot teamShoot = new Giant.TeamShoot();
         public void HandleSceneCommand(uint teamid, plane.FireMsg fire)
         {
@@ -292,11 +300,6 @@ namespace Game.Game
                 return true;
             }
             return false;
-        }
-
-        protected void OnTrangleTeamChange(uint teamid)
-        {
-            //uiFight.OnPlayerChange(teamid);
         }
     }
 }

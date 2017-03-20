@@ -21,6 +21,8 @@ namespace SDK.Lib
             this.mIsHudCanvasNeedWorldCam = false;
             this.mMainCamera = new CamEntity();
             this.mUguiCam = new CamEntity();
+
+            this.mCameraController = new RoateCameraController(this.mMainCamera, null);
         }
 
         // 初始化
@@ -113,7 +115,7 @@ namespace SDK.Lib
             if (mCameraController == null)
             {
                 //mCameraController = new ThirdCameraController(mMainCamera, go);
-                mCameraController = new RoateCameraController(mMainCamera.getNativeCam(), actor.gameObject(), actor);
+                mCameraController = new RoateCameraController(this.mMainCamera, null);
                 mCameraController.init();
             }
             else
@@ -135,39 +137,39 @@ namespace SDK.Lib
 
         public void setCameraActor(GameObject go)
         {
-            if (mCameraController == null)
+            if (this.mCameraController == null)
             {
-                //mCameraController = new ThirdCameraController(mMainCamera, go);
-                mCameraController = new RoateCameraController(mMainCamera.getNativeCam(), go, null);
-                mCameraController.init();
+                //this.mCameraController = new ThirdCameraController(mMainCamera, go);
+                this.mCameraController = new RoateCameraController(this.mMainCamera, null);
+                this.mCameraController.init();
             }
             else
             {
-                mCameraController.setTarget(go);
+                this.mCameraController.setTarget(go);
             }
 
-            if (mCameraMan == null)
+            if (this.mCameraMan == null)
             {
-                //mCameraMan = new CameraMan(go);
-                mCameraMan = new TerrainCameraMan(go);
-                mCameraMan.setCameraController(mCameraController);
+                //this.mCameraMan = new CameraMan(go);
+                this.mCameraMan = new TerrainCameraMan(go);
+                this.mCameraMan.setCameraController(this.mCameraController);
             }
             else
             {
-                mCameraMan.setActor(go);
+                this.mCameraMan.setActor(go);
             }
         }
 
         public MPlane[] getFrustumPlanes()
         {
-            return mLocalCamera.getFrustumPlanes();
+            return this.mLocalCamera.getFrustumPlanes();
         }
 
         public void invalidCamera()
         {
-            if (mLocalCamera != null)
+            if (this.mLocalCamera != null)
             {
-                mLocalCamera.invalid();
+                this.mLocalCamera.invalid();
                 //mLocalCamera.updateTmpPosOrient();
                 if (Ctx.mInstance.mTerrainGlobalOption.mNeedCull)
                 {
@@ -176,9 +178,9 @@ namespace SDK.Lib
                     //testFrustumDir();
 
                     // 如果是第一次， Tree 刚把 TreeNode 添加到场景管理器中，需要再次更新才能裁剪，才能显示，不是第一次就不用更新了，因为移动会很小，不会有太大问题
-                    if (mIsFirst)
+                    if (this.mIsFirst)
                     {
-                        mIsFirst = false;
+                        this.mIsFirst = false;
                         //Ctx.mInstance.mSceneManager.cullScene();
                         Ctx.mInstance.mSceneManager.runUpdateTask();
                     }

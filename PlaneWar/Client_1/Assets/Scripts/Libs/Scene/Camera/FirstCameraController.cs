@@ -7,8 +7,8 @@ namespace SDK.Lib
      */
     public class FirstCameraController : CameraController
     {
-        public FirstCameraController(Camera camera, GameObject target)
-            : base(camera, target)
+        public FirstCameraController(CamEntity camera, ICamTargetEntiry targetEntity)
+            : base(camera, targetEntity)
         {
 
         }

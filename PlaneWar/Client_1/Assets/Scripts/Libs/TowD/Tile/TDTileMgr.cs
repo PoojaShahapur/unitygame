@@ -131,6 +131,36 @@
             return tile;
         }
 
+        protected int checkTileXRange(int tileX)
+        {
+            if (tileX >= this.mTileWidthSize)
+            {
+                tileX = this.mTileWidthSize - 1;
+            }
+
+            if (tileX < 0)
+            {
+                tileX = 0;
+            }
+
+            return tileX;
+        }
+
+        protected int checkTileYRange(int tileY)
+        {
+            if (tileY >= this.mTileDepthSize)
+            {
+                tileY = this.mTileDepthSize - 1;
+            }
+
+            if (tileY < 0)
+            {
+                tileY = 0;
+            }
+
+            return tileY;
+        }
+
         // 转换位置到 Tile 索引
         protected int convPos2TileIndex(float x, float y, float z)
         {
@@ -146,19 +176,12 @@
         {
             int tileIndex = 0;
 
-            int tileY = UtilMath.floorToInt(pos.y / this.mOneTileDepth);
             int tileX = UtilMath.floorToInt(pos.x / this.mOneTileWidth);
+            int tileY = UtilMath.floorToInt(pos.y / this.mOneTileDepth);
 
-            if (tileY >= this.mTileDepthSize)
-                tileY = this.mTileDepthSize - 1;
-            if (tileX >= this.mTileWidthSize)
-                tileX = this.mTileWidthSize - 1;
-
-            if (tileY < 0)
-                tileY = 0;
-            if (tileX < 0)
-                tileX = 0;
-
+            tileX = this.checkTileXRange(tileX);
+            tileY = this.checkTileXRange(tileY);
+            
             tileIndex = tileY * this.mTileWidthSize + tileX;
 
             return tileIndex;
@@ -259,6 +282,11 @@
             int maxX = (int)(clipRect.getRight() / this.mOneTileWidth);
             int minY = (int)(clipRect.getBottom() / this.mOneTileDepth);
             int maxY = (int)(clipRect.getTop() / this.mOneTileDepth);
+
+            minX = this.checkTileXRange(minX);
+            maxX = this.checkTileXRange(maxX);
+            minY = this.checkTileYRange(minY);
+            maxY = this.checkTileYRange(maxY);
 
             int indexX = minX;
             int indexY = minY;

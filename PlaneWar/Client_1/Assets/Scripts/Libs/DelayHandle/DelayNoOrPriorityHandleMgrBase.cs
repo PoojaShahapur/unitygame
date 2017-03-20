@@ -55,7 +55,7 @@
 
                     delayObject.setClientDispose(true);
                     
-                    this.mDeferredDelQueue.removeNoOrPriorityObject(delayObject as INoOrPriorityObject);
+                    this.mDeferredDelQueue.addNoOrPriorityObject(delayObject as INoOrPriorityObject);
                 }
             }
         }

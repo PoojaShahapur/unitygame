@@ -9,8 +9,8 @@ namespace SDK.Lib
     {
         protected Transform mCameraTrans;            // 摄像机的转换
 
-        public ThirdCameraController(Camera camera, GameObject target)
-            : base(camera, target)
+        public ThirdCameraController(CamEntity camera, ICamTargetEntiry targetEntity)
+            : base(camera, targetEntity)
         {
             mCoord = new SphericalCoordinate();
             mCameraTrans = mCamera.GetComponent<Transform>();

@@ -180,6 +180,7 @@
 
             this.mNetCmdNotify = new NetCmdNotify();
             this.mMsgRouteNotify = new MsgRouteNotify();
+            this.mGlobalDelegate = new GlobalDelegate();
 
             this.mXmlCfgMgr = new XmlCfgMgr();
             this.mMatMgr = new MaterialMgr();
@@ -287,7 +288,6 @@
             this.mCameraPositonMgr = new CameraPositionMgr();
 
             this.mHudSystem = new HudSystem();
-            this.mGlobalDelegate = new GlobalDelegate();
             this.mCommonData = new CommonData();
             this.mEventHandleSystem = new EventHandleSystem();
             this.mDelayTaskMgr = new DelayTaskMgr();
@@ -309,6 +309,7 @@
 
         public void logicInit()
         {
+            this.mGlobalDelegate.init();
             this.mLogSys.init();
             this.mInputMgr.init();
             this.mDataPlayer.init();
@@ -341,7 +342,7 @@
             this.mFlyBulletMgr.init();
             this.mHudSystem.init();
             this.mPlayerMgr.init();
-            this.mGlobalDelegate.init();
+
             this.mCommonData.init();
             this.mEventHandleSystem.init();
             this.mResizeMgr.init();
@@ -560,6 +561,11 @@
             {
                 this.mFlyBulletFlockMgr.dispose();
                 this.mFlyBulletFlockMgr = null;
+            }
+            if(null !=this.mGlobalDelegate)
+            {
+                this.mGlobalDelegate.dispose();
+                this.mGlobalDelegate = null;
             }
         }
 
