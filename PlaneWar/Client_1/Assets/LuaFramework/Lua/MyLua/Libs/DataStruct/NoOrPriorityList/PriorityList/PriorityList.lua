@@ -159,7 +159,7 @@ function M:addPriorityObject(priorityObject, priority)
 				self.mPriorityProcessObjectList:Add(priorityProcessObject);
 
 				if (self.mIsSpeedUpFind) then
-					self.mDic.Add(priorityObject, self.mPriorityProcessObjectList:Count() - 1);
+					self.mDic:Add(priorityObject, self.mPriorityProcessObjectList:Count() - 1);
 				end
 			else
 				local index = self:getIndexByPriority(priority);

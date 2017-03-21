@@ -67,7 +67,7 @@ function M:processDelayObjects()
 
 		if (self.mDeferredDelQueue:Count() > 0) then
 			idx = 0;
-			elemLen = this.mDeferredDelQueue:Count();
+			elemLen = self.mDeferredDelQueue:Count();
 
 			while(idx < elemLen) do
 				self:removeObject(self.mDeferredDelQueue:get(idx));

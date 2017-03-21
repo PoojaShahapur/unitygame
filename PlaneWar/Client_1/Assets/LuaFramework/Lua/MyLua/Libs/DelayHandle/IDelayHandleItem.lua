@@ -10,4 +10,13 @@ function M:ctor()
     
 end
 
+-- 需要实现的接口
+function M:setClientDispose(isDispose)
+	
+end
+
+function M:isClientDispose()
+
+end
+
 return M;
