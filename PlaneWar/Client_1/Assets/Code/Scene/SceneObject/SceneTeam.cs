@@ -21,7 +21,10 @@ namespace Giant
             bool updateDir = false;
             foreach (var pair in team)
             {
-                pair.Value.angle = this._angle;
+                if (pair.Value.angle != this.angle)
+                {
+                    pair.Value.angle = this._angle;
+                }
                 if (!updateDir)
                 {
                     _dir = pair.Value.dir;

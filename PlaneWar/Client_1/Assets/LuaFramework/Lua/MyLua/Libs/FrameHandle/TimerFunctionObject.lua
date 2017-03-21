@@ -41,10 +41,10 @@ function M:call(param)
 
     if(nil ~= self.mThis and nil ~= self.mHandle) then
         return self.mHandle(self.mThis, self.mParam);
-    elseif nil ~= self.mHandle then
+    elseif(nil ~= self.mHandle) then
         return self.mHandle(self.mParam);
     else
-        return 0
+        return 0;
     end
 end
 

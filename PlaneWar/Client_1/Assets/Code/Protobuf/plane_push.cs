@@ -38,6 +38,83 @@ namespace plane
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"MoveToBcMsgRoom")]
+  public partial class MoveToBcMsgRoom : global::ProtoBuf.IExtensible
+  {
+    public MoveToBcMsgRoom() {}
+    
+    private plane.MsAndId _curframe_and_roomid = null;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"curframe_and_roomid", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public plane.MsAndId curframe_and_roomid
+    {
+      get { return _curframe_and_roomid; }
+      set { _curframe_and_roomid = value; }
+    }
+    private readonly global::System.Collections.Generic.List<plane.MoveToBcMsg> _moves = new global::System.Collections.Generic.List<plane.MoveToBcMsg>();
+    [global::ProtoBuf.ProtoMember(2, Name=@"moves", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public global::System.Collections.Generic.List<plane.MoveToBcMsg> moves
+    {
+      get { return _moves; }
+    }
+  
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"TurnToBcMsg")]
+  public partial class TurnToBcMsg : global::ProtoBuf.IExtensible
+  {
+    public TurnToBcMsg() {}
+    
+    private plane.MsAndId _ms_and_id = null;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"ms_and_id", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public plane.MsAndId ms_and_id
+    {
+      get { return _ms_and_id; }
+      set { _ms_and_id = value; }
+    }
+    private plane.TurnToMsg _turn_to = null;
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"turn_to", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public plane.TurnToMsg turn_to
+    {
+      get { return _turn_to; }
+      set { _turn_to = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"StopOrMoveBeginBcMsg")]
+  public partial class StopOrMoveBeginBcMsg : global::ProtoBuf.IExtensible
+  {
+    public StopOrMoveBeginBcMsg() {}
+    
+    private plane.MsAndId _ms_and_id = null;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"ms_and_id", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public plane.MsAndId ms_and_id
+    {
+      get { return _ms_and_id; }
+      set { _ms_and_id = value; }
+    }
+    private plane.OkMsg _isstop = null;
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"isstop", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public plane.OkMsg isstop
+    {
+      get { return _isstop; }
+      set { _isstop = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"FireBcMsg")]
   public partial class FireBcMsg : global::ProtoBuf.IExtensible
   {
@@ -129,13 +206,65 @@ namespace plane
       get { return _ms_and_id; }
       set { _ms_and_id = value; }
     }
-    private plane.PlaneMsg _plane = null;
-    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"plane", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    private plane.PlaneMsg _new = null;
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"new", DataFormat = global::ProtoBuf.DataFormat.Default)]
     [global::System.ComponentModel.DefaultValue(null)]
-    public plane.PlaneMsg plane
+    public plane.PlaneMsg @new
     {
-      get { return _plane; }
-      set { _plane = value; }
+      get { return _new; }
+      set { _new = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"RankDataMsg")]
+  public partial class RankDataMsg : global::ProtoBuf.IExtensible
+  {
+    public RankDataMsg() {}
+    
+    private plane.MsAndId _ms_and_id = null;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"ms_and_id", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public plane.MsAndId ms_and_id
+    {
+      get { return _ms_and_id; }
+      set { _ms_and_id = value; }
+    }
+    private plane.RankData _data = null;
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"data", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public plane.RankData data
+    {
+      get { return _data; }
+      set { _data = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"RankData")]
+  public partial class RankData : global::ProtoBuf.IExtensible
+  {
+    public RankData() {}
+    
+    private uint _playerid = default(uint);
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"playerid", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint playerid
+    {
+      get { return _playerid; }
+      set { _playerid = value; }
+    }
+    private string _playername = "";
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"playername", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue("")]
+    public string playername
+    {
+      get { return _playername; }
+      set { _playername = value; }
     }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
@@ -145,6 +274,7 @@ namespace plane
     public interface IPlanePush
     {
       rpc.EmptyMsg MoveTo(plane.MoveToBcMsg request);
+    rpc.EmptyMsg PackPlayerMoveTo(plane.MoveToBcMsgRoom request);
     rpc.EmptyMsg Fire(plane.FireBcMsg request);
     rpc.EmptyMsg Hit(plane.HitBcMsg request);
     rpc.EmptyMsg Eat(plane.EatBcMsg request);
@@ -153,6 +283,8 @@ namespace plane
     rpc.EmptyMsg NewPlane(plane.PlaneBcMsg request);
     rpc.EmptyMsg RemovePlane(plane.PlaneBcMsg request);
     rpc.EmptyMsg PlayerExit(plane.MsAndId request);
+    rpc.EmptyMsg PlayerStopOrMove(plane.StopOrMoveBeginBcMsg request);
+    rpc.EmptyMsg NotifyRankData(plane.RankDataMsg request);
     
     }
     

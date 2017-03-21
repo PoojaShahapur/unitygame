@@ -71,9 +71,9 @@
                 else
                 {
                     int index = 0;
-                    int len = this.mNoPriorityProcessObjectList.Count();
+                    int listLen = this.mNoPriorityProcessObjectList.Count();
 
-                    while (index < len)
+                    while (index < listLen)
                     {
                         if (item == this.mNoPriorityProcessObjectList.get(index))
                         {
@@ -113,9 +113,9 @@
             int retIndex = -1;
 
             int index = 0;
-            int len = this.mNoPriorityProcessObjectList.Count();
+            int listLen = this.mNoPriorityProcessObjectList.Count();
 
-            while (index < len)
+            while (index < listLen)
             {
                 if (this.mNoPriorityProcessObjectList.get(index) == priorityObject)
                 {
@@ -226,9 +226,9 @@
 
         protected void updateIndex(int idx)
         {
-            int len = this.mNoPriorityProcessObjectList.Count();
+            int listLen = this.mNoPriorityProcessObjectList.Count();
 
-            while (idx < len)
+            while (idx < listLen)
             {
                 this.mDic.Add(this.mNoPriorityProcessObjectList.get(idx), idx);
 

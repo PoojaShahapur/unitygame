@@ -181,7 +181,7 @@ namespace SDK.Lib
             return mLuaCSBridgeMalloc.malloc(table);
         }
 
-        public void advance(float delta)
+        public void advance(float delta, TickMode timeMode)
         {
             if (this.mIsLuaInited)
             {
@@ -189,7 +189,7 @@ namespace SDK.Lib
                 {
                     if (Ctx.mInstance.mSystemFrameData.getTotalFrameCount() > 100)
                     {
-                        this.callLuaFunction("GlobalNS.GlobalEventCmd.onAdvance", delta);
+                        this.callLuaFunction("GlobalNS.GlobalEventCmd.onAdvance", delta, (int)timeMode);
                     }
                 }
             }

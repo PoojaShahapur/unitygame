@@ -60,6 +60,8 @@
                     SDK.Lib.Ctx.mInstance.mSystemSetting.setString("MyReport", "");
                 }
             }
+
+            //Ctx.mInstance.mLuaSystem.receiveToLua_KBE("notifyGameLeftSeconds", new object[] {600});
         }
     }
 }

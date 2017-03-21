@@ -1,13 +1,13 @@
---[[
-    @brief 数组实现，类实现，数组的下标从 0 开始，但是 lua 中数组的下标从 1 开始
-]]
-
 MLoader("MyLua.Libs.Core.GlobalNS");
 MLoader("MyLua.Libs.Core.Class");
 MLoader("MyLua.Libs.Core.GObject");
 MLoader("MyLua.Libs.Functor.CmpFuncObject");
 MLoader("MyLua.Libs.DataStruct.MListBase");
 MLoader("MyLua.Libs.DataStruct.MDictionary");
+
+--[[
+    @brief 数组实现，类实现，数组的下标从 0 开始，但是 lua 中数组的下标从 1 开始
+]]
 
 -- bug 提示，如果 require "MyLua.Libs.DataStruct.MListBase" 导入后，如果 clsName 不是 MListBase ，就会导致 GlobalNS.MListBase 为空，就会导致基类为空  
 local M = GlobalNS.Class(GlobalNS.MListBase);
@@ -165,6 +165,20 @@ function M:at(index)
     end
     
     return nil;
+end
+
+function M:get(index)
+	if (index < self:getLen()) then
+		return self.mData[index + 1];
+	end
+
+	return nil;
+end
+
+function M:set(index, value)
+	if (index < self:getLen()) then
+		self.mData[index + 1] = value;
+	end
 end
 
 function M:IndexOf(value)

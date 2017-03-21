@@ -172,7 +172,8 @@ public static class LuaBinder
 		SDK_Lib_XmlItemGoodsWrap.Register(L);
 		SDK_Lib_NetModuleDispHandleWrap.Register(L);
 		SDK_Lib_EntityMgrBaseWrap.Register(L);
-		SDK_Lib_DelayHandleMgrBaseWrap.Register(L);
+		SDK_Lib_DelayPriorityHandleMgrBaseWrap.Register(L);
+		SDK_Lib_DelayNoOrPriorityHandleMgrBaseWrap.Register(L);
 		SDK_Lib_PlayerWrap.Register(L);
 		SDK_Lib_BeingEntityWrap.Register(L);
 		SDK_Lib_SceneEntityBaseWrap.Register(L);

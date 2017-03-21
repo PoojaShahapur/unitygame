@@ -1,13 +1,12 @@
 MLoader("MyLua.Libs.Core.GlobalNS");
 MLoader("MyLua.Libs.Core.Class");
 MLoader("MyLua.Libs.DataStruct.MList");
-MLoader("MyLua.Libs.DelayHandle.DelayHandleMgrBase");
-MLoader("MyLua.Libs.FrameHandle.TickProcessObject");
+MLoader("MyLua.Libs.DelayHandle.DelayPriorityHandleMgrBase");
 
 --[[
 	@brief 帧调用，定时器调用统计信息
 ]]
-local M = GlobalNS.Class(GlobalNS.DelayHandleMgrBase);
+local M = GlobalNS.Class(GlobalNS.DelayPriorityHandleMgrBase);
 M.clsName = "FrameUpdateStatistics";
 GlobalNS[M.clsName] = M;
 

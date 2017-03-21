@@ -1,9 +1,9 @@
--- 各种需要的 ByteBuffer
-
 package.path = string.format("%s;%s/?.lua", package.path, "E:/Self/Self/unity/unitygame/Client/Assets/Prefabs/Resources")
 
 MLoader("DataStruct.ByteBuffer");
  
+-- 各种需要的 ByteBuffer
+
 NetMsgData = ByteBuffer.new()
 --NetMsgData = {}
 

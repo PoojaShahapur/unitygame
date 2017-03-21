@@ -36,42 +36,6 @@ namespace plane
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"MoveToMsg")]
-  public partial class MoveToMsg : global::ProtoBuf.IExtensible
-  {
-    public MoveToMsg() {}
-    
-    private float _angle = default(float);
-    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"angle", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
-    [global::System.ComponentModel.DefaultValue(default(float))]
-    public float angle
-    {
-      get { return _angle; }
-      set { _angle = value; }
-    }
-    private float _x = default(float);
-    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"x", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
-    [global::System.ComponentModel.DefaultValue(default(float))]
-    public float x
-    {
-      get { return _x; }
-      set { _x = value; }
-    }
-    private float _y = default(float);
-    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"y", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
-    [global::System.ComponentModel.DefaultValue(default(float))]
-    public float y
-    {
-      get { return _y; }
-      set { _y = value; }
-    }
-    private readonly global::System.Collections.Generic.List<plane.MoveToMsg.OneMove> _movings = new global::System.Collections.Generic.List<plane.MoveToMsg.OneMove>();
-    [global::ProtoBuf.ProtoMember(4, Name=@"movings", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public global::System.Collections.Generic.List<plane.MoveToMsg.OneMove> movings
-    {
-      get { return _movings; }
-    }
-  
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"OneMove")]
   public partial class OneMove : global::ProtoBuf.IExtensible
   {
@@ -106,6 +70,94 @@ namespace plane
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"MoveToSmallPlaneMsg")]
+  public partial class MoveToSmallPlaneMsg : global::ProtoBuf.IExtensible
+  {
+    public MoveToSmallPlaneMsg() {}
+    
+    private readonly global::System.Collections.Generic.List<plane.OneMove> _movings = new global::System.Collections.Generic.List<plane.OneMove>();
+    [global::ProtoBuf.ProtoMember(2, Name=@"movings", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public global::System.Collections.Generic.List<plane.OneMove> movings
+    {
+      get { return _movings; }
+    }
+  
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"MoveToMsg")]
+  public partial class MoveToMsg : global::ProtoBuf.IExtensible
+  {
+    public MoveToMsg() {}
+    
+    private float _angle = default(float);
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"angle", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+    [global::System.ComponentModel.DefaultValue(default(float))]
+    public float angle
+    {
+      get { return _angle; }
+      set { _angle = value; }
+    }
+    private float _x = default(float);
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"x", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+    [global::System.ComponentModel.DefaultValue(default(float))]
+    public float x
+    {
+      get { return _x; }
+      set { _x = value; }
+    }
+    private float _y = default(float);
+    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"y", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+    [global::System.ComponentModel.DefaultValue(default(float))]
+    public float y
+    {
+      get { return _y; }
+      set { _y = value; }
+    }
+    private plane.MoveToSmallPlaneMsg _movings = null;
+    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"movings", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public plane.MoveToSmallPlaneMsg movings
+    {
+      get { return _movings; }
+      set { _movings = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"MoveToMsg_New")]
+  public partial class MoveToMsg_New : global::ProtoBuf.IExtensible
+  {
+    public MoveToMsg_New() {}
+    
+    private float _angle = default(float);
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"angle", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+    [global::System.ComponentModel.DefaultValue(default(float))]
+    public float angle
+    {
+      get { return _angle; }
+      set { _angle = value; }
+    }
+    private float _x = default(float);
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"x", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+    [global::System.ComponentModel.DefaultValue(default(float))]
+    public float x
+    {
+      get { return _x; }
+      set { _x = value; }
+    }
+    private float _y = default(float);
+    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"y", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+    [global::System.ComponentModel.DefaultValue(default(float))]
+    public float y
+    {
+      get { return _y; }
+      set { _y = value; }
+    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -181,6 +233,14 @@ namespace plane
     {
       get { return _move; }
       set { _move = value; }
+    }
+    private uint _speed = default(uint);
+    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"speed", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint speed
+    {
+      get { return _speed; }
+      set { _speed = value; }
     }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
@@ -309,6 +369,24 @@ namespace plane
     {
       get { return _y; }
       set { _y = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"TurnToMsg")]
+  public partial class TurnToMsg : global::ProtoBuf.IExtensible
+  {
+    public TurnToMsg() {}
+    
+    private float _angle = default(float);
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"angle", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+    [global::System.ComponentModel.DefaultValue(default(float))]
+    public float angle
+    {
+      get { return _angle; }
+      set { _angle = value; }
     }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)

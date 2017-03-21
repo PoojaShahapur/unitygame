@@ -1,10 +1,10 @@
---[[
-    @brief 字典实现
-]]
-
 MLoader("MyLua.Libs.Core.GlobalNS");
 MLoader("MyLua.Libs.Core.Class");
 MLoader("MyLua.Libs.Core.GObject");
+
+--[[
+    @brief 字典实现
+]]
 
 local M = GlobalNS.Class(GlobalNS.GObject);
 M.clsName = "MDictionary";

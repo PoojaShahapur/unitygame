@@ -12,7 +12,6 @@ namespace Giant
         }
 
         //只处理主角的碰撞
-        private plane.PlaneMsg planeMsg = new plane.PlaneMsg();
         private void OnTriggerEnter2D(Collider2D collision)
         {
             if (SceneObject.scene is FightScene && team.team.IsMainTeam)
@@ -28,13 +27,7 @@ namespace Giant
                     cmd.food_id = item.objctid;
                     Game.instance.handler.RequestSend("plane.Plane", "Eat", cmd);
                     //自己处理
-                    scene.HandleSceneCommand(team.team.objctid, cmd);
-
-                    //增加飞机
-                    planeMsg.plane_id = team.team.AllocTrangleID();
-                    Game.instance.handler.RequestSend("plane.Plane", "New", planeMsg);
-                    scene.HandleSceneCommand(team.team.objctid, planeMsg,true);
-                    scene.uiFight.OnPlayerChange(team.team.objctid);
+                    //scene.HandleSceneCommand(team.team.objctid, cmd);
                 }
 
                 var tranlge = collision.transform.GetComponent<Trangle>();
@@ -47,18 +40,7 @@ namespace Giant
                     cmd.target_user_id = tranlge.team.objctid;
                     Game.instance.handler.RequestSend("plane.Plane", "Hit", cmd);
                     //自己处理
-                    scene.HandleSceneCommand(team.team.objctid, cmd);
-
-                    //增加飞机
-                    planeMsg.plane_id = team.team.AllocTrangleID();
-                    Game.instance.handler.RequestSend("plane.Plane", "New", planeMsg);
-                    scene.HandleSceneCommand(team.team.objctid, planeMsg,true);
-                    scene.uiFight.OnPlayerChange(tranlge.team.objctid);
-
-                    ////对方失去飞机
-                    //planeMsg.plane_id = tranlge.objctid;
-                    //scene.HandleSceneCommand(tranlge.team.objctid, planeMsg,false);
-                    //Game.instance.handler.RequestSend("plane.Plane", "Remove", planeMsg);
+                    //scene.HandleSceneCommand(team.team.objctid, cmd);
                 }
             }
         }

@@ -18,7 +18,7 @@ namespace SDK.Lib
             this.mZeroRefResIDList = new MList<string>();
 
             this.mLoopDepth = new LoopDepth();
-            this.mLoopDepth.setZeroHandle(this.unloadNoRefResFromList);
+            this.mLoopDepth.setZeroHandle(null, this.unloadNoRefResFromList);
         }
 
         virtual public void init()

@@ -1,9 +1,9 @@
 MLoader("MyLua.Libs.Core.GlobalNS");
 MLoader("MyLua.Libs.Core.Class");
 MLoader("MyLua.Libs.Core.GObject");
-MLoader("MyLua.Libs.DelayHandle.DelayHandleMgrBase");
+MLoader("MyLua.Libs.DelayHandle.DelayPriorityHandleMgrBase");
 
-local M = GlobalNS.Class(GlobalNS.DelayHandleMgrBase);
+local M = GlobalNS.Class(GlobalNS.DelayPriorityHandleMgrBase);
 M.clsName = "EntityMgrBase";
 GlobalNS[M.clsName] = M;
 
@@ -31,18 +31,18 @@ function M:removeObject(entity)
     end
 end
 
-function M:onTick(delta)
+function M:onTick(delta, tickMode)
     self:incDepth();
 
-    self:onTickExec(delta);
+    self:onTickExec(delta, tickMode);
 
     self:decDepth();
 end
 
-function M:onTickExec(delta)
+function M:onTickExec(delta, tickMode)
     for _, entity in ipairs(self.mSceneEntityList:list()) do
         if (not entity.getClientDispose()) then
-            entity.onTick(delta);
+            entity.onTick(delta, tickMode);
         end
     end
 end

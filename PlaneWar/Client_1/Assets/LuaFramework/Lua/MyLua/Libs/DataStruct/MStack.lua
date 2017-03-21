@@ -1,10 +1,9 @@
---堆栈实现
-
 MLoader("MyLua.Libs.Core.GlobalNS");
 MLoader("MyLua.Libs.Core.Class");
 MLoader("MyLua.Libs.Core.GObject");
 MLoader("MyLua.Libs.DataStruct.MList");
 
+--堆栈实现
 local M = GlobalNS.Class(GlobalNS.GObject);
 M.clsName = "MStack";
 GlobalNS[M.clsName] = M;

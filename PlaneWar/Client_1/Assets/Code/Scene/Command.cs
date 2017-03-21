@@ -5,7 +5,8 @@ namespace Giant
 {
     public class Command : SDK.Lib.MsgRouteBase
     {
-        public uint frameid; //帧id
+        public uint frameid; //客户端帧id
+        public uint sframeid;//服务器同步帧id
 
         public Command()
             : base(SDK.Lib.MsgRouteID.eMRID_NewItem, SDK.Lib.MsgRouteType.eMRT_SCENE_COMMAND)
@@ -35,7 +36,9 @@ namespace Giant
     //队伍加入
     public class JoinTeam : TeamCommand
     {
-        public MoveTeam move = new MoveTeam();
+        public float angle;
+        public Vector2 pos;
+        public Dictionary<uint,Vector2> trangles = new Dictionary<uint, Vector2>();
         public string name;
         public float shootCD;
         public float turnSpeed;
@@ -59,6 +62,14 @@ namespace Giant
         {
             this.mMsgID = SDK.Lib.MsgRouteID.eMRID_MoveTeam;
         }
+    }
+
+    //帧同步命令
+    public class FrameSyn : Command
+    {
+        //同步三角形编队
+        public List<MoveTeam> teamMoves = new List<MoveTeam>();
+        //同步子弹 ... 
     }
 
     public class NewTrangle : TeamCommand

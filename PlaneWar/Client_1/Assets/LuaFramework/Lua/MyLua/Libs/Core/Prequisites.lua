@@ -15,6 +15,12 @@ MLoader("MyLua.Libs.Core.UniqueNumIdGen");
 -- 数据结构
 MLoader("MyLua.Libs.DataStruct.MList");
 MLoader("MyLua.Libs.DataStruct.MDictionary");
+MLoader("MyLua.Libs.DataStruct.NoOrPriorityList.INoOrPriorityList");
+MLoader("MyLua.Libs.DataStruct.NoOrPriorityList.INoOrPriorityObject");
+MLoader("MyLua.Libs.DataStruct.NoOrPriorityList.PriorityList.PrioritySort");
+MLoader("MyLua.Libs.DataStruct.NoOrPriorityList.PriorityList.PriorityProcessObject");
+MLoader("MyLua.Libs.DataStruct.NoOrPriorityList.PriorityList.PriorityList");
+MLoader("MyLua.Libs.DataStruct.NoOrPriorityList.NoPriorityList.NoPriorityList");
 
 -- Functor
 MLoader("MyLua.Libs.Functor.CallFuncObjectBase");
@@ -26,11 +32,12 @@ MLoader("MyLua.Libs.Functor.PCallFuncObjectVarParam");
 
 -- 延迟处理器
 MLoader("MyLua.Libs.DelayHandle.IDelayHandleItem");
-MLoader("MyLua.Libs.DelayHandle.DelayHandleObject");
-MLoader("MyLua.Libs.DelayHandle.DelayHandleParamBase");
-MLoader("MyLua.Libs.DelayHandle.DelayAddParam");
-MLoader("MyLua.Libs.DelayHandle.DelayDelParam");
-MLoader("MyLua.Libs.DelayHandle.DelayHandleMgrBase");
+MLoader("MyLua.Libs.DelayHandle.DelayNoOrPriorityHandleMgrBase");
+MLoader("MyLua.Libs.DelayHandle.DelayNoOrPriorityHandleMgr");
+MLoader("MyLua.Libs.DelayHandle.DelayNoPriorityHandleMgrBase");
+MLoader("MyLua.Libs.DelayHandle.DelayNoPriorityHandleMgr");
+MLoader("MyLua.Libs.DelayHandle.DelayPriorityHandleMgrBase");
+MLoader("MyLua.Libs.DelayHandle.DelayPriorityHandleMgr");
 
 
 -- 事件分发器
@@ -45,13 +52,16 @@ MLoader("MyLua.Libs.EventHandle.ResEventDispatch");
 
 
 -- 帧处理事件
+MLoader("MyLua.Libs.FrameHandle.TickMode");
 MLoader("MyLua.Libs.FrameHandle.ITickedObject");
 MLoader("MyLua.Libs.FrameHandle.TimerItemBase");
+MLoader("MyLua.Libs.FrameHandle.TickItemBase");
 MLoader("MyLua.Libs.FrameHandle.FrameTimerItem");
 MLoader("MyLua.Libs.FrameHandle.DaoJiShiTimer");
 MLoader("MyLua.Libs.FrameHandle.SystemTimeData");
 MLoader("MyLua.Libs.FrameHandle.SystemFrameData");
-MLoader("MyLua.Libs.FrameHandle.TickProcessObject");
+MLoader("MyLua.Libs.FrameHandle.TickObjectNoPriorityMgr");
+MLoader("MyLua.Libs.FrameHandle.TickObjectPriorityMgr");
 MLoader("MyLua.Libs.FrameHandle.TimerMgr");
 MLoader("MyLua.Libs.FrameHandle.FrameTimerMgr");
 MLoader("MyLua.Libs.FrameHandle.TickMgr");

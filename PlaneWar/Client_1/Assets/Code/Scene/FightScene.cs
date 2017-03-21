@@ -10,6 +10,11 @@ namespace Giant
     {
         //场景上的信息
         private EnterRoomResponse room;
+
+        public uint ServerUpdateInterval()
+        {
+            return room.syncinterval;
+        }
         private PlayerInfo myInfo;
         public UIFight uiFight;
         public FightScene(EnterRoomResponse room)
@@ -45,16 +50,18 @@ namespace Giant
             }
             this.myTeam.controller = controller;
 
+
             var handler = Game.instance.handler;
-            handler.Register<MoveToMsg, EmptyMsg>("MoveTo");
+            handler.Register<MoveToSmallPlaneMsg, EmptyMsg>("MoveTo");
+            handler.Register<TurnToMsg, EmptyMsg>("TurnTo");
             handler.Register<EmptyMsg, OkMsg>("Fire");
             handler.Register<HitMsg, EmptyMsg>("Hit");
             handler.Register<EatMsg, OkMsg>("Eat");
-            handler.Register<PlaneMsg, EmptyMsg>("New");
             handler.Register<PlaneMsg, EmptyMsg>("Remove");
+            handler.Register<OkMsg, EmptyMsg>("StopMove");
 
             handler.BeginService("plane.PlanePush");
-            handler.Register<MoveToBcMsg, EmptyMsg>("MoveTo", OnMove);
+            handler.Register<MoveToBcMsgRoom, EmptyMsg>("PackPlayerMoveTo", OnFrameSyn);
             handler.Register<FireBcMsg, EmptyMsg>("Fire", OnFire);
             handler.Register<HitBcMsg, EmptyMsg>("Hit", OnHit);
             handler.Register<EatBcMsg, EmptyMsg>("Eat", OnEat);
@@ -63,47 +70,81 @@ namespace Giant
             handler.Register<PlaneBcMsg, EmptyMsg>("NewPlane", OnNewPlane);
             handler.Register<PlaneBcMsg, EmptyMsg>("RemovePlane", OnRemovePlane);
             handler.Register<MsAndId, EmptyMsg>("PlayerExit", OnPlayerExit);
+            synTime = Time.time;
         }
 
+        //服务器同步帧
         private EmptyMsg emptyMsg = new EmptyMsg();
-        private EmptyMsg OnMove(MoveToBcMsg msg)
+        //private FrameSyn frameSyn = new FrameSyn();
+        private float synTime = 0;
+        private EmptyMsg OnFrameSyn(MoveToBcMsgRoom msg)
         {
-            if (!_IsMainTeam(msg.ms_and_id.id))
+            //临时解决切后台卡死问题
+            if (Game.instance.IsPause)
+                return emptyMsg;
+            //Debug.Log("SYN TIME:" + (Time.time - synTime));
+            //synTime = Time.time;
+            //frameSyn.teamMoves.Clear();
+            //frameSyn.sframeid = msg.curframe_and_roomid.ms;
+            foreach (var mov in msg.moves)
             {
-                HandleSceneCommand(msg.ms_and_id.id, msg.move_to);
+                var moveTeam = new MoveTeam();
+                var move_to = mov.move_to;
+                moveTeam.teamID = mov.ms_and_id.id;
+                moveTeam.sframeid = msg.curframe_and_roomid.ms;
+                moveTeam.angle = move_to.angle;
+                moveTeam.teamPos = new Vector2(move_to.x, move_to.y);
+                if (mov.move_to.movings != null)
+                {
+                    foreach (var tMove in mov.move_to.movings.movings)
+                    {
+                        moveTeam.moves.Add(tMove.plane_id, new Vector2(tMove.x, tMove.y));
+                    }
+                }
+                HandleSceneCommand(moveTeam);
             }
             return emptyMsg;
         }
 
         private EmptyMsg OnFire(FireBcMsg msg)
         {
-            if (!_IsMainTeam(msg.ms_and_id.id))
-            {
-                HandleSceneCommand(msg.ms_and_id.id, msg.fire);
-            }
+            TeamShoot teamShoot = new TeamShoot();
+            plane.FireMsg fire = msg.fire;
+            var frame_and_id = msg.ms_and_id;
+            teamShoot.teamID = frame_and_id.id;
+            teamShoot.sframeid = frame_and_id.ms;
+            teamShoot.bulletTeamID = fire.bullet_team_id;
+            teamShoot.speed = 7f;
+            teamShoot.timeOut = 2;
+            teamShoot.angle = fire.angle;
+            teamShoot.pos = new Vector2(fire.x, fire.y);
+            HandleSceneCommand(teamShoot);
             return emptyMsg;
         }
 
+        //命中其他玩家
         private HitTrangleCommand hitTrangle = new HitTrangleCommand();
         private EmptyMsg OnHit(HitBcMsg msg)
         {
-            if (!_IsMainTeam(msg.ms_and_id.id))
-            {
+            //if (!_IsMainTeam(msg.ms_and_id.id))
+            //{
                 HandleSceneCommand(msg.ms_and_id.id,msg.hit);
-            }
+            //}
             return emptyMsg;
         }
 
+        //命中食物
         private HitItemCommand hitFood = new HitItemCommand();
         private EmptyMsg OnEat(EatBcMsg msg)
         {
-            if (!_IsMainTeam(msg.ms_and_id.id))
-            {
+            //if (!_IsMainTeam(msg.ms_and_id.id))
+            //{
                 HandleSceneCommand(msg.ms_and_id.id, msg.eat);
-            }
+            //}
             return emptyMsg;
         }
 
+        //新玩家加入
         private EmptyMsg OnPlayerEnter(PlayerInfo msg)
         {
             this.JoinTeam(msg,false);
@@ -111,6 +152,7 @@ namespace Giant
             return emptyMsg;
         }
 
+        //刷新食物
         private NewItem newItem = new NewItem();
         private EmptyMsg OnNewFood(FoodMsg msg)
         {
@@ -120,11 +162,12 @@ namespace Giant
             return emptyMsg;
         }
 
+        //添加飞机 由服务器通知
         private EmptyMsg OnNewPlane(PlaneBcMsg msg)
         {
-            if (!_IsMainTeam(msg.ms_and_id.id))
+            //if (!_IsMainTeam(msg.ms_and_id.id))
             {
-                HandleSceneCommand(msg.ms_and_id.id, msg.plane,true);
+                HandleSceneCommand(msg.ms_and_id.id, msg.@new,true);
             }
             return emptyMsg;
         }
@@ -133,7 +176,7 @@ namespace Giant
         {
             if (!_IsMainTeam(msg.ms_and_id.id))
             {
-                HandleSceneCommand(msg.ms_and_id.id, msg.plane,false);
+                HandleSceneCommand(msg.ms_and_id.id, msg.@new, false);
             }
             return emptyMsg;
         }
@@ -161,25 +204,22 @@ namespace Giant
 
         public void JoinTeam(PlayerInfo player,bool bMySelf)
         {
-            var info = new JoinTeam();
+            JoinTeam info = new JoinTeam();
             info.name = player.name;
             info.teamID = player.id;
-            info.turnSpeed = 1440;
-            info.moveSpeed = 3.5f;
             info.shootCD = 1.0f;
-            info.invincibleTime = 5;
-            info.isself = bMySelf;
-            
-            if (player.move != null)
+            info.moveSpeed = player.speed;
+            info.turnSpeed = 720f;
+            //角度位置
+            info.angle = player.move.angle;
+            info.pos = new Vector2(player.move.x, player.move.y);
+            //小飞机 
+            info.trangles.Clear();
+            foreach (var trangle in player.move.movings.movings)
             {
-                info.move.teamPos = new Vector2(player.move.x, player.move.y);
-                info.move.angle = player.move.angle;
-                for (int i = 0; i < player.move.movings.Count; ++i)
-                {
-                    var move = player.move.movings[i];
-                    info.move.moves.Add(move.plane_id, new Vector2(move.x, move.y));
-                }
+                info.trangles.Add(trangle.plane_id, new Vector2(trangle.x, trangle.y));
             }
+            info.isself = bMySelf;
             HandleSceneCommand(info);
         }
 
@@ -268,33 +308,7 @@ namespace Giant
             this.OnTrangleTeamChange(teamid);
         }
 
-        private MoveTeam moveTeam = new MoveTeam();
-        public void HandleSceneCommand(uint teamid, plane.MoveToMsg move_to)
-        {
-            var movings = move_to.movings;
-            if (movings.Count > 0)
-            {
-                moveTeam.teamID = teamid;
-                moveTeam.angle = move_to.angle;
-                moveTeam.teamPos = new Vector2(move_to.x, move_to.y);
-                moveTeam.moves.Clear();
-                for (int i = 0; i < movings.Count; ++i)
-                    moveTeam.moves.Add(movings[i].plane_id, new Vector2(movings[i].x, movings[i].y));
-                HandleSceneCommand(moveTeam);
-            }
-        }
-
-        private TeamShoot teamShoot = new TeamShoot();
-        public void HandleSceneCommand(uint teamid, plane.FireMsg fire)
-        {
-            teamShoot.teamID = teamid;
-            teamShoot.bulletTeamID = fire.bullet_team_id;
-            teamShoot.speed = 7f;
-            teamShoot.timeOut = 2;
-            teamShoot.angle = fire.angle;
-            teamShoot.pos = new Vector2(fire.x, fire.y);
-            HandleSceneCommand(teamShoot);
-        }
+   
 
         protected override void OnJoinTeam(JoinTeam cmd)
         {

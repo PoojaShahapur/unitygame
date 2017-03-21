@@ -77,46 +77,98 @@ namespace Giant
         {
             base.OnUpdate(dt);
             this.BulletUpdate(dt);
-
-            var myPos = this.pos;
-            this.angle = (int)Mathf.MoveTowardsAngle(this.angle,targetAngle, _teamInfo.turnSpeed * dt) % 360;
-            this.pos = myPos + curSpeed * dt * this.curMoveDir ;
-
-            //处理延迟,自动往前跑
-            if (!this.IsMainTeam)
-            {
-                if (++this.updatePosFrame == MainTrangleTeam.synFrame)
-                {
-                    this.targetPos = this.pos + MainTrangleTeam.SynDeltaTime * _teamInfo.moveSpeed * this.curMoveDir;
-                    this.curSpeed = _teamInfo.moveSpeed;
-                }
-                //else if (this.updatePosFrame > MainTrangleTeam.synFrame)
-                //{
-                //    this.curSpeed = 0;
-                //}
-            }
-
+            this.MoveUpdate(dt);
             SceneObject.UpdateObject(this.trangles, dt);
             SceneObject.UpdateObject(this.bulletTeams, dt);
             SceneObject.RemoveDeathObject(bulletTeams);
             SceneObject.RemoveDeathObject(trangles);
         }
 
-        public Trangle AddTrangle(int id = -1)
+        //同步移动
+        private void MoveUpdate(float dt)
+        {
+            if (moves.Count > 0)
+            {
+                //if (moves.Count > 1)
+                //{
+                //    Debug.Log("moves.Count:" + moves.Count);
+                //}
+                var target = moves.Peek();
+                var myPos = this.pos;
+
+                //速度缩放
+                float teamSpeed = 0;
+                if (moves.Count > 1)
+                    teamSpeed = this.moves.Count * _teamInfo.moveSpeed;
+                else
+                    teamSpeed = _teamInfo.moveSpeed;
+                var trangleSpeed = teamSpeed * 2;
+                var movPos = Vector2.MoveTowards(myPos, target.teamPos , teamSpeed * dt);
+                this.pos = movPos;
+                //var speed = Mathf.Max(360,Mathf.Abs(target.angle - this.angle) / 0.05f);
+                this.angle = Mathf.MoveTowardsAngle(this.angle, target.angle, _teamInfo.turnSpeed * dt);
+
+                bool trangleMoveOK = true;
+                if (!this.IsMainTeam)
+                {
+                    foreach (var pair in target.moves)
+                    {
+                        var trangle = GetTrangle(pair.Key);
+                        if (trangle != null)
+                        {
+                            var pos = trangle.pos;
+                            if (pos != pair.Value)
+                            {
+                                pos = Vector2.MoveTowards(pos, pair.Value, trangleSpeed * dt);
+                                trangle.pos = pos;
+                                if (pos != pair.Value) trangleMoveOK = false;
+                            }
+                        }
+                    }
+                }
+
+                //已经移动到同步点
+                if (trangleMoveOK && Mathf.Approximately(this.angle,target.angle) && movPos == target.teamPos)
+                {
+                    moves.Dequeue();
+
+                    //处理本帧事件
+                    List<Command> cmds = null;
+                    if (commands.TryGetValue(target.sframeid,out cmds))
+                    {
+                        foreach (var cmd in cmds)
+                        {
+                            if (cmd is TeamShoot)
+                                ProcessTeamShoot(cmd as TeamShoot);
+                        }
+                    }
+                    
+
+                    //解决卡顿问题,离目标点最后一帧的移动距离不够,进行补齐
+                    dt = dt *(1 - (Vector2.Distance(movPos, myPos) / (teamSpeed * dt)));
+                    this.MoveUpdate(dt);
+                }
+            }
+            else
+            {
+                //网络延迟,继续往前移动
+                this.pos = this.pos + _teamInfo.moveSpeed * dt * this.dir.normalized;
+            }
+        }
+
+        public Trangle AddTrangle(uint id)
         {
             int layer = LayerManager.OtherTrangle;
             if (IsMainTeam)
                 layer = LayerManager.MainTrangle;
             var trangle = SceneObject.Create<Trangle>(transform,"Prefabs/trangle",null,layer);
-            trangle.objctid = (uint)(id < 0 ? (int)AllocTrangleID() : id);
+            trangle.objctid = id;
             trangle.team = this;
             trangle.angle = this.angle;
             trangle.UpdateTrigger();
             trangles.Add(trangle.objctid, trangle);
 
             trangle.GetComponent<Joint2D>().connectedBody = this.entityRigitBody;
-            //if (this.IsInvincible)
-            //   trangle.Blink(this.invincibleTime);
             return trangle;
         }
 
@@ -155,64 +207,36 @@ namespace Giant
             this._teamInfo = obj as JoinTeam;
             this.txtName = this.transform.GetComponentInChildren<Text>(true);
             this.txtName.text = this._teamInfo.name;
-            if (this._teamInfo.move.moves.Count == 0)
+            this.angle = this._teamInfo.angle;
+            this.pos = this._teamInfo.pos;
+            foreach (var pair in _teamInfo.trangles)
             {
-                this._teamInfo.move.angle = 0;
-                this._teamInfo.move.teamPos = Vector2.zero;
-                for (int i = 0; i < 3; ++i)
-                {
-                    this._teamInfo.move.moves.Add(AllocTrangleID(), Vector2.zero);
-                }
-            }
-            this.initTrangles();
-        }
-
-        protected void initTrangles()
-        {
-            if (_teamInfo != null)
-            {
-                this.pos = _teamInfo.move.teamPos;
-                this.invincibleTime = _teamInfo.invincibleTime;
-                foreach (var pair in _teamInfo.move.moves)
-                {
-                    var trangle = AddTrangle((int)pair.Key);
-                    trangle.pos = pair.Value;
-                }
-                this.angle = _teamInfo.move.angle;
+                AddTrangle(pair.Key).pos = pair.Value;
             }
         }
             
-
+        //protected float targetAngle;
         protected Vector2 targetPos;
-        protected float targetAngle;
-        private uint updatePosFrame = 0;
-        private float curSpeed = 0;
         private Vector2 curMoveDir;
+        private float curSpeed = 0;
+
+        //移动同步消息
+        private Queue<MoveTeam> moves = new Queue<MoveTeam>();
+        //操作,需要在同步快照点处理
+        private Dictionary<uint, List<Command>> commands = new Dictionary<uint, List<Command>>();
         protected void OnMoveTeam(MoveTeam move)
         {
-            if (trangles.Count == 0)
-                this.pos = move.teamPos;
-            this.targetPos = move.teamPos;
-            this.targetAngle = move.angle;
-            this.updatePosFrame = 0;
-            this.curMoveDir = (this.targetPos - this.pos).normalized;
-            this.curSpeed = _teamInfo.moveSpeed;
-            if (!IsMainTeam)
-            {
-                this.curSpeed = (this.targetPos - this.pos).magnitude / MainTrangleTeam.SynDeltaTime;
-                _teamInfo.turnSpeed = Mathf.Abs(this.targetAngle - this.angle) / MainTrangleTeam.SynDeltaTime;
-                foreach (var pair in move.moves)
-                {
-                    var trangle = GetTrangle(pair.Key);
-                    if (trangle != null)
-                        trangle.pos = pair.Value;
-                }
-            }
+            //if (move.teamPos.y < this.pos.y)
+            //{
+            //    Debug.LogError("move.teamPos.y:" + move.teamPos.y + "this.pos.y:" + this.pos.y);
+            //}
+            //进入同步队列
+            moves.Enqueue(move);
         }
 
         protected void OnNewTrangle(NewTrangle trangle)
         {
-            AddTrangle((int)trangle.trangleid);
+            AddTrangle(trangle.trangleid);
         }
 
         protected void OnRemoveTrangle(RemoveTrangle trangle)
@@ -220,7 +244,7 @@ namespace Giant
             RemoveTrangle(trangle.trangleid);
         }
 
-        protected void OnTeamShoot(TeamShoot shoot)
+        private void ProcessTeamShoot(TeamShoot shoot)
         {
             var bulletTeam = SceneObject.Create<BulletTeam>(transform.parent, "");
             bulletTeam.objctid = shoot.bulletTeamID;
@@ -237,7 +261,24 @@ namespace Giant
             bulletTeams.Add(shoot.bulletTeamID, bulletTeam);
         }
 
-
+        protected void OnTeamShoot(TeamShoot shoot)
+        {
+            //网络延迟,已经移动到服务器的同步点,才收到射击消息
+            if (moves.Count == 0)
+            {
+                ProcessTeamShoot(shoot);
+            }
+            else
+            {
+                List<Command> cmds;
+                if (!commands.TryGetValue(shoot.sframeid,out cmds))
+                {
+                    cmds = new List<Command>();
+                    commands.Add(shoot.sframeid, cmds);
+                }
+                cmds.Add(shoot);
+            }
+        }
 
         protected void OnMoveTeamBullet(MoveTeamBullet cmd)
         {
@@ -257,20 +298,12 @@ namespace Giant
             }
         } 
 
-        //protected void OnDangerZoneKillTrangle(DangerZoneKillTrangle cmd)
-        //{
-        //    Trangle trangle;
-        //    if (trangles.TryGetValue(cmd.trangleid,out trangle))
-        //    {
-        //        trangle.KillBy(DeathType.eKillByDangerZone);
-        //    }
-        //}
-        private MoveTeamBullet bulletMove = new MoveTeamBullet();
-        private BulletTimeOut bulletTimeOut = new BulletTimeOut();
         private void BulletUpdate(float dt)
         {
             if (bulletTeams.Count > 0)
             {
+                MoveTeamBullet bulletMove = new MoveTeamBullet();
+                BulletTimeOut bulletTimeOut = new BulletTimeOut();
                 bulletMove.frameid = scene.frame;
                 bulletMove.teamID = this._teamInfo.teamID;
 

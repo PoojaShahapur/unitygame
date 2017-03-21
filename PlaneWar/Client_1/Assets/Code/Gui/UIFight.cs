@@ -7,6 +7,7 @@ public class UIFight : MonoBehaviour,TeamController
 {
     public Button btnShoot;
     public RectTransform stick;
+    public ScrollCircle stickCircle;
     public GameObject dangerTip;
     public Image imgCD;
     public RectTransform rankContent;
@@ -193,10 +194,12 @@ public class UIFight : MonoBehaviour,TeamController
 
     public Vector2 GetDir()
     {
-        if (stick.localPosition == Vector3.zero)
+        if (!stickCircle.IsDrag || stick.localPosition == Vector3.zero)
             return Vector2.zero;
         else
+        {
             return stick.parent.TransformDirection(stick.localPosition);
+        }
     }
 
     public bool GetShoot()

@@ -9,7 +9,7 @@ namespace Giant
     public class CommandScene : Scene
     {
         //private Queue<Command> commandQueue;
-        protected Rect rect = new Rect(-50,-25,100,50);
+        protected Rect rect = new Rect(0,0,200,100);
         protected Transform cameraT;
         protected Transform mapT;
         protected Dictionary<uint,TrangleTeam> teams = new Dictionary<uint, TrangleTeam>();

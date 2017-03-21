@@ -180,9 +180,12 @@ namespace Game.Game
             info.pos = new UnityEngine.Vector2(player.move.x, player.move.y);
             //小飞机 
             info.trangles.Clear();
-            foreach (var trangle in player.move.movings.movings)
+            if (null != player.move.movings)
             {
-                info.trangles.Add(trangle.plane_id, new UnityEngine.Vector2(trangle.x + player.move.x, trangle.y + player.move.y));
+                foreach (var trangle in player.move.movings.movings)
+                {
+                    info.trangles.Add(trangle.plane_id, new UnityEngine.Vector2(trangle.x + player.move.x, trangle.y + player.move.y));
+                }
             }
             info.isself = bMySelf;
             HandleSceneCommand(info);

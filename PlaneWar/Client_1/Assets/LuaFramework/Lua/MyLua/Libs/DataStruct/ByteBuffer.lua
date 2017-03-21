@@ -1,10 +1,10 @@
---[[
-    @brief 字节缓冲区
-]]
-
 MLoader("MyLua.Libs.Core.GlobalNS");
 MLoader("MyLua.Libs.Core.Class");
 MLoader("MyLua.Libs.Core.GObject");
+
+--[[
+    @brief 字节缓冲区
+]]
 
 local M = GlobalNS.Class(GlobalNS.GObject);    -- 定义一个类，必须从返回的类中添加成员
 M.clsName = "ByteBuffer";

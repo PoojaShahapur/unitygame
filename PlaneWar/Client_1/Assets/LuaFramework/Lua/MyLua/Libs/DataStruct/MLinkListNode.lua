@@ -1,9 +1,8 @@
---连接列表实现
-
 MLoader("MyLua.Libs.Core.GlobalNS");
 MLoader("MyLua.Libs.Core.Class");
 MLoader("MyLua.Libs.Core.GObject");
 
+--连接列表实现
 local M = GlobalNS.Class(GlobalNS.GObject);
 M.clsName = "MLinkListNode";
 GlobalNS[M.clsName] = M;

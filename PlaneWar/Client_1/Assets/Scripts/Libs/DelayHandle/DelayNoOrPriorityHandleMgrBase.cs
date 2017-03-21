@@ -13,7 +13,7 @@
         public DelayNoOrPriorityHandleMgrBase()
         {
             this.mLoopDepth = new LoopDepth();
-            this.mLoopDepth.setZeroHandle(this.processDelayObjects);
+            this.mLoopDepth.setZeroHandle(null, this.processDelayObjects);
         }
 
         virtual public void init()

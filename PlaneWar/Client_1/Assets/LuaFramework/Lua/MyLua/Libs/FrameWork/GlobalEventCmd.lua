@@ -60,8 +60,16 @@ function M.onPlayerMainLoaded()
 end
 
 -- 帧循环
-function M.onAdvance(delta)
-	GCtx.mProcessSys:advance(delta);
+function M.onAdvance(delta, tickMode)
+	--测试 tick
+	--[[
+	if(nil == M.mTickItemBase) then
+		M.mTickItemBase = GlobalNS.new(GlobalNS.TickItemBase);
+		M.mTickItemBase:addSelfTick(0);
+	end
+	]]
+	
+	GCtx.mProcessSys:advance(delta, tickMode);
 end
 
 function M.openForm(formId)

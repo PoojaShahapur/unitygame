@@ -39,6 +39,14 @@ namespace plane
       get { return _foods; }
     }
   
+    private uint _syncinterval = default(uint);
+    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"syncinterval", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint syncinterval
+    {
+      get { return _syncinterval; }
+      set { _syncinterval = value; }
+    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -47,12 +55,13 @@ namespace plane
     public interface IPlane
     {
       plane.EnterRoomResponse EnterRoom(rpc.EmptyMsg request);
-    rpc.EmptyMsg MoveTo(plane.MoveToMsg request);
+    rpc.EmptyMsg MoveTo(plane.MoveToSmallPlaneMsg request);
+    rpc.EmptyMsg TurnTo(plane.TurnToMsg request);
     plane.OkMsg Fire(plane.FireMsg request);
     rpc.EmptyMsg Hit(plane.HitMsg request);
     plane.OkMsg Eat(plane.EatMsg request);
-    rpc.EmptyMsg New(plane.PlaneMsg request);
     rpc.EmptyMsg Remove(plane.PlaneMsg request);
+    rpc.EmptyMsg StopMove(plane.OkMsg request);
     
     }
     

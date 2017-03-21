@@ -10,8 +10,8 @@ function M:ctor()
 
 end
 
-function M:onTickExec(delta)
-    m.super.onTickExec(self, delta);
+function M:onTickExec(delta, tickMode)
+    m.super.onTickExec(self, delta, tickMode);
 end
 
 function M:createMonster()

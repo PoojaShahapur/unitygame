@@ -16,11 +16,22 @@ namespace Giant
 
         public IAssetManager assetManager { get; set; }
 
+        public bool IsPause { set; get; }
+
+
+        private void OnApplicationFocus(bool focus)
+        {
+            this.IsPause = !focus;
+        }
+        private void OnApplicationPause(bool pause)
+        {
+            this.IsPause = pause;
+        }
         //当前战报[回复或录制]
         private Replay replay;
         public void Start()
         {
-            ServiceCenter.RemoteDebug(55055);
+            //ServiceCenter.RemoteDebug(55055);
 
             DontDestroyOnLoad(gameObject);
             instance = this;
@@ -41,7 +52,8 @@ namespace Giant
 
 
         // Update is called once per frame
-        public void FixedUpdate()
+        //FixedUpdate
+        public void Update()
         {
             if (null != mCurrentScene) {
                 mCurrentScene.OnUpdate(Time.deltaTime);

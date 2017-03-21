@@ -87,9 +87,9 @@
                 else
                 {
                     int index = 0;
-                    int len = this.mPriorityProcessObjectList.Count();
+                    int listLen = this.mPriorityProcessObjectList.Count();
 
-                    while (index < len)
+                    while (index < listLen)
                     {
                         if (item == this.mPriorityProcessObjectList.get(index).mPriorityObject)
                         {
@@ -129,9 +129,9 @@
             int retIndex = -1;
 
             int index = 0;
-            int len = this.mPriorityProcessObjectList.Count();
+            int listLen = this.mPriorityProcessObjectList.Count();
 
-            while (index < len)
+            while (index < listLen)
             {
                 if (PrioritySort.ePS_Less == this.mPrioritySort)
                 {
@@ -161,9 +161,9 @@
             int retIndex = -1;
 
             int index = 0;
-            int len = this.mPriorityProcessObjectList.Count();
+            int listLen = this.mPriorityProcessObjectList.Count();
 
-            while (index < len)
+            while (index < listLen)
             {
                 if (this.mPriorityProcessObjectList.get(index).mPriorityObject == priorityObject)
                 {

@@ -2,6 +2,8 @@ MLoader("MyLua.Libs.Core.GlobalNS");
 MLoader("MyLua.Libs.Core.Class");
 MLoader("MyLua.Libs.Core.GObject");
 
+MLoader("MyLua.Libs.FrameHandle.TickMode");
+
 local M = GlobalNS.Class(GlobalNS.GObject);
 M.clsName = "ProcessSys";
 GlobalNS[M.clsName] = M;
@@ -10,9 +12,14 @@ function M:ctor()
 
 end
 
-function M:advance(delta)
+function M:advance(delta, tickMode)
     --print("ProcessSys:advance");
-    GCtx.mTimerMgr:Advance(delta);
+	if(GlobalNS.TickMode.eTM_Update == tickMode) then
+		--定时器只处理这种模式
+		GCtx.mTimerMgr:Advance(delta);
+	end
+	
+	--GCtx.mTickMgr:Advance(delta, tickMode);
 end
 
 return M;

@@ -1,9 +1,9 @@
 MLoader("MyLua.Libs.Core.GlobalNS");
 MLoader("MyLua.Libs.Core.Class");
 MLoader("MyLua.Libs.DataStruct.MList");
-MLoader("MyLua.Libs.DelayHandle.DelayHandleMgrBase");
+MLoader("MyLua.Libs.DelayHandle.DelayPriorityHandleMgrBase");
 
-local M = GlobalNS.Class(GlobalNS.DelayHandleMgrBase);
+local M = GlobalNS.Class(GlobalNS.DelayPriorityHandleMgrBase);
 M.clsName = "TimerMgr";
 GlobalNS[M.clsName] = M;
 
@@ -53,6 +53,10 @@ end
 
 function M:addTimer(delayObject, priority)
     self:addObject(delayObject, priority);
+end
+
+function M:removeTimer(timer)
+	self:removeObject(timer);
 end
 
 function M:Advance(delta)

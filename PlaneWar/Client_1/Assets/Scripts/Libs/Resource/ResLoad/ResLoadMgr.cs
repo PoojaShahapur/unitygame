@@ -22,7 +22,7 @@
             this.mZeroRefResIDList = new MList<string>();
 
             this.mLoopDepth = new LoopDepth();
-            this.mLoopDepth.setZeroHandle(this.unloadNoRefResFromList);
+            this.mLoopDepth.setZeroHandle(null, this.unloadNoRefResFromList);
         }
 
         public void init()

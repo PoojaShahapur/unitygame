@@ -1,10 +1,10 @@
---[[
-    @brief 定时器，这个是不断增长的
-]]
-
 MLoader("MyLua.Libs.Core.GlobalNS");
 MLoader("MyLua.Libs.Core.Class");
 MLoader("MyLua.Libs.DelayHandle.IDelayHandleItem");
+
+--[[
+    @brief 定时器，这个是不断增长的
+]]
 
 local M = GlobalNS.Class(GlobalNS.IDelayHandleItem);
 M.clsName = "TimerItemBase";

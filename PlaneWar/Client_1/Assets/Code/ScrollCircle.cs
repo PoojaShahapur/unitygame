@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class ScrollCircle : ScrollRect
@@ -10,6 +11,14 @@ public class ScrollCircle : ScrollRect
         base.Start();
         //计算摇杆块的半径
         mRadius = (transform as RectTransform).sizeDelta.x * 0.5f;
+    }
+
+    public bool IsDrag { private set; get; }
+
+    public override void OnBeginDrag(PointerEventData eventData)
+    {
+        base.OnBeginDrag(eventData);
+        this.IsDrag = true;
     }
 
     public override void OnDrag(UnityEngine.EventSystems.PointerEventData eventData)
@@ -26,5 +35,11 @@ public class ScrollCircle : ScrollRect
         {
             this.content.anchoredPosition = contentPostion;
         }
+    }
+
+    public override void OnEndDrag(PointerEventData eventData)
+    {
+        base.OnEndDrag(eventData);
+        this.IsDrag = false;
     }
 }

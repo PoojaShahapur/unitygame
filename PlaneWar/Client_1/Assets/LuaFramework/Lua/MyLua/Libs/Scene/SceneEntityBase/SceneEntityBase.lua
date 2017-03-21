@@ -57,7 +57,7 @@ function M:getClientDispose()
     return self.mIsClientDispose;
 end
 
-function M:onTick(delta)
+function M:onTick(delta, tickMode)
 
 end
 

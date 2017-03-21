@@ -5,10 +5,10 @@
 MLoader("MyLua.Libs.Core.GlobalNS");
 MLoader("MyLua.Libs.Core.Class");
 MLoader("MyLua.Libs.DataStruct.MList");
-MLoader("MyLua.Libs.DelayHandle.DelayHandleMgrBase");
+MLoader("MyLua.Libs.DelayHandle.DelayPriorityHandleMgrBase");
 MLoader("MyLua.Libs.EventHandle.EventDispatchFunctionObject");
 
-local M = GlobalNS.Class(GlobalNS.DelayHandleMgrBase);
+local M = GlobalNS.Class(GlobalNS.DelayPriorityHandleMgrBase);
 M.clsName = "EventDispatch";
 GlobalNS[M.clsName] = M;
 

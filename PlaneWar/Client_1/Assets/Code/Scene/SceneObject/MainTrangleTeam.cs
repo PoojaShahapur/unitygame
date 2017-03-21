@@ -132,50 +132,39 @@ namespace Giant
                     fireMsg.x = pos.x;
                     fireMsg.y = pos.y;
                     Game.instance.handler.RequestSend("plane.Plane", "Fire", fireMsg);
-                    scene.HandleSceneCommand(this.objctid, fireMsg);
+                    //scene.HandleSceneCommand(this.objctid, fireMsg);
 
                     shootCD = _teamInfo.shootCD;
                 }
             }
         }
 
-        private plane.MoveToMsg moveMsg = new plane.MoveToMsg();
+        private plane.MoveToSmallPlaneMsg moveMsg = new plane.MoveToSmallPlaneMsg();
+        private plane.TurnToMsg turnMsg = new plane.TurnToMsg();
         private void MoveUpdate()
         {
             var handler = Game.instance.handler;
-            //请求移动
-            var curPos =  SynDeltaTime * _teamInfo.moveSpeed * this.dir.normalized + this.pos ; 
-            moveMsg.x = curPos.x;
-            moveMsg.y = curPos.y;
 
+            //小飞机请求移动
             moveMsg.movings.Clear();
             foreach (var pair in trangles)
             {
-                var move = new plane.MoveToMsg.OneMove();
-                curPos = pair.Value.pos;
+                var move = new plane.OneMove();
+                var pos = pair.Value.pos;
                 move.plane_id = pair.Key;
-                move.x = curPos.x;
-                move.y = curPos.y;
+                move.x = pos.x;
+                move.y = pos.y;
                 moveMsg.movings.Add(move);
+                handler.RequestSend("plane.Plane", "MoveTo", moveMsg);
             }
 
             //请求转向
             var curDir = controller.GetDir();
-            curDir.Normalize();
-            moveMsg.angle = 0;
             if (curDir != Vector2.zero)
             {
-                var curAngle = Vector3.Angle(Vector2.up, curDir);
-                if (curDir.x > 0)
-                    curAngle = -curAngle;
-                moveMsg.angle = (int)Mathf.MoveTowardsAngle(this.angle, curAngle, _teamInfo.turnSpeed * SynDeltaTime) % 360;
+                turnMsg.angle = Quaternion.FromToRotation(Vector2.up, curDir).eulerAngles.z;
+                handler.RequestSend("plane.Plane", "TurnTo", turnMsg);
             }
-            else
-            {
-                moveMsg.angle = this.angle;
-            }
-            handler.RequestSend("plane.Plane", "MoveTo", moveMsg);
-            scene.HandleSceneCommand(this.objctid, moveMsg);
         }
 
         //protected override void RemoveTrangle(uint trangleid)

@@ -15,34 +15,34 @@
             this.mZeroHandle = null;
         }
 
-        public void setIncHandle(MAction value)
+        public void setIncHandle(ICalleeObject pThis, MAction value)
         {
             if(null == this.mIncHandle)
             {
                 this.mIncHandle = new CallFuncObjectNoParam();
             }
 
-            this.mIncHandle.setThisAndHandleNoParam(null, value);
+            this.mIncHandle.setThisAndHandleNoParam(pThis, value);
         }
 
-        public void setDecHandle(MAction value)
+        public void setDecHandle(ICalleeObject pThis, MAction value)
         {
             if (null == this.mDecHandle)
             {
                 this.mDecHandle = new CallFuncObjectNoParam();
             }
 
-            this.mDecHandle.setThisAndHandleNoParam(null, value);
+            this.mDecHandle.setThisAndHandleNoParam(pThis, value);
         }
 
-        public void setZeroHandle(MAction value)
+        public void setZeroHandle(ICalleeObject pThis, MAction value)
         {
             if (null == this.mZeroHandle)
             {
                 this.mZeroHandle = new CallFuncObjectNoParam();
             }
 
-            this.mZeroHandle.setThisAndHandleNoParam(null, value);
+            this.mZeroHandle.setThisAndHandleNoParam(pThis, value);
         }
 
         public void incDepth()

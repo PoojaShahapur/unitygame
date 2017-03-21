@@ -6,7 +6,7 @@ local M = GlobalNS.Class(GlobalNS.GObject);
 M.clsName = "ITickedObject";
 GlobalNS[M.clsName] = M;
 
-function M:onTick(delta)
+function M:onTick(delta, tickMode)
 
 end
 
