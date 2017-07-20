@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package svr.test;
+
+// Cpp编写服务示例。
+
+// 如果需要 EmptyMsg 就
+// import "empty_msg.proto";
+
+service TestCpp {
+    rpc Test(TestRequest) returns (TestResponse);
+}
+
+message TestRequest {
+    string str = 1;
+}
+
+message TestResponse {
+    string str = 1;
+}

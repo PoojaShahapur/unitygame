@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package svr;
+
+import "server_empty_msg.proto";
+
+// Rpc路由更改服务.
+service RpcRouterModifier {
+    // 设置特定方法的路由
+    rpc SetMthdDstSvrId(SetMthdDstSvrIdRequest) returns (EmptyMsg);
+    rpc ResetMthdDstSvrId(ResetMthdDstSvrIdRequest) returns (EmptyMsg);
+
+    // 设置服务的路由
+    rpc SetSvcDstSvrId(SetSvcDstSvrIdRequest) returns (EmptyMsg);
+    rpc ResetSvcDstSvrId(ResetSvcDstSvrIdRequest) returns (EmptyMsg);
+}
+
+message SetMthdDstSvrIdRequest {
+    uint32 session_id = 1;
+    string service = 2;
+    string method = 3;
+    uint32 dst_svr_id = 4;
+}
+
+message ResetMthdDstSvrIdRequest {
+    uint32 session_id = 1;
+    string service = 2;
+    string method = 3;
+}
+
+message SetSvcDstSvrIdRequest {
+    uint32 session_id = 1;
+    string service = 2;
+    uint32 dst_svr_id = 3;
+}
+
+message ResetSvcDstSvrIdRequest {
+    uint32 session_id = 1;
+    string service = 2;
+}

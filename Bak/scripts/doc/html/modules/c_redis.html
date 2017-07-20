@@ -1,0 +1,330 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Lua server script documentation</title>
+    <link rel="stylesheet" href="../ldoc_pale.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>LuaServerScript</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+<li><a href="#Class_RedisReply">Class RedisReply </a></li>
+</ul>
+
+
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><strong>c_redis</strong></li>
+  <li><a href="../modules/c_rpc_router.html">c_rpc_router</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>c_redis</code></h1>
+<p>Redis操作.</p>
+<p>
+
+</p>
+
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#command">command (command, key[, args][, cb])</a></td>
+	<td class="summary">通用命令</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#set">set (key, value[, cb])</a></td>
+	<td class="summary">SET命令.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#get">get (key[, cb])</a></td>
+	<td class="summary">GET命令</td>
+	</tr>
+</table>
+<h2><a href="#Class_RedisReply">Class RedisReply </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#RedisReply.type">RedisReply.type</a></td>
+	<td class="summary">类型.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#RedisReply.integer">RedisReply.integer</a></td>
+	<td class="summary">数字.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#RedisReply.str">RedisReply.str</a></td>
+	<td class="summary">字符串.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#RedisReply.elements">RedisReply.elements</a></td>
+	<td class="summary">数组.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "command"></a>
+    <strong>command (command, key[, args][, cb])</strong>
+    </dt>
+    <dd>
+    通用命令
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">command</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         命令,如："del", "get"
+        </li>
+        <li><span class="parameter">key</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         键
+        </li>
+        <li><span class="parameter">args</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a> or <span class="type">tab</span></span>
+         参数或参数列表
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">cb</span>
+            <span class="types"><span class="type">func</span></span>
+         回调函数，<code>void (RedisReply reply)</code>
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../modules/c_redis.html#RedisReply">RedisReply</a>
+    </ul>
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">c_redis.command(<span class="string">"del"</span>, <span class="string">"my_key"</span>, <span class="keyword">function</span>(_) <span class="global">print</span>(<span class="string">"done"</span>) <span class="keyword">end</span>)
+c_redis.command(<span class="string">"set"</span>, <span class="string">"my_key"</span>, <span class="string">"value"</span>)
+c_redis.command(<span class="string">"set"</span>, <span class="string">"my_key"</span>, <span class="number">1234</span>)  <span class="comment">-- same as "1234"
+</span>c_redis.command(<span class="string">"set"</span>, <span class="string">"my_key"</span>, {<span class="string">"value"</span>})
+c_redis command(<span class="string">"lrange"</span>, <span class="string">"key_list"</span> {<span class="number">2</span>, <span class="number">5</span>})
+c_redis command(<span class="string">"lrange"</span>, <span class="string">"key_list"</span> {<span class="number">2</span>, <span class="string">"5"</span>})
+c_redis command(<span class="string">"lrange"</span>, <span class="string">"key_list"</span> {<span class="number">2</span>, <span class="number">5</span>}, <span class="keyword">function</span>(reply) <span class="global">print</span>(#reply.elements) <span class="keyword">end</span>)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "set"></a>
+    <strong>set (key, value[, cb])</strong>
+    </dt>
+    <dd>
+    SET命令.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">key</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         键
+        </li>
+        <li><span class="parameter">value</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         值
+        </li>
+        <li><span class="parameter">cb</span>
+            <span class="types"><span class="type">func</span></span>
+         回调函数，<code>void cb(bool ok)</code>
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">c_redis.set(<span class="string">"my_key"</span>, <span class="string">"my_value"</span>, <span class="keyword">function</span>(ok) <span class="global">print</span>(ok) <span class="keyword">end</span>)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "get"></a>
+    <strong>get (key[, cb])</strong>
+    </dt>
+    <dd>
+    GET命令
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">key</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         键
+        </li>
+        <li><span class="parameter">cb</span>
+            <span class="types"><span class="type">func</span></span>
+         回调函数，<code>void cb(int reply_type, string reply)</code><br>
+   其中 reply_type = 0(OK), 1(nil), 2(error)
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">c_redis.get(<span class="string">"my_key"</span>, <span class="keyword">function</span>(reply_type, reply)
+    <span class="keyword">if</span> <span class="number">0</span> == reply_type <span class="keyword">then</span> <span class="global">print</span>(<span class="string">"Got value: "</span> .. reply)
+    <span class="keyword">elseif</span> <span class="number">1</span> == reply_type <span class="keyword">then</span> <span class="global">print</span>(<span class="string">"No value."</span>)
+    <span class="keyword">else</span> <span class="global">print</span>(<span class="string">"Error: "</span> .. reply)
+    <span class="keyword">end</span>)</pre>
+    </ul>
+
+</dd>
+</dl>
+    <h2 class="section-header has-description"><a name="Class_RedisReply"></a>Class RedisReply </h2>
+
+          <div class="section-description">
+          RedisReply结构.
+ This is the reply object returned by redisCommand()
+          </div>
+    <dl class="function">
+    <dt>
+    <a name = "RedisReply.type"></a>
+    <strong>RedisReply.type</strong>
+    </dt>
+    <dd>
+    类型.
+
+
+    <ul>
+        <li><span class="parameter">type</span>
+
+<p> 类型</p>
+<pre><code> #define REDIS_REPLY_STRING 1
+ #define REDIS_REPLY_ARRAY 2
+ #define REDIS_REPLY_INTEGER 3
+ #define REDIS_REPLY_NIL 4
+ #define REDIS_REPLY_STATUS 5
+ #define REDIS_REPLY_ERROR 6
+</code></pre>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "RedisReply.integer"></a>
+    <strong>RedisReply.integer</strong>
+    </dt>
+    <dd>
+    数字.
+ The integer when type is <code>REDIS_REPLY_INTEGER</code>。
+
+
+    <ul>
+        <li><span class="parameter">integer</span>
+
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "RedisReply.str"></a>
+    <strong>RedisReply.str</strong>
+    </dt>
+    <dd>
+    字符串.
+ Used for both <code>REDIS_REPLY_ERROR</code> and <code>REDIS_REPLY_STRING</code>
+
+
+    <ul>
+        <li><span class="parameter">str</span>
+
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "RedisReply.elements"></a>
+    <strong>RedisReply.elements</strong>
+    </dt>
+    <dd>
+    数组.
+ elements vector for <code>REDIS_REPLY_ARRAY</code>
+
+
+    <ul>
+        <li><span class="parameter">elements</span>
+
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
+<i style="float:right;">Last updated 2017-05-26 11:05:11 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

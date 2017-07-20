@@ -1,0 +1,140 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>E439935D-B2A2-46AE-856D-2AA408428F33</ProjectGuid>
+    <!--$guid1$-->
+    <ProjectHome>.</ProjectHome>
+    <StartupFile>
+    </StartupFile>
+    <SearchPath>
+    </SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <Name>scripts</Name>
+    <RootNamespace>scripts</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include=".luacheckrc" />
+    <Content Include="cell\cats_and_dogs\README.md" />
+    <Content Include="cell\ReadMe.txt" />
+    <Content Include="compile_lua.sh" />
+    <Content Include="lualibs\lfs.dll" />
+    <Content Include="lualibs\lfs.so" />
+    <Content Include="lualibs\protobuf.dll" />
+    <Content Include="lualibs\protobuf.so" />
+    <Content Include="lualibs\ReadMe.txt" />
+    <Content Include="ReadMe.txt" />
+    <Content Include="Vs调用luacheck静态检查.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="cell\" />
+    <Folder Include="cell\cats_and_dogs\" />
+    <Folder Include="cell\login\" />
+    <Folder Include="cell\plane\" />
+    <Folder Include="cell\test\" />
+    <Folder Include="common\" />
+    <Folder Include="common\event_handler\" />
+    <Folder Include="common\remote_run\" />
+    <Folder Include="common\rpc\" />
+    <Folder Include="lualibs\" />
+    <Folder Include="test_client\" />
+    <Folder Include="test_client\plane\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="cell\cats_and_dogs\matcher.lua" />
+    <Compile Include="cell\cats_and_dogs\on_matched.lua" />
+    <Compile Include="cell\cats_and_dogs\player.lua" />
+    <Compile Include="cell\cats_and_dogs\room.lua" />
+    <Compile Include="cell\cats_and_dogs\room_mgr.lua" />
+    <Compile Include="cell\cats_and_dogs\svc_cats_and_dogs.lua" />
+    <Compile Include="cell\hotfix_module_names.lua" />
+    <Compile Include="cell\init_cell.lua" />
+    <Compile Include="cell\init_cell_services.lua" />
+    <Compile Include="cell\login\svc_login.lua" />
+    <Compile Include="cell\online_count.lua" />
+    <Compile Include="cell\plane\aiplayer.lua" />
+    <Compile Include="cell\plane\bagm.lua" />
+    <Compile Include="cell\plane\balancer.lua" />
+    <Compile Include="cell\plane\bullet_group.lua" />
+    <Compile Include="cell\plane\circle_formation.lua" />
+    <Compile Include="cell\plane\config.lua" />
+    <Compile Include="cell\plane\crazyai.lua" />
+    <Compile Include="cell\plane\crazyroom.lua" />
+    <Compile Include="cell\plane\database.lua" />
+    <Compile Include="cell\plane\excelm.lua" />
+    <Compile Include="cell\plane\hexagon_formation.lua" />
+    <Compile Include="cell\plane\init.lua" />
+    <Compile Include="cell\plane\object.lua" />
+    <Compile Include="cell\plane\on_disconnected.lua" />
+    <Compile Include="cell\plane\plane.lua" />
+    <Compile Include="cell\plane\player.lua" />
+    <Compile Include="cell\plane\rankmgr.lua" />
+    <Compile Include="cell\plane\room.lua" />
+    <Compile Include="cell\plane\room_mgr.lua" />
+    <Compile Include="cell\plane\shopm.lua" />
+    <Compile Include="cell\plane\skinm.lua" />
+    <Compile Include="cell\plane\svc_object.lua" />
+    <Compile Include="cell\plane\svc_plane.lua" />
+    <Compile Include="cell\plane\svc_social.lua" />
+    <Compile Include="cell\plane\varm.lua" />
+    <Compile Include="cell\svc_test_cmd.lua" />
+    <Compile Include="cell\test\mongodb_replica_set_test.lua" />
+    <Compile Include="cell\test\mongodb_test.lua" />
+    <Compile Include="cell\test\redis_test.lua" />
+    <Compile Include="common\balance_mgr.lua" />
+    <Compile Include="common\base_rpc_router.lua" />
+    <Compile Include="common\event_handler\client_connected.lua" />
+    <Compile Include="common\event_handler\client_disconnected.lua" />
+    <Compile Include="common\event_handler\event_handler.lua" />
+    <Compile Include="common\event_handler\register.lua" />
+    <Compile Include="common\event_handler\server_connected.lua" />
+    <Compile Include="common\event_handler\server_disconnected.lua" />
+    <Compile Include="common\hotfix_helper.lua" />
+    <Compile Include="common\httpclient.lua" />
+    <Compile Include="common\init_common.lua" />
+    <Compile Include="common\init_common_services.lua" />
+    <Compile Include="common\log.lua" />
+    <Compile Include="common\login_mgr.lua" />
+    <Compile Include="common\luaprofiler_helper.lua" />
+    <Compile Include="common\math_cos.lua" />
+    <Compile Include="common\math_sin.lua" />
+    <Compile Include="common\mongodb.lua" />
+    <Compile Include="common\remote_run\remote_runner.lua" />
+    <Compile Include="common\remote_run\svc_run_lua.lua" />
+    <Compile Include="common\rpc\base_rpc_router.lua" />
+    <Compile Include="common\rpc_request_handler.lua" />
+    <Compile Include="common\svc_hall.lua" />
+    <Compile Include="common\user.lua" />
+    <Compile Include="common\user_mgr.lua" />
+    <Compile Include="lualibs\bson.lua" />
+    <Compile Include="lualibs\hotfix.lua" />
+    <Compile Include="lualibs\inspect.lua" />
+    <Compile Include="lualibs\json.lua" />
+    <Compile Include="lualibs\mobdebug.lua" />
+    <Compile Include="lualibs\ProFi.lua" />
+    <Compile Include="lualibs\protobuf.lua" />
+    <Compile Include="lualibs\serpent.lua" />
+    <Compile Include="test_client\bot_auto_run.lua" />
+    <Compile Include="test_client\client_rpc_response_handler.lua" />
+    <Compile Include="test_client\hotfix_module_names.lua" />
+    <Compile Include="test_client\init_test_client.lua" />
+    <Compile Include="test_client\plane\svc_plane_push.lua" />
+    <Compile Include="test_client\plane\test_plane.lua" />
+    <Compile Include="test_client\test2.lua" />
+    <Compile Include="test_client\test_cats_and_dogs.lua" />
+    <Compile Include="test_client\test_cmd.lua" />
+    <Compile Include="test_client\test_run_lua.lua" />
+    <Compile Include="test_client\user.lua" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
+</Project>

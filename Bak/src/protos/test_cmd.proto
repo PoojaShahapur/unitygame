@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package svr;
+
+// 本proto文件内，为服务器端内部 调用测试功能模块的协议。
+
+service TestCmd {
+    rpc TestCmd(TestCmdRequest) returns (TestCmdResponse);
+}
+
+message TestCmdRequest {
+    string cmd = 1;		//测试命令
+    // 目前有测试命令
+    // mongodb_test      请求执行mongodb相关测试例程
+}
+
+message TestCmdResponse {
+    enum TestCmdResult {
+        OK = 0;
+        ERR = 1;
+    }
+    string cmd = 1;
+    TestCmdResult result = 2;
+    string error_str = 3;  // none if success
+}
+

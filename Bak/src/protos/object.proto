@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package svr;
+
+ 
+//一条道具序列化信息
+message OneObjSerialize{
+    uint32 baseid = 1;
+    uint64 uid = 2;
+    uint32 num = 3;
+    uint32 bind = 4;
+    uint32 upgrade = 5;
+}
+
+// 所有道具序列化信息
+message AllObjSerialize{
+    repeated OneObjSerialize objs = 1;
+}
+
+message OneSkinSerialize{
+    uint32 index = 1;//皮肤表索引
+    uint32 disappear_ts = 2;//皮肤消失的时间戳,=0代表是永久皮肤
+}
+
+message OneBullet
+{
+    uint32 objid = 1;//道具表中子弹id
+    uint32 disappear_ts = 2;//消失时间戳=0代表永久
+}
+
+message AllSkinSerialize{
+    uint32 default_skinid = 1;
+    repeated OneSkinSerialize skins = 2;
+    uint32 default_bullet = 3;
+    repeated OneBullet bullets = 4;
+}
+
+////////////////////
+message OneVar{
+    uint32 varid = 1;
+    uint64 value = 2;
+}
+
+message AllVarSerialize{
+    repeated OneVar vars = 1;
+}
+
+message MonthSigninInfo{
+    repeated uint32 dayList = 1;	// 已经签到的日期列表
+	repeated uint32 idList = 2;		// 已经领取的累积奖励 Id 列表
+}

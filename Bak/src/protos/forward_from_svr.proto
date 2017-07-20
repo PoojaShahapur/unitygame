@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package svr;
+
+// 接收Base服转发
+service ForwardFromSvr {
+    rpc Forward(ForwardRequest) returns (ForwardResponse);
+}
+
+message ForwardRequest {
+    string service = 1;
+    string method = 2;
+    bytes content = 3;
+
+    // (Base服, Base服上的RpcCltId) 唯一标识游戏客户端. 
+    // Base服是指客户端直连的服务器。
+    message GameCltId {
+        uint32 base_svr_id = 1;  // 游戏客户端所连接的Base服ID
+        uint64 base_rpc_clt_id = 2;  // 游戏客户端在Base服上的连接号RpcCltId
+    }
+    GameCltId game_clt_id = 4;
+}
+
+message ForwardResponse {
+    bytes content = 1;
+}

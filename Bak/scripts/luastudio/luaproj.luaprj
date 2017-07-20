@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<Project Name="luaproj.luaprj" Cmd="" Arg="" Dir="" Toggle="false" >
+    <Filter Name="scripts" Directory=".\.." Toggle="false" >
+        <Filter Name="cell" Directory=".\..\cell" Toggle="false" >
+            <LuaFile RelativePath=".\..\cell\init_cell.lua" />
+            <LuaFile RelativePath=".\..\cell\init_cell_services.lua" />
+            <LuaFile RelativePath=".\..\cell\hotfix_module_names.lua" />
+            <LuaFile RelativePath=".\..\cell\init_rpc_router.lua" />
+            <LuaFile RelativePath=".\..\cell\svc_test_cmd.lua" />
+            <Filter Name="cats_and_dogs" Directory=".\..\cell\cats_and_dogs" Toggle="true" >
+                <LuaFile RelativePath=".\..\cell\cats_and_dogs\matcher.lua" />
+                <LuaFile RelativePath=".\..\cell\cats_and_dogs\on_matched.lua" />
+                <LuaFile RelativePath=".\..\cell\cats_and_dogs\player.lua" />
+                <LuaFile RelativePath=".\..\cell\cats_and_dogs\room.lua" />
+                <LuaFile RelativePath=".\..\cell\cats_and_dogs\room_mgr.lua" />
+                <LuaFile RelativePath=".\..\cell\cats_and_dogs\svc_cats_and_dogs.lua" />
+            </Filter>
+            <Filter Name="login" Directory=".\..\cell\login" Toggle="true" >
+                <LuaFile RelativePath=".\..\cell\login\svc_login.lua" />
+            </Filter>
+            <Filter Name="plane" Directory=".\..\cell\plane" Toggle="false" >
+                <LuaFile RelativePath=".\..\cell\plane\aiplayer.lua" />
+                <LuaFile RelativePath=".\..\cell\plane\bullet_group.lua" />
+                <LuaFile RelativePath=".\..\cell\plane\circle_formation.lua" />
+                <LuaFile RelativePath=".\..\cell\plane\config.lua" />
+                <LuaFile RelativePath=".\..\cell\plane\hexagon_formation.lua" />
+                <LuaFile RelativePath=".\..\cell\plane\plane.lua" />
+                <LuaFile RelativePath=".\..\cell\plane\player.lua" />
+                <LuaFile RelativePath=".\..\cell\plane\rankmgr.lua" />
+                <LuaFile RelativePath=".\..\cell\plane\room.lua" />
+                <LuaFile RelativePath=".\..\cell\plane\room_mgr.lua" />
+                <LuaFile RelativePath=".\..\cell\plane\svc_plane.lua" />
+            </Filter>
+            <Filter Name="test" Directory=".\..\cell\test" Toggle="true" >
+                <LuaFile RelativePath=".\..\cell\test\mongodb_replica_set_test.lua" />
+                <LuaFile RelativePath=".\..\cell\test\mongodb_test.lua" />
+            </Filter>
+        </Filter>
+        <Filter Name="common" Directory=".\..\common" Toggle="false" >
+            <LuaFile RelativePath=".\..\common\hotfix_helper.lua" />
+            <LuaFile RelativePath=".\..\common\init_common.lua" />
+            <LuaFile RelativePath=".\..\common\log.lua" />
+            <LuaFile RelativePath=".\..\common\rpc_request_handler.lua" />
+            <LuaFile RelativePath=".\..\common\mongodb.lua" />
+            <LuaFile RelativePath=".\..\common\base_rpc_router.lua" />
+            <LuaFile RelativePath=".\..\common\init_common_services.lua" />
+            <LuaFile RelativePath=".\..\common\svc_hall.lua" />
+            <LuaFile RelativePath=".\..\common\user.lua" />
+            <LuaFile RelativePath=".\..\common\user_mgr.lua" />
+            <Filter Name="event_handler" Directory=".\..\common\event_handler" Toggle="true" >
+                <LuaFile RelativePath=".\..\common\event_handler\client_disconnected.lua" />
+                <LuaFile RelativePath=".\..\common\event_handler\event_handler.lua" />
+                <LuaFile RelativePath=".\..\common\event_handler\register.lua" />
+            </Filter>
+            <Filter Name="remote_run" Directory=".\..\common\remote_run" Toggle="true" >
+                <LuaFile RelativePath=".\..\common\remote_run\remote_runner.lua" />
+                <LuaFile RelativePath=".\..\common\remote_run\svc_run_lua.lua" />
+            </Filter>
+        </Filter>
+        <Filter Name="lualibs" Directory=".\..\lualibs" Toggle="false" >
+            <LuaFile RelativePath=".\..\lualibs\hotfix.lua" />
+            <LuaFile RelativePath=".\..\lualibs\mobdebug.lua" />
+            <LuaFile RelativePath=".\..\lualibs\protobuf.lua" />
+            <LuaFile RelativePath=".\..\lualibs\serpent.lua" />
+            <LuaFile RelativePath=".\..\lualibs\json.lua" />
+            <LuaFile RelativePath=".\..\lualibs\inspect.lua" />
+        </Filter>
+        <LuaFile RelativePath=".\..\scripts.luaproj" />
+        <Filter Name="test_client" Directory=".\..\test_client" Toggle="false" >
+            <LuaFile RelativePath=".\..\test_client\hotfix_module_names.lua" />
+            <LuaFile RelativePath=".\..\test_client\init_test_client.lua" />
+            <LuaFile RelativePath=".\..\test_client\user.lua" />
+            <LuaFile RelativePath=".\..\test_client\test2.lua" />
+            <LuaFile RelativePath=".\..\test_client\client_rpc_response_handler.lua" />
+            <LuaFile RelativePath=".\..\test_client\bot_auto_run.lua" />
+            <LuaFile RelativePath=".\..\test_client\test_cats_and_dogs.lua" />
+            <LuaFile RelativePath=".\..\test_client\test_run_lua.lua" />
+            <Filter Name="plane" Directory=".\..\test_client\plane" Toggle="true" >
+                <LuaFile RelativePath=".\..\test_client\plane\svc_plane_push.lua" />
+                <LuaFile RelativePath=".\..\test_client\plane\test_plane.lua" />
+            </Filter>
+        </Filter>
+        <Filter Name=".vs" Directory=".\..\.vs" Toggle="true" >
+            <Filter Name="scripts" Directory=".\..\.vs\scripts" Toggle="false" >
+                <Filter Name="v14" Directory=".\..\.vs\scripts\v14" Toggle="false" />
+            </Filter>
+        </Filter>
+        <Filter Name="luastudio" Directory="." Toggle="true" />
+        <Filter Name="obj" Directory=".\..\obj" Toggle="true" >
+            <Filter Name="Debug" Directory=".\..\obj\Debug" Toggle="true" />
+        </Filter>
+        <Filter Name="pb" Directory=".\..\pb" Toggle="true" />
+    </Filter>
+</Project>

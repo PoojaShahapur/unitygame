@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package svr;
+
+// Base服转发PushRpc到客户端
+service ForwardToClt {
+    rpc ForwardToClt(ForwardToCltRequest) returns (ForwardToCltResponse);
+}
+
+message ForwardToCltRequest {
+    uint64 base_rpc_clt_id = 1;  // 游戏客户端在Base服上的连接号RpcCltId
+
+    string service = 2;
+    string method = 3;
+    bytes content = 4;  // 请求内容
+}
+
+message ForwardToCltResponse {
+    bytes content = 1;  // 客户端返回的应答内容
+}

@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package svr;
+
+import "server_empty_msg.proto";
+
+// 集群互连服务
+service Cluster {
+    // 集群信息更新。连接Cell后发送一次。
+    // 收到集群信息将主动连接新的Cell并发送集群信息。
+    // 集群信息是连接并同步后的信息，不包括未连接完成的Cell.
+    rpc UpdateCluster(ClusterInfo) returns (ClusterInfo);
+
+    // 广播集群添加Cell。
+    // UpdateCluster()是现有集群，AddCell()是更新信息。
+    // 删除Cell各自自行判断。
+    rpc AddCell(CellInfo) returns (EmptyMsg);
+
+    // 保持连接，探测断开
+    rpc Ping(EmptyMsg) returns (EmptyMsg);
+}
+
+// 集群信息。不包括未连接完成的Cell.
+message ClusterInfo {
+    map<uint32, CellInfo> cell_info_map = 1;
+}
+
+// Cell服信息, csv/server.csv 配置 + 启动时戳
+message CellInfo {
+    uint32 cell_id = 1;  // ServerID
+    string inner_host = 2;  // 内网主机名或IP
+    uint32 inner_port = 3;  // 内网端口
+
+    // 启动时戳。用于选举最老服。若相同则比较ServerID
+    uint64 start_ts = 4;  // time_t值
+}
+
+

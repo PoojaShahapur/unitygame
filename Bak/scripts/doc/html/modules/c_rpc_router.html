@@ -1,0 +1,288 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Lua server script documentation</title>
+    <link rel="stylesheet" href="../ldoc_pale.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>LuaServerScript</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+</ul>
+
+
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/c_redis.html">c_redis</a></li>
+  <li><strong>c_rpc_router</strong></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>c_rpc_router</code></h1>
+<p>Rpc路由表.</p>
+<p>
+
+
+<ul>
+    <li>可以设置整个服务的路由，也可以设置某个方法的路由。</li>
+    <li>可根据服务名和方法名查找目的服ID.</li>
+    <li>不同玩家有不同的路由表.</li>
+    <li>全局功能服路由会动态选举目的服。</li>
+    <li>玩家路由优先于全局功能服路由。</li>
+    <li>方法名路由优先于服务名路由。</li>
+</ul>
+</p>
+
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#get_dst_svr_id">get_dst_svr_id (rpc_clt_id, service, method)</a></td>
+	<td class="summary">获取目的服务器ID号.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#set_svc_function">set_svc_function (service, function_string)</a></td>
+	<td class="summary">设置服务功能名.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#set_mthd_function">set_mthd_function (service, method, funciton_string)</a></td>
+	<td class="summary">设置方法功能名.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#set_svc_dst_svr_id">set_svc_dst_svr_id (rpc_clt_id, service, svr_id)</a></td>
+	<td class="summary">设置玩家服务目的服ID号.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#cancel_client_svc_router">cancel_client_svc_router (rpc_clt_id, service)</a></td>
+	<td class="summary">取消玩家的service rpc路由,由远程服在每局结束后调用.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#set_mthd_dst_svr_id">set_mthd_dst_svr_id (rpc_clt_id, service, method, svr_id)</a></td>
+	<td class="summary">设置玩家服务方法目的服ID号.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "get_dst_svr_id"></a>
+    <strong>get_dst_svr_id (rpc_clt_id, service, method)</strong>
+    </dt>
+    <dd>
+    获取目的服务器ID号.
+ 无路由则返回0.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">rpc_clt_id</span>
+            <span class="types"><span class="type">int</span></span>
+         玩家会话ID号
+        </li>
+        <li><span class="parameter">service</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         服务名，如"rpc.Login"
+        </li>
+        <li><span class="parameter">method</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         方法名
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">int</span></span>
+        目的服务器ID号
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "set_svc_function"></a>
+    <strong>set_svc_function (service, function_string)</strong>
+    </dt>
+    <dd>
+    设置服务功能名.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">service</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         服务名
+        </li>
+        <li><span class="parameter">function_string</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         功能名
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "set_mthd_function"></a>
+    <strong>set_mthd_function (service, method, funciton_string)</strong>
+    </dt>
+    <dd>
+    设置方法功能名.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">service</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         服务名
+        </li>
+        <li><span class="parameter">method</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         方法名
+        </li>
+        <li><span class="parameter">funciton_string</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         功能名
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "set_svc_dst_svr_id"></a>
+    <strong>set_svc_dst_svr_id (rpc_clt_id, service, svr_id)</strong>
+    </dt>
+    <dd>
+    设置玩家服务目的服ID号.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">rpc_clt_id</span>
+            <span class="types"><span class="type">int</span></span>
+         玩家会话ID号
+        </li>
+        <li><span class="parameter">service</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         服务名
+        </li>
+        <li><span class="parameter">svr_id</span>
+            <span class="types"><span class="type">int</span></span>
+         目的服ID号，0表示重置。
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "cancel_client_svc_router"></a>
+    <strong>cancel_client_svc_router (rpc_clt_id, service)</strong>
+    </dt>
+    <dd>
+    取消玩家的service rpc路由,由远程服在每局结束后调用.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">rpc_clt_id</span>
+            <span class="types"><span class="type">int</span></span>
+         玩家会话ID号
+        </li>
+        <li><span class="parameter">service</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         服务名
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "set_mthd_dst_svr_id"></a>
+    <strong>set_mthd_dst_svr_id (rpc_clt_id, service, method, svr_id)</strong>
+    </dt>
+    <dd>
+    设置玩家服务方法目的服ID号.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">rpc_clt_id</span>
+            <span class="types"><span class="type">int</span></span>
+         玩家会话ID号
+        </li>
+        <li><span class="parameter">service</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         服务名
+        </li>
+        <li><span class="parameter">method</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         方法名
+        </li>
+        <li><span class="parameter">svr_id</span>
+            <span class="types"><span class="type">int</span></span>
+         目的服ID号，0表示重置。
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
+<i style="float:right;">Last updated 2017-05-26 11:05:11 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>
